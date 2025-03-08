@@ -31,7 +31,7 @@ public class Cannon extends ComponentTile {
 
 
     public void rotateClockwiseTile(){
-        super().rotateClockwiseTile();
+        super.rotateClockwiseTile();
 
         boolean temp1 = leftSideCannoned;
         leftSideCannoned = bottomSideCannoned;
@@ -41,7 +41,7 @@ public class Cannon extends ComponentTile {
     }
 
     public void rotateCounterClockwiseTile(){
-        super().rotateCounterClockwiseTile();
+        super.rotateCounterClockwiseTile();
 
         boolean temp1 = leftSideCannoned;
         leftSideCannoned = topSideCannoned;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model;
 
-public enum Goodblock {
+public enum GoodBlock {
     REDBLOCK,
     YELLOWBLOCK,
     GREENBLOCK,

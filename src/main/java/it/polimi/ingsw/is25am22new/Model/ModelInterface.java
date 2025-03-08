@@ -1,5 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+
+import java.util.List;
+
 public interface ModelInterface {
     public void initGame(List<String> nicknames);
 
