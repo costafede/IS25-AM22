@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
 abstract class Cabin {
 
