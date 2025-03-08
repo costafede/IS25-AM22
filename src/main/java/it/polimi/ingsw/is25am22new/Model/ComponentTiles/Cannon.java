@@ -29,20 +29,25 @@ public class Cannon extends ComponentTile {
         return;
     }
 
+
     public void rotateClockwiseTile(){
-        boolean temp = leftSideCannoned;
+        super().rotateClockwiseTile();
+
+        boolean temp1 = leftSideCannoned;
         leftSideCannoned = bottomSideCannoned;
         bottomSideCannoned = rightSideCannoned;
         rightSideCannoned = topSideCannoned;
-        topSideCannoned = temp;
+        topSideCannoned = temp1;
     }
 
     public void rotateCounterClockwiseTile(){
-        boolean temp = leftSideCannoned;
+        super().rotateCounterClockwiseTile();
+
+        boolean temp1 = leftSideCannoned;
         leftSideCannoned = topSideCannoned;
         topSideCannoned = rightSideCannoned;
         rightSideCannoned = bottomSideCannoned;
-        bottomSideCannoned = temp;
+        bottomSideCannoned = temp1;
     }
 
     public boolean isTopSideCannonTile() {
