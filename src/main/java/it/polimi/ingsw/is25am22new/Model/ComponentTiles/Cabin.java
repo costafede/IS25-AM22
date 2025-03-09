@@ -4,13 +4,23 @@ abstract class Cabin {
 
     private int numOfAstronauts;
 
-    public abstract void putCrewMembersTile();
+    public void putCrewMembersTile(){
+        numOfAstronauts++;
+    }
 
-    public abstract void putAlienTile (String color);
+    public void putAlienTile (String color){
+        return;
+    }
 
-    public abstract int getCrewNumberTile();
+    public int getCrewNumberTile(){
+        return numOfAstronauts;
+    }
 
-    public abstract boolean getBrownAlienPresenceTile();
+    public boolean isBrownAlienPresentTile(){
+        return false;
+    }
 
-    public abstract boolean getPurpleAlienPresenceTile();
+    public boolean isPurpleAlienPresentTile(){
+        return false;
+    }
 }
