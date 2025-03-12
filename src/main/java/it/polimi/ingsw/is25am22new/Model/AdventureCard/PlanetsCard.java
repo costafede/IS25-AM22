@@ -1,0 +1,44 @@
+package it.polimi.ingsw.is25am22new.Model.AdventureCard;
+
+import it.polimi.ingsw.is25am22new.Model.Game;
+import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+
+import java.util.List;
+import java.util.Map;
+
+public class PlanetsCard extends AdventureCard{
+    private Map<Integer, List<GoodBlock>> planetToGoodBlocks;
+    private int flightDaysLost;
+
+    public PlanetsCard(String name, Game game, Map<Integer, List<GoodBlock>> planetToGoodBlocks, int flightDaysLost) {
+        super(name, game);
+        this.planetToGoodBlocks = planetToGoodBlocks;
+        this.flightDaysLost = flightDaysLost;
+    }
+
+    @Override
+    public void activateCard(List<String> orderedPlayers) {
+        for(String player : orderedPlayers) {
+            handlePlayerLanding(player);
+        }
+    }
+
+    private void handlePlayerLanding(String player) {
+        //to be implemented
+    }
+
+    @Override
+    public void activateCard(String player) {
+        return;
+    }
+
+    @Override
+    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields, List<String> activatingCannon) {
+        return;
+    }
+
+    @Override
+    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
+        return;
+    }
+}
