@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model;
 
-public class TutorialFlightBoard extends Flightboard{
+/*public class TutorialFlightBoard extends Flightboard{
 
     int tutorialFlightBoardLength;
 
@@ -23,4 +23,4 @@ public class TutorialFlightBoard extends Flightboard{
     public boolean reoderRockets() {
 
     }
-}
+}*/

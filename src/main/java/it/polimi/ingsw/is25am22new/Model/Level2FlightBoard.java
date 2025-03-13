@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model;
 
-public class Level2FlightBoard extends Flightboard {
+/*public class Level2FlightBoard extends Flightboard {
 
     int level2FlightBoardLength;
 
@@ -18,4 +18,4 @@ public class Level2FlightBoard extends Flightboard {
     public void placeRocket(String nickname, int position) {
         //to be implemented
     }
-}
+}*/

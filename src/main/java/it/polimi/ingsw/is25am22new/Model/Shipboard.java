@@ -30,9 +30,9 @@ public abstract class Shipboard {
         //bla bla
     }
 
-    public ComponentTile pickStandByComponentTileShip (int index){
+    /*public ComponentTile pickStandByComponentTileShip (int index){
         //bla bla
-    }
+    }*/
 
     public void destroyTileShip (int x, int y){
         //bla bla
