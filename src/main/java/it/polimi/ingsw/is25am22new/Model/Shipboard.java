@@ -20,5 +20,22 @@ public abstract class Shipboard {
 
     private boolean finishedShipboard;
 
+    private int CosmicCredits;
+
+    public void weldComponentTileShip (ComponentTile ct, int x, int y){
+        //bla bla
+    }
+
+    public void standbyComponentTileShip (ComponentTile ct){
+        //bla bla
+    }
+
+    public ComponentTile pickStandByComponentTileShip (int index){
+        //bla bla
+    }
+
+    public void destroyTileShip (int x, int y){
+        //bla bla
+    }
 
 }
