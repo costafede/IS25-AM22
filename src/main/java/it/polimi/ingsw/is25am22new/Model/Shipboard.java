@@ -38,4 +38,8 @@ public abstract class Shipboard {
         //bla bla
     }
 
+    public void bla(){
+        //bla
+    }
+
 }
