@@ -12,10 +12,13 @@ public abstract class ComponentTile {
     protected Side rightSide;
     private String pngName;
 
-    /*DEVO COSTRUIRE IL COMPONENT TILE CON IL FILE JSON*/
-
-
-    /*DA FARE IL COSTRUTTORE (NON SO COME)*/
+    public ComponentTile(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
+        this.topSide = topSide;
+        this.bottomSide = bottomSide;
+        this.leftSide = leftSide;
+        this.rightSide = rightSide;
+        this.pngName = pngName;
+    }
 
     public void rotateClockwiseTile() {
         Side tmp = topSide;

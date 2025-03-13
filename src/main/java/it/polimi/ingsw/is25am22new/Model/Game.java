@@ -30,5 +30,7 @@ public abstract class Game {
         return shipboards.get(player);
     }
 
+    public void initGame(){
 
+    }
 }
