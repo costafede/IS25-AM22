@@ -25,4 +25,10 @@ public abstract class Game {
         shipboards = new HashMap<>();
         flightboard = new FlightBoard();
     }
+
+    public Shipboard getShipboards(String player) {
+        return shipboards.get(player);
+    }
+
+
 }

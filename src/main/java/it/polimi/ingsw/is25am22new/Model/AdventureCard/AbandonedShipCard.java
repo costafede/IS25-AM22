@@ -24,6 +24,9 @@ public class AbandonedShipCard extends AdventureCard{
     @Override
     public void activateCard(String player) {
         //to be implemented
+        game.getShipboards(player).addCredits(credits);
+        game.getShipboards(player).addFlightDays(-flightdaysLost);
+        game.getShipboards(player).addAstronauts(-lostAstronauts);
     }
 
     @Override

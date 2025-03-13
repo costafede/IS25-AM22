@@ -1,17 +1,16 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Game;
-
 import java.util.List;
 import java.util.Map;
 
 public class MeteorSwarmCard extends AdventureCard{
 
-    private Map<Meteor, Map<Integer, Orientation>> meteorTypeToMeteorToOrientattion;
+    private Map<Integer, Meteor> NumberToMeteor;
 
-    public MeteorSwarmCard(String name, Game game, Map<Meteor, Map<Integer, Orientation>> meteorTypeToMeteorToOrientattion) {
-        super(name, game);
-        this.meteorTypeToMeteorToOrientattion = meteorTypeToMeteorToOrientattion;
+    public MeteorSwarmCard(String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> meteorTypeToMeteorToOrientattion) {
+        super(name, game, level, tutorial);
+        this.NumberToMeteor = NumberToMeteor;
     }
 
     @Override

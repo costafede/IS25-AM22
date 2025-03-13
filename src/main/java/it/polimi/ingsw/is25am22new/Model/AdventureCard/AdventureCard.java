@@ -7,10 +7,22 @@ import java.util.List;
 public abstract class AdventureCard {
     protected String name;
     protected Game game;
+    protected int level;
+    protected boolean tutorial;
 
-    public AdventureCard(String name, Game game) {
+    public AdventureCard(String name, Game game, int level, boolean tutorial) {
         this.name = name;
         this.game = game;
+        this.level = level;
+        this.tutorial = tutorial;
+    }
+
+    public boolean isTutorial() {
+        return tutorial;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public abstract void activateCard(List<String> orderedPlayers);

@@ -1,5 +1,20 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-public enum Meteor {
-    BIG, SMALL;
+public class Meteor {
+    private boolean big;
+    private Orientation orientation;
+
+    public Meteor(boolean big, Orientation orientation) {
+        this.big = big;
+        this.orientation = orientation;
+    }
+
+    public boolean isBig() {
+        return big;
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
 }
