@@ -5,8 +5,8 @@ import it.polimi.ingsw.is25am22new.Model.Side;
 public class DoubleEngine extends Engine {
     private boolean bottomSideActive;
 
-    public DoubleEngine(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean topSideEngine, boolean bottomSideEngine, boolean leftSideEngine, boolean rightSideEngine) {
-        super(pngName, topSide, bottomSide, leftSide, rightSide, topSideEngine, bottomSideEngine, leftSideEngine, rightSideEngine);
+    public DoubleEngine(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
+        super(pngName, topSide, bottomSide, leftSide, rightSide);
         this.bottomSideActive = false;
     }
 
