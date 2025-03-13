@@ -8,31 +8,28 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComponentTileTest {
 
     @Test
-    void test_cannon_should_rotate_correctly(){
-        ComponentTile cannon = new Cannon("x", Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES, Side.ONEPIPE);
-        cannon.rotateClockwise();
+    void test_tile_should_rotate_correctly(){
+        ComponentTile tile = new StructuralModule("x", Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES, Side.ONEPIPE);
+        tile.rotateClockwise();
 
-        assertEquals(Side.SMOOTH, cannon.rightSide);
-        assertEquals(Side.UNIVERSALPIPE, cannon.leftSide);
-        assertEquals(Side.TWOPIPES, cannon.topSide);
-        assertEquals(Side.ONEPIPE, cannon.bottomSide);
-        assertTrue(cannon.isRightSideCannon());
+        assertEquals(Side.SMOOTH, tile.rightSide);
+        assertEquals(Side.UNIVERSALPIPE, tile.leftSide);
+        assertEquals(Side.TWOPIPES, tile.topSide);
+        assertEquals(Side.ONEPIPE, tile.bottomSide);
 
-        cannon.rotateClockwise();
+        tile.rotateClockwise();
 
-        assertEquals(Side.SMOOTH, cannon.bottomSide);
-        assertEquals(Side.UNIVERSALPIPE, cannon.topSide);
-        assertEquals(Side.TWOPIPES, cannon.rightSide);
-        assertEquals(Side.ONEPIPE, cannon.leftSide);
-        assertTrue(cannon.isBottomSideCannon());
+        assertEquals(Side.SMOOTH, tile.bottomSide);
+        assertEquals(Side.UNIVERSALPIPE, tile.topSide);
+        assertEquals(Side.TWOPIPES, tile.rightSide);
+        assertEquals(Side.ONEPIPE, tile.leftSide);
 
-        cannon.rotateCounterClockwise();
+        tile.rotateCounterClockwise();
 
-        assertEquals(Side.SMOOTH, cannon.rightSide);
-        assertEquals(Side.UNIVERSALPIPE, cannon.leftSide);
-        assertEquals(Side.TWOPIPES, cannon.topSide);
-        assertEquals(Side.ONEPIPE, cannon.bottomSide);
-        assertTrue(cannon.isRightSideCannon());
+        assertEquals(Side.SMOOTH, tile.rightSide);
+        assertEquals(Side.UNIVERSALPIPE, tile.leftSide);
+        assertEquals(Side.TWOPIPES, tile.topSide);
+        assertEquals(Side.ONEPIPE, tile.bottomSide);
     }
 
 }

@@ -14,7 +14,7 @@ public class DoubleEngine extends Engine {
     @Override
     public int getEngineStrength() {
         if (bottomSideActive)
-            return 1;
+            return 2;
         return 0;
     }
 
