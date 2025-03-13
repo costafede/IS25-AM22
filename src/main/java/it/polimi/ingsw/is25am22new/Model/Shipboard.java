@@ -12,9 +12,9 @@ public abstract class Shipboard {
 
     private String nickname;
 
-    private ComponentTile[5][7] componentTilesGrid;
+    private ComponentTile[][] componentTilesGrid;
 
-    private ComponentTile[2] standbyComponent;
+    private ComponentTile[] standbyComponent;
 
     private int discardedTiles;
 
