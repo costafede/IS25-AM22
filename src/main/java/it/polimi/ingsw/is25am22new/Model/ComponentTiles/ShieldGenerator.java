@@ -6,12 +6,12 @@ public class ShieldGenerator extends ComponentTile {
     private boolean topSideShieldable, bottomSideShieldable, leftSideShieldable, rightSideShieldable;   //sono i lati su cui si può attivare lo scudo
     private boolean topSideShielded, bottomSideShielded, leftSideShielded, rightSideShielded; //booleani che servono a capire che lati sono effettivamente attivi
 
-    public ShieldGenerator(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean TopSideShieldable, boolean BottomSideShieldable, boolean LeftSideShieldable, boolean RightSideShieldable) {
+    public ShieldGenerator(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
         super(pngName, topSide, bottomSide, leftSide, rightSide);
-        this.topSideShieldable = TopSideShieldable;
-        this.bottomSideShieldable = BottomSideShieldable;
-        this.leftSideShieldable = LeftSideShieldable;
-        this.rightSideShieldable = RightSideShieldable;
+        this.topSideShieldable = true;
+        this.bottomSideShieldable = false;
+        this.leftSideShieldable = false;
+        this.rightSideShieldable = true;
         this.topSideShielded = false;
         this.bottomSideShielded = false;
         this.leftSideShielded = false;

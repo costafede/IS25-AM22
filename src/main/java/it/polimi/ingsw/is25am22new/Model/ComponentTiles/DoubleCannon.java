@@ -8,8 +8,8 @@ public class DoubleCannon extends Cannon {
     private boolean leftSideActive;
     private boolean rightSideActive;
 
-    public DoubleCannon(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean topSideCannon, boolean bottomSideCannon, boolean leftSideCannon, boolean rightSideCannon) {
-        super(pngName, topSide, bottomSide, leftSide, rightSide, topSideCannon, bottomSideCannon, leftSideCannon, rightSideCannon);
+    public DoubleCannon(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
+        super(pngName, topSide, bottomSide, leftSide, rightSide);
         this.topSideActive = false;
         this.bottomSideActive = false;
         this.leftSideActive = false;

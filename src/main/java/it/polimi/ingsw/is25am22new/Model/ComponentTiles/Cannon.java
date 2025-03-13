@@ -8,12 +8,12 @@ public class Cannon extends ComponentTile {
     protected boolean leftSideCannon;
     protected boolean rightSideCannon;
 
-    public Cannon(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean topSideCannon, boolean bottomSideCannon, boolean leftSideCannon, boolean rightSideCannon) {
+    public Cannon(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
         super(pngName, topSide, bottomSide, leftSide, rightSide);
-        this.topSideCannon = topSideCannon;
-        this.bottomSideCannon = bottomSideCannon;
-        this.leftSideCannon = leftSideCannon;
-        this.rightSideCannon = rightSideCannon;
+        this.topSideCannon = true;
+        this.bottomSideCannon = false;
+        this.leftSideCannon = false;
+        this.rightSideCannon = false;
     }
 
     public double getCannonStrength() {

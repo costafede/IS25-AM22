@@ -10,12 +10,12 @@ public class Engine extends ComponentTile {
 
     //Constructor -> Need to understand what to do with the parameters
     //Maybe JSON file initialization outside the constructor? -> adding a method to set the values from the JSON file
-    public Engine(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean topSideEngine, boolean bottomSideEngine, boolean leftSideEngine, boolean rightSideEngine) {
+    public Engine(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide){
         super(pngName, topSide, bottomSide, leftSide, rightSide);
-        this.topSideEngine = topSideEngine;
-        this.bottomSideEngine = bottomSideEngine;
-        this.leftSideEngine = leftSideEngine;
-        this.rightSideEngine = rightSideEngine;
+        this.topSideEngine = false;
+        this.bottomSideEngine = true;
+        this.leftSideEngine = false;
+        this.rightSideEngine = false;
     }
 
     public int getEngineStrength() {
