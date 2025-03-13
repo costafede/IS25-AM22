@@ -1,0 +1,34 @@
+[
+  {
+    "pngName": "GT-new_tiles_16_for web33.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "UNIVERSALPIPE",
+    "leftSide": "UNIVERSALPIPE",
+    "color": "blue"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web34.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "UNIVERSALPIPE",
+    "leftSide": "UNIVERSALPIPE",
+    "color": "green"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web52.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "UNIVERSALPIPE",
+    "leftSide": "UNIVERSALPIPE",
+    "color": "red"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web61.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "UNIVERSALPIPE",
+    "leftSide": "UNIVERSALPIPE",
+    "color": "yellow"
+  }
+]

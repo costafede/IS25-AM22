@@ -110,5 +110,13 @@
     "bottomSide": "TWOPIPES",
     "leftSide": "ONEPIPE",
     "capacity": 3
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web32.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "SMOOTH",
+    "bottomSide": "ONEPIPE",
+    "leftSide": "TWOPIPES",
+    "capacity": 3
   }
 ]
