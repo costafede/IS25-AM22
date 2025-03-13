@@ -19,12 +19,12 @@ public class DoubleEngine extends Engine {
 
     // Activates the engine component --> Only the bottom side can be activated
     @Override
-    public void activateComponentTile() {
+    public void activateComponent() {
         bottomSideActive = true;
     }
 
     @Override
-    public void deactivateComponentTile() {
+    public void deactivateComponent() {
         bottomSideActive = false;
     }
 }

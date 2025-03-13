@@ -16,22 +16,22 @@ public class Cannon extends ComponentTile {
         this.rightSideCannoned = rightSideCannoned;
     }
 
-    public double getCannonStrengthTile() {
+    public double getCannonStrength() {
         if(topSideCannoned) return cannonStrength;
         else return (cannonStrength / 2);
     }
 
-    public void activateComponentTile(){
+    public void activateComponent(){
         return;
     }
 
-    public void deactivateComponentTile(){
+    public void deactivateComponent(){
         return;
     }
 
 
-    public void rotateClockwiseTile(){
-        super.rotateClockwiseTile();
+    public void rotateClockwise(){
+        super.rotateClockwise();
 
         boolean temp1 = leftSideCannoned;
         leftSideCannoned = bottomSideCannoned;
@@ -40,8 +40,8 @@ public class Cannon extends ComponentTile {
         topSideCannoned = temp1;
     }
 
-    public void rotateCounterClockwiseTile(){
-        super.rotateCounterClockwiseTile();
+    public void rotateCounterClockwise(){
+        super.rotateCounterClockwise();
 
         boolean temp1 = leftSideCannoned;
         leftSideCannoned = topSideCannoned;
@@ -50,19 +50,19 @@ public class Cannon extends ComponentTile {
         bottomSideCannoned = temp1;
     }
 
-    public boolean isTopSideCannonTile() {
+    public boolean isTopSideCannon() {
         return topSideCannoned;
     }
 
-    public boolean isBottomSideCannonTile() {
+    public boolean isBottomSideCannon() {
         return bottomSideCannoned;
     }
 
-    public boolean isLeftSideCannonTile() {
+    public boolean isLeftSideCannon() {
         return leftSideCannoned;
     }
 
-    public boolean isRightSideCannonTile() {
+    public boolean isRightSideCannon() {
         return rightSideCannoned;
     }
 }
