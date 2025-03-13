@@ -146,6 +146,26 @@ public abstract class Shipboard {
     }
 
     public boolean isAlienPlaceable (int x, int y, String color){
+        if(color.equals("purple")) {
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 7; j++) {
+                    if (componentTilesGrid[i][j].isPurpleAlienPresent()){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        if(color.equals("brown")) {
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 7; j++) {
+                    if (componentTilesGrid[i][j].isBrownAlienPresent()){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         return false;
     }
 
