@@ -13,7 +13,7 @@ public class Bank {
 
     private Map<GoodBlock, Integer> goodblockToNum;
 
-    //inizializza la banca con il numero di blocchi a disposizione per la partita
+    //Initialize the bank with the number of blocks available for the game
     public void initBank(){
         goodblockToNum = new HashMap<GoodBlock, Integer>();
         goodblockToNum.put(REDBLOCK, 12);
@@ -22,7 +22,7 @@ public class Bank {
         goodblockToNum.put(BLUEBLOCK, 14);
     }
 
-    //incrementa la quantita' del tipo di blocco dato nella banca
+    //increase the amount of data block type in the bank
     public void depositGoodBlock(GoodBlock gb){
         if (gb.equals(REDBLOCK)){
             goodblockToNum.put(gb, goodblockToNum.get(gb) + 1);
@@ -38,7 +38,7 @@ public class Bank {
         }
     }
 
-    //decrementa la quantita' del tipo di blocco dato nella banca
+    //decreases the amount of the given block type in the bank
     public void withdrawGoodBlock(GoodBlock gb){
         if (gb.equals(REDBLOCK)){
             goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
