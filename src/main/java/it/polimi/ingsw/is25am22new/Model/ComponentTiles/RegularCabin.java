@@ -1,35 +1,43 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.Side;
+
 public class RegularCabin extends Cabin {
 
-    private int numOfPurpleAlien;
+    private boolean purpleAlienPresent;
+    private boolean brownAlienPresent;
 
-    private int numOfBrownAlien;
+    public RegularCabin(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
+        super(pngName, topSide, bottomSide, leftSide, rightSide);
+        purpleAlienPresent = false;
+        brownAlienPresent = false;
+    }
 
     //aggiunge un alieno del tipo dato nella cabina
     @Override
     public void putAlien(String color){
         if(color.equals("brown")){
-            numOfBrownAlien++;
+            brownAlienPresent = true;
         }
         else if(color.equals("purple")){
-            numOfPurpleAlien++;
+            purpleAlienPresent = true;
         }
     }
 
     @Override
     public boolean isBrownAlienPresent(){
-        if (numOfBrownAlien == 1){
-            return true;
-        }
-        return false;
+        return brownAlienPresent;
     }
 
     @Override
     public boolean isPurpleAlienPresent(){
-        if (numOfPurpleAlien == 1){
-            return true;
+        return purpleAlienPresent;
+    }
+
+    public int getCrewNumber(){
+        if(isBrownAlienPresent() || isPurpleAlienPresent()){
+            return 1;
         }
-        return false;
+        else return numOfAstronauts;
     }
 }

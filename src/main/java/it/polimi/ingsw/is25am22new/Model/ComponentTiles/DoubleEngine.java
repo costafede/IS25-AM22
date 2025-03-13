@@ -1,10 +1,12 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.Side;
+
 public class DoubleEngine extends Engine {
     private boolean bottomSideActive;
 
-    public DoubleEngine() {
-        super();
+    public DoubleEngine(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean topSideEngine, boolean bottomSideEngine, boolean leftSideEngine, boolean rightSideEngine) {
+        super(pngName, topSide, bottomSide, leftSide, rightSide, topSideEngine, bottomSideEngine, leftSideEngine, rightSideEngine);
         this.bottomSideActive = false;
     }
 
@@ -13,8 +15,7 @@ public class DoubleEngine extends Engine {
     public int getEngineStrength() {
         if (bottomSideActive)
             return 1;
-        else
-            return 0;
+        return 0;
     }
 
     // Activates the engine component --> Only the bottom side can be activated

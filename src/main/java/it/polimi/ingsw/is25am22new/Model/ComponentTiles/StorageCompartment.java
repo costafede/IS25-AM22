@@ -1,37 +1,36 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.Side;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class StorageCompartment extends ComponentTile{
     protected int capacity;
     protected List<GoodBlock> goodBlocks;
 
-    public StorageCompartment() {
-        super();
+    public StorageCompartment(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, int capacity) {
+        super(pngName, topSide, bottomSide, leftSide, rightSide);
         this.capacity = capacity;
-        this.goodBlocks = goodBlocks;
+        this.goodBlocks = new ArrayList<GoodBlock>();
     }
 
     // Check if the block can be placed in the tile (Every block except the red block can be placed)
     @Override
     public boolean isBlockPlaceable(GoodBlock gb) {
-        if(goodBlocks.size() < capacity && !gb.equals(GoodBlock.REDBLOCK))
-            return true;
-        else
-            return false;
+        return goodBlocks.size() < capacity && !gb.equals(GoodBlock.REDBLOCK);
     }
 
     // Add a block to the tile (Do we have to check if the block is not red again?)
     public void addBlockTile(GoodBlock gb) {
-        if(isBlockPlaceable(gb) && !gb.equals(GoodBlock.REDBLOCK))
+        if(isBlockPlaceable(gb))
             goodBlocks.add(gb);
     }
 
     //Remove a block from the tile (What do we do if the block is not in the tile?)
     public void removeBlockTile(GoodBlock gb) {
-        if(goodBlocks.contains(gb))
-            goodBlocks.remove(gb);
+        goodBlocks.remove(gb);
     }
 
     // Returns the list of good blocks in the tile

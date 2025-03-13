@@ -1,68 +1,59 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
-public class Cannon extends ComponentTile {
-    protected boolean topSideCannoned;
-    protected boolean bottomSideCannoned;
-    protected boolean leftSideCannoned;
-    protected boolean rightSideCannoned;
-    protected double cannonStrength;
+import it.polimi.ingsw.is25am22new.Model.Side;
 
-    public Cannon() {
-        super();
-        this.cannonStrength = cannonStrength;
-        this.topSideCannoned = topSideCannoned;
-        this.bottomSideCannoned = bottomSideCannoned;
-        this.leftSideCannoned = leftSideCannoned;
-        this.rightSideCannoned = rightSideCannoned;
+public class Cannon extends ComponentTile {
+    protected boolean topSideCannon;
+    protected boolean bottomSideCannon;
+    protected boolean leftSideCannon;
+    protected boolean rightSideCannon;
+
+    public Cannon(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean topSideCannon, boolean bottomSideCannon, boolean leftSideCannon, boolean rightSideCannon) {
+        super(pngName, topSide, bottomSide, leftSide, rightSide);
+        this.topSideCannon = topSideCannon;
+        this.bottomSideCannon = bottomSideCannon;
+        this.leftSideCannon = leftSideCannon;
+        this.rightSideCannon = rightSideCannon;
     }
 
     public double getCannonStrength() {
-        if(topSideCannoned) return cannonStrength;
-        else return (cannonStrength / 2);
+        if(topSideCannon) return 1;
+        else return 0.5;
     }
-
-    public void activateComponent(){
-        return;
-    }
-
-    public void deactivateComponent(){
-        return;
-    }
-
 
     public void rotateClockwise(){
         super.rotateClockwise();
 
-        boolean temp1 = leftSideCannoned;
-        leftSideCannoned = bottomSideCannoned;
-        bottomSideCannoned = rightSideCannoned;
-        rightSideCannoned = topSideCannoned;
-        topSideCannoned = temp1;
+        boolean temp1 = leftSideCannon;
+        leftSideCannon = bottomSideCannon;
+        bottomSideCannon = rightSideCannon;
+        rightSideCannon = topSideCannon;
+        topSideCannon = temp1;
     }
 
     public void rotateCounterClockwise(){
         super.rotateCounterClockwise();
 
-        boolean temp1 = leftSideCannoned;
-        leftSideCannoned = topSideCannoned;
-        topSideCannoned = rightSideCannoned;
-        rightSideCannoned = bottomSideCannoned;
-        bottomSideCannoned = temp1;
+        boolean temp1 = leftSideCannon;
+        leftSideCannon = topSideCannon;
+        topSideCannon = rightSideCannon;
+        rightSideCannon = bottomSideCannon;
+        bottomSideCannon = temp1;
     }
 
     public boolean isTopSideCannon() {
-        return topSideCannoned;
+        return topSideCannon;
     }
 
     public boolean isBottomSideCannon() {
-        return bottomSideCannoned;
+        return bottomSideCannon;
     }
 
     public boolean isLeftSideCannon() {
-        return leftSideCannoned;
+        return leftSideCannon;
     }
 
     public boolean isRightSideCannon() {
-        return rightSideCannoned;
+        return rightSideCannon;
     }
 }

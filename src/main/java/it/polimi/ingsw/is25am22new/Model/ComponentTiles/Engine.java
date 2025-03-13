@@ -1,25 +1,25 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.Side;
+
 public class Engine extends ComponentTile {
     protected boolean topSideEngine;
     protected boolean bottomSideEngine;
     protected boolean leftSideEngine;
     protected boolean rightSideEngine;
-    protected int engineStrength;
 
     //Constructor -> Need to understand what to do with the parameters
     //Maybe JSON file initialization outside the constructor? -> adding a method to set the values from the JSON file
-    public Engine() {
-        super();
+    public Engine(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, boolean topSideEngine, boolean bottomSideEngine, boolean leftSideEngine, boolean rightSideEngine) {
+        super(pngName, topSide, bottomSide, leftSide, rightSide);
         this.topSideEngine = topSideEngine;
         this.bottomSideEngine = bottomSideEngine;
         this.leftSideEngine = leftSideEngine;
         this.rightSideEngine = rightSideEngine;
-        this.engineStrength = engineStrength;
     }
 
     public int getEngineStrength() {
-        return engineStrength;
+        return 1;
     }
 
     //It's implemented in the subclasses that need it
