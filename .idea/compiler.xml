@@ -10,4 +10,9 @@
       </profile>
     </annotationProcessing>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="IS25-AM22New" options="--add-exports java.datatransfer/java.awt=it.polimi.ingsw.is25am22new" />
+    </option>
+  </component>
 </project>
