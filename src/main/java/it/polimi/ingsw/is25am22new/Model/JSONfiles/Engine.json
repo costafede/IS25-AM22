@@ -1,0 +1,149 @@
+[
+  {
+    "pngName": "GT-new_tiles_16_for web71.png",
+    "topSide": "SMOOTH",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web72.png",
+    "topSide": "SMOOTH",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web73.png",
+    "topSide": "ONEPIPE",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web74.png",
+    "topSide": "ONEPIPE",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web75.png",
+    "topSide": "ONEPIPE",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web76.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web77.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web78.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web79.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web80.png",
+    "topSide": "SMOOTH",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "ONEPIPE"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web81.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "ONEPIPE"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web82.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "ONEPIPE"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web83.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "SMOOTH",
+    "leftSide": "ONEPIPE"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web84.png",
+    "topSide": "SMOOTH",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "TWOPIPES"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web85.png",
+    "topSide": "ONEPIPE",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "SMOOTH",
+    "leftSide": "TWOPIPES"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web86.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "TWOPIPES"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web87.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "TWOPIPES"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web88.png",
+    "topSide": "SMOOTH",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web89.png",
+    "topSide": "SMOOTH",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web90.png",
+    "topSide": "SMOOTH",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE"
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web91.png",
+    "topSide": "ONEPIPE",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE"
+  }
+]
