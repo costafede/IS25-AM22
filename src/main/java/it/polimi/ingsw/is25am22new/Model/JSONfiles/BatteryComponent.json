@@ -1,0 +1,138 @@
+[
+  {
+    "pngName": "GT-new_tiles_16_for web.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "TWOPIPES",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web2.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web3.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "ONEPIPE",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web4.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "TWOPIPES",
+    "leftSide": "ONEPIPE",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web5.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "ONEPIPE",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web6.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "ONEPIPE",
+    "leftSide": "ONEPIPE",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web7.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "TWOPIPES",
+    "leftSide": "TWOPIPES",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web8.png",
+    "topSide": "SMOOTH",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web9.png",
+    "topSide": "SMOOTH",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web10.png",
+    "topSide": "SMOOTH",
+    "rightSide": "UNIVERSALPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web11.png",
+    "topSide": "UNIVERSALPIPE",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "UNIVERSALPIPE",
+    "numOfBatteries": 2
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web12.png",
+    "topSide": "ONEPIPE",
+    "rightSide": "SMOOTH",
+    "bottomSide": "TWOPIPES",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 3
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web13.png",
+    "topSide": "ONEPIPE",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "TWOPIPES",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 3
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web14.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 3
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web15.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "ONEPIPE",
+    "bottomSide": "SMOOTH",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 3
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web16.png",
+    "topSide": "TWOPIPES",
+    "rightSide": "TWOPIPES",
+    "bottomSide": "ONEPIPE",
+    "leftSide": "SMOOTH",
+    "numOfBatteries": 3
+  },
+  {
+    "pngName": "GT-new_tiles_16_for web17.png",
+    "topSide": "SMOOTH",
+    "rightSide": "SMOOTH",
+    "bottomSide": "SMOOTH",
+    "leftSide": "ONEPIPE",
+    "numOfBatteries": 3
+  }
+]
