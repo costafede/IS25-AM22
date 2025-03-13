@@ -17,6 +17,9 @@ public abstract class AdventureCard {
         this.tutorial = tutorial;
     }
 
+    public AdventureCard(String name, Game game) {
+    }
+
     public boolean isTutorial() {
         return tutorial;
     }
