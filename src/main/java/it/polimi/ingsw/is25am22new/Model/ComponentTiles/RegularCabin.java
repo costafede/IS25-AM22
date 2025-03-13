@@ -8,7 +8,7 @@ public class RegularCabin extends Cabin {
 
     //aggiunge un alieno del tipo dato nella cabina
     @Override
-    public void putAlienTile(String color){
+    public void putAlien(String color){
         if(color.equals("brown")){
             numOfBrownAlien++;
         }
@@ -18,7 +18,7 @@ public class RegularCabin extends Cabin {
     }
 
     @Override
-    public boolean isBrownAlienPresentTile(){
+    public boolean isBrownAlienPresent(){
         if (numOfBrownAlien == 1){
             return true;
         }
@@ -26,7 +26,7 @@ public class RegularCabin extends Cabin {
     }
 
     @Override
-    public boolean isPurpleAlienPresentTile(){
+    public boolean isPurpleAlienPresent(){
         if (numOfPurpleAlien == 1){
             return true;
         }

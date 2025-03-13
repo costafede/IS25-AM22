@@ -16,14 +16,14 @@ public class DoubleCannon extends Cannon {
     }
 
     @Override
-    public double getCannonStrengthTile() {
+    public double getCannonStrength() {
         if(topSideCannoned && topSideActive)    return cannonStrength;
         else if (leftSideActive || bottomSideActive || rightSideActive) return (cannonStrength / 2);
         return 0;
     }
 
     @Override
-    public void activateComponentTile(){
+    public void activateComponent(){
         if(topSideCannoned) topSideActive = true;
         else if(bottomSideCannoned) bottomSideActive = true;
         else if(rightSideCannoned) rightSideActive = true;
@@ -31,7 +31,7 @@ public class DoubleCannon extends Cannon {
     }
 
     @Override
-    public void deactivateComponentTile(){
+    public void deactivateComponent(){
         topSideActive = false;
         bottomSideActive = false;
         rightSideActive = false;

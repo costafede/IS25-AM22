@@ -20,7 +20,7 @@ public abstract class ComponentTile {
         this.pngName = pngName;
     }
 
-    public void rotateClockwiseTile() {
+    public void rotateClockwise() {
         Side tmp = topSide;
         topSide = leftSide;
         leftSide = bottomSide;
@@ -28,7 +28,7 @@ public abstract class ComponentTile {
         rightSide = tmp;
     }
 
-    public void rotateCounterClockwiseTile() {
+    public void rotateCounterClockwise() {
         Side tmp = topSide;
         topSide = rightSide;
         rightSide = bottomSide;
@@ -36,11 +36,11 @@ public abstract class ComponentTile {
         leftSide = tmp;
     }
 
-    public void addGoodBlockTile(GoodBlock gb){
+    public void addGoodBlock(GoodBlock gb){
         return;
     }
 
-    public GoodBlock removeGoodBlockTile(){
+    public GoodBlock removeGoodBlock(){
         return null;
     }
 
@@ -60,107 +60,107 @@ public abstract class ComponentTile {
         return bottomSide == Side.SMOOTH;
     }
 
-    public void activateComponentTile(){
+    public void activateComponent(){
         return;
     }
 
-    public void deactivateComponentTile(){
+    public void deactivateComponent(){
         return;
     }
 
-    public boolean isBottomSideShieldedTile(){
+    public boolean isBottomSideShielded(){
         return false;
     }
 
-    public boolean isTopSideShieldedTile(){
+    public boolean isTopSideShielded(){
         return false;
     }
 
-    public boolean isLeftSideShieldedTile(){
+    public boolean isLeftSideShielded(){
         return false;
     }
 
-    public boolean isRightSideShieldedTile(){
+    public boolean isRightSideShielded(){
         return false;
     }
 
-    public boolean isLeftSideCannonTile(){
+    public boolean isLeftSideCannon(){
         return false;
     }
 
-    public boolean isBottomSideCannonTile(){
+    public boolean isBottomSideCannon(){
         return false;
     }
 
-    public boolean isTopSideCannonTile(){
+    public boolean isTopSideCannon(){
         return false;
     }
 
-    public boolean isRightSideCannonTile(){
+    public boolean isRightSideCannon(){
         return false;
     }
 
-    public boolean isTopSideEngineTile(){
+    public boolean isTopSideEngine(){
         return false;
     }
 
-    public boolean isLeftSideEngineTile(){
+    public boolean isLeftSideEngine(){
         return false;
     }
 
-    public boolean isRightSideEngineTile(){
+    public boolean isRightSideEngine(){
         return false;
     }
 
-    public boolean isBottomSideEngineTile(){
+    public boolean isBottomSideEngine(){
         return false;
     }
 
-    public int getEngineStrengthTile(){
+    public int getEngineStrength(){
         return 0;
     }
 
-    public void removeBatteryTokenTile(){
+    public void removeBatteryToken(){
         return;
     }
 
-    public double getCannonStrengthTile(){
+    public double getCannonStrength(){
         return 0;
     }
 
-    public void removeCrewMemberTile(){
+    public void removeCrewMember(){
         return;
     }
 
-    public void putCrewMemberTile(){
+    public void putCrewMember(){
         return;
     }
 
-    public boolean isBlockPlaceableTile(GoodBlock gb){
+    public boolean isBlockPlaceable(GoodBlock gb){
         return false;
     }
 
-    public String getAddonColorTile(){
+    public String getAddonColor(){
         return null;
     }
 
-    public void putAlienTile(String color){
+    public void putAlien(String color){
         return;
     }
 
-    public int getCrewNumberTile(){
+    public int getCrewNumber(){
         return 0;
     }
 
-    public boolean isBrownAlienPresentTile(){
+    public boolean isBrownAlienPresent(){
         return false;
     }
 
-    public boolean isPurpleAlienPresentTile(){
+    public boolean isPurpleAlienPresent(){
         return false;
     }
 
-    public List<GoodBlock> getGoodBlocksTile(){
+    public List<GoodBlock> getGoodBlocks(){
         return null;
     }
 }

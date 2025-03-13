@@ -23,17 +23,17 @@ public class Engine extends ComponentTile {
     }
 
     //It's implemented in the subclasses that need it
-    public void activateComponentTile(){
+    public void activateComponent(){
         return;
     }
 
     //It's implemented in the subclasses that need it
-    public void deactivateComponentTile(){
+    public void deactivateComponent(){
         return;
     }
 
-    public void rotateClockwiseTile(){
-        super.rotateClockwiseTile();
+    public void rotateClockwise(){
+        super.rotateClockwise();
 
         boolean temp1 = leftSideEngine;
         leftSideEngine = bottomSideEngine;
@@ -42,8 +42,8 @@ public class Engine extends ComponentTile {
         topSideEngine = temp1;
     }
 
-    public void rotateCounterClockwiseTile(){
-        super.rotateCounterClockwiseTile();
+    public void rotateCounterClockwise(){
+        super.rotateCounterClockwise();
 
         boolean temp1 = leftSideEngine;
         leftSideEngine = topSideEngine;
