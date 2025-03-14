@@ -15,4 +15,7 @@ public class StartingCabin extends Cabin {
         return color;
     }
 
+    public boolean isStartingCabin(){
+        return true;
+    }
 }
