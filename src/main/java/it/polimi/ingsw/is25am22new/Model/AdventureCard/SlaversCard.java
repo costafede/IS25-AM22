@@ -4,14 +4,14 @@ import it.polimi.ingsw.is25am22new.Model.Game;
 
 import java.util.List;
 
-public class SlavesCard extends AdventureCard {
+public class SlaversCard extends AdventureCard {
 
     private int flightDaysLost;
     private int cannonStrength;
     private int lostAstronauts;
     private int credits;
 
-    public SlavesCard(String name, Game game, int flightDaysLost, int cannonStrength, int lostAstronauts, int credits) {
+    public SlaversCard(String name, Game game, int flightDaysLost, int cannonStrength, int lostAstronauts, int credits) {
         super(name, game);
         this.flightDaysLost = flightDaysLost;
         this.cannonStrength = cannonStrength;

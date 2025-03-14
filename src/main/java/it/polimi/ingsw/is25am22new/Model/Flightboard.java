@@ -6,12 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Flightboard {
-    private List<String> orderedRockets;
-    private Map<String, Integer> positions;
+    protected List<String> orderedRockets;
+    protected Map<String, Integer> positions; // positions are relative to the flightboard
+    protected int flightBoardLength;
 
-    public Flightboard() {
+    // integers in positions map are 0 < x <= 24
+    public Flightboard(int flightBoardLength) {
         this.orderedRockets = new ArrayList<>();
         this.positions = new HashMap<>();
+        this.flightBoardLength = flightBoardLength;
+    }
+
+    public Flightboard(List<String> orderedRockets, Map<String, Integer> positions, int flightBoardLength) {
+        this.orderedRockets = orderedRockets;
+        this.positions = positions;
+        this.flightBoardLength = flightBoardLength;
     }
 
     public List<String> getOrderedRockets() {
@@ -33,7 +42,42 @@ public abstract class Flightboard {
         }
     }
 
-    public abstract int shiftRocket(String nickname, int steps); //return the new position (daysOnFlight in ShipBoard
-    public abstract void placeRocket(String nickname, int position);
-    public abstract boolean reoderRockets();
+    public void shiftRocket(Map<String, Shipboard> shipboards, String nickname, int steps) {
+        // steps are positive if backward, negative if forward
+        int initialPosition = shipboards.get(nickname).getDaysOnFlight();
+        int finalPosition = initialPosition - steps;
+        int moreSteps = 0;
+        for(Shipboard shipboard : shipboards.values()) {
+            if(steps > 0) {
+                if(shipboard.getDaysOnFlight() < initialPosition && shipboard.getDaysOnFlight() >= finalPosition) {
+                    moreSteps--;
+                }
+            }
+            else if(steps < 0) {
+                if(shipboard.getDaysOnFlight() > initialPosition && shipboard.getDaysOnFlight() <= finalPosition) {
+                    moreSteps++;
+                }
+            }
+        }
+
+        shipboards.get(nickname).setDaysOnFlight(finalPosition + moreSteps);
+        if(finalPosition + moreSteps < 0) { // absolute position
+            positions.put(nickname, flightBoardLength + ((finalPosition + moreSteps) % flightBoardLength));
+            //alternatively ??
+            //positions.put(nickname, (flightBoardLength + (finalPosition + moreSteps)) % flightBoardLength);
+        }
+        else {
+            positions.put(nickname, (finalPosition + moreSteps) % flightBoardLength);
+        }
+
+        reoderRockets(shipboards.values().stream().toList());
+    }
+
+    private void reoderRockets(List<Shipboard> shipboards) {
+        orderedRockets.sort((a, b) -> Integer.compare(
+                shipboards.stream().filter(s -> s.getNickname().equals(b)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0),
+                shipboards.stream().filter(s -> s.getNickname().equals(a)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0)
+        ));
+    }
+    public abstract void placeRocket(String nickname, int pos);
 }
