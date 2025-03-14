@@ -1,0 +1,22 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_012.jpg",
+    "name": "Smugglers",
+    "level": 1,
+    "tutorial": true,
+    "flightDaysLost": 1,
+    "cannonStrength": 4,
+    "lostGoods": 2,
+    "goodBlocks": ["yellow", "green", "blue"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_012.jpg",
+    "name": "Smugglers",
+    "level": 2,
+    "tutorial": false,
+    "flightDaysLost": 1,
+    "cannonStrength": 8,
+    "lostGoods": 3,
+    "goodBlocks": ["red", "yellow", "yellow"]
+  }
+]

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Game;
 import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.TutorialGame;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -16,7 +17,7 @@ public class InitializingFromJsonComponentTest {
 
     @Test
     void init_game_should_initialize_component_from_json_properly(){
-        game = new Game();
+        game = new TutorialGame();
         game.initGame();
         ObjectMapper objectMapper = new ObjectMapper();
 

@@ -1,0 +1,22 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_013.jpg",
+    "name": "Pirates",
+    "level": 1,
+    "tutorial": false,
+    "flightDaysLost": 1,
+    "cannonStrength": 5,
+    "credits": 4,
+    "shotSize": [false, true, false]
+  },
+  {
+    "pngName": "GT-cards_II_IT_013.jpg",
+    "name": "Pirates",
+    "level": 2,
+    "tutorial": false,
+    "flightDaysLost": 2,
+    "cannonStrength": 6,
+    "credits": 7,
+    "shotSize": [true, false, true]
+  }
+]

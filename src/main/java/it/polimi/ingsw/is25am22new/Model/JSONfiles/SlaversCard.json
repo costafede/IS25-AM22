@@ -1,0 +1,22 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_01.jpg",
+    "name": "Slavers",
+    "level": 1,
+    "tutorial": false,
+    "flightDaysLost": 1,
+    "cannonStrength": 6,
+    "lostAstronauts": 3,
+    "credits": 5
+  },
+  {
+    "pngName": "GT-cards_II_IT_01.jpg",
+    "name": "Slavers",
+    "level": 2,
+    "tutorial": false,
+    "flightDaysLost": 2,
+    "cannonStrength": 7,
+    "lostAstronauts": 4,
+    "credits": 8
+  }
+]

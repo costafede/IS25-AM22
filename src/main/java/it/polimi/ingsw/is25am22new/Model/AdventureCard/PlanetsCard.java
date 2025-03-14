@@ -14,6 +14,9 @@ public class PlanetsCard extends AdventureCard{
         super(name, game);
         this.planetToGoodBlocks = planetToGoodBlocks;
         this.flightDaysLost = flightDaysLost;
+        // When reading the json file
+        // Read numOfPlanets first, then based on that read which blocks are stored
+        // example: 2 planets: firstPlanetGoods, secondPlanetGoods
     }
 
     @Override

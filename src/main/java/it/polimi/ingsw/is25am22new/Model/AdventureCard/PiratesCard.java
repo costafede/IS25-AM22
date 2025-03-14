@@ -18,6 +18,10 @@ public class PiratesCard extends AdventureCard{
         this.flightDaysLost = flightDaysLost;
         this.cannonStrength = cannonStrength;
         this.credits = credits;
+        // When reading from json
+        // true means Big shot, false means Small shot
+        // shotSize is read from top to bottom
+        // shots are always 3
     }
 
     @Override

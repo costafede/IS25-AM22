@@ -1,0 +1,90 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_0112.jpg",
+    "name": "Planets",
+    "level": 1,
+    "tutorial": false,
+    "numOfPlanets": 4,
+    "flightDaysLost": 3,
+    "firstPlanetGoods": ["red", "green", "blue", "blue", "blue"],
+    "secondPlanetGoods": ["red", "yellow", "blue"],
+    "thirdPlanetGoods": ["red", "blue", "blue", "blue"],
+    "fourthPlanetGoods": ["red", "green"]
+  },
+  {
+    "pngName": "GT-cards_I_IT_0113.jpg",
+    "name": "Planets",
+    "level": 1,
+    "tutorial": true,
+    "numOfPlanets": 3,
+    "flightDaysLost": 2,
+    "firstPlanetGoods": ["red", "red"],
+    "secondPlanetGoods": ["red", "blue", "blue"],
+    "thirdPlanetGoods": ["yellow"]
+  },
+  {
+    "pngName": "GT-cards_I_IT_0114.jpg",
+    "name": "Planets",
+    "level": 1,
+    "tutorial": false,
+    "numOfPlanets": 2,
+    "flightDaysLost": 3,
+    "firstPlanetGoods": ["yellow", "green", "blue", "blue"],
+    "secondPlanetGoods": ["yellow", "yellow"]
+  },
+  {
+    "pngName": "GT-cards_I_IT_0115.jpg",
+    "name": "Planets",
+    "level": 1,
+    "tutorial": false,
+    "numOfPlanets": 3,
+    "flightDaysLost": 1,
+    "firstPlanetGoods": ["green", "green"],
+    "secondPlanetGoods": ["yellow"],
+    "thirdPlanetGoods": ["blue", "blue", "blue"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0112.jpg",
+    "name": "Planets",
+    "level": 2,
+    "tutorial": false,
+    "numOfPlanets": 3,
+    "flightDaysLost": 4,
+    "firstPlanetGoods": ["red", "red", "red", "yellow"],
+    "secondPlanetGoods": ["red", "red", "green", "green"],
+    "thirdPlanetGoods": ["red", "blue", "blue", "blue", "blue"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0113.jpg",
+    "name": "Planets",
+    "level": 2,
+    "tutorial": false,
+    "numOfPlanets": 2,
+    "flightDaysLost": 3,
+    "firstPlanetGoods": ["red", "red"],
+    "secondPlanetGoods": ["green", "green", "green", "green"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0114.jpg",
+    "name": "Planets",
+    "level": 2,
+    "tutorial": false,
+    "numOfPlanets": 4,
+    "flightDaysLost": 2,
+    "firstPlanetGoods": ["red", "yellow"],
+    "secondPlanetGoods": ["yellow", "green", "blue"],
+    "thirdPlanetGoods": ["green", "green"],
+    "fourthPlanetGoods": ["yellow"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0115.jpg",
+    "name": "Planets",
+    "level": 2,
+    "tutorial": false,
+    "numOfPlanets": 3,
+    "flightDaysLost": 3,
+    "firstPlanetGoods": ["green", "green", "green", "green"],
+    "secondPlanetGoods": ["yellow", "yellow"],
+    "thirdPlanetGoods": ["blue", "blue", "blue", "blue"]
+  }
+]

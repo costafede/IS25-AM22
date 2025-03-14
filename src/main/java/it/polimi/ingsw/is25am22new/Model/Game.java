@@ -1,5 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 
 import java.util.*;
@@ -11,20 +13,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public /*abstract*/ class Game implements ModelInterface {
+public abstract class Game implements ModelInterface {
     private final List<String> playerList;
     private Bank bank;
-    private Map<String, Integer> cardArchive;
     private Set<ComponentTile> coveredComponentTiles;
     private List<ComponentTile> uncoveredComponentTiles;
     private Map<String, Shipboard> shipboards;
     private Flightboard flightboard;
+    private List<AdventureCard> cardArchive;
 
     public Game() {
-        // temporaneo
         playerList = new ArrayList<>();
         bank = new Bank();
-        cardArchive = new HashMap<>();
+        cardArchive = new ArrayList<>();
         coveredComponentTiles = new HashSet<>();
         uncoveredComponentTiles = new ArrayList<>();
         //shipboards = new HashMap<>();
@@ -41,6 +42,7 @@ public /*abstract*/ class Game implements ModelInterface {
     public void initGame(){
         ObjectMapper objectMapper = new ObjectMapper();
         initComponent(objectMapper);
+        initCardArchive(objectMapper);
     }
 
     private void initComponent(ObjectMapper objectMapper) {
@@ -56,6 +58,66 @@ public /*abstract*/ class Game implements ModelInterface {
         initStructuralModule(objectMapper);
         initShieldGenerator(objectMapper);
         initSpecialStorageCompartment(objectMapper);
+    }
+
+    protected void initCardArchive(ObjectMapper objectMapper){
+        initAbandonedShipCard(objectMapper);
+        initAbandonedStationCard(objectMapper);
+        initCombatZoneCard(objectMapper);
+        initEpidemicCard(objectMapper);
+        initMeteorSwarmCard(objectMapper);
+        initOpenSpaceCard(objectMapper);
+        initPiratesCard(objectMapper);
+        initPlanetsCard(objectMapper);
+        initSlaversCard(objectMapper);
+        initSmugglersCard(objectMapper);
+        initStardustCard(objectMapper);
+    }
+
+    protected abstract void initDeck(ObjectMapper objectMapper);
+
+    private void initAbandonedShipCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initAbandonedStationCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initCombatZoneCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initEpidemicCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initMeteorSwarmCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initOpenSpaceCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initPiratesCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initPlanetsCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initSlaversCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initSmugglersCard(ObjectMapper objectMapper) {
+
+    }
+
+    private void initStardustCard(ObjectMapper objectMapper) {
+
     }
 
     private void initBatteryComponent(ObjectMapper objectMapper){
