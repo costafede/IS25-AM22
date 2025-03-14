@@ -9,6 +9,7 @@ public class CombatZoneCard extends AdventureCard{
 
     private int flightDaysLost;
     private int lostAstronauts;
+    private int lostGoods;
     private Map<Integer, Shot> numberToShot;
 
     public CombatZoneCard(String name, Game game, int flightDaysLost, int lostAstronauts, Map<Integer, Shot> numberToShot) {
