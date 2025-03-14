@@ -2,21 +2,46 @@ package it.polimi.ingsw.is25am22new.Model;
 
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 
+import java.awt.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 public abstract class Shipboard {
 
-    private boolean abbandoned;
+    private boolean abandoned;
     private int daysOnFlight;
     private String color;
     private String nickname;
-    private ComponentTile[][] componentTilesGrid;
-    private ComponentTile[] standbyComponent;
+    /*private ComponentTilesGrid componentTilesGrid;*/
+    private Optional<ComponentTile>[] standbyComponent;
     private int discardedTiles;
     private boolean finishedShipboard;
     private int CosmicCredits;
 
-    public void weldComponentTile (ComponentTile ct, int x, int y){componentTilesGrid[x][y] = ct;}
+    public Shipboard(String color, String nickname) {
+        abandoned = false;
+        daysOnFlight = 0;
+        this.color = color;
+        this.nickname = nickname;
+        //componentTilesGrid = new ComponentTilesGrid();
+        standbyComponent = new Optional[2];
+        discardedTiles = 0;
+        finishedShipboard = false;
+        CosmicCredits = 0;
+    }
 
-    public void standbyComponentTile (ComponentTile ct){
+    public int getDaysOnFlight(){
+        return daysOnFlight;
+    }
+
+    public void setDaysOnFlight(int daysOnFlight){
+        this.daysOnFlight = daysOnFlight;
+    }
+
+    //public void weldComponentTile (ComponentTile ct, int i, int j){componentTilesGrid.set(i, j, ct);}
+
+    /*public void standbyComponentTile (ComponentTile ct){
         for (int i = 0; i < (standbyComponent.length - 1); i++ ) {
             if (standbyComponent[i].equals(null)) {
                 standbyComponent[i] = ct;
@@ -24,10 +49,14 @@ public abstract class Shipboard {
         }
     }
 
-    public ComponentTile pickStandByComponentTile (int index) {return standbyComponent[index];}
+    public ComponentTile pickStandByComponentTile (int index) {
+        ComponentTile ct = standbyComponent[index];
+        standbyComponent[index] = null;
+        return ct;
+    }
 
-    public void destroyTile (int x, int y){
-        componentTilesGrid[x][y] = null;
+    public void destroyTile (int i, int j){
+        componentTilesGrid.set(i, j, null);
         discardedTiles++;
     }
 
@@ -36,14 +65,21 @@ public abstract class Shipboard {
     }
 
     public void abandons (){
-        abbandoned = true;
+        abandoned = true;
     }
 
     public int countExposedConnectors (){
         return 0; //to do
     }
 
-    public boolean isRightSideCannon (int y){
+    public boolean isRightSideCannon (int i){
+        for(int j = 0; j < 7; j++){
+            if (componentTilesGrid.get(i, j).isPresent().){
+                return true;
+            }
+
+        }
+
         return false;
     }
 
@@ -179,4 +215,61 @@ public abstract class Shipboard {
         }
         return crewnumber;
     }
+}
+
+class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
+    private Optional<ComponentTile>[][] componentTilesGrid;
+    private final int rows, columns;
+    public ComponentTilesGrid(){
+        rows = 5;
+        columns = 7;
+        componentTilesGrid = (Optional<ComponentTile>[][]) new Optional[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                componentTilesGrid[i][j] = Optional.empty();
+            }
+        }
+
+    }
+
+    @Override
+    public Iterator<Optional<ComponentTile>> iterator() {
+        return new ComponentTilesGridIterator();
+    }
+
+    public void set(int i, int j, ComponentTile c){
+        if(i < 0 || j < 0 || i >= rows || j >= columns){
+            throw new IndexOutOfBoundsException();
+        }
+        componentTilesGrid[i][j] = Optional.ofNullable(c);
+    }
+
+    public Optional<ComponentTile> get(int i, int j){
+        if(i < 0 || j < 0 || i >= rows || j >= columns){
+            throw new IndexOutOfBoundsException();
+        }
+        return componentTilesGrid[i][j];
+    }
+
+    private class ComponentTilesGridIterator implements Iterator<Optional<ComponentTile>>{
+        private int i = 0;
+        private int j = 0;
+
+        public boolean hasNext() {
+            return i < rows && j < columns;
+        }
+
+        public Optional<ComponentTile> next() {
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+            Optional<ComponentTile> componentTile = componentTilesGrid[i][j];
+            j++;
+            if(columns >= j){
+                j = 0;
+                i++;
+            }
+            return componentTile;
+        }
+    }*/
 }
