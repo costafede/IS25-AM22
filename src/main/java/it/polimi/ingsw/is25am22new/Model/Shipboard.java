@@ -13,7 +13,7 @@ public abstract class Shipboard {
     private int daysOnFlight;
     private String color;
     private String nickname;
-    /*private ComponentTilesGrid componentTilesGrid;*/
+    //private ComponentTilesGrid componentTilesGrid;
     private Optional<ComponentTile>[] standbyComponent;
     private int discardedTiles;
     private boolean finishedShipboard;
@@ -31,6 +31,10 @@ public abstract class Shipboard {
         CosmicCredits = 0;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
     public int getDaysOnFlight(){
         return daysOnFlight;
     }
@@ -39,9 +43,9 @@ public abstract class Shipboard {
         this.daysOnFlight = daysOnFlight;
     }
 
-    //public void weldComponentTile (ComponentTile ct, int i, int j){componentTilesGrid.set(i, j, ct);}
+    /*public void weldComponentTile (ComponentTile ct, int i, int j){componentTilesGrid.set(i, j, ct);}
 
-    /*public void standbyComponentTile (ComponentTile ct){
+    public void standbyComponentTile (ComponentTile ct){
         for (int i = 0; i < (standbyComponent.length - 1); i++ ) {
             if (standbyComponent[i].equals(null)) {
                 standbyComponent[i] = ct;
@@ -74,8 +78,7 @@ public abstract class Shipboard {
 
     public boolean isRightSideCannon (int i){
         for(int j = 0; j < 7; j++){
-            if (componentTilesGrid.get(i, j).isPresent().){
-                return true;
+            componentTilesGrid.get(i, j).isPresent().
             }
 
         }
