@@ -1,0 +1,38 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_0117.jpg",
+    "name": "AbandonedShip",
+    "level": 1,
+    "tutorial": false,
+    "flightDaysLost": 1,
+    "lostAstronauts": 2,
+    "credits": 3
+  },
+  {
+    "pngName": "GT-cards_I_IT_0118.jpg",
+    "name": "AbandonedShip",
+    "level": 1,
+    "tutorial": true,
+    "flightDaysLost": 1,
+    "lostAstronauts": 3,
+    "credits": 4
+  },
+  {
+    "pngName": "GT-cards_II_IT_0117.jpg",
+    "name": "AbandonedShip",
+    "level": 2,
+    "tutorial": false,
+    "flightDaysLost": 1,
+    "lostAstronauts": 4,
+    "credits": 6
+  },
+  {
+    "pngName": "GT-cards_II_IT_0118.jpg",
+    "name": "AbandonedShip",
+    "level": 2,
+    "tutorial": false,
+    "flightDaysLost": 2,
+    "lostAstronauts": 5,
+    "credits": 8
+  }
+]
