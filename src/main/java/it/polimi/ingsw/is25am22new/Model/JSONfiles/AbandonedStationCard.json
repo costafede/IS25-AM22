@@ -1,0 +1,38 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_0119.jpg",
+    "name": "AbandonedStation",
+    "level": 1,
+    "tutorial": true,
+    "flightDaysLost": 1,
+    "astronautsNumber": 5,
+    "goodBlocks": ["yellow", "green"]
+  },
+  {
+    "pngName": "GT-cards_I_IT_0120.jpg",
+    "name": "AbandonedStation",
+    "level": 1,
+    "tutorial": false,
+    "flightDaysLost": 1,
+    "astronautsNumber": 6,
+    "goodBlocks": ["red", "red"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0119.jpg",
+    "name": "AbandonedStation",
+    "level": 2,
+    "tutorial": false,
+    "flightDaysLost": 1,
+    "astronautsNumber": 7,
+    "goodBlocks": ["red", "yellow"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0120.jpg",
+    "name": "AbandonedStation",
+    "level": 2,
+    "tutorial": false,
+    "flightDaysLost": 2,
+    "astronautsNumber": 8,
+    "goodBlocks": ["yellow", "yellow", "green"]
+  }
+]
