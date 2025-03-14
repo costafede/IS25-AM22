@@ -28,9 +28,15 @@ public class StorageCompartment extends ComponentTile{
             goodBlocks.add(gb);
     }
 
+    public boolean isGoodBlock(GoodBlock gb) {
+        return goodBlocks.contains(gb);
+    }
+
     //Remove a block from the tile (What do we do if the block is not in the tile?)
-    public void removeBlockTile(GoodBlock gb) {
+    public GoodBlock removeGoodBlock(GoodBlock gb) {
+        GoodBlock tmp = gb;
         goodBlocks.remove(gb);
+        return tmp;
     }
 
     // Returns the list of good blocks in the tile

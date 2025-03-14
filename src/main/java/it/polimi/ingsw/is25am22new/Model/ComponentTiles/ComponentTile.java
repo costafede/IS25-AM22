@@ -60,7 +60,7 @@ public abstract class ComponentTile {
         return;
     }
 
-    public GoodBlock removeGoodBlock(){
+    public GoodBlock removeGoodBlock(GoodBlock goodBlock){
         return null;
     }
 
@@ -184,5 +184,12 @@ public abstract class ComponentTile {
         return null;
     }
 
+    public boolean isStartingCabin(){
+        return false;
+    }
+
+    public boolean isGoodBlock(GoodBlock gb) {
+        return false;
+    }
 
 }
