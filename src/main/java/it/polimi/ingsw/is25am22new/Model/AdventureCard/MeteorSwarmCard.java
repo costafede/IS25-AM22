@@ -11,6 +11,9 @@ public class MeteorSwarmCard extends AdventureCard{
     public MeteorSwarmCard(String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> NumberToMeteor) {
         super(name, game, level, tutorial);
         this.NumberToMeteor = NumberToMeteor;
+        // When reading the json file
+        // cicle until the end of the array
+        // order: from top to bottom, from left to right
     }
 
     @Override

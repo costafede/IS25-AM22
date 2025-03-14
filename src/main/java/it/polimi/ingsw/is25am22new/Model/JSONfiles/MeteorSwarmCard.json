@@ -1,0 +1,50 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_019.jpg",
+    "name": "MeteorSwarm",
+    "level": 1,
+    "tutorial": true,
+    "meteorSize": [true, false, false],
+    "meteorOrientation": ["bottom", "right", "left"]
+  },
+  {
+    "pngName": "GT-cards_I_IT_0110.jpg",
+    "name": "MeteorSwarm",
+    "level": 1,
+    "tutorial": false,
+    "meteorSize": [false, false, false, false, false],
+    "meteorOrientation": ["bottom", "bottom","right", "left", "top"]
+  },
+  {
+    "pngName": "GT-cards_I_IT_0111.jpg",
+    "name": "MeteorSwarm",
+    "level": 1,
+    "tutorial": false,
+    "meteorSize": [true, false, true],
+    "meteorOrientation": ["top", "top", "top"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_019.jpg",
+    "name": "MeteorSwarm",
+    "level": 2,
+    "tutorial": false,
+    "meteorSize": [false, false, true, false, false],
+    "meteorOrientation": ["top", "top", "right", "right", "right"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0110.jpg",
+    "name": "MeteorSwarm",
+    "level": 2,
+    "tutorial": false,
+    "meteorSize": [true, true, false, false],
+    "meteorOrientation": ["bottom", "bottom", "top", "top"]
+  },
+  {
+    "pngName": "GT-cards_II_IT_0111.jpg",
+    "name": "MeteorSwarm",
+    "level": 2,
+    "tutorial": false,
+    "meteorSize": [false, false, true, false, false],
+    "meteorOrientation": ["bottom", "bottom", "left", "left", "left"]
+  }
+]
