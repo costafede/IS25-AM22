@@ -1,6 +1,6 @@
 [
   {
-    "pngName": "GT-cards_I_IT_013.png",
+    "pngName": "GT-cards_I_IT_013.jpg",
     "name": "Pirates",
     "level": 1,
     "tutorial": false,
@@ -10,7 +10,7 @@
     "shotSize": [false, true, false]
   },
   {
-    "pngName": "GT-cards_II_IT_013.png",
+    "pngName": "GT-cards_II_IT_013.jpg",
     "name": "Pirates",
     "level": 2,
     "tutorial": false,
