@@ -9,6 +9,7 @@ public class SmugglersCard extends AdventureCard {
 
     private int flightDaysLost;
     private int CannonStrength;
+    private int lostGoods;
     private List<GoodBlock> goodBlocks;
 
     public SmugglersCard(String name, Game game) {
