@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class Game implements ModelInterface {
+public /*abstract*/ class Game implements ModelInterface {
     private final List<String> playerList;
     private Bank bank;
     private Map<String, Integer> cardArchive;
@@ -28,6 +28,10 @@ public abstract class Game implements ModelInterface {
         coveredComponentTiles = new HashSet<>();
         uncoveredComponentTiles = new ArrayList<>();
         //shipboards = new HashMap<>();
+    }
+
+    public Set<ComponentTile> getCoveredComponentTiles() {
+        return coveredComponentTiles;
     }
 
     public Shipboard getShipboards(String player) {
@@ -68,7 +72,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(batteryComponent);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading BatteryComponent.json");
         }
     }
 
@@ -86,7 +90,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(startingCabin);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading StartingCabin.json");
         }
     }
 
@@ -103,7 +107,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(regularCabin);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading RegularCabin.json");
         }
     }
 
@@ -121,7 +125,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(alienAddon);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading AlienAddon.json");
         }
     }
 
@@ -139,7 +143,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(storageCompartment);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading StorageCompartment.json");
         }
     }
 
@@ -156,7 +160,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(engine);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading Engine.json");
         }
     }
 
@@ -173,7 +177,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(doubleEngine);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading DoubleEngine.json");
         }
     }
 
@@ -190,7 +194,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(doubleCannon);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading DoubleCannon.json");
         }
     }
 
@@ -207,7 +211,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(cannon);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading Cannon.json");
         }
     }
 
@@ -224,7 +228,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(structuralModule);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading StructuralModule.json");
         }
     }
 
@@ -241,7 +245,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(shieldGenerator);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading ShieldGenerator.json");
         }
     }
 
@@ -259,7 +263,7 @@ public abstract class Game implements ModelInterface {
                 coveredComponentTiles.add(specialStorageCompartment);
             }
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Error in reading SpecialStorageCompartment.json");
         }
     }
 }

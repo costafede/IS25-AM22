@@ -36,6 +36,26 @@ public abstract class ComponentTile {
         leftSide = tmp;
     }
 
+    public String getPngName() {
+        return pngName;
+    }
+
+    public Side getTopSide(){
+        return topSide;
+    }
+
+    public Side getBottomSide(){
+        return bottomSide;
+    }
+
+    public Side getLeftSide(){
+        return leftSide;
+    }
+
+    public Side getRightSide(){
+        return rightSide;
+    }
+
     public void addGoodBlock(GoodBlock gb){
         return;
     }
@@ -163,4 +183,6 @@ public abstract class ComponentTile {
     public List<GoodBlock> getGoodBlocks(){
         return null;
     }
+
+
 }

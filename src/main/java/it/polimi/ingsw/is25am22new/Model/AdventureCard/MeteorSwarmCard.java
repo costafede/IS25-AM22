@@ -8,20 +8,16 @@ public class MeteorSwarmCard extends AdventureCard{
 
     private Map<Integer, Meteor> NumberToMeteor;
 
-    public MeteorSwarmCard(String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> meteorTypeToMeteorToOrientattion) {
+    public MeteorSwarmCard(String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> NumberToMeteor) {
         super(name, game, level, tutorial);
         this.NumberToMeteor = NumberToMeteor;
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers) {
-        return;
-    }
+    public void activateCard(List<String> orderedPlayers) { return;}
 
     @Override
-    public void activateCard(String player) {
-        return;
-    }
+    public void activateCard(String player) {return;}
 
     @Override
     public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields, List<String> activatingCannon) {
@@ -29,7 +25,5 @@ public class MeteorSwarmCard extends AdventureCard{
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
-        return;
-    }
+    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {return;}
 }

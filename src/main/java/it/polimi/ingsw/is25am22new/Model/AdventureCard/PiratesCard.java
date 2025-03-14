@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class PiratesCard extends AdventureCard{
 
-    private Map<Shot, Map<Integer, Orientation>> shotTypeToShotToOrientation;
+    private Map<Integer, Shot> numberToShot;
     private int flightDaysLost;
     private int cannonStrength;
     private int credits;
 
-    public PiratesCard(String name, Game game, Map<Shot, Map<Integer, Orientation>> shotTypeToShotToOrientation, int flightDaysLost, int cannonStrength, int credits) {
+    public PiratesCard(String name, Game game, Map<Integer, Shot> numberToShot, int flightDaysLost, int cannonStrength, int credits) {
         super(name, game);
-        this.shotTypeToShotToOrientation = shotTypeToShotToOrientation;
+        this.numberToShot = numberToShot;
         this.flightDaysLost = flightDaysLost;
         this.cannonStrength = cannonStrength;
         this.credits = credits;

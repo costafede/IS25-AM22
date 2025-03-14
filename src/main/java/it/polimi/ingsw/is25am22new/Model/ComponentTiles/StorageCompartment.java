@@ -37,4 +37,8 @@ public class StorageCompartment extends ComponentTile{
     public List<GoodBlock> getGoodBlocks() {
         return goodBlocks;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }

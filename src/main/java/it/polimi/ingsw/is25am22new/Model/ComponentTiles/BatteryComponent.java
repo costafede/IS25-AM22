@@ -10,6 +10,10 @@ public class BatteryComponent extends ComponentTile {
         this.numOfBatteries = numOfBatteries;
     }
 
+    public int getNumOfBatteries() {
+        return numOfBatteries;
+    }
+
     public void removeBatteryToken() {
         numOfBatteries--;
     }

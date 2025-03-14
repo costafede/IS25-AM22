@@ -9,13 +9,13 @@ public class CombatZoneCard extends AdventureCard{
 
     private int flightDaysLost;
     private int lostAstronauts;
-    private Map<Shot, Map<Integer, Orientation>> shotTypeToShotToOrientation;
+    private Map<Integer, Shot> numberToShot;
 
-    public CombatZoneCard(String name, Game game, int flightDaysLost, int lostAstronauts, Map<Shot, Map<Integer, Orientation>> shotTypeToShotToOrientation) {
+    public CombatZoneCard(String name, Game game, int flightDaysLost, int lostAstronauts, Map<Integer, Shot> numberToShot) {
         super(name, game);
         this.flightDaysLost = flightDaysLost;
         this.lostAstronauts = lostAstronauts;
-        this.shotTypeToShotToOrientation = shotTypeToShotToOrientation;
+        this.numberToShot = numberToShot;
     }
 
     @Override
