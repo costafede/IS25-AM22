@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model;
 
+import com.sun.jdi.connect.Connector;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 
 import java.util.Iterator;
@@ -66,20 +67,51 @@ public abstract class Shipboard {
     }
 
     public boolean checkShipboard (){
-        return false; //to do
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++) {
+                if(componentTilesGrid.get(i, j).isPresent()){
+                    if(componentTilesGrid.get(i, j).get().isLeftSideEngine() || componentTilesGrid.get(i, j).get().isRightSideEngine()
+                            || componentTilesGrid.get(i, j).get().isTopSideEngine())
+                        return false;
+                    if(componentTilesGrid.get(i, j).get().isBottomSideEngine() && componentTilesGrid.get(i+1, j).isPresent())
+                        return false;
+                    if(componentTilesGrid.get(i, j).get().isTopSideCannon() && componentTilesGrid.get(i-1, j).isPresent() ||
+                       componentTilesGrid.get(i, j).get().isBottomSideCannon() && componentTilesGrid.get(i+1, j).isPresent() ||
+                       componentTilesGrid.get(i, j).get().isRightSideCannon() && componentTilesGrid.get(i, j+1).isPresent() ||
+                       componentTilesGrid.get(i, j).get().isLeftSideEngine() && componentTilesGrid.get(i, j-1).isPresent())
+                        return false;
+                }
+            }
+        }// verifies if cannons and engines are valid
+
+        /*DEVO SCRIVERE LA VERIFICA DELLA STRUTTURA DEI CONNETTORI*/
+
+        return true;
     }
 
     public void abandons (){
         abandoned = true;
     }
 
-    /*public int countExposedConnectors (){
+    public int countExposedConnectors (){
         int exposedConnectors = 0;
-        for(Optional<ComponentTile> ct : componentTilesGrid){
-            if(ct.isPresent() && !ct.get().getTopSide().equals(Side.SMOOTH) &&){}
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++) {
+                if(componentTilesGrid.get(i, j).isPresent()){
+                    if(componentTilesGrid.get(i+1, j).isEmpty() && !componentTilesGrid.get(i, j).get().getBottomSide().equals(Side.SMOOTH))
+                        exposedConnectors++;
+                    if(componentTilesGrid.get(i-1, j).isEmpty() && !componentTilesGrid.get(i, j).get().getTopSide().equals(Side.SMOOTH))
+                        exposedConnectors++;
+                    if(componentTilesGrid.get(i, j+1).isEmpty() && !componentTilesGrid.get(i, j).get().getRightSide().equals(Side.SMOOTH))
+                        exposedConnectors++;
+                    if(componentTilesGrid.get(i, j-1).isEmpty() && !componentTilesGrid.get(i, j).get().getLeftSide().equals(Side.SMOOTH))
+                        exposedConnectors++;
+                }
+            }
         }
+        return exposedConnectors;
+    }
 
-    }*/
 
     public boolean isRightSideCannon (int i){
         for(int j = 6; j >= 0; j--){
