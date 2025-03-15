@@ -11,6 +11,7 @@ public abstract class ComponentTile {
     protected Side leftSide;
     protected Side rightSide;
     private String pngName;
+    private int color; //nedeed for the algorithm of checkShipboard
 
     public ComponentTile(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
         this.topSide = topSide;
@@ -18,6 +19,15 @@ public abstract class ComponentTile {
         this.leftSide = leftSide;
         this.rightSide = rightSide;
         this.pngName = pngName;
+        this.color = 0;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public void rotateClockwise() {

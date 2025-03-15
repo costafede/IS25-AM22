@@ -84,8 +84,49 @@ public abstract class Shipboard {
             }
         }// verifies if cannons and engines are valid
 
-        /*DEVO SCRIVERE LA VERIFICA DELLA STRUTTURA DEI CONNETTORI*/
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            ct.ifPresent(c -> c.setColor(-1));
+        }//reset colors for the algorithm
 
+        int i,j = 0;
+        for(i = 0; i < 5; i++){
+            for(j = 0; j < 7; j++) {
+                if(componentTilesGrid.get(i, j).isPresent())
+                    break; //i and j are the coordinates of the first tile
+                if(i == 4 && j == 6)
+                    return true; //if the ship is empty then it is valid
+            }
+        }
+
+        if(!tileConnectedProperly(i, j)) //check if the connectors are properly connected with a recursive method
+            return false;
+
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().getColor() == -1)
+                return false;
+        }// verifies all Tiles have been colored
+
+        return true;
+    }
+
+    private boolean tileConnectedProperly(int i, int j){
+        if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == 1)
+            return true;
+        ComponentTile ct = componentTilesGrid.get(i, j).get();
+        ct.setColor(1);
+        if (componentTilesGrid.get(i-1, j).isPresent() && componentTilesGrid.get(i-1, j).get().getColor() == -1 && !sidesMatch(ct.getTopSide(), componentTilesGrid.get(i-1, j).get().getBottomSide()) ||
+            componentTilesGrid.get(i+1, j).isPresent() && componentTilesGrid.get(i+1, j).get().getColor() == -1 && !sidesMatch(ct.getBottomSide(), componentTilesGrid.get(i+1, j).get().getTopSide()) ||
+            componentTilesGrid.get(i, j-1).isPresent() && componentTilesGrid.get(i, j-1).get().getColor() == -1 && !sidesMatch(ct.getLeftSide(), componentTilesGrid.get(i, j-1).get().getRightSide()) ||
+            componentTilesGrid.get(i, j+1).isPresent() && componentTilesGrid.get(i, j+1).get().getColor() == -1 && !sidesMatch(ct.getRightSide(), componentTilesGrid.get(i+1, j).get().getLeftSide()))
+            return false;
+        return tileConnectedProperly(i-1, j) && tileConnectedProperly(i+1, j) && tileConnectedProperly(i, j-1) && tileConnectedProperly(i, j+1);
+    }
+
+    private boolean sidesMatch(Side s1, Side s2){
+        if(s1.equals(Side.SMOOTH) && !s2.equals(Side.SMOOTH) || !s1.equals(Side.SMOOTH) && s2.equals(Side.SMOOTH)) //connector adjacent to smooth side
+            return false;
+        if(s1.equals(Side.ONEPIPE) && s2.equals(Side.TWOPIPES) || s1.equals(Side.TWOPIPES) && s2.equals(Side.ONEPIPE)) //connectors incompatible
+            return false;
         return true;
     }
 
