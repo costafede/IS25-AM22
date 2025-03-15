@@ -4,6 +4,7 @@ import com.sun.jdi.connect.Connector;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -398,6 +399,45 @@ public abstract class Shipboard {
 
     public boolean isFinishedShipboard(){
         return finishedShipboard;
+    }
+
+    public int highlightShipWrecks(){  //colors all the tiles belonging to the same wreck with the same color
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            ct.ifPresent(c -> c.setColor(-1));
+        }//reset colors for the algorithm
+
+        int color = 1;
+
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++) {
+                if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().getColor() == -1){ //if it's not been colored yet
+                    spreadColor(i, j, color); //then color it and also all the tiles connected to it
+                    color++;    //change color
+                }
+            }
+        }
+
+        return color; //returns the number of colors used
+    }
+
+    private void spreadColor(int i, int j, int color){  //method needed for the previous one to work
+        if(componentTilesGrid.get(i, j).isEmpty())
+            return;
+        componentTilesGrid.get(i, j).get().setColor(color);
+        spreadColor(i+1, j, color);
+        spreadColor(i-1, j, color);
+        spreadColor(i, j+1, color);
+        spreadColor(i, j-1, color);
+    }
+
+    public void chooseShipWreck(int i, int j){ // keeps the ship wreck of the chosen color and eliminates the others
+        int color = componentTilesGrid.get(i, j).get().getColor();
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 7; x++) {
+                if(componentTilesGrid.get(y, x).isPresent() && componentTilesGrid.get(y, x).get().getColor() != color)
+                    componentTilesGrid.set(y, x, null);
+            }
+        }
     }
 }
 
