@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-import it.polimi.ingsw.is25am22new.Model.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
 import java.util.List;
 import java.util.Map;

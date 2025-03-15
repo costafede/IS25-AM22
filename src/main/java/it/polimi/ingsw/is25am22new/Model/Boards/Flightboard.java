@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Boards;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ public abstract class Flightboard {
     protected Map<String, Integer> positions; // positions are relative to the flightboard
     protected int flightBoardLength;
 
-    // integers in positions map are 0 < x <= 24
+    // integers in positions map are 0 <= x < 24
     public Flightboard(int flightBoardLength) {
         this.orderedRockets = new ArrayList<>();
         this.positions = new HashMap<>();

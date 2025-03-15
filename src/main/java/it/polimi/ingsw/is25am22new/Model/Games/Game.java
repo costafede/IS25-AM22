@@ -1,6 +1,8 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Games;
 
+import it.polimi.ingsw.is25am22new.Model.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.Boards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 
 import java.util.*;
@@ -8,6 +10,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.is25am22new.Model.Boards.Flightboard;
 
 import java.io.File;
 import java.io.IOException;

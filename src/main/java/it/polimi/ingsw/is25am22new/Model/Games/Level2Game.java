@@ -1,6 +1,7 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Games;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.is25am22new.Model.CardPile;
 
 import java.util.ArrayList;
 import java.util.List;
