@@ -35,6 +35,19 @@ public abstract class Game implements ModelInterface {
         //shipboards = new HashMap<>();
     }
 
+    public Game(List<String> playerList, Bank bank, List<ComponentTile> coveredComponentTiles,
+                List<ComponentTile> uncoveredComponentTiles, Map<String, Shipboard> shipboards,
+                Flightboard flightboard, List<AdventureCard> cardArchive, Hourglass hourglass) { // for testing
+        this.playerList = playerList;
+        this.bank = bank;
+        this.coveredComponentTiles = coveredComponentTiles;
+        this.uncoveredComponentTiles = uncoveredComponentTiles;
+        this.shipboards = shipboards;
+        this.flightboard = flightboard;
+        this.cardArchive = cardArchive;
+        this.hourglass = hourglass;
+    }
+
     public void initGame(){
         ObjectMapper objectMapper = new ObjectMapper();
         initComponent(objectMapper);
