@@ -79,5 +79,6 @@ public abstract class Flightboard {
                 shipboards.stream().filter(s -> s.getNickname().equals(a)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0)
         ));
     }
+
     public abstract void placeRocket(String nickname, int pos);
 }
