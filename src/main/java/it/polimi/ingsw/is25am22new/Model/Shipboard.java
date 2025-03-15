@@ -391,6 +391,14 @@ public abstract class Shipboard {
         }
         return crewnumber;
     }
+
+    public void setFinishedShipboard(boolean finishedShipboard) {
+        this.finishedShipboard = finishedShipboard;
+    }
+
+    public boolean isFinishedShipboard(){
+        return finishedShipboard;
+    }
 }
 
 class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
