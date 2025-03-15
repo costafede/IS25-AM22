@@ -64,6 +64,34 @@ public abstract class Shipboard {
     public void destroyTile (int i, int j){
         componentTilesGrid.set(i, j, null);
         discardedTiles++;
+        manageAlienAddonRemoval(i-1, j);
+        manageAlienAddonRemoval(i+1, j);
+        manageAlienAddonRemoval(i, j-1);
+        manageAlienAddonRemoval(i, j+1);
+    }
+
+    private void manageAlienAddonRemoval(int i, int j) {
+        String color = null;
+        if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isAlienPresent("purple")){
+            color = "purple";
+        }
+        else if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isAlienPresent("brown")){
+            color = "brown";
+        }
+        if(color != null){
+            componentTilesGrid.get(i, j).get().removeCrewMember();
+            if(isAlienPlaceable(i, j, color))
+                componentTilesGrid.get(i, j).get().putAlien(color);
+        }
+    }
+
+    public boolean isShipboardEmpty(){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent()){
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean checkShipboard (){
@@ -274,6 +302,8 @@ public abstract class Shipboard {
             if(ct.isPresent())
                 strength += ct.get().getEngineStrength();
         }
+        if(strength > 0 && isBrownAlienPresent())
+            strength += 2;
         return strength;
     }
 
@@ -283,12 +313,14 @@ public abstract class Shipboard {
             if(ct.isPresent())
                 strength += ct.get().getCannonStrength();
         }
+        if(strength > 0 && isPurpleAlienPresent())
+            strength += 2;
         return strength;
     }
 
     public boolean isBrownAlienPresent(){
         for(Optional<ComponentTile> ct : componentTilesGrid){
-            if(ct.isPresent() && ct.get().isBrownAlienPresent())
+            if(ct.isPresent() && ct.get().isAlienPresent("brown"))
                 return true;
         }
         return false;
@@ -296,7 +328,7 @@ public abstract class Shipboard {
 
     public boolean isPurpleAlienPresent(){
         for(Optional<ComponentTile> ct : componentTilesGrid){
-            if(ct.isPresent() && ct.get().isPurpleAlienPresent())
+            if(ct.isPresent() && ct.get().isAlienPresent("purple"))
                 return true;
         }
         return false;
@@ -317,7 +349,7 @@ public abstract class Shipboard {
     private int removeAtMostNumGoodBlocks(int num, GoodBlock block){
         int removed = 0;
         for(Optional<ComponentTile> ct : componentTilesGrid){
-            while(ct.isPresent() && ct.get().isGoodBlock(block) && removed < num){
+            while(ct.isPresent() && ct.get().hasGoodBlock(block) && removed < num){
                 removed++;
                 ct.get().removeGoodBlock(block);
                 bank.depositGoodBlock(block);
@@ -335,23 +367,12 @@ public abstract class Shipboard {
     public boolean isAlienPlaceable (int i, int j, String color){
         if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isStartingCabin())
             return false;
-
-        if(color.equals("purple")) {
-            for(Optional<ComponentTile> ct : componentTilesGrid){
-                if(ct.isPresent() && ct.get().isPurpleAlienPresent())
-                    return false;
-            }
-            if(areAdjacentTilesAddons(i, j, "purple"))
-               return true;
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isAlienPresent(color))
+                return false;
         }
-        if(color.equals("brown")) {
-            for (Optional<ComponentTile> ct : componentTilesGrid) {
-                if (ct.isPresent() && ct.get().isBrownAlienPresent())
-                    return false;
-            }
-            if(areAdjacentTilesAddons(i, j, "brown"))
-                return true;
-        }
+        if(areAdjacentTilesAddons(i, j, color))
+           return true;
         return false;
     }
 

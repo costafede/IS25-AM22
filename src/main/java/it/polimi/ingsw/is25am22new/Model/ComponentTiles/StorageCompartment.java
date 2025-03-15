@@ -23,12 +23,12 @@ public class StorageCompartment extends ComponentTile{
     }
 
     // Add a block to the tile (Do we have to check if the block is not red again?)
-    public void addBlockTile(GoodBlock gb) {
+    public void addGoodBlock(GoodBlock gb) {
         if(isBlockPlaceable(gb))
             goodBlocks.add(gb);
     }
 
-    public boolean isGoodBlock(GoodBlock gb) {
+    public boolean hasGoodBlock(GoodBlock gb) {
         return goodBlocks.contains(gb);
     }
 

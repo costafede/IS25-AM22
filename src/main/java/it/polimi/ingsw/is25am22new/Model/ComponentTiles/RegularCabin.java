@@ -25,19 +25,31 @@ public class RegularCabin extends Cabin {
     }
 
     @Override
-    public boolean isBrownAlienPresent(){
-        return brownAlienPresent;
-    }
-
-    @Override
-    public boolean isPurpleAlienPresent(){
-        return purpleAlienPresent;
+    public boolean isAlienPresent(String color){
+        if(color.equals("brown")){
+            return brownAlienPresent;
+        }
+        if(color.equals("purple")){
+            return purpleAlienPresent;
+        }
+        return false;
     }
 
     public int getCrewNumber(){
-        if(isBrownAlienPresent() || isPurpleAlienPresent()){
+        if(isAlienPresent("purple") || isAlienPresent("brown")){
             return 1;
         }
         else return numOfAstronauts;
+    }
+
+    public void removeCrewMember(){
+        if(isAlienPresent("purple")){
+            purpleAlienPresent = false;
+        }
+        else if(isAlienPresent("brown")){
+            brownAlienPresent = false;
+        }
+        else
+            numOfAstronauts--;
     }
 }

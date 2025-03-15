@@ -11,6 +11,10 @@ abstract class Cabin extends ComponentTile {
         numOfAstronauts = 0;
     }
 
+    public void removeCrewMember() {
+        numOfAstronauts--;
+    }
+
     public void putAstronauts(){
         numOfAstronauts = 2;
     }

@@ -162,7 +162,7 @@ public abstract class ComponentTile {
         return;
     }
 
-    public void putCrewMember(){
+    public void putAstronauts(){
         return;
     }
 
@@ -182,11 +182,7 @@ public abstract class ComponentTile {
         return 0;
     }
 
-    public boolean isBrownAlienPresent(){
-        return false;
-    }
-
-    public boolean isPurpleAlienPresent(){
+    public boolean isAlienPresent(String color){
         return false;
     }
 
@@ -198,7 +194,7 @@ public abstract class ComponentTile {
         return false;
     }
 
-    public boolean isGoodBlock(GoodBlock gb) {
+    public boolean hasGoodBlock(GoodBlock gb) {
         return false;
     }
 

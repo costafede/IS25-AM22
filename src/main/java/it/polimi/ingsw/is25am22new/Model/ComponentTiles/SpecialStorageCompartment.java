@@ -17,13 +17,8 @@ public class SpecialStorageCompartment extends StorageCompartment {
     }
 
     //Add a block to the tile
-    public void addBlockTile(GoodBlock gb) {
+    public void addGoodBlock(GoodBlock gb) {
         if(goodBlocks.size() < capacity)
             goodBlocks.add(gb);
-    }
-
-    //Remove a block from the tile (Do we have to check if the block is red or not?)
-    public void removeBlockTile(GoodBlock gb) {
-        goodBlocks.remove(gb);
     }
 }
