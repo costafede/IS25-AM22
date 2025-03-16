@@ -1,7 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
 import it.polimi.ingsw.is25am22new.Model.*;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.Boards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 
@@ -22,11 +22,6 @@ public abstract class Game implements ModelInterface {
     private List<ComponentTile> uncoveredComponentTiles;
     private Map<String, Shipboard> shipboards;
     private Flightboard flightboard;
-
-    public List<AdventureCard> getCardArchive() {
-        return cardArchive;
-    }
-
     private List<AdventureCard> cardArchive;
     private Hourglass hourglass;
 
@@ -51,6 +46,10 @@ public abstract class Game implements ModelInterface {
         this.flightboard = flightboard;
         this.cardArchive = cardArchive;
         this.hourglass = hourglass;
+    }
+
+    public List<AdventureCard> getCardArchive() {
+        return cardArchive;
     }
 
     public void initGame(){
@@ -159,47 +158,313 @@ public abstract class Game implements ModelInterface {
     protected abstract void initDeck(ObjectMapper objectMapper);
 
     private void initAbandonedShipCard(ObjectMapper objectMapper) {
-
+        try{
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedShipCard.json"));
+            for (JsonNode node : rootNode) {
+                AbandonedShipCard asc = new AbandonedShipCard(
+                        node.get("pngName").asText(),
+                        node.get("name").asText(),
+                        this,
+                        node.get("level").asInt(),
+                        node.get("tutorial").asBoolean(),
+                        node.get("flightDaysLost").asInt(),
+                        node.get("credits").asInt(),
+                        node.get("lostAstronauts").asInt()
+                );
+                cardArchive.add(asc);
+            }
+        }
+        catch (IOException e){
+            System.out.println("Error in reading AbandonedShipCard.json");
+        }
     }
 
     private void initAbandonedStationCard(ObjectMapper objectMapper) {
-
+        try{
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedStationCard.json"));
+            for(JsonNode node : jsonNode){
+                List<GoodBlock> goodBlocks = new ArrayList<>();
+                JsonNode goodBlocksNode = node.get("goodBlocks");
+                for(JsonNode goodBlockNode: goodBlocksNode){
+                    GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
+                    goodBlocks.add(goodBlock);
+                }
+                AbandonedStationCard asc = new AbandonedStationCard(
+                        node.get("pngName").asText(),
+                        node.get("name").asText(),
+                        this,
+                        node.get("level").asInt(),
+                        node.get("tutorial").asBoolean(),
+                        node.get("flightDaysLost").asInt(),
+                        node.get("astronautsNumber").asInt(),
+                        goodBlocks
+                );
+                cardArchive.add(asc);
+            }
+        }
+        catch (IOException e){
+            System.out.println("Error in reading AbandonedShipCard.json");
+        }
     }
 
     private void initCombatZoneCard(ObjectMapper objectMapper) {
+        initCombatZoneCard1(objectMapper);
+        initCombatZoneCard2(objectMapper);
+    }
 
+    private void initCombatZoneCard1(ObjectMapper objectMapper) {
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/CombatZoneCard1.json"));
+            for (JsonNode node : jsonNode) {
+                String pngName = node.get("pngName").asText();
+                String name = node.get("name").asText();
+                int level = node.get("level").asInt();
+                boolean tutorial = node.get("tutorial").asBoolean();
+                int flightDaysLost = node.get("flightDaysLost").asInt();
+                int lostAstronauts = node.get("lostAstronauts").asInt();
+                JsonNode shotSizeNode = node.get("shotSize");
+                boolean[] shotSize = new boolean[shotSizeNode.size()];
+                for (int i = 0; i < shotSizeNode.size(); i++) {
+                    shotSize[i] = shotSizeNode.get(i).asBoolean();
+                }
+                JsonNode shotOrientationNode = node.get("shotOrientation");
+                String[] shotOrientation = new String[shotOrientationNode.size()];
+                for (int i = 0; i < shotOrientationNode.size(); i++) {
+                    shotOrientation[i] = shotOrientationNode.get(i).asText();
+                }
+                Map<Integer, Shot> numberToShot = new HashMap<>();
+                for (int i = 0; i < shotSize.length; i++) {
+                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
+                }
+                CombatZoneCard czc = new CombatZoneCard(pngName, name, this, level, tutorial, flightDaysLost, lostAstronauts, 0, numberToShot);
+                cardArchive.add(czc);
+            }
+        } catch (IOException e) {
+            System.out.println("Error in reading CombatZoneCard1.json");
+        }
+    }
+
+    private void initCombatZoneCard2(ObjectMapper objectMapper) {
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/CombatZoneCard2.json"));
+            for (JsonNode node : jsonNode) {
+                String pngName = node.get("pngName").asText();
+                String name = node.get("name").asText();
+                int level = node.get("level").asInt();
+                boolean tutorial = node.get("tutorial").asBoolean();
+                int flightDaysLost = node.get("flightDaysLost").asInt();
+                int lostGoods = node.get("lostGoods").asInt();
+                JsonNode shotSizeNode = node.get("shotSize");
+                boolean[] shotSize = new boolean[shotSizeNode.size()];
+                for (int i = 0; i < shotSizeNode.size(); i++) {
+                    shotSize[i] = shotSizeNode.get(i).asBoolean();
+                }
+                JsonNode shotOrientationNode = node.get("shotOrientation");
+                String[] shotOrientation = new String[shotOrientationNode.size()];
+                for (int i = 0; i < shotOrientationNode.size(); i++) {
+                    shotOrientation[i] = shotOrientationNode.get(i).asText();
+                }
+                Map<Integer, Shot> numberToShot = new HashMap<>();
+                for (int i = 0; i < shotSize.length; i++) {
+                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
+                }
+                CombatZoneCard czc = new CombatZoneCard(pngName, name, this, level, tutorial, flightDaysLost, 0, lostGoods, numberToShot);
+                cardArchive.add(czc);
+            }
+        } catch (IOException e) {
+            System.out.println("Error in reading CombatZoneCard1.json");
+        }
     }
 
     private void initEpidemicCard(ObjectMapper objectMapper) {
-
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/EpidemicCard.json"));
+            for (JsonNode node : jsonNode) {
+                EpidemicCard ec = new EpidemicCard(
+                        node.get("pngName").asText(),
+                        node.get("name").asText(),
+                        this,
+                        node.get("level").asInt(),
+                        node.get("tutorial").asBoolean()
+                );
+                cardArchive.add(ec);
+            }
+        } catch (Exception e) {
+            System.out.println("Error in reading EpidemicCard.json");
+        }
     }
 
     private void initMeteorSwarmCard(ObjectMapper objectMapper) {
+        try {
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/MeteorSwarmCard.json"));
+            for(JsonNode node: rootNode) {
+                String pngName = node.get("pngName").asText();
+                String name = node.get("name").asText();
+                int level = node.get("level").asInt();
+                boolean tutorial = node.get("tutorial").asBoolean();
+                JsonNode meteorSize = node.get("meteorSize");
+                Boolean[] meteor = new Boolean[meteorSize.size()];
+                for (int i = 0; i < meteorSize.size(); i++) {
+                    meteor[i] = meteorSize.get(i).asBoolean();
+                }
+                JsonNode meteorOrientation = node.get("meteorOrientation");
+                String[] orientation = new String[meteorOrientation.size()];
+                for (int i = 0; i < meteorOrientation.size(); i++) {
+                    orientation[i] = meteorOrientation.get(i).asText();
+                }
+                Map<Integer, Meteor> numberToMeteor = new HashMap<>();
 
+                for (int i = 0; i < meteorSize.size(); i++) {
+                    numberToMeteor.put(i, new Meteor(meteor[i], Orientation.valueOf(orientation[i])));
+                }
+                MeteorSwarmCard msc = new MeteorSwarmCard(pngName, name, this, level, tutorial, numberToMeteor);
+                cardArchive.add(msc);
+            }
+        } catch (IOException e) {
+            System.out.println("Error in reading MeteorSwarmCard.json");
+        }
     }
 
     private void initOpenSpaceCard(ObjectMapper objectMapper) {
-
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/OpenSpaceCard.json"));
+            for (JsonNode node : jsonNode) {
+                OpenSpaceCard ec = new OpenSpaceCard(
+                        node.get("pngName").asText(),
+                        node.get("name").asText(),
+                        this,
+                        node.get("level").asInt(),
+                        node.get("tutorial").asBoolean()
+                );
+                cardArchive.add(ec);
+            }
+        } catch (Exception e) {
+            System.out.println("Error in reading OpenSpaceCard.json");
+        }
     }
 
     private void initPiratesCard(ObjectMapper objectMapper) {
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/PiratesCard.json"));
+            for (JsonNode node : jsonNode) {
+                String pngName = node.get("pngName").asText();
+                String name = node.get("name").asText();
+                int level = node.get("level").asInt();
+                boolean tutorial = node.get("tutorial").asBoolean();
+                int flightDaysLost = node.get("flightDaysLost").asInt();
+                int cannonStrength = node.get("cannonStrength").asInt();
+                int credits = node.get("credits").asInt();
+                JsonNode shotSizeNode = node.get("shotSize");
+                boolean[] shotSize = new boolean[shotSizeNode.size()];
+                for (int i = 0; i < shotSizeNode.size(); i++) {
+                    shotSize[i] = shotSizeNode.get(i).asBoolean();
+                }
+                Map<Integer, Shot> numberToShot = new HashMap<>();
+                for (int i = 0; i < shotSize.length; i++) {
+                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf("BOTTOM")));
+                }
 
+                PiratesCard pc = new PiratesCard(pngName, name, this, level, tutorial, numberToShot, flightDaysLost, cannonStrength, credits);
+                cardArchive.add(pc);
+            }
+        } catch (IOException e) {
+            System.out.println("Error in reading PiratesCard.json");
+        }
     }
 
     private void initPlanetsCard(ObjectMapper objectMapper) {
-
+        try {
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/PlanetsCard.json"));
+            for (JsonNode node : rootNode) {
+                String pngName = node.get("pngName").asText();
+                String name = node.get("name").asText();
+                int level = node.get("level").asInt();
+                boolean tutorial = node.get("tutorial").asBoolean();
+                int numOfPlanets = node.get("numOfPlanets").asInt();
+                int flightDaysLost = node.get("flightDaysLost").asInt();
+                Map<Integer, List<GoodBlock>> planetToGoodBlocks = new HashMap<>();
+                for (int i = 0; i < numOfPlanets; i++) {
+                    List<GoodBlock> goodBlocks = new ArrayList<>();
+                    JsonNode goodBlocksNode = node.get(i + "PlanetGoods");
+                    for (JsonNode goodBlockNode : goodBlocksNode) {
+                        GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
+                        goodBlocks.add(goodBlock);
+                    }
+                    planetToGoodBlocks.put(i, goodBlocks);
+                }
+                PlanetsCard card = new PlanetsCard(pngName, name, this, level, tutorial, planetToGoodBlocks, flightDaysLost);
+                cardArchive.add(card);
+            }
+        } catch (IOException e) {
+            System.out.println("Error in reading PlanetsCard.json");
+        }
     }
 
     private void initSlaversCard(ObjectMapper objectMapper) {
-
+        boolean check = false;
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SlaversCard.json"));
+            for (JsonNode node : jsonNode) {
+                SlaversCard sc = new SlaversCard(
+                        node.get("pngName").asText(),
+                        node.get("name").asText(),
+                        this,
+                        node.get("level").asInt(),
+                        node.get("tutorial").asBoolean(),
+                        node.get("flightDaysLost").asInt(),
+                        node.get("cannonStrength").asInt(),
+                        node.get("lostAstronauts").asInt(),
+                        node.get("credits").asInt()
+                );
+                cardArchive.add(sc);
+            }
+        } catch (IOException e) {
+            System.out.println("Error in reading SlaversCard.json");
+        }
     }
 
     private void initSmugglersCard(ObjectMapper objectMapper) {
+        try{
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SmugglersCard.json"));
+            for(JsonNode node: rootNode) {
+                String pngName = node.get("pngName").asText();
+                String name = node.get("name").asText();
+                int level = node.get("level").asInt();
+                boolean tutorial = node.get("tutorial").asBoolean();
+                int flightDaysLost = node.get("flightDaysLost").asInt();
+                int cannonStrength = node.get("cannonStrength").asInt();
+                int lostGoods = node.get("lostGoods").asInt();
+                List<GoodBlock> goodBlocks = new ArrayList<>();
+                JsonNode goodBlocksNode = node.get("goodBlocks");
+                for (JsonNode goodBlockNode : goodBlocksNode) {
+                    GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
+                    goodBlocks.add(goodBlock);
+                }
 
+                SmugglersCard card = new SmugglersCard(pngName, name, this, level, tutorial, flightDaysLost, cannonStrength, lostGoods, goodBlocks);
+                cardArchive.add(card);
+            }
+        }catch (IOException e){
+            System.out.println("Error in reading SmugglersCard.json");
+        }
     }
 
     private void initStardustCard(ObjectMapper objectMapper) {
-
+        try {
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StardustCard.json"));
+            for (JsonNode node : jsonNode) {
+                StardustCard ec = new StardustCard(
+                        node.get("pngName").asText(),
+                        node.get("name").asText(),
+                        this,
+                        node.get("level").asInt(),
+                        node.get("tutorial").asBoolean()
+                );
+                cardArchive.add(ec);
+            }
+        } catch (Exception e) {
+            System.out.println("Error in reading StardustCard.json");
+        }
     }
 
     private void initBatteryComponent(ObjectMapper objectMapper){

@@ -107,7 +107,6 @@ class InitializingFromJsonCardsTest {
 
     private boolean check_slavers_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
-
         try {
             JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SlaversCard.json"));
             for (JsonNode node : jsonNode) {
@@ -131,6 +130,7 @@ class InitializingFromJsonCardsTest {
                                 existingCard.isTutorial() == sc.isTutorial() &&
                                 existingCard.getFlightDaysLost() == sc.getFlightDaysLost() &&
                                 existingCard.getCredits() == sc.getCredits() &&
+                                existingCard.getCannonStrength() == sc.getCannonStrength() &&
                                 existingCard.getLostAstronauts() == sc.getLostAstronauts()) {
                             check = true;
                             break;
