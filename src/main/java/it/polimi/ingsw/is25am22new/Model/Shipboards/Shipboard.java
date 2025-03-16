@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public abstract class Shipboard {
+public class Shipboard {
 
     private boolean abandoned;
     private int daysOnFlight;
