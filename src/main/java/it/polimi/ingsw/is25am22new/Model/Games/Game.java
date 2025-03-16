@@ -2,7 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.Games;
 
 import it.polimi.ingsw.is25am22new.Model.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
-import it.polimi.ingsw.is25am22new.Model.Boards.Shipboard;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 
 import java.util.*;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.is25am22new.Model.Boards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,14 +25,16 @@ public abstract class Game implements ModelInterface {
     private List<AdventureCard> cardArchive;
     private Hourglass hourglass;
 
-    public Game() {
-        playerList = new ArrayList<>();
+    public Game(List<String> playerList) {
+        this.playerList = playerList;
         bank = new Bank();
         cardArchive = new ArrayList<>();
         coveredComponentTiles = new ArrayList<>();
         uncoveredComponentTiles = new ArrayList<>();
         hourglass = new Hourglass(60);
-        //shipboards = new HashMap<>();
+        shipboards = new HashMap<>();
+
+        initShipboard(shipboards, playerList, bank);
     }
 
     public Game(List<String> playerList, Bank bank, List<ComponentTile> coveredComponentTiles,
@@ -48,15 +50,13 @@ public abstract class Game implements ModelInterface {
         this.hourglass = hourglass;
     }
 
-    public List<AdventureCard> getCardArchive() {
-        return cardArchive;
-    }
-
     public void initGame(){
         ObjectMapper objectMapper = new ObjectMapper();
         initComponent(objectMapper);
         initCardArchive(objectMapper);
     }
+
+    public abstract void initShipboard(Map<String, Shipboard> shipboards, List<String> playerList, Bank bank);
 
     public ComponentTile pickCoveredTile() {
         return coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size()));
@@ -109,8 +109,6 @@ public abstract class Game implements ModelInterface {
     }
 
     public AdventureCard pickCard() {
-        // Supposed that cardArchive is already in a random order
-        // to be implemented
         return cardArchive.remove(new Random().nextInt(cardArchive.size()));
     }
 
@@ -684,9 +682,9 @@ public abstract class Game implements ModelInterface {
         return uncoveredComponentTiles;
     }
 
-    //public List<AdventureCard> getCardArchive() {
-    //    return cardArchive;
-    //}
+    public List<AdventureCard> getCardArchive() {
+        return cardArchive;
+    }
 
     public Flightboard getFlightboard(){
         return flightboard;

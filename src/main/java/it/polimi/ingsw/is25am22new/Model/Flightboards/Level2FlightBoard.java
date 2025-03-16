@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Model.Boards;
+package it.polimi.ingsw.is25am22new.Model.Flightboards;
 
 import java.util.List;
 import java.util.Map;

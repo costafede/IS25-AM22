@@ -1,4 +1,6 @@
-package it.polimi.ingsw.is25am22new.Model.Boards;
+package it.polimi.ingsw.is25am22new.Model.Flightboards;
+
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,17 +31,6 @@ public abstract class Flightboard {
 
     public Map<String, Integer> getPositions() {
         return positions;
-    }
-
-    public void setOrderedRockets(String nickname) {
-        this.orderedRockets.add(nickname);
-        this.setPositions(nickname);
-    }
-
-    private void setPositions(String nickname) {
-        if (this.orderedRockets.isEmpty()) {
-
-        }
     }
 
     public void shiftRocket(Map<String, Shipboard> shipboards, String nickname, int steps) {

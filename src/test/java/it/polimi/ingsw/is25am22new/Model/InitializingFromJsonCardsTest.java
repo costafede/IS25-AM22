@@ -20,7 +20,8 @@ class InitializingFromJsonCardsTest {
 
     @Test
     void init_game_should_initialize_cards_from_json_properly() {
-        Game game = new TutorialGame();
+        List<String> nicknames = List.of("Federico", "Alex", "Giuseppe", "Umberto");
+        Game game = new TutorialGame(nicknames);
         game.initGame();
         ObjectMapper objectMapper = new ObjectMapper();
 

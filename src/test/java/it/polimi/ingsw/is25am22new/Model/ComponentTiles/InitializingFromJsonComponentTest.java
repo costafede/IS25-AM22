@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +18,8 @@ public class InitializingFromJsonComponentTest {
 
     @Test
     void init_game_should_initialize_components_from_json_properly(){
-        game = new TutorialGame();
+        List<String> nicknames = List.of("Federico", "Alex", "Giuseppe", "Umberto");
+        game = new TutorialGame(nicknames);
         game.initGame();
         ObjectMapper objectMapper = new ObjectMapper();
 

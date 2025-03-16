@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Model.Boards;
+package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
 import it.polimi.ingsw.is25am22new.Model.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;

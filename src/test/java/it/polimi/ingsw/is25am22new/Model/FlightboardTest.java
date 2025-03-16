@@ -1,7 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model;
 
-import it.polimi.ingsw.is25am22new.Model.Boards.Level2FlightBoard;
-import it.polimi.ingsw.is25am22new.Model.Boards.TutorialFlightBoard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.*;
