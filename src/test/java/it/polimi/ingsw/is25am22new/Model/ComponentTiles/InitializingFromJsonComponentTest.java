@@ -2,13 +2,14 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.is25am22new.Model.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Side;
-import it.polimi.ingsw.is25am22new.Model.TutorialGame;
+import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,8 +17,9 @@ public class InitializingFromJsonComponentTest {
     private Game game;
 
     @Test
-    void init_game_should_initialize_component_from_json_properly(){
-        game = new TutorialGame();
+    void init_game_should_initialize_components_from_json_properly(){
+        List<String> nicknames = List.of("Federico", "Alex", "Giuseppe", "Umberto");
+        game = new TutorialGame(nicknames);
         game.initGame();
         ObjectMapper objectMapper = new ObjectMapper();
 

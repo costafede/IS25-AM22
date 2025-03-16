@@ -11,7 +11,7 @@ public abstract class ComponentTile {
     protected Side leftSide;
     protected Side rightSide;
     private String pngName;
-    private int color; //nedeed for the algorithm of checkShipboard
+    private int color; //needed for the algorithm of checkShipboard
 
     public ComponentTile(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
         this.topSide = topSide;

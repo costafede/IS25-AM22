@@ -1,10 +1,15 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Games;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.is25am22new.Model.Bank;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+
+import java.util.List;
+import java.util.Map;
 
 public class TutorialGame extends Game {
-    public TutorialGame() {
-        super();
+    public TutorialGame(List<String> nicknames) {
+        super(nicknames);
     }
 
     @Override

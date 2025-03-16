@@ -1,13 +1,13 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-import it.polimi.ingsw.is25am22new.Model.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
 import java.util.List;
 
 public class StardustCard extends AdventureCard{
 
-    public StardustCard(String name, Game game) {
-        super(name, game);
+    public StardustCard(String pngName, String name, Game game, int level, boolean tutorial) {
+        super(pngName, name, game, level, tutorial);
     }
 
     @Override

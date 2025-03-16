@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-import it.polimi.ingsw.is25am22new.Model.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
 import java.util.List;
 
@@ -10,8 +10,20 @@ public class AbandonedShipCard extends AdventureCard{
     private int credits;
     private int lostAstronauts;
 
-    public AbandonedShipCard(String name, Game game, int flightdaysLost, int credits, int lostAstronauts) {
-        super(name, game);
+    public int getFlightdaysLost() {
+        return flightdaysLost;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public int getLostAstronauts() {
+        return lostAstronauts;
+    }
+
+    public AbandonedShipCard(String pngName, String name, Game game, int level, boolean tutorial, int flightdaysLost, int credits, int lostAstronauts) {
+        super(pngName, name, game, level, tutorial);
         this.credits = credits;
         this.flightdaysLost = flightdaysLost;
         this.lostAstronauts = lostAstronauts;

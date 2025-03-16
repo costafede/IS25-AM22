@@ -1,16 +1,31 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-import it.polimi.ingsw.is25am22new.Model.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
 import java.util.List;
 
 public abstract class AdventureCard {
+
+    protected String pngName;
     protected String name;
     protected Game game;
     protected int level;
     protected boolean tutorial;
 
-    public AdventureCard(String name, Game game, int level, boolean tutorial) {
+    public String getPngName() {
+        return pngName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public AdventureCard(String pngName, String name, Game game, int level, boolean tutorial) {
+        this.pngName = pngName;
         this.name = name;
         this.game = game;
         this.level = level;

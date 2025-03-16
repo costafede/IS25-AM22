@@ -7,7 +7,7 @@
     "flightDaysLost": 1,
     "cannonStrength": 4,
     "lostGoods": 2,
-    "goodBlocks": ["yellow", "green", "blue"]
+    "goodBlocks": ["YELLOWBLOCK", "GREENBLOCK", "BLUEBLOCK"]
   },
   {
     "pngName": "GT-cards_II_IT_012.jpg",
@@ -17,6 +17,6 @@
     "flightDaysLost": 1,
     "cannonStrength": 8,
     "lostGoods": 3,
-    "goodBlocks": ["red", "yellow", "yellow"]
+    "goodBlocks": ["REDBLOCK", "YELLOWBLOCK", "YELLOWBLOCK"]
   }
 ]

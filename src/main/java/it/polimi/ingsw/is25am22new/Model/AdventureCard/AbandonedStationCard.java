@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-import it.polimi.ingsw.is25am22new.Model.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 
 import java.util.List;
@@ -11,8 +11,8 @@ public class AbandonedStationCard extends AdventureCard{
     private int astronautsNumber;
     private List<GoodBlock> goodBlocks;
 
-    public AbandonedStationCard(String name, Game game, int flightDaysLost, int astronautsNumber, List<GoodBlock> goodBlocks) {
-        super(name, game);
+    public AbandonedStationCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int astronautsNumber, List<GoodBlock> goodBlocks) {
+        super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
         this.astronautsNumber = astronautsNumber;
         this.goodBlocks = goodBlocks;
@@ -37,5 +37,17 @@ public class AbandonedStationCard extends AdventureCard{
     @Override
     public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
         return;
+    }
+
+    public int getFlightDaysLost() {
+        return flightDaysLost;
+    }
+
+    public int getAstronautsNumber() {
+        return astronautsNumber;
+    }
+
+    public List<GoodBlock> getGoodBlocks() {
+        return goodBlocks;
     }
 }

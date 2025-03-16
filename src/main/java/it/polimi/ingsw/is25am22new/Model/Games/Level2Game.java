@@ -1,15 +1,19 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Games;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.is25am22new.Model.Bank;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Model.CardPile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Level2Game extends Game {
     private List<CardPile> cardPiles;
 
-    public Level2Game() {
-        super();
+    public Level2Game(List<String> nicknames) {
+        super(nicknames);
         this.cardPiles = new ArrayList<CardPile>();
     }
 

@@ -1,0 +1,12 @@
+[
+  {
+    "pngName": "GT-cards_I_IT_0116.jpg",
+    "name": "CombatZone",
+    "level": 1,
+    "tutorial": true,
+    "flightDaysLost": 3,
+    "lostAstronauts": 2,
+    "shotSize": [false, true],
+    "shotOrientation": ["TOP", "TOP"]
+  }
+]
