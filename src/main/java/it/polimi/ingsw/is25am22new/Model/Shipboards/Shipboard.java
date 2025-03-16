@@ -24,16 +24,44 @@ public class Shipboard {
     private Bank bank;
 
     public Shipboard(String color, String nickname, Bank bank) {
-        abandoned = false;
-        daysOnFlight = 0;
+        this.abandoned = false;
+        this.daysOnFlight = 0;
         this.color = color;
         this.nickname = nickname;
-        componentTilesGrid = new ComponentTilesGrid();
-        standbyComponent = (Optional<ComponentTile>[]) new Optional[2];
-        weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
-        discardedTiles = 0;
-        finishedShipboard = false;
-        CosmicCredits = 0;
+        this.componentTilesGrid = new ComponentTilesGrid();
+        this.standbyComponent = (Optional<ComponentTile>[]) new Optional[2];
+        this.discardedTiles = 0;
+        this.finishedShipboard = false;
+        this.CosmicCredits = 0;
+    }
+
+    public int getScore(){
+        int score = 0;
+        //"selling the goods" inside the component tiles
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            //it has to be present and it has to be a storageComponentTile
+            if(ct.isPresent() && ct.get().isStorageCompartment()){
+                for(GoodBlock gb : ct.get().getGoodBlocks()){
+                    if(gb.equals(GoodBlock.REDBLOCK)){
+                        score += 4;
+                    }
+                    else if(gb.equals(GoodBlock.YELLOWBLOCK)){
+                        score += 3;
+                    }
+                    else if(gb.equals(GoodBlock.GREENBLOCK)){
+                        score += 2;
+                    }
+                    else if(gb.equals(GoodBlock.BLUEBLOCK)){
+                        score += 1;
+                    }
+                }
+            }
+        }
+
+        //Lose 1 point for each component in discardPile
+        score -= discardedTiles;
+
+        return score;
     }
 
     private String colorToPngName(String color){

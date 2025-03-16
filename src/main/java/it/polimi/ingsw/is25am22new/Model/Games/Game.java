@@ -16,14 +16,14 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class Game implements ModelInterface {
-    private final List<String> playerList;
-    private Bank bank;
-    private List<ComponentTile> coveredComponentTiles;
-    private List<ComponentTile> uncoveredComponentTiles;
-    private Map<String, Shipboard> shipboards;
-    private Flightboard flightboard;
-    private List<AdventureCard> cardArchive;
-    private Hourglass hourglass;
+    protected final List<String> playerList;
+    protected Bank bank;
+    protected List<ComponentTile> coveredComponentTiles;
+    protected List<ComponentTile> uncoveredComponentTiles;
+    protected Map<String, Shipboard> shipboards;
+    protected Flightboard flightboard;
+    protected List<AdventureCard> cardArchive;
+    protected Hourglass hourglass;
 
     public Game(List<String> playerList) {
         this.playerList = playerList;
@@ -123,6 +123,14 @@ public abstract class Game implements ModelInterface {
 
     public void destroyTile(String nickname, int x, int y) {
         shipboards.get(nickname).destroyTile(x, y);
+    }
+
+    protected abstract Map<String, Integer> endGame();
+
+    protected String betterShipboard() {
+        //to be implemented
+        //return nickname;
+        return "";
     }
 
     private void initComponent(ObjectMapper objectMapper) {
