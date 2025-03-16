@@ -699,8 +699,8 @@ public abstract class Game implements ModelInterface {
         return flightboard;
     }
 
-    public Shipboard getShipboards(String player) {
-        return shipboards.get(player);
+    public Map<String , Shipboard> getShipboards(){
+        return shipboards;
     }
 
     public List<String> getPlayerList() {

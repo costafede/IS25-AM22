@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
+import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public abstract class AdventureCard {
         this.tutorial = tutorial;
     }
 
+    // for tests??
     public AdventureCard(String name, Game game) {
     }
 
@@ -43,8 +45,13 @@ public abstract class AdventureCard {
         return level;
     }
 
-    public abstract void activateCard(List<String> orderedPlayers);
-    public abstract void activateCard(String player);
-    public abstract void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields, List<String> activatingCannon);
-    public abstract void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields);
+    // the check is made before asking the input to the player
+    // returns true if actionable, false otherwise
+    public abstract boolean checkActivationConditions(String nickname);
+
+    // returning false means it has to go the next player turn
+    // returning true means it has to stay in the same turn, next phase
+    public abstract boolean activateCardPhase(String nickname, InputCommand inputCommand);
+    public abstract boolean receiveInputPhase(String nickname, InputCommand inputCommand);
+    public abstract void resolveCardEffectPhase(String nickname);
 }

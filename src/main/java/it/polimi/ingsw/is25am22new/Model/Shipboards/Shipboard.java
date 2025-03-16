@@ -212,7 +212,6 @@ public class Shipboard {
         return exposedConnectors;
     }
 
-
     public boolean isRightSideCannon (int i){
         for(int j = 6; j >= 0; j--){
             if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideCannon())
@@ -468,6 +467,10 @@ public class Shipboard {
                     componentTilesGrid.set(y, x, null);
             }
         }
+    }
+
+    public ComponentTile getComponentTileFromGrid(int i, int j){
+        return componentTilesGrid.get(i, j).orElseThrow(() -> new IllegalAccessError("No tile in this position"));
     }
 }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
 
 import java.util.List;
 import java.util.Map;
@@ -14,34 +15,25 @@ public class PlanetsCard extends AdventureCard{
         super(pngName, name, game, level, tutorial);
         this.planetToGoodBlocks = planetToGoodBlocks;
         this.flightDaysLost = flightDaysLost;
-        // When reading the json file
-        // Read numOfPlanets first, then based on that read which blocks are stored
-        // example: 2 planets: firstPlanetGoods, secondPlanetGoods
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers) {
-        for(String player : orderedPlayers) {
-            handlePlayerLanding(player);
-        }
-    }
-
-    private void handlePlayerLanding(String player) {
-        //to be implemented
+    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
+        return true;
     }
 
     @Override
-    public void activateCard(String player) {
-        return;
+    public boolean checkActivationConditions(String nickname) {
+        return true;
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields, List<String> activatingCannon) {
-        return;
+    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
+        return true;
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
+    public void resolveCardEffectPhase(String nickname) {
         return;
     }
 
