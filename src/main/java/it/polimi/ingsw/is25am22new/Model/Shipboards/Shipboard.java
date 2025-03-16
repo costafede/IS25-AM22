@@ -33,6 +33,7 @@ public class Shipboard {
         this.discardedTiles = 0;
         this.finishedShipboard = false;
         this.CosmicCredits = 0;
+        weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
     }
 
     public int getScore(){
@@ -56,7 +57,7 @@ public class Shipboard {
                     }
                 }
             }
-        }
+        } /*Da completare con i casi particolari, quali: giocatori che hanno abbandonato (quindi dividi per due) e togliere punti per connettori scoperti*/
 
         //Lose 1 point for each component in discardPile
         score -= discardedTiles;
@@ -261,65 +262,33 @@ public class Shipboard {
         return false;
     }
 
-    public boolean isRightSideShielded (int i){
-        for(int j = 6; j >= 0; j--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideShielded())
+    public boolean isRightSideShielded (){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+                if(ct.isPresent() && ct.get().isRightSideShielded())
+                    return true;
+        }
+        return false;
+    }
+
+    public boolean isLeftSideShielded (){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isLeftSideShielded())
                 return true;
         }
         return false;
     }
 
-    public boolean isLeftSideShielded (int i){
-        for(int j = 0; j < 7; j++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isLeftSideShielded())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isTopSideShielded (int j){
-        for(int i = 0; i < 5; i++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isTopSideShielded())
+    public boolean isTopSideShielded (){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isTopSideShielded())
                 return true;
         }
         return false;
     }
 
     public boolean isBottomSideShielded (int j){
-        for(int i = 4; i >= 0; i--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isBottomSideShielded())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isRightSideEngine (int i){
-        for(int j = 6; j >= 0; j--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideEngine())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isLeftSideEngine (int i){
-        for(int j = 0; j < 7; j++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isLeftSideEngine())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isTopSideEngine (int j){
-        for(int i = 0; i < 5; i++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isTopSideEngine())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isBottomSideEngine (int j){
-        for(int i = 4; i >= 0; i--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isBottomSideEngine())
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isBottomSideShielded())
                 return true;
         }
         return false;
@@ -383,13 +352,13 @@ public class Shipboard {
 
     public void removeMostValuableGoodBlocks(int num){
         int stillToRemove = num;
-        stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.REDBLOCK);
+        stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.REDBLOCK);
         if(stillToRemove > 0)
-            stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.YELLOWBLOCK);
+            stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.YELLOWBLOCK);
         if(stillToRemove > 0)
-            stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.GREENBLOCK);
+            stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.GREENBLOCK);
         if(stillToRemove > 0)
-            stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.BLUEBLOCK);
+            stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.BLUEBLOCK);
     }
 
     //tries to remove num Goodblocks of the same type of block and returns the number of GoodBlocks actually removed
