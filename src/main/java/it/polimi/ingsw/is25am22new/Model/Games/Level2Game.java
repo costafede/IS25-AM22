@@ -28,8 +28,8 @@ public class Level2Game extends Game {
     @Override
     public void initShipboard(Map<String, Shipboard> shipboards, List<String> playerList, Bank bank) {
         List<String> colors = List.of("red", "green", "blue", "yellow");
-        for(String nickname : playerList) {
-            shipboards.put(nickname, new Shipboard(colors.removeFirst(), nickname, bank));
+        for(int i = 0; i < playerList.size(); i++) {
+            shipboards.put(playerList.get(i), new Shipboard(colors.get(i), playerList.get(i), bank));
         }
     }
 
