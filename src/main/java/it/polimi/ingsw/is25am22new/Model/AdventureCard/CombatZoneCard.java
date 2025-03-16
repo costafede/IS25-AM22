@@ -12,11 +12,12 @@ public class CombatZoneCard extends AdventureCard{
     private int lostGoods;
     private Map<Integer, Shot> numberToShot;
 
-    public CombatZoneCard(String name, Game game, int flightDaysLost, int lostAstronauts, Map<Integer, Shot> numberToShot) {
-        super(name, game);
+    public CombatZoneCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int lostAstronauts, int lostGoods, Map<Integer, Shot> numberToShot) {
+        super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
         this.lostAstronauts = lostAstronauts;
         this.numberToShot = numberToShot;
+        this.lostGoods = lostGoods;
     }
 
     @Override
@@ -37,5 +38,21 @@ public class CombatZoneCard extends AdventureCard{
     @Override
     public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
         return;
+    }
+
+    public int getFlightDaysLost() {
+        return flightDaysLost;
+    }
+
+    public int getLostAstronauts() {
+        return lostAstronauts;
+    }
+
+    public int getLostGoods() {
+        return lostGoods;
+    }
+
+    public Map<Integer, Shot> getNumberToShot() {
+        return numberToShot;
     }
 }

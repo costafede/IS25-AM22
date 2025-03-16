@@ -6,8 +6,8 @@ import java.util.List;
 
 public class StardustCard extends AdventureCard{
 
-    public StardustCard(String name, Game game) {
-        super(name, game);
+    public StardustCard(String pngName, String name, Game game, int level, boolean tutorial) {
+        super(pngName, name, game, level, tutorial);
     }
 
     @Override

@@ -10,8 +10,8 @@ public class PlanetsCard extends AdventureCard{
     private Map<Integer, List<GoodBlock>> planetToGoodBlocks;
     private int flightDaysLost;
 
-    public PlanetsCard(String name, Game game, Map<Integer, List<GoodBlock>> planetToGoodBlocks, int flightDaysLost) {
-        super(name, game);
+    public PlanetsCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, List<GoodBlock>> planetToGoodBlocks, int flightDaysLost) {
+        super(pngName, name, game, level, tutorial);
         this.planetToGoodBlocks = planetToGoodBlocks;
         this.flightDaysLost = flightDaysLost;
         // When reading the json file
@@ -43,5 +43,13 @@ public class PlanetsCard extends AdventureCard{
     @Override
     public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
         return;
+    }
+
+    public Map<Integer, List<GoodBlock>> getPlanetToGoodBlocks() {
+        return planetToGoodBlocks;
+    }
+
+    public int getFlightDaysLost() {
+        return flightDaysLost;
     }
 }

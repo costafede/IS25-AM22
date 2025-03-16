@@ -5,7 +5,7 @@
     "level": 1,
     "tutorial": true,
     "meteorSize": [true, false, false],
-    "meteorOrientation": ["bottom", "right", "left"]
+    "meteorOrientation": ["BOTTOM", "RIGHT", "LEFT"]
   },
   {
     "pngName": "GT-cards_I_IT_0110.jpg",
@@ -13,7 +13,7 @@
     "level": 1,
     "tutorial": false,
     "meteorSize": [false, false, false, false, false],
-    "meteorOrientation": ["bottom", "bottom","right", "left", "top"]
+    "meteorOrientation": ["BOTTOM", "BOTTOM","RIGHT", "LEFT", "TOP"]
   },
   {
     "pngName": "GT-cards_I_IT_0111.jpg",
@@ -21,7 +21,7 @@
     "level": 1,
     "tutorial": false,
     "meteorSize": [true, false, true],
-    "meteorOrientation": ["top", "top", "top"]
+    "meteorOrientation": ["TOP", "TOP", "TOP"]
   },
   {
     "pngName": "GT-cards_II_IT_019.jpg",
@@ -29,7 +29,7 @@
     "level": 2,
     "tutorial": false,
     "meteorSize": [false, false, true, false, false],
-    "meteorOrientation": ["top", "top", "right", "right", "right"]
+    "meteorOrientation": ["TOP", "TOP", "RIGHT", "RIGHT", "RIGHT"]
   },
   {
     "pngName": "GT-cards_II_IT_0110.jpg",
@@ -37,7 +37,7 @@
     "level": 2,
     "tutorial": false,
     "meteorSize": [true, true, false, false],
-    "meteorOrientation": ["bottom", "bottom", "top", "top"]
+    "meteorOrientation": ["BOTTOM", "BOTTOM", "TOP", "TOP"]
   },
   {
     "pngName": "GT-cards_II_IT_0111.jpg",
@@ -45,6 +45,6 @@
     "level": 2,
     "tutorial": false,
     "meteorSize": [false, false, true, false, false],
-    "meteorOrientation": ["bottom", "bottom", "left", "left", "left"]
+    "meteorOrientation": ["BOTTOM", "BOTTOM", "LEFT", "LEFT", "LEFT"]
   }
 ]

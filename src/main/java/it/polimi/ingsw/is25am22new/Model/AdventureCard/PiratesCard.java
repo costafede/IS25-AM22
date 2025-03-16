@@ -12,8 +12,8 @@ public class PiratesCard extends AdventureCard{
     private int cannonStrength;
     private int credits;
 
-    public PiratesCard(String name, Game game, Map<Integer, Shot> numberToShot, int flightDaysLost, int cannonStrength, int credits) {
-        super(name, game);
+    public PiratesCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Shot> numberToShot, int flightDaysLost, int cannonStrength, int credits) {
+        super(pngName, name, game, level, tutorial);
         this.numberToShot = numberToShot;
         this.flightDaysLost = flightDaysLost;
         this.cannonStrength = cannonStrength;
@@ -42,5 +42,21 @@ public class PiratesCard extends AdventureCard{
     @Override
     public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
         //to be implemented
+    }
+
+    public Map<Integer, Shot> getNumberToShot() {
+        return numberToShot;
+    }
+
+    public int getFlightDaysLost() {
+        return flightDaysLost;
+    }
+
+    public int getCannonStrength() {
+        return cannonStrength;
+    }
+
+    public int getCredits() {
+        return credits;
     }
 }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class EpidemicCard extends AdventureCard{
 
-    public EpidemicCard(String name, Game game) {
-        super(name, game);
+    public EpidemicCard(String pngName, String name, Game game, int level, boolean tutorial) {
+        super(pngName, name, game, level, tutorial);
     }
 
     @Override

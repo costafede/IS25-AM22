@@ -12,8 +12,28 @@ public class SmugglersCard extends AdventureCard {
     private int lostGoods;
     private List<GoodBlock> goodBlocks;
 
-    public SmugglersCard(String name, Game game) {
-        super(name, game);
+    public int getFlightDaysLost() {
+        return flightDaysLost;
+    }
+
+    public int getCannonStrength() {
+        return CannonStrength;
+    }
+
+    public int getLostGoods() {
+        return lostGoods;
+    }
+
+    public List<GoodBlock> getGoodBlocks() {
+        return goodBlocks;
+    }
+
+    public SmugglersCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int lostGoods, List<GoodBlock> goodBlocks) {
+        super(pngName, name, game, level, tutorial);
+        this.flightDaysLost = flightDaysLost;
+        this.CannonStrength = cannonStrength;
+        this.lostGoods = lostGoods;
+        this.goodBlocks = goodBlocks;
     }
 
     @Override

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class OpenSpaceCard extends AdventureCard{
 
-    public OpenSpaceCard(String name, Game game) {
-        super(name, game);
+    public OpenSpaceCard(String pngName, String name, Game game, int level, boolean tutorial) {
+        super(pngName, name, game, level, tutorial);
     }
 
     @Override

@@ -6,7 +6,7 @@
     "tutorial": true,
     "flightDaysLost": 1,
     "astronautsNumber": 5,
-    "goodBlocks": ["yellow", "green"]
+    "goodBlocks": ["YELLOWBLOCK", "GREENBLOCK"]
   },
   {
     "pngName": "GT-cards_I_IT_0120.jpg",
@@ -15,7 +15,7 @@
     "tutorial": false,
     "flightDaysLost": 1,
     "astronautsNumber": 6,
-    "goodBlocks": ["red", "red"]
+    "goodBlocks": ["REDBLOCK", "REDBLOCK"]
   },
   {
     "pngName": "GT-cards_II_IT_0119.jpg",
@@ -24,7 +24,7 @@
     "tutorial": false,
     "flightDaysLost": 1,
     "astronautsNumber": 7,
-    "goodBlocks": ["red", "yellow"]
+    "goodBlocks": ["REDBLOCK", "YELLOWBLOCK"]
   },
   {
     "pngName": "GT-cards_II_IT_0120.jpg",
@@ -33,6 +33,6 @@
     "tutorial": false,
     "flightDaysLost": 2,
     "astronautsNumber": 8,
-    "goodBlocks": ["yellow", "yellow", "green"]
+    "goodBlocks": ["YELLOWBLOCK", "YELLOWBLOCK", "GREENBLOCK"]
   }
 ]

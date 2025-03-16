@@ -6,10 +6,10 @@
     "tutorial": false,
     "numOfPlanets": 4,
     "flightDaysLost": 3,
-    "firstPlanetGoods": ["red", "green", "blue", "blue", "blue"],
-    "secondPlanetGoods": ["red", "yellow", "blue"],
-    "thirdPlanetGoods": ["red", "blue", "blue", "blue"],
-    "fourthPlanetGoods": ["red", "green"]
+    "0PlanetGoods": ["REDBLOCK", "GREENBLOCK", "BLUEBLOCK", "BLUEBLOCK", "BLUEBLOCK"],
+    "1PlanetGoods": ["REDBLOCK", "YELLOWBLOCK", "BLUEBLOCK"],
+    "2PlanetGoods": ["REDBLOCK", "BLUEBLOCK", "BLUEBLOCK", "BLUEBLOCK"],
+    "3PlanetGoods": ["REDBLOCK", "GREENBLOCK"]
   },
   {
     "pngName": "GT-cards_I_IT_0113.jpg",
@@ -18,9 +18,9 @@
     "tutorial": true,
     "numOfPlanets": 3,
     "flightDaysLost": 2,
-    "firstPlanetGoods": ["red", "red"],
-    "secondPlanetGoods": ["red", "blue", "blue"],
-    "thirdPlanetGoods": ["yellow"]
+    "0PlanetGoods": ["REDBLOCK", "REDBLOCK"],
+    "1PlanetGoods": ["REDBLOCK", "BLUEBLOCK", "BLUEBLOCK"],
+    "2PlanetGoods": ["YELLOWBLOCK"]
   },
   {
     "pngName": "GT-cards_I_IT_0114.jpg",
@@ -29,8 +29,8 @@
     "tutorial": false,
     "numOfPlanets": 2,
     "flightDaysLost": 3,
-    "firstPlanetGoods": ["yellow", "green", "blue", "blue"],
-    "secondPlanetGoods": ["yellow", "yellow"]
+    "0PlanetGoods": ["YELLOWBLOCK", "GREENBLOCK", "BLUEBLOCK", "BLUEBLOCK"],
+    "1PlanetGoods": ["YELLOWBLOCK", "YELLOWBLOCK"]
   },
   {
     "pngName": "GT-cards_I_IT_0115.jpg",
@@ -39,9 +39,9 @@
     "tutorial": false,
     "numOfPlanets": 3,
     "flightDaysLost": 1,
-    "firstPlanetGoods": ["green", "green"],
-    "secondPlanetGoods": ["yellow"],
-    "thirdPlanetGoods": ["blue", "blue", "blue"]
+    "0PlanetGoods": ["GREENBLOCK", "GREENBLOCK"],
+    "1PlanetGoods": ["YELLOWBLOCK"],
+    "2PlanetGoods": ["BLUEBLOCK", "BLUEBLOCK", "BLUEBLOCK"]
   },
   {
     "pngName": "GT-cards_II_IT_0112.jpg",
@@ -50,9 +50,9 @@
     "tutorial": false,
     "numOfPlanets": 3,
     "flightDaysLost": 4,
-    "firstPlanetGoods": ["red", "red", "red", "yellow"],
-    "secondPlanetGoods": ["red", "red", "green", "green"],
-    "thirdPlanetGoods": ["red", "blue", "blue", "blue", "blue"]
+    "0PlanetGoods": ["REDBLOCK", "REDBLOCK", "REDBLOCK", "YELLOWBLOCK"],
+    "1PlanetGoods": ["REDBLOCK", "REDBLOCK", "GREENBLOCK", "GREENBLOCK"],
+    "2PlanetGoods": ["REDBLOCK", "BLUEBLOCK", "BLUEBLOCK", "BLUEBLOCK", "BLUEBLOCK"]
   },
   {
     "pngName": "GT-cards_II_IT_0113.jpg",
@@ -61,8 +61,8 @@
     "tutorial": false,
     "numOfPlanets": 2,
     "flightDaysLost": 3,
-    "firstPlanetGoods": ["red", "red"],
-    "secondPlanetGoods": ["green", "green", "green", "green"]
+    "0PlanetGoods": ["REDBLOCK", "REDBLOCK"],
+    "1PlanetGoods": ["GREENBLOCK", "GREENBLOCK", "GREENBLOCK", "GREENBLOCK"]
   },
   {
     "pngName": "GT-cards_II_IT_0114.jpg",
@@ -71,10 +71,10 @@
     "tutorial": false,
     "numOfPlanets": 4,
     "flightDaysLost": 2,
-    "firstPlanetGoods": ["red", "yellow"],
-    "secondPlanetGoods": ["yellow", "green", "blue"],
-    "thirdPlanetGoods": ["green", "green"],
-    "fourthPlanetGoods": ["yellow"]
+    "0PlanetGoods": ["REDBLOCK", "YELLOWBLOCK"],
+    "1PlanetGoods": ["YELLOWBLOCK", "GREENBLOCK", "BLUEBLOCK"],
+    "2PlanetGoods": ["GREENBLOCK", "GREENBLOCK"],
+    "3PlanetGoods": ["YELLOWBLOCK"]
   },
   {
     "pngName": "GT-cards_II_IT_0115.jpg",
@@ -83,8 +83,8 @@
     "tutorial": false,
     "numOfPlanets": 3,
     "flightDaysLost": 3,
-    "firstPlanetGoods": ["green", "green", "green", "green"],
-    "secondPlanetGoods": ["yellow", "yellow"],
-    "thirdPlanetGoods": ["blue", "blue", "blue", "blue"]
+    "0PlanetGoods": ["GREENBLOCK", "GREENBLOCK", "GREENBLOCK", "GREENBLOCK"],
+    "1PlanetGoods": ["YELLOWBLOCK", "YELLOWBLOCK"],
+    "2PlanetGoods": ["BLUEBLOCK", "BLUEBLOCK", "BLUEBLOCK", "BLUEBLOCK"]
   }
 ]

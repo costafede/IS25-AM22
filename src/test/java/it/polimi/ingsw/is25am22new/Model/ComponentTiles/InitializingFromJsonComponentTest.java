@@ -16,7 +16,7 @@ public class InitializingFromJsonComponentTest {
     private Game game;
 
     @Test
-    void init_game_should_initialize_component_from_json_properly(){
+    void init_game_should_initialize_components_from_json_properly(){
         game = new TutorialGame();
         game.initGame();
         ObjectMapper objectMapper = new ObjectMapper();
