@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.CardPile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,27 @@ public class Level2Game extends Game {
     public Level2Game(List<String> nicknames) {
         super(nicknames);
         this.cardPiles = new ArrayList<CardPile>();
+    }
+
+    public Map<String, Integer> endGame() {
+        Map<String, Integer> scores = new HashMap<>();
+        String nickname = super.betterShipboard();
+
+        //Calculate the partial scores : Score = Sold Goods - Discard Tiles
+        for(String player : playerList) {
+            scores.put(player, shipboards.get(player).getScore());
+        }
+
+        //Adding scores for position in the flightboard
+        List<String> orderedRockets = flightboard.getOrderedRockets();
+        for(int i = 0; i < orderedRockets.size(); i++) {
+            scores.put(orderedRockets.get(i), scores.get(orderedRockets.get(i)) + 2*(4 - orderedRockets.indexOf(orderedRockets.get(i))));
+        }
+
+        //Adding scores for the best shipboard
+        scores.put(betterShipboard(), scores.get(betterShipboard()) + 4);
+
+        return scores;
     }
 
     @Override

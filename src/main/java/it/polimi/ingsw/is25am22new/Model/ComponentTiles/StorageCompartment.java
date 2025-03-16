@@ -39,6 +39,10 @@ public class StorageCompartment extends ComponentTile{
         return tmp;
     }
 
+    public boolean isStorageCompartment() {
+        return true;
+    }
+
     // Returns the list of good blocks in the tile
     public List<GoodBlock> getGoodBlocks() {
         return goodBlocks;

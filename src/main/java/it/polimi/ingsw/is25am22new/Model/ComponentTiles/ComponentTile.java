@@ -74,6 +74,8 @@ public abstract class ComponentTile {
         return null;
     }
 
+    public boolean isStorageCompartment(){ return false; }
+
     public boolean isLeftSideSmooth(){
         return leftSide == Side.SMOOTH;
     }
