@@ -34,7 +34,10 @@ public abstract class Game implements ModelInterface {
         hourglass = new Hourglass(60);
         shipboards = new HashMap<>();
 
-        initShipboard(shipboards, playerList, bank);
+        List<String> colors = List.of("red", "green", "blue", "yellow");
+        for(int i = 0; i < playerList.size(); i++) {
+            shipboards.put(playerList.get(i), new Shipboard(colors.get(i), playerList.get(i), bank));
+        }
     }
 
     public Game(List<String> playerList, Bank bank, List<ComponentTile> coveredComponentTiles,
@@ -55,8 +58,6 @@ public abstract class Game implements ModelInterface {
         initComponent(objectMapper);
         initCardArchive(objectMapper);
     }
-
-    public abstract void initShipboard(Map<String, Shipboard> shipboards, List<String> playerList, Bank bank);
 
     public ComponentTile pickCoveredTile() {
         return coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size()));

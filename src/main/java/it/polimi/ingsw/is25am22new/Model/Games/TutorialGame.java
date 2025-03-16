@@ -13,14 +13,6 @@ public class TutorialGame extends Game {
     }
 
     @Override
-    public void initShipboard(Map<String, Shipboard> shipboards, List<String> playerList, Bank bank) {
-        List<String> colors = List.of("red", "green", "blue", "yellow");
-        for(int i = 0; i < playerList.size(); i++) {
-            shipboards.put(playerList.get(i), new Shipboard(colors.get(i), playerList.get(i), bank));
-        }
-    }
-
-    @Override
     public void initGame() {
         ObjectMapper objectMapper = new ObjectMapper();
         super.initGame();
