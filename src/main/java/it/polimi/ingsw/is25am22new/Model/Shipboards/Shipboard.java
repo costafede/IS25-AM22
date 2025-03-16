@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
 import it.polimi.ingsw.is25am22new.Model.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.StartingCabin;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Side;
 
@@ -29,9 +30,20 @@ public class Shipboard {
         this.nickname = nickname;
         componentTilesGrid = new ComponentTilesGrid();
         standbyComponent = (Optional<ComponentTile>[]) new Optional[2];
+        weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
         discardedTiles = 0;
         finishedShipboard = false;
         CosmicCredits = 0;
+    }
+
+    private String colorToPngName(String color){
+        return switch (color) {
+            case "red" -> "GT-new_tiles_16_for web52.png";
+            case "blue" -> "GT-new_tiles_16_for web33.png";
+            case "green" -> "GT-new_tiles_16_for web34.png";
+            case "yellow" -> "GT-new_tiles_16_for web61.png";
+            default -> null;
+        };
     }
 
     public String getNickname() {
@@ -114,9 +126,15 @@ public class Shipboard {
             }
         }// verifies if cannons and engines are valid
 
-        for(Optional<ComponentTile> ct : componentTilesGrid){
+        /*for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(c -> c.setColor(-1));
-        }//reset colors for the algorithm
+        }//reset colors for the algorithm*/
+
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++) {
+                componentTilesGrid.get(i, j).ifPresent(c -> c.setColor(-1));
+            }
+        }
 
         int i,j = 0;
         for(i = 0; i < 5; i++){
