@@ -193,7 +193,7 @@ public class Shipboard {
         }
 
         return true;
-    }
+    }/*corretto temporaneamente checkshipboard, sostituendo i for each, con dei nested for loop, poiché i for each non funzionano. Da rivedere anche il doppio break nel nested loop che trova il primo tile non vuoto*/
 
     private boolean tileConnectedProperly(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == 1)
