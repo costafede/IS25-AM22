@@ -1,6 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
+import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,24 +13,27 @@ public class MeteorSwarmCard extends AdventureCard{
     public MeteorSwarmCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> NumberToMeteor) {
         super(pngName, name, game, level, tutorial);
         this.NumberToMeteor = NumberToMeteor;
-        // When reading the json file
-        // cicle until the end of the array
-        // order: from top to bottom, from left to right
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers) { return;}
-
-    @Override
-    public void activateCard(String player) {return;}
-
-    @Override
-    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields, List<String> activatingCannon) {
-        //to be implemented
+    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
+        return true;
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {return;}
+    public boolean checkActivationConditions(String nickname) {
+        return true;
+    }
+
+    @Override
+    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
+        return true;
+    }
+
+    @Override
+    public void resolveCardEffectPhase(String nickname) {
+        return;
+    }
 
     public Map<Integer, Meteor> getNumberToMeteor() {
         return NumberToMeteor;

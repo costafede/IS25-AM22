@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
 
 import java.util.List;
 
@@ -20,22 +21,22 @@ public class AbandonedStationCard extends AdventureCard{
 
 
     @Override
-    public void activateCard(List<String> orderedPlayers) {
-        return;
+    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
+        return true;
     }
 
     @Override
-    public void activateCard(String player) {
-        //to be implemented
+    public boolean checkActivationConditions(String nickname) {
+        return true;
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields, List<String> activatingCannon) {
-        return;
+    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
+        return true;
     }
 
     @Override
-    public void activateCard(List<String> orderedPlayers, List<Integer> dicesResults, List<String> activatingShields) {
+    public void resolveCardEffectPhase(String nickname) {
         return;
     }
 
