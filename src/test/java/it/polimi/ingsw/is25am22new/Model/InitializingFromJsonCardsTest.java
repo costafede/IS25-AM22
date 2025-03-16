@@ -3,6 +3,8 @@ package it.polimi.ingsw.is25am22new.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

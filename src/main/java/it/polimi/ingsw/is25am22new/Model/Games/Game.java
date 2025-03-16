@@ -22,6 +22,11 @@ public abstract class Game implements ModelInterface {
     private List<ComponentTile> uncoveredComponentTiles;
     private Map<String, Shipboard> shipboards;
     private Flightboard flightboard;
+
+    public List<AdventureCard> getCardArchive() {
+        return cardArchive;
+    }
+
     private List<AdventureCard> cardArchive;
     private Hourglass hourglass;
 
