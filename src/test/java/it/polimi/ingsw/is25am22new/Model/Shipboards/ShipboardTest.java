@@ -39,10 +39,7 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(2),3, 1);
         ship.weldComponentTile(tiles.get(4),2, 2);
         ship.weldComponentTile(tiles.get(4),1, 3);
-        ship.weldComponentTile(tiles.get(4),2, 4);
-        ship.checkShipboard();
-        assertEquals(1, ship.getComponentTileFromGrid(1, 3).getColor());
-        assertEquals(-1, tiles.get(0).getColor());
+        ship.weldComponentTile(tiles.get(4),2, 4);//be careful, in these last three positions there is the same object instance, so if I color the position (2,2), I ve colored also the other three
         assertFalse(ship.checkShipboard());
     }
 

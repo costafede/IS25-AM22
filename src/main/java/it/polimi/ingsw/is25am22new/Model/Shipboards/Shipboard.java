@@ -173,15 +173,24 @@ public class Shipboard {
                 if(i == 4 && j == 6)
                     return true; //if the ship is empty then it is valid
             }
+            if(componentTilesGrid.get(i, j).isPresent())
+                break; //i and j are the coordinates of the first tile
         }
 
         if(!tileConnectedProperly(i, j)) //check if the connectors are properly connected with a recursive method
             return false;
 
-        for(Optional<ComponentTile> ct : componentTilesGrid){
+        /*for(Optional<ComponentTile> ct : componentTilesGrid){
             if(ct.isPresent() && ct.get().getColor() == -1)
                 return false;
-        }// verifies all Tiles have been colored
+        }// verifies all Tiles have been colored*/
+
+        for(i = 0; i < 5; i++){
+            for(j = 0; j < 7; j++) {
+                if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().getColor() == -1)
+                    return false;
+            }
+        }
 
         return true;
     }
