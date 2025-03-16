@@ -47,7 +47,7 @@ class FlightboardTest {
     }
 
     @Test
-    void getOrderedRockets() {
+    void test_get_ordered_rockets_should_return_right_list() {
         level2FlightBoard.placeRocket("Cristina", 0);
         level2FlightBoard.placeRocket("Alex", 1);
         level2FlightBoard.placeRocket("Bianca", 2);
@@ -66,7 +66,7 @@ class FlightboardTest {
     }
 
     @Test
-    void getPositions() {
+    void test_get_positions_should_return_right_map() {
         level2FlightBoard.placeRocket("Cristina", 0);
         level2FlightBoard.placeRocket("Alex", 1);
         level2FlightBoard.placeRocket("Bianca", 2);
@@ -83,7 +83,7 @@ class FlightboardTest {
     }
 
     @Test
-    void shiftRocket() {
+    void test_shift_rocket_shuold_shift_into_right_position_and_update_ordered_rockets_list() {
         List<String> newOrderedRockets;
         // Surpassing forward check
         // Surpassing backward check
@@ -132,7 +132,7 @@ class FlightboardTest {
     }
 
     @Test
-    void placeRocket() {
+    void test_place_rocket_should_be_right_position() {
         level2FlightBoard.placeRocket("Cristina", 0);
         level2FlightBoard.placeRocket("Alex", 1);
         level2FlightBoard.placeRocket("Davide", 2);
