@@ -16,6 +16,8 @@ class ShipboardTest {
         tiles.add(new Cannon("2", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
         tiles.add(new DoubleCannon("3", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
         tiles.add(new StructuralModule("4", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new StructuralModule("5", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new StructuralModule("6", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
         return tiles;
     }
     @Test
@@ -42,6 +44,49 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(4),2, 4);//be careful, in these last three positions there is the same object instance, so if I color the position (2,2), I ve colored also the other three
         assertFalse(ship.checkShipboard());
     }
+
+    @Test
+    void test_shipboard_should_be_considered_invalid_due_to_tile_in_front_of_cannons() {
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(2),3, 1);
+        tiles.get(4).rotateCounterClockwise();
+        tiles.get(4).rotateCounterClockwise();
+        ship.weldComponentTile(tiles.get(4),3, 3);
+        ship.weldComponentTile(tiles.get(4),2, 4);
+        assertFalse(ship.checkShipboard());
+    }
+
+    @Test
+    void test_shipboard_should_be_considered_invalid_due_to_tile_behind_engine_and_engine_not_facing_down() {
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(0),2, 4);
+        tiles.get(4).rotateCounterClockwise();
+        tiles.get(4).rotateCounterClockwise();
+        ship.weldComponentTile(tiles.get(4),3, 3);
+        ship.weldComponentTile(tiles.get(5),3, 4);
+        assertFalse(ship.checkShipboard());
+
+        tiles.get(0).rotateCounterClockwise();
+        assertFalse(ship.checkShipboard());
+    }
+
+    @Test
+    void test_shipboard_should_be_considered_invalid_due_tiles_connected_wrongly() {
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(4),3, 3);
+        tiles.get(4).rotateCounterClockwise();
+        tiles.get(4).rotateCounterClockwise();
+        ship.weldComponentTile(tiles.get(5),2, 4);
+        ship.weldComponentTile(tiles.get(6),3, 4);
+        assertFalse(ship.checkShipboard());
+
+        ship.weldComponentTile(tiles.get(1),3, 4);
+        assertTrue(ship.checkShipboard());
+    }
+
 
 
 }

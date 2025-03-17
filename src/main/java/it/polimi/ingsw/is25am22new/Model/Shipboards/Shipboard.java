@@ -57,7 +57,10 @@ public class Shipboard {
                     }
                 }
             }
-        } /*Da completare con i casi particolari, quali: giocatori che hanno abbandonato (quindi dividi per due) e togliere punti per connettori scoperti*/
+        }
+
+        if(abandoned)
+            score /= 2;
 
         //Lose 1 point for each component in discardPile
         score -= discardedTiles;
@@ -159,13 +162,6 @@ public class Shipboard {
             ct.ifPresent(c -> c.setColor(-1));
         }
 
-        /*
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 7; j++) {
-                componentTilesGrid.get(i, j).ifPresent(c -> c.setColor(-1));
-            }
-        } */ //reset colors for the algorithm
-
         int i,j = 0;
         for(i = 0; i < 5; i++){
             for(j = 0; j < 7; j++) {
@@ -185,16 +181,9 @@ public class Shipboard {
             if(ct.isPresent() && ct.get().getColor() == -1)
                 return false;
         }// verifies all Tiles have been colored
-        /*
-        for(i = 0; i < 5; i++){
-            for(j = 0; j < 7; j++) {
-                if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().getColor() == -1)
-                    return false;
-            }
-        }
-        */
+
         return true;
-    }/*corretto temporaneamente checkshipboard, sostituendo i for each, con dei nested for loop, poiché i for each non funzionano. Da rivedere anche il doppio break nel nested loop che trova il primo tile non vuoto*/
+    }/*Da rivedere anche il doppio break nel nested loop che trova il primo tile non vuoto*/
 
     private boolean tileConnectedProperly(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == 1)
@@ -204,7 +193,7 @@ public class Shipboard {
         if (componentTilesGrid.get(i-1, j).isPresent() && componentTilesGrid.get(i-1, j).get().getColor() == -1 && !sidesMatch(ct.getTopSide(), componentTilesGrid.get(i-1, j).get().getBottomSide()) ||
             componentTilesGrid.get(i+1, j).isPresent() && componentTilesGrid.get(i+1, j).get().getColor() == -1 && !sidesMatch(ct.getBottomSide(), componentTilesGrid.get(i+1, j).get().getTopSide()) ||
             componentTilesGrid.get(i, j-1).isPresent() && componentTilesGrid.get(i, j-1).get().getColor() == -1 && !sidesMatch(ct.getLeftSide(), componentTilesGrid.get(i, j-1).get().getRightSide()) ||
-            componentTilesGrid.get(i, j+1).isPresent() && componentTilesGrid.get(i, j+1).get().getColor() == -1 && !sidesMatch(ct.getRightSide(), componentTilesGrid.get(i+1, j).get().getLeftSide()))
+            componentTilesGrid.get(i, j+1).isPresent() && componentTilesGrid.get(i, j+1).get().getColor() == -1 && !sidesMatch(ct.getRightSide(), componentTilesGrid.get(i, j+1).get().getLeftSide()))
             return false;
         return tileConnectedProperly(i-1, j) && tileConnectedProperly(i+1, j) && tileConnectedProperly(i, j-1) && tileConnectedProperly(i, j+1);
     }
