@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Games.*;
+import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Side;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ class ShipboardTest {
         tiles.add(new AlienAddon("7", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "purple"));
         tiles.add(new AlienAddon("8", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "brown"));
         tiles.add(new RegularCabin("9", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new StorageCompartment("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
+        tiles.add(new SpecialStorageCompartment("11", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2));
         return tiles;
     }
 
@@ -120,7 +123,6 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(6),2, 4);
 
         assertFalse(ship.checkShipboard());
-
     }
 
     @Test
@@ -133,10 +135,27 @@ class ShipboardTest {
             ship.getComponentTileFromGrid(2,4).putAlien("brown");
 
         assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+    @Test
+    void test_get_score_calculates_the_correct_score() {
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+
+        ship.weldComponentTile(tiles.get(10), 1, 3);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
+
+        ship.weldComponentTile(tiles.get(10), 2, 4);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
 
         ship.destroyTile(3, 4);
 
         assertFalse(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
     }
+        ship.weldComponentTile(tiles.get(10), 2, 2);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
 
+        ship.weldComponentTile(tiles.get(11), 3, 3);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.REDBLOCK);
+    }
 }
