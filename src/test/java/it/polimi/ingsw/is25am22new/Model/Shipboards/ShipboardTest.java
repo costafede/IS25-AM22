@@ -123,6 +123,20 @@ class ShipboardTest {
 
     }
 
+    @Test
+    void test_shipboard_should_remove_alien_from_cabin_when_addon_destroyed() {
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(8),3, 4);
+        ship.weldComponentTile(tiles.get(9),2, 4);
+        if(ship.isAlienPlaceable(2, 4, "brown"))
+            ship.getComponentTileFromGrid(2,4).putAlien("brown");
 
+        assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+
+        ship.destroyTile(3, 4);
+
+        assertFalse(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+    }
 
 }
