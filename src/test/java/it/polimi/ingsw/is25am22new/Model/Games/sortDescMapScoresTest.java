@@ -44,7 +44,7 @@ class sortDescMapScoresTest {
         // Testing sortDesc() method from TutorialGame
         Map<String, Integer> scores = new java.util.HashMap<>();
         scores.put("player1tutorial", 10);
-        scores.put("player2tutorial", 20);
+        scores.put("player2tutorial", 30);
         scores.put("player3tutorial", 30);
         Map<String, Integer> sortedScores = tutorialGame.sortDesc(scores);
 
@@ -60,7 +60,7 @@ class sortDescMapScoresTest {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
         }
 
-        assertTrue(sortedScores.entrySet().stream().findFirst().isPresent() && "player3tutorial".equals(sortedScores.entrySet().stream().findFirst().get().getKey()));
+        assertTrue(sortedScores.entrySet().stream().findFirst().isPresent() && (  "player3tutorial".equals(sortedScores.entrySet().stream().findFirst().get().getKey())|| "player2tutorial".equals(sortedScores.entrySet().stream().findFirst().get().getKey()) ));
     }
 
 }
