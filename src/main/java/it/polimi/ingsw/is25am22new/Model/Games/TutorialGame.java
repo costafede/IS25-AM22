@@ -1,10 +1,13 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TutorialGame extends Game {
     public TutorialGame(List<String> nicknames) {
@@ -13,9 +16,8 @@ public class TutorialGame extends Game {
 
     @Override
     public void initGame() {
-        ObjectMapper objectMapper = new ObjectMapper();
         super.initGame();
-        this.initDeck(objectMapper);
+        this.initDeck();
     }
 
     public Map<String, Integer> endGame() {
@@ -40,8 +42,14 @@ public class TutorialGame extends Game {
     }
 
     @Override
-    public void initDeck(ObjectMapper objectMapper) {
+    public void initDeck() {
         // Reads 8 cards from json file and adds them to the deck
+        List<AdventureCard> tutorialCards = new java.util.ArrayList<>(cardArchive.stream()
+                .filter(AdventureCard::isTutorial)
+                .toList());
 
+        Collections.shuffle(tutorialCards);
+
+        deck.addAll(tutorialCards);
     }
 }
