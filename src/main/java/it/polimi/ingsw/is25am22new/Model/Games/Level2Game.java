@@ -17,7 +17,6 @@ public class Level2Game extends Game {
 
     public Map<String, Integer> endGame() {
         Map<String, Integer> scores = new HashMap<>();
-        String nickname = super.betterShipboard();
 
         //Calculate the partial scores : Score = Sold Goods - Discard Tiles
         for(String player : playerList) {
@@ -31,10 +30,26 @@ public class Level2Game extends Game {
         }
 
         //Adding scores for the best shipboard
-        scores.put(betterShipboard(), scores.get(betterShipboard()) + 4);
+        scores.put(super.betterShipboard(), scores.get(betterShipboard()) + 4);
+
+        scores = sortDesc(scores);
 
         return scores;
     }
+
+    protected Map<String, Integer> sortDesc(Map<String, Integer> scores) {
+        //sorting the map
+        scores = scores.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(
+                        LinkedHashMap::new,
+                        (m, e) -> m.put(e.getKey(), e.getValue()),
+                        LinkedHashMap::putAll
+                );
+        return scores;
+    }
+
 
     @Override
     public void initGame() {

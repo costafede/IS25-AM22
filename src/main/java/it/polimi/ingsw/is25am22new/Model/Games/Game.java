@@ -8,12 +8,9 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import java.util.*;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 
-import java.io.File;
-import java.io.IOException;
 
 public abstract class Game implements ModelInterface {
     protected final List<String> playerList;
@@ -60,7 +57,6 @@ public abstract class Game implements ModelInterface {
         ObjectMapper objectMapper = new ObjectMapper();
         GameInitializer.initComponent(this, objectMapper);
         GameInitializer.initCardArchive(this, objectMapper);
-
     }
 
     public ComponentTile pickCoveredTile() {
@@ -131,10 +127,11 @@ public abstract class Game implements ModelInterface {
 
     protected abstract Map<String, Integer> endGame();
 
+    //Return the nickname of the player with less exposed connectors
     protected String betterShipboard() {
-        //to be implemented
-        //return nickname;
-        return "";
+        return playerList.stream()
+                .min(Comparator.comparingInt(nickname -> shipboards.get(nickname).countExposedConnectors()))
+                .orElse(null);
     }
 
     protected abstract void initDeck();
