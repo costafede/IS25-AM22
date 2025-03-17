@@ -24,7 +24,7 @@ This repository contains the implementation of the final project for the **Softw
 ## Used Technologies
 
 - **Language**: Java SE
-- **Framework**: JavaFX / Swing per GUI
+- **Framework**: JavaFX / Swing for GUI
 - **Architectural Pattern**: Model-View-Controller (MVC)
 - **Communication**: Socket TCP-IP e/o RMI
 - **Build Tool**: Maven
