@@ -24,6 +24,7 @@ public abstract class Game implements ModelInterface {
     protected Flightboard flightboard;
     protected List<AdventureCard> cardArchive;
     protected Hourglass hourglass;
+    protected List<AdventureCard> deck;
 
     public Game(List<String> playerList) {
         this.playerList = playerList;
