@@ -32,7 +32,7 @@ class ShipboardTest {
     private void clearGrid(Shipboard shipboard){
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 7; j++) {
-                shipboard.weldComponentTile(null, i, j);
+                shipboard.destroyTile(i, j);
             }
         }
     }
@@ -135,7 +135,108 @@ class ShipboardTest {
             ship.getComponentTileFromGrid(2,4).putAlien("brown");
 
         assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+
+        ship.destroyTile(3, 4);
+
+        assertFalse(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
     }
+
+    @Test
+    void test_shipboard_should_not_remove_alien_from_cabin_when_addon_destroyed_because_there_is_another_addon() {
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(8),3, 4);
+        ship.weldComponentTile(new AlienAddon("x", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "brown"),2, 5);
+        ship.getComponentTileFromGrid(2, 5).rotateClockwise();
+        ship.weldComponentTile(tiles.get(9),2, 4);
+        if(ship.isAlienPlaceable(2, 4, "brown"))
+            ship.getComponentTileFromGrid(2,4).putAlien("brown");
+
+        assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+
+        ship.destroyTile(3, 4);
+
+        assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+    }
+
+    @Test
+    void test_should_count_exposed_connectors_correctly(){
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(8),3, 4);
+        tiles.get(8).rotateCounterClockwise();
+        tiles.get(8).rotateCounterClockwise();
+        ship.weldComponentTile(tiles.get(4),2, 5);
+        ship.weldComponentTile(tiles.get(9),2, 4);
+
+        assertEquals(7, ship.countExposedConnectors());
+    }
+
+    @Test
+    void test_should_calculate_engine_strength_correctly(){
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+
+        ship.weldComponentTile(tiles.get(1),3, 5);
+        ship.weldComponentTile(tiles.get(8),2, 5);
+        ship.weldComponentTile(tiles.get(9),2, 4);
+        ship.getComponentTileFromGrid(2, 4).putAlien("brown");
+
+        assertEquals(0, ship.getEngineStrengthShip());
+
+        ship.weldComponentTile(tiles.get(0),3, 4);
+
+        assertEquals(3, ship.getEngineStrengthShip());
+
+        ship.getComponentTileFromGrid(3, 5).activateComponent();
+
+        assertEquals(5, ship.getEngineStrengthShip());
+
+        ship.destroyTile(2, 5);
+
+        assertEquals(3, ship.getEngineStrengthShip());
+
+        ship.getComponentTileFromGrid(3, 5).deactivateComponent();
+
+        assertEquals(1, ship.getEngineStrengthShip());
+    }
+
+    @Test
+    void test_should_calculate_cannon_strength_correctly(){
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+
+        ship.weldComponentTile(tiles.get(3),2, 4);
+        ship.weldComponentTile(tiles.get(7),2, 5);
+        ship.weldComponentTile(tiles.get(9),3, 5);
+        ship.getComponentTileFromGrid(3, 5).rotateCounterClockwise();
+        ship.getComponentTileFromGrid(3, 5).rotateCounterClockwise();
+
+        ship.getComponentTileFromGrid(3, 5).putAlien("purple");
+
+        assertEquals(0, ship.getCannonStrength());
+
+        ship.weldComponentTile(tiles.get(2),3, 4);
+        ship.getComponentTileFromGrid(3, 4).rotateCounterClockwise();
+        ship.getComponentTileFromGrid(3, 4).rotateCounterClockwise();
+
+        assertEquals(2.5, ship.getCannonStrength());
+
+        ship.getComponentTileFromGrid(2, 4).activateComponent();
+
+        assertEquals(4.5, ship.getCannonStrength());
+
+        ship.destroyTile(2, 5);
+
+        assertEquals(2.5, ship.getCannonStrength());
+
+        ship.getComponentTileFromGrid(2, 4).deactivateComponent();
+
+        assertEquals(0.5, ship.getCannonStrength());
+        assertTrue(ship.checkShipboard());
+    }
+
+
     @Test
     void test_get_score_calculates_the_correct_score() {
         List<ComponentTile> tiles = initializeTiles();
