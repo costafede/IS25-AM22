@@ -58,7 +58,6 @@ public class Shipboard {
                 }
             }
         }
-
         if(abandoned)
             score /= 2;
 

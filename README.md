@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/main/imageForReadMe/horizontalLogo.png" alt="Galaxy Trucker Logo" style="max-width: 100%; height: auto;">
+  <img src="resources/imageForReadMe/horizontalLogo.png" alt="Galaxy Trucker Logo" style="max-width: 100%; height: auto;">
 </p>
 
 # 🚀 Galaxy Trucker - Software Engineering Final Project (2024/2025)
@@ -14,7 +14,7 @@ This repository contains the implementation of the final project for the **Softw
 - [Emanuele De Simone](https://github.com/EmanueleDeSimone04)
 - [Jia Hui Dong](https://github.com/JHDongg)
 
-## Project Structure (to be fixed later)
+## Project Structure
 
 - `src/main/java` - Source code of the application
 - `src/test/java` - Unit tests
@@ -32,7 +32,7 @@ This repository contains the implementation of the final project for the **Softw
 
 ## Project Requirements
 
-Detailed in the document [requirements.pdf](src/main/Requirements/requirements.pdf).
+Detailed in the document [requirements.pdf](resources/Requirements/requirements.pdf).
 
 ---
 
