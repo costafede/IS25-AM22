@@ -135,6 +135,7 @@ class ShipboardTest {
             ship.getComponentTileFromGrid(2,4).putAlien("brown");
 
         assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+    }
     @Test
     void test_get_score_calculates_the_correct_score() {
         List<ComponentTile> tiles = initializeTiles();
@@ -151,7 +152,7 @@ class ShipboardTest {
         ship.destroyTile(3, 4);
 
         assertFalse(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
-    }
+
         ship.weldComponentTile(tiles.get(10), 2, 2);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
 
