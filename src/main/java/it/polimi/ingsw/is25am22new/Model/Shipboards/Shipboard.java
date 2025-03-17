@@ -232,9 +232,11 @@ public class Shipboard {
         return exposedConnectors;
     }
 
+
+    // these next four methods check if there is an active cannon (normal cannons and activated double cannons) facing in a direction at the row/column i/j
     public boolean isRightSideCannon (int i){
         for(int j = 6; j >= 0; j--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideCannon())
+            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideCannon() && componentTilesGrid.get(i, j).get().getCannonStrength() > 0)
                 return true;
         }
         return false;
@@ -242,7 +244,7 @@ public class Shipboard {
 
     public boolean isLeftSideCannon (int i){
         for(int j = 0; j < 7; j++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isLeftSideCannon())
+            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isLeftSideCannon() && componentTilesGrid.get(i, j).get().getCannonStrength() > 0)
                 return true;
         }
         return false;
@@ -250,7 +252,7 @@ public class Shipboard {
 
     public boolean isTopSideCannon (int j){
         for(int i = 0; i < 5; i++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isTopSideCannon())
+            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isTopSideCannon() && componentTilesGrid.get(i, j).get().getCannonStrength() > 0)
                 return true;
         }
         return false;
@@ -258,7 +260,7 @@ public class Shipboard {
 
     public boolean isBottomSideCannon (int j){
         for(int i = 4; i >= 0; i--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isBottomSideCannon())
+            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isBottomSideCannon() && componentTilesGrid.get(i, j).get().getCannonStrength() > 0)
                 return true;
         }
         return false;
@@ -396,9 +398,9 @@ public class Shipboard {
 
     private boolean areAdjacentTilesAddons(int i, int j, String color){
         return componentTilesGrid.get(i, j+1).isPresent() && componentTilesGrid.get(i, j+1).get().getAddonColor() != null && componentTilesGrid.get(i, j+1).get().getAddonColor().equals(color) ||
-               componentTilesGrid.get(i, j-1).isPresent() && componentTilesGrid.get(i, j+1).get().getAddonColor() != null && componentTilesGrid.get(i, j-1).get().getAddonColor().equals(color) ||
-               componentTilesGrid.get(i+1, j).isPresent() && componentTilesGrid.get(i, j+1).get().getAddonColor() != null && componentTilesGrid.get(i+1, j).get().getAddonColor().equals(color) ||
-               componentTilesGrid.get(i-1, j).isPresent() && componentTilesGrid.get(i, j+1).get().getAddonColor() != null && componentTilesGrid.get(i-1, j).get().getAddonColor().equals(color);
+               componentTilesGrid.get(i, j-1).isPresent() && componentTilesGrid.get(i, j-1).get().getAddonColor() != null && componentTilesGrid.get(i, j-1).get().getAddonColor().equals(color) ||
+               componentTilesGrid.get(i+1, j).isPresent() && componentTilesGrid.get(i+1, j).get().getAddonColor() != null && componentTilesGrid.get(i+1, j).get().getAddonColor().equals(color) ||
+               componentTilesGrid.get(i-1, j).isPresent() && componentTilesGrid.get(i-1, j).get().getAddonColor() != null && componentTilesGrid.get(i-1, j).get().getAddonColor().equals(color);
     }
 
     public int getCrewNumber (){
