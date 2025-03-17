@@ -14,7 +14,7 @@ public class Bank {
     private Map<GoodBlock, Integer> goodblockToNum;
 
     //Initialize the bank with the number of blocks available for the game
-    public void initBank(){
+    public Bank() {
         goodblockToNum = new HashMap<GoodBlock, Integer>();
         goodblockToNum.put(REDBLOCK, 12);
         goodblockToNum.put(YELLOWBLOCK, 17);

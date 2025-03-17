@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
+import it.polimi.ingsw.is25am22new.Model.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Games.*;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShipboardTest {
+
     private List<ComponentTile> initializeTiles(){
         List<ComponentTile> tiles = new ArrayList<>();
         tiles.add(new Engine("0", Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE, Side.UNIVERSALPIPE));
@@ -147,25 +149,58 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(10), 1, 3);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
-
         assertEquals(5, ship.getScore());
 
-        ship.weldComponentTile(tiles.get(10), 2, 4);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
-
+        ship.weldComponentTile(tiles.get(12), 2, 4);
+        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.GREENBLOCK);
+        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.BLUEBLOCK);
         assertEquals(8, ship.getScore());
 
-        ship.weldComponentTile(tiles.get(10), 2, 2);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
-
+        ship.weldComponentTile(tiles.get(13), 2, 2);
+        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.BLUEBLOCK);
         assertEquals(10, ship.getScore());
 
         ship.weldComponentTile(tiles.get(11), 3, 3);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.REDBLOCK);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.REDBLOCK);
-
+        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
+        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
         assertEquals(18, ship.getScore());
+    }
+
+    @Test
+    void test_remove_most_valuable_blocks() {
+        List<ComponentTile> tiles = initializeTiles();
+        Bank bank1 = new Bank();
+        Shipboard ship = new Shipboard("red", "Emanuele", bank1);
+
+        ship.weldComponentTile(tiles.get(10), 1, 3);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
+        ship.removeMostValuableGoodBlocks(2);
+        assertEquals(2, ship.getScore());
+
+        ship.weldComponentTile(tiles.get(12), 2, 4);
+        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.GREENBLOCK);
+        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.removeMostValuableGoodBlocks(1);
+        assertEquals(3, ship.getScore());
+
+        ship.weldComponentTile(tiles.get(13), 2, 2);
+        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.YELLOWBLOCK);
+        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.GREENBLOCK);
+        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.removeMostValuableGoodBlocks(2);
+        assertEquals(2, ship.getScore());
+
+        ship.weldComponentTile(tiles.get(11), 3, 3);
+        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
+        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
+        ship.removeMostValuableGoodBlocks(1);
+        assertEquals(6, ship.getScore());
+        ship.removeMostValuableGoodBlocks(1);
+        assertEquals(2, ship.getScore());
+        ship.removeMostValuableGoodBlocks(1);
+        assertEquals(0, ship.getScore());
     }
 }

@@ -33,6 +33,7 @@ public class Shipboard {
         this.discardedTiles = 0;
         this.finishedShipboard = false;
         this.CosmicCredits = 0;
+        this.bank = new Bank();
         weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
     }
 
@@ -42,18 +43,18 @@ public class Shipboard {
         for(Optional<ComponentTile> ct : componentTilesGrid){
             //it has to be present and it has to be a storageComponentTile
             if(ct.isPresent() && ct.get().isStorageCompartment()){
-                for(GoodBlock gb : ct.get().getGoodBlocks()){
+                for(GoodBlock gb : ct.get().getGoodBlocks().keySet()){
                     if(gb.equals(GoodBlock.REDBLOCK)){
-                        score += 4;
+                        score += 4 * ct.get().getGoodBlocks().get(gb);
                     }
                     else if(gb.equals(GoodBlock.YELLOWBLOCK)){
-                        score += 3;
+                        score += 3 * ct.get().getGoodBlocks().get(gb);
                     }
                     else if(gb.equals(GoodBlock.GREENBLOCK)){
-                        score += 2;
+                        score += 2 * ct.get().getGoodBlocks().get(gb);
                     }
                     else if(gb.equals(GoodBlock.BLUEBLOCK)){
-                        score += 1;
+                        score += ct.get().getGoodBlocks().get(gb);
                     }
                 }
             }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Side;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class ComponentTile {
     protected Side topSide;
@@ -188,7 +189,7 @@ public abstract class ComponentTile {
         return false;
     }
 
-    public List<GoodBlock> getGoodBlocks(){
+    public Map<GoodBlock, Integer> getGoodBlocks(){
         return null;
     }
 
