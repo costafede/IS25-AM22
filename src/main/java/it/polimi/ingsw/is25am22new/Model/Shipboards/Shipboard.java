@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
 import it.polimi.ingsw.is25am22new.Model.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.StartingCabin;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Side;
 
@@ -32,6 +33,7 @@ public class Shipboard {
         this.discardedTiles = 0;
         this.finishedShipboard = false;
         this.CosmicCredits = 0;
+        weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
     }
 
     public int getScore(){
@@ -55,12 +57,22 @@ public class Shipboard {
                     }
                 }
             }
-        }
+        } /*Da completare con i casi particolari, quali: giocatori che hanno abbandonato (quindi dividi per due) e togliere punti per connettori scoperti*/
 
         //Lose 1 point for each component in discardPile
         score -= discardedTiles;
 
         return score;
+    }
+
+    private String colorToPngName(String color){
+        return switch (color) {
+            case "red" -> "GT-new_tiles_16_for web52.png";
+            case "blue" -> "GT-new_tiles_16_for web33.png";
+            case "green" -> "GT-new_tiles_16_for web34.png";
+            case "yellow" -> "GT-new_tiles_16_for web61.png";
+            default -> null;
+        };
     }
 
     public String getNickname() {
@@ -143,9 +155,15 @@ public class Shipboard {
             }
         }// verifies if cannons and engines are valid
 
-        for(Optional<ComponentTile> ct : componentTilesGrid){
+        /*for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(c -> c.setColor(-1));
-        }//reset colors for the algorithm
+        }//reset colors for the algorithm*/
+
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++) {
+                componentTilesGrid.get(i, j).ifPresent(c -> c.setColor(-1));
+            }
+        }
 
         int i,j = 0;
         for(i = 0; i < 5; i++){
@@ -155,18 +173,27 @@ public class Shipboard {
                 if(i == 4 && j == 6)
                     return true; //if the ship is empty then it is valid
             }
+            if(componentTilesGrid.get(i, j).isPresent())
+                break; //i and j are the coordinates of the first tile
         }
 
         if(!tileConnectedProperly(i, j)) //check if the connectors are properly connected with a recursive method
             return false;
 
-        for(Optional<ComponentTile> ct : componentTilesGrid){
+        /*for(Optional<ComponentTile> ct : componentTilesGrid){
             if(ct.isPresent() && ct.get().getColor() == -1)
                 return false;
-        }// verifies all Tiles have been colored
+        }// verifies all Tiles have been colored*/
+
+        for(i = 0; i < 5; i++){
+            for(j = 0; j < 7; j++) {
+                if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().getColor() == -1)
+                    return false;
+            }
+        }
 
         return true;
-    }
+    }/*corretto temporaneamente checkshipboard, sostituendo i for each, con dei nested for loop, poiché i for each non funzionano. Da rivedere anche il doppio break nel nested loop che trova il primo tile non vuoto*/
 
     private boolean tileConnectedProperly(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == 1)
@@ -244,65 +271,33 @@ public class Shipboard {
         return false;
     }
 
-    public boolean isRightSideShielded (int i){
-        for(int j = 6; j >= 0; j--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideShielded())
+    public boolean isRightSideShielded (){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+                if(ct.isPresent() && ct.get().isRightSideShielded())
+                    return true;
+        }
+        return false;
+    }
+
+    public boolean isLeftSideShielded (){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isLeftSideShielded())
                 return true;
         }
         return false;
     }
 
-    public boolean isLeftSideShielded (int i){
-        for(int j = 0; j < 7; j++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isLeftSideShielded())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isTopSideShielded (int j){
-        for(int i = 0; i < 5; i++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isTopSideShielded())
+    public boolean isTopSideShielded (){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isTopSideShielded())
                 return true;
         }
         return false;
     }
 
     public boolean isBottomSideShielded (int j){
-        for(int i = 4; i >= 0; i--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isBottomSideShielded())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isRightSideEngine (int i){
-        for(int j = 6; j >= 0; j--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideEngine())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isLeftSideEngine (int i){
-        for(int j = 0; j < 7; j++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isLeftSideEngine())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isTopSideEngine (int j){
-        for(int i = 0; i < 5; i++){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isTopSideEngine())
-                return true;
-        }
-        return false;
-    }
-
-    public boolean isBottomSideEngine (int j){
-        for(int i = 4; i >= 0; i--){
-            if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isBottomSideEngine())
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isBottomSideShielded())
                 return true;
         }
         return false;
@@ -366,13 +361,13 @@ public class Shipboard {
 
     public void removeMostValuableGoodBlocks(int num){
         int stillToRemove = num;
-        stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.REDBLOCK);
+        stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.REDBLOCK);
         if(stillToRemove > 0)
-            stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.YELLOWBLOCK);
+            stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.YELLOWBLOCK);
         if(stillToRemove > 0)
-            stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.GREENBLOCK);
+            stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.GREENBLOCK);
         if(stillToRemove > 0)
-            stillToRemove = num - removeAtMostNumGoodBlocks(num, GoodBlock.BLUEBLOCK);
+            stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.BLUEBLOCK);
     }
 
     //tries to remove num Goodblocks of the same type of block and returns the number of GoodBlocks actually removed
