@@ -14,7 +14,7 @@ This repository contains the implementation of the final project for the **Softw
 - [Emanuele De Simone](https://github.com/EmanueleDeSimone04)
 - [Jia Hui Dong](https://github.com/JHDongg)
 
-## Project Structure (to be fixed later)
+## Project Structure
 
 - `src/main/java` - Source code of the application
 - `src/test/java` - Unit tests
