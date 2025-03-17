@@ -1,21 +1,18 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.is25am22new.Model.Bank;
-import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.CardPile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Level2Game extends Game {
     private List<CardPile> cardPiles;
 
     public Level2Game(List<String> nicknames) {
         super(nicknames);
-        this.cardPiles = new ArrayList<CardPile>();
+        this.cardPiles = new ArrayList<>();
     }
 
     public Map<String, Integer> endGame() {
@@ -44,15 +41,54 @@ public class Level2Game extends Game {
         ObjectMapper objectMapper = new ObjectMapper();
         super.initGame();
         this.initDeck(objectMapper);
-        this.initCardPiles();
     }
 
     @Override
     public void initDeck(ObjectMapper objectMapper) {
-        // Reads 12 cards from json file and adds them to the deck
+        List<AdventureCard> cardArchive = getCardArchive();
+
+        // Filter level 1 and level 2 cards
+        List<AdventureCard> level1Cards = cardArchive.stream()
+                .filter(card -> card.getLevel() == 1)
+                .collect(Collectors.toList());
+
+        List<AdventureCard> level2Cards = cardArchive.stream()
+                .filter(card -> card.getLevel() == 2)
+                .collect(Collectors.toList());
+
+        // Shuffle the lists to randomize the selection
+        Collections.shuffle(level1Cards);
+        Collections.shuffle(level2Cards);
+
+        // Select 4 level 1 cards and 8 level 2 cards
+        List<AdventureCard> selectedCards = level1Cards.stream().limit(4).collect(Collectors.toList());
+        selectedCards.addAll(level2Cards.stream().limit(8).toList());
+
+        // initialize the Piles
+        initCardPiles(level1Cards, level2Cards);
+
+        // Add the selected cards to the deck
+        deck.addAll(selectedCards);
     }
 
-    private void initCardPiles() {
+    //cardPiles are 4 made of 2 level 2 cards and 1 level 1 card
+    private void initCardPiles(List<AdventureCard> level1, List<AdventureCard> level2) {
+        Collections.shuffle(level1);
+        Collections.shuffle(level2);
+        for(int i = 0; i < 4; i++) {
+            List<AdventureCard> cards = new ArrayList<>();
+            cards.add(level1.get(i));
+            cards.add(level2.get(i));
+            cards.add(level2.get(i+4)); //magic number 4
+            cardPiles.add(new CardPile(cards));
+        }
+    }
 
+    public List<CardPile> getCardPiles() {
+        return cardPiles;
+    }
+
+    public List<AdventureCard> getDeck() {
+        return deck;
     }
 }
