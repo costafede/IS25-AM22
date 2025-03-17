@@ -40,11 +40,11 @@ public class Level2Game extends Game {
     public void initGame() {
         ObjectMapper objectMapper = new ObjectMapper();
         super.initGame();
-        this.initDeck(objectMapper);
+        this.initDeck();
     }
 
     @Override
-    public void initDeck(ObjectMapper objectMapper) {
+    public void initDeck() {
         List<AdventureCard> cardArchive = getCardArchive();
 
         // Filter level 1 and level 2 cards

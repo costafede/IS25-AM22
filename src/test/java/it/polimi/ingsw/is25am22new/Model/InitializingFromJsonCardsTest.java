@@ -72,6 +72,9 @@ class InitializingFromJsonCardsTest {
         //check StardustCard initialized properly
         assertTrue(check_stardust_card(objectMapper, game), "StardustCard not initialized properly");
         assertEquals(2, game.getCardArchive().stream().filter(card -> card instanceof StardustCard).count());
+
+        //check correctness of the tutorial card number
+        assertEquals(8, game.getDeck().stream().filter(AdventureCard::isTutorial).count());
     }
 
     private boolean check_stardust_card(ObjectMapper objectMapper, Game game) {
