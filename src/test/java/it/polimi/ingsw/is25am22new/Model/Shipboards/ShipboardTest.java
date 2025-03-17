@@ -272,34 +272,55 @@ class ShipboardTest {
         Bank bank1 = new Bank();
         Shipboard ship = new Shipboard("red", "Emanuele", bank1);
 
+        // check add more boxes than capacity
         ship.weldComponentTile(tiles.get(10), 1, 3);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
+
+        assertEquals(2, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.YELLOWBLOCK));
+        assertEquals(0, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.REDBLOCK));
+        assertEquals(1, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.GREENBLOCK));
+        assertEquals(0, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.BLUEBLOCK));
+
+        // check remove two equal boxes from same tile
         ship.removeMostValuableGoodBlocks(2);
         assertEquals(2, ship.getScore());
 
+        // check remove from two different tiles
         ship.weldComponentTile(tiles.get(12), 2, 4);
         ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.GREENBLOCK);
         ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.BLUEBLOCK);
-        ship.removeMostValuableGoodBlocks(1);
-        assertEquals(3, ship.getScore());
 
+        ship.removeMostValuableGoodBlocks(2);
+        assertEquals(1, ship.getScore());
+
+        // check remove two different boxes from same tile
         ship.weldComponentTile(tiles.get(13), 2, 2);
         ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.YELLOWBLOCK);
-        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.GREENBLOCK);
+        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.GREENBLOCK);
         ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.BLUEBLOCK);
+
         ship.removeMostValuableGoodBlocks(2);
         assertEquals(2, ship.getScore());
 
+        // check remove from specialStorageCompartment
         ship.weldComponentTile(tiles.get(11), 3, 3);
         ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
         ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
+
         ship.removeMostValuableGoodBlocks(1);
         assertEquals(6, ship.getScore());
+
         ship.removeMostValuableGoodBlocks(1);
         assertEquals(2, ship.getScore());
+
         ship.removeMostValuableGoodBlocks(1);
+        assertEquals(1, ship.getScore());
+
+        // check remove more than available boxes
+        ship.removeMostValuableGoodBlocks(52);
         assertEquals(0, ship.getScore());
     }
 }
