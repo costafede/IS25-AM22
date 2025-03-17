@@ -34,7 +34,7 @@ public class AbandonedShipCard extends AdventureCard{
 
     @Override
     public boolean checkActivationConditions(String nickname) {
-        return !(game.getShipboards().get(nickname).getCrewNumberShip() < lostAstronauts);
+        return game.getShipboards().get(nickname).getCrewNumber() >= lostAstronauts;
     }
 
     @Override

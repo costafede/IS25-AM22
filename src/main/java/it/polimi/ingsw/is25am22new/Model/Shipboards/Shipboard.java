@@ -87,7 +87,7 @@ public class Shipboard {
         this.daysOnFlight = daysOnFlight;
     }
 
-    public void weldComponentTile (ComponentTile ct, int i, int j){componentTilesGrid.set(i, j, ct);}
+    public void weldComponentTile (ComponentTile ct, int i, int j){ componentTilesGrid.set(i, j, ct);}
 
     public void standbyComponentTile (ComponentTile ct){
         if(standbyComponent[0].isEmpty()){
@@ -155,15 +155,16 @@ public class Shipboard {
             }
         }// verifies if cannons and engines are valid
 
-        /*for(Optional<ComponentTile> ct : componentTilesGrid){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(c -> c.setColor(-1));
-        }//reset colors for the algorithm*/
+        }
 
+        /*
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 7; j++) {
                 componentTilesGrid.get(i, j).ifPresent(c -> c.setColor(-1));
             }
-        }
+        } */ //reset colors for the algorithm
 
         int i,j = 0;
         for(i = 0; i < 5; i++){
@@ -180,18 +181,18 @@ public class Shipboard {
         if(!tileConnectedProperly(i, j)) //check if the connectors are properly connected with a recursive method
             return false;
 
-        /*for(Optional<ComponentTile> ct : componentTilesGrid){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
             if(ct.isPresent() && ct.get().getColor() == -1)
                 return false;
-        }// verifies all Tiles have been colored*/
-
+        }// verifies all Tiles have been colored
+        /*
         for(i = 0; i < 5; i++){
             for(j = 0; j < 7; j++) {
                 if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().getColor() == -1)
                     return false;
             }
         }
-
+        */
         return true;
     }/*corretto temporaneamente checkshipboard, sostituendo i for each, con dei nested for loop, poiché i for each non funzionano. Da rivedere anche il doppio break nel nested loop che trova il primo tile non vuoto*/
 
@@ -408,7 +409,7 @@ public class Shipboard {
                componentTilesGrid.get(i-1, j).isPresent() && componentTilesGrid.get(i-1, j).get().getAddonColor().equals(color);
     }
 
-    public int getCrewNumberShip (){
+    public int getCrewNumber (){
         int crewnumber = 0;
         for (Optional<ComponentTile> ct : componentTilesGrid) {
             if (ct.isPresent())
@@ -517,7 +518,7 @@ class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
             }
             Optional<ComponentTile> componentTile = componentTilesGrid[i][j];
             j++;
-            if(columns >= j){
+            if(j >= columns){
                 j = 0;
                 i++;
             }

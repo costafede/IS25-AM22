@@ -19,15 +19,14 @@ public class AbandonedStationCard extends AdventureCard{
         this.goodBlocks = goodBlocks;
     }
 
-
     @Override
-    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
-        return true;
+    public boolean checkActivationConditions(String nickname) {
+        return game.getShipboards().get(nickname).getCrewNumber() >= astronautsNumber;
     }
 
     @Override
-    public boolean checkActivationConditions(String nickname) {
-        return true;
+    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
+        return inputCommand.getChoice();
     }
 
     @Override
