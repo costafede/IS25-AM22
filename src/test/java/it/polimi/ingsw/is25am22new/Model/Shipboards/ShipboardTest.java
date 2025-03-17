@@ -26,6 +26,8 @@ class ShipboardTest {
         tiles.add(new RegularCabin("9", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
         tiles.add(new StorageCompartment("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
         tiles.add(new SpecialStorageCompartment("11", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2));
+        tiles.add(new StorageCompartment("12", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
+        tiles.add(new StorageCompartment("13", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
         return tiles;
     }
 
@@ -136,6 +138,7 @@ class ShipboardTest {
 
         assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
     }
+
     @Test
     void test_get_score_calculates_the_correct_score() {
         List<ComponentTile> tiles = initializeTiles();
@@ -145,18 +148,24 @@ class ShipboardTest {
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
 
+        assertEquals(5, ship.getScore());
+
         ship.weldComponentTile(tiles.get(10), 2, 4);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
 
-        ship.destroyTile(3, 4);
-
-        assertFalse(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+        assertEquals(8, ship.getScore());
 
         ship.weldComponentTile(tiles.get(10), 2, 2);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.BLUEBLOCK);
+
+        assertEquals(10, ship.getScore());
 
         ship.weldComponentTile(tiles.get(11), 3, 3);
         ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.REDBLOCK);
+        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.REDBLOCK);
+
+        assertEquals(18, ship.getScore());
     }
 }
