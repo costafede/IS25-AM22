@@ -1,5 +1,6 @@
-![Galaxy Trucker Logo Image](#src/main/imageForReadMe/mainImage.png)
-
+<p align="center">
+  <img src="src/main/imageForReadMe/mainImage.png" alt="Galaxy Trucker Logo" width="300"/>
+</p>
 # 🚀 Galaxy Trucker - Software Engineering Final Project (2024/2025)
 
 ## Introduction
