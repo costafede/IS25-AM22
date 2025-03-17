@@ -110,9 +110,8 @@ public abstract class Game implements ModelInterface {
         hourglass.startTimer(callbackMethod);
     }
 
-    // TO BE MODIFIED
     public AdventureCard pickCard() {
-        return cardArchive.remove(new Random().nextInt(cardArchive.size()));
+        return deck.remove(new Random().nextInt(deck.size()));
     }
 
     public void chooseToAbandon(String nickname) {

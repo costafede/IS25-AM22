@@ -162,19 +162,22 @@ public class Shipboard {
             ct.ifPresent(c -> c.setColor(-1));
         }
 
-        int i,j = 0;
-        for(i = 0; i < 5; i++){
-            for(j = 0; j < 7; j++) {
-                if(componentTilesGrid.get(i, j).isPresent())
-                    break; //i and j are the coordinates of the first tile
-                if(i == 4 && j == 6)
-                    return true; //if the ship is empty then it is valid
+        boolean found = false;
+        int firstTileX = -1, firstTileY = -1;
+
+        for (int i = 0; i < 5 && !found; i++) {
+            for (int j = 0; j < 7 && !found; j++) {
+                if (componentTilesGrid.get(i, j).isPresent()) {
+                    found = true; // Tile found, exit loops
+                    firstTileX = i;
+                    firstTileY = j;
+                } else if (i == 4 && j == 6) {
+                    return true; // Entire ship is empty, return valid state
+                }
             }
-            if(componentTilesGrid.get(i, j).isPresent())
-                break; //i and j are the coordinates of the first tile
         }
 
-        if(!tileConnectedProperly(i, j)) //check if the connectors are properly connected with a recursive method
+        if(!tileConnectedProperly(firstTileX, firstTileY)) //check if the connectors are properly connected with a recursive method
             return false;
 
         for(Optional<ComponentTile> ct : componentTilesGrid){
@@ -183,7 +186,7 @@ public class Shipboard {
         }// verifies all Tiles have been colored
 
         return true;
-    }/*Da rivedere anche il doppio break nel nested loop che trova il primo tile non vuoto*/
+    }
 
     private boolean tileConnectedProperly(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == 1)
