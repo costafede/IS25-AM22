@@ -1,3 +1,5 @@
+![Galaxy Trucker Logo Image](#src/main/imageForReadMe/mainImage.png)
+
 # 🚀 Galaxy Trucker - Software Engineering Final Project (2024/2025)
 
 ## Introduction
