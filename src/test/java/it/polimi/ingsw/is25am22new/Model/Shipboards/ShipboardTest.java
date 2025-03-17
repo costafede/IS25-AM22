@@ -6,6 +6,8 @@ import it.polimi.ingsw.is25am22new.Model.Side;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShipboardTest {
@@ -20,8 +22,17 @@ class ShipboardTest {
         tiles.add(new StructuralModule("6", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
         return tiles;
     }
+
+    private void clearGrid(Shipboard shipboard){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 7; j++) {
+                shipboard.weldComponentTile(null, i, j);
+            }
+        }
+    }
+
     @Test
-    void test_shipboard_should_be_considered_valid() {
+    void test_shipboards_should_be_considered_valid() {
         List<ComponentTile> tiles = initializeTiles();
         Shipboard ship = new Shipboard("red", "Emanuele", null);
         ship.weldComponentTile(tiles.get(0),3, 3);
@@ -32,7 +43,20 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(4),1, 4);
 
         assertTrue(ship.checkShipboard());
+
+        tiles = initializeTiles();
+        ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(0),3, 3);
+        ship.weldComponentTile(tiles.get(1),2, 4);
+        ship.weldComponentTile(tiles.get(2),1, 3);
+        ship.weldComponentTile(tiles.get(3),1, 4);
+        tiles.get(4).rotateCounterClockwise();
+        tiles.get(4).rotateCounterClockwise();
+        ship.weldComponentTile(tiles.get(4),2, 4);
+
+        assertTrue(ship.checkShipboard());
     }
+
     @Test
     void test_shipboard_should_be_considered_invalid_due_to_non_connected_parts() {
         List<ComponentTile> tiles = initializeTiles();
@@ -85,6 +109,15 @@ class ShipboardTest {
 
         ship.weldComponentTile(tiles.get(1),3, 4);
         assertTrue(ship.checkShipboard());
+
+        clearGrid(ship);
+
+        ship.weldComponentTile(tiles.get(0),3, 3);
+        ship.weldComponentTile(tiles.get(5),3, 4);
+        ship.weldComponentTile(tiles.get(6),2, 4);
+
+        assertFalse(ship.checkShipboard());
+
     }
 
 
