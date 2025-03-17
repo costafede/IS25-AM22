@@ -2,16 +2,16 @@ package it.polimi.ingsw.is25am22new.Model.Games;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TutorialGame extends Game {
     public TutorialGame(List<String> nicknames) {
         super(nicknames);
+        this.flightboard = new TutorialFlightBoard();
     }
 
     @Override
@@ -22,7 +22,6 @@ public class TutorialGame extends Game {
 
     public Map<String, Integer> endGame() {
         Map<String, Integer> scores = new HashMap<>();
-        String nickname = super.betterShipboard();
 
         //Calculate the partial scores : Score = Sold Goods - Discard Tiles
         for(String player : playerList) {
@@ -38,6 +37,20 @@ public class TutorialGame extends Game {
         //Adding scores for the best shipboard
         scores.put(betterShipboard(), scores.get(betterShipboard()) + 2);
 
+        scores = sortDesc(scores);
+
+        return scores;
+    }
+
+    protected Map<String, Integer> sortDesc(Map<String, Integer> scores) {
+        scores = scores.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder()))
+                .collect(
+                        LinkedHashMap::new,
+                        (m, e) -> m.put(e.getKey(), e.getValue()),
+                        LinkedHashMap::putAll
+                );
         return scores;
     }
 
