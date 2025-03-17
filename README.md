@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="src/main/imageForReadMe/horizontalLogo.png" alt="Galaxy Trucker Logo" width="300"/>
+  <img src="src/main/imageForReadMe/horizontalLogo.png" alt="Galaxy Trucker Logo" style="max-width: 100%; height: auto;">
 </p>
+
 # 🚀 Galaxy Trucker - Software Engineering Final Project (2024/2025)
 
 ## Introduction
