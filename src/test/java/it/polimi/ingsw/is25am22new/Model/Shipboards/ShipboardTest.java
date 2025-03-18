@@ -323,4 +323,36 @@ class ShipboardTest {
         ship.removeMostValuableGoodBlocks(52);
         assertEquals(0, ship.getScore());
     }
+
+    @Test
+    void test_should_recognise_three_shipwrecks_and_choose_the_third_one(){
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(tiles.get(0), 4, 1);
+        ship.weldComponentTile(tiles.get(1), 4, 5);
+        ship.weldComponentTile(tiles.get(2), 3, 1);
+        ship.weldComponentTile(tiles.get(4), 1, 3);
+        ship.weldComponentTile(tiles.get(5), 3, 5);
+        ship.weldComponentTile(tiles.get(6), 3, 4);
+
+        assertEquals(3, ship.highlightShipWrecks());
+        assertEquals(0, tiles.get(4).getColor());
+        assertEquals(0, ship.getComponentTileFromGrid(2, 3).getColor());
+        assertEquals(1, tiles.get(2).getColor());
+        assertEquals(1, tiles.get(0).getColor());
+        assertEquals(2, tiles.get(1).getColor());
+        assertEquals(2, tiles.get(5).getColor());
+        assertEquals(2, tiles.get(6).getColor());
+
+        ship.chooseShipWreck(3, 5);
+
+        assertEquals(tiles.get(6), ship.getComponentTileFromGrid(3, 4));
+        assertEquals(tiles.get(5), ship.getComponentTileFromGrid(3, 5));
+        assertEquals(tiles.get(1), ship.getComponentTileFromGrid(4, 5));
+        ship.destroyTile(3, 4);
+        ship.destroyTile(3, 5);
+        ship.destroyTile(4, 5);
+        assertTrue(ship.isShipboardEmpty());
+        assertTrue(ship.checkShipboard());
+    }
 }

@@ -425,7 +425,7 @@ public class Shipboard {
             ct.ifPresent(c -> c.setColor(-1));
         }//reset colors for the algorithm
 
-        int color = 1;
+        int color = 0;
 
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 7; j++) {
@@ -440,7 +440,7 @@ public class Shipboard {
     }
 
     private void spreadColor(int i, int j, int color){  //method needed for the previous one to work
-        if(componentTilesGrid.get(i, j).isEmpty())
+        if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == color)
             return;
         componentTilesGrid.get(i, j).get().setColor(color);
         spreadColor(i+1, j, color);
