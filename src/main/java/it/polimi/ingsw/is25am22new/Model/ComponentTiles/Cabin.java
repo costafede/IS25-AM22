@@ -12,7 +12,7 @@ abstract class Cabin extends ComponentTile {
     }
 
     public void removeCrewMember() {
-        numOfAstronauts--;
+        if(numOfAstronauts > 0) numOfAstronauts--;
     }
 
     public void putAstronauts(){
@@ -23,4 +23,5 @@ abstract class Cabin extends ComponentTile {
         return numOfAstronauts;
     }
 
+    public boolean isCabin() { return true;}
 }

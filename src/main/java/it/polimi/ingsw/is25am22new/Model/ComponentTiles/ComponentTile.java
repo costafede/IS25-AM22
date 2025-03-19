@@ -201,4 +201,5 @@ public abstract class ComponentTile {
         return false;
     }
 
+    public boolean isCabin() {return false;}
 }
