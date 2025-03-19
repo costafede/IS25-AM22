@@ -42,13 +42,5 @@ public abstract class AdventureCard {
         return level;
     }
 
-    // the check is made before asking the input to the player
-    // returns true if actionable, false otherwise
-    public abstract boolean checkActivationConditions(String nickname);
-
-    // returning false means it has to go the next player turn
-    // returning true means it has to stay in the same turn, next phase
-    public abstract boolean activateCardPhase(String nickname, InputCommand inputCommand);
-    public abstract boolean receiveInputPhase(String nickname, InputCommand inputCommand);
-    public abstract void resolveCardEffectPhase(String nickname);
+    public abstract void activateEffect(InputCommand inputCommand);
 }
