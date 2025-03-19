@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.StartingCabin;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Side;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -232,7 +233,6 @@ public class Shipboard {
         return exposedConnectors;
     }
 
-
     // these next four methods check if there is an active cannon (normal cannons and activated double cannons) facing in a direction at the row/column i/j
     public boolean isRightSideCannon (int i){
         for(int j = 6; j >= 0; j--){
@@ -350,6 +350,25 @@ public class Shipboard {
         for(Optional<ComponentTile> ct : componentTilesGrid){
             if(ct.isPresent() && ct.get().isAlienPresent("purple"))
                 return true;
+        }
+        return false;
+    }
+
+    public boolean isConnectedToCabin(int row, int col) throws RuntimeException{
+        Optional<ComponentTile> ct = componentTilesGrid.get(row, col);
+        if(ct.isPresent()) {
+            Optional<ComponentTile> cBot = componentTilesGrid.get(row + 1, col);
+            Optional<ComponentTile> cTop = componentTilesGrid.get(row - 1, col);
+            Optional<ComponentTile> cLeft = componentTilesGrid.get(row, col - 1);
+            Optional<ComponentTile> cRight = componentTilesGrid.get(row, col + 1);
+            if ((cBot.isPresent() && cBot.get().isCabin() && sidesMatch(ct.get().getBottomSide(), cBot.get().getTopSide())) ||
+                (cTop.isPresent() && cTop.get().isCabin() && sidesMatch(ct.get().getTopSide(), cTop.get().getBottomSide())) ||
+                (cLeft.isPresent() && cLeft.get().isCabin() && sidesMatch(ct.get().getLeftSide(), cLeft.get().getRightSide())) ||
+                (cRight.isPresent() && cRight.get().isCabin() && sidesMatch(ct.get().getRightSide(), cRight.get().getLeftSide()))
+            ) { return true;}
+        }
+        else {
+            throw new RuntimeException("No tile found");
         }
         return false;
     }
