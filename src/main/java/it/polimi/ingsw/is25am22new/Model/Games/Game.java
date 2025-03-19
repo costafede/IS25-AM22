@@ -198,4 +198,8 @@ public abstract class Game implements ModelInterface {
     public String getLastPlayer() {
         return flightboard.getOrderedRockets().getLast();
     }
+
+    public Bank getBank() {
+        return bank;
+    }
 }
