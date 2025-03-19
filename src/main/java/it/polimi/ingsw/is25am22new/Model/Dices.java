@@ -6,7 +6,7 @@ public class Dices {
     int dice1;
     int dice2;
 
-    public Dices(int dice1, int dice2) {
+    public Dices() {
         this.dice1 = new Random().nextInt(6) + 1;
         this.dice2 = new Random().nextInt(6) + 1;
     }

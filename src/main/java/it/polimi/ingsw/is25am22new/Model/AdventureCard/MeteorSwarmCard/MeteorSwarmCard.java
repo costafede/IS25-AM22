@@ -9,34 +9,30 @@ import java.util.Map;
 
 public class MeteorSwarmCard extends AdventureCard {
 
-    private Map<Integer, Meteor> NumberToMeteor;
+    private Map<Integer, Meteor> numberToMeteor;
+    private MeteorSwarmState meteorSwarmState;
+    private int indexOfIncomingMeteor;
 
-    public MeteorSwarmCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> NumberToMeteor) {
+    public MeteorSwarmCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> numberToMeteor) {
         super(pngName, name, game, level, tutorial);
-        this.NumberToMeteor = NumberToMeteor;
+        this.numberToMeteor = numberToMeteor;
+        this.meteorSwarmState = new MeteorSwarmState_1(this);
+        this.indexOfIncomingMeteor = 0;
     }
 
-    @Override
-    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
-        return true;
-    }
-
-    @Override
-    public boolean checkActivationConditions(String nickname) {
-        return true;
-    }
-
-    @Override
-    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
-        return true;
-    }
-
-    @Override
-    public void resolveCardEffectPhase(String nickname) {
-        return;
+    public void activateEffect(InputCommand command) {
+        meteorSwarmState.activateEffect(command);
     }
 
     public Map<Integer, Meteor> getNumberToMeteor() {
-        return NumberToMeteor;
+        return numberToMeteor;
+    }
+
+    public boolean thereAreStillMeteors() {
+        return indexOfIncomingMeteor < numberToMeteor.size();
+    }
+
+    public int getIndexOfIncomingMeteor() {
+        return indexOfIncomingMeteor;
     }
 }

@@ -24,6 +24,7 @@ public abstract class Game implements ModelInterface {
     protected List<AdventureCard> deck;
     protected String currPlayer;
     protected AdventureCard currCard;
+    private Dices dices;
 
     public Game(List<String> playerList) {
         this.playerList = playerList;
@@ -34,6 +35,7 @@ public abstract class Game implements ModelInterface {
         hourglass = new Hourglass(60);
         shipboards = new HashMap<>();
         this.deck = new ArrayList<>();
+        this.dices = new Dices();
 
         List<String> colors = List.of("red", "green", "blue", "yellow");
         for(int i = 0; i < playerList.size(); i++) {
@@ -197,5 +199,9 @@ public abstract class Game implements ModelInterface {
 
     public String getLastPlayer() {
         return flightboard.getOrderedRockets().getLast();
+    }
+
+    public Dices getDices() {
+        return dices;
     }
 }
