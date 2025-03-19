@@ -1,8 +1,9 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.util.List;
 

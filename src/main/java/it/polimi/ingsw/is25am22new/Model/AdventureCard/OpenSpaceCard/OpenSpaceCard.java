@@ -1,18 +1,13 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-import java.util.List;
-import java.util.Map;
+public class OpenSpaceCard extends AdventureCard {
 
-public class MeteorSwarmCard extends AdventureCard{
-
-    private Map<Integer, Meteor> NumberToMeteor;
-
-    public MeteorSwarmCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> NumberToMeteor) {
+    public OpenSpaceCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);
-        this.NumberToMeteor = NumberToMeteor;
     }
 
     @Override
@@ -33,9 +28,5 @@ public class MeteorSwarmCard extends AdventureCard{
     @Override
     public void resolveCardEffectPhase(String nickname) {
         return;
-    }
-
-    public Map<Integer, Meteor> getNumberToMeteor() {
-        return NumberToMeteor;
     }
 }

@@ -1,23 +1,21 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-import java.util.List;
-import java.util.Map;
+public class SlaversCard extends AdventureCard {
 
-public class PiratesCard extends AdventureCard{
-
-    private Map<Integer, Shot> numberToShot;
     private int flightDaysLost;
     private int cannonStrength;
+    private int lostAstronauts;
     private int credits;
 
-    public PiratesCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Shot> numberToShot, int flightDaysLost, int cannonStrength, int credits) {
+    public SlaversCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int lostAstronauts, int credits) {
         super(pngName, name, game, level, tutorial);
-        this.numberToShot = numberToShot;
         this.flightDaysLost = flightDaysLost;
         this.cannonStrength = cannonStrength;
+        this.lostAstronauts = lostAstronauts;
         this.credits = credits;
     }
 
@@ -41,16 +39,16 @@ public class PiratesCard extends AdventureCard{
         return;
     }
 
-    public Map<Integer, Shot> getNumberToShot() {
-        return numberToShot;
-    }
-
     public int getFlightDaysLost() {
         return flightDaysLost;
     }
 
     public int getCannonStrength() {
         return cannonStrength;
+    }
+
+    public int getLostAstronauts() {
+        return lostAstronauts;
     }
 
     public int getCredits() {

@@ -1,13 +1,12 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-import java.util.List;
+public class StardustCard extends AdventureCard {
 
-public class EpidemicCard extends AdventureCard{
-
-    public EpidemicCard(String pngName, String name, Game game, int level, boolean tutorial) {
+    public StardustCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);
     }
 

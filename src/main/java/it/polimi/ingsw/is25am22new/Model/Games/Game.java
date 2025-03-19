@@ -22,6 +22,8 @@ public abstract class Game implements ModelInterface {
     protected List<AdventureCard> cardArchive;
     protected Hourglass hourglass;
     protected List<AdventureCard> deck;
+    protected String currPlayer;
+    protected AdventureCard currCard;
 
     public Game(List<String> playerList) {
         this.playerList = playerList;
@@ -109,8 +111,8 @@ public abstract class Game implements ModelInterface {
         hourglass.startTimer(callbackMethod);
     }
 
-    public AdventureCard pickCard() {
-        return deck.remove(new Random().nextInt(deck.size()));
+    public void pickCard() {
+        setCurrCard(deck.remove(new Random().nextInt(deck.size())));
     }
 
     public void chooseToAbandon(String nickname) {
@@ -162,5 +164,34 @@ public abstract class Game implements ModelInterface {
 
     public List<AdventureCard> getDeck() {
         return deck;
+    }
+
+    public void setCurrCard(AdventureCard card) {
+        currCard = card;
+    }
+
+    public void setCurrPlayer(String nickname) {
+        currPlayer = nickname;
+    }
+
+    public String getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public AdventureCard getCurrCard() {
+        return currCard;
+    }
+
+    public void setCurrPlayerToNext(){
+        try{
+            currPlayer = flightboard.getOrderedRockets().get(flightboard.getOrderedRockets().indexOf(currPlayer) + 1);
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Error, index out of bound!");
+        }
+    }
+
+    public void setCurrPlayerToLeader(){
+        currPlayer = flightboard.getOrderedRockets().getFirst();
     }
 }

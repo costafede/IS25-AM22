@@ -1,9 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
-
-import java.util.List;
 
 public abstract class AdventureCard {
 

@@ -1,13 +1,14 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.MockClasses.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.util.List;
 import java.util.Map;
 
-public class PlanetsCard extends AdventureCard{
+public class PlanetsCard extends AdventureCard {
     private Map<Integer, List<GoodBlock>> planetToGoodBlocks;
     private int flightDaysLost;
 
