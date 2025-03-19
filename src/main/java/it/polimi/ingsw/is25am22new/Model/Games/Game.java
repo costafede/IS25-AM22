@@ -201,6 +201,10 @@ public abstract class Game implements ModelInterface {
         return flightboard.getOrderedRockets().getLast();
     }
 
+    public Bank getBank() {
+        return bank;
+    }
+
     public Dices getDices() {
         return dices;
     }
