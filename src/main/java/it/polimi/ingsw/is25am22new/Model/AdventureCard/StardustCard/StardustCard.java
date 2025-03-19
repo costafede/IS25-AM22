@@ -12,6 +12,7 @@ public class StardustCard extends AdventureCard {
         super(pngName, name, game, level, tutorial);
     }
 
+    @Override
     public void activateEffect(InputCommand command) {
         List<String> orderedPlayers = game.getFlightboard().getOrderedRockets();
         for (int i = orderedPlayers.size() - 1; i >= 0; i--) {

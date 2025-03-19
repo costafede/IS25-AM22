@@ -15,5 +15,5 @@ public abstract class MeteorSwarmState {
     }
 
     public abstract void activateEffect(InputCommand inputCommand);
-    public abstract void transition(PlanetsState planetsState);
+    public abstract void transition(MeteorSwarmState meteorSwarmState);
 }

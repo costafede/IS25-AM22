@@ -478,8 +478,8 @@ public class Shipboard {
         }
     }
 
-    public ComponentTile getComponentTileFromGrid(int i, int j){
-        return componentTilesGrid.get(i, j).orElseThrow(() -> new IllegalAccessError("No tile in this position"));
+    public Optional<ComponentTile> getComponentTileFromGrid(int i, int j){
+        return componentTilesGrid.get(i, j);
     }
 }
 

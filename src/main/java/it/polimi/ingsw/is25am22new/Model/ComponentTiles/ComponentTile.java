@@ -153,6 +153,10 @@ public abstract class ComponentTile {
         return 0;
     }
 
+    public int getNumOfBatteries() {
+        return 0;
+    }
+
     public void removeBatteryToken(){
         return;
     }

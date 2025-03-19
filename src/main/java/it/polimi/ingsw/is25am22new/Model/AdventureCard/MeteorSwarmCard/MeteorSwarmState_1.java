@@ -1,32 +1,40 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.Meteor;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.Orientation;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsState;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MeteorSwarmState_1 extends MeteorSwarmState{
     public MeteorSwarmState_1(MeteorSwarmCard meteorSwarmCard) { super(meteorSwarmCard); }
 
+    @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
+        Shipboard shipboard = game.getShipboards().get(currentPlayer);
         if(meteorSwarmCard.thereAreStillMeteors()) {
-            Meteor incomingMeteor = meteorSwarmCard.getNumberToMeteor().get(meteorSwarmCard.getIndexOfIncomingMeteor());
-            if(incomingMeteor.getOrientation() == Orientation.TOP ||
-                incomingMeteor.getOrientation() == Orientation.BOTTOM) {
-                game.getDices().rollDices();
-                int col = game.getDices().getDice1() + game.getDices().getDice2(); // gets the right column
+            game.getDices().rollDices();
+            int x = inputCommand.getRow();
+            int y = inputCommand.getCol();
+            AtomicInteger numOfBatteries = new AtomicInteger(0);
 
-
+            Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
+            ctOptional.ifPresent(ct -> numOfBatteries.set(ct.getNumOfBatteries()));
+            if(numOfBatteries.get() > 0) {
+                ctOptional.get().removeBatteryToken();
+                meteorSwarmCard.setBatteryUsed(true);
             }
-            else if (incomingMeteor.getOrientation() == Orientation.LEFT ||
-                    incomingMeteor.getOrientation() == Orientation.RIGHT) {
-
-            }
+        }
+        else { // resolves the card
+            game.setCurrCard(null);
         }
     }
 
-    public void transition(PlanetsState planetsState) {
-        // transition made after all players have taken the same meteor
+    @Override
+    public void transition(MeteorSwarmState meteorSwarmState) {
+        // transition made after battery token used
+        meteorSwarmCard.setMeteorSwarmState(meteorSwarmState);
     }
 }

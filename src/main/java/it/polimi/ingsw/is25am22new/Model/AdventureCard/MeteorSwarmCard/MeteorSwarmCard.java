@@ -12,14 +12,19 @@ public class MeteorSwarmCard extends AdventureCard {
     private Map<Integer, Meteor> numberToMeteor;
     private MeteorSwarmState meteorSwarmState;
     private int indexOfIncomingMeteor;
+    private boolean batteryUsed;
+    private int incomingMeteorRow;
+    private int incomingMeteorCol;
 
     public MeteorSwarmCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> numberToMeteor) {
         super(pngName, name, game, level, tutorial);
         this.numberToMeteor = numberToMeteor;
         this.meteorSwarmState = new MeteorSwarmState_1(this);
         this.indexOfIncomingMeteor = 0;
+        this.batteryUsed = false;
     }
 
+    @Override
     public void activateEffect(InputCommand command) {
         meteorSwarmState.activateEffect(command);
     }
@@ -34,5 +39,29 @@ public class MeteorSwarmCard extends AdventureCard {
 
     public int getIndexOfIncomingMeteor() {
         return indexOfIncomingMeteor;
+    }
+
+    public void setMeteorSwarmState(MeteorSwarmState meteorSwarmState) {
+        this.meteorSwarmState = meteorSwarmState;
+    }
+
+    public void setBatteryUsed(boolean batteryUsed) {
+        this.batteryUsed = batteryUsed;
+    }
+
+    public void setIncomingMeteorRow(int incomingMeteorRow) {
+        this.incomingMeteorRow = incomingMeteorRow;
+    }
+
+    public void setIncomingMeteorCol(int incomingMeteorCol) {
+        this.incomingMeteorCol = incomingMeteorCol;
+    }
+
+    public int getIncomingMeteorRow() {
+        return incomingMeteorRow;
+    }
+
+    public int getIncomingMeteorCol() {
+        return incomingMeteorCol;
     }
 }
