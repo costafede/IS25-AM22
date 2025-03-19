@@ -10,8 +10,8 @@ public class InputCommand {
     private GoodBlock goodBlock;
     private boolean addingGoodBlock;
     private boolean removingGoodBlock;
-    private int xCoord;
-    private int yCoord;
+    private int row;
+    private int col;
 
 
     public InputCommand() {
@@ -23,8 +23,13 @@ public class InputCommand {
 
     public int getIndexChosen() { return indexChosen;}
 
+    public boolean isAddingGoodBlock() { return addingGoodBlock;}
 
+    public boolean isRemovingGoodBlock() { return removingGoodBlock;}
 
+    public int getRow() { return row;}
+
+    public int getCol() { return col;}
 
     /*these setters are used to create the inputCommand objects in the model test cases,the controller will just use the constructor*/
 

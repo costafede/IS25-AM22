@@ -8,14 +8,12 @@ public class PlanetsState_1 extends PlanetsState {
     }
 
     public void activateEffect(InputCommand inputCommand){
-        currPlayer = planetsCard.getGame().getCurrPlayer();
-        planetsCard.getPlanets().get(InputCommand.getChosenPlanet()).setPlayer(currPlayer);
-        if(!planetsCard.planetsFull() && !currPlayer.equals(planetsCard.getGame().getLastPlayer())) {
-            planetsCard.getGame().setCurrPlayerToNext();
-            return;
-        }
+        if(inputCommand.getChoice())
+            planetsCard.getPlanets().get(inputCommand.getIndexChosen()).setPlayer(game.getCurrPlayer());
+        if(!planetsCard.planetsFull() && !game.getCurrPlayer().equals(game.getLastPlayer()))
+            game.setCurrPlayerToNext();
         else {
-            planetsCard.getGame().setCurrPlayerToLeader();
+            game.setCurrPlayerToLeader();
             transition(new PlanetsState_2(planetsCard));
         }
     }

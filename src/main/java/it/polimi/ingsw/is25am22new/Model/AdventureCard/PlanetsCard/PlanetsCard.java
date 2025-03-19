@@ -32,4 +32,12 @@ public class PlanetsCard extends AdventureCard {
     public void setPlanetsState(PlanetsState planetsState) {
         this.planetsState = planetsState;
     }
+
+    public boolean planetsFull(){
+        for(Planet planet : planets){
+            if(!planet.playerPresent())
+                return false;
+        }
+        return true;
+    }
 }

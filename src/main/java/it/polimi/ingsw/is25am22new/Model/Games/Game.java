@@ -194,4 +194,8 @@ public abstract class Game implements ModelInterface {
     public void setCurrPlayerToLeader(){
         currPlayer = flightboard.getOrderedRockets().getFirst();
     }
+
+    public String getLastPlayer() {
+        return flightboard.getOrderedRockets().getLast();
+    }
 }
