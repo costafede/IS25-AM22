@@ -1,0 +1,28 @@
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard;
+
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+
+public class AbandonedShipState_1 extends AbandonedShipState {
+    public AbandonedShipState_1(AbandonedShipCard abandonedShipCard) {
+        super(abandonedShipCard);
+    }
+
+    @Override
+    public void activateEffect(InputCommand inputCommand) {
+        if(inputCommand.getChoice()){
+            game.getFlightboard().shiftRocket(game.getShipboards(), game.getCurrPlayer(), abandonedShipCard.getFlightDaysLost());
+            transition(new AbandonedShipState_2(abandonedShipCard));
+        }
+        else if(!game.getCurrPlayer().equals(game.getLastPlayer()))
+            game.setCurrPlayerToNext();
+        else{
+            game.setCurrPlayerToLeader();
+            game.setCurrCard(null);
+        }
+    }
+
+    @Override
+    public void transition(AbandonedShipState abandonedShipState) {
+        abandonedShipCard.setAbandonedShipState(abandonedShipState);
+    }
+}

@@ -34,6 +34,12 @@ public class InputCommand {
 
     public int getCol() { return col;}
 
+    public int getRow_1() { return row_1;}
+
+    public int getCol_1() { return col_1;}
+
+    public GoodBlock getGoodBlock_1() { return goodBlock_1;}
+
     /*these setters are used to create the inputCommand objects in the model test cases,the controller will just use the constructor*/
 
     public GoodBlock getGoodBlock() { return goodBlock;}

@@ -13,7 +13,12 @@ public class PlanetsState_1 extends PlanetsState {
         if(!planetsCard.planetsFull() && !game.getCurrPlayer().equals(game.getLastPlayer()))
             game.setCurrPlayerToNext();
         else {
+            for(int i = game.getFlightboard().getOrderedRockets().size() - 1; i >= 0; i--){   //all players who have decided to land lose flight days
+                if(planetsCard.playerHasLanded(game.getFlightboard().getOrderedRockets().get(i)))
+                    game.getFlightboard().shiftRocket(game.getShipboards(), game.getFlightboard().getOrderedRockets().get(i), planetsCard.getFlightDaysLost());
+            }
             game.setCurrPlayerToLeader();
+            planetsCard.loadPlanet(game.getCurrPlayer());
             transition(new PlanetsState_2(planetsCard));
         }
     }

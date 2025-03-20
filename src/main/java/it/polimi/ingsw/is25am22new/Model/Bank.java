@@ -38,19 +38,21 @@ public class Bank {
         }
     }
 
-    //decreases the amount of the given block type in the bank
+    //decreases the amount of the given block type in the bank if it's present or else does nothing
     public void withdrawGoodBlock(GoodBlock gb){
-        if (gb.equals(REDBLOCK)){
-            goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
-        }
-        if (gb.equals(YELLOWBLOCK)){
-            goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
-        }
-        if (gb.equals(GREENBLOCK)){
-            goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
-        }
-        if (gb.equals(BLUEBLOCK)){
-            goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
+        if(goodblockToNum.get(gb) > 0) {
+            if (gb.equals(REDBLOCK)) {
+                goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
+            }
+            if (gb.equals(YELLOWBLOCK)) {
+                goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
+            }
+            if (gb.equals(GREENBLOCK)) {
+                goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
+            }
+            if (gb.equals(BLUEBLOCK)) {
+                goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
+            }
         }
     }
 }

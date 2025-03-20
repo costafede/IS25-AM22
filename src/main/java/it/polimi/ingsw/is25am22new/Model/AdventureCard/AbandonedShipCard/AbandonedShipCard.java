@@ -10,8 +10,9 @@ public class AbandonedShipCard extends AdventureCard {
     private int credits;
     private int lostAstronauts;
     private int removedAstronauts;
+    private AbandonedShipState abandonedShipState;
 
-    public int getFlightdaysLost() {
+    public int getFlightDaysLost() {
         return flightdaysLost;
     }
 
@@ -29,32 +30,16 @@ public class AbandonedShipCard extends AdventureCard {
         this.flightdaysLost = flightdaysLost;
         this.lostAstronauts = lostAstronauts;
         this.removedAstronauts = 0;
+        this.abandonedShipState = new AbandonedShipState_1(this);
     }
 
+
     @Override
-    public boolean checkActivationConditions(String nickname) {
-        return game.getShipboards().get(nickname).getCrewNumber() >= lostAstronauts;
+    public void activateEffect(InputCommand inputCommand) {
+        abandonedShipState.activateEffect(inputCommand);
     }
 
-    @Override
-    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
-        return inputCommand.getChoice();
-    }
-
-    @Override
-    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
-        int x = inputCommand.getXCoordGrid();
-        int y = inputCommand.getYCoordGrid();
-
-        game.getShipboards().get(nickname).getComponentTileFromGrid(x, y).removeCrewMember();
-        removedAstronauts++;
-        // goes on until the player has removed all the astronauts the card requires
-        return removedAstronauts < lostAstronauts;
-    }
-
-    @Override
-    public void resolveCardEffectPhase(String nickname) {
-        game.getShipboards().get(nickname).addCosmicCredits(credits);
-        game.getFlightboard().shiftRocket(game.getShipboards(), nickname, flightdaysLost);
+    public void setAbandonedShipState(AbandonedShipState abandonedShipState) {
+        this.abandonedShipState = abandonedShipState;
     }
 }
