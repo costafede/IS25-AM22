@@ -7,11 +7,12 @@ import java.util.Map;
 public class InputCommand {
     private boolean choiceCommand; // used for yes or no choices commands
     private int indexChosen; //used to choose an element in a list or map depending on the current card
-    private GoodBlock goodBlock;
+    private GoodBlock goodBlock, goodBlock_1;
     private boolean addingGoodBlock;
     private boolean removingGoodBlock;
-    private int row;
-    private int col;
+    private boolean switchingGoodBlock;
+    private int row, row_1;
+    private int col, col_1;
 
 
     public InputCommand() {
@@ -26,6 +27,8 @@ public class InputCommand {
     public boolean isAddingGoodBlock() { return addingGoodBlock;}
 
     public boolean isRemovingGoodBlock() { return removingGoodBlock;}
+
+    public boolean isSwitchingGoodBlock() { return switchingGoodBlock;}
 
     public int getRow() { return row;}
 
