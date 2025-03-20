@@ -18,11 +18,15 @@ public class PlanetsCard extends AdventureCard {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
         this.planets = planets;
-        planetsState = new PlanetsState_1(this);
+        this.planetsState = new PlanetsState_1(this);
     }
 
     public void activateEffect(InputCommand inputCommand){
         planetsState.activateEffect(inputCommand);
+    }
+
+    public int getFlightDaysLost(){
+        return flightDaysLost;
     }
 
     public List<Planet> getPlanets() {
@@ -39,5 +43,39 @@ public class PlanetsCard extends AdventureCard {
                 return false;
         }
         return true;
+    }
+
+    public void loadPlanet(String nickname){    // loads the planet where the player "nickname" has landed on with the good blocks from the bank
+        Planet planet = getPlanet(nickname);
+
+        for(GoodBlock gb : GoodBlock.values()){
+            for(int goodBlocksToLoad = planet.getTheoreticalGoodblocks().get(gb); goodBlocksToLoad > 0; goodBlocksToLoad--){
+                game.getBank().withdrawGoodBlock(gb);
+                planet.setActualGoodblocks(gb, planet.getActualGoodblocks().get(gb) + 1);
+            }
+        }
+    }
+
+    public void unloadPlanet(String nickname){
+        Planet planet = getPlanet(nickname);
+
+        for(GoodBlock gb : GoodBlock.values()){
+            for(int goodBlocksToUnload = planet.getActualGoodblocks().get(gb); goodBlocksToUnload > 0; goodBlocksToUnload--){
+                game.getBank().depositGoodBlock(gb);
+            }
+        }
+    }
+
+    public boolean playerHasLanded(String nickname){
+        return getPlanet(nickname) != null;
+    }
+
+    public Planet getPlanet(String nickname){
+        for(Planet p : planets){
+            if(p.getPlayer() != null && p.getPlayer().equals(nickname)){
+                return p;
+            }
+        }
+        return null;
     }
 }

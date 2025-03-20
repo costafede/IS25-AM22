@@ -5,16 +5,30 @@ import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import java.util.Map;
 
 public class Planet {
-    private Map<GoodBlock, Integer> goodblocks;
+    private Map<GoodBlock, Integer> theoreticalGoodblocks;
+
+    private Map<GoodBlock, Integer> actualGoodblocks;
 
     private String player;
 
-    public Map<GoodBlock, Integer> getGoodblocks() {
-        return goodblocks;
+    public Planet(Map<GoodBlock, Integer> theoreticalGoodblocks) {
+        this.theoreticalGoodblocks = theoreticalGoodblocks;
     }
 
-    public void setGoodblocks(GoodBlock goodblock, int qt) {
-        goodblocks.put(goodblock, qt);
+    public Map<GoodBlock, Integer> getTheoreticalGoodblocks() {
+        return theoreticalGoodblocks;
+    }
+
+    public void setTheoreticalGoodblocks(GoodBlock goodblock, int qt) {
+        theoreticalGoodblocks.put(goodblock, qt);
+    }
+
+    public Map<GoodBlock, Integer> getActualGoodblocks() {
+        return actualGoodblocks;
+    }
+
+    public void setActualGoodblocks(GoodBlock goodblock, int qt) {
+        actualGoodblocks.put(goodblock, qt);
     }
 
     public String getPlayer() {
@@ -28,4 +42,5 @@ public class Planet {
     public boolean playerPresent(){
         return player != null;
     }
+
 }

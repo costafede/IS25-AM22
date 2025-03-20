@@ -418,6 +418,7 @@ public class Shipboard {
         return false;
     }
 
+    //remove most valuable good blocks, removing the batteries if there are not enough blocks
     public void removeMostValuableGoodBlocks(int num){
         int stillToRemove = num;
         stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.REDBLOCK);
@@ -427,6 +428,14 @@ public class Shipboard {
             stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.GREENBLOCK);
         if(stillToRemove > 0)
             stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.BLUEBLOCK);
+        if(stillToRemove > 0) {
+            for (Optional<ComponentTile> ct : componentTilesGrid) {
+                if (ct.isPresent() && stillToRemove > 0) {
+                    ct.get().removeBatteryToken();
+                    stillToRemove--;
+                }
+            }
+        }
     }
 
     //tries to remove num Goodblocks of the same type of block and returns the number of GoodBlocks actually removed
