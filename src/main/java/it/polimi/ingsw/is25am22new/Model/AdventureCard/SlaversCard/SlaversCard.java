@@ -10,6 +10,10 @@ public class SlaversCard extends AdventureCard {
     private int cannonStrength;
     private int lostAstronauts;
     private int credits;
+    private boolean defeated;
+    private boolean batteryUsed;
+    private SlaversState slaversState;
+
 
     public SlaversCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int lostAstronauts, int credits) {
         super(pngName, name, game, level, tutorial);
@@ -17,26 +21,13 @@ public class SlaversCard extends AdventureCard {
         this.cannonStrength = cannonStrength;
         this.lostAstronauts = lostAstronauts;
         this.credits = credits;
+        this.slaversState = new SlaversState_1(this);
+        this.defeated = false;
     }
 
     @Override
-    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
-        return true;
-    }
-
-    @Override
-    public boolean checkActivationConditions(String nickname) {
-        return true;
-    }
-
-    @Override
-    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
-        return true;
-    }
-
-    @Override
-    public void resolveCardEffectPhase(String nickname) {
-        return;
+    public void activateEffect(InputCommand inputCommand) {
+        slaversState.activateEffect(inputCommand);
     }
 
     public int getFlightDaysLost() {
@@ -53,5 +44,17 @@ public class SlaversCard extends AdventureCard {
 
     public int getCredits() {
         return credits;
+    }
+
+    public void setSlaversState(SlaversState slaversState) {
+        this.slaversState = slaversState;
+    }
+
+    public boolean isBatteryUsed() {
+        return batteryUsed;
+    }
+
+    public void setBatteryUsed(boolean batteryUsed) {
+        this.batteryUsed = batteryUsed;
     }
 }

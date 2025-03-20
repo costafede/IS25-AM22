@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -7,16 +7,16 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MeteorSwarmState_1 extends MeteorSwarmState{
-    public MeteorSwarmState_1(MeteorSwarmCard meteorSwarmCard) { super(meteorSwarmCard); }
+public class SlaversState_1 extends SlaversState {
+    public SlaversState_1(SlaversCard slaversCard) {
+        super(slaversCard);
+    }
 
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
-        game.getDices().rollDices();
 
-        //activate batteries
         if(inputCommand.getChoice()) {
             int x = inputCommand.getRow();
             int y = inputCommand.getCol();
@@ -27,10 +27,10 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
             ctOptional.ifPresent(ct -> numOfBatteries.set(ct.getNumOfBatteries()));
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
-                meteorSwarmCard.setBatteryUsed(true);
+                slaversCard.setBatteryUsed(true);
             }
         }
 
-        transition(new MeteorSwarmState_2(meteorSwarmCard));
+        transition(new SlaversState_2(slaversCard));
     }
 }
