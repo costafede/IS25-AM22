@@ -1,11 +1,12 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-import java.util.Map;
+
+import java.util.*;
 
 public class PiratesCard extends AdventureCard {
 
@@ -13,6 +14,9 @@ public class PiratesCard extends AdventureCard {
     private int flightDaysLost;
     private int cannonStrength;
     private int credits;
+    private PiratesState piratesState;
+    private boolean batteryUsed;
+    private List<String> defeatedPlayers;
 
     public PiratesCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Shot> numberToShot, int flightDaysLost, int cannonStrength, int credits) {
         super(pngName, name, game, level, tutorial);
@@ -20,26 +24,12 @@ public class PiratesCard extends AdventureCard {
         this.flightDaysLost = flightDaysLost;
         this.cannonStrength = cannonStrength;
         this.credits = credits;
+        this.piratesState = new PiratesState_1(this);
+        this.batteryUsed = false;
     }
 
-    @Override
-    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
-        return true;
-    }
-
-    @Override
-    public boolean checkActivationConditions(String nickname) {
-        return true;
-    }
-
-    @Override
-    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
-        return true;
-    }
-
-    @Override
-    public void resolveCardEffectPhase(String nickname) {
-        return;
+    public void setPiratesState(PiratesState piratesState) {
+        this.piratesState = piratesState;
     }
 
     public Map<Integer, Shot> getNumberToShot() {
@@ -56,5 +46,24 @@ public class PiratesCard extends AdventureCard {
 
     public int getCredits() {
         return credits;
+    }
+
+    public boolean isBatteryUsed() {
+        return batteryUsed;
+    }
+
+    public List<String> getDefeatedPlayers() {
+        return defeatedPlayers;
+    }
+
+    public void addDefeatedPlayer(String nickname) {
+        this.defeatedPlayers.add(nickname);
+    }
+
+    public void setBatteryUsed(boolean usedBattery) {this.batteryUsed= usedBattery;}
+
+    @Override
+    public void activateEffect(InputCommand inputCommand) {
+        piratesState.activateEffect(inputCommand);
     }
 }
