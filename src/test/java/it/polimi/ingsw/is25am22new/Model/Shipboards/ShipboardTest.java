@@ -2,13 +2,12 @@ package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
 import it.polimi.ingsw.is25am22new.Model.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
-import it.polimi.ingsw.is25am22new.Model.Games.*;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Side;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -136,13 +135,17 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(8),3, 4);
         ship.weldComponentTile(tiles.get(9),2, 4);
         if(ship.isAlienPlaceable(2, 4, "brown"))
-            ship.getComponentTileFromGrid(2,4).putAlien("brown");
+            ship.getComponentTileFromGrid(2,4).ifPresent(ct -> ct.putAlien("brown"));
 
-        assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+        AtomicBoolean isAlien = new AtomicBoolean(false);
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct -> isAlien.set(ct.isAlienPresent("brown")));
+        assertTrue(isAlien.get());
 
         ship.destroyTile(3, 4);
 
-        assertFalse(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+        isAlien.set(false);
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct -> isAlien.set(ct.isAlienPresent("brown")));
+        assertFalse(isAlien.get());
     }
 
     @Test
@@ -151,16 +154,20 @@ class ShipboardTest {
         Shipboard ship = new Shipboard("red", "Emanuele", null);
         ship.weldComponentTile(tiles.get(8),3, 4);
         ship.weldComponentTile(new AlienAddon("x", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "brown"),2, 5);
-        ship.getComponentTileFromGrid(2, 5).rotateClockwise();
+        ship.getComponentTileFromGrid(2, 5).ifPresent(ComponentTile::rotateClockwise);
         ship.weldComponentTile(tiles.get(9),2, 4);
         if(ship.isAlienPlaceable(2, 4, "brown"))
-            ship.getComponentTileFromGrid(2,4).putAlien("brown");
+            ship.getComponentTileFromGrid(2,4).ifPresent(ct -> ct.putAlien("brown"));
 
-        assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+        AtomicBoolean isAlien = new AtomicBoolean(false);
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct -> isAlien.set(ct.isAlienPresent("brown")));
+        assertTrue(isAlien.get());
 
         ship.destroyTile(3, 4);
 
-        assertTrue(ship.getComponentTileFromGrid(2, 4).isAlienPresent("brown"));
+        isAlien.set(false);
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct -> isAlien.set(ct.isAlienPresent("brown")));
+        assertTrue(isAlien.get());
     }
 
     @Test
@@ -184,7 +191,7 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(1),3, 5);
         ship.weldComponentTile(tiles.get(8),2, 5);
         ship.weldComponentTile(tiles.get(9),2, 4);
-        ship.getComponentTileFromGrid(2, 4).putAlien("brown");
+        ship.getComponentTileFromGrid(2,4).ifPresent(ct -> ct.putAlien("brown"));
 
         assertEquals(0, ship.getEngineStrengthShip());
 
@@ -192,7 +199,7 @@ class ShipboardTest {
 
         assertEquals(3, ship.getEngineStrengthShip());
 
-        ship.getComponentTileFromGrid(3, 5).activateComponent();
+        ship.getComponentTileFromGrid(3, 5).ifPresent(ComponentTile::activateComponent);
 
         assertEquals(5, ship.getEngineStrengthShip());
 
@@ -200,7 +207,7 @@ class ShipboardTest {
 
         assertEquals(3, ship.getEngineStrengthShip());
 
-        ship.getComponentTileFromGrid(3, 5).deactivateComponent();
+        ship.getComponentTileFromGrid(3, 5).ifPresent(ComponentTile::deactivateComponent);
 
         assertEquals(1, ship.getEngineStrengthShip());
     }
@@ -213,20 +220,20 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(3),2, 4);
         ship.weldComponentTile(tiles.get(7),2, 5);
         ship.weldComponentTile(tiles.get(9),3, 5);
-        ship.getComponentTileFromGrid(3, 5).rotateCounterClockwise();
-        ship.getComponentTileFromGrid(3, 5).rotateCounterClockwise();
+        ship.getComponentTileFromGrid(3, 5).ifPresent(ComponentTile::rotateCounterClockwise);
+        ship.getComponentTileFromGrid(3, 5).ifPresent(ComponentTile::rotateCounterClockwise);
 
-        ship.getComponentTileFromGrid(3, 5).putAlien("purple");
+        ship.getComponentTileFromGrid(3,5).ifPresent(ct -> ct.putAlien("purple"));
 
         assertEquals(0, ship.getCannonStrength());
 
         ship.weldComponentTile(tiles.get(2),3, 4);
-        ship.getComponentTileFromGrid(3, 4).rotateCounterClockwise();
-        ship.getComponentTileFromGrid(3, 4).rotateCounterClockwise();
+        ship.getComponentTileFromGrid(3, 4).ifPresent(ComponentTile::rotateCounterClockwise);
+        ship.getComponentTileFromGrid(3, 4).ifPresent(ComponentTile::rotateCounterClockwise);
 
         assertEquals(2.5, ship.getCannonStrength());
 
-        ship.getComponentTileFromGrid(2, 4).activateComponent();
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ComponentTile::activateComponent);
 
         assertEquals(4.5, ship.getCannonStrength());
 
@@ -234,7 +241,7 @@ class ShipboardTest {
 
         assertEquals(2.5, ship.getCannonStrength());
 
-        ship.getComponentTileFromGrid(2, 4).deactivateComponent();
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ComponentTile::deactivateComponent);
 
         assertEquals(0.5, ship.getCannonStrength());
         assertTrue(ship.checkShipboard());
@@ -246,23 +253,23 @@ class ShipboardTest {
         Shipboard ship = new Shipboard("red", "Emanuele", null);
 
         ship.weldComponentTile(tiles.get(10), 1, 3);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
+        ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
+        ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.GREENBLOCK));
         assertEquals(5, ship.getScore());
 
         ship.weldComponentTile(tiles.get(12), 2, 4);
-        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.GREENBLOCK);
-        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct->ct.addGoodBlock(GoodBlock.GREENBLOCK));
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct->ct.addGoodBlock(GoodBlock.BLUEBLOCK));
         assertEquals(8, ship.getScore());
 
         ship.weldComponentTile(tiles.get(13), 2, 2);
-        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.BLUEBLOCK);
-        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.getComponentTileFromGrid(2, 2).ifPresent(ct->ct.addGoodBlock(GoodBlock.BLUEBLOCK));
+        ship.getComponentTileFromGrid(2, 2).ifPresent(ct->ct.addGoodBlock(GoodBlock.BLUEBLOCK));
         assertEquals(10, ship.getScore());
 
         ship.weldComponentTile(tiles.get(11), 3, 3);
-        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
-        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
+        ship.getComponentTileFromGrid(3, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.REDBLOCK));
+        ship.getComponentTileFromGrid(3, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.REDBLOCK));
         assertEquals(18, ship.getScore());
     }
 
@@ -274,15 +281,15 @@ class ShipboardTest {
 
         // check add more boxes than capacity
         ship.weldComponentTile(tiles.get(10), 1, 3);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.GREENBLOCK);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
-        ship.getComponentTileFromGrid(1, 3).addGoodBlock(GoodBlock.YELLOWBLOCK);
+        ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
+        ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.GREENBLOCK));
+        ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
+        ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
 
-        assertEquals(2, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.YELLOWBLOCK));
-        assertEquals(0, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.REDBLOCK));
-        assertEquals(1, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.GREENBLOCK));
-        assertEquals(0, ship.getComponentTileFromGrid(1, 3).getGoodBlocks().get(GoodBlock.BLUEBLOCK));
+        assertEquals(2, ship.getComponentTileFromGrid(1, 3).get().getGoodBlocks().get(GoodBlock.YELLOWBLOCK));
+        assertEquals(0, ship.getComponentTileFromGrid(1, 3).get().getGoodBlocks().get(GoodBlock.REDBLOCK));
+        assertEquals(1, ship.getComponentTileFromGrid(1, 3).get().getGoodBlocks().get(GoodBlock.GREENBLOCK));
+        assertEquals(0, ship.getComponentTileFromGrid(1, 3).get().getGoodBlocks().get(GoodBlock.BLUEBLOCK));
 
         // check remove two equal boxes from same tile
         ship.removeMostValuableGoodBlocks(2);
@@ -290,25 +297,25 @@ class ShipboardTest {
 
         // check remove from two different tiles
         ship.weldComponentTile(tiles.get(12), 2, 4);
-        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.GREENBLOCK);
-        ship.getComponentTileFromGrid(2, 4).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct->ct.addGoodBlock(GoodBlock.GREENBLOCK));
+        ship.getComponentTileFromGrid(2, 4).ifPresent(ct->ct.addGoodBlock(GoodBlock.BLUEBLOCK));
 
         ship.removeMostValuableGoodBlocks(2);
         assertEquals(1, ship.getScore());
 
         // check remove two different boxes from same tile
         ship.weldComponentTile(tiles.get(13), 2, 2);
-        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.YELLOWBLOCK);
-        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.GREENBLOCK);
-        ship.getComponentTileFromGrid(2, 2).addGoodBlock(GoodBlock.BLUEBLOCK);
+        ship.getComponentTileFromGrid(2, 2).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
+        ship.getComponentTileFromGrid(2, 2).ifPresent(ct->ct.addGoodBlock(GoodBlock.GREENBLOCK));
+        ship.getComponentTileFromGrid(2, 2).ifPresent(ct->ct.addGoodBlock(GoodBlock.BLUEBLOCK));
 
         ship.removeMostValuableGoodBlocks(2);
         assertEquals(2, ship.getScore());
 
         // check remove from specialStorageCompartment
         ship.weldComponentTile(tiles.get(11), 3, 3);
-        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
-        ship.getComponentTileFromGrid(3, 3).addGoodBlock(GoodBlock.REDBLOCK);
+        ship.getComponentTileFromGrid(3, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.REDBLOCK));
+        ship.getComponentTileFromGrid(3, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.REDBLOCK));
 
         ship.removeMostValuableGoodBlocks(1);
         assertEquals(6, ship.getScore());
@@ -324,6 +331,7 @@ class ShipboardTest {
         assertEquals(0, ship.getScore());
     }
 
+    // To test again
     @Test
     void test_should_recognise_three_shipwrecks_and_choose_the_third_one(){
         List<ComponentTile> tiles = initializeTiles();
@@ -337,7 +345,7 @@ class ShipboardTest {
 
         assertEquals(3, ship.highlightShipWrecks());
         assertEquals(0, tiles.get(4).getColor());
-        assertEquals(0, ship.getComponentTileFromGrid(2, 3).getColor());
+        assertEquals(0, ship.getComponentTileFromGrid(2, 3).get().getColor());
         assertEquals(1, tiles.get(2).getColor());
         assertEquals(1, tiles.get(0).getColor());
         assertEquals(2, tiles.get(1).getColor());
@@ -346,9 +354,9 @@ class ShipboardTest {
 
         ship.chooseShipWreck(3, 5);
 
-        assertEquals(tiles.get(6), ship.getComponentTileFromGrid(3, 4));
-        assertEquals(tiles.get(5), ship.getComponentTileFromGrid(3, 5));
-        assertEquals(tiles.get(1), ship.getComponentTileFromGrid(4, 5));
+        assertEquals(tiles.get(6), ship.getComponentTileFromGrid(3, 4).get());
+        assertEquals(tiles.get(5), ship.getComponentTileFromGrid(3, 5).get());
+        assertEquals(tiles.get(1), ship.getComponentTileFromGrid(4, 5).get());
         ship.destroyTile(3, 4);
         ship.destroyTile(3, 5);
         ship.destroyTile(4, 5);
