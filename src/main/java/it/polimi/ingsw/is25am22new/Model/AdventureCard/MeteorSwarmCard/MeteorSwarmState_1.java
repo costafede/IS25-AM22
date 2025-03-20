@@ -14,27 +14,22 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
-        if(meteorSwarmCard.thereAreStillMeteors()) {
-            game.getDices().rollDices();
+        game.getDices().rollDices();
+
+        if(inputCommand.getChoice()) {
             int x = inputCommand.getRow();
             int y = inputCommand.getCol();
             AtomicInteger numOfBatteries = new AtomicInteger(0);
-
             Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
+            // if player clicks on empty batteryComponent -> systems asks to confirm but cannot activate effect
+            // because the flag setBatteryUsed is still false
             ctOptional.ifPresent(ct -> numOfBatteries.set(ct.getNumOfBatteries()));
             if(numOfBatteries.get() > 0) {
-                ctOptional.get().removeBatteryToken();
+                ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 meteorSwarmCard.setBatteryUsed(true);
             }
         }
-        else { // resolves the card
-            game.setCurrCard(null);
-        }
-    }
 
-    @Override
-    public void transition(MeteorSwarmState meteorSwarmState) {
-        // transition made after battery token used
-        meteorSwarmCard.setMeteorSwarmState(meteorSwarmState);
+        transition(new MeteorSwarmState_2(meteorSwarmCard));
     }
 }

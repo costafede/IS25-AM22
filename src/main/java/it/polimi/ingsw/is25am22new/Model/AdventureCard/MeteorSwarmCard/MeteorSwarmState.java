@@ -15,5 +15,7 @@ public abstract class MeteorSwarmState {
     }
 
     public abstract void activateEffect(InputCommand inputCommand);
-    public abstract void transition(MeteorSwarmState meteorSwarmState);
+    protected void transition(MeteorSwarmState meteorSwarmState) {
+        meteorSwarmCard.setMeteorSwarmState(meteorSwarmState);
+    }
 }

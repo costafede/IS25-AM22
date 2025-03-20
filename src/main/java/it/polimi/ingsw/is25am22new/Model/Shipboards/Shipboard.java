@@ -290,10 +290,46 @@ public class Shipboard {
         return false;
     }
 
-    public boolean isBottomSideShielded (int j){
+    public boolean isBottomSideShielded (){
         for(Optional<ComponentTile> ct : componentTilesGrid){
             if(ct.isPresent() && ct.get().isBottomSideShielded())
                 return true;
+        }
+        return false;
+    }
+
+    public boolean isExposedConnectorOnTop (int numOfColumn){
+        for (int i = 0; i < 5; i++) {
+            if (componentTilesGrid.get(i, numOfColumn).isPresent()) {
+                return !componentTilesGrid.get(i, numOfColumn).get().getTopSide().equals(Side.SMOOTH);
+            }
+        }
+        return false;
+    }
+
+    public boolean isExposedConnectorOnBottom (int numOfColumn){
+        for (int i = 4; i >= 0; i--) {
+            if (componentTilesGrid.get(i, numOfColumn).isPresent()) {
+                return !componentTilesGrid.get(i, numOfColumn).get().getBottomSide().equals(Side.SMOOTH);
+            }
+        }
+        return false;
+    }
+
+    public boolean isExposedConnectorOnLeft(int numOfRow) {
+        for (int j = 0; j < 7; j++) {
+            if (componentTilesGrid.get(numOfRow, j).isPresent()) {
+                return !componentTilesGrid.get(numOfRow, j).get().getLeftSide().equals(Side.SMOOTH);
+            }
+        }
+        return false;
+    }
+
+    public boolean isExposedConnectorOnRight(int numOfRow) {
+        for (int j = 6; j >= 0; j--) {
+            if (componentTilesGrid.get(numOfRow, j).isPresent()) {
+                return !componentTilesGrid.get(numOfRow, j).get().getRightSide().equals(Side.SMOOTH);
+            }
         }
         return false;
     }

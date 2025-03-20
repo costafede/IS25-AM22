@@ -13,8 +13,6 @@ public class MeteorSwarmCard extends AdventureCard {
     private MeteorSwarmState meteorSwarmState;
     private int indexOfIncomingMeteor;
     private boolean batteryUsed;
-    private int incomingMeteorRow;
-    private int incomingMeteorCol;
 
     public MeteorSwarmCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Meteor> numberToMeteor) {
         super(pngName, name, game, level, tutorial);
@@ -41,6 +39,10 @@ public class MeteorSwarmCard extends AdventureCard {
         return indexOfIncomingMeteor;
     }
 
+    public void setNextIndexOfMeteor() {
+        indexOfIncomingMeteor++;
+    }
+
     public void setMeteorSwarmState(MeteorSwarmState meteorSwarmState) {
         this.meteorSwarmState = meteorSwarmState;
     }
@@ -49,19 +51,7 @@ public class MeteorSwarmCard extends AdventureCard {
         this.batteryUsed = batteryUsed;
     }
 
-    public void setIncomingMeteorRow(int incomingMeteorRow) {
-        this.incomingMeteorRow = incomingMeteorRow;
-    }
-
-    public void setIncomingMeteorCol(int incomingMeteorCol) {
-        this.incomingMeteorCol = incomingMeteorCol;
-    }
-
-    public int getIncomingMeteorRow() {
-        return incomingMeteorRow;
-    }
-
-    public int getIncomingMeteorCol() {
-        return incomingMeteorCol;
+    public boolean isBatteryUsed() {
+        return batteryUsed;
     }
 }
