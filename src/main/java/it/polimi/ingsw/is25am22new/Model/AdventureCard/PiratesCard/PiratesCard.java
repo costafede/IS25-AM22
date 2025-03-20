@@ -17,6 +17,8 @@ public class PiratesCard extends AdventureCard {
     private PiratesState piratesState;
     private boolean batteryUsed;
     private List<String> defeatedPlayers;
+    private int indexOfIncomingShot;
+    private String currDefeatedPlayer;
 
     public PiratesCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Shot> numberToShot, int flightDaysLost, int cannonStrength, int credits) {
         super(pngName, name, game, level, tutorial);
@@ -26,6 +28,16 @@ public class PiratesCard extends AdventureCard {
         this.credits = credits;
         this.piratesState = new PiratesState_1(this);
         this.batteryUsed = false;
+        this.defeatedPlayers = new ArrayList<>();
+        this.indexOfIncomingShot = 0;
+    }
+
+    public int getIndexOfIncomingShot(){
+        return indexOfIncomingShot;
+    }
+
+    public void setNextIndexOfShot() {
+        indexOfIncomingShot++;
     }
 
     public void setPiratesState(PiratesState piratesState) {
@@ -65,5 +77,25 @@ public class PiratesCard extends AdventureCard {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         piratesState.activateEffect(inputCommand);
+    }
+
+    public String getCurrDefeatedPlayer() {
+        return currDefeatedPlayer;
+    }
+
+    public String getLastDefeatedPlayer() {
+        return defeatedPlayers.getLast();
+    }
+
+    public void setCurrDefeatedPlayerToFirst() {
+        this.currDefeatedPlayer = defeatedPlayers.getFirst();
+    }
+
+    public boolean thereAreStillShots() {
+        return indexOfIncomingShot < numberToShot.size();
+    }
+
+    public void setCurrDefeatedPlayerToNext() {
+        this.currDefeatedPlayer = defeatedPlayers.get(defeatedPlayers.indexOf(currDefeatedPlayer) + 1);
     }
 }

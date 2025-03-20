@@ -65,4 +65,8 @@ public class ShieldGenerator extends ComponentTile {
     public boolean isRightSideShielded() {
         return rightSideShielded;
     }
+
+    public boolean isShieldGenerator() {
+        return true;
+    }
 }

@@ -205,5 +205,11 @@ public abstract class ComponentTile {
         return false;
     }
 
-    public boolean isCabin() {return false;}
+    public boolean isCabin() {
+        return false;
+    }
+
+    public boolean isShieldGenerator() {
+        return false;
+    }
 }
