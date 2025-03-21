@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 public class SlaversState_3 extends SlaversState {
     public SlaversState_3(SlaversCard slaversCard) {
@@ -9,6 +10,17 @@ public class SlaversState_3 extends SlaversState {
 
     @Override
     public void activateEffect(InputCommand inputCommand) {
+        String currentPlayer = game.getCurrPlayer();
+        Shipboard shipboard = game.getShipboards().get(currentPlayer);
 
+        // choose to keep credits and lose flight days or not
+        if(inputCommand.getChoice()) {
+            game.getFlightboard().shiftRocket(game.getShipboards(), currentPlayer, slaversCard.getFlightDaysLost());
+            shipboard.addCosmicCredits(slaversCard.getCredits());
+        }
+
+        // ends the card effect
+        game.setCurrPlayerToLeader();
+        game.setCurrCard(null);
     }
 }

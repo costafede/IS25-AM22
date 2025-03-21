@@ -8,21 +8,21 @@ public class SlaversCard extends AdventureCard {
 
     private int flightDaysLost;
     private int cannonStrength;
-    private int lostAstronauts;
+    private int astronautsToLose;
     private int credits;
-    private boolean defeated;
     private boolean batteryUsed;
     private SlaversState slaversState;
+    private int selectedAstronauts;
 
 
-    public SlaversCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int lostAstronauts, int credits) {
+    public SlaversCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int astronautsToLose, int credits) {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
         this.cannonStrength = cannonStrength;
-        this.lostAstronauts = lostAstronauts;
+        this.astronautsToLose = astronautsToLose;
         this.credits = credits;
         this.slaversState = new SlaversState_1(this);
-        this.defeated = false;
+        this.selectedAstronauts = 0;
     }
 
     @Override
@@ -38,8 +38,8 @@ public class SlaversCard extends AdventureCard {
         return cannonStrength;
     }
 
-    public int getLostAstronauts() {
-        return lostAstronauts;
+    public int getAstronautsToLose() {
+        return astronautsToLose;
     }
 
     public int getCredits() {
@@ -56,5 +56,13 @@ public class SlaversCard extends AdventureCard {
 
     public void setBatteryUsed(boolean batteryUsed) {
         this.batteryUsed = batteryUsed;
+    }
+
+    public int getSelectedAstronauts() {
+        return selectedAstronauts;
+    }
+
+    public void increaseSelectedAstronauts () {
+        selectedAstronauts++;
     }
 }

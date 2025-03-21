@@ -16,8 +16,7 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
         game.getDices().rollDices();
 
-        //activate batteries
-        if(inputCommand.getChoice()) {
+        if(inputCommand.getChoice()) {// are you sure you want to use the battery?
             int x = inputCommand.getRow();
             int y = inputCommand.getCol();
             AtomicInteger numOfBatteries = new AtomicInteger(0);

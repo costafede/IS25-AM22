@@ -352,7 +352,16 @@ public class Shipboard {
         return true;
     }
 
-    public int getEngineStrengthShip (){
+    public boolean thereIsStillCrew() {
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().getCrewNumber() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getEngineStrength (){
         int strength = 0;
         for(Optional<ComponentTile> ct : componentTilesGrid){
             if(ct.isPresent())

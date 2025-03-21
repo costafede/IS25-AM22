@@ -205,5 +205,19 @@ public abstract class ComponentTile {
         return false;
     }
 
-    public boolean isCabin() {return false;}
+    public boolean isCabin() {
+        return false;
+    }
+
+    public boolean isShieldGenerator() {
+        return false;
+    }
+
+    public boolean isDoubleCannon() {
+        return false;
+    }
+
+    public boolean isDoubleEngine() {
+        return false;
+    }
 }

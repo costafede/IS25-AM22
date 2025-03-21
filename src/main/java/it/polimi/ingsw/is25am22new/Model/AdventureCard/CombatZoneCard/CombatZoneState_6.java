@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -7,9 +7,9 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SlaversState_1 extends SlaversState {
-    public SlaversState_1(SlaversCard slaversCard) {
-        super(slaversCard);
+public class CombatZoneState_6 extends CombatZoneState {
+    public CombatZoneState_6(CombatZoneCard combatZoneCard) {
+        super(combatZoneCard);
     }
 
     @Override
@@ -17,7 +17,7 @@ public class SlaversState_1 extends SlaversState {
         String currentPlayer = game.getCurrPlayer();
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
 
-        if(inputCommand.getChoice()) { // are you sure you want to use the battery?
+        if(inputCommand.getChoice()) {// are you sure you want to use the battery?
             int x = inputCommand.getRow();
             int y = inputCommand.getCol();
             AtomicInteger numOfBatteries = new AtomicInteger(0);
@@ -27,10 +27,8 @@ public class SlaversState_1 extends SlaversState {
             ctOptional.ifPresent(ct -> numOfBatteries.set(ct.getNumOfBatteries()));
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
-                slaversCard.setBatteryUsed(true);
+                combatZoneCard.setBatteryUsed(true);
             }
         }
-
-        transition(new SlaversState_2(slaversCard));
     }
 }

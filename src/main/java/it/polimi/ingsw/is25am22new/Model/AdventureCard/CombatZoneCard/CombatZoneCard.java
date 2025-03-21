@@ -5,49 +5,75 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CombatZoneCard extends AdventureCard {
 
     private int flightDaysLost;
-    private int lostAstronauts;
+    private int astronautsToLose;
     private int lostGoods;
     private Map<Integer, Shot> numberToShot;
+    private CombatZoneState combatZoneState;
+    private boolean batteryUsed;
+    private Map<String, Integer> playerToStrength;
+    private int removedAstronauts;
+    private int indexOfIncomingShot;
 
-    public CombatZoneCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int lostAstronauts, int lostGoods, Map<Integer, Shot> numberToShot) {
+    public CombatZoneCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int astronautsToLose, int lostGoods, Map<Integer, Shot> numberToShot) {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
-        this.lostAstronauts = lostAstronauts;
+        this.astronautsToLose = astronautsToLose;
         this.numberToShot = numberToShot;
         this.lostGoods = lostGoods;
+        this.combatZoneState = new CombatZoneState_1(this);
+        this.batteryUsed = false;
+        this.playerToStrength = new HashMap<>();
+        this.removedAstronauts = 0;
     }
 
-    @Override
-    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
-        return true;
+    public int getIndexOfIncomingShot() {
+        return indexOfIncomingShot;
     }
 
-    @Override
-    public boolean checkActivationConditions(String nickname) {
-        return true;
+    public void setNextIndexOfShot() {
+        indexOfIncomingShot++;
     }
 
-    @Override
-    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
-        return true;
+    public int getRemovedAstronauts() {
+        return removedAstronauts;
     }
 
-    @Override
-    public void resolveCardEffectPhase(String nickname) {
-        return;
+    public boolean thereAreStillShots() {
+        return numberToShot.size() > indexOfIncomingShot;
+    }
+
+    public void increaseRemovedAstronauts() {
+        removedAstronauts++;
+    }
+
+    public Map<String, Integer> getPlayerToStrength() {
+        return playerToStrength;
+    }
+
+    public void setCombatZoneState(CombatZoneState combatZoneState) {
+        this.combatZoneState = combatZoneState;
+    }
+
+    public void setBatteryUsed(boolean batteryUsed) {
+        this.batteryUsed = batteryUsed;
+    }
+
+    public boolean isBatteryUsed(){
+        return batteryUsed;
     }
 
     public int getFlightDaysLost() {
         return flightDaysLost;
     }
 
-    public int getLostAstronauts() {
-        return lostAstronauts;
+    public int getAstronautsToLose() {
+        return astronautsToLose;
     }
 
     public int getLostGoods() {
@@ -56,5 +82,10 @@ public class CombatZoneCard extends AdventureCard {
 
     public Map<Integer, Shot> getNumberToShot() {
         return numberToShot;
+    }
+
+    @Override
+    public void activateEffect(InputCommand inputCommand) {
+        combatZoneState.activateEffect(inputCommand);
     }
 }

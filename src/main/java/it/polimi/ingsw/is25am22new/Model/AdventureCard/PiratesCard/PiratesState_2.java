@@ -1,15 +1,14 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmState_1;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.util.Optional;
 
-public class SlaversState_2 extends SlaversState{
-    public SlaversState_2(SlaversCard slaversCard) {
-        super(slaversCard);
+public class PiratesState_2 extends PiratesState {
+    public PiratesState_2(PiratesCard piratesCard) {
+        super(piratesCard);
     }
 
     @Override
@@ -22,38 +21,39 @@ public class SlaversState_2 extends SlaversState{
         x = inputCommand.getRow();
         y = inputCommand.getCol();
         Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
-        if(slaversCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
+        if(piratesCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
         }
 
-        if(!inputCommand.getChoice()) { // choose to continue to use batteries or to stop
-            if(shipboard.getCannonStrength() > slaversCard.getCannonStrength()) { // win case
-                transition(new SlaversState_3(slaversCard)); // decide to lose daysOnFlight and take credits or not
+        if(inputCommand.getChoice()) { // choose to stop using the batteries
+            if(shipboard.getCannonStrength() > piratesCard.getCannonStrength()) { // win case
+                transition(new PiratesState_3(piratesCard)); // decide to lose daysOnFlight and take credits or not
             }
-            else if (shipboard.getCannonStrength() < slaversCard.getCannonStrength()) { // lose case
-                transition(new SlaversState_4(slaversCard));
-            }
-            else {// in case of tie nothing happens and the slavers attack next player
+            else if (shipboard.getCannonStrength() <= piratesCard.getCannonStrength()) { // lose or tie case
+                if(shipboard.getCannonStrength() < piratesCard.getCannonStrength()) {
+                    piratesCard.addDefeatedPlayer(currentPlayer);
+                }
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
-                    game.setCurrPlayerToLeader();
-                    game.setCurrCard(null);
+                    transition(new PiratesState_4(piratesCard)); // all defeated players get shot
                 }
                 else {
-                    slaversCard.setBatteryUsed(false);
+                    piratesCard.setBatteryUsed(false);
+
                     // deactivates all components
                     for(int i = 0; i < 5; i++){
                         for(int j = 0; j < 7; j++){
                             game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                         }
                     }
+
                     game.setCurrPlayerToNext();
-                    transition(new SlaversState_1(slaversCard));
+                    transition(new PiratesState_1(piratesCard));
                 }
             }
         }
-        else {
-            transition(new SlaversState_1(slaversCard));
+        else { // choose to continue using the batteries
+            transition(new PiratesState_1(piratesCard));
         }
     }
 }
