@@ -24,7 +24,7 @@ public class SlaversState_2 extends SlaversState{
             shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::activateComponent);
         }
 
-        if(inputCommand.getChoice()) { // choose to continue to use batteries or to stop
+        if(!inputCommand.getChoice()) { // choose to continue to use batteries or to stop
             if(shipboard.getCannonStrength() > slaversCard.getCannonStrength()) { // win case
                 transition(new SlaversState_3(slaversCard)); // decide to lose daysOnFlight and take credits or not
             }
@@ -38,7 +38,12 @@ public class SlaversState_2 extends SlaversState{
                 }
                 else {
                     slaversCard.setBatteryUsed(false);
-                    shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::deactivateComponent);
+                    // deactivates all components
+                    for(int i = 0; i < 5; i++){
+                        for(int j = 0; j < 7; j++){
+                            game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+                        }
+                    }
                     game.setCurrPlayerToNext();
                     transition(new SlaversState_1(slaversCard));
                 }

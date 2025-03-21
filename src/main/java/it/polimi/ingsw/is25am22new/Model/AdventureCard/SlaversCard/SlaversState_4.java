@@ -27,15 +27,23 @@ public class SlaversState_4 extends SlaversState {
             }
         }
 
-        if(slaversCard.getSelectedAstronauts() < slaversCard.getAstronautsToLose()) {
-            transition(new SlaversState_4(slaversCard));
-        }
-        else if (slaversCard.getSelectedAstronauts() == slaversCard.getAstronautsToLose() ||
+        if (slaversCard.getSelectedAstronauts() == slaversCard.getAstronautsToLose() ||
                  !shipboard.thereIsStillCrew()) {
+
             slaversCard.setBatteryUsed(false);
-            ctOptional.ifPresent(ComponentTile::deactivateComponent);
+
+            // deactivates all components
+            for(int i = 0; i < 5; i++){
+                for(int j = 0; j < 7; j++){
+                    game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+                }
+            }
+
             game.setCurrPlayerToNext();
             transition(new SlaversState_1(slaversCard));
+        }
+        else if(slaversCard.getSelectedAstronauts() < slaversCard.getAstronautsToLose()) {
+            transition(new SlaversState_4(slaversCard));
         }
     }
 }

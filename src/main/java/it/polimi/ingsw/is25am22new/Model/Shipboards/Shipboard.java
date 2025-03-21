@@ -361,7 +361,7 @@ public class Shipboard {
         return false;
     }
 
-    public int getEngineStrengthShip (){
+    public int getEngineStrength (){
         int strength = 0;
         for(Optional<ComponentTile> ct : componentTilesGrid){
             if(ct.isPresent())

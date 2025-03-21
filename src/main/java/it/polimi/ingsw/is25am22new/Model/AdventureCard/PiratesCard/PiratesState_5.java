@@ -25,7 +25,7 @@ public class PiratesState_5 extends PiratesState{
         int x = 0;
         int y = 0;
 
-        if(inputCommand.getChoice()) {
+        if(inputCommand.getChoice()) { // are you sure to activate the component?
             x = inputCommand.getRow();
             y = inputCommand.getCol();
             Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
@@ -81,7 +81,14 @@ public class PiratesState_5 extends PiratesState{
         }
 
         // reset batteryUsed, deactivate components, next player
-        shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::deactivateComponent);
+
+        // deactivates all components
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++){
+                game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+            }
+        }
+
         piratesCard.setBatteryUsed(false);
 
         if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {

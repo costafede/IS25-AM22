@@ -14,7 +14,7 @@ public class PiratesState_4 extends PiratesState{
 
     @Override
     public void activateEffect(InputCommand inputCommand) {
-        if(piratesCard.getDefeatedPlayers().size() > 0){
+        if(!piratesCard.getDefeatedPlayers().isEmpty()){
             String defeatedPlayer = piratesCard.getDefeatedPlayers().getFirst();
             Shipboard shipboard = game.getShipboards().get(defeatedPlayer);
             game.getDices().rollDices();

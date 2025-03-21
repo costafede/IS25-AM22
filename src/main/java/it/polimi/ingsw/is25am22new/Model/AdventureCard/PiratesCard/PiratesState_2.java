@@ -36,7 +36,14 @@ public class PiratesState_2 extends PiratesState {
                 }
                 else {
                     piratesCard.setBatteryUsed(false);
-                    shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::deactivateComponent);
+
+                    // deactivates all components
+                    for(int i = 0; i < 5; i++){
+                        for(int j = 0; j < 7; j++){
+                            game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+                        }
+                    }
+
                     game.setCurrPlayerToNext();
                     transition(new PiratesState_1(piratesCard));
                 }
