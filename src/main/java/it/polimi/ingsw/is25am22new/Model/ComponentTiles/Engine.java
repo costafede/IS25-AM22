@@ -67,9 +67,4 @@ public class Engine extends ComponentTile {
     public boolean isRightSideEngine() {
         return rightSideEngine;
     }
-
-    @Override
-    public boolean isEngine() {
-        return true;
-    }
 }
