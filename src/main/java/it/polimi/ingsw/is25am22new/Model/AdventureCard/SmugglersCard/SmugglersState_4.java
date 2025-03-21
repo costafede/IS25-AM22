@@ -1,12 +1,12 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 
-public class PlanetsState_2 extends PlanetsState {
-    public PlanetsState_2(PlanetsCard planetsCard) {
-        super(planetsCard);
+public class SmugglersState_4 extends SmugglersState {
+    public SmugglersState_4(SmugglersCard smugglersCard) {
+        super(smugglersCard);
     }
 
     @Override
@@ -14,9 +14,9 @@ public class PlanetsState_2 extends PlanetsState {
         GoodBlock gb = inputCommand.getGoodBlock();
         ComponentTile storageCompartment = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
         if(inputCommand.getChoice()){   //choice must be set true if the player wants to keep managing his good blocks
-            if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from planet
+            if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from the station
                 storageCompartment.addGoodBlock(gb);
-                planetsCard.getPlanet(game.getCurrPlayer()).setActualGoodblocks(gb, planetsCard.getPlanet(game.getCurrPlayer()).getActualGoodblocks().get(gb) - 1); //remove the good block taken from the planet (so I take it from the actualGoodblocks in the Planet class)
+                smugglersCard.actualGoodBlocks.put(gb, smugglersCard.actualGoodBlocks.get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
             }
             else if(inputCommand.isRemovingGoodBlock()){ //player decides to discard good block from his shipboard
                 game.getBank().depositGoodBlock(gb);
@@ -31,16 +31,12 @@ public class PlanetsState_2 extends PlanetsState {
                 storageCompartment_1.addGoodBlock(gb);
             }
         }
-        else if(!game.getCurrPlayer().equals(game.getLastPlayer())) { //if choice is false the player decides to end its turn and pass it to the next one
-            planetsCard.unloadPlanet(game.getCurrPlayer());
-            game.setCurrPlayerToNext();
-            planetsCard.loadPlanet(game.getCurrPlayer());
-        }
         else{    //if choice is false the card effect ends if the player is the last one
-            planetsCard.unloadPlanet(game.getCurrPlayer());
+            smugglersCard.unloadSmugglers();
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null); //card effect has ended
         }   //as the card is implemented, even if there are no more moves available for the curr player, he still has to send the message with choice set on false to end the card effect or pass the turn to the next one
+
     }
 }

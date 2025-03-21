@@ -16,7 +16,7 @@ public class AbandonedStationState_2 extends AbandonedStationState{
         if(inputCommand.getChoice()){   //choice must be set true if the player wants to keep managing his good blocks
             if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from the station
                 storageCompartment.addGoodBlock(gb);
-                actualGoodBlocks.put(gb, actualGoodBlocks.get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
+                abandonedStationCard.getActualGoodBlocks().put(gb, abandonedStationCard.getActualGoodBlocks().get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
             }
             else if(inputCommand.isRemovingGoodBlock()){ //player decides to discard good block from his shipboard
                 game.getBank().depositGoodBlock(gb);
@@ -32,14 +32,10 @@ public class AbandonedStationState_2 extends AbandonedStationState{
             }
         }
         else{    //if choice is false the card effect ends if the player is the last one
-            unloadStation();
+            abandonedStationCard.unloadStation();
+            game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null); //card effect has ended
         }   //as the card is implemented, even if there are no more moves available for the curr player, he still has to send the message with choice set on false to end the card effect or pass the turn to the next one
-    }
-
-    @Override
-    public void transition(AbandonedStationState abandonedStationState) {
-
     }
 }

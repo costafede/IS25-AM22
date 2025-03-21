@@ -117,8 +117,9 @@ public abstract class Game implements ModelInterface {
         setCurrCard(deck.remove(new Random().nextInt(deck.size())));
     }
 
-    public void chooseToAbandon(String nickname) {
+    public void playerAbandons(String nickname) {
         shipboards.get(nickname).abandons();
+        flightboard.getOrderedRockets().remove(nickname);
     }
 
     //public void findShipWrecks(String nickname) {
@@ -207,5 +208,25 @@ public abstract class Game implements ModelInterface {
 
     public Dices getDices() {
         return dices;
+    }
+
+    public boolean isPlayerStillAbleToPlay(String player){
+        Shipboard shipboard = shipboards.get(player);
+        String leader = flightboard.getOrderedRockets().getFirst();
+        if(shipboard.getOnlyHumanNumber() == 0){ //there are no more humans
+            return false;
+        }
+        if(shipboards.get(leader).getDaysOnFlight() - shipboard.getDaysOnFlight() > flightboard.getFlightBoardLength()){    //player has been lapped
+            return false;
+        }
+        return true;
+    }
+
+    // check if active players still fulfill the conditions to play and eliminates the ones who don't (usually called at the end of the cards effects)
+    public void manageInvalidPlayers(){
+        for(String p : flightboard.getOrderedRockets()){
+            if(!isPlayerStillAbleToPlay(p))
+                playerAbandons(p);
+        }
     }
 }

@@ -19,6 +19,7 @@ public class PlanetsCard extends AdventureCard {
         this.flightDaysLost = flightDaysLost;
         this.planets = planets;
         this.planetsState = new PlanetsState_1(this);
+
     }
 
     public void activateEffect(InputCommand inputCommand){
@@ -49,8 +50,7 @@ public class PlanetsCard extends AdventureCard {
         Planet planet = getPlanet(nickname);
 
         for(GoodBlock gb : GoodBlock.values()){
-            for(int goodBlocksToLoad = planet.getTheoreticalGoodblocks().get(gb); goodBlocksToLoad > 0; goodBlocksToLoad--){
-                game.getBank().withdrawGoodBlock(gb);
+            for(int goodBlocksToLoad = planet.getTheoreticalGoodblocks().get(gb); goodBlocksToLoad > 0 && game.getBank().withdrawGoodBlock(gb); goodBlocksToLoad--){
                 planet.setActualGoodblocks(gb, planet.getActualGoodblocks().get(gb) + 1);
             }
         }

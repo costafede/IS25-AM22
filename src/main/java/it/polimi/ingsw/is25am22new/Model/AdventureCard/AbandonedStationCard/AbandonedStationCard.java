@@ -5,6 +5,7 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ public class AbandonedStationCard extends AdventureCard {
     private int astronautsNumber;
     private AbandonedStationState abandonedStationState;
     private Map<GoodBlock, Integer> theoreticalGoodBlocks;
+    private Map<GoodBlock, Integer> actualGoodBlocks;
 
 
     public AbandonedStationCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int astronautsNumber, Map<GoodBlock, Integer> theoreticalGoodBlocks) {
@@ -22,6 +24,11 @@ public class AbandonedStationCard extends AdventureCard {
         this.astronautsNumber = astronautsNumber;
         this.theoreticalGoodBlocks = theoreticalGoodBlocks;
         this.abandonedStationState = new AbandonedStationState_1(this);
+        this.actualGoodBlocks = new HashMap<GoodBlock, Integer>();
+        actualGoodBlocks.put(GoodBlock.BLUEBLOCK, 0);
+        actualGoodBlocks.put(GoodBlock.YELLOWBLOCK, 0);
+        actualGoodBlocks.put(GoodBlock.GREENBLOCK, 0);
+        actualGoodBlocks.put(GoodBlock.REDBLOCK, 0);
     }
 
     @Override
@@ -43,5 +50,25 @@ public class AbandonedStationCard extends AdventureCard {
 
     public void setAbandonedStationState(AbandonedStationState abandonedStationState) {
         this.abandonedStationState = abandonedStationState;
+    }
+
+    public void loadStation(){
+        for(GoodBlock gb : GoodBlock.values()){
+            for(int goodBlocksToLoad = theoreticalGoodBlocks.get(gb); goodBlocksToLoad > 0 && game.getBank().withdrawGoodBlock(gb); goodBlocksToLoad--){
+                actualGoodBlocks.put(gb, actualGoodBlocks.get(gb) + 1);
+            }
+        }
+    }
+
+    public void unloadStation(){
+        for(GoodBlock gb : GoodBlock.values()){
+            for(int goodBlocksToUnload = actualGoodBlocks.get(gb); goodBlocksToUnload > 0; goodBlocksToUnload--){
+                game.getBank().depositGoodBlock(gb);
+            }
+        }
+    }
+
+    public Map<GoodBlock, Integer> getActualGoodBlocks() {
+        return actualGoodBlocks;
     }
 }

@@ -16,13 +16,9 @@ public class AbandonedShipState_1 extends AbandonedShipState {
         else if(!game.getCurrPlayer().equals(game.getLastPlayer()))
             game.setCurrPlayerToNext();
         else{
+            game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
         }
-    }
-
-    @Override
-    public void transition(AbandonedShipState abandonedShipState) {
-        abandonedShipCard.setAbandonedShipState(abandonedShipState);
     }
 }

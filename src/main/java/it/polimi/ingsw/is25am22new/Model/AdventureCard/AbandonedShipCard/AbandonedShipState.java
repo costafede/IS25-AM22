@@ -13,6 +13,8 @@ public abstract class AbandonedShipState {
     }
 
     public abstract void activateEffect(InputCommand inputCommand);
-    public abstract void transition(AbandonedShipState abandonedShipState);
+    public void transition(AbandonedShipState abandonedShipState) {
+        abandonedShipCard.setAbandonedShipState(abandonedShipState);
+    }
 
 }

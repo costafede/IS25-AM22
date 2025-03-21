@@ -22,8 +22,4 @@ public class PlanetsState_1 extends PlanetsState {
             transition(new PlanetsState_2(planetsCard));
         }
     }
-
-    public void transition(PlanetsState planetsState){
-        planetsCard.setPlanetsState(planetsState);
-    }
 }

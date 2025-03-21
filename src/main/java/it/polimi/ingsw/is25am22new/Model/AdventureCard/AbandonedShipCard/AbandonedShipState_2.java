@@ -19,13 +19,9 @@ public class AbandonedShipState_2 extends AbandonedShipState {
         membersStillToRemove--;
         if(membersStillToRemove == 0) {
             shipboard.addCosmicCredits(abandonedShipCard.getCredits());
+            game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
         }
-    }
-
-    @Override
-    public void transition(AbandonedShipState abandonedShipState) {
-
     }
 }

@@ -30,10 +30,6 @@ public abstract class AdventureCard {
         this.tutorial = tutorial;
     }
 
-    // for tests??
-    public AdventureCard(String name, Game game) {
-    }
-
     public boolean isTutorial() {
         return tutorial;
     }

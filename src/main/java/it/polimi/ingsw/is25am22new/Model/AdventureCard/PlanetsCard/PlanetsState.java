@@ -13,6 +13,8 @@ public abstract class PlanetsState{
     }
 
     public abstract void activateEffect(InputCommand inputCommand);
-    public abstract void transition(PlanetsState planetsState);
+    public void transition(PlanetsState planetsState){
+        planetsCard.setPlanetsState(planetsState);
+    }
 
 }

@@ -5,14 +5,19 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SmugglersCard extends AdventureCard {
 
     private int flightDaysLost;
     private int CannonStrength;
     private int lostGoods;
-    private List<GoodBlock> goodBlocks;
+    private Map<GoodBlock, Integer> theoreticalGoodBlocks;
+    private SmugglersState smugglersState;
+    protected Map<GoodBlock, Integer> actualGoodBlocks;
 
     public int getFlightDaysLost() {
         return flightDaysLost;
@@ -26,35 +31,46 @@ public class SmugglersCard extends AdventureCard {
         return lostGoods;
     }
 
-    public List<GoodBlock> getGoodBlocks() {
-        return goodBlocks;
+    public Map<GoodBlock, Integer> getTheoreticalGoodBlocks() {
+        return theoreticalGoodBlocks;
     }
 
-    public SmugglersCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int lostGoods, List<GoodBlock> goodBlocks) {
+    public SmugglersCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int lostGoods, Map<GoodBlock, Integer> theoreticalGoodBlocks) {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
         this.CannonStrength = cannonStrength;
         this.lostGoods = lostGoods;
-        this.goodBlocks = goodBlocks;
+        this.theoreticalGoodBlocks = theoreticalGoodBlocks;
+        this.smugglersState = new SmugglersState_1(this);
+        this.actualGoodBlocks = new HashMap<GoodBlock, Integer>();
+        actualGoodBlocks.put(GoodBlock.BLUEBLOCK, 0);
+        actualGoodBlocks.put(GoodBlock.YELLOWBLOCK, 0);
+        actualGoodBlocks.put(GoodBlock.GREENBLOCK, 0);
+        actualGoodBlocks.put(GoodBlock.REDBLOCK, 0);
     }
 
-    @Override
-    public boolean activateCardPhase(String nickname, InputCommand inputCommand) {
-        return true;
+    public void activateEffect(InputCommand inputCommand){
+        smugglersState.activateEffect(inputCommand);
     }
 
-    @Override
-    public boolean checkActivationConditions(String nickname) {
-        return true;
+    public void setSmugglersState(SmugglersState smugglersState){
+        this.smugglersState = smugglersState;
     }
 
-    @Override
-    public boolean receiveInputPhase(String nickname, InputCommand inputCommand) {
-        return true;
+
+    public void loadSmugglers(){
+        for(GoodBlock gb : GoodBlock.values()){
+            for(int goodBlocksToLoad = theoreticalGoodBlocks.get(gb); goodBlocksToLoad > 0 && game.getBank().withdrawGoodBlock(gb); goodBlocksToLoad--){
+                actualGoodBlocks.put(gb, actualGoodBlocks.get(gb) + 1);
+            }
+        }
     }
 
-    @Override
-    public void resolveCardEffectPhase(String nickname) {
-        return;
+    public void unloadSmugglers(){
+        for(GoodBlock gb : GoodBlock.values()){
+            for(int goodBlocksToUnload = actualGoodBlocks.get(gb); goodBlocksToUnload > 0; goodBlocksToUnload--){
+                game.getBank().depositGoodBlock(gb);
+            }
+        }
     }
 }

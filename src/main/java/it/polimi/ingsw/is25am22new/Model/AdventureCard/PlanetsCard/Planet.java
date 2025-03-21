@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Planet {
@@ -13,6 +14,11 @@ public class Planet {
 
     public Planet(Map<GoodBlock, Integer> theoreticalGoodblocks) {
         this.theoreticalGoodblocks = theoreticalGoodblocks;
+        this.actualGoodblocks = new HashMap<GoodBlock, Integer>();
+        actualGoodblocks.put(GoodBlock.BLUEBLOCK, 0);
+        actualGoodblocks.put(GoodBlock.YELLOWBLOCK, 0);
+        actualGoodblocks.put(GoodBlock.GREENBLOCK, 0);
+        actualGoodblocks.put(GoodBlock.REDBLOCK, 0);
     }
 
     public Map<GoodBlock, Integer> getTheoreticalGoodblocks() {

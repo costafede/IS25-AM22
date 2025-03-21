@@ -38,8 +38,8 @@ public class Bank {
         }
     }
 
-    //decreases the amount of the given block type in the bank if it's present or else does nothing
-    public void withdrawGoodBlock(GoodBlock gb){
+    //decreases the amount of the given block type in the bank if it's present returning true or else does nothing and returns false
+    public boolean withdrawGoodBlock(GoodBlock gb){
         if(goodblockToNum.get(gb) > 0) {
             if (gb.equals(REDBLOCK)) {
                 goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
@@ -53,6 +53,8 @@ public class Bank {
             if (gb.equals(BLUEBLOCK)) {
                 goodblockToNum.put(gb, goodblockToNum.get(gb) - 1);
             }
+            return true;
         }
+        return false;
     }
 }

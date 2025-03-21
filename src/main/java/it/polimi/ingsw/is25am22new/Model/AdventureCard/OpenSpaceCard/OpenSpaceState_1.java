@@ -1,0 +1,37 @@
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard;
+
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+
+import java.util.List;
+
+public class OpenSpaceState_1 extends OpenSpaceState {
+    public OpenSpaceState_1(OpenSpaceCard openSpaceCard) {
+        super(openSpaceCard);
+    }
+
+    @Override
+    public void activateEffect(InputCommand inputCommand) {
+        if(inputCommand.getChoice()){   //player wants to activate a double engine, so he removes a battery token from the component tile with the coordinates given
+            ComponentTile batteryComponent = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
+            batteryComponent.removeBatteryToken();
+            transition(new OpenSpaceState_2(openSpaceCard)); //go to state where player has to enter the input to activate the engine
+        }
+        else{   //player declares his engine power and resolves the card's effect(so choice must be set to false)
+            int engineStrength = game.getShipboards().get(game.getCurrPlayer()).getEngineStrengthShip();
+            if(engineStrength == 0){    //player is forced to leave if his engine strength is zero
+                game.playerAbandons(game.getCurrPlayer());
+            }
+            else
+                game.getFlightboard().shiftRocket(game.getShipboards(), game.getCurrPlayer(), -engineStrength);
+            List<String> playersBeforeEffect = openSpaceCard.getOrderedPlayersBeforeEffect();
+            if(!game.getCurrPlayer().equals(playersBeforeEffect.getLast()))     //if curr player isn't the last one the turn is passed to the next player
+                game.setCurrPlayer(playersBeforeEffect.get(playersBeforeEffect.indexOf(game.getCurrPlayer()) + 1));
+            else{   //the card effect finishes
+                game.manageInvalidPlayers();
+                game.setCurrPlayerToLeader();
+                game.setCurrCard(null);
+            }
+        }
+    }
+}

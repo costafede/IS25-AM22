@@ -87,4 +87,8 @@ public abstract class Flightboard {
     }
 
     public abstract void placeRocket(String nickname, int pos);
+
+    public int getFlightBoardLength(){
+        return flightBoardLength;
+    }
 }

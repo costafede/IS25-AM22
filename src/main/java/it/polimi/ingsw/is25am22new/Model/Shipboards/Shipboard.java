@@ -526,6 +526,15 @@ public class Shipboard {
     public Optional<ComponentTile> getComponentTileFromGrid(int i, int j){
         return componentTilesGrid.get(i, j);
     }
+
+    public int getOnlyHumanNumber(){
+        int res = 0;
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && !ct.get().isAlienPresent("brown") && !ct.get().isAlienPresent("purple"))
+                res += ct.get().getCrewNumber();
+        }
+        return res;
+    }
 }
 
 class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
