@@ -15,6 +15,12 @@ public class CombatZoneState_1 extends CombatZoneState {
         for(String player : game.getPlayerList()){
             if(game.getShipboards().get(player).getCrewNumber() < minCrewNumber){
                 playerFewestMembers = player;
+            } else if (game.getShipboards().get(player).getCrewNumber() == minCrewNumber) {
+                playerFewestMembers =
+                        // who is ahead receives penalty
+                        game.getShipboards().get(player).getDaysOnFlight() >
+                            game.getShipboards().get(playerFewestMembers).getDaysOnFlight() ?
+                                player : playerFewestMembers;
             }
         }
         game.getFlightboard().shiftRocket(game.getShipboards(), playerFewestMembers, combatZoneCard.getFlightDaysLost());

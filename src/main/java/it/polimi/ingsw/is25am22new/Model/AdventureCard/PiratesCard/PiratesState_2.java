@@ -4,6 +4,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.util.Optional;
+
 public class PiratesState_2 extends PiratesState {
     public PiratesState_2(PiratesCard piratesCard) {
         super(piratesCard);
@@ -18,9 +20,10 @@ public class PiratesState_2 extends PiratesState {
 
         x = inputCommand.getRow();
         y = inputCommand.getCol();
-        if(piratesCard.isBatteryUsed()) {
+        Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
+        if(piratesCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
-            shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::activateComponent);
+            ctOptional.ifPresent(ComponentTile::activateComponent);
         }
 
         if(inputCommand.getChoice()) { // choose to stop using the batteries

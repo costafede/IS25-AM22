@@ -2,27 +2,26 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
-import java.util.Optional;
-
-public class CombatZoneState_4 extends CombatZoneState {
-    public CombatZoneState_4(CombatZoneCard combatZoneCard) {
+public class CombatZoneState_8 extends CombatZoneState {
+    public CombatZoneState_8(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
     @Override
     public void activateEffect(InputCommand inputCommand) {
-        String playerLowestEngine = game.getCurrPlayer();
-        int lowestEngine = combatZoneCard.getPlayerToStrength().get(playerLowestEngine);
+        String playerLowestCannon = game.getCurrPlayer();
+        int lowestCannon = combatZoneCard.getPlayerToStrength().get(playerLowestCannon);
         for(String player : combatZoneCard.getPlayerToStrength().keySet()) {
-            if(combatZoneCard.getPlayerToStrength().get(player) < lowestEngine) {
-                playerLowestEngine = player;
-            } else if (combatZoneCard.getPlayerToStrength().get(player) == lowestEngine) {
-                playerLowestEngine =
+            if(combatZoneCard.getPlayerToStrength().get(player) < lowestCannon) {
+                playerLowestCannon = player;
+            } else if (combatZoneCard.getPlayerToStrength().get(player) == lowestCannon) {
+                playerLowestCannon =
                         // who is ahead receives penalty
                         game.getShipboards().get(player).getDaysOnFlight() >
-                            game.getShipboards().get(playerLowestEngine).getDaysOnFlight() ?
-                                player : playerLowestEngine;
+                                game.getShipboards().get(playerLowestCannon).getDaysOnFlight() ?
+                                player : playerLowestCannon;
             }
         }
 
@@ -35,8 +34,7 @@ public class CombatZoneState_4 extends CombatZoneState {
             }
         }
 
-
-        game.setCurrPlayer(playerLowestEngine);
-        transition(new CombatZoneState_5(combatZoneCard));
+        game.setCurrPlayer(playerLowestCannon);
+        transition(new CombatZoneState_9(combatZoneCard));
     }
 }

@@ -212,4 +212,12 @@ public abstract class ComponentTile {
     public boolean isShieldGenerator() {
         return false;
     }
+
+    public boolean isDoubleCannon() {
+        return false;
+    }
+
+    public boolean isDoubleEngine() {
+        return false;
+    }
 }

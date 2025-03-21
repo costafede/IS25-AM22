@@ -4,6 +4,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.util.Optional;
+
 public class CombatZoneState_3 extends CombatZoneState {
     public CombatZoneState_3(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
@@ -16,9 +18,10 @@ public class CombatZoneState_3 extends CombatZoneState {
 
         int x = inputCommand.getRow();
         int y = inputCommand.getCol();
-        if(combatZoneCard.isBatteryUsed()) {
+        Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
+        if(combatZoneCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleEngine()) {
             // activates the component
-            shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::activateComponent);
+            ctOptional.ifPresent(ComponentTile::activateComponent);
         }
 
         if(!inputCommand.getChoice()) { // do you want to continue using batteries?

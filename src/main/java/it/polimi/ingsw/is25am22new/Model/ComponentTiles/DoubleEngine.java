@@ -28,4 +28,9 @@ public class DoubleEngine extends Engine {
     public void deactivateComponent() {
         bottomSideActive = false;
     }
+
+    @Override
+    public boolean isDoubleEngine() {
+        return true;
+    }
 }

@@ -18,6 +18,7 @@ public class CombatZoneCard extends AdventureCard {
     private boolean batteryUsed;
     private Map<String, Integer> playerToStrength;
     private int removedAstronauts;
+    private int indexOfIncomingShot;
 
     public CombatZoneCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int astronautsToLose, int lostGoods, Map<Integer, Shot> numberToShot) {
         super(pngName, name, game, level, tutorial);
@@ -31,8 +32,20 @@ public class CombatZoneCard extends AdventureCard {
         this.removedAstronauts = 0;
     }
 
+    public int getIndexOfIncomingShot() {
+        return indexOfIncomingShot;
+    }
+
+    public void setNextIndexOfShot() {
+        indexOfIncomingShot++;
+    }
+
     public int getRemovedAstronauts() {
         return removedAstronauts;
+    }
+
+    public boolean thereAreStillShots() {
+        return numberToShot.size() > indexOfIncomingShot;
     }
 
     public void increaseRemovedAstronauts() {

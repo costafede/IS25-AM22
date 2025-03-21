@@ -5,6 +5,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwa
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.util.Optional;
+
 public class SlaversState_2 extends SlaversState{
     public SlaversState_2(SlaversCard slaversCard) {
         super(slaversCard);
@@ -19,9 +21,10 @@ public class SlaversState_2 extends SlaversState{
 
         x = inputCommand.getRow();
         y = inputCommand.getCol();
-        if(slaversCard.isBatteryUsed()) {
+        Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
+        if(slaversCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
-            shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::activateComponent);
+            ctOptional.ifPresent(ComponentTile::activateComponent);
         }
 
         if(!inputCommand.getChoice()) { // choose to continue to use batteries or to stop

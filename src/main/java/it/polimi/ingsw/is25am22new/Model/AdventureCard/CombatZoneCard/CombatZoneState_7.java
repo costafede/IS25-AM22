@@ -4,6 +4,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.util.Optional;
+
 public class CombatZoneState_7 extends CombatZoneState {
     public CombatZoneState_7(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
@@ -16,23 +18,25 @@ public class CombatZoneState_7 extends CombatZoneState {
 
         int x = inputCommand.getRow();
         int y = inputCommand.getCol();
-        if(combatZoneCard.isBatteryUsed()) {
+
+        Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
+        if(combatZoneCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
-            shipboard.getComponentTileFromGrid(x, y).ifPresent(ComponentTile::activateComponent);
+            ctOptional.ifPresent(ComponentTile::activateComponent);
         }
 
         if(!inputCommand.getChoice()) { // do you want to continue using batteries?
             if(game.getCurrPlayer().equals(game.getLastPlayer())) { // if last player
-                transition(new CombatZoneState_4(combatZoneCard));
+                transition(new CombatZoneState_8(combatZoneCard));
             }
             else { // if not last player
                 combatZoneCard.getPlayerToStrength().put(currentPlayer, shipboard.getEngineStrength());
                 game.setCurrPlayerToNext();
-                transition(new CombatZoneState_2(combatZoneCard));
+                transition(new CombatZoneState_6(combatZoneCard));
             }
         }
         else {
-            transition(new CombatZoneState_2(combatZoneCard));
+            transition(new CombatZoneState_6(combatZoneCard));
         }
     }
 }

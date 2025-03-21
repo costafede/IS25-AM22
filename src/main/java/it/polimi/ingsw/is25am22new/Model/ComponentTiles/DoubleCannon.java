@@ -38,4 +38,8 @@ public class DoubleCannon extends Cannon {
         rightSideActive = false;
         leftSideActive = false;
     }
+    @Override
+    public boolean isDoubleCannon() {
+        return true;
+    }
 }
