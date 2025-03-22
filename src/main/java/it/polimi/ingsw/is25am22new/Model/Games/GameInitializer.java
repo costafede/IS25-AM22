@@ -10,6 +10,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.Planet;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
@@ -82,11 +83,11 @@ public class GameInitializer {
         try{
             JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedStationCard.json"));
             for(JsonNode node : jsonNode){
-                List<GoodBlock> goodBlocks = new ArrayList<>();
+                Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 JsonNode goodBlocksNode = node.get("goodBlocks");
                 for(JsonNode goodBlockNode: goodBlocksNode){
                     GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
-                    goodBlocks.add(goodBlock);
+                    theoreticalGoodBlocks.put(goodBlock, theoreticalGoodBlocks.getOrDefault(goodBlock, 0) + 1);
                 }
                 AbandonedStationCard asc = new AbandonedStationCard(
                         node.get("pngName").asText(),
@@ -96,7 +97,8 @@ public class GameInitializer {
                         node.get("tutorial").asBoolean(),
                         node.get("flightDaysLost").asInt(),
                         node.get("astronautsNumber").asInt(),
-                        goodBlocks
+                        theoreticalGoodBlocks
+
                 );
                 game.getCardArchive().add(asc);
             }
@@ -281,17 +283,18 @@ public class GameInitializer {
                 boolean tutorial = node.get("tutorial").asBoolean();
                 int numOfPlanets = node.get("numOfPlanets").asInt();
                 int flightDaysLost = node.get("flightDaysLost").asInt();
-                Map<Integer, List<GoodBlock>> planetToGoodBlocks = new HashMap<>();
+                List<Planet> planets = new ArrayList<>();
+                Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 for (int i = 0; i < numOfPlanets; i++) {
-                    List<GoodBlock> goodBlocks = new ArrayList<>();
                     JsonNode goodBlocksNode = node.get(i + "PlanetGoods");
                     for (JsonNode goodBlockNode : goodBlocksNode) {
                         GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
-                        goodBlocks.add(goodBlock);
+                        theoreticalGoodBlocks.put(goodBlock, theoreticalGoodBlocks.getOrDefault(goodBlock, 0) + 1);
                     }
-                    planetToGoodBlocks.put(i, goodBlocks);
+                    Planet planet = new Planet(theoreticalGoodBlocks);
+                    planets.add(planet);
                 }
-                PlanetsCard card = new PlanetsCard(pngName, name, game, level, tutorial, planetToGoodBlocks, flightDaysLost);
+                PlanetsCard card = new PlanetsCard(pngName, name, game, level, tutorial, planets, flightDaysLost);
                 game.getCardArchive().add(card);
             }
         } catch (IOException e) {
@@ -300,7 +303,6 @@ public class GameInitializer {
     }
 
     private static void initSlaversCard(Game game, ObjectMapper objectMapper) {
-        boolean check = false;
         try {
             JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SlaversCard.json"));
             for (JsonNode node : jsonNode) {
@@ -333,14 +335,14 @@ public class GameInitializer {
                 int flightDaysLost = node.get("flightDaysLost").asInt();
                 int cannonStrength = node.get("cannonStrength").asInt();
                 int lostGoods = node.get("lostGoods").asInt();
-                List<GoodBlock> goodBlocks = new ArrayList<>();
+                Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 JsonNode goodBlocksNode = node.get("goodBlocks");
-                for (JsonNode goodBlockNode : goodBlocksNode) {
+                for(JsonNode goodBlockNode: goodBlocksNode){
                     GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
-                    goodBlocks.add(goodBlock);
+                    theoreticalGoodBlocks.put(goodBlock, theoreticalGoodBlocks.getOrDefault(goodBlock, 0) + 1);
                 }
 
-                SmugglersCard card = new SmugglersCard(pngName, name, game, level, tutorial, flightDaysLost, cannonStrength, lostGoods, goodBlocks);
+                SmugglersCard card = new SmugglersCard(pngName, name, game, level, tutorial, flightDaysLost, cannonStrength, lostGoods, theoreticalGoodBlocks);
                 game.getCardArchive().add(card);
             }
         }catch (IOException e){
