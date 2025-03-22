@@ -26,6 +26,7 @@ public class SlaversState_2 extends SlaversState{
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
         }
+        slaversCard.setBatteryUsed(false);
 
         if(!inputCommand.getChoice()) { // choose to continue to use batteries or to stop
             if(shipboard.getCannonStrength() > slaversCard.getCannonStrength()) { // win case
@@ -40,7 +41,6 @@ public class SlaversState_2 extends SlaversState{
                     game.setCurrCard(null);
                 }
                 else {
-                    slaversCard.setBatteryUsed(false);
                     // deactivates all components
                     for(int i = 0; i < 5; i++){
                         for(int j = 0; j < 7; j++){

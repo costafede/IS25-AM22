@@ -32,6 +32,7 @@ public class CombatZoneState_7 extends CombatZoneState {
             else { // if not last player
                 combatZoneCard.getPlayerToStrength().put(currentPlayer, shipboard.getEngineStrength());
                 game.setCurrPlayerToNext();
+                combatZoneCard.setBatteryUsed(false);
                 transition(new CombatZoneState_6(combatZoneCard));
             }
         }

@@ -13,7 +13,7 @@ public class CombatZoneState_4 extends CombatZoneState {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String playerLowestEngine = game.getCurrPlayer();
-        int lowestEngine = combatZoneCard.getPlayerToStrength().get(playerLowestEngine);
+        double lowestEngine = combatZoneCard.getPlayerToStrength().get(playerLowestEngine);
         for(String player : combatZoneCard.getPlayerToStrength().keySet()) {
             if(combatZoneCard.getPlayerToStrength().get(player) < lowestEngine) {
                 playerLowestEngine = player;

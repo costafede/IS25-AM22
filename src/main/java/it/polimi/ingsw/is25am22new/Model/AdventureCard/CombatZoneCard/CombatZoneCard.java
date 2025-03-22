@@ -16,7 +16,7 @@ public class CombatZoneCard extends AdventureCard {
     private Map<Integer, Shot> numberToShot;
     private CombatZoneState combatZoneState;
     private boolean batteryUsed;
-    private Map<String, Integer> playerToStrength;
+    private Map<String, Double> playerToStrength;
     private int removedAstronauts;
     private int indexOfIncomingShot;
 
@@ -52,7 +52,7 @@ public class CombatZoneCard extends AdventureCard {
         removedAstronauts++;
     }
 
-    public Map<String, Integer> getPlayerToStrength() {
+    public Map<String, Double> getPlayerToStrength() {
         return playerToStrength;
     }
 
