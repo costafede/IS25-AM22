@@ -9,7 +9,6 @@ public class AbandonedShipCard extends AdventureCard {
     private int flightdaysLost;
     private int credits;
     private int lostAstronauts;
-    private int removedAstronauts;
     private AbandonedShipState abandonedShipState;
 
     public int getFlightDaysLost() {
@@ -29,7 +28,6 @@ public class AbandonedShipCard extends AdventureCard {
         this.credits = credits;
         this.flightdaysLost = flightdaysLost;
         this.lostAstronauts = lostAstronauts;
-        this.removedAstronauts = 0;
         this.abandonedShipState = new AbandonedShipState_1(this);
     }
 

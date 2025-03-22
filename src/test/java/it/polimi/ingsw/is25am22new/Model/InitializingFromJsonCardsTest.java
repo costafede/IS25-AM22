@@ -234,7 +234,7 @@ class InitializingFromJsonCardsTest {
                                 pc.getLevel() == card.getLevel() &&
                                 pc.isTutorial() == card.isTutorial() &&
                                 pc.getFlightDaysLost() == card.getFlightDaysLost() &&
-                                pc.getPlanets().equals(card.getPlanets())) {
+                                check_planets(pc, card));{
                             check = true;
                             break;
                         }
@@ -243,6 +243,19 @@ class InitializingFromJsonCardsTest {
             }
         } catch (IOException e) {
             System.out.println("Error in reading PlanetsCard.json: " + e.getMessage());
+        }
+        return check;
+    }
+
+    private boolean check_planets(PlanetsCard pc, PlanetsCard card){
+        boolean check = false;
+        for(int i = 0; i < pc.getPlanets().size(); i++){
+            if(pc.getPlanets().get(i).getTheoreticalGoodblocks().equals(card.getPlanets().get(i).getTheoreticalGoodblocks())){
+                check = true;
+            }else{
+                check = false;
+                break;
+            }
         }
         return check;
     }
