@@ -10,6 +10,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.Planet;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
@@ -50,7 +51,7 @@ class InitializingFromJsonCardsTest {
 
         //check CombatZone2Card initialized properly
         assertTrue(check_combat_zone_2_card(objectMapper, game), "CombatZone2Card not initialized properly");
-        assertEquals(1, game.getCardArchive().stream().filter(card -> card instanceof CombatZoneCard && ((CombatZoneCard) card).getLostAstronauts() == 0).count());
+        assertEquals(1, game.getCardArchive().stream().filter(card -> card instanceof CombatZoneCard && ((CombatZoneCard) card).getAstronautsToLose() == 0).count());
 
         //check EpidemicCard initialized properly
         assertTrue(check_epidemic_card(objectMapper, game), "EpidemicCard not initialized properly");
@@ -145,7 +146,7 @@ class InitializingFromJsonCardsTest {
                                 existingCard.getFlightDaysLost() == sc.getFlightDaysLost() &&
                                 existingCard.getCredits() == sc.getCredits() &&
                                 existingCard.getCannonStrength() == sc.getCannonStrength() &&
-                                existingCard.getLostAstronauts() == sc.getLostAstronauts()) {
+                                existingCard.getAstronautsToLose() == sc.getAstronautsToLose()) {
                             check = true;
                             break;
                         }
@@ -171,14 +172,14 @@ class InitializingFromJsonCardsTest {
                 int flightDaysLost = node.get("flightDaysLost").asInt();
                 int cannonStrength = node.get("cannonStrength").asInt();
                 int lostGoods = node.get("lostGoods").asInt();
-                List<GoodBlock> goodBlocks = new ArrayList<>();
+                Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 JsonNode goodBlocksNode = node.get("goodBlocks");
                 for(JsonNode goodBlockNode: goodBlocksNode){
                     GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
-                    goodBlocks.add(goodBlock);
+                    theoreticalGoodBlocks.put(goodBlock, theoreticalGoodBlocks.getOrDefault(goodBlock, 0) + 1);
                 }
 
-                SmugglersCard card = new SmugglersCard(pngName, name, game, level, tutorial, flightDaysLost, cannonStrength, lostGoods, goodBlocks);
+                SmugglersCard card = new SmugglersCard(pngName, name, game, level, tutorial, flightDaysLost, cannonStrength, lostGoods, theoreticalGoodBlocks);
 
                 for(AdventureCard adventureCard: game.getCardArchive()){
                     if(adventureCard instanceof SmugglersCard sc){
@@ -189,7 +190,7 @@ class InitializingFromJsonCardsTest {
                                 sc.getFlightDaysLost() == card.getFlightDaysLost() &&
                                 sc.getCannonStrength() == card.getCannonStrength() &&
                                 sc.getLostGoods() == card.getLostGoods() &&
-                                sc.getGoodBlocks().equals(goodBlocks)){
+                                sc.getTheoreticalGoodBlocks().equals(theoreticalGoodBlocks)){
                             check = true;
                             break;
                         }
@@ -213,17 +214,18 @@ class InitializingFromJsonCardsTest {
                 boolean tutorial = node.get("tutorial").asBoolean();
                 int numOfPlanets = node.get("numOfPlanets").asInt();
                 int flightDaysLost = node.get("flightDaysLost").asInt();
-                Map<Integer, List<GoodBlock>> planetToGoodBlocks = new HashMap<>();
+                List<Planet> planets = new ArrayList<>();
+                Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 for (int i = 0; i < numOfPlanets; i++) {
-                    List<GoodBlock> goodBlocks = new ArrayList<>();
                     JsonNode goodBlocksNode = node.get(i + "PlanetGoods");
                     for (JsonNode goodBlockNode : goodBlocksNode) {
                         GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
-                        goodBlocks.add(goodBlock);
+                        theoreticalGoodBlocks.put(goodBlock, theoreticalGoodBlocks.getOrDefault(goodBlock, 0) + 1);
                     }
-                    planetToGoodBlocks.put(i, goodBlocks);
+                    Planet planet = new Planet(theoreticalGoodBlocks);
+                    planets.add(planet);
                 }
-                PlanetsCard card = new PlanetsCard(pngName, name, game, level, tutorial, planetToGoodBlocks, flightDaysLost);
+                PlanetsCard card = new PlanetsCard(pngName, name, game, level, tutorial, planets, flightDaysLost);
 
                 for (AdventureCard adventureCard : game.getCardArchive()) {
                     if (adventureCard instanceof PlanetsCard pc) {
@@ -231,9 +233,8 @@ class InitializingFromJsonCardsTest {
                                 pc.getName().equals(card.getName()) &&
                                 pc.getLevel() == card.getLevel() &&
                                 pc.isTutorial() == card.isTutorial() &&
-                                pc.getPlanetToGoodBlocks().size() == numOfPlanets &&
                                 pc.getFlightDaysLost() == card.getFlightDaysLost() &&
-                                pc.getPlanetToGoodBlocks().equals(card.getPlanetToGoodBlocks())) {
+                                pc.getPlanets().equals(card.getPlanets())) {
                             check = true;
                             break;
                         }
@@ -454,7 +455,7 @@ class InitializingFromJsonCardsTest {
                                 czc.getLevel() == level &&
                                 czc.isTutorial() == tutorial &&
                                 czc.getFlightDaysLost() == flightDaysLost &&
-                                czc.getLostAstronauts() == 0 &&
+                                czc.getAstronautsToLose() == 0 &&
                                 czc.getLostGoods() == lostGoods && check_shot(shotSize, shotOrientation, czc)) {
                             check = true;
                             break;
@@ -501,7 +502,7 @@ class InitializingFromJsonCardsTest {
                             czc.getLevel() == level &&
                             czc.isTutorial() == tutorial &&
                             czc.getFlightDaysLost() == flightDaysLost &&
-                            czc.getLostAstronauts() == lostAstronauts &&
+                            czc.getAstronautsToLose() == lostAstronauts &&
                             czc.getLostGoods() == 0 && check_shot(shotSize, shotOrientation, czc)) {
                             check = true;
                             break;
@@ -534,11 +535,11 @@ class InitializingFromJsonCardsTest {
         try {
             JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedStationCard.json"));
             for(JsonNode node : jsonNode){
-                List<GoodBlock> goodBlocks = new ArrayList<>();
+                Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 JsonNode goodBlocksNode = node.get("goodBlocks");
                 for(JsonNode goodBlockNode: goodBlocksNode){
                     GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
-                    goodBlocks.add(goodBlock);
+                    theoreticalGoodBlocks.put(goodBlock, theoreticalGoodBlocks.getOrDefault(goodBlock, 0) + 1);
                 }
                 AbandonedStationCard asc = new AbandonedStationCard(
                         node.get("pngName").asText(),
@@ -548,7 +549,7 @@ class InitializingFromJsonCardsTest {
                         node.get("tutorial").asBoolean(),
                         node.get("flightDaysLost").asInt(),
                         node.get("astronautsNumber").asInt(),
-                        goodBlocks
+                        theoreticalGoodBlocks
                 );
                 for(AdventureCard card: game.getCardArchive()){
                     if(card instanceof AbandonedStationCard existingCard){
@@ -558,7 +559,7 @@ class InitializingFromJsonCardsTest {
                                 existingCard.isTutorial() == asc.isTutorial() &&
                                 existingCard.getFlightDaysLost() == asc.getFlightDaysLost() &&
                                 existingCard.getAstronautsNumber() == asc.getAstronautsNumber() &&
-                                existingCard.getGoodBlocks().equals(asc.getGoodBlocks())){
+                                existingCard.getTheoreticalGoodBlocks().equals(asc.getTheoreticalGoodBlocks())){
                             check = true;
                             break;
                         }
@@ -595,7 +596,7 @@ class InitializingFromJsonCardsTest {
                                 existingCard.getName().equals(asc.getName()) &&
                                 existingCard.getLevel() == asc.getLevel() &&
                                 existingCard.isTutorial() == asc.isTutorial() &&
-                                existingCard.getFlightdaysLost() == asc.getFlightdaysLost() &&
+                                existingCard.getFlightDaysLost() == asc.getFlightDaysLost() &&
                                 existingCard.getCredits() == asc.getCredits() &&
                                 existingCard.getLostAstronauts() == asc.getLostAstronauts()) {
                             check = true;
