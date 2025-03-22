@@ -18,7 +18,7 @@ public class OpenSpaceState_1 extends OpenSpaceState {
             transition(new OpenSpaceState_2(openSpaceCard)); //go to state where player has to enter the input to activate the engine
         }
         else{   //player declares his engine power and resolves the card's effect(so choice must be set to false)
-            int engineStrength = game.getShipboards().get(game.getCurrPlayer()).getEngineStrengthShip();
+            int engineStrength = game.getShipboards().get(game.getCurrPlayer()).getEngineStrength();
             if(engineStrength == 0){    //player is forced to leave if his engine strength is zero
                 game.playerAbandons(game.getCurrPlayer());
             }

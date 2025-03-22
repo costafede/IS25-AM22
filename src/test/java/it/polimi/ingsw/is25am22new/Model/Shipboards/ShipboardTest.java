@@ -193,23 +193,23 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(9),2, 4);
         ship.getComponentTileFromGrid(2,4).ifPresent(ct -> ct.putAlien("brown"));
 
-        assertEquals(0, ship.getEngineStrengthShip());
+        assertEquals(0, ship.getEngineStrength());
 
         ship.weldComponentTile(tiles.get(0),3, 4);
 
-        assertEquals(3, ship.getEngineStrengthShip());
+        assertEquals(3, ship.getEngineStrength());
 
         ship.getComponentTileFromGrid(3, 5).ifPresent(ComponentTile::activateComponent);
 
-        assertEquals(5, ship.getEngineStrengthShip());
+        assertEquals(5, ship.getEngineStrength());
 
         ship.destroyTile(2, 5);
 
-        assertEquals(3, ship.getEngineStrengthShip());
+        assertEquals(3, ship.getEngineStrength());
 
         ship.getComponentTileFromGrid(3, 5).ifPresent(ComponentTile::deactivateComponent);
 
-        assertEquals(1, ship.getEngineStrengthShip());
+        assertEquals(1, ship.getEngineStrength());
     }
 
     @Test
