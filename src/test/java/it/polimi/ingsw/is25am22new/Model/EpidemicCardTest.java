@@ -35,50 +35,6 @@ class EpidemicCardTest {
         return tiles;
     }
 
-    private List<Shipboard> initializeShipboards(List<String> nicknames){
-        List<ComponentTile> tiles = initializeTiles();
-        List<Shipboard> shipboards = new ArrayList<>();
-
-        //Shouldnt lose crewmembers
-        Shipboard ship1 = new Shipboard("yellow", "Federico", null);
-        ship1.weldComponentTile(tiles.get(4),2, 2);
-        ship1.weldComponentTile(tiles.get(4),2, 4);
-        ship1.weldComponentTile(tiles.get(2),1, 2);
-        ship1.weldComponentTile(tiles.get(3),1, 4);
-        ship1.weldComponentTile(tiles.get(9),2, 1);
-        ship1.weldComponentTile(tiles.get(9),2, 5);
-        ship1.weldComponentTile(tiles.get(0),3, 2);
-        ship1.weldComponentTile(tiles.get(0),3, 4);
-        ship1.getComponentTileFromGrid(2,1).ifPresent(ct -> ct.putAstronauts());
-        ship1.getComponentTileFromGrid(2,5).ifPresent(ct -> ct.putAstronauts());
-
-
-        // Should lose 3 crewmembers
-        Shipboard ship2 = new Shipboard("green", "Tommaso", null);
-        ship2.weldComponentTile(tiles.get(2),1, 3);
-        ship2.weldComponentTile(tiles.get(9),3, 3);
-        ship2.weldComponentTile(tiles.get(9),3, 4);
-        ship2.weldComponentTile(tiles.get(9),2, 4);
-
-        // Should lose 1 astronaut and one alien
-        Shipboard ship3 = new Shipboard("blue", "Emanuele", null);
-        ship3.weldComponentTile(tiles.get(4),2, 2);
-        ship3.weldComponentTile(tiles.get(4),2, 4);
-        ship3.weldComponentTile(tiles.get(9),3, 2);
-        ship3.weldComponentTile(tiles.get(8),3, 3);
-        ship3.getComponentTileFromGrid(3,2).ifPresent(ct -> ct.putAlien("brown"));
-        ship3.weldComponentTile(tiles.get(9),3, 1);
-
-        // shouldnt lose crewmembers
-        Shipboard ship4 = new Shipboard("red", "Anatoly", null);
-
-        shipboards.add(ship1);
-        shipboards.add(ship2);
-        shipboards.add(ship3);
-        shipboards.add(ship4);
-
-        return shipboards;
-    }
     @Test
     void RemovesCrewFromConnectedCabins(){
 
@@ -96,14 +52,20 @@ class EpidemicCardTest {
         Shipboard ship1 = game.getShipboards().get(players.get(1));
         ship1.weldComponentTile(tiles.get(2),1, 3);
         ship1.weldComponentTile(tiles.get(9),1, 2);
-        //ship1.weldComponentTile(tiles.get(9),3, 4);
-        //ship1.weldComponentTile(tiles.get(9),2, 4);
         ship1.getComponentTileFromGrid(1,2).ifPresent(ct -> ct.putAstronauts());
-        //ship1.getComponentTileFromGrid(3,4).ifPresent(ct -> ct.putAstronauts());
-        //ship1.getComponentTileFromGrid(2,4).ifPresent(ct -> ct.putAstronauts());
         ship1.getComponentTileFromGrid(2,3).ifPresent(ct -> ct.putAstronauts());
 
         assertEquals(4, ship1.getCrewNumber());
+
+        Shipboard ship2 = game.getShipboards().get(players.get(2));
+        ship2.weldComponentTile(tiles.get(2),1, 3);
+        ship2.weldComponentTile(tiles.get(9),1, 4);
+        ship2.weldComponentTile(tiles.get(9),1, 2);
+        ship2.getComponentTileFromGrid(1,4).ifPresent(ct -> ct.putAstronauts());
+        ship2.getComponentTileFromGrid(2,3).ifPresent(ct -> ct.putAstronauts());
+        ship2.getComponentTileFromGrid(1,4).ifPresent(ct -> ct.putAstronauts());
+
+        assertEquals(6, ship2.getCrewNumber());
 
 
         EpidemicCard ec = new EpidemicCard("test", "test", game, 2, false);
@@ -111,6 +73,7 @@ class EpidemicCardTest {
 
         assertEquals(2, ship0.getCrewNumber());
         assertEquals(4, ship1.getCrewNumber());
+        assertEquals(6, ship2.getCrewNumber());
 
 
     }
