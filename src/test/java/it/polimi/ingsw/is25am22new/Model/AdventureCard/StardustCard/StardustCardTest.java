@@ -1,6 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.Side;
 import org.junit.jupiter.api.Test;
@@ -30,48 +33,29 @@ class StardustCardTest {
         return tiles;
     }
 
-    private List<Shipboard> initializeShipboards(List<String> nicknames){
-        List<ComponentTile> tiles = initializeTiles();
-        List<Shipboard> shipboards = new ArrayList<>();
 
-        // should lose 16 days in flight
-        Shipboard ship1 = new Shipboard("yellow", "Federico", null);
-        ship1.weldComponentTile(tiles.get(4),2, 2);
-        ship1.weldComponentTile(tiles.get(4),2, 4);
-        ship1.weldComponentTile(tiles.get(2),1, 2);
-        ship1.weldComponentTile(tiles.get(3),1, 4);
-        ship1.weldComponentTile(tiles.get(9),2, 1);
-        ship1.weldComponentTile(tiles.get(9),2, 5);
-        ship1.weldComponentTile(tiles.get(0),3, 2);
-        ship1.weldComponentTile(tiles.get(0),3, 4);
-
-
-        Shipboard ship2 = new Shipboard("green", "Tommaso", null);
-        ship2.weldComponentTile(tiles.get(2),1, 3);
-        ship2.weldComponentTile(tiles.get(9),3, 3);
-        ship2.weldComponentTile(tiles.get(9),3, 4);
-        ship2.weldComponentTile(tiles.get(9),2, 4);
-
-        //Shipboard ship3 = new Shipboard("blue", "Emanuele", null);
-        //ship3.weldComponentTile(tiles.get(4),2, 2);
-        //ship3.weldComponentTile(tiles.get(4),2, 4);
-        //ship3.weldComponentTile(tiles.get(9),3, 2);
-        //ship3.weldComponentTile(tiles.get(8),3, 3);
-        //ship3.getComponentTileFromGrid(3,2).ifPresent(ct -> ct.putAlien("brown"));
-        //ship3.weldComponentTile(tiles.get(9),3, 1);
-
-        // Shipboard ship4 = new Shipboard("red", "Anatoly", null);
-
-        //shipboards.add(ship1);
-        //shipboards.add(ship2);
-        //shipboards.add(ship3);
-        // shipboards.add(ship4);
-
-        return shipboards;
-    }
     @Test
     void movesCorrectly2Ships(){
+        List<ComponentTile> tiles = initializeTiles();
+        List<String> players = List.of("Federico", "Tommaso", "Emanuele", "Anatoly");
+        Game game = new Level2Game(players);
 
+        Shipboard ship0 = game.getShipboards().get(players.get(0));
+        ship0.weldComponentTile(tiles.get(9),2, 2);
+
+        Shipboard ship1 = game.getShipboards().get(players.get(1));
+        ship1.weldComponentTile(tiles.get(2),1, 3);
+        ship1.weldComponentTile(tiles.get(9),1, 2);
+
+
+        Shipboard ship2 = game.getShipboards().get(players.get(2));
+        ship2.weldComponentTile(tiles.get(2),1, 3);
+        ship2.weldComponentTile(tiles.get(9),1, 4);
+        ship2.weldComponentTile(tiles.get(9),1, 2);
+
+
+        StardustCard ec = new StardustCard("test", "test", game, 2, false);
+        ec.activateEffect(null);
 
     }
 }
