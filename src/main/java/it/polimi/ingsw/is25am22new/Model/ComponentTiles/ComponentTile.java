@@ -220,4 +220,8 @@ public abstract class ComponentTile {
     public boolean isDoubleEngine() {
         return false;
     }
+
+    public boolean isBattery() {
+        return false;
+    }
 }

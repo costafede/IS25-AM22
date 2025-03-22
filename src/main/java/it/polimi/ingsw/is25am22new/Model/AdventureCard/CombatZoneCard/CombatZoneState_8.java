@@ -12,7 +12,7 @@ public class CombatZoneState_8 extends CombatZoneState {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String playerLowestCannon = game.getCurrPlayer();
-        int lowestCannon = combatZoneCard.getPlayerToStrength().get(playerLowestCannon);
+        double lowestCannon = combatZoneCard.getPlayerToStrength().get(playerLowestCannon);
         for(String player : combatZoneCard.getPlayerToStrength().keySet()) {
             if(combatZoneCard.getPlayerToStrength().get(player) < lowestCannon) {
                 playerLowestCannon = player;

@@ -25,6 +25,7 @@ public class PiratesState_2 extends PiratesState {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
         }
+        piratesCard.setBatteryUsed(false);
 
         if(inputCommand.getChoice()) { // choose to stop using the batteries
             if(shipboard.getCannonStrength() > piratesCard.getCannonStrength()) { // win case
@@ -38,7 +39,6 @@ public class PiratesState_2 extends PiratesState {
                     transition(new PiratesState_4(piratesCard)); // all defeated players get shot
                 }
                 else {
-                    piratesCard.setBatteryUsed(false);
 
                     // deactivates all components
                     for(int i = 0; i < 5; i++){

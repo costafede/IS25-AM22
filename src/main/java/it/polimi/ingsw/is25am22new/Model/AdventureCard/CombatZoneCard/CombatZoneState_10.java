@@ -28,7 +28,7 @@ public class CombatZoneState_10 extends CombatZoneState{
             x = inputCommand.getRow();
             y = inputCommand.getCol();
             Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
-            if(combatZoneCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
+            if(combatZoneCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isBattery()) {
                 // activates the component
                 ctOptional.ifPresent(ComponentTile::activateComponent);
             }
