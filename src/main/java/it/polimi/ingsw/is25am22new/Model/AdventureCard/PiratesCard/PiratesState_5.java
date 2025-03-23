@@ -34,6 +34,8 @@ public class PiratesState_5 extends PiratesState{
                 ctOptional.ifPresent(ComponentTile::activateComponent);
             }
         }
+        piratesCard.setBatteryUsed(false);
+
         // shot hitting logic
         if(incomingShot.getOrientation() == Orientation.TOP) {
             if(incomingShot.isBig() || !shipboard.isBottomSideShielded()) {
@@ -88,8 +90,6 @@ public class PiratesState_5 extends PiratesState{
                 game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
             }
         }
-
-        piratesCard.setBatteryUsed(false);
 
         if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {
             piratesCard.setNextIndexOfShot();

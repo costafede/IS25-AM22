@@ -17,4 +17,8 @@ public class BatteryComponent extends ComponentTile {
     public void removeBatteryToken() {
         numOfBatteries--;
     }
+
+    public boolean isBattery() {
+        return true;
+    }
 }

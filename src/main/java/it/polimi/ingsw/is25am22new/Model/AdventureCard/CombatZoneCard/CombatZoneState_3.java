@@ -29,8 +29,9 @@ public class CombatZoneState_3 extends CombatZoneState {
                 transition(new CombatZoneState_4(combatZoneCard));
             }
             else { // if not last player
-                combatZoneCard.getPlayerToStrength().put(currentPlayer, shipboard.getEngineStrength());
+                combatZoneCard.getPlayerToStrength().put(currentPlayer, (double)shipboard.getEngineStrength());
                 game.setCurrPlayerToNext();
+                combatZoneCard.setBatteryUsed(false);
                 transition(new CombatZoneState_2(combatZoneCard));
             }
         }

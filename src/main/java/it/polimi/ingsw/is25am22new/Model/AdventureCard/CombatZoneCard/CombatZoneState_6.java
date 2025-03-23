@@ -30,5 +30,7 @@ public class CombatZoneState_6 extends CombatZoneState {
                 combatZoneCard.setBatteryUsed(true);
             }
         }
+
+        transition(new CombatZoneState_7(combatZoneCard));
     }
 }
