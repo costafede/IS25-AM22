@@ -48,5 +48,13 @@ public class InputCommand {
 
     public void setIndexChosen(int indexChosen) { this.indexChosen = indexChosen;}
 
+    public void setChoice(boolean choice) { this.choiceCommand = choice;}
 
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
 }

@@ -4,6 +4,10 @@ import it.polimi.ingsw.is25am22new.Model.Side;
 
 abstract class Cabin extends ComponentTile {
 
+    public int getNumOfAstronauts() {
+        return numOfAstronauts;
+    }
+
     protected int numOfAstronauts;
 
     public Cabin(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {

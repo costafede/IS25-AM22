@@ -24,4 +24,8 @@ public class AbandonedShipState_2 extends AbandonedShipState {
             game.setCurrCard(null);
         }
     }
+
+    public int getMembersStillToRemove() {
+        return membersStillToRemove;
+    }
 }

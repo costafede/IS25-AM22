@@ -3,6 +3,7 @@ package it.polimi.ingsw.is25am22new.Model.Games;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.CardPile;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ public class Level2Game extends Game {
     public Level2Game(List<String> nicknames) {
         super(nicknames);
         this.cardPiles = new ArrayList<>();
+        this.flightboard = new Level2FlightBoard();
     }
 
     public Map<String, Integer> endGame() {

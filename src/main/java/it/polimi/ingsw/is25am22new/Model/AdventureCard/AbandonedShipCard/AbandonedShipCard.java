@@ -40,4 +40,12 @@ public class AbandonedShipCard extends AdventureCard {
     public void setAbandonedShipState(AbandonedShipState abandonedShipState) {
         this.abandonedShipState = abandonedShipState;
     }
+
+    public AbandonedShipState getAbandonedShipState() {
+        return abandonedShipState;
+    }
+
+    public int getFlightdaysLost() {
+        return flightdaysLost;
+    }
 }

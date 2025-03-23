@@ -224,4 +224,5 @@ public abstract class ComponentTile {
     public boolean isBattery() {
         return false;
     }
+
 }

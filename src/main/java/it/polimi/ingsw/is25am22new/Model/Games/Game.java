@@ -224,9 +224,13 @@ public abstract class Game implements ModelInterface {
 
     // check if active players still fulfill the conditions to play and eliminates the ones who don't (usually called at the end of the cards effects)
     public void manageInvalidPlayers(){
-        for(String p : flightboard.getOrderedRockets()){
-            if(!isPlayerStillAbleToPlay(p))
+        Iterator<String> iterator = flightboard.getOrderedRockets().iterator();
+        while(iterator.hasNext()){
+            String p = iterator.next();
+            if(!isPlayerStillAbleToPlay(p)){
+                iterator.remove();
                 playerAbandons(p);
+            }
         }
     }
 }

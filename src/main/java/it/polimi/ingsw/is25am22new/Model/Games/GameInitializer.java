@@ -16,6 +16,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Side;
 
