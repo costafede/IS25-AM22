@@ -229,12 +229,12 @@ class InitializingFromJsonCardsTest {
 
                 for (AdventureCard adventureCard : game.getCardArchive()) {
                     if (adventureCard instanceof PlanetsCard pc) {
-                        if (pc.getPngName().equals(card.getPngName()) &&
+                        if(pc.getPngName().equals(card.getPngName()) &&
                                 pc.getName().equals(card.getName()) &&
                                 pc.getLevel() == card.getLevel() &&
                                 pc.isTutorial() == card.isTutorial() &&
                                 pc.getFlightDaysLost() == card.getFlightDaysLost() &&
-                                check_planets(pc, card));{
+                                check_planets(pc, card)){
                             check = true;
                             break;
                         }
@@ -248,11 +248,10 @@ class InitializingFromJsonCardsTest {
     }
 
     private boolean check_planets(PlanetsCard pc, PlanetsCard card){
-        boolean check = false;
+        boolean check = true;
         for(int i = 0; i < pc.getPlanets().size(); i++){
-            if(pc.getPlanets().get(i).getTheoreticalGoodblocks().equals(card.getPlanets().get(i).getTheoreticalGoodblocks())){
-                check = true;
-            }else{
+            if (!(pc.getPlanets().get(i).getTheoreticalGoodblocks().size() == card.getPlanets().get(i).getTheoreticalGoodblocks().size()) ||
+                    !(pc.getPlanets().get(i).getTheoreticalGoodblocks().equals(card.getPlanets().get(i).getTheoreticalGoodblocks()))) {
                 check = false;
                 break;
             }
@@ -277,10 +276,10 @@ class InitializingFromJsonCardsTest {
                 for (int i = 0; i < shotSizeNode.size(); i++) {
                     shotSize[i] = shotSizeNode.get(i).asBoolean();
                 }
-                Map<Integer, Shot> numberToShot = new HashMap<>();
-                for (int i = 0; i < shotSize.length; i++) {
-                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf("BOTTOM")));
-                }
+//                Map<Integer, Shot> numberToShot = new HashMap<>();
+//                for (int i = 0; i < shotSize.length; i++) {
+//                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf("BOTTOM")));
+//                }
 
                 for (AdventureCard card : game.getCardArchive()) {
                     if (card instanceof PiratesCard pc) {
@@ -366,11 +365,11 @@ class InitializingFromJsonCardsTest {
                 for(int i = 0; i < meteorOrientation.size(); i++){
                     orientation[i] = meteorOrientation.get(i).asText();
                 }
-                Map<Integer, Meteor> numberToMeteor = new HashMap<>();
 
-                for(int i = 0; i < meteorSize.size(); i++){
-                    numberToMeteor.put(i, new Meteor(meteor[i], Orientation.valueOf(orientation[i])));
-                }
+//                Map<Integer, Meteor> numberToMeteor = new HashMap<>();
+//                for(int i = 0; i < meteorSize.size(); i++){
+//                    numberToMeteor.put(i, new Meteor(meteor[i], Orientation.valueOf(orientation[i])));
+//                }
 
                 for (AdventureCard card : game.getCardArchive()) {
                     if (card instanceof MeteorSwarmCard msc) {
@@ -456,10 +455,10 @@ class InitializingFromJsonCardsTest {
                 for (int i = 0; i < shotOrientationNode.size(); i++) {
                     shotOrientation[i] = shotOrientationNode.get(i).asText();
                 }
-                Map<Integer, Shot> numberToShot = new HashMap<>();
-                for (int i = 0; i < shotSize.length; i++) {
-                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
-                }
+//                Map<Integer, Shot> numberToShot = new HashMap<>();
+//                for (int i = 0; i < shotSize.length; i++) {
+//                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
+//                }
 
                 for (AdventureCard card : game.getCardArchive()) {
                     if (card instanceof CombatZoneCard czc) {
@@ -503,10 +502,10 @@ class InitializingFromJsonCardsTest {
                 for (int i = 0; i < shotOrientationNode.size(); i++) {
                     shotOrientation[i] = shotOrientationNode.get(i).asText();
                 }
-                Map<Integer, Shot> numberToShot = new HashMap<>();
-                for (int i = 0; i < shotSize.length; i++) {
-                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
-                }
+//                Map<Integer, Shot> numberToShot = new HashMap<>();
+//                for (int i = 0; i < shotSize.length; i++) {
+//                    numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
+//                }
 
                 for (AdventureCard card : game.getCardArchive()) {
                     if (card instanceof CombatZoneCard czc) {
