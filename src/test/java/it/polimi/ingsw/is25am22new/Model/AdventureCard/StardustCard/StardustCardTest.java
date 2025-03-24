@@ -2,6 +2,8 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -9,11 +11,16 @@ import it.polimi.ingsw.is25am22new.Model.Side;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StardustCardTest {
+
+    static Map<String, Shipboard> shipboards = new HashMap<>();
+
     private List<ComponentTile> initializeTiles(){
         List<ComponentTile> tiles = new ArrayList<>();
         tiles.add(new Engine("0", Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
@@ -33,7 +40,6 @@ class StardustCardTest {
         return tiles;
     }
 
-
     @Test
     void movesCorrectly2Ships(){
         List<ComponentTile> tiles = initializeTiles();
@@ -41,17 +47,17 @@ class StardustCardTest {
         Game game = new Level2Game(players);
 
         Shipboard ship0 = game.getShipboards().get(players.get(0));
-        ship0.weldComponentTile(tiles.get(9),2, 2);
-
         Shipboard ship1 = game.getShipboards().get(players.get(1));
-        ship1.weldComponentTile(tiles.get(2),1, 3);
-        ship1.weldComponentTile(tiles.get(9),1, 2);
-
-
         Shipboard ship2 = game.getShipboards().get(players.get(2));
-        ship2.weldComponentTile(tiles.get(2),1, 3);
-        ship2.weldComponentTile(tiles.get(9),1, 4);
-        ship2.weldComponentTile(tiles.get(9),1, 2);
+        Shipboard ship3 = game.getShipboards().get(players.get(3));
+
+        Flightboard level2FlightBoard = new Level2FlightBoard();
+
+        level2FlightBoard.placeRocket("Federico", 0);
+        level2FlightBoard.placeRocket("Tommaso", 1);
+        level2FlightBoard.placeRocket("Emanuele", 2);
+        level2FlightBoard.placeRocket("Anatoly", 3);
+        level2FlightBoard.setOrderedRocketsAndDaysOnFlight(shipboards);
 
 
         StardustCard ec = new StardustCard("test", "test", game, 2, false);
