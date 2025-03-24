@@ -29,6 +29,7 @@ class ShipboardTest {
         tiles.add(new SpecialStorageCompartment("11", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2));
         tiles.add(new StorageCompartment("12", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
         tiles.add(new StorageCompartment("13", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
+        tiles.add(new RegularCabin("14", Side.ONEPIPE, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
         return tiles;
     }
 
@@ -38,6 +39,30 @@ class ShipboardTest {
                 shipboard.destroyTile(i, j);
             }
         }
+    }
+
+    @Test
+    void test_two_cabins_are_connected_return_true() {
+        List<ComponentTile> tiles = initializeTiles();
+        Shipboard ship0 = new Shipboard("red", "Tom", null);
+        ship0.weldComponentTile(tiles.get(14),2, 2);
+        ship0.weldComponentTile(tiles.get(14),2, 4);
+        ship0.weldComponentTile(tiles.get(14),1, 3);
+        ship0.weldComponentTile(tiles.get(14),3, 3);
+        ship0.weldComponentTile(tiles.get(14),4, 6);
+        ship0.weldComponentTile(tiles.get(13),3, 6);
+        ship0.weldComponentTile(tiles.get(13),2, 6);
+        ship0.weldComponentTile(tiles.get(14),4, 0);
+        ship0.weldComponentTile(tiles.get(14),3, 0);
+        assertTrue(ship0.isConnectedToCabin(2, 2));
+        assertTrue(ship0.isConnectedToCabin(2, 4));
+        assertTrue(ship0.isConnectedToCabin(1, 3));
+        assertTrue(ship0.isConnectedToCabin(3, 3));
+        assertFalse(ship0.isConnectedToCabin(4, 6));
+        assertTrue(ship0.isConnectedToCabin(3, 6));
+        assertFalse(ship0.isConnectedToCabin(2, 6));
+        assertFalse(ship0.isConnectedToCabin(4, 0));
+        assertFalse(ship0.isConnectedToCabin(3, 0));
     }
 
     @Test

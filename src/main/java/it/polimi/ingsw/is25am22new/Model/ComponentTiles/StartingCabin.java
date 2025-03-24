@@ -9,6 +9,7 @@ public class StartingCabin extends Cabin {
     public StartingCabin(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, String color) {
         super(pngName, topSide, bottomSide, leftSide, rightSide);
         this.color = color;
+        this.numOfAstronauts = 2;
     }
 
     public String getColorTile() {

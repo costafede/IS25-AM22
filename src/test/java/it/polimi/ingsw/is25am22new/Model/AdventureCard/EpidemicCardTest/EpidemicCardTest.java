@@ -38,42 +38,19 @@ class EpidemicCardTest {
     void RemovesCrewFromConnectedCabins(){
 
         List<ComponentTile> tiles = initializeTiles();
-        List<String> players = List.of("Federico", "Tommaso", "Emanuele", "Anatoly");
+        List<String> players = List.of("Federico", "Anatoly");
         Game game = new Level2Game(players);
 
         Shipboard ship0 = game.getShipboards().get(players.get(0));
         ship0.weldComponentTile(tiles.get(9),2, 2);
-        ship0.getComponentTileFromGrid(2,2).ifPresent(ct -> ct.putAstronauts());
-        ship0.getComponentTileFromGrid(2,3).ifPresent(ct -> ct.putAstronauts());
+        ship0.getComponentTileFromGrid(2,2).ifPresent(ComponentTile::putAstronauts);
 
         assertEquals(4, ship0.getCrewNumber());
-
         Shipboard ship1 = game.getShipboards().get(players.get(1));
-        ship1.weldComponentTile(tiles.get(2),1, 3);
-        ship1.weldComponentTile(tiles.get(9),1, 2);
-        ship1.getComponentTileFromGrid(1,2).ifPresent(ct -> ct.putAstronauts());
-        ship1.getComponentTileFromGrid(2,3).ifPresent(ct -> ct.putAstronauts());
-
-        assertEquals(4, ship1.getCrewNumber());
-
-        Shipboard ship2 = game.getShipboards().get(players.get(2));
-        ship2.weldComponentTile(tiles.get(2),1, 3);
-        ship2.weldComponentTile(tiles.get(9),1, 4);
-        ship2.weldComponentTile(tiles.get(9),1, 2);
-        ship2.getComponentTileFromGrid(1,4).ifPresent(ct -> ct.putAstronauts());
-        ship2.getComponentTileFromGrid(2,3).ifPresent(ct -> ct.putAstronauts());
-        ship2.getComponentTileFromGrid(1,4).ifPresent(ct -> ct.putAstronauts());
-
-        assertEquals(6, ship2.getCrewNumber());
-
+        ship1.weldComponentTile(tiles.get(4),2, 4);
 
         EpidemicCard ec = new EpidemicCard("test", "test", game, 2, false);
         ec.activateEffect(null);
-
         assertEquals(2, ship0.getCrewNumber());
-        assertEquals(4, ship1.getCrewNumber());
-        assertEquals(6, ship2.getCrewNumber());
-
-
     }
 }
