@@ -51,13 +51,12 @@ class StardustCardTest {
         Shipboard ship2 = game.getShipboards().get(players.get(2));
         Shipboard ship3 = game.getShipboards().get(players.get(3));
 
-        Flightboard level2FlightBoard = new Level2FlightBoard();
+        Flightboard level2FlightBoard = new Level2FlightBoard(null);
 
         level2FlightBoard.placeRocket("Federico", 0);
         level2FlightBoard.placeRocket("Tommaso", 1);
         level2FlightBoard.placeRocket("Emanuele", 2);
         level2FlightBoard.placeRocket("Anatoly", 3);
-        level2FlightBoard.setOrderedRocketsAndDaysOnFlight(shipboards);
 
 
         StardustCard ec = new StardustCard("test", "test", game, 2, false);

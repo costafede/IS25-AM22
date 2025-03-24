@@ -42,6 +42,7 @@ public class RegularCabin extends Cabin {
         else return numOfAstronauts;
     }
 
+
     public void removeCrewMember(){
         System.out.print("remove crew member di regular cabin ->");
         if(isAlienPresent("purple")){

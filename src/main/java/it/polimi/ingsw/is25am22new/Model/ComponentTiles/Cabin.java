@@ -16,6 +16,7 @@ abstract class Cabin extends ComponentTile {
     }
 
     public void removeCrewMember() {
+        System.out.print("remove crew member di cabin/startingcabin ->");
         if(numOfAstronauts > 0) numOfAstronauts--;
     }
 
