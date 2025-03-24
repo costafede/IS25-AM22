@@ -10,7 +10,7 @@ public class SmugglersState_3 extends SmugglersState {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(inputCommand.getChoice()){   //player decides to accept the reward
-            game.getFlightboard().shiftRocket(game.getShipboards(), game.getCurrPlayer(), smugglersCard.getFlightDaysLost());
+            game.getFlightboard().shiftRocket(game.getCurrPlayer(), smugglersCard.getFlightDaysLost());
             transition(new SmugglersState_4(smugglersCard));
         }
         else{

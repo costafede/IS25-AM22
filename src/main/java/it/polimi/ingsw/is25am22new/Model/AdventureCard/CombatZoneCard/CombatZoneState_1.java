@@ -23,7 +23,7 @@ public class CombatZoneState_1 extends CombatZoneState {
                                 player : playerFewestMembers;
             }
         }
-        game.getFlightboard().shiftRocket(game.getShipboards(), playerFewestMembers, combatZoneCard.getFlightDaysLost());
+        game.getFlightboard().shiftRocket(playerFewestMembers, combatZoneCard.getFlightDaysLost());
 
         transition(new CombatZoneState_2(combatZoneCard));
     }

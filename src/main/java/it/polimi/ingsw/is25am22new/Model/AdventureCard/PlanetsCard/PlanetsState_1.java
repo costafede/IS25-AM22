@@ -15,7 +15,7 @@ public class PlanetsState_1 extends PlanetsState {
         else {
             for(int i = game.getFlightboard().getOrderedRockets().size() - 1; i >= 0; i--){   //all players who have decided to land lose flight days
                 if(planetsCard.playerHasLanded(game.getFlightboard().getOrderedRockets().get(i)))
-                    game.getFlightboard().shiftRocket(game.getShipboards(), game.getFlightboard().getOrderedRockets().get(i), planetsCard.getFlightDaysLost());
+                    game.getFlightboard().shiftRocket(game.getFlightboard().getOrderedRockets().get(i), planetsCard.getFlightDaysLost());
             }
             game.setCurrPlayerToLeader();
             planetsCard.loadPlanet(game.getCurrPlayer());

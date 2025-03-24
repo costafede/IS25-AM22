@@ -18,7 +18,7 @@ public class StardustCard extends AdventureCard {
         for (int i = orderedPlayers.size() - 1; i >= 0; i--) {
             String nickname = orderedPlayers.get(i);
             int stepsBackwards = game.getShipboards().get(nickname).countExposedConnectors();
-            game.getFlightboard().shiftRocket(game.getShipboards(), nickname, stepsBackwards);
+            game.getFlightboard().shiftRocket(nickname, stepsBackwards);
         }
     }
 }

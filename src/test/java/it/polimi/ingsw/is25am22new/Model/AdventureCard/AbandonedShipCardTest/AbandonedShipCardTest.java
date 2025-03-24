@@ -89,8 +89,6 @@ class AbandonedShipCardTest {
         game.getFlightboard().placeRocket("Emanuele", 2);
         game.getFlightboard().placeRocket("Anatoly", 3);
 
-        game.getFlightboard().setOrderedRocketsAndDaysOnFlight(game.getShipboards());
-
         for (int i = 0; i < 4; i++) {
             System.out.println(game.getFlightboard().getOrderedRockets().get(i));
         }

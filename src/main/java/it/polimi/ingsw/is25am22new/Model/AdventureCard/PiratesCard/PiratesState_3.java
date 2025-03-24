@@ -16,7 +16,7 @@ public class PiratesState_3 extends PiratesState{
 
         // choose to keep credits and lose flight days or not
         if(inputCommand.getChoice()) {
-            game.getFlightboard().shiftRocket(game.getShipboards(), currentPlayer, piratesCard.getFlightDaysLost());
+            game.getFlightboard().shiftRocket(currentPlayer, piratesCard.getFlightDaysLost());
             shipboard.addCosmicCredits(piratesCard.getCredits());
         }
 
