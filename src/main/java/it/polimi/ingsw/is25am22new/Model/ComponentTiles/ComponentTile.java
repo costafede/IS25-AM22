@@ -225,4 +225,7 @@ public abstract class ComponentTile {
         return false;
     }
 
+    public boolean isPurpleAlienPresent(){ return false; }
+
+    public boolean isBrownAlienPresent(){ return false; }
 }

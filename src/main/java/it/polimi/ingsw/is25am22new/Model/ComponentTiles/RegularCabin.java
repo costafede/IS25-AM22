@@ -55,4 +55,12 @@ public class RegularCabin extends Cabin {
         else
             numOfAstronauts--;
     }
+
+    public boolean isPurpleAlienPresent() {
+        return purpleAlienPresent;
+    }
+
+    public boolean isBrownAlienPresent() {
+        return brownAlienPresent;
+    }
 }

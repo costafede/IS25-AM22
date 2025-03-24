@@ -1,5 +1,6 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCardTest;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
@@ -143,15 +144,16 @@ class AbandonedShipCardTest {
 
         assertEquals(6 - card.getFlightdaysLost(), game.getFlightboard().getPositions().get(game.getCurrPlayer()));
 
-        int alienPresenceBrown = -1, alienPresencePurple = -1;
+        //System.out.println("LA cella 3 2 ha " + game.getShipboards().get("Federico").getComponentTileFromGrid(3, 2).get().getCrewNumber() + " crew members (contiene un alieno)");
+
         int i = 0;
         int iteration = 0, expected = 2;
 
         while (game.getCurrCard() != null) {
             System.out.println("Entro nel while con iteration: " + iteration);
+
             if (iteration % 2 == 0 && iteration != 0)
                 i++;
-
 
             inputCommand.setRow(cellList.get(i).row);
             inputCommand.setCol(cellList.get(i).col);
@@ -171,6 +173,8 @@ class AbandonedShipCardTest {
                 expected = 0;
 
             System.out.println("Crew member: " + game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().getCrewNumber());
+            System.out.println("Purple alien presence: " + game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isPurpleAlienPresent());
+            System.out.println("Brown Alien presence: " + game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isBrownAlienPresent());
 
             if(game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isAlienPresent("purple"))
                 assertFalse(game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isAlienPresent("purple"));
