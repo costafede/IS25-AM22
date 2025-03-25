@@ -260,26 +260,21 @@ class MeteorSwarmCardTest {
         assertTrue(shipB.getComponentTileFromGrid(2, 5).isPresent());
 
         // currPlayer shuold be C
+        // cannon has universal pipe in front so i know it is destryed because it is a cannon
+        shipC.weldComponentTile(new Cannon("none", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH), 2, 6);
         shipBuffer = CopyShipboard(shipC);
         InputCommand i19 = new InputCommand();
-        i19.setChoice(true);
-        i19.setRow(3);
-        i19.setCol(3);
+        i19.setChoice(false);
+        meteorSwarmCard.setDice1(2);
+        meteorSwarmCard.setDice2(5);
         meteorSwarmCard.activateEffect(i19);
 
-        InputCommand i20 = new InputCommand();
-        i20.setRow(2);
-        i20.setCol(5);
-        meteorSwarmCard.activateEffect(i20);
-
-        InputCommand i21 = new InputCommand();
-        i21.setChoice(false);
-        meteorSwarmCard.setDice1(6);
-        meteorSwarmCard.setDice2(1);
-        meteorSwarmCard.activateEffect(i21);
-        // shield is not activated so it destroys shield in 2,5
         assertTrue(CheckShipboardIntegrity(shipBuffer, shipC));
-        assertTrue(shipC.getComponentTileFromGrid(2, 5).isPresent());
+        assertTrue(shipC.getComponentTileFromGrid(2, 6).isPresent());
+
+        // currCard should be null in game because card has been resolved
+        assertNull(game.getCurrCard());
+        assertSame(game.getCurrPlayer(), game.getFlightboard().getOrderedRockets().getFirst());
 
         // bonus
         shipC.destroyTile(2, 3);
