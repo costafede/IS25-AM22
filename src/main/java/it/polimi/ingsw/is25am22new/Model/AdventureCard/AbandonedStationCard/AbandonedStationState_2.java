@@ -12,8 +12,8 @@ public class AbandonedStationState_2 extends AbandonedStationState{
 
     public void activateEffect(InputCommand inputCommand) {
         GoodBlock gb = inputCommand.getGoodBlock();
-        ComponentTile storageCompartment = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
         if(inputCommand.getChoice()){   //choice must be set true if the player wants to keep managing his good blocks
+            ComponentTile storageCompartment = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
             if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from the station
                 storageCompartment.addGoodBlock(gb);
                 abandonedStationCard.getActualGoodBlocks().put(gb, abandonedStationCard.getActualGoodBlocks().get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
@@ -23,11 +23,13 @@ public class AbandonedStationState_2 extends AbandonedStationState{
                 storageCompartment.removeGoodBlock(gb);
             }
             else if(inputCommand.isSwitchingGoodBlock()){ //player decides to switch a good block between two storage compartments
-                GoodBlock gb_1 = inputCommand.getGoodBlock_1();
+                GoodBlock gb_1 = inputCommand.getGoodBlock_1();//row_1,row_2 are the coordinates of the destination of gb
                 ComponentTile storageCompartment_1 = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow_1(), inputCommand.getCol_1()).get();
                 storageCompartment.removeGoodBlock(gb);
-                storageCompartment_1.removeGoodBlock(gb_1);
-                storageCompartment.addGoodBlock(gb_1);
+                if(gb_1 != null) {
+                    storageCompartment_1.removeGoodBlock(gb_1);
+                    storageCompartment.addGoodBlock(gb_1);
+                }
                 storageCompartment_1.addGoodBlock(gb);
             }
         }
