@@ -214,6 +214,10 @@ public class Shipboard {
         abandoned = true;
     }
 
+    public boolean hasBeenKickedOut(){
+        return abandoned;
+    }
+
     public int countExposedConnectors (){
         int exposedConnectors = 0;
         for(int i = 0; i < 5; i++){
@@ -453,6 +457,10 @@ public class Shipboard {
         return removed;
     }
 
+    public int getCosmicCredits(){
+        return CosmicCredits;
+    }
+
     public void addCosmicCredits (int credit){
         CosmicCredits += credit;
     }
@@ -543,6 +551,10 @@ public class Shipboard {
                 res += ct.get().getCrewNumber();
         }
         return res;
+    }
+
+    public boolean isAbandoned() {
+        return abandoned;
     }
 }
 
