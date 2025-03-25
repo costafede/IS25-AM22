@@ -552,6 +552,10 @@ public class Shipboard {
         }
         return res;
     }
+
+    public boolean isAbandoned() {
+        return abandoned;
+    }
 }
 
 class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
