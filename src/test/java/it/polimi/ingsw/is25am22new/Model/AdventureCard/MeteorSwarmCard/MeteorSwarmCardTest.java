@@ -1,26 +1,14 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard;
 
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
-import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
-import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
-import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
-import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.Side;
-import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StardustCardTest {
-
-    static Map<String, Shipboard> shipboards = new HashMap<>();
-
+class MeteorSwarmCardTest {
     private List<ComponentTile> initializeTiles(){
         List<ComponentTile> tiles = new ArrayList<>();
         tiles.add(new Engine("0", Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
@@ -50,47 +38,6 @@ class StardustCardTest {
         tiles.add(new RegularCabin("24", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
         tiles.add(new RegularCabin("25", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
         tiles.add(new RegularCabin("26", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("27", Side.SMOOTH, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("28", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH));
-        tiles.add(new RegularCabin("29", Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH));
-        tiles.add(new RegularCabin("30", Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH, Side.SMOOTH));
-        tiles.add(new RegularCabin("31", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("32", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("33", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("34", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
         return tiles;
-    }
-
-    @Test
-    void moves_back_more_ships_correctly(){
-        List<ComponentTile> tiles = initializeTiles();
-        List<String> players = List.of("Federico", "Emanuele");
-        Game game = new Level2Game(players);
-
-        Shipboard ship0 = game.getShipboards().get(players.get(0));
-        Shipboard ship1 = game.getShipboards().get(players.get(1));
-
-        Flightboard level2FlightBoard = game.getFlightboard();
-
-        level2FlightBoard.placeRocket("Emanuele", 0);
-        level2FlightBoard.placeRocket("Federico", 1);
-
-        // zero exposed connectors
-        ship0.weldComponentTile(tiles.get(27), 2, 2);
-        ship0.weldComponentTile(tiles.get(28), 2, 4);
-        ship0.weldComponentTile(tiles.get(29), 1, 3);
-        ship0.weldComponentTile(tiles.get(30), 3, 3);
-
-        // some exposed connectors: 12
-        ship1.weldComponentTile(tiles.get(31), 2, 2);
-        ship1.weldComponentTile(tiles.get(32), 2, 4);
-        ship1.weldComponentTile(tiles.get(33), 1, 3);
-        ship1.weldComponentTile(tiles.get(34), 3, 3);
-
-        StardustCard sd = new StardustCard("test", "test", game, 2, false);
-        sd.activateEffect(null);
-
-        assertEquals(3, level2FlightBoard.getPositions().get("Federico"));
-        assertEquals(17, level2FlightBoard.getPositions().get("Emanuele"));
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCardTest;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
@@ -12,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EpidemicCardTest {
 
@@ -68,7 +68,6 @@ class EpidemicCardTest {
         List<ComponentTile> tiles = initializeTiles();
         List<String> players = List.of("Federico", "Anatoly");
         Game game = new Level2Game(players);
-
         Shipboard ship0 = game.getShipboards().get(players.get(0));
         // check connection with starting cabin
         ship0.weldComponentTile(tiles.get(9),2, 2);
@@ -113,5 +112,7 @@ class EpidemicCardTest {
         ec.activateEffect(null);
         assertEquals(13, ship0.getCrewNumber());
         assertEquals(5, ship1.getCrewNumber());
+        assertFalse(ship1.getComponentTileFromGrid(1, 3).get().isAlienPresent("brown"));
+        assertTrue(ship1.getComponentTileFromGrid(0, 0).get().isAlienPresent("purple"));
     }
 }
