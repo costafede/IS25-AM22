@@ -3,6 +3,8 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 
+import java.util.Optional;
+
 public class SmugglersState_1 extends SmugglersState {
     public SmugglersState_1(SmugglersCard smugglersCard) {
         super(smugglersCard);
@@ -17,6 +19,7 @@ public class SmugglersState_1 extends SmugglersState {
         }
         else{ //curr player has decided not to activate any cannon or he didn't have any battery token left -> resolve the card effect
             double playerCannonStrength = game.getShipboards().get(game.getCurrPlayer()).getCannonStrength();
+            game.getShipboards().get(game.getCurrPlayer()).deactivateAllComponent();
             if(smugglersCard.getCannonStrength() < playerCannonStrength){   //player wins
                 smugglersCard.loadSmugglers();
                 transition(new SmugglersState_3(smugglersCard));    //player goes to the state in which he decides if he wants to accept the reward
@@ -24,7 +27,7 @@ public class SmugglersState_1 extends SmugglersState {
             else{   //player doesn't defeat the smugglers
                 if(smugglersCard.getCannonStrength() > playerCannonStrength) //player gets defeated
                     game.getShipboards().get(game.getCurrPlayer()).removeMostValuableGoodBlocks(smugglersCard.getLostGoods());
-                //if there is a draw nothing happens (I didn't put an if statement with an empty body
+                //if there is a draw nothing happens (I didn't put an if statement with an empty body)
                 if(!game.getCurrPlayer().equals(game.getLastPlayer()))  //smuggler goes to next player
                     game.setCurrPlayerToNext();
                 else{

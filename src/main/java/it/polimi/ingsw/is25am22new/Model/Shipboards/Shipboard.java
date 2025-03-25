@@ -34,7 +34,7 @@ public class Shipboard {
         this.discardedTiles = 0;
         this.finishedShipboard = false;
         this.CosmicCredits = 0;
-        this.bank = new Bank();
+        this.bank = bank;
         weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
     }
 
@@ -434,7 +434,7 @@ public class Shipboard {
             stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.BLUEBLOCK);
         if(stillToRemove > 0) {
             for (Optional<ComponentTile> ct : componentTilesGrid) {
-                if (ct.isPresent() && stillToRemove > 0) {
+                while (ct.isPresent() && ct.get().isBattery() && stillToRemove > 0 && ct.get().getNumOfBatteries() > 0) {
                     ct.get().removeBatteryToken();
                     stillToRemove--;
                 }
@@ -551,6 +551,12 @@ public class Shipboard {
                 res += ct.get().getCrewNumber();
         }
         return res;
+    }
+
+    public void deactivateAllComponent(){
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            ct.ifPresent(ComponentTile::deactivateComponent);
+        }
     }
 }
 
