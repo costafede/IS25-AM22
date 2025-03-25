@@ -553,6 +553,10 @@ public class Shipboard {
         return res;
     }
 
+    public boolean isAbandoned() {
+        return abandoned;
+    }
+
     public void deactivateAllComponent(){
         for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(ComponentTile::deactivateComponent);
