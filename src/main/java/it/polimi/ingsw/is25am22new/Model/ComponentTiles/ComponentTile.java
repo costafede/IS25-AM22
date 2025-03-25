@@ -228,4 +228,9 @@ public abstract class ComponentTile {
     public boolean isPurpleAlienPresent(){ return false; }
 
     public boolean isBrownAlienPresent(){ return false; }
+
+    public int getNumGoodBlocks(GoodBlock gb) {
+        return 0;
+    }
+
 }

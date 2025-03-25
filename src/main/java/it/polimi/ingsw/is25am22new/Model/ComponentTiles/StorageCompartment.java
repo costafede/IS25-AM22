@@ -66,4 +66,8 @@ public class StorageCompartment extends ComponentTile{
     public int getCapacity() {
         return capacity;
     }
+
+    public int getNumGoodBlocks(GoodBlock gb) {
+        return goodBlocks.get(gb);
+    }
 }
