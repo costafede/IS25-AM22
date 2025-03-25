@@ -13,178 +13,143 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Cella{
-    int row;
-    int col;
-
-    public Cella(int row, int col) {
-        this.row = row;
-        this.col = col;
-    }
-}
-
 class AbandonedShipCardTest {
 
-    List<String> players = List.of("Federico", "Tommaso", "Emanuele", "Anatoly");
+    public Game initializeGame(){
+        List<String> players = new ArrayList<>();
+        players.add(0,"A");
+        players.add(1,"B");
+        players.add(2,"C");
+        players.add(3,"D");
 
-    Game game = new Level2Game(players);
+        Game game = new Level2Game(players);
 
-    List<Cella> cellList = new ArrayList<Cella>();
+        for(String player : game.getShipboards().keySet()) {
+            game.getShipboards().get(player).weldComponentTile(new AlienAddon("0", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, "brown"), 3, 4);
+            game.getShipboards().get(player).weldComponentTile(new RegularCabin("1", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 2, 4);
+            game.getShipboards().get(player).weldComponentTile(new RegularCabin("2", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 3);
+            game.getShipboards().get(player).getComponentTileFromGrid(2, 3).get().putAstronauts();
+            game.getShipboards().get(player).getComponentTileFromGrid(3, 3).get().putAstronauts();
+            game.getShipboards().get(player).getComponentTileFromGrid(2, 4).get().putAlien("brown");
+        }
 
+        game.getFlightboard().placeRocket("A", 0);
+        game.getFlightboard().placeRocket("B", 1);
+        game.getFlightboard().placeRocket("C", 2);
+        game.getFlightboard().placeRocket("D", 3);
+
+        game.setCurrPlayerToLeader();
+        game.setCurrPlayer("A");
+        return game;
+    }
 
     @Test
-    void abandoned_ship_card_effect_should_remove_astronauts_or_aliens_properly(){
-        game.initGame();
-        int done2 = 0, done3 = 0, done5 = 0;
-
-        //Fimchè ci sono carte di tipo abandoned ship nel mazzo
-        while(game.getCardArchive().stream().filter(c -> c instanceof AbandonedShipCard).count() > 0){
-            System.out.print("carta con numero di astronauti: ");
-            AbandonedShipCard card;
-            //Pick an abandoned ship card from card archive
-            card = game.getCardArchive().stream()
-                    .filter(c -> c instanceof AbandonedShipCard)
-                    .map(c -> (AbandonedShipCard) c)
-                    .findFirst()
-                    .orElse(null);
-
-            System.out.println(card.getLostAstronauts());
-
-            assertNotNull(card);
-
-            game.getCardArchive().remove(card);
-
-            if (card.getLostAstronauts() >= 2 && done2 == 0) {
-                cellList.add(new Cella(1, 4));
-                done2 = 1;
-            }
-
-            if(card.getLostAstronauts() >= 3 && done3 == 0) {
-                cellList.add(new Cella(3, 0));
-                done3 = 1;
-            }
-
-            if(card.getLostAstronauts() >= 5 && done5 == 0) {
-                cellList.add(new Cella(3, 2));
-                done5 = 1;
-            }
-
-            for(int i = 0; i < cellList.size(); i++){
-                System.out.println(cellList.get(i).row + " " + cellList.get(i).col);
-            }
-
-            activate_card_effect(card, cellList);
-
-        }
-
-    }
-
-    private void activate_card_effect(AbandonedShipCard card, List<Cella> cellList) {
-        System.out.println(card.getLostAstronauts());
-
-        game.setCurrCard(card);
-
-        game.getFlightboard().placeRocket("Federico", 0);
-        game.getFlightboard().placeRocket("Tommaso", 1);
-        game.getFlightboard().placeRocket("Emanuele", 2);
-        game.getFlightboard().placeRocket("Anatoly", 3);
-
-        for (int i = 0; i < 4; i++) {
-            System.out.println(game.getFlightboard().getOrderedRockets().get(i));
-        }
-
-        game.getShipboards().get("Federico").weldComponentTile(new Cannon("1", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH), 0, 2);
-        game.getShipboards().get("Federico").weldComponentTile(new Cannon("2", Side.SMOOTH, Side.ONEPIPE, Side.TWOPIPES, Side.SMOOTH), 0, 4);
-        game.getShipboards().get("Federico").weldComponentTile(new DoubleCannon("3", Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH, Side.SMOOTH), 1, 1);
-        game.getShipboards().get("Federico").weldComponentTile(new BatteryComponent("4", Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH, Side.TWOPIPES, 2), 1, 2);
-        game.getShipboards().get("Federico").weldComponentTile(new DoubleCannon("5", Side.SMOOTH, Side.SMOOTH, Side.TWOPIPES, Side.TWOPIPES), 1, 3);
-        RegularCabin rc3 = new RegularCabin("6", Side.ONEPIPE, Side.ONEPIPE, Side.UNIVERSALPIPE, Side.SMOOTH);
-        rc3.putAstronauts();
-        game.getShipboards().get("Federico").weldComponentTile(rc3, 1, 4);
-        game.getShipboards().get("Federico").weldComponentTile(new Cannon("7", Side.SMOOTH, Side.SMOOTH, Side.ONEPIPE, Side.UNIVERSALPIPE), 2, 0);
-        game.getShipboards().get("Federico").weldComponentTile(new StorageCompartment("8", Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE, Side.UNIVERSALPIPE, 2), 2, 1);
-        game.getShipboards().get("Federico").weldComponentTile(new SpecialStorageCompartment("9", Side.SMOOTH, Side.ONEPIPE, Side.UNIVERSALPIPE, Side.TWOPIPES, 1), 2, 2);
-        StartingCabin sc = new StartingCabin("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, "Green");
-        sc.putAstronauts();
-        game.getShipboards().get("Federico").weldComponentTile(sc, 2, 3);
-        game.getShipboards().get("Federico").weldComponentTile(new ShieldGenerator("11", Side.ONEPIPE, Side.SMOOTH, Side.ONEPIPE, Side.ONEPIPE), 2, 4);
-        game.getShipboards().get("Federico").weldComponentTile(new AlienAddon("12", Side.SMOOTH, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.SMOOTH, "Purple"), 2, 5);
-        game.getShipboards().get("Federico").weldComponentTile(new SpecialStorageCompartment("13", Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH, Side.SMOOTH, 2), 2, 6);
-        RegularCabin rc4 = new RegularCabin("14", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.UNIVERSALPIPE);
-        rc4.putAstronauts();
-        game.getShipboards().get("Federico").weldComponentTile(rc4, 3, 0);
-        game.getShipboards().get("Federico").weldComponentTile(new AlienAddon("15", Side.SMOOTH, Side.ONEPIPE, Side.ONEPIPE, Side.ONEPIPE, "brown"), 3, 1);
-        RegularCabin rc = new RegularCabin("16", Side.ONEPIPE, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.SMOOTH);
-        rc.putAlien("brown");
-        game.getShipboards().get("Federico").weldComponentTile(rc, 3, 2);
-        game.getShipboards().get("Federico").weldComponentTile(new SpecialStorageCompartment("17", Side.UNIVERSALPIPE, Side.ONEPIPE, Side.SMOOTH, Side.TWOPIPES, 1), 3, 3);
-        game.getShipboards().get("Federico").weldComponentTile(new StorageCompartment("18", Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.SMOOTH, 2), 3, 4);
-        RegularCabin rc2 = new RegularCabin("19", Side.TWOPIPES, Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE);
-        rc.putAlien("purple");
-        game.getShipboards().get("Federico").weldComponentTile(rc2, 3, 5);
-        game.getShipboards().get("Federico").weldComponentTile(new BatteryComponent("20", Side.UNIVERSALPIPE, Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, 2), 3, 6);
-        game.getShipboards().get("Federico").weldComponentTile(new DoubleEngine("21", Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH, Side.SMOOTH), 4, 0);
-        game.getShipboards().get("Federico").weldComponentTile(new ShieldGenerator("23", Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE), 4, 1);
-        game.getShipboards().get("Federico").weldComponentTile(new DoubleEngine("24", Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH), 4, 2);
-        game.getShipboards().get("Federico").weldComponentTile(new Engine("25", Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH, Side.SMOOTH), 4, 4);
-        game.getShipboards().get("Federico").weldComponentTile(new BatteryComponent("26", Side.TWOPIPES, Side.ONEPIPE, Side.SMOOTH, Side.TWOPIPES, 3), 4, 5);
-        game.getShipboards().get("Federico").weldComponentTile(new Cannon("27", Side.SMOOTH, Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH), 4, 6);
-
-        game.setCurrPlayer(game.getFlightboard().getOrderedRockets().getFirst());
-
-
+    void test_should_simulate_an_execution(){
+        Game game = initializeGame();
+        AbandonedShipCard abandonedShipCard = new AbandonedShipCard("x","AbandonedShip", game, 1, true, 1, 4, 3);
+        game.setCurrCard(abandonedShipCard);
         InputCommand inputCommand = new InputCommand();
-        inputCommand.setChoice(true);
+        //player C decides to land on the ship
+        inputCommand.setChoice(false);  //A doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand.setChoice(false);  //B doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand.setChoice(true);  //C lands
+        abandonedShipCard.activateEffect(inputCommand);
 
-        card.activateEffect(inputCommand);
+        assertEquals("C", game.getCurrPlayer());
+        assertEquals(23, game.getFlightboard().getPositions().get("C"));
 
-        //Deve essere eseguito lo stato 1 della carta che impone di spostare il razzo
+        //C removes his crewmates from the right cabins -> 2 humans and 1 alien
+        inputCommand = new InputCommand();
+        inputCommand.setRow(3);
+        inputCommand.setCol(3);
+        abandonedShipCard.activateEffect(inputCommand);
 
-        assertEquals(6 - card.getFlightdaysLost(), game.getFlightboard().getPositions().get(game.getCurrPlayer()));
+        assertEquals(4, game.getShipboards().get("C").getCrewNumber());
+        assertEquals(1, game.getShipboards().get("C").getComponentTileFromGrid(3, 3).get().getCrewNumber());
 
-        //System.out.println("LA cella 3 2 ha " + game.getShipboards().get("Federico").getComponentTileFromGrid(3, 2).get().getCrewNumber() + " crew members (contiene un alieno)");
+        inputCommand = new InputCommand();
+        inputCommand.setRow(3);
+        inputCommand.setCol(3);
+        abandonedShipCard.activateEffect(inputCommand);
 
-        int i = 0;
-        int iteration = 0, expected = 2;
+        assertEquals(3, game.getShipboards().get("C").getCrewNumber());
+        assertEquals(0, game.getShipboards().get("C").getComponentTileFromGrid(3, 3).get().getCrewNumber());
 
-        while (game.getCurrCard() != null) {
-            System.out.println("Entro nel while con iteration: " + iteration);
+        inputCommand = new InputCommand();
+        inputCommand.setRow(2);
+        inputCommand.setCol(4);
+        abandonedShipCard.activateEffect(inputCommand); //this activateEffect also triggers the end of the card
 
-            if (iteration % 2 == 0 && iteration != 0)
-                i++;
-
-            inputCommand.setRow(cellList.get(i).row);
-            inputCommand.setCol(cellList.get(i).col);
-
-            card.activateEffect(inputCommand);
-            System.out.println("Tolto da cella: " + cellList.get(i).row + " " + cellList.get(i).col);
-
-            if (iteration == 0) {
-                expected = 1;
-            } else if (iteration == 1) {
-                expected = 0;
-            } else if (iteration == 2){
-                expected = 1;
-            } else if (iteration == 3){
-                expected = 0;
-            } else
-                expected = 0;
-
-            System.out.println("Crew member: " + game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().getCrewNumber());
-            System.out.println("Purple alien presence: " + game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isPurpleAlienPresent());
-            System.out.println("Brown Alien presence: " + game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isBrownAlienPresent());
-
-            if(game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isAlienPresent("purple"))
-                assertFalse(game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isAlienPresent("purple"));
-            else if(game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isAlienPresent("brown"))
-                assertFalse(game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().isAlienPresent("brown"));
-            else
-                assertEquals(expected, game.getShipboards().get("Federico").getComponentTileFromGrid(cellList.get(i).row, cellList.get(i).col).get().getCrewNumber());
-
-            iteration++;
-        }
+        assertEquals(2, game.getShipboards().get("C").getCrewNumber());
+        assertEquals(0, game.getShipboards().get("C").getComponentTileFromGrid(2, 4).get().getCrewNumber());
+        assertEquals(4, game.getShipboards().get("C").getCosmicCredits());
+        assertEquals("A", game.getCurrPlayer());
 
     }
 
+    @Test
+    void test_should_simulate_execution_in_which_nobody_lands(){
+        Game game = initializeGame();
+        AbandonedShipCard abandonedShipCard = new AbandonedShipCard("x","AbandonedShip", game, 1, true, 1, 4, 3);
+        game.setCurrCard(abandonedShipCard);
+        InputCommand inputCommand = new InputCommand();
+        //nobody lands
+        inputCommand.setChoice(false);  //A doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand.setChoice(false);  //B doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand.setChoice(false);  //C doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand.setChoice(false);  //D doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+
+        assertEquals("A", game.getCurrPlayer());
+        assertNull(game.getCurrCard());
+        assertEquals(6, game.getFlightboard().getPositions().get("A"));
+        assertEquals(3, game.getFlightboard().getPositions().get("B"));
+        assertEquals(1, game.getFlightboard().getPositions().get("C"));
+        assertEquals(0, game.getFlightboard().getPositions().get("D"));
+    }
+
+    @Test
+    void test_should_simulate_an_execution_in_which_player_removed_all_his_crew_members_so_he_is_kicked_out(){
+        Game game = initializeGame();
+        AbandonedShipCard abandonedShipCard = new AbandonedShipCard("x","AbandonedShip", game, 1, true, 1, 4, 3);
+        game.setCurrCard(abandonedShipCard);
+        InputCommand inputCommand = new InputCommand();
+        //player C decides to land on the ship
+        inputCommand.setChoice(false);  //A doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand.setChoice(false);  //B doesn't land
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand.setChoice(true);  //C lands
+        abandonedShipCard.activateEffect(inputCommand);
+        //C removes his crewmates from the right cabins -> 2 humans and 1 alien
+        inputCommand = new InputCommand();
+        inputCommand.setRow(3);
+        inputCommand.setCol(3);
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand = new InputCommand();
+        inputCommand.setRow(3);
+        inputCommand.setCol(3);
+        abandonedShipCard.activateEffect(inputCommand);
+        inputCommand = new InputCommand();
+        inputCommand.setRow(2);
+        inputCommand.setCol(4);
+        //above there is the same execution of the first test case
+        //before sending the input with activateEffect I want to remove the last two astronauts from C's starting cabin to test if he gets kicked out from the game
+
+        game.getShipboards().get("C").getComponentTileFromGrid(2, 3).get().removeCrewMember();
+        game.getShipboards().get("C").getComponentTileFromGrid(2, 3).get().removeCrewMember();
+
+        abandonedShipCard.activateEffect(inputCommand);
+
+        assertEquals(0, game.getShipboards().get("C").getCrewNumber());
+        assertTrue(game.getShipboards().get("C").hasBeenKickedOut());
+        assertTrue(game.getPlayerList().contains("C")); //is still in the players of the game even if he's been kicked out
+        assertFalse(game.getFlightboard().getOrderedRockets().contains("C"));
+    }
 
 }
