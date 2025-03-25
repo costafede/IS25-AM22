@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.GoodBlock;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,13 +14,14 @@ public class PlanetsCard extends AdventureCard {
     private List<Planet> planets;
     private int flightDaysLost;
     private PlanetsState planetsState;
+    private List<String> playersWhoLanded;
 
     public PlanetsCard(String pngName, String name, Game game, int level, boolean tutorial, List<Planet> planets, int flightDaysLost) {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
         this.planets = planets;
         this.planetsState = new PlanetsState_1(this);
-
+        this.playersWhoLanded = new ArrayList<String>();
     }
 
     public void activateEffect(InputCommand inputCommand){
@@ -78,4 +80,9 @@ public class PlanetsCard extends AdventureCard {
         }
         return null;
     }
+
+    public List<String> getPlayersWhoLanded() {
+        return playersWhoLanded;
+    }
+
 }

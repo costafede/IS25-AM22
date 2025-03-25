@@ -57,4 +57,28 @@ public class InputCommand {
     public void setCol(int col) {
         this.col = col;
     }
+
+    public void setRow_1(int row_1) {
+        this.row_1 = row_1;
+    }
+
+    public void setCol_1(int col_1) {
+        this.col_1 = col_1;
+    }
+
+    public void flagIsAddingGoodBlock() {
+        this.addingGoodBlock = true;
+    }
+
+    public void flagIsRemovingGoodBlock() {
+        this.removingGoodBlock = true;
+    }
+
+    public void flagSwitchingGoodBlock() {
+        this.switchingGoodBlock = true;
+    }
+
+    public void setGoodBlock_1(GoodBlock goodBlock_1) {
+        this.goodBlock_1 = goodBlock_1;
+    }
 }

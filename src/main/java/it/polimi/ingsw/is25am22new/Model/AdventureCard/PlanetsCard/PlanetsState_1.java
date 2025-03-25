@@ -8,14 +8,15 @@ public class PlanetsState_1 extends PlanetsState {
     }
 
     public void activateEffect(InputCommand inputCommand){
-        if(inputCommand.getChoice())
+        if(inputCommand.getChoice()) {
             planetsCard.getPlanets().get(inputCommand.getIndexChosen()).setPlayer(game.getCurrPlayer());
+            planetsCard.getPlayersWhoLanded().add(game.getCurrPlayer());
+        }
         if(!planetsCard.planetsFull() && !game.getCurrPlayer().equals(game.getLastPlayer()))
             game.setCurrPlayerToNext();
         else {
-            for(int i = game.getFlightboard().getOrderedRockets().size() - 1; i >= 0; i--){   //all players who have decided to land lose flight days
-                if(planetsCard.playerHasLanded(game.getFlightboard().getOrderedRockets().get(i)))
-                    game.getFlightboard().shiftRocket(game.getFlightboard().getOrderedRockets().get(i), planetsCard.getFlightDaysLost());
+            for(int i = planetsCard.getPlayersWhoLanded().size() - 1; i >= 0; i--){   //all players who have decided to land lose flight days
+                game.getFlightboard().shiftRocket(planetsCard.getPlayersWhoLanded().get(i), planetsCard.getFlightDaysLost());
             }
             game.setCurrPlayerToLeader();
             planetsCard.loadPlanet(game.getCurrPlayer());
