@@ -10,14 +10,14 @@ import java.util.List;
 public class OpenSpaceCard extends AdventureCard {
 
     private OpenSpaceState openSpaceState;
-
     private List<String> orderedPlayersBeforeEffect;
+    private List<String> playersWithNoEngineStrength;
 
     public OpenSpaceCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);
         openSpaceState = new OpenSpaceState_1(this);
         orderedPlayersBeforeEffect = new ArrayList<>(game.getFlightboard().getOrderedRockets());
-
+        playersWithNoEngineStrength = new ArrayList<>();
     }
 
     @Override
@@ -31,5 +31,9 @@ public class OpenSpaceCard extends AdventureCard {
 
     public List<String> getOrderedPlayersBeforeEffect() {
         return orderedPlayersBeforeEffect;
+    }
+
+    public List<String> getPlayersWithNoEngineStrength() {
+        return playersWithNoEngineStrength;
     }
 }

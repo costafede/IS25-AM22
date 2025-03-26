@@ -73,4 +73,8 @@ public class SmugglersCard extends AdventureCard {
             }
         }
     }
+
+    public Map<GoodBlock, Integer> getActualGoodBlocks() {
+        return actualGoodBlocks;
+    }
 }
