@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public abstract class Flightboard {
     protected List<String> orderedRockets;
@@ -49,10 +48,10 @@ public abstract class Flightboard {
         }
         shipboards.get(nickname).setDaysOnFlight(finalPosition);
         positions.put(nickname, mathematical_module(finalPosition, flightBoardLength));
-        reoderRockets(shipboards.values().stream().toList());
+        reorderRockets(shipboards.values().stream().toList());
     }
 
-    private void reoderRockets(List<Shipboard> shipboards) {
+    private void reorderRockets(List<Shipboard> shipboards) {
         orderedRockets.sort((a, b) -> Integer.compare(
                 shipboards.stream().filter(s -> s.getNickname().equals(b)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0),
                 shipboards.stream().filter(s -> s.getNickname().equals(a)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0)
