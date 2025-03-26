@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class CombatZoneCard extends AdventureCard {
 
@@ -19,6 +20,8 @@ public class CombatZoneCard extends AdventureCard {
     private Map<String, Double> playerToStrength;
     private int removedAstronauts;
     private int indexOfIncomingShot;
+    private int dice1;
+    private int dice2;
 
     public CombatZoneCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int astronautsToLose, int lostGoods, Map<Integer, Shot> numberToShot) {
         super(pngName, name, game, level, tutorial);
@@ -30,6 +33,30 @@ public class CombatZoneCard extends AdventureCard {
         this.batteryUsed = false;
         this.playerToStrength = new HashMap<>();
         this.removedAstronauts = 0;
+        this.dice1 = new Random().nextInt(6) + 1;
+        this.dice2 = new Random().nextInt(6) + 1;
+    }
+
+    public void setNewDices() {
+        game.getDices().rollDices();
+        setDice1(game.getDices().getDice1());
+        setDice2(game.getDices().getDice2());
+    }
+
+    public int getDice1() {
+        return dice1;
+    }
+
+    public void setDice1(int dice1) {
+        this.dice1 = dice1;
+    }
+
+    public int getDice2() {
+        return dice2;
+    }
+
+    public void setDice2(int dice2) {
+        this.dice2 = dice2;
     }
 
     public int getIndexOfIncomingShot() {

@@ -92,7 +92,7 @@ public class PiratesState_4 extends PiratesState{
                 }
             }
 
-            piratesCard.SetNewDices();
+            piratesCard.setNewDices();
 
             if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {
                 piratesCard.setNextIndexOfShot();

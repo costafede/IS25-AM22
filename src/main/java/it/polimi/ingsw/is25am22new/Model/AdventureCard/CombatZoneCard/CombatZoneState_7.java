@@ -25,19 +25,8 @@ public class CombatZoneState_7 extends CombatZoneState {
             ctOptional.ifPresent(ComponentTile::activateComponent);
         }
 
-        if(!inputCommand.getChoice()) { // do you want to continue using batteries?
-            if(game.getCurrPlayer().equals(game.getLastPlayer())) { // if last player
-                transition(new CombatZoneState_8(combatZoneCard));
-            }
-            else { // if not last player
-                combatZoneCard.getPlayerToStrength().put(currentPlayer, (double)shipboard.getEngineStrength());
-                game.setCurrPlayerToNext();
-                combatZoneCard.setBatteryUsed(false);
-                transition(new CombatZoneState_6(combatZoneCard));
-            }
-        }
-        else {
-            transition(new CombatZoneState_6(combatZoneCard));
-        }
+        combatZoneCard.setBatteryUsed(false);
+
+        transition(new CombatZoneState_6(combatZoneCard));
     }
 }

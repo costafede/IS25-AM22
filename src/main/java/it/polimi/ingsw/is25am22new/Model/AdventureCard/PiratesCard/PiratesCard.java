@@ -52,7 +52,7 @@ public class PiratesCard extends AdventureCard {
         this.dice2 = dice2;
     }
 
-    public void SetNewDices() {
+    public void setNewDices() {
         game.getDices().rollDices();
         setDice1(game.getDices().getDice1());
         setDice2(game.getDices().getDice2());
