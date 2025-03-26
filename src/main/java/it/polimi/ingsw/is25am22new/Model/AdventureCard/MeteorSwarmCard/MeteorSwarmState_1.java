@@ -1,6 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.Meteor;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.Orientation;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
@@ -14,7 +16,6 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
-        game.getDices().rollDices();
 
         if(inputCommand.getChoice()) {// are you sure you want to use the battery?
             int x = inputCommand.getRow();
@@ -28,8 +29,98 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 meteorSwarmCard.setBatteryUsed(true);
             }
+            transition(new MeteorSwarmState_2(meteorSwarmCard));
         }
+        else {
+            Meteor incomingMeteor = meteorSwarmCard.getNumberToMeteor().get(meteorSwarmCard.getIndexOfIncomingMeteor());
+            int col = meteorSwarmCard.getDice1() + meteorSwarmCard.getDice2() - 4; // offset
+            int row = meteorSwarmCard.getDice1() + meteorSwarmCard.getDice2() - 5; // offset
+            // meteor hitting logic
+            if(incomingMeteor.getOrientation() == Orientation.TOP) {
+                if( !((incomingMeteor.isBig() && shipboard.isBottomSideCannon(col)) ||
+                        (!incomingMeteor.isBig() && shipboard.isBottomSideShielded()) ||
+                        (!incomingMeteor.isBig() && !shipboard.isExposedConnectorOnBottom(col)))) {
+                    boolean destructionComplete = false;
+                    for(int i = 4; i >= 0 && !destructionComplete; i--) {
+                        if(shipboard.getComponentTileFromGrid(i, col).isPresent()) {
+                            shipboard.destroyTile(i, col);
+                            destructionComplete = true;
+                        }
+                    }
+                }
+            }
+            else if(incomingMeteor.getOrientation() == Orientation.BOTTOM) {
+                if( !((incomingMeteor.isBig() && shipboard.isTopSideCannon(col)) ||
+                        (!incomingMeteor.isBig() && shipboard.isTopSideShielded()) ||
+                        (!incomingMeteor.isBig() && !shipboard.isExposedConnectorOnTop(col)))) {
+                    boolean destructionComplete = false;
+                    for(int i = 0; i < 5 && !destructionComplete; i++) {
+                        if(shipboard.getComponentTileFromGrid(i, col).isPresent()) {
+                            shipboard.destroyTile(i, col);
+                            destructionComplete = true;
+                        }
+                    }
+                }
+            }
+            else if(incomingMeteor.getOrientation() == Orientation.LEFT) {
+                if( !((incomingMeteor.isBig() && shipboard.isRightSideCannon(row)) ||
+                        (!incomingMeteor.isBig() && shipboard.isRightSideShielded()) ||
+                        (!incomingMeteor.isBig() && !shipboard.isExposedConnectorOnRight(row)))) {
+                    boolean destructionComplete = false;
+                    for(int j = 6; j >= 0 && !destructionComplete; j--) {
+                        if(shipboard.getComponentTileFromGrid(row, j).isPresent()) {
+                            shipboard.destroyTile(row, j);
+                            destructionComplete = true;
+                        }
+                    }
+                }
+            }
+            else if(incomingMeteor.getOrientation() == Orientation.RIGHT) {
+                if( !((incomingMeteor.isBig() && shipboard.isLeftSideCannon(row)) ||
+                        (!incomingMeteor.isBig() && shipboard.isLeftSideShielded()) ||
+                        (!incomingMeteor.isBig() && !shipboard.isExposedConnectorOnLeft(row)))) {
+                    boolean destructionComplete = false;
+                    for(int j = 0; j < 7 && !destructionComplete; j++) {
+                        if(shipboard.getComponentTileFromGrid(row, j).isPresent()) {
+                            shipboard.destroyTile(row, j);
+                            destructionComplete = true;
+                        }
+                    }
+                }
+            }
 
-        transition(new MeteorSwarmState_2(meteorSwarmCard));
+            // deactivates all components
+            for(int i = 0; i < 5; i++){
+                for(int j = 0; j < 7; j++){
+                    game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+                }
+            }
+
+            meteorSwarmCard.setBatteryUsed(false);
+
+            SetNewDices();
+
+            if(game.getCurrPlayer().equals(game.getLastPlayer())) {
+                meteorSwarmCard.setNextIndexOfMeteor();
+                game.setCurrPlayerToLeader();
+                if(meteorSwarmCard.thereAreStillMeteors()) {
+                    transition(new MeteorSwarmState_1(meteorSwarmCard));
+                }
+                else {
+                    game.manageInvalidPlayers();
+                    game.setCurrCard(null);
+                }
+            }
+            else {
+                game.setCurrPlayerToNext();
+                transition(new MeteorSwarmState_1(meteorSwarmCard));
+            }
+        }
+    }
+
+    private void SetNewDices() {
+        game.getDices().rollDices();
+        meteorSwarmCard.setDice1(game.getDices().getDice1());
+        meteorSwarmCard.setDice1(game.getDices().getDice2());
     }
 }

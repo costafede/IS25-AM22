@@ -9,8 +9,8 @@ public class AbandonedStationState_1 extends AbandonedStationState{
     }
     @Override
     public void activateEffect(InputCommand inputCommand) {
-        if(inputCommand.getChoice()){
-            game.getFlightboard().shiftRocket(game.getShipboards(), game.getCurrPlayer(), abandonedStationCard.getFlightDaysLost());
+        if(inputCommand.getChoice()){// to decide if the player has enough crew members it's up to the controller
+            game.getFlightboard().shiftRocket(game.getCurrPlayer(), abandonedStationCard.getFlightDaysLost());
             abandonedStationCard.loadStation();
             transition(new AbandonedStationState_2(abandonedStationCard));
         }

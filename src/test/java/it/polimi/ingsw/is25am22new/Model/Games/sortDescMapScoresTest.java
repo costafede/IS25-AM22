@@ -22,16 +22,16 @@ class sortDescMapScoresTest {
         Map<String, Integer> sortedScores = level2Game.sortDesc(scores);
 
         //print of the unsorted map
-        System.out.println("Unsorted map:");
-        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
+        //System.out.println("Unsorted map:");
+//        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+//            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+//        }
 
         //print of the sorted map
-        System.out.println("Sorted map:");
-        for (Map.Entry<String, Integer> entry : sortedScores.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
+//        System.out.println("Sorted map:");
+//        for (Map.Entry<String, Integer> entry : sortedScores.entrySet()) {
+//            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+//        }
 
         //Assertions for the sorted map -> the first element should be the one with the highest value using functional java
         assertTrue(sortedScores.entrySet().stream().findFirst().isPresent() && "player3level2".equals(sortedScores.entrySet().stream().findFirst().get().getKey()));
@@ -49,16 +49,16 @@ class sortDescMapScoresTest {
         Map<String, Integer> sortedScores = tutorialGame.sortDesc(scores);
 
         //print of the unsorted map
-        System.out.println("Unsorted map:");
-        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
+//        System.out.println("Unsorted map:");
+//        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+//            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+//        }
 
         //print of the sorted map
-        System.out.println("Sorted map:");
-        for (Map.Entry<String, Integer> entry : sortedScores.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
+        //System.out.println("Sorted map:");
+//        for (Map.Entry<String, Integer> entry : sortedScores.entrySet()) {
+//            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+//        }
 
         assertTrue(sortedScores.entrySet().stream().findFirst().isPresent() && (  "player3tutorial".equals(sortedScores.entrySet().stream().findFirst().get().getKey())|| "player2tutorial".equals(sortedScores.entrySet().stream().findFirst().get().getKey()) ));
     }

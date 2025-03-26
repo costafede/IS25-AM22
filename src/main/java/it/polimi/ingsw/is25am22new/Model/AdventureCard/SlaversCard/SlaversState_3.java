@@ -15,7 +15,7 @@ public class SlaversState_3 extends SlaversState {
 
         // choose to keep credits and lose flight days or not
         if(inputCommand.getChoice()) {
-            game.getFlightboard().shiftRocket(game.getShipboards(), currentPlayer, slaversCard.getFlightDaysLost());
+            game.getFlightboard().shiftRocket(currentPlayer, slaversCard.getFlightDaysLost());
             shipboard.addCosmicCredits(slaversCard.getCredits());
         }
 

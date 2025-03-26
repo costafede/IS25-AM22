@@ -2,6 +2,8 @@ package it.polimi.ingsw.is25am22new.Model;
 
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
+import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
+import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,14 +12,19 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FlightboardTest {
+    static List<String> playerList = new ArrayList<>(List.of("Cristina", "Alex", "Bianca", "Davide"));
+
     static List<String> orderedRockets = new ArrayList<>();
     static Map<String, Integer> tutorialPositions = new HashMap<>();
     static Map<String, Integer> level2Positions = new HashMap<>();
     int level2BoardLength = 24;
     int tutorialBoardLength = 18;
 
-    Level2FlightBoard level2FlightBoard = new Level2FlightBoard();
-    TutorialFlightBoard tutorialFlightBoard = new TutorialFlightBoard();
+    Level2Game level2Game = new Level2Game(playerList);
+    TutorialGame tutorialGame = new TutorialGame(playerList);
+
+    Level2FlightBoard level2FlightBoard = new Level2FlightBoard(level2Game);
+    TutorialFlightBoard tutorialFlightBoard = new TutorialFlightBoard(tutorialGame);
 
     static Map<String, Shipboard> shipboards = new HashMap<>();
     static Bank bank = new Bank();
@@ -52,7 +59,6 @@ class FlightboardTest {
         level2FlightBoard.placeRocket("Alex", 1);
         level2FlightBoard.placeRocket("Bianca", 2);
         level2FlightBoard.placeRocket("Davide", 3);
-        level2FlightBoard.setOrderedRocketsAndDaysOnFlight(shipboards);
 
         assertEquals(level2FlightBoard.getOrderedRockets(), orderedRockets);
 
@@ -60,7 +66,6 @@ class FlightboardTest {
         tutorialFlightBoard.placeRocket("Alex", 1);
         tutorialFlightBoard.placeRocket("Bianca", 2);
         tutorialFlightBoard.placeRocket("Davide", 3);
-        tutorialFlightBoard.setOrderedRocketsAndDaysOnFlight(shipboards);
 
         assertEquals(tutorialFlightBoard.getOrderedRockets(), orderedRockets);
     }
@@ -94,12 +99,11 @@ class FlightboardTest {
         level2FlightBoard.placeRocket("Alex", 1);
         level2FlightBoard.placeRocket("Bianca", 2);
         level2FlightBoard.placeRocket("Davide", 3);
-        level2FlightBoard.setOrderedRocketsAndDaysOnFlight(shipboards);
 
-        level2FlightBoard.shiftRocket(shipboards, "Cristina", -2);
-        level2FlightBoard.shiftRocket(shipboards, "Alex", -1);
-        level2FlightBoard.shiftRocket(shipboards, "Bianca", 5);
-        level2FlightBoard.shiftRocket(shipboards, "Davide", 2);
+        level2FlightBoard.shiftRocket("Cristina", -2);
+        level2FlightBoard.shiftRocket("Alex", -1);
+        level2FlightBoard.shiftRocket("Bianca", 5);
+        level2FlightBoard.shiftRocket("Davide", 2);
 
         assertEquals(8, level2FlightBoard.getPositions().get("Cristina"));
         assertEquals(4, level2FlightBoard.getPositions().get("Alex"));
@@ -114,12 +118,11 @@ class FlightboardTest {
         tutorialFlightBoard.placeRocket("Alex", 1);
         tutorialFlightBoard.placeRocket("Bianca", 2);
         tutorialFlightBoard.placeRocket("Davide", 3);
-        tutorialFlightBoard.setOrderedRocketsAndDaysOnFlight(shipboards);
 
-        tutorialFlightBoard.shiftRocket(shipboards, "Cristina", -2);
-        tutorialFlightBoard.shiftRocket(shipboards, "Alex", -15);
-        tutorialFlightBoard.shiftRocket(shipboards, "Bianca", 1);
-        tutorialFlightBoard.shiftRocket(shipboards, "Davide", 3);
+        tutorialFlightBoard.shiftRocket("Cristina", -2);
+        tutorialFlightBoard.shiftRocket("Alex", -15);
+        tutorialFlightBoard.shiftRocket("Bianca", 1);
+        tutorialFlightBoard.shiftRocket("Davide", 3);
 
         assertEquals(6, tutorialFlightBoard.getPositions().get("Cristina"));
         assertEquals(0, tutorialFlightBoard.getPositions().get("Alex"));

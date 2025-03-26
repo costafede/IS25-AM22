@@ -14,7 +14,7 @@ public class Level2Game extends Game {
     public Level2Game(List<String> nicknames) {
         super(nicknames);
         this.cardPiles = new ArrayList<>();
-        this.flightboard = new Level2FlightBoard();
+        this.flightboard = new Level2FlightBoard(this);
     }
 
     public Map<String, Integer> endGame() {

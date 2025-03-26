@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class TutorialGame extends Game {
     public TutorialGame(List<String> nicknames) {
         super(nicknames);
-        this.flightboard = new TutorialFlightBoard();
+        this.flightboard = new TutorialFlightBoard(this);
     }
 
     @Override

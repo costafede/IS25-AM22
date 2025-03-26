@@ -10,7 +10,7 @@ public class AbandonedShipState_1 extends AbandonedShipState {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(inputCommand.getChoice()){
-            game.getFlightboard().shiftRocket(game.getShipboards(), game.getCurrPlayer(), abandonedShipCard.getFlightDaysLost());
+            game.getFlightboard().shiftRocket(game.getCurrPlayer(), abandonedShipCard.getFlightDaysLost());
             transition(new AbandonedShipState_2(abandonedShipCard));
         }
         else if(!game.getCurrPlayer().equals(game.getLastPlayer()))

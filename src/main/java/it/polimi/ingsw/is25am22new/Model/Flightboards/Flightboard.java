@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.Flightboards;
 
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.util.ArrayList;
@@ -12,12 +13,14 @@ public abstract class Flightboard {
     protected List<String> orderedRockets;
     protected Map<String, Integer> positions; // positions are relative to the flightboard
     protected int flightBoardLength;
+    protected Game game;
 
     // integers in positions map are 0 <= x < 24
-    public Flightboard(int flightBoardLength) {
+    public Flightboard(Game game, int flightBoardLength) {
         this.orderedRockets = new ArrayList<>();
         this.positions = new HashMap<>();
         this.flightBoardLength = flightBoardLength;
+        this.game = game;
     }
 
     public Flightboard(List<String> orderedRockets, Map<String, Integer> positions, int flightBoardLength) {
@@ -34,9 +37,10 @@ public abstract class Flightboard {
         return positions;
     }
 
-    public void shiftRocket(Map<String, Shipboard> shipboards, String nickname, int stepsBackPositive) {
+    public void shiftRocket(String nickname, int stepsBackPositive) {
         // Does not manage who should shift first (usually the last one in a sequence)
         // Steps are positive if backward, negative if forward
+        Map<String, Shipboard> shipboards = game.getShipboards();
         int initialPosition = shipboards.get(nickname).getDaysOnFlight();
         int finalPosition = initialPosition - stepsBackPositive;
         int moreSteps = 0;
@@ -71,19 +75,6 @@ public abstract class Flightboard {
                 shipboards.stream().filter(s -> s.getNickname().equals(b)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0),
                 shipboards.stream().filter(s -> s.getNickname().equals(a)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0)
         ));
-    }
-
-    public void setOrderedRocketsAndDaysOnFlight(Map<String, Shipboard> shipboards) {
-        // called after all rockets have been placed
-        orderedRockets =
-                positions.entrySet().stream()
-                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-
-        for(String nickname : shipboards.keySet()) {
-            shipboards.get(nickname).setDaysOnFlight(positions.get(nickname));
-        }
     }
 
     public abstract void placeRocket(String nickname, int pos);

@@ -57,4 +57,8 @@ public class Bank {
         }
         return false;
     }
+
+    public int getNumGoodBlock(GoodBlock gb){
+        return goodblockToNum.get(gb);
+    }
 }

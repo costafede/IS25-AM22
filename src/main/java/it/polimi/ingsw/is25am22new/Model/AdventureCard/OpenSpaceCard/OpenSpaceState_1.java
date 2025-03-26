@@ -23,7 +23,7 @@ public class OpenSpaceState_1 extends OpenSpaceState {
                 game.playerAbandons(game.getCurrPlayer());
             }
             else
-                game.getFlightboard().shiftRocket(game.getShipboards(), game.getCurrPlayer(), -engineStrength);
+                game.getFlightboard().shiftRocket(game.getCurrPlayer(), -engineStrength);
             List<String> playersBeforeEffect = openSpaceCard.getOrderedPlayersBeforeEffect();
             if(!game.getCurrPlayer().equals(playersBeforeEffect.getLast()))     //if curr player isn't the last one the turn is passed to the next player
                 game.setCurrPlayer(playersBeforeEffect.get(playersBeforeEffect.indexOf(game.getCurrPlayer()) + 1));
