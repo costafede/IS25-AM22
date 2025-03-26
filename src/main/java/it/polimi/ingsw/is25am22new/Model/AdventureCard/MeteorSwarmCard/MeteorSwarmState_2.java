@@ -24,6 +24,9 @@ public class MeteorSwarmState_2 extends MeteorSwarmState {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
         }
+
+        meteorSwarmCard.setBatteryUsed(false);
+
         transition(new MeteorSwarmState_1(meteorSwarmCard));
     }
 }

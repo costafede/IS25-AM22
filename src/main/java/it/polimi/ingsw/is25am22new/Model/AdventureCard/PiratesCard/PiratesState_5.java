@@ -16,12 +16,8 @@ public class PiratesState_5 extends PiratesState{
     
     @Override
     public void activateEffect(InputCommand inputCommand) {
-        Shot incomingShot = piratesCard.getNumberToShot().get(piratesCard.getIndexOfIncomingShot());
-        String currentPlayer = piratesCard.getCurrDefeatedPlayer();
-        Shipboard shipboard = game.getShipboards().get(currentPlayer);
-        int col = game.getDices().getDice1() + game.getDices().getDice2();
-        int row = game.getDices().getDice1() + game.getDices().getDice2();
-
+        String defeatedPlayer = piratesCard.getCurrDefeatedPlayer();
+        Shipboard shipboard = game.getShipboards().get(defeatedPlayer);
         int x = 0;
         int y = 0;
 
@@ -36,75 +32,6 @@ public class PiratesState_5 extends PiratesState{
         }
         piratesCard.setBatteryUsed(false);
 
-        // shot hitting logic
-        if(incomingShot.getOrientation() == Orientation.TOP) {
-            if(incomingShot.isBig() || !shipboard.isBottomSideShielded()) {
-                boolean destructionComplete = false;
-                for(int i = 4; i >= 0 && !destructionComplete; i--) {
-                    if(shipboard.getComponentTileFromGrid(i, col).isPresent()) {
-                        shipboard.destroyTile(i, col);
-                        destructionComplete = true;
-                    }
-                }
-            }
-        }
-        else if(incomingShot.getOrientation() == Orientation.BOTTOM) {
-            if(incomingShot.isBig() || !shipboard.isTopSideShielded()) {
-                boolean destructionComplete = false;
-                for(int i = 0; i < 5 && !destructionComplete; i++) {
-                    if(shipboard.getComponentTileFromGrid(i, col).isPresent()) {
-                        shipboard.destroyTile(i, col);
-                        destructionComplete = true;
-                    }
-                }
-            }
-        }
-        else if(incomingShot.getOrientation() == Orientation.LEFT) {
-            if(incomingShot.isBig() || !shipboard.isRightSideShielded()) {
-                boolean destructionComplete = false;
-                for(int j = 6; j >= 0 && !destructionComplete; j--) {
-                    if(shipboard.getComponentTileFromGrid(row, j).isPresent()) {
-                        shipboard.destroyTile(row, j);
-                        destructionComplete = true;
-                    }
-                }
-            }
-        }
-        else if(incomingShot.getOrientation() == Orientation.RIGHT) {
-            if(incomingShot.isBig() || !shipboard.isLeftSideShielded()) {
-                boolean destructionComplete = false;
-                for(int j = 0; j < 7 && !destructionComplete; j++) {
-                    if(shipboard.getComponentTileFromGrid(row, j).isPresent()) {
-                        shipboard.destroyTile(row, j);
-                        destructionComplete = true;
-                    }
-                }
-            }
-        }
-
-        // reset batteryUsed, deactivate components, next player
-
-        // deactivates all components
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 7; j++){
-                game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
-            }
-        }
-
-        if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {
-            piratesCard.setNextIndexOfShot();
-            piratesCard.setCurrDefeatedPlayerToFirst();
-            if(piratesCard.thereAreStillShots()) {
-                transition(new PiratesState_4(piratesCard));
-            }
-            else {
-                game.setCurrPlayerToLeader();
-                game.setCurrCard(null);
-            }
-        }
-        else {
-            piratesCard.setCurrDefeatedPlayerToNext();
-            transition(new PiratesState_4(piratesCard));
-        }
+        transition(new PiratesState_4(piratesCard));
     }
 }

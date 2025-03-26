@@ -115,6 +115,7 @@ class MeteorSwarmCardTest {
         meteorSwarmCard.activateEffect(i2);
         // check if cannon is activated
         assertEquals(4, shipA.getCannonStrength());
+        assertFalse(meteorSwarmCard.isBatteryUsed());
 
         // player A chooses not to use 2nd battery
         meteorSwarmCard.setDice1(3);
@@ -183,6 +184,7 @@ class MeteorSwarmCardTest {
         meteorSwarmCard.activateEffect(i9);
         // nothing is activated
         assertEquals(2, shipA.getCannonStrength());
+        assertFalse(meteorSwarmCard.isBatteryUsed());
 
         InputCommand i10 = new InputCommand();
         i10.setChoice(false);
@@ -226,6 +228,7 @@ class MeteorSwarmCardTest {
         i14.setRow(2);
         i14.setCol(5);
         meteorSwarmCard.activateEffect(i14);
+        assertFalse(meteorSwarmCard.isBatteryUsed());
 
         InputCommand i15 = new InputCommand();
         i15.setChoice(false);
@@ -249,6 +252,7 @@ class MeteorSwarmCardTest {
         i17.setRow(2);
         i17.setCol(5);
         meteorSwarmCard.activateEffect(i17);
+        assertFalse(meteorSwarmCard.isBatteryUsed());
 
         InputCommand i18 = new InputCommand();
         i18.setChoice(false);
@@ -260,7 +264,7 @@ class MeteorSwarmCardTest {
         assertTrue(shipB.getComponentTileFromGrid(2, 5).isPresent());
 
         // currPlayer shuold be C
-        // cannon has universal pipe in front so i know it is destryed because it is a cannon
+        // cannon has universal pipe in front so i know it is destroyed because it is a cannon
         shipC.weldComponentTile(new Cannon("none", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH), 2, 6);
         shipBuffer = CopyShipboard(shipC);
         InputCommand i19 = new InputCommand();
@@ -271,6 +275,7 @@ class MeteorSwarmCardTest {
 
         assertTrue(CheckShipboardIntegrity(shipBuffer, shipC));
         assertTrue(shipC.getComponentTileFromGrid(2, 6).isPresent());
+        assertFalse(meteorSwarmCard.isBatteryUsed());
 
         // currCard should be null in game because card has been resolved
         assertNull(game.getCurrCard());

@@ -19,6 +19,8 @@ public class PiratesCard extends AdventureCard {
     private List<String> defeatedPlayers;
     private int indexOfIncomingShot;
     private String currDefeatedPlayer;
+    private int dice1;
+    private int dice2;
 
     public PiratesCard(String pngName, String name, Game game, int level, boolean tutorial, Map<Integer, Shot> numberToShot, int flightDaysLost, int cannonStrength, int credits) {
         super(pngName, name, game, level, tutorial);
@@ -30,6 +32,30 @@ public class PiratesCard extends AdventureCard {
         this.batteryUsed = false;
         this.defeatedPlayers = new ArrayList<>();
         this.indexOfIncomingShot = 0;
+        this.dice1 = new Random().nextInt(6) + 1;
+        this.dice2 = new Random().nextInt(6) + 1;
+    }
+
+    public int getDice1() {
+        return dice1;
+    }
+
+    public int getDice2() {
+        return dice2;
+    }
+
+    public void setDice1(int dice1) {
+        this.dice1 = dice1;
+    }
+
+    public void setDice2(int dice2) {
+        this.dice2 = dice2;
+    }
+
+    public void SetNewDices() {
+        game.getDices().rollDices();
+        setDice1(game.getDices().getDice1());
+        setDice2(game.getDices().getDice2());
     }
 
     public int getIndexOfIncomingShot(){

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 public class SlaversState_3 extends SlaversState {
@@ -19,7 +20,15 @@ public class SlaversState_3 extends SlaversState {
             shipboard.addCosmicCredits(slaversCard.getCredits());
         }
 
+        // deactivates all components
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++){
+                game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+            }
+        }
+
         // ends the card effect
+        game.manageInvalidPlayers();
         game.setCurrPlayerToLeader();
         game.setCurrCard(null);
     }

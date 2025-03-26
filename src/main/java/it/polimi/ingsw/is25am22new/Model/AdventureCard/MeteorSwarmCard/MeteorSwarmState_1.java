@@ -96,8 +96,6 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
                 }
             }
 
-            meteorSwarmCard.setBatteryUsed(false);
-
             SetNewDices();
 
             if(game.getCurrPlayer().equals(game.getLastPlayer())) {
@@ -121,6 +119,6 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
     private void SetNewDices() {
         game.getDices().rollDices();
         meteorSwarmCard.setDice1(game.getDices().getDice1());
-        meteorSwarmCard.setDice1(game.getDices().getDice2());
+        meteorSwarmCard.setDice2(game.getDices().getDice2());
     }
 }
