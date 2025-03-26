@@ -19,16 +19,20 @@ public class OpenSpaceState_1 extends OpenSpaceState {
         }
         else{   //player declares his engine power and resolves the card's effect(so choice must be set to false)
             int engineStrength = game.getShipboards().get(game.getCurrPlayer()).getEngineStrength();
+            game.getShipboards().get(game.getCurrPlayer()).deactivateAllComponent();
             if(engineStrength == 0){    //player is forced to leave if his engine strength is zero
-                game.playerAbandons(game.getCurrPlayer());
+                openSpaceCard.getPlayersWithNoEngineStrength().add(game.getCurrPlayer());
             }
             else
-                game.getFlightboard().shiftRocket(game.getCurrPlayer(), -engineStrength);
+                game.getFlightboard().shiftRocket(game.getCurrPlayer(), - engineStrength);
             List<String> playersBeforeEffect = openSpaceCard.getOrderedPlayersBeforeEffect();
             if(!game.getCurrPlayer().equals(playersBeforeEffect.getLast()))     //if curr player isn't the last one the turn is passed to the next player
                 game.setCurrPlayer(playersBeforeEffect.get(playersBeforeEffect.indexOf(game.getCurrPlayer()) + 1));
             else{   //the card effect finishes
-                game.manageInvalidPlayers();
+                game.manageInvalidPlayers();    //players lapped
+                for(String p : openSpaceCard.getPlayersWithNoEngineStrength()){ //players with no engine strength
+                    game.playerAbandons(p);
+                }
                 game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
             }

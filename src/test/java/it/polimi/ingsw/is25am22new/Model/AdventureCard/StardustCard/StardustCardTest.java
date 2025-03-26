@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
+import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.Side;
 import org.junit.jupiter.api.Test;
@@ -62,19 +63,18 @@ class StardustCardTest {
     }
 
     @Test
-    void moves_back_more_ships_correctly(){
+    void moves_back_more_ships_correctly_level2(){
         List<ComponentTile> tiles = initializeTiles();
         List<String> players = List.of("Federico", "Emanuele");
-        Game game = new Level2Game(players);
+        Game level2Game = new Level2Game(players);
 
-        Shipboard ship0 = game.getShipboards().get(players.get(0));
-        Shipboard ship1 = game.getShipboards().get(players.get(1));
+        Shipboard ship0 = level2Game.getShipboards().get(players.get(0));
+        Shipboard ship1 = level2Game.getShipboards().get(players.get(1));
 
-        Flightboard level2FlightBoard = game.getFlightboard();
+        Flightboard level2FlightBoard = level2Game.getFlightboard();
 
         level2FlightBoard.placeRocket("Emanuele", 0);
         level2FlightBoard.placeRocket("Federico", 1);
-
         // zero exposed connectors
         ship0.weldComponentTile(tiles.get(27), 2, 2);
         ship0.weldComponentTile(tiles.get(28), 2, 4);
@@ -87,10 +87,42 @@ class StardustCardTest {
         ship1.weldComponentTile(tiles.get(33), 1, 3);
         ship1.weldComponentTile(tiles.get(34), 3, 3);
 
-        StardustCard sd = new StardustCard("test", "test", game, 2, false);
-        sd.activateEffect(null);
+        StardustCard sd1 = new StardustCard("test", "test", level2Game, 2, false);
+        sd1.activateEffect(null);
 
         assertEquals(3, level2FlightBoard.getPositions().get("Federico"));
         assertEquals(17, level2FlightBoard.getPositions().get("Emanuele"));
+    }
+    
+    @Test
+    void  moves_back_more_ships_correctly_tutorial() {
+        List<ComponentTile> tiles = initializeTiles();
+        List<String> players = List.of("Federico", "Emanuele");
+        Game tutorialGame = new TutorialGame(players);
+
+        Shipboard ship0 = tutorialGame.getShipboards().get(players.get(0));
+        Shipboard ship1 = tutorialGame.getShipboards().get(players.get(1));
+
+        Flightboard level2FlightBoard = tutorialGame.getFlightboard();
+
+        level2FlightBoard.placeRocket("Emanuele", 0);
+        level2FlightBoard.placeRocket("Federico", 1);
+        // zero exposed connectors
+        ship0.weldComponentTile(tiles.get(27), 2, 2);
+        ship0.weldComponentTile(tiles.get(28), 2, 4);
+        ship0.weldComponentTile(tiles.get(29), 1, 3);
+        ship0.weldComponentTile(tiles.get(30), 3, 3);
+
+        // some exposed connectors: 12
+        ship1.weldComponentTile(tiles.get(31), 2, 2);
+        ship1.weldComponentTile(tiles.get(32), 2, 4);
+        ship1.weldComponentTile(tiles.get(33), 1, 3);
+        ship1.weldComponentTile(tiles.get(34), 3, 3);
+
+        StardustCard sd1 = new StardustCard("test", "test", tutorialGame, 2, false);
+        sd1.activateEffect(null);
+
+        assertEquals(2, level2FlightBoard.getPositions().get("Federico"));
+        assertEquals(9, level2FlightBoard.getPositions().get("Emanuele"));
     }
 }

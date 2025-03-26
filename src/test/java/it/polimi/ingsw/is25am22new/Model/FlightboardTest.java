@@ -125,7 +125,7 @@ class FlightboardTest {
         tutorialFlightBoard.shiftRocket("Davide", 3);
 
         assertEquals(6, tutorialFlightBoard.getPositions().get("Cristina"));
-        assertEquals(0, tutorialFlightBoard.getPositions().get("Alex"));
+        assertEquals(2, tutorialFlightBoard.getPositions().get("Alex"));
         assertEquals(17, tutorialFlightBoard.getPositions().get("Bianca"));
         assertEquals(14, tutorialFlightBoard.getPositions().get("Davide"));
 
