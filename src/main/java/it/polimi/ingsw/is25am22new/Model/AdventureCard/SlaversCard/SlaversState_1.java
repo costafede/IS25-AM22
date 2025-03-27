@@ -36,6 +36,7 @@ public class SlaversState_1 extends SlaversState {
                 transition(new SlaversState_3(slaversCard)); // decide to lose daysOnFlight and take credits or not
             }
             else if (shipboard.getCannonStrength() < slaversCard.getCannonStrength()) { // lose case
+                slaversCard.resetSelectedMembers();
                 transition(new SlaversState_4(slaversCard));
             }
             else {// in case of tie nothing happens and the slavers attack next player

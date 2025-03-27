@@ -23,7 +23,7 @@ public class PiratesState_4 extends PiratesState{
         int col = piratesCard.getDice1() + piratesCard.getDice2() - 4;
         int row = piratesCard.getDice1() + piratesCard.getDice2() - 5;
 
-        if(inputCommand.getChoice()) { // are you sure you want to use the battery?
+        if(inputCommand.getChoice()) { // continue using batteries?
             int x = inputCommand.getRow();
             int y = inputCommand.getCol();
             AtomicInteger numOfBatteries = new AtomicInteger(0);

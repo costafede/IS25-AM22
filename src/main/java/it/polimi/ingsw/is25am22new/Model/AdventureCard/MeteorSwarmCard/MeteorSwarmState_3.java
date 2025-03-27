@@ -20,12 +20,13 @@ public class MeteorSwarmState_3 extends MeteorSwarmState {
 
         if(game.getCurrPlayer().equals(game.getLastPlayer())) {
             meteorSwarmCard.setNextIndexOfMeteor();
-            game.setCurrPlayerToLeader();
             if(meteorSwarmCard.thereAreStillMeteors()) {
+                game.setCurrPlayerToLeader();
                 transition(new MeteorSwarmState_1(meteorSwarmCard));
             }
             else {
                 game.manageInvalidPlayers();
+                game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
             }
         }

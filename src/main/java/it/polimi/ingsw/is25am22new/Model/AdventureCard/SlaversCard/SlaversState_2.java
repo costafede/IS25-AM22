@@ -16,11 +16,8 @@ public class SlaversState_2 extends SlaversState{
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
-        int x = 0;
-        int y = 0;
-
-        x = inputCommand.getRow();
-        y = inputCommand.getCol();
+        int x = inputCommand.getRow();
+        int y = inputCommand.getCol();
         Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
         if(slaversCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
