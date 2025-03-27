@@ -28,6 +28,14 @@ public class PiratesState_3 extends PiratesState{
             }
         }
 
-        transition(new PiratesState_4(piratesCard));
+        if(!piratesCard.getDefeatedPlayers().isEmpty()){
+            piratesCard.setCurrDefeatedPlayerToFirst();
+            transition(new PiratesState_4(piratesCard));
+        }
+        else {
+            game.manageInvalidPlayers();
+            game.setCurrPlayerToLeader();
+            game.setCurrCard(null);
+        }
     }
 }

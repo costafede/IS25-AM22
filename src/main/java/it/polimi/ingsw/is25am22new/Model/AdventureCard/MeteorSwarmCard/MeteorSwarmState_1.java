@@ -98,20 +98,25 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
 
             setNewDices();
 
-            if(game.getCurrPlayer().equals(game.getLastPlayer())) {
-                meteorSwarmCard.setNextIndexOfMeteor();
-                game.setCurrPlayerToLeader();
-                if(meteorSwarmCard.thereAreStillMeteors()) {
-                    transition(new MeteorSwarmState_1(meteorSwarmCard));
-                }
-                else {
-                    game.manageInvalidPlayers();
-                    game.setCurrCard(null);
-                }
+            if(shipboard.highlightShipWrecks() > 1) {
+                transition(new MeteorSwarmState_3(meteorSwarmCard));
             }
             else {
-                game.setCurrPlayerToNext();
-                transition(new MeteorSwarmState_1(meteorSwarmCard));
+                if(game.getCurrPlayer().equals(game.getLastPlayer())) {
+                    meteorSwarmCard.setNextIndexOfMeteor();
+                    game.setCurrPlayerToLeader();
+                    if(meteorSwarmCard.thereAreStillMeteors()) {
+                        transition(new MeteorSwarmState_1(meteorSwarmCard));
+                    }
+                    else {
+                        game.manageInvalidPlayers();
+                        game.setCurrCard(null);
+                    }
+                }
+                else {
+                    game.setCurrPlayerToNext();
+                    transition(new MeteorSwarmState_1(meteorSwarmCard));
+                }
             }
         }
     }

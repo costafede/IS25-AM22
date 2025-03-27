@@ -524,10 +524,18 @@ public class Shipboard {
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == color)
             return;
         componentTilesGrid.get(i, j).get().setColor(color);
-        spreadColor(i+1, j, color);
-        spreadColor(i-1, j, color);
-        spreadColor(i, j+1, color);
-        spreadColor(i, j-1, color);
+        if(!componentTilesGrid.get(i, j).get().getBottomSide().equals(Side.SMOOTH)) {
+            spreadColor(i+1, j, color);
+        }
+        if(!componentTilesGrid.get(i, j).get().getTopSide().equals(Side.SMOOTH)) {
+            spreadColor(i-1, j, color);
+        }
+        if(!componentTilesGrid.get(i, j).get().getRightSide().equals(Side.SMOOTH)) {
+            spreadColor(i, j+1, color);
+        }
+        if(!componentTilesGrid.get(i, j).get().getLeftSide().equals(Side.SMOOTH)) {
+            spreadColor(i, j-1, color);
+        }
     }
 
     public void chooseShipWreck(int i, int j){ // keeps the ship wreck of the chosen color and eliminates the others

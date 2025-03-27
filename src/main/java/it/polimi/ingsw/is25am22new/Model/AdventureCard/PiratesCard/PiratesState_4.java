@@ -17,10 +17,11 @@ public class PiratesState_4 extends PiratesState{
     @Override
     public void activateEffect(InputCommand inputCommand) {
         Shot incomingShot = piratesCard.getNumberToShot().get(piratesCard.getIndexOfIncomingShot());
-        String defeatedPlayer = piratesCard.getDefeatedPlayers().getFirst();
+        String defeatedPlayer = piratesCard.getCurrDefeatedPlayer();
+        game.setCurrPlayer(defeatedPlayer);
         Shipboard shipboard = game.getShipboards().get(defeatedPlayer);
-        int col = piratesCard.getDice1() + piratesCard.getDice2();
-        int row = piratesCard.getDice1() + piratesCard.getDice2();
+        int col = piratesCard.getDice1() + piratesCard.getDice2() - 4;
+        int row = piratesCard.getDice1() + piratesCard.getDice2() - 5;
 
         if(inputCommand.getChoice()) { // are you sure you want to use the battery?
             int x = inputCommand.getRow();
@@ -94,21 +95,28 @@ public class PiratesState_4 extends PiratesState{
 
             piratesCard.setNewDices();
 
-            if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {
-                piratesCard.setNextIndexOfShot();
-                piratesCard.setCurrDefeatedPlayerToFirst();
-                if(piratesCard.thereAreStillShots()) {
-                    transition(new PiratesState_4(piratesCard));
-                }
-                else {
-                    game.manageInvalidPlayers();
-                    game.setCurrPlayerToLeader();
-                    game.setCurrCard(null);
-                }
+            if(shipboard.highlightShipWrecks() > 1) {
+                transition(new PiratesState_6(piratesCard));
             }
             else {
-                piratesCard.setCurrDefeatedPlayerToNext();
-                transition(new PiratesState_4(piratesCard));
+                if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {
+                    piratesCard.setNextIndexOfShot();
+                    piratesCard.setCurrDefeatedPlayerToFirst();
+                    game.setCurrPlayer(piratesCard.getCurrDefeatedPlayer());
+                    if(piratesCard.thereAreStillShots()) {
+                        transition(new PiratesState_4(piratesCard));
+                    }
+                    else {
+                        game.manageInvalidPlayers();
+                        game.setCurrPlayerToLeader();
+                        game.setCurrCard(null);
+                    }
+                }
+                else {
+                    piratesCard.setCurrDefeatedPlayerToNext();
+                    game.setCurrPlayer(piratesCard.getCurrDefeatedPlayer());
+                    transition(new PiratesState_4(piratesCard));
+                }
             }
         }
     }

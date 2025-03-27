@@ -21,15 +21,14 @@ public class PiratesState_5 extends PiratesState{
         int x = 0;
         int y = 0;
 
-        if(inputCommand.getChoice()) { // are you sure to activate the component?
-            x = inputCommand.getRow();
-            y = inputCommand.getCol();
-            Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
-            if(piratesCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isShieldGenerator()) {
-                // activates the component
-                ctOptional.ifPresent(ComponentTile::activateComponent);
-            }
+        x = inputCommand.getRow();
+        y = inputCommand.getCol();
+        Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
+        if(piratesCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isShieldGenerator()) {
+            // activates the component
+            ctOptional.ifPresent(ComponentTile::activateComponent);
         }
+
         piratesCard.setBatteryUsed(false);
 
         transition(new PiratesState_4(piratesCard));

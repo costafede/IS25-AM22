@@ -18,41 +18,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MeteorSwarmCardTest {
-    private List<ComponentTile> initializeTiles(){
-        List<ComponentTile> tiles = new ArrayList<>();
-        tiles.add(new Engine("0", Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new DoubleEngine("1", Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new Cannon("2", Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new DoubleCannon("3", Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new StructuralModule("4", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new StructuralModule("5", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new StructuralModule("6", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new AlienAddon("7", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "purple"));
-        tiles.add(new AlienAddon("8", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, "brown"));
-        tiles.add(new RegularCabin("9", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new StorageCompartment("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
-        tiles.add(new SpecialStorageCompartment("11", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2));
-        tiles.add(new StorageCompartment("12", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
-        tiles.add(new StorageCompartment("13", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
-        tiles.add(new RegularCabin("14", Side.SMOOTH, Side.SMOOTH, Side.SMOOTH, Side.SMOOTH));
-        tiles.add(new RegularCabin("15", Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("16", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("17", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("18", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("19", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("20", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("21", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("22", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("23", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("24", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("25", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new RegularCabin("26", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-        return tiles;
-    }
 
     @Test
     void test_correct_after_activate_effect() {
-        List<ComponentTile> tiles = initializeTiles();
         List<String> players = List.of("A", "B", "C");
         Game game = new Level2Game(players);
         game.initGame();
@@ -151,13 +119,13 @@ class MeteorSwarmCardTest {
         // check battery usage consumption
         assertEquals(1, shipC.getComponentTileFromGrid(3, 3).get().getNumOfBatteries());
 
-        // playerC decides not to use battery
         // loses SM in 2,1 in shipC
         InputCommand i6 = new InputCommand();
         i6.setRow(2);
         i6.setCol(5);
         meteorSwarmCard.activateEffect(i6);
 
+        // playerC decides not to use battery
         InputCommand i7 = new InputCommand();
         i7.setChoice(false);
         meteorSwarmCard.setDice1(2);
@@ -167,6 +135,7 @@ class MeteorSwarmCardTest {
         assertTrue(shipC.getComponentTileFromGrid(2, 1).isEmpty());
         assertFalse(CheckShipboardIntegrity(shipBuffer, shipC));
 
+        // 2ND METEOR
         // currPlayer should be player A again
         shipBuffer = CopyShipboard(shipA);
         InputCommand i8 = new InputCommand();
@@ -265,7 +234,8 @@ class MeteorSwarmCardTest {
 
         // currPlayer shuold be C
         // cannon has universal pipe in front so i know it is destroyed because it is a cannon
-        shipC.weldComponentTile(new Cannon("none", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH), 2, 6);
+        shipC.weldComponentTile(new Cannon("none", Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH), 2, 6);
+        shipC.getComponentTileFromGrid(2,6).ifPresent(ComponentTile::rotateClockwise);
         shipBuffer = CopyShipboard(shipC);
         InputCommand i19 = new InputCommand();
         i19.setChoice(false);
@@ -310,3 +280,6 @@ class MeteorSwarmCardTest {
         return true;
     }
 }
+
+// small meteor: shield on check, cannon on check, exposed connector(destroy) check, simple cannon check, unexposed connector(dont destroy) check
+// big meteor: shield on check, cannon on check, simple cannon check, tile(destroy) check

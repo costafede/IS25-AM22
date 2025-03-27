@@ -122,10 +122,6 @@ public abstract class Game implements ModelInterface {
         flightboard.getOrderedRockets().remove(nickname);
     }
 
-    //public void findShipWrecks(String nickname) {
-        // to be implemented
-    //}
-
     public void destroyTile(String nickname, int x, int y) {
         shipboards.get(nickname).destroyTile(x, y);
     }

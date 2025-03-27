@@ -48,6 +48,7 @@ public class PiratesState_1 extends PiratesState {
                 }
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
                     if(!piratesCard.getDefeatedPlayers().isEmpty()){
+                        piratesCard.setCurrDefeatedPlayerToFirst();
                         transition(new PiratesState_4(piratesCard)); // all defeated players get shot
                     }
                     else {
