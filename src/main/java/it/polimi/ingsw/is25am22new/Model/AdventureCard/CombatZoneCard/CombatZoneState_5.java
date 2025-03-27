@@ -1,8 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversState_1;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversState_4;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
@@ -24,15 +22,16 @@ public class CombatZoneState_5 extends CombatZoneState{
         if(ctOptional.isPresent() && ctOptional.get().isCabin()) {
             if(ctOptional.get().getCrewNumber() > 0) {
                 ctOptional.get().removeCrewMember();
-                combatZoneCard.increaseRemovedAstronauts();
+                combatZoneCard.increaseRemovedMembers();
             }
         }
 
-        if (combatZoneCard.getRemovedAstronauts() == combatZoneCard.getAstronautsToLose() ||
+        if (combatZoneCard.getRemovedMembers() == combatZoneCard.getAstronautsToLose() ||
                 !shipboard.thereIsStillCrew()) {
+            game.setCurrPlayerToLeader();
             transition(new CombatZoneState_6(combatZoneCard));
         }
-        else if(combatZoneCard.getRemovedAstronauts() < combatZoneCard.getAstronautsToLose()) {
+        else if(combatZoneCard.getRemovedMembers() < combatZoneCard.getAstronautsToLose()) {
             transition(new CombatZoneState_5(combatZoneCard));
         }
     }

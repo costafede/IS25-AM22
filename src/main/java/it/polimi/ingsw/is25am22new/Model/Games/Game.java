@@ -225,6 +225,7 @@ public abstract class Game implements ModelInterface {
             String p = iterator.next();
             if(!isPlayerStillAbleToPlay(p)){
                 iterator.remove();
+                flightboard.getPositions().remove(p);
                 playerAbandons(p);
             }
         }

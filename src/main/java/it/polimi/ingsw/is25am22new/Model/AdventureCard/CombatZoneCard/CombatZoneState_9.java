@@ -18,7 +18,6 @@ public class CombatZoneState_9 extends CombatZoneState {
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
-        game.getDices().rollDices();
 
         if(inputCommand.getChoice()) {// are you sure you want to use the battery?
             int x = inputCommand.getRow();
@@ -36,8 +35,8 @@ public class CombatZoneState_9 extends CombatZoneState {
         }
         else {
             Shot incomingShot = combatZoneCard.getNumberToShot().get(combatZoneCard.getIndexOfIncomingShot());
-            int col = combatZoneCard.getDice1() + combatZoneCard.getDice2();
-            int row = combatZoneCard.getDice1() + combatZoneCard.getDice2();
+            int col = combatZoneCard.getDice1() + combatZoneCard.getDice2() - 4;
+            int row = combatZoneCard.getDice1() + combatZoneCard.getDice2() - 5;
             // shot hitting logic
             if(incomingShot.getOrientation() == Orientation.TOP) {
                 if(incomingShot.isBig() || !shipboard.isBottomSideShielded()) {
@@ -95,14 +94,19 @@ public class CombatZoneState_9 extends CombatZoneState {
 
             combatZoneCard.setNewDices();
 
-            combatZoneCard.setNextIndexOfShot();
-            if(combatZoneCard.thereAreStillShots()) {
-                transition(new CombatZoneState_9(combatZoneCard));
+            if(shipboard.highlightShipWrecks() > 1){
+                transition(new CombatZoneState_8(combatZoneCard));
             }
             else {
-                game.manageInvalidPlayers();
-                game.setCurrPlayerToLeader();
-                game.setCurrCard(null);
+                combatZoneCard.setNextIndexOfShot();
+                if(combatZoneCard.thereAreStillShots()) {
+                    transition(new CombatZoneState_9(combatZoneCard));
+                }
+                else {
+                    game.manageInvalidPlayers();
+                    game.setCurrPlayerToLeader();
+                    game.setCurrCard(null);
+                }
             }
         }
 

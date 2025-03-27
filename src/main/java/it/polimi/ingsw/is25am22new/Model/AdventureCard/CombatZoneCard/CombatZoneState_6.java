@@ -33,11 +33,13 @@ public class CombatZoneState_6 extends CombatZoneState {
         }
         else {
             if(game.getCurrPlayer().equals(game.getLastPlayer())) { // if last player
+                combatZoneCard.getPlayerToStrength().put(currentPlayer, shipboard.getCannonStrength());
                 String playerLowestCannon = game.getCurrPlayer();
                 double lowestCannon = combatZoneCard.getPlayerToStrength().get(playerLowestCannon);
                 for(String player : combatZoneCard.getPlayerToStrength().keySet()) {
                     if(combatZoneCard.getPlayerToStrength().get(player) < lowestCannon) {
                         playerLowestCannon = player;
+                        lowestCannon = combatZoneCard.getPlayerToStrength().get(playerLowestCannon);
                     } else if (combatZoneCard.getPlayerToStrength().get(player) == lowestCannon) {
                         playerLowestCannon =
                                 // who is ahead receives penalty
@@ -62,7 +64,6 @@ public class CombatZoneState_6 extends CombatZoneState {
             else { // if not last player
                 combatZoneCard.getPlayerToStrength().put(currentPlayer, shipboard.getCannonStrength());
                 game.setCurrPlayerToNext();
-                combatZoneCard.setBatteryUsed(false);
                 transition(new CombatZoneState_6(combatZoneCard));
             }
         }

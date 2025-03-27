@@ -15,20 +15,24 @@ public class CombatZoneState_1 extends CombatZoneState {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         // player with the fewest crew members loses daysOnFlight
-        String playerFewestMembers = game.getCurrPlayer();
-        int minCrewNumber = game.getShipboards().get(playerFewestMembers).getCrewNumber();
-        for(String player : game.getPlayerList()){
-            if(game.getShipboards().get(player).getCrewNumber() < minCrewNumber){
-                playerFewestMembers = player;
-            } else if (game.getShipboards().get(player).getCrewNumber() == minCrewNumber) {
-                playerFewestMembers =
-                        // who is ahead receives penalty
-                        game.getShipboards().get(player).getDaysOnFlight() >
-                            game.getShipboards().get(playerFewestMembers).getDaysOnFlight() ?
-                                player : playerFewestMembers;
+        if(!combatZoneCard.isPhaseOnePassed()) {
+            String playerFewestMembers = game.getCurrPlayer();
+            int minCrewNumber = game.getShipboards().get(playerFewestMembers).getCrewNumber();
+            for(String player : game.getPlayerList()){
+                if(game.getShipboards().get(player).getCrewNumber() < minCrewNumber){
+                    playerFewestMembers = player;
+                } else if (game.getShipboards().get(player).getCrewNumber() == minCrewNumber) {
+                    playerFewestMembers =
+                            // who is ahead receives penalty
+                            game.getShipboards().get(player).getDaysOnFlight() >
+                                game.getShipboards().get(playerFewestMembers).getDaysOnFlight() ?
+                                    player : playerFewestMembers;
+                }
             }
+            game.getFlightboard().shiftRocket(playerFewestMembers, combatZoneCard.getFlightDaysLost());
+            combatZoneCard.passPhaseOne();
+            game.setCurrPlayerToLeader();
         }
-        game.getFlightboard().shiftRocket(playerFewestMembers, combatZoneCard.getFlightDaysLost());
 
         String currentPlayer = game.getCurrPlayer();
         Shipboard shipboard = game.getShipboards().get(currentPlayer);
@@ -49,11 +53,13 @@ public class CombatZoneState_1 extends CombatZoneState {
         }
         else{
             if(game.getCurrPlayer().equals(game.getLastPlayer())) { // if last player
+                combatZoneCard.getPlayerToStrength().put(currentPlayer, (double)shipboard.getEngineStrength());
                 String playerLowestEngine = game.getCurrPlayer();
                 double lowestEngine = combatZoneCard.getPlayerToStrength().get(playerLowestEngine);
                 for(String player : combatZoneCard.getPlayerToStrength().keySet()) {
                     if(combatZoneCard.getPlayerToStrength().get(player) < lowestEngine) {
                         playerLowestEngine = player;
+                        lowestEngine = combatZoneCard.getPlayerToStrength().get(playerLowestEngine);
                     } else if (combatZoneCard.getPlayerToStrength().get(player) == lowestEngine) {
                         playerLowestEngine =
                                 // who is ahead receives penalty
