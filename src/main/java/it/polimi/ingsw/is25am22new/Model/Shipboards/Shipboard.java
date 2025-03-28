@@ -23,9 +23,11 @@ public class Shipboard {
     private boolean finishedShipboard;
     private int CosmicCredits;
     private Bank bank;
+    private ComponentTile tileInHand;
 
     public Shipboard(String color, String nickname, Bank bank) {
         this.abandoned = false;
+        this.tileInHand = null;
         this.daysOnFlight = 0;
         this.color = color;
         this.nickname = nickname;
@@ -569,6 +571,14 @@ public class Shipboard {
         for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(ComponentTile::deactivateComponent);
         }
+    }
+
+    public void setTileInHand(ComponentTile componentTile) {
+        tileInHand = componentTile;
+    }
+
+    public ComponentTile getTileInHand() {
+        return tileInHand;
     }
 }
 
