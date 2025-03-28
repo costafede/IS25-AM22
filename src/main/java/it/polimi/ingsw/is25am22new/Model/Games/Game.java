@@ -134,11 +134,11 @@ public abstract class Game implements ModelInterface {
         flightboard.getOrderedRockets().remove(nickname);
     }
 
-    public void destroyTile(String nickname, int x, int y) {
-        shipboards.get(nickname).destroyTile(x, y);
+    public void destroyTile(String nickname, int i, int j) {
+        shipboards.get(nickname).destroyTile(i, j);
     }
 
-    protected abstract Map<String, Integer> endGame();
+    public abstract Map<String, Integer> endGame();
 
     //Return the nickname of the player with less exposed connectors
     protected String betterShipboard() {
