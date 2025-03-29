@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AbandonedShipCardTest {
 
-    public Game initializeGame(){
+    private Game initializeGame(){
         List<String> players = new ArrayList<>();
         players.add(0,"A");
         players.add(1,"B");

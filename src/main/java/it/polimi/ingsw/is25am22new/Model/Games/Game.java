@@ -138,6 +138,10 @@ public abstract class Game implements ModelInterface {
         shipboards.get(nickname).destroyTile(i, j);
     }
 
+    public List<CardPile> getCardPiles(){
+        return new ArrayList<>();
+    }
+
     public abstract Map<String, Integer> endGame();
 
     //Return the nickname of the player with less exposed connectors
