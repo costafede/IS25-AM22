@@ -1,6 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
-import it.polimi.ingsw.is25am22new.Model.*;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Hourglass;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
@@ -12,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 
 
-public abstract class Game implements ModelInterface {
+public abstract class Game {
     protected final List<String> playerList;
     protected Bank bank;
     protected List<ComponentTile> coveredComponentTiles;

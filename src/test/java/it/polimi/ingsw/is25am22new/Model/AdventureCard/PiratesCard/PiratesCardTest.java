@@ -6,7 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

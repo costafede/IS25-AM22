@@ -2,11 +2,10 @@ package it.polimi.ingsw.is25am22new.Controller;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Model.CardPile;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
-import it.polimi.ingsw.is25am22new.Model.Lobby;
 
 import java.util.ArrayList;
 import java.util.List;

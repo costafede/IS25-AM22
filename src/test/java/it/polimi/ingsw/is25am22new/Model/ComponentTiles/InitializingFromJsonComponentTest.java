@@ -3,7 +3,6 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.Side;
 import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
 import org.junit.jupiter.api.Test;
 
@@ -81,7 +80,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_alienAddon_component(ObjectMapper om) {
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AlienAddon.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/AlienAddon.json"));
             for(JsonNode node : jsonNode){
                 AlienAddon ad = new AlienAddon(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("color").asText());
                 //System.out.println(bc.getPngName());
@@ -106,7 +105,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_battery_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/BatteryComponent.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/BatteryComponent.json"));
             for(JsonNode node : jsonNode){
                 BatteryComponent bc = new BatteryComponent(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("numOfBatteries").asInt());
                 //System.out.println(bc.getPngName());
@@ -131,7 +130,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_cannon_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/Cannon.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Cannon.json"));
             for(JsonNode node : jsonNode){
                 Cannon cannon = new Cannon(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -155,7 +154,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_double_cannon_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/DoubleCannon.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleCannon.json"));
             for(JsonNode node : jsonNode){
                 DoubleCannon doublecannon = new DoubleCannon(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -179,7 +178,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_double_engine_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/DoubleEngine.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleEngine.json"));
             for(JsonNode node : jsonNode){
                 DoubleEngine doubleEngine = new DoubleEngine(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -203,7 +202,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_engine_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/Engine.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Engine.json"));
             for(JsonNode node : jsonNode){
                 Engine engine = new Engine(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -227,7 +226,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_regular_cabin_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/RegularCabin.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/RegularCabin.json"));
             for(JsonNode node : jsonNode){
                 RegularCabin rc = new RegularCabin(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -251,7 +250,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_shield_generator_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ShieldGenerator.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/ShieldGenerator.json"));
             for(JsonNode node : jsonNode){
                 ShieldGenerator sg = new ShieldGenerator(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -275,7 +274,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_special_storage_compartment_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SpecialStorageCompartment.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/SpecialStorageCompartment.json"));
             for(JsonNode node : jsonNode){
                 SpecialStorageCompartment spc = new SpecialStorageCompartment(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("capacity").asInt());
                 //System.out.println(bc.getPngName());
@@ -300,7 +299,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_starting_cabin_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StartingCabin.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StartingCabin.json"));
             for(JsonNode node : jsonNode){
                 StartingCabin sc = new StartingCabin(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("color").asText());
                 //System.out.println(bc.getPngName());
@@ -325,7 +324,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_storage_compartment_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StorageCompartment.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StorageCompartment.json"));
             for(JsonNode node : jsonNode){
                 StorageCompartment sc = new StorageCompartment(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("capacity").asInt());
                 //System.out.println(bc.getPngName());
@@ -350,7 +349,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_structural_module_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StructuralModule.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StructuralModule.json"));
             for(JsonNode node : jsonNode){
                 StructuralModule sm = new StructuralModule(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());

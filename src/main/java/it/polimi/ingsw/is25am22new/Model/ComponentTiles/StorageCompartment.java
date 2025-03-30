@@ -1,11 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StorageCompartment extends ComponentTile{

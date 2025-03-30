@@ -1,9 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
-import it.polimi.ingsw.is25am22new.Model.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;

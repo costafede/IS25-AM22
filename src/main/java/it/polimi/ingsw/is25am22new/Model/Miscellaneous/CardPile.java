@@ -1,13 +1,11 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Miscellaneous;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CardPile {
     private List<AdventureCard> cards;
-
 
     public CardPile(List<AdventureCard> cards) {
         this.cards = cards;

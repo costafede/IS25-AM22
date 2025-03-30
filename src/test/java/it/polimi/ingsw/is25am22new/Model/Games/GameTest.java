@@ -1,8 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.SpecialStorageCompartment;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,12 +1,11 @@
 package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
-import it.polimi.ingsw.is25am22new.Model.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.StartingCabin;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 
-import java.awt.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;

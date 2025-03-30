@@ -2,7 +2,7 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 public class PlanetsState_2 extends PlanetsState {
     public PlanetsState_2(PlanetsCard planetsCard) {

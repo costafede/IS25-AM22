@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model;
 
+import it.polimi.ingsw.is25am22new.Controller.Lobby;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

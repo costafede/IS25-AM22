@@ -1,7 +1,5 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
-import it.polimi.ingsw.is25am22new.Model.Side;
-
 public class ShieldGenerator extends ComponentTile {
     private boolean topSideShieldable, bottomSideShieldable, leftSideShieldable, rightSideShieldable;   //sono i lati su cui si può attivare lo scudo
     private boolean topSideShielded, bottomSideShielded, leftSideShielded, rightSideShielded; //booleani che servono a capire che lati sono effettivamente attivi

@@ -5,8 +5,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

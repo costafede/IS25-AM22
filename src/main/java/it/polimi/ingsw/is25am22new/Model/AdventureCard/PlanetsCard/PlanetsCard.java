@@ -1,14 +1,12 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
-import it.polimi.ingsw.is25am22new.Model.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PlanetsCard extends AdventureCard {
     private List<Planet> planets;

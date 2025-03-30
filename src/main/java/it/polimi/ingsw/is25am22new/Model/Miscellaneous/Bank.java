@@ -1,12 +1,12 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Miscellaneous;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.REDBLOCK;
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.YELLOWBLOCK;
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.GREENBLOCK;
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.BLUEBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.REDBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.YELLOWBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.GREENBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.BLUEBLOCK;
 
 
 public class Bank {

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
-import it.polimi.ingsw.is25am22new.Model.Side;
-
 public class BatteryComponent extends ComponentTile {
     private int numOfBatteries;
 
