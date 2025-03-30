@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.Miscellaneous;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,5 +61,21 @@ public class Bank {
 
     public int getNumGoodBlock(GoodBlock gb){
         return goodblockToNum.get(gb);
+    }
+
+    public void setGoodblockToNum(GoodBlock gb, int num){
+        goodblockToNum.put(gb, num);
+    }
+
+    public void saveBank(){
+        new JSONsaver().saveBank(this);
+    }
+
+    public Bank loadBank() throws IOException {
+        return new JSONloader().loadBank();
+    }
+
+    public Map<GoodBlock, Integer> getGoodblockToNum() {
+        return goodblockToNum;
     }
 }
