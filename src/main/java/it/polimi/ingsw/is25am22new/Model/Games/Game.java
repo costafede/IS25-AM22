@@ -1,6 +1,5 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
@@ -9,7 +8,6 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
