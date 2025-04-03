@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.util.HashMap;
 import java.util.Map;

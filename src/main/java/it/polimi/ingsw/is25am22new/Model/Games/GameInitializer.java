@@ -16,11 +16,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
-import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
-import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
-import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,7 +59,7 @@ public class GameInitializer {
 
     private static void initAbandonedShipCard(Game game, ObjectMapper objectMapper) {
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedShipCard.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/AbandonedShipCard.json"));
             for (JsonNode node : rootNode) {
                 AbandonedShipCard asc = new AbandonedShipCard(
                         node.get("pngName").asText(),
@@ -84,7 +81,7 @@ public class GameInitializer {
 
     private static void initAbandonedStationCard(Game game, ObjectMapper objectMapper) {
         try{
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedStationCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/AbandonedStationCard.json"));
             for(JsonNode node : jsonNode){
                 Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 JsonNode goodBlocksNode = node.get("goodBlocks");
@@ -118,7 +115,7 @@ public class GameInitializer {
 
     private static void initCombatZoneCard1(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/CombatZoneCard1.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/CombatZoneCard1.json"));
             for (JsonNode node : jsonNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -150,7 +147,7 @@ public class GameInitializer {
 
     private static void initCombatZoneCard2(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/CombatZoneCard2.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/CombatZoneCard2.json"));
             for (JsonNode node : jsonNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -182,7 +179,7 @@ public class GameInitializer {
 
     private static void initEpidemicCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/EpidemicCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/EpidemicCard.json"));
             for (JsonNode node : jsonNode) {
                 EpidemicCard ec = new EpidemicCard(
                         node.get("pngName").asText(),
@@ -200,7 +197,7 @@ public class GameInitializer {
 
     private static void initMeteorSwarmCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/MeteorSwarmCard.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/MeteorSwarmCard.json"));
             for(JsonNode node: rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -231,7 +228,7 @@ public class GameInitializer {
 
     private static void initOpenSpaceCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/OpenSpaceCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/OpenSpaceCard.json"));
             for (JsonNode node : jsonNode) {
                 OpenSpaceCard ec = new OpenSpaceCard(
                         node.get("pngName").asText(),
@@ -249,7 +246,7 @@ public class GameInitializer {
 
     private static void initPiratesCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/PiratesCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/PiratesCard.json"));
             for (JsonNode node : jsonNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -278,7 +275,7 @@ public class GameInitializer {
 
     private static void initPlanetsCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/PlanetsCard.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/PlanetsCard.json"));
             for (JsonNode node : rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -307,7 +304,7 @@ public class GameInitializer {
 
     private static void initSlaversCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SlaversCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/SlaversCard.json"));
             for (JsonNode node : jsonNode) {
                 SlaversCard sc = new SlaversCard(
                         node.get("pngName").asText(),
@@ -329,7 +326,7 @@ public class GameInitializer {
 
     private static void initSmugglersCard(Game game, ObjectMapper objectMapper) {
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SmugglersCard.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/SmugglersCard.json"));
             for(JsonNode node: rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -355,7 +352,7 @@ public class GameInitializer {
 
     private static void initStardustCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StardustCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/StardustCard.json"));
             for (JsonNode node : jsonNode) {
                 StardustCard ec = new StardustCard(
                         node.get("pngName").asText(),
@@ -373,7 +370,7 @@ public class GameInitializer {
 
     private static void initBatteryComponent(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/BatteryComponent.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/BatteryComponent.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -391,7 +388,7 @@ public class GameInitializer {
 
     private static void initStartingCabin(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StartingCabin.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StartingCabin.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -409,7 +406,7 @@ public class GameInitializer {
 
     private static void initRegularCabin(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/RegularCabin.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/RegularCabin.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -426,7 +423,7 @@ public class GameInitializer {
 
     private static void initAlienAddon(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AlienAddon.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/AlienAddon.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -444,7 +441,7 @@ public class GameInitializer {
 
     private static void initStorageCompartments(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StorageCompartment.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StorageCompartment.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -462,7 +459,7 @@ public class GameInitializer {
 
     private static void initEngine(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/Engine.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Engine.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -479,7 +476,7 @@ public class GameInitializer {
 
     private static void initDoubleEngine(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/DoubleEngine.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleEngine.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -496,7 +493,7 @@ public class GameInitializer {
 
     private static void initDoubleCannon(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/DoubleCannon.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleCannon.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -513,7 +510,7 @@ public class GameInitializer {
 
     private static void initCannon(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/Cannon.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Cannon.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -530,7 +527,7 @@ public class GameInitializer {
 
     private static void initStructuralModule(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StructuralModule.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StructuralModule.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -547,7 +544,7 @@ public class GameInitializer {
 
     private static void initShieldGenerator(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ShieldGenerator.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/ShieldGenerator.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -564,7 +561,7 @@ public class GameInitializer {
 
     private static void initSpecialStorageCompartment(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SpecialStorageCompartment.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/SpecialStorageCompartment.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();

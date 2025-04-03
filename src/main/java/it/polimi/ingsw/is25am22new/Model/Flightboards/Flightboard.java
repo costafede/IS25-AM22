@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public abstract class Flightboard {
     protected List<String> orderedRockets;
@@ -41,36 +40,18 @@ public abstract class Flightboard {
         // Does not manage who should shift first (usually the last one in a sequence)
         // Steps are positive if backward, negative if forward
         Map<String, Shipboard> shipboards = game.getShipboards();
-        int initialPosition = shipboards.get(nickname).getDaysOnFlight();
-        int finalPosition = initialPosition - stepsBackPositive;
-        int moreSteps = 0;
-        for(Shipboard shipboard : shipboards.values()) {
-            if(stepsBackPositive > 0) {
-                if(shipboard.getDaysOnFlight() < initialPosition && shipboard.getDaysOnFlight() >= finalPosition) {
-                    moreSteps--;
-                }
-            }
-            else if(stepsBackPositive < 0) {
-                if(shipboard.getDaysOnFlight() > initialPosition && shipboard.getDaysOnFlight() <= finalPosition) {
-                    moreSteps++;
-                }
-            }
-        }
+        int finalPosition = shipboards.get(nickname).getDaysOnFlight(); //I initialize the final position with the beginning one
 
-        shipboards.get(nickname).setDaysOnFlight(finalPosition + moreSteps);
-        if(finalPosition + moreSteps < 0) { // absolute position
-            positions.put(nickname, flightBoardLength + ((finalPosition + moreSteps) % flightBoardLength));
-            //alternatively ??
-            //positions.put(nickname, (flightBoardLength + (finalPosition + moreSteps)) % flightBoardLength);
+        for(int i = Math.abs(stepsBackPositive); i > 0; i--) {
+            do finalPosition = stepsBackPositive > 0 ? finalPosition - 1 : finalPosition + 1;
+            while (positions.containsValue(mathematical_module(finalPosition, flightBoardLength)) && (mathematical_module(finalPosition, flightBoardLength) != positions.get(nickname)));
         }
-        else {
-            positions.put(nickname, (finalPosition + moreSteps) % flightBoardLength);
-        }
-
-        reoderRockets(shipboards.values().stream().toList());
+        shipboards.get(nickname).setDaysOnFlight(finalPosition);
+        positions.put(nickname, mathematical_module(finalPosition, flightBoardLength));
+        reorderRockets(shipboards.values().stream().toList());
     }
 
-    private void reoderRockets(List<Shipboard> shipboards) {
+    private void reorderRockets(List<Shipboard> shipboards) {
         orderedRockets.sort((a, b) -> Integer.compare(
                 shipboards.stream().filter(s -> s.getNickname().equals(b)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0),
                 shipboards.stream().filter(s -> s.getNickname().equals(a)).findFirst().map(Shipboard::getDaysOnFlight).orElse(0)
@@ -81,5 +62,9 @@ public abstract class Flightboard {
 
     public int getFlightBoardLength(){
         return flightBoardLength;
+    }
+
+    private int mathematical_module(int n, int mod){    //I need the mathematical definition of the % operator, not the Java one
+        return ((n % mod) + mod) % mod;
     }
 }

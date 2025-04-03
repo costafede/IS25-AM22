@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
@@ -92,7 +93,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_stardust_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/StardustCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/StardustCard.json"));
             for (JsonNode node : jsonNode) {
                 StardustCard ec = new StardustCard(
                         node.get("pngName").asText(),
@@ -123,7 +124,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_slavers_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SlaversCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/SlaversCard.json"));
             for (JsonNode node : jsonNode) {
                 SlaversCard sc = new SlaversCard(
                         node.get("pngName").asText(),
@@ -163,7 +164,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_smugglers_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/SmugglersCard.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/SmugglersCard.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -206,7 +207,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_planets_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/PlanetsCard.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/PlanetsCard.json"));
             for (JsonNode node : rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -262,7 +263,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_pirates_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/PiratesCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/PiratesCard.json"));
             for (JsonNode node : jsonNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -318,7 +319,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_open_space_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/OpenSpaceCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/OpenSpaceCard.json"));
             for (JsonNode node : jsonNode) {
                 OpenSpaceCard ec = new OpenSpaceCard(
                         node.get("pngName").asText(),
@@ -349,7 +350,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_meteor_swarm_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/MeteorSwarmCard.json"));
+            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/MeteorSwarmCard.json"));
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -406,7 +407,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_epidemic_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/EpidemicCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/EpidemicCard.json"));
             for (JsonNode node : jsonNode) {
                 EpidemicCard ec = new EpidemicCard(
                         node.get("pngName").asText(),
@@ -437,7 +438,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_combat_zone_2_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/CombatZoneCard2.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/CombatZoneCard2.json"));
             for (JsonNode node : jsonNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -484,7 +485,7 @@ class InitializingFromJsonCardsTest {
     private boolean check_combat_zone_1_card(ObjectMapper objectMapper, Game game) {
         boolean check = false;
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/CombatZoneCard1.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/CombatZoneCard1.json"));
             for (JsonNode node : jsonNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -545,7 +546,7 @@ class InitializingFromJsonCardsTest {
         boolean check = false;
 
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedStationCard.json"));
+            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/AbandonedStationCard.json"));
             for(JsonNode node : jsonNode){
                 Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 JsonNode goodBlocksNode = node.get("goodBlocks");
@@ -589,7 +590,7 @@ class InitializingFromJsonCardsTest {
         boolean check = false;
 
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AbandonedShipCard.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/AbandonedShipCard.json"));
             for (JsonNode node : jsonNode) {
                 AbandonedShipCard asc = new AbandonedShipCard(
                         node.get("pngName").asText(),

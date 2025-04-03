@@ -1,12 +1,11 @@
 package it.polimi.ingsw.is25am22new.Model.Shipboards;
 
-import it.polimi.ingsw.is25am22new.Model.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.StartingCabin;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 
-import java.awt.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -23,9 +22,11 @@ public class Shipboard {
     private boolean finishedShipboard;
     private int CosmicCredits;
     private Bank bank;
+    private ComponentTile tileInHand;
 
     public Shipboard(String color, String nickname, Bank bank) {
         this.abandoned = false;
+        this.tileInHand = null;
         this.daysOnFlight = 0;
         this.color = color;
         this.nickname = nickname;
@@ -524,10 +525,18 @@ public class Shipboard {
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == color)
             return;
         componentTilesGrid.get(i, j).get().setColor(color);
-        spreadColor(i+1, j, color);
-        spreadColor(i-1, j, color);
-        spreadColor(i, j+1, color);
-        spreadColor(i, j-1, color);
+        if(!componentTilesGrid.get(i, j).get().getBottomSide().equals(Side.SMOOTH)) {
+            spreadColor(i+1, j, color);
+        }
+        if(!componentTilesGrid.get(i, j).get().getTopSide().equals(Side.SMOOTH)) {
+            spreadColor(i-1, j, color);
+        }
+        if(!componentTilesGrid.get(i, j).get().getRightSide().equals(Side.SMOOTH)) {
+            spreadColor(i, j+1, color);
+        }
+        if(!componentTilesGrid.get(i, j).get().getLeftSide().equals(Side.SMOOTH)) {
+            spreadColor(i, j-1, color);
+        }
     }
 
     public void chooseShipWreck(int i, int j){ // keeps the ship wreck of the chosen color and eliminates the others
@@ -561,6 +570,14 @@ public class Shipboard {
         for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(ComponentTile::deactivateComponent);
         }
+    }
+
+    public void setTileInHand(ComponentTile componentTile) {
+        tileInHand = componentTile;
+    }
+
+    public ComponentTile getTileInHand() {
+        return tileInHand;
     }
 }
 

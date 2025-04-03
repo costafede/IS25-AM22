@@ -1,12 +1,13 @@
-package it.polimi.ingsw.is25am22new.Model;
+package it.polimi.ingsw.is25am22new.Model.Miscellaneous;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.REDBLOCK;
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.YELLOWBLOCK;
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.GREENBLOCK;
-import static it.polimi.ingsw.is25am22new.Model.GoodBlock.BLUEBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.REDBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.YELLOWBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.GREENBLOCK;
+import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.BLUEBLOCK;
 
 
 public class Bank {
@@ -60,5 +61,21 @@ public class Bank {
 
     public int getNumGoodBlock(GoodBlock gb){
         return goodblockToNum.get(gb);
+    }
+
+    public void setGoodblockToNum(GoodBlock gb, int num){
+        goodblockToNum.put(gb, num);
+    }
+
+    public void saveBank(){
+        new JSONsaver().saveBank(this);
+    }
+
+    public Bank loadBank() throws IOException {
+        return new JSONloader().loadBank();
+    }
+
+    public Map<GoodBlock, Integer> getGoodblockToNum() {
+        return goodblockToNum;
     }
 }

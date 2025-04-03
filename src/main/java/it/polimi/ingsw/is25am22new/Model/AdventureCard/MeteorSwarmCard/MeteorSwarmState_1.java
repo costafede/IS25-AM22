@@ -96,31 +96,35 @@ public class MeteorSwarmState_1 extends MeteorSwarmState{
                 }
             }
 
-            meteorSwarmCard.setBatteryUsed(false);
+            setNewDices();
 
-            SetNewDices();
-
-            if(game.getCurrPlayer().equals(game.getLastPlayer())) {
-                meteorSwarmCard.setNextIndexOfMeteor();
-                game.setCurrPlayerToLeader();
-                if(meteorSwarmCard.thereAreStillMeteors()) {
-                    transition(new MeteorSwarmState_1(meteorSwarmCard));
-                }
-                else {
-                    game.manageInvalidPlayers();
-                    game.setCurrCard(null);
-                }
+            if(shipboard.highlightShipWrecks() > 1) {
+                transition(new MeteorSwarmState_3(meteorSwarmCard));
             }
             else {
-                game.setCurrPlayerToNext();
-                transition(new MeteorSwarmState_1(meteorSwarmCard));
+                if(game.getCurrPlayer().equals(game.getLastPlayer())) {
+                    meteorSwarmCard.setNextIndexOfMeteor();
+                    if(meteorSwarmCard.thereAreStillMeteors()) {
+                        game.setCurrPlayerToLeader();
+                        transition(new MeteorSwarmState_1(meteorSwarmCard));
+                    }
+                    else {
+                        game.manageInvalidPlayers();
+                        game.setCurrPlayerToLeader();
+                        game.setCurrCard(null);
+                    }
+                }
+                else {
+                    game.setCurrPlayerToNext();
+                    transition(new MeteorSwarmState_1(meteorSwarmCard));
+                }
             }
         }
     }
 
-    private void SetNewDices() {
+    private void setNewDices() {
         game.getDices().rollDices();
         meteorSwarmCard.setDice1(game.getDices().getDice1());
-        meteorSwarmCard.setDice1(game.getDices().getDice2());
+        meteorSwarmCard.setDice2(game.getDices().getDice2());
     }
 }

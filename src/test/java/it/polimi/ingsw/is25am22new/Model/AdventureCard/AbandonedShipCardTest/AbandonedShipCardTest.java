@@ -5,7 +5,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
-import it.polimi.ingsw.is25am22new.Model.Side;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AbandonedShipCardTest {
 
-    public Game initializeGame(){
+    private Game initializeGame(){
         List<String> players = new ArrayList<>();
         players.add(0,"A");
         players.add(1,"B");

@@ -1,10 +1,14 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
-import it.polimi.ingsw.is25am22new.Model.*;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Hourglass;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -12,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 
 
-public abstract class Game implements ModelInterface {
+public abstract class Game {
     protected final List<String> playerList;
     protected Bank bank;
     protected List<ComponentTile> coveredComponentTiles;
@@ -63,28 +67,40 @@ public abstract class Game implements ModelInterface {
         GameInitializer.initCardArchive(this, objectMapper);
     }
 
-    public ComponentTile pickCoveredTile() {
-        return coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size()));
+    public void pickCoveredTile(String nickname) {
+        shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
     }
 
-    public ComponentTile pickUncoveredTile(int index) {
-        return uncoveredComponentTiles.remove(index);
+    public void pickUncoveredTile(String nickname, int index) {
+        shipboards.get(nickname).setTileInHand(uncoveredComponentTiles.remove(index));
     }
 
-    public void weldComponentTile(String nickname, ComponentTile ct, int x, int y) {
-        shipboards.get(nickname).weldComponentTile(ct, x, y);
+    public void rotateClockwise(String nickname) {
+        shipboards.get(nickname).getTileInHand().rotateClockwise();
     }
 
-    public void standbyComponentTile(String nickname, ComponentTile ct) {
-        shipboards.get(nickname).standbyComponentTile(ct);
+    public void rotateCounterClockwise(String nickname) {
+        shipboards.get(nickname).getTileInHand().rotateCounterClockwise();
     }
 
-    public ComponentTile pickStandByComponentTile(String nickname, int index) {
-        return shipboards.get(nickname).pickStandByComponentTile(index);
+    public void weldComponentTile(String nickname, int i, int j) {
+        ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
+        shipboards.get(nickname).weldComponentTile(tileInHand, i, j);
     }
 
-    public void discardComponentTile(ComponentTile ct) {
-        uncoveredComponentTiles.add(ct);
+    public void standbyComponentTile(String nickname) {
+        ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
+        shipboards.get(nickname).standbyComponentTile(tileInHand);
+    }
+
+    public void pickStandByComponentTile(String nickname, int index) {
+        ComponentTile ct = shipboards.get(nickname).pickStandByComponentTile(index);
+        shipboards.get(nickname).setTileInHand(ct);
+    }
+
+    public void discardComponentTile(String nickname) {
+        uncoveredComponentTiles.add(shipboards.get(nickname).getTileInHand());
+        shipboards.get(nickname).setTileInHand(null);
     }
 
     public boolean finishBuilding(String nickname, int pos) {
@@ -122,15 +138,15 @@ public abstract class Game implements ModelInterface {
         flightboard.getOrderedRockets().remove(nickname);
     }
 
-    //public void findShipWrecks(String nickname) {
-        // to be implemented
-    //}
-
-    public void destroyTile(String nickname, int x, int y) {
-        shipboards.get(nickname).destroyTile(x, y);
+    public void destroyTile(String nickname, int i, int j) {
+        shipboards.get(nickname).destroyTile(i, j);
     }
 
-    protected abstract Map<String, Integer> endGame();
+    public List<CardPile> getCardPiles(){
+        return new ArrayList<>();
+    }
+
+    public abstract Map<String, Integer> endGame();
 
     //Return the nickname of the player with less exposed connectors
     protected String betterShipboard() {
@@ -229,8 +245,23 @@ public abstract class Game implements ModelInterface {
             String p = iterator.next();
             if(!isPlayerStillAbleToPlay(p)){
                 iterator.remove();
+                flightboard.getPositions().remove(p);
                 playerAbandons(p);
             }
         }
+    }
+
+    public void activateCard(InputCommand inputCommand){
+        currCard.activateEffect(inputCommand);
+    }
+
+    public void saveGame() {
+        // saves all attributes
+        bank.saveBank();
+    }
+
+    public void loadGame() throws IOException {
+        // loads all attributes
+        bank = bank.loadBank();
     }
 }

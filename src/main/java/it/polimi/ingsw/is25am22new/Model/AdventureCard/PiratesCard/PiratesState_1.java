@@ -30,8 +30,38 @@ public class PiratesState_1 extends PiratesState {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 piratesCard.setBatteryUsed(true);
             }
+            transition(new PiratesState_2(piratesCard));
         }
-
-        transition(new PiratesState_2(piratesCard));
+        else { // choose to stop using the batteries
+            if(shipboard.getCannonStrength() > piratesCard.getCannonStrength()) { // win case
+                transition(new PiratesState_3(piratesCard)); // decide to lose daysOnFlight and take credits or not
+            }
+            else if (shipboard.getCannonStrength() <= piratesCard.getCannonStrength()) { // lose or tie case
+                if(shipboard.getCannonStrength() < piratesCard.getCannonStrength()) {
+                    piratesCard.addDefeatedPlayer(currentPlayer);
+                }
+                // deactivates all components
+                for(int i = 0; i < 5; i++){
+                    for(int j = 0; j < 7; j++){
+                        game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+                    }
+                }
+                if(game.getCurrPlayer().equals(game.getLastPlayer())) {
+                    if(!piratesCard.getDefeatedPlayers().isEmpty()){
+                        piratesCard.setCurrDefeatedPlayerToFirst();
+                        transition(new PiratesState_4(piratesCard)); // all defeated players get shot
+                    }
+                    else {
+                        game.manageInvalidPlayers();
+                        game.setCurrPlayerToLeader();
+                        game.setCurrCard(null);
+                    }
+                }
+                else {
+                    game.setCurrPlayerToNext();
+                    transition(new PiratesState_1(piratesCard));
+                }
+            }
+        }
     }
 }

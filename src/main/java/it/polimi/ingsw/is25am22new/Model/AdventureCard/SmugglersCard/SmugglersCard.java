@@ -2,12 +2,10 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.GoodBlock;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SmugglersCard extends AdventureCard {
@@ -72,5 +70,9 @@ public class SmugglersCard extends AdventureCard {
                 game.getBank().depositGoodBlock(gb);
             }
         }
+    }
+
+    public Map<GoodBlock, Integer> getActualGoodBlocks() {
+        return actualGoodBlocks;
     }
 }

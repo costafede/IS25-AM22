@@ -29,8 +29,43 @@ public class CombatZoneState_6 extends CombatZoneState {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 combatZoneCard.setBatteryUsed(true);
             }
+            transition(new CombatZoneState_7(combatZoneCard));
         }
+        else {
+            if(game.getCurrPlayer().equals(game.getLastPlayer())) { // if last player
+                combatZoneCard.getPlayerToStrength().put(currentPlayer, shipboard.getCannonStrength());
+                String playerLowestCannon = game.getCurrPlayer();
+                double lowestCannon = combatZoneCard.getPlayerToStrength().get(playerLowestCannon);
+                for(String player : combatZoneCard.getPlayerToStrength().keySet()) {
+                    if(combatZoneCard.getPlayerToStrength().get(player) < lowestCannon) {
+                        playerLowestCannon = player;
+                        lowestCannon = combatZoneCard.getPlayerToStrength().get(playerLowestCannon);
+                    } else if (combatZoneCard.getPlayerToStrength().get(player) == lowestCannon) {
+                        playerLowestCannon =
+                                // who is ahead receives penalty
+                                game.getShipboards().get(player).getDaysOnFlight() >
+                                        game.getShipboards().get(playerLowestCannon).getDaysOnFlight() ?
+                                        player : playerLowestCannon;
+                    }
+                }
 
-        transition(new CombatZoneState_7(combatZoneCard));
+                // deactivates all components for all players
+                for(String player : combatZoneCard.getPlayerToStrength().keySet()) {
+                    for(int i = 0; i < 5; i++){
+                        for(int j = 0; j < 7; j++){
+                            game.getShipboards().get(player).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+                        }
+                    }
+                }
+
+                game.setCurrPlayer(playerLowestCannon);
+                transition(new CombatZoneState_9(combatZoneCard));
+            }
+            else { // if not last player
+                combatZoneCard.getPlayerToStrength().put(currentPlayer, shipboard.getCannonStrength());
+                game.setCurrPlayerToNext();
+                transition(new CombatZoneState_6(combatZoneCard));
+            }
+        }
     }
 }

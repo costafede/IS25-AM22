@@ -1,7 +1,5 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
-import it.polimi.ingsw.is25am22new.Model.Side;
-
 public class StartingCabin extends Cabin {
 
     private String color;

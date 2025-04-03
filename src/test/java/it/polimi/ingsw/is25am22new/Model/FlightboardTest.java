@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model;
 
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
@@ -125,7 +126,7 @@ class FlightboardTest {
         tutorialFlightBoard.shiftRocket("Davide", 3);
 
         assertEquals(6, tutorialFlightBoard.getPositions().get("Cristina"));
-        assertEquals(0, tutorialFlightBoard.getPositions().get("Alex"));
+        assertEquals(2, tutorialFlightBoard.getPositions().get("Alex"));
         assertEquals(17, tutorialFlightBoard.getPositions().get("Bianca"));
         assertEquals(14, tutorialFlightBoard.getPositions().get("Davide"));
 

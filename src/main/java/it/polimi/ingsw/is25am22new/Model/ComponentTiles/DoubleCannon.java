@@ -1,7 +1,5 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
-import it.polimi.ingsw.is25am22new.Model.Side;
-
 public class DoubleCannon extends Cannon {
     private boolean topSideActive;
     private boolean bottomSideActive;
