@@ -12,7 +12,6 @@ public class InputCommand {
     private int row, row_1;
     private int col, col_1;
 
-
     public InputCommand() {
         choiceCommand = false;
         indexChosen = 0;
