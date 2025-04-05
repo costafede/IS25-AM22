@@ -157,13 +157,17 @@ public class GameController {
 
     public void rotateClockwise(String player, int rotationNum) {
         if(currentState == GameState.GAME) {
-            game.rotateClockwise(player);
+            for(int i = 0; i < rotationNum; i++) {
+                game.rotateClockwise(player);
+            }
         }
     }
 
     public void rotateCounterClockwise(String player, int rotationNum) {
         if(currentState == GameState.GAME) {
-            game.rotateCounterClockwise(player);
+            for(int i = 0; i < rotationNum; i++) {
+                game.rotateCounterClockwise(player);
+            }
         }
     }
 
