@@ -4,5 +4,5 @@ public enum GoodBlock {
     REDBLOCK,
     YELLOWBLOCK,
     GREENBLOCK,
-    BLUEBLOCK;
+    BLUEBLOCK
 }

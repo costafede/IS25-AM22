@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Hourglass {
-    private Timer timer;
+    private final Timer timer;
     private int remainingSeconds;
     boolean active;
 

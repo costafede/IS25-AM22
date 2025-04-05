@@ -5,7 +5,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import java.util.List;
 
 public class CardPile {
-    private List<AdventureCard> cards;
+    private final List<AdventureCard> cards;
 
     public CardPile(List<AdventureCard> cards) {
         this.cards = cards;

@@ -11,11 +11,11 @@ import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.BLUEBLOC
 
 public class Bank {
 
-    private Map<GoodBlock, Integer> goodblockToNum;
+    private final Map<GoodBlock, Integer> goodblockToNum;
 
     //Initialize the bank with the number of blocks available for the game
     public Bank() {
-        goodblockToNum = new HashMap<GoodBlock, Integer>();
+        goodblockToNum = new HashMap<>();
         goodblockToNum.put(REDBLOCK, 12);
         goodblockToNum.put(YELLOWBLOCK, 17);
         goodblockToNum.put(GREENBLOCK, 13);

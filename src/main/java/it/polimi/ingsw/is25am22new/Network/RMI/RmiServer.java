@@ -9,7 +9,6 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
-import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.rmi.RemoteException;
@@ -42,7 +41,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             System.out.println("RMI Server is running... waiting for clients to connect.");
         }catch (Exception e){
             System.err.println("Error starting RMI Server: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

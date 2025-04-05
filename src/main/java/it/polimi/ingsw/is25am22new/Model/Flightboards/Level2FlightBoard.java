@@ -28,7 +28,7 @@ public class Level2FlightBoard extends Flightboard {
             positions.put(nickname, 3);
         } else if(pos == 2) {
             positions.put(nickname, 1);
-        } else if(pos == 3) {
+        } else {
             positions.put(nickname, 0);
         }
         setOrderedRocketsAndDaysOnFlight(game.getShipboards());

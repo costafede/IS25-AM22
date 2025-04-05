@@ -7,7 +7,6 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.rmi.NotBoundException;
@@ -88,8 +87,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
             client.playerAbandons(playerName);
 
         } catch (Exception e) {
-            System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
+            System.err.println("Client exception: " + e);
         }
         System.exit(0);
     }

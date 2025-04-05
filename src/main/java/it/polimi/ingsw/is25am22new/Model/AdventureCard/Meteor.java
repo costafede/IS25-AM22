@@ -1,8 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 public class Meteor {
-    private boolean big;
-    private Orientation orientation;
+    private final boolean big;
+    private final Orientation orientation;
 
     public Meteor(boolean big, Orientation orientation) {
         this.big = big;

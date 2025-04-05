@@ -9,7 +9,7 @@ public abstract class ComponentTile {
     protected Side bottomSide;
     protected Side leftSide;
     protected Side rightSide;
-    private String pngName;
+    private final String pngName;
     private int color; //needed for the algorithm of checkShipboard
 
     public ComponentTile(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {

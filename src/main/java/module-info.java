@@ -12,6 +12,7 @@ module it.polimi.ingsw.is25am22new {
         opens it.polimi.ingsw.is25am22new to javafx.fxml;
 
         exports it.polimi.ingsw.is25am22new.Model.Games;
+        exports it.polimi.ingsw.is25am22new.Controller;
         exports it.polimi.ingsw.is25am22new.Network to java.rmi;
         exports it.polimi.ingsw.is25am22new.Network.RMI to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.Miscellaneous to java.rmi;

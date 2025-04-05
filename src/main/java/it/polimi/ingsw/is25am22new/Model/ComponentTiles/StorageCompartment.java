@@ -12,7 +12,7 @@ public class StorageCompartment extends ComponentTile{
     public StorageCompartment(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, int capacity) {
         super(pngName, topSide, bottomSide, leftSide, rightSide);
         this.capacity = capacity;
-        this.goodBlocks = new HashMap<GoodBlock, Integer>();
+        this.goodBlocks = new HashMap<>();
 
         this.goodBlocks.put(GoodBlock.YELLOWBLOCK, 0);
         this.goodBlocks.put(GoodBlock.GREENBLOCK, 0);

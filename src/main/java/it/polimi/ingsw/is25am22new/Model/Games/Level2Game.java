@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Level2Game extends Game {
-    private List<CardPile> cardPiles;
+    private final List<CardPile> cardPiles;
     private int hourglassSpot = 0;
     public Level2Game(List<String> nicknames) {
         super(nicknames);
@@ -103,10 +103,6 @@ public class Level2Game extends Game {
 
     public List<CardPile> getCardPiles() {
         return cardPiles;
-    }
-
-    public List<AdventureCard> getDeck() {
-        return deck;
     }
 
     public void flipHourglass(Runnable callbackMethod) {
