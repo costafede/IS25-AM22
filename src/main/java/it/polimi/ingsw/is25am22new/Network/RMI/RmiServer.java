@@ -1,6 +1,8 @@
 package it.polimi.ingsw.is25am22new.Network.RMI;
 
+import it.polimi.ingsw.is25am22new.Controller.GameController;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
@@ -11,171 +13,294 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RmiServer implements ObserverModel, VirtualServer {
+public class RmiServer extends UnicastRemoteObject implements ObserverModel, VirtualServer {
 
-    @Override
-    public void updateBank(Bank bank) throws RemoteException {
+    private final GameController gameController;
+    private final List<VirtualView> connectedClients;
+    private static final String SERVER_NAME = "GalaxyTruckerServer";
 
+    public RmiServer(GameController gameController) throws RemoteException {
+        super();
+        this.gameController = gameController;
+        this.connectedClients = new ArrayList<>();
+
+        Registry registry = LocateRegistry.createRegistry(1234);
+        registry.rebind(SERVER_NAME, this);
+        System.out.println("RMI Server bound to registry - it is running on port 1234...");
     }
 
-    @Override
-    public void updateTileInHand(ComponentTile ct) throws RemoteException {
-
-    }
-
-    @Override
-    public void updateUncoveredComponentTiles(ComponentTile ct) throws RemoteException {
-
-    }
-
-    @Override
-    public void updateShipboard(Shipboard shipboard) throws RemoteException {
-
-    }
-
-    @Override
-    public void updateFlightboard(Flightboard flightboard) throws RemoteException {
-
-    }
-
-    @Override
-    public void updateCurrCard(AdventureCard adventureCard) throws RemoteException {
-
-    }
-
-    @Override
-    public void updateDices(Dices dices) throws RemoteException {
-
-    }
-
-    @Override
-    public void updateCurrPlayer(String currPlayer) throws RemoteException {
-
+    public static void main(String[] args) {
+        try{
+            GameController gameController = new GameController();
+            RmiServer server = new RmiServer(gameController);
+            System.out.println("RMI Server is running... waiting for clients to connect.");
+        }catch (Exception e){
+            System.err.println("Error starting RMI Server: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void connect(VirtualView client) throws RemoteException {
-
+        synchronized (connectedClients) {
+            connectedClients.add(client);
+            System.out.println("Client " + client.getClass() + " connected");
+        }
     }
 
     @Override
-    public void addPlayer() {
-
+    public void updateBank(Bank bank) throws RemoteException {
+        for (VirtualView connectedClient : connectedClients) {
+            try{
+                connectedClient.showUpdateBank(bank);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with bank information: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateBank exception
+            }
+        }
     }
 
     @Override
-    public void removePlayer() {
-
+    public void updateTileInHand(ComponentTile ct) throws RemoteException {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateTileInHand(ct);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with tile in hand: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateTileInHand exception
+            }
+        }
     }
 
     @Override
-    public void setPlayerReady() {
-
+    public void updateUncoveredComponentTiles(ComponentTile ct) throws RemoteException {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateUncoveredComponentTiles(ct);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with uncovered component tiles: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateUncoveredComponentTiles exception
+            }
+        }
     }
 
     @Override
-    public void startGameByHost() {
-
+    public void updateShipboard(Shipboard shipboard) throws RemoteException {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateShipboard(shipboard);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with shipboard: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateShipboard exception
+            }
+        }
     }
 
     @Override
-    public void setPlayerNotReady() {
-
+    public void updateFlightboard(Flightboard flightboard) throws RemoteException {
+        for(VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateFlightboard(flightboard);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with flightboard: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateFlightboard exception
+            }
+        }
     }
 
     @Override
-    public void setGameType() {
-
+    public void updateCurrCard(AdventureCard adventureCard) throws RemoteException {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateCurrCard(adventureCard);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with current card: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateCurrCard exception
+            }
+        }
     }
 
     @Override
-    public void pickCoveredTile() {
-
+    public void updateDices(Dices dices) throws RemoteException {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateDices(dices);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with dices: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateDices exception
+            }
+        }
     }
 
     @Override
-    public void pickUncoveredTile() {
+    public void updateCurrPlayer(String currPlayer) throws RemoteException {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateCurrPlayer(currPlayer);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with current player: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateCurrPlayer exception
+            }
+        }
+    }
 
+    private void handleClientError(VirtualView client, RemoteException e) {
+        System.err.println("Client " + client.getClass() + " disconnected: " + e.getMessage());
+        synchronized (connectedClients) {
+            connectedClients.remove(client);
+        }
+    }
+
+
+
+    @Override
+    public void addPlayer(String nickname) {
+        gameController.addPlayer(nickname);
     }
 
     @Override
-    public void rotateClockwise() {
-
+    public void removePlayer(String nickname) {
+        gameController.removePlayer(nickname);
     }
 
     @Override
-    public void rotateCounterClockwise() {
-
+    public void setPlayerReady(String nickname) {
+        gameController.setPlayerReady(nickname);
     }
 
     @Override
-    public void weldComponentTile() {
-
+    public void startGameByHost(String nickname) {
+        gameController.startGameByHost(nickname);
     }
 
     @Override
-    public void standbyComponentTile() {
-
+    public void setPlayerNotReady(String nickname) {
+        gameController.setPlayerNotReady(nickname);
     }
 
     @Override
-    public void pickStandbyComponentTile() {
-
+    public void setGameType(String gameType) {
+        if(gameType.equals("level2") || gameType.equals("tutorial")) {
+            gameController.setGameType(gameType);
+        } else {
+            System.err.println("Invalid game type: " + gameType);
+        }
     }
 
     @Override
-    public void discardComponentTile() {
-
+    public void pickCoveredTile(String nickname) {
+        gameController.pickCoveredTile(nickname);
     }
 
     @Override
-    public void finishBuilding() {
+    public void pickUncoveredTile(String nickname, int index) {
+        gameController.pickUncoveredTile(nickname, index);
+    }
 
+    @Override
+    public void rotateClockwise(String nickname, int rotationNum) {
+        gameController.rotateClockwise(nickname, rotationNum);
+    }
+
+    @Override
+    public void rotateCounterClockwise(String nickname, int rotationNum) {
+        gameController.rotateCounterClockwise(nickname, rotationNum);
+    }
+
+    @Override
+    public void weldComponentTile(String nickname, int i, int j) {
+        gameController.weldComponentTile(nickname, i, j);
+    }
+
+    @Override
+    public void standbyComponentTile(String nickname) {
+        gameController.standbyComponentTile(nickname);
+    }
+
+    @Override
+    public void pickStandbyComponentTile(String nickname, int index) {
+        gameController.pickStandByComponentTile(nickname, index);
+    }
+
+    @Override
+    public void discardComponentTile(String nickname) {
+        gameController.discardComponentTile(nickname);
+    }
+
+    @Override
+    public void finishBuilding(String nickname) {
+        gameController.finishBuilding(nickname);
+    }
+
+    @Override
+    public void finishBuilding(String nickname, int index) {
+        gameController.finishBuilding(nickname, index);
     }
 
     @Override
     public void finishedAllShipboards() {
-
+        gameController.finishedAllShipboards();
     }
 
     @Override
     public void flipHourglass() {
-
+        gameController.flipHourglass();
     }
 
     @Override
     public void pickCard() {
-
+        gameController.pickCard();
     }
 
     @Override
-    public void activateCard() {
-
+    public void activateCard(InputCommand inputCommand) {
+        gameController.activateCard(inputCommand);
     }
 
     @Override
-    public void playerAbandons() {
-
+    public void playerAbandons(String nickname) {
+        gameController.playerAbandons(nickname);
     }
 
     @Override
-    public void destroyComponentTile() {
-
+    public void destroyComponentTile(String nickname, int i, int j) {
+        gameController.destroyTile(nickname, i , j);
     }
 
     @Override
     public void setCurrPlayer(String currPlayer) {
-
+        gameController.setCurrPlayer(currPlayer);
     }
 
     @Override
     public void setCurrPlayerToLeader() {
-
+        gameController.setCurrPlayerToLeader();
     }
 
     @Override
     public void endGame() {
-
+        gameController.endGame();
     }
 }
