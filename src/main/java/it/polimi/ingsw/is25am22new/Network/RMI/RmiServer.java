@@ -19,7 +19,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RmiServer extends UnicastRemoteObject implements ObserverModel, VirtualServer {
+public class RmiServer extends UnicastRemoteObject implements ObserverModel, VirtualServerRMI {
 
     private final GameController gameController;
     private final List<VirtualView> connectedClients;
@@ -69,10 +69,10 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateTileInHand(ComponentTile ct) throws RemoteException {
+    public void updateTileInHand(String player, ComponentTile ct) throws RemoteException {
         for (VirtualView connectedClient : connectedClients) {
             try {
-                connectedClient.showUpdateTileInHand(ct);
+                connectedClient.showUpdateTileInHand(player, ct);
             } catch (RemoteException e) {
                 System.err.println("Error updating client with tile in hand: " + e.getMessage());
                 handleClientError(connectedClient, e);

@@ -17,9 +17,9 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-public class RmiClient extends UnicastRemoteObject implements VirtualView {
+public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
 
-    private final VirtualServer server;
+    private final VirtualServerRMI server;
     private final ClientView clientView;
     private static final String SERVER_NAME = "GalaxyTruckerServer";
 
@@ -29,8 +29,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
         Registry registry = LocateRegistry.getRegistry(host, port);
         // Let RMI handle the proxy creation directly
-        this.server = (VirtualServer) registry.lookup(SERVER_NAME);
-        this.server.connect(this);
+        this.server = (VirtualServerRMI) registry.lookup(SERVER_NAME);
+        this.server.connect((VirtualView) this);
         System.out.println("Connected to server: " + host + ":" + port);
     }
 
@@ -197,8 +197,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showUpdateTileInHand(ComponentTile tile) throws RemoteException {
-        clientView.displayTileInHand(tile);
+    public void showUpdateTileInHand(String player, ComponentTile tile) throws RemoteException {
+        clientView.displayTileInHand(player, tile);
     }
 
     @Override
@@ -240,7 +240,7 @@ class SimpleClientView implements ClientView {
     }
 
     @Override
-    public void displayTileInHand(ComponentTile tile) {
+    public void displayTileInHand(String player, ComponentTile tile) {
         System.out.println("Tile in hand update received");
     }
 

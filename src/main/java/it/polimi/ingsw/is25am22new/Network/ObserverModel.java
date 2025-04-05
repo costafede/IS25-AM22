@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 
 public interface ObserverModel {
     void updateBank(Bank bank) throws RemoteException;
-    void updateTileInHand(ComponentTile ct) throws RemoteException;
+    void updateTileInHand(String player, ComponentTile ct) throws RemoteException;
     void updateUncoveredComponentTiles(ComponentTile ct) throws RemoteException;
     void updateShipboard(Shipboard shipboard) throws RemoteException;
     void updateFlightboard(Flightboard flightboard) throws RemoteException;

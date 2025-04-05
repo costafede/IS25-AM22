@@ -26,9 +26,9 @@ public class ObservableModel {
             ld.updateBank(bank);
     }
 
-    protected void updateAllTileInHand(ComponentTile ct) throws RemoteException {
+    protected void updateAllTileInHand(String player, ComponentTile ct) throws RemoteException {
         for(ObserverModel ld : listeners)
-            ld.updateTileInHand(ct);
+            ld.updateTileInHand(player, ct);
     }
 
     protected void updateAllUncoveredComponentTiles(ComponentTile ct) throws RemoteException {

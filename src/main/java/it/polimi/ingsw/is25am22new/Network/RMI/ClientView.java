@@ -9,7 +9,7 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 public interface ClientView {
     void displayBank(Bank bank);
-    void displayTileInHand(ComponentTile tile);
+    void displayTileInHand(String player, ComponentTile tile);
     void displayUncoveredComponentTiles(ComponentTile tile);
     void displayShipboard(Shipboard shipboard);
     void displayFlightboard(Flightboard flightboard);
