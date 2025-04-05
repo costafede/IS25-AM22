@@ -155,6 +155,18 @@ public class GameController {
         }
     }
 
+    public void rotateClockwise(String player, int rotationNum) {
+        if(currentState == GameState.GAME) {
+            game.rotateClockwise(player);
+        }
+    }
+
+    public void rotateCounterClockwise(String player, int rotationNum) {
+        if(currentState == GameState.GAME) {
+            game.rotateCounterClockwise(player);
+        }
+    }
+
     public void weldComponentTile(String player, int i, int j) {
         if(currentState == GameState.GAME) {
             game.weldComponentTile(player, i, j);
@@ -202,7 +214,9 @@ public class GameController {
 
     public void flipHourglass() {
         if(currentState == GameState.GAME) {
-            game.flipHourglass(() -> {});
+            game.flipHourglass(() -> {
+                //TO BE IMPLEMENTED
+            });
         }
     }
 

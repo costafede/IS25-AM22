@@ -7,14 +7,17 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
-public interface VirtualView {
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-    void showUpdateBank(Bank bank) throws Exception;
-    void showUpdateTileInHand(ComponentTile tile) throws Exception;
-    void showUpdateUncoveredComponentTiles(ComponentTile tile) throws Exception;
-    void showUpdateShipboard(Shipboard shipboard) throws Exception;
-    void showUpdateFlightboard(Flightboard flightboard) throws Exception;
-    void showUpdateCurrCard(AdventureCard adventureCard) throws Exception;
-    void showUpdateDices(Dices dices) throws Exception;
-    void showUpdateCurrPlayer(String currPlayer) throws Exception;
+public interface VirtualView extends Remote {
+
+    void showUpdateBank(Bank bank) throws RemoteException;
+    void showUpdateTileInHand(ComponentTile tile) throws RemoteException;
+    void showUpdateUncoveredComponentTiles(ComponentTile tile) throws RemoteException;
+    void showUpdateShipboard(Shipboard shipboard) throws RemoteException;
+    void showUpdateFlightboard(Flightboard flightboard) throws RemoteException;
+    void showUpdateCurrCard(AdventureCard adventureCard) throws RemoteException;
+    void showUpdateDices(Dices dices) throws RemoteException;
+    void showUpdateCurrPlayer(String currPlayer) throws RemoteException;
 }
