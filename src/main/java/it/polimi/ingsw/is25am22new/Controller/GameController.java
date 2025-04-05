@@ -195,25 +195,22 @@ public class GameController {
         }
     }
 
-    public boolean finishBuilding(String player) {
+    public void finishBuilding(String player) {
         if(currentState == GameState.GAME) {
-            return game.finishBuilding(player);
+            game.finishBuilding(player);
         }
-        return false;
     }
 
-    public boolean finishBuilding(String player, int pos) {
+    public void finishBuilding(String player, int pos) {
         if(currentState == GameState.GAME) {
-            return game.finishBuilding(player, pos);
+            game.finishBuilding(player, pos);
         }
-        return false;
     }
 
-    public boolean finishedAllShipboards() {
+    public void finishedAllShipboards() {
         if(currentState == GameState.GAME) {
-            return game.finishedAllShipboards();
+            game.finishedAllShipboards();
         }
-        return false;
     }
 
     public void flipHourglass() {
