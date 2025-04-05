@@ -5,7 +5,7 @@ module it.polimi.ingsw.is25am22new {
     requires java.desktop;
     requires jdk.jdi;
     requires com.google.gson;
-
+    requires java.rmi;
 
 
     opens it.polimi.ingsw.is25am22new to javafx.fxml;

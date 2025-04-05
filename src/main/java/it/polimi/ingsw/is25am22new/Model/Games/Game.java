@@ -8,15 +8,15 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Network.ObservableModel;
 
 
-public abstract class Game {
+public abstract class Game extends ObservableModel {
     protected final List<String> playerList;
     protected Bank bank;
     protected List<ComponentTile> coveredComponentTiles;
@@ -232,10 +232,8 @@ public abstract class Game {
         if(shipboard.getOnlyHumanNumber() == 0){ //there are no more humans
             return false;
         }
-        if(shipboards.get(leader).getDaysOnFlight() - shipboard.getDaysOnFlight() > flightboard.getFlightBoardLength()){    //player has been lapped
-            return false;
-        }
-        return true;
+        //player has been lapped
+        return shipboards.get(leader).getDaysOnFlight() - shipboard.getDaysOnFlight() <= flightboard.getFlightBoardLength();
     }
 
     // check if active players still fulfill the conditions to play and eliminates the ones who don't (usually called at the end of the cards effects)
@@ -255,13 +253,4 @@ public abstract class Game {
         currCard.activateEffect(inputCommand);
     }
 
-    public void saveGame() {
-        // saves all attributes
-        bank.saveBank();
-    }
-
-    public void loadGame() throws IOException {
-        // loads all attributes
-        bank = bank.loadBank();
-    }
 }
