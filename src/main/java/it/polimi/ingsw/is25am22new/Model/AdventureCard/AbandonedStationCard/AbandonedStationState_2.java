@@ -16,6 +16,8 @@ public class AbandonedStationState_2 extends AbandonedStationState{
             ComponentTile storageCompartment = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
             if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from the station
                 storageCompartment.addGoodBlock(gb);
+                if(abandonedStationCard.getActualGoodBlocks().get(gb) == 0)
+                    throw new IllegalArgumentException("There are no more blocks to pick on the Station");
                 abandonedStationCard.getActualGoodBlocks().put(gb, abandonedStationCard.getActualGoodBlocks().get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
             }
             else if(inputCommand.isRemovingGoodBlock()){ //player decides to discard good block from his shipboard

@@ -15,6 +15,8 @@ public class SmugglersState_4 extends SmugglersState {
         if(inputCommand.getChoice()){   //choice must be set true if the player wants to keep managing his good blocks
             ComponentTile storageCompartment = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
             if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from the station
+                if(smugglersCard.actualGoodBlocks.get(gb) == 0)
+                    throw new IllegalArgumentException("There are no more blocks to retrieve from the smugglers");
                 storageCompartment.addGoodBlock(gb);
                 smugglersCard.actualGoodBlocks.put(gb, smugglersCard.actualGoodBlocks.get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
             }

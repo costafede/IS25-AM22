@@ -10,6 +10,8 @@ public class AbandonedShipState_1 extends AbandonedShipState {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(inputCommand.getChoice()){
+            if(game.getShipboards().get(game.getCurrPlayer()).getCrewNumber() < abandonedShipCard.getLostAstronauts())
+                throw new IllegalStateException("Not Enough Astronauts");
             game.getFlightboard().shiftRocket(game.getCurrPlayer(), abandonedShipCard.getFlightDaysLost());
             transition(new AbandonedShipState_2(abandonedShipCard));
         }

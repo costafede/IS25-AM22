@@ -92,24 +92,32 @@ public class Shipboard {
         this.daysOnFlight = daysOnFlight;
     }
 
-    public void weldComponentTile (ComponentTile ct, int i, int j){ componentTilesGrid.set(i, j, ct);}
+    public void weldComponentTile (ComponentTile ct, int i, int j){
+        if (componentTilesGrid.get(i, j).isPresent())
+            throw new IllegalStateException("Cannot weld tile on an already existing one");
+        componentTilesGrid.set(i, j, ct);
+    }
 
     public void standbyComponentTile (ComponentTile ct){
-        if(standbyComponent[0].isEmpty()){
+        if(standbyComponent[0].isEmpty())
             standbyComponent[0] = Optional.of(ct);
-        }
-        else if (standbyComponent[1].isEmpty()) {
+        else if (standbyComponent[1].isEmpty())
             standbyComponent[1] = Optional.of(ct);
-        }
+        else
+            throw new IllegalStateException("Cannot standby other tiles");
     }
 
     public ComponentTile pickStandByComponentTile (int index) {
+        if(standbyComponent[index].isEmpty())
+            throw new IllegalStateException("Cannot pick standby component tile");
         ComponentTile ct = standbyComponent[index].get();
         standbyComponent[index] = Optional.empty();
         return ct;
     }
 
     public void destroyTile (int i, int j){
+        if(componentTilesGrid.get(i, j).isEmpty())
+            throw new IllegalStateException("Cannot destroy a non existing tile");
         componentTilesGrid.set(i, j, null);
         discardedTiles++;
         manageAlienAddonRemoval(i-1, j);
@@ -426,7 +434,8 @@ public class Shipboard {
     //remove most valuable good blocks, removing the batteries if there are not enough blocks
     public void removeMostValuableGoodBlocks(int num){
         int stillToRemove = num;
-        stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.REDBLOCK);
+        if(stillToRemove > 0)
+            stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.REDBLOCK);
         if(stillToRemove > 0)
             stillToRemove -= removeAtMostNumGoodBlocks(stillToRemove, GoodBlock.YELLOWBLOCK);
         if(stillToRemove > 0)
@@ -540,6 +549,8 @@ public class Shipboard {
     }
 
     public void chooseShipWreck(int i, int j){ // keeps the ship wreck of the chosen color and eliminates the others
+        if(componentTilesGrid.get(i, j).isEmpty())
+            throw new IllegalArgumentException("There is no ship wreck in such coordinates");
         int color = componentTilesGrid.get(i, j).get().getColor();
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 7; x++) {
@@ -573,6 +584,8 @@ public class Shipboard {
     }
 
     public void setTileInHand(ComponentTile componentTile) {
+        if(componentTile != null && tileInHand != null)
+            throw new IllegalStateException("Cannot hold more than two tiles at the same time");
         tileInHand = componentTile;
     }
 

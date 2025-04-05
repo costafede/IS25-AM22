@@ -30,23 +30,22 @@ public class StorageCompartment extends ComponentTile{
         return totalBlocks < capacity && !gb.equals(GoodBlock.REDBLOCK);
     }
 
-    // Add a block to the tile (Do we have to check if the block is not red again?)
     public void addGoodBlock(GoodBlock gb) {
-        if(isBlockPlaceable(gb))
-            goodBlocks.put(gb, goodBlocks.get(gb) + 1);
+        if(!isBlockPlaceable(gb))
+            throw new IllegalArgumentException("Block not placeable");
+        goodBlocks.put(gb, goodBlocks.get(gb) + 1);
     }
 
     public boolean hasGoodBlock(GoodBlock gb) {
         return goodBlocks.get(gb) > 0;
     }
 
-    //Remove a block from the tile (What do we do if the block is not in the tile?)
     public GoodBlock removeGoodBlock(GoodBlock gb) {
         if(goodBlocks.get(gb) > 0) {
             goodBlocks.put(gb, goodBlocks.get(gb) - 1);
         }
         else {
-            throw new RuntimeException("No blocks");
+            throw new IllegalStateException("No blocks");
         }
         return gb;
     }

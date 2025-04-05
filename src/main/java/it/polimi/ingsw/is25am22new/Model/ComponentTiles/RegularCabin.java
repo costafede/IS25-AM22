@@ -14,6 +14,8 @@ public class RegularCabin extends Cabin {
     //aggiunge un alieno del tipo dato nella cabina
     @Override
     public void putAlien(String color){
+        if(brownAlienPresent || purpleAlienPresent)
+            throw new IllegalArgumentException("Cannot place an alien where another one is already present");
         if(color.equals("brown")){
             brownAlienPresent = true;
         }

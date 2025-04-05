@@ -14,7 +14,9 @@ abstract class Cabin extends ComponentTile {
     }
 
     public void removeCrewMember() {
-        if(numOfAstronauts > 0) numOfAstronauts--;
+        if(numOfAstronauts <= 0)
+            throw new IllegalArgumentException("Cannot remove Crew member when there are none");
+        numOfAstronauts--;
     }
 
     public void putAstronauts(){

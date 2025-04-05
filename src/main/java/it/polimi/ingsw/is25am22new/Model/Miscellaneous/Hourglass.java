@@ -8,6 +8,7 @@ public class Hourglass {
     private int remainingSeconds;
     boolean active;
 
+
     public Hourglass(int remainingSeconds) {
         this.timer = new Timer();
         this.remainingSeconds = remainingSeconds;

@@ -13,6 +13,8 @@ public class BatteryComponent extends ComponentTile {
     }
 
     public void removeBatteryToken() {
+        if(numOfBatteries <= 0)
+            throw new IllegalArgumentException("Cannot remove batteries if there are none");
         numOfBatteries--;
     }
 

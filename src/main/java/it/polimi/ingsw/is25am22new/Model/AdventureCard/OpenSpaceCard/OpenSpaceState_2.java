@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 
 public class OpenSpaceState_2 extends OpenSpaceState{
     public OpenSpaceState_2(OpenSpaceCard openSpaceCard) {
@@ -9,7 +10,11 @@ public class OpenSpaceState_2 extends OpenSpaceState{
 
     @Override
     public void activateEffect(InputCommand inputCommand) {
-        game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get().activateComponent();
+        ComponentTile doubleEngine = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
+        doubleEngine.activateComponent();
+        if(doubleEngine.getEngineStrength() == 0){
+            throw new IllegalArgumentException("The tile you chose was not an engine");
+        }
         transition(new OpenSpaceState_1(openSpaceCard));
     }
 }

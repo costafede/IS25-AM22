@@ -15,6 +15,8 @@ public class PlanetsState_2 extends PlanetsState {
         if(inputCommand.getChoice()){   //choice must be set true if the player wants to keep managing his good blocks
             ComponentTile storageCompartment = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
             if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from planet
+                if(planetsCard.getPlanet(game.getCurrPlayer()).getActualGoodblocks().get(gb) == 0)
+                    throw new IllegalArgumentException("There are no more blocks to pick on this planet");
                 storageCompartment.addGoodBlock(gb);
                 planetsCard.getPlanet(game.getCurrPlayer()).setActualGoodblocks(gb, planetsCard.getPlanet(game.getCurrPlayer()).getActualGoodblocks().get(gb) - 1); //remove the good block taken from the planet (so I take it from the actualGoodblocks in the Planet class)
             }

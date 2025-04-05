@@ -9,7 +9,9 @@ public class AbandonedStationState_1 extends AbandonedStationState{
     }
     @Override
     public void activateEffect(InputCommand inputCommand) {
-        if(inputCommand.getChoice()){// to decide if the player has enough crew members it's up to the controller
+        if(inputCommand.getChoice()){
+            if(game.getShipboards().get(game.getCurrPlayer()).getCrewNumber() < abandonedStationCard.getAstronautsNumber())
+                throw new IllegalStateException("Not Enough Astronauts");
             game.getFlightboard().shiftRocket(game.getCurrPlayer(), abandonedStationCard.getFlightDaysLost());
             abandonedStationCard.loadStation();
             transition(new AbandonedStationState_2(abandonedStationCard));

@@ -42,6 +42,8 @@ public class Planet {
     }
 
     public void setPlayer(String player) {
+        if(this.player != null)
+            throw new IllegalArgumentException("A player already landed");
         this.player = player;
     }
 

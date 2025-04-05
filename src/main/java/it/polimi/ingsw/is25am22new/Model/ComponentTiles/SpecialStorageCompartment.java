@@ -19,7 +19,8 @@ public class SpecialStorageCompartment extends StorageCompartment {
 
     //Add a block to the tile
     public void addGoodBlock(GoodBlock gb) {
-        if(isBlockPlaceable(gb))
-            goodBlocks.put(gb, goodBlocks.get(gb) + 1);
+        if(!isBlockPlaceable(gb))
+            throw new IllegalArgumentException("Block not placeable");
+        goodBlocks.put(gb, goodBlocks.get(gb) + 1);
     }
 }

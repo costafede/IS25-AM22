@@ -20,6 +20,8 @@ public class Level2FlightBoard extends Flightboard {
     @Override
     public void placeRocket(String nickname, int pos) {
         // positions go from 0 to numberOfPlayers - 1
+        if(pos < 0 || pos > 3)
+            throw new IllegalArgumentException("Invalid position");
         if(pos == 0) {
             positions.put(nickname, 6);
         } else if(pos == 1) {

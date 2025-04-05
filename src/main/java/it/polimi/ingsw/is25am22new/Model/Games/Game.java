@@ -68,10 +68,14 @@ public abstract class Game extends ObservableModel {
     }
 
     public void pickCoveredTile(String nickname) {
+        if(coveredComponentTiles.isEmpty())
+            throw new IllegalStateException("There are no covered components in this game");
         shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
     }
 
     public void pickUncoveredTile(String nickname, int index) {
+        if(uncoveredComponentTiles.isEmpty())
+            throw new IllegalStateException("There are no uncovered components in this game");
         shipboards.get(nickname).setTileInHand(uncoveredComponentTiles.remove(index));
     }
 
@@ -85,12 +89,16 @@ public abstract class Game extends ObservableModel {
 
     public void weldComponentTile(String nickname, int i, int j) {
         ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
+        if(shipboards.get(nickname).getComponentTileFromGrid(i, j).isPresent())
+            throw new IllegalStateException("Component tile already present in the chosen slot");
         shipboards.get(nickname).weldComponentTile(tileInHand, i, j);
+        shipboards.get(nickname).setTileInHand(null);
     }
 
     public void standbyComponentTile(String nickname) {
         ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
         shipboards.get(nickname).standbyComponentTile(tileInHand);
+        shipboards.get(nickname).setTileInHand(null);
     }
 
     public void pickStandByComponentTile(String nickname, int index) {
@@ -126,7 +134,7 @@ public abstract class Game extends ObservableModel {
     }
 
     public void flipHourglass(Runnable callbackMethod) {
-        hourglass.startTimer(callbackMethod);
+        return;
     }
 
     public void pickCard() {

@@ -36,7 +36,8 @@ class ShipboardTest {
     private void clearGrid(Shipboard shipboard){
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 7; j++) {
-                shipboard.destroyTile(i, j);
+                if(shipboard.getComponentTileFromGrid(i, j).isPresent())
+                    shipboard.destroyTile(i, j);
             }
         }
     }
@@ -81,7 +82,6 @@ class ShipboardTest {
         tiles = initializeTiles();
         ship = new Shipboard("red", "Emanuele", null);
         ship.weldComponentTile(tiles.get(0),3, 3);
-        ship.weldComponentTile(tiles.get(1),2, 4);
         ship.weldComponentTile(tiles.get(2),1, 3);
         ship.weldComponentTile(tiles.get(3),1, 4);
         tiles.get(4).rotateCounterClockwise();
@@ -141,6 +141,7 @@ class ShipboardTest {
         ship.weldComponentTile(tiles.get(6),3, 4);
         assertFalse(ship.checkShipboard());
 
+        ship.destroyTile(3, 4);
         ship.weldComponentTile(tiles.get(1),3, 4);
         assertTrue(ship.checkShipboard());
 

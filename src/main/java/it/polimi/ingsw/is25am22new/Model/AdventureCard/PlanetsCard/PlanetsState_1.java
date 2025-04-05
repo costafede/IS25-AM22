@@ -9,6 +9,8 @@ public class PlanetsState_1 extends PlanetsState {
 
     public void activateEffect(InputCommand inputCommand){
         if(inputCommand.getChoice()) {
+            if(planetsCard.getPlayersWhoLanded().contains(game.getCurrPlayer()))
+                throw new IllegalArgumentException("Player has already landed on a planet");
             planetsCard.getPlanets().get(inputCommand.getIndexChosen()).setPlayer(game.getCurrPlayer());
             planetsCard.getPlayersWhoLanded().add(game.getCurrPlayer());
         }

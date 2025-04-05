@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Level2Game extends Game {
     private List<CardPile> cardPiles;
-
+    private int hourglassSpot = 0;
     public Level2Game(List<String> nicknames) {
         super(nicknames);
         this.cardPiles = new ArrayList<>();
@@ -107,5 +107,18 @@ public class Level2Game extends Game {
 
     public List<AdventureCard> getDeck() {
         return deck;
+    }
+
+    public void flipHourglass(Runnable callbackMethod) {
+        if(hourglassSpot == 2)
+            throw new IllegalArgumentException("Cannot flip the hourglass three times");
+        hourglassSpot++;
+        if(hourglassSpot == 2)
+            callbackMethod = () -> {
+                for(String p : playerList) {
+                    shipboards.get(p).setFinishedShipboard(true);
+                }
+            };
+        hourglass.startTimer(callbackMethod);
     }
 }
