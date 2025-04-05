@@ -10,7 +10,7 @@ import java.util.Map;
 public class Lobby {
     private final List<String> players;
     private final Map<String, Boolean> readyStatus;
-    private final int minPlayers = 2;
+    //private final int minPlayers = 2; //can be converted to a local variable
     private final int maxPlayers = 4;
     private String gameType;
 
@@ -64,6 +64,8 @@ public class Lobby {
     }
 
     public boolean isLobbyReady() {
+        //can be converted to a local variable
+        int minPlayers = 2;
         return players.size() >= minPlayers && readyStatus.values().stream().allMatch(Boolean::booleanValue);
     }
 
