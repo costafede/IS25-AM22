@@ -15,7 +15,7 @@ public interface VirtualView extends Remote {
     void showUpdateBank(Bank bank) throws IOException;
     void showUpdateTileInHand(String player, ComponentTile tile) throws IOException;
     void showUpdateUncoveredComponentTiles(ComponentTile tile) throws IOException;
-    void showUpdateShipboard(Shipboard shipboard) throws IOException;
+    void showUpdateShipboard(String player, Shipboard shipboard) throws IOException;
     void showUpdateFlightboard(Flightboard flightboard) throws IOException;
     void showUpdateCurrCard(AdventureCard adventureCard) throws IOException;
     void showUpdateDices(Dices dices) throws IOException;
