@@ -65,6 +65,7 @@ public abstract class Game extends ObservableModel {
         ObjectMapper objectMapper = new ObjectMapper();
         GameInitializer.initComponent(this, objectMapper);
         GameInitializer.initCardArchive(this, objectMapper);
+        System.out.println("Game initialized");
     }
 
     public void pickCoveredTile(String nickname) {

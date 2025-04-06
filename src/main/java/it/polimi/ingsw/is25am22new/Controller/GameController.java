@@ -111,6 +111,7 @@ public class GameController {
 
     private boolean checkAndStartGame() {
         if(lobby.isLobbyReady()) {
+            System.out.println("Starting the game...");
             startGame();
             return true;
         }
@@ -120,9 +121,12 @@ public class GameController {
     private void startGame() {
         if("tutorial".equals(gameType)) {
             game = new TutorialGame(new ArrayList<>(lobby.getPlayers()));
+            System.out.println("Tutorial Game started");
         } else if("level2".equals(gameType)) {
             game = new Level2Game(new ArrayList<>(lobby.getPlayers()));
+            System.out.println("Level 2 Game started");
         } else {
+            System.out.println("Invalid game type: " + gameType);
             return; // Invalid game type
         }
         game.initGame();
