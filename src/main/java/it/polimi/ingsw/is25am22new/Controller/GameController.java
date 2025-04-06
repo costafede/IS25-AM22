@@ -143,17 +143,17 @@ public class GameController {
         }
     }
 
-    public void rotateClockwise(String player) {
-        if(currentState == GameState.GAME) {
-            game.rotateClockwise(player);
-        }
-    }
+    //public void rotateClockwise(String player) {
+    //    if(currentState == GameState.GAME) {
+    //        game.rotateClockwise(player);
+    //    }
+    //}
 
-    public void rotateCounterClockwise(String player) {
-        if(currentState == GameState.GAME) {
-            game.rotateCounterClockwise(player);
-        }
-    }
+    //public void rotateCounterClockwise(String player) {
+    //    if(currentState == GameState.GAME) {
+    //        game.rotateCounterClockwise(player);
+    //    }
+    //}
 
     public void rotateClockwise(String player, int rotationNum) {
         if(currentState == GameState.GAME) {

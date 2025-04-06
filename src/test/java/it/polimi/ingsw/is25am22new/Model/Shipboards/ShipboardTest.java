@@ -310,7 +310,9 @@ class ShipboardTest {
         ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
         ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.GREENBLOCK));
         ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
-        ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
+        assertThrows(IllegalArgumentException.class, () -> {
+                ship.getComponentTileFromGrid(1, 3).ifPresent(ct->ct.addGoodBlock(GoodBlock.YELLOWBLOCK));
+        });
 
         assertEquals(2, ship.getComponentTileFromGrid(1, 3).get().getGoodBlocks().get(GoodBlock.YELLOWBLOCK));
         assertEquals(0, ship.getComponentTileFromGrid(1, 3).get().getGoodBlocks().get(GoodBlock.REDBLOCK));

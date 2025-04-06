@@ -18,9 +18,7 @@ public interface VirtualServer extends Remote {
 
     void pickCoveredTile(String nickname) throws IOException;
     void pickUncoveredTile(String nickname, int index) throws IOException;
-    void rotateClockwise(String nickname, int rotationNum) throws IOException;
-    void rotateCounterClockwise(String nickname, int rotationNum) throws IOException;
-    void weldComponentTile(String nickname, int i, int j) throws IOException;
+    void weldComponentTile(String nickname, int i, int j, int numOfRotations) throws IOException;
     void standbyComponentTile(String nickname) throws IOException;
     void pickStandbyComponentTile(String nickname, int index) throws IOException;
     void discardComponentTile(String nickname) throws IOException;
