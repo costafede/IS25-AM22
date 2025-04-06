@@ -7,12 +7,12 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
-import java.rmi.RemoteException;
+import java.io.IOException;
 import java.util.*;
 
 public class ObservableModel {
     List<ObserverModel> listeners = new ArrayList<>();
-
+    //remember to add listeners to the list
     public void addListener(ObserverModel ld) {
         listeners.add(ld);
     }
@@ -21,42 +21,42 @@ public class ObservableModel {
         listeners.remove(ld);
     }
 
-    protected void updateAllBanks(Bank bank) throws RemoteException {
+    protected void updateAllBanks(Bank bank) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateBank(bank);
     }
 
-    protected void updateAllTileInHand(String player, ComponentTile ct) throws RemoteException {
+    protected void updateAllTileInHand(String player, ComponentTile ct) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateTileInHand(player, ct);
     }
 
-    protected void updateAllUncoveredComponentTiles(ComponentTile ct) throws RemoteException {
+    protected void updateAllUncoveredComponentTiles(ComponentTile ct) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateUncoveredComponentTiles(ct);
     }
 
-    protected void updateAllShipboard(Shipboard shipboard) throws RemoteException {
+    protected void updateAllShipboard(Shipboard shipboard) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateShipboard(shipboard);
     }
 
-    protected void updateAllFlightboard(Flightboard flightboard) throws RemoteException {
+    protected void updateAllFlightboard(Flightboard flightboard) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateFlightboard(flightboard);
     }
 
-    protected void updateAllCurrCard(AdventureCard adventureCard) throws RemoteException {
+    protected void updateAllCurrCard(AdventureCard adventureCard) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateCurrCard(adventureCard);
     }
 
-    protected void updateAllDices(Dices dices) throws RemoteException {
+    protected void updateAllDices(Dices dices) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateDices(dices);
     }
 
-    protected void updateAllCurrPlayer(String currPlayer) throws RemoteException {
+    protected void updateAllCurrPlayer(String currPlayer) throws IOException {
         for(ObserverModel ld : listeners)
             ld.updateCurrPlayer(currPlayer);
     }
