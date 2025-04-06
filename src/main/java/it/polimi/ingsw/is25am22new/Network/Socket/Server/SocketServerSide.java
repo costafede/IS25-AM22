@@ -19,19 +19,30 @@ public class SocketServerSide implements ObserverModel {
     final ServerSocket listenSocket;
     final GameController controller;
     final List<SocketClientHandler> clients = new ArrayList<>();
-    Socket clientSocket = null;
 
     public SocketServerSide(ServerSocket listenSocket) {
         this.listenSocket = listenSocket;
         this.controller = new GameController();
     }
 
-    private void runServer() throws IOException {
+    public static void main(String[] args) throws IOException {
+        String host = args[0];
+        int port = Integer.parseInt(args[1]);
 
+        ServerSocket listenSocket = new ServerSocket(port);
+
+        new SocketServerSide(listenSocket).runServer();
+    }
+
+    private void runServer() throws IOException {
+        Socket clientSocket = null;
         while ((clientSocket = this.listenSocket.accept()) != null) {
+            System.out.println("Client connected: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
             SocketClientHandler handler = new SocketClientHandler(
                     this.controller,
-                    this
+                    this,
+                    clientSocket.getInputStream(),
+                    clientSocket.getOutputStream()
             );
 
             synchronized (this.clients){
@@ -110,15 +121,5 @@ public class SocketServerSide implements ObserverModel {
                 client.showUpdateCurrPlayer(currPlayer);
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
-
-        ServerSocket listenSocket = new ServerSocket(port);
-
-        new SocketServerSide(listenSocket).runServer();
-
     }
 }

@@ -2,7 +2,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
-public class InputCommand {
+import java.io.Serializable;
+
+public class InputCommand implements Serializable {
     private boolean choiceCommand; // used for yes or no choices commands
     private int indexChosen; //used to choose an element in a list or map depending on the current card
     private GoodBlock goodBlock, goodBlock_1;

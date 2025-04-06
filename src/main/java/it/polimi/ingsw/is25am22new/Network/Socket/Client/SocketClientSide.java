@@ -1,5 +1,7 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
+import it.polimi.ingsw.is25am22new.Client.View.GameCliView;
+import it.polimi.ingsw.is25am22new.Client.View.GameView;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -17,14 +19,23 @@ import java.util.Scanner;
 
 public class SocketClientSide implements VirtualViewSocket {
 
+    GameCliView gameCliView;
     final ObjectInputStream objectInput;
     final SocketServerHandler output;
     String thisPlayerName;
 
-    protected SocketClientSide(Socket serverSocket) throws IOException {
-        this.objectInput = new ObjectInputStream(serverSocket.getInputStream());
-        this.output = new SocketServerHandler(serverSocket.getOutputStream());
+    protected SocketClientSide(InputStream is, OutputStream os) throws IOException {
+        this.output = new SocketServerHandler(os);
+        this.objectInput = new ObjectInputStream(is);
         this.thisPlayerName = "Player";
+    }
+
+    public static void main(String[] args) throws IOException {
+        String host = args[0];
+        int port = Integer.parseInt(args[1]);
+
+        Socket serverSocket = new Socket(host, port);
+        new SocketClientSide(serverSocket.getInputStream(), serverSocket.getOutputStream()).run();
     }
 
     private void run() throws IOException {
@@ -76,6 +87,11 @@ public class SocketClientSide implements VirtualViewSocket {
                     String currPlayer = msg.getPayload();
                     this.showUpdateCurrPlayer(currPlayer);
                 }
+                case "updateTest" -> {
+                    System.out.println(msg.getPayload());
+                    System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
+                    System.out.flush();
+                }
                 default -> System.err.println("[INVALID MESSAGE]");
             }
         }
@@ -84,11 +100,13 @@ public class SocketClientSide implements VirtualViewSocket {
     private void runCli() throws IOException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter your cool trucker name: ");
+        System.out.flush();
         thisPlayerName = scan.nextLine();
         int numOfRotations = 0;
         while (true) {
             System.out.print(">>> ");
             int command = scan.nextInt();
+            scan.nextLine();
             switch (command) {
                 case 0 -> {
                     output.addPlayer(thisPlayerName);
@@ -122,6 +140,7 @@ public class SocketClientSide implements VirtualViewSocket {
                 case 7 -> {
                     System.out.println("Which tile you want to pick?: ");
                     int index = scan.nextInt();
+                    scan.nextLine();
                     output.pickUncoveredTile(thisPlayerName, index);
                 }
                 case 8 -> {
@@ -136,8 +155,10 @@ public class SocketClientSide implements VirtualViewSocket {
                     System.out.println("Where do you want to place the tile?: \n");
                     System.out.println("X coordinate: ");
                     int x = scan.nextInt();
+                    scan.nextLine();
                     System.out.println("Y coordinate: ");
                     int y = scan.nextInt();
+                    scan.nextLine();
                     output.weldComponentTile(thisPlayerName, x, y, numOfRotations);
                     numOfRotations = 0;
                 }
@@ -148,6 +169,7 @@ public class SocketClientSide implements VirtualViewSocket {
                 case 12 -> {
                     System.out.println("Which tile do you want to pick?: ");
                     int index = scan.nextInt();
+                    scan.nextLine();
                     output.pickStandbyComponentTile(thisPlayerName, index);
                 }
                 case 13 -> {
@@ -162,6 +184,7 @@ public class SocketClientSide implements VirtualViewSocket {
                     System.out.println("You've finished your ship! Congrats!");
                     System.out.println("Fast! Where do you want to place your rocket? (1/2/3/4)");
                     int pos = scan.nextInt();
+                    scan.nextLine();
                     output.finishBuilding(thisPlayerName, pos);
                 }
                 case 16 -> {
@@ -189,25 +212,23 @@ public class SocketClientSide implements VirtualViewSocket {
                     System.out.println("Which tile do you want to destroy?: ");
                     System.out.println("X coordinate: ");
                     int x = scan.nextInt();
+                    scan.nextLine();
                     System.out.println("Y coordinate: ");
                     int y = scan.nextInt();
+                    scan.nextLine();
                     output.destroyComponentTile(thisPlayerName, x, y);
                 }
                 case 22 -> {
                     System.out.println("Game is over!");
                     output.endGame();
                 }
+                case 99 -> {
+                    System.out.println("String to send: ");
+                    String test = scan.nextLine();
+                    output.connectionTester(test, 33879);
+                }
             }
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
-
-        Socket serverSocket = new Socket(host, port);
-
-        new SocketClientSide(serverSocket).run();
     }
 
     private InputCommand constructInputCommand(){
@@ -219,7 +240,7 @@ public class SocketClientSide implements VirtualViewSocket {
     //
     @Override
     public void showUpdateBank(Bank bank) throws RemoteException {
-
+        gameCliView.setBank(bank);
     }
 
     @Override

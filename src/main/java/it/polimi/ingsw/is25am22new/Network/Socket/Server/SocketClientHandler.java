@@ -19,11 +19,11 @@ public class SocketClientHandler implements VirtualViewSocket {
     final ObjectOutputStream objectOutput;
 
     // CI SONO VARIE ISTANZE DI SOCKETCLIENTHANDLER, UNA PER OGNI GIOCATORE
-    public SocketClientHandler(GameController controller, SocketServerSide server) throws IOException {
+    public SocketClientHandler(GameController controller, SocketServerSide server, InputStream is, OutputStream os) throws IOException {
         this.controller = controller;
         this.server = server;
-        this.objectInput = new ObjectInputStream(server.clientSocket.getInputStream());
-        this.objectOutput = new ObjectOutputStream(server.clientSocket.getOutputStream());
+        this.objectOutput = new ObjectOutputStream(os);
+        this.objectInput = new ObjectInputStream(is);
     }
 
     //comunicazione dal client al server
@@ -109,10 +109,22 @@ public class SocketClientHandler implements VirtualViewSocket {
                 case "endGame" -> {
                     this.controller.endGame();
                 }
+                case "connectionTester" -> {
+                    System.out.println(msg.getPayload());
+                    System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
+                    showUpdateTest();
+                }
             }
         }
     }
 
+    public void showUpdateTest() throws IOException {
+        InputCommand cmd = new InputCommand();
+        cmd.setIndexChosen(9033);
+        SocketMessage msg = new SocketMessage("updateTest", cmd, "Update message received");
+        objectOutput.writeObject(msg);
+        objectOutput.flush();
+    }
 
     @Override
     public void showUpdateBank(Bank bank) throws IOException {

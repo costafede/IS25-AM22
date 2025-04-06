@@ -176,6 +176,14 @@ public class SocketServerHandler implements VirtualServerSocket{
         objectOutput.flush();
     }
 
+    public void connectionTester(String a, int b) throws IOException {
+        InputCommand inputCommand = new InputCommand();
+        inputCommand.setIndexChosen(b);
+        SocketMessage msg = new SocketMessage("connectionTester", inputCommand, a);
+        objectOutput.writeObject(msg);
+        objectOutput.flush();
+    }
+
     @Override
     public void connect(VirtualView client) throws RemoteException {
         // used only by RMI
