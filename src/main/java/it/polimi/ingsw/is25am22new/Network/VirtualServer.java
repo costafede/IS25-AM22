@@ -30,7 +30,5 @@ public interface VirtualServer extends Remote {
     void activateCard(InputCommand inputCommand) throws IOException;
     void playerAbandons(String nickname) throws IOException;
     void destroyComponentTile(String nickname, int i, int j) throws IOException;
-    void setCurrPlayer(String currPlayer) throws IOException;
-    void setCurrPlayerToLeader() throws IOException;
     void endGame() throws IOException;
 }
