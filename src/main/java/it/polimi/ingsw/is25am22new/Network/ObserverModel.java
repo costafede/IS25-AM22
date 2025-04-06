@@ -14,7 +14,7 @@ public interface ObserverModel {
     void updateBank(Bank bank) throws RemoteException, IOException;
     void updateTileInHand(String player, ComponentTile ct) throws RemoteException, IOException;
     void updateUncoveredComponentTiles(ComponentTile ct) throws RemoteException, IOException;
-    void updateShipboard(Shipboard shipboard) throws RemoteException, IOException;
+    void updateShipboard(String player, Shipboard shipboard) throws RemoteException, IOException;
     void updateFlightboard(Flightboard flightboard) throws RemoteException, IOException;
     void updateCurrCard(AdventureCard adventureCard) throws RemoteException, IOException;
     void updateDices(Dices dices) throws RemoteException, IOException;
