@@ -7,7 +7,6 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -29,7 +28,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
         Registry registry = LocateRegistry.getRegistry(host, port);
         // Let RMI handle the proxy creation directly
         this.server = (VirtualServerRMI) registry.lookup(SERVER_NAME);
-        this.server.connect((VirtualView) this);
+        this.server.connect( this);
         System.out.println("Connected to server: " + host + ":" + port);
     }
 
@@ -65,12 +64,21 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
             // Main command loop
             boolean running = true;
             while(running) {
-                System.out.println("\nCommands: ready, start, exit");
+                System.out.println("\nCommands: ready, unready, gametype tut, gametype lvl2, start, exit");
                 String command = scanner.nextLine().trim();
 
                 switch(command) {
                     case "ready":
                         client.setPlayerReady(playerName);
+                        break;
+                    case "unready":
+                        client.setPlayerNotReady(playerName);
+                        break;
+                    case "gametype tut":
+                        client.setGameType("tutorial");
+                        break;
+                    case "gametype lvl2":
+                        client.setGameType("level2");
                         break;
                     case "start":
                         client.startGameByHost(playerName);
@@ -84,7 +92,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
             }
 
             // Clean disconnect
-            client.playerAbandons(playerName);
+            System.out.println("Disconnecting...");
+            client.removePlayer(playerName);
 
         } catch (Exception e) {
             System.err.println("Client exception: " + e);
@@ -166,6 +175,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
 
     public void activateCard(InputCommand inputCommand) throws RemoteException {
         server.activateCard(inputCommand);
+    }
+
+    public void removePlayer(String playerName) throws RemoteException {
+        server.removePlayer(playerName);
     }
 
     public void playerAbandons(String playerName) throws RemoteException {

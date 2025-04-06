@@ -11,9 +11,12 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteServer;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +49,17 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void connect(VirtualView client) throws RemoteException {
+        String clientHost = "unknown";
+
+        try {
+            clientHost = RemoteServer.getClientHost();
+            System.out.println("Client connected from " + clientHost);
+        } catch (ServerNotActiveException e) {
+            System.err.println("Could not get client host: " + e.getMessage());
+        }
+
         synchronized (connectedClients) {
             connectedClients.add(client);
-            System.out.println("Client " + client.getClass() + " connected");
         }
     }
 
