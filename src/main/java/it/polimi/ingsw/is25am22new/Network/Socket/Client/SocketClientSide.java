@@ -1,7 +1,6 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
 import it.polimi.ingsw.is25am22new.Client.View.GameCliView;
-import it.polimi.ingsw.is25am22new.Client.View.GameView;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -30,7 +29,7 @@ public class SocketClientSide implements VirtualViewSocket {
         this.thisPlayerName = "Player";
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
 
@@ -38,7 +37,7 @@ public class SocketClientSide implements VirtualViewSocket {
         new SocketClientSide(serverSocket.getInputStream(), serverSocket.getOutputStream()).run();
     }
 
-    private void run() throws IOException {
+    private void run() throws IOException, InterruptedException {
         new Thread(() -> {
             try {
                 runVirtualServer();
@@ -68,8 +67,9 @@ public class SocketClientSide implements VirtualViewSocket {
                     this.showUpdateUncoveredComponentTiles(tile);
                 }
                 case "Shipboard" -> {
+                    String player = msg.getPayload();
                     Shipboard shipboard = (Shipboard) msg.getObject();
-                    this.showUpdateShipboard(shipboard);
+                    this.showUpdateShipboard(player, shipboard);
                 }
                 case "Flightboard" -> {
                     Flightboard flightboard = (Flightboard) msg.getObject();
@@ -97,13 +97,14 @@ public class SocketClientSide implements VirtualViewSocket {
         }
     }
 
-    private void runCli() throws IOException {
+    private void runCli() throws IOException, InterruptedException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter your cool trucker name: ");
         System.out.flush();
         thisPlayerName = scan.nextLine();
         int numOfRotations = 0;
         while (true) {
+            Thread.sleep(50);
             System.out.print(">>> ");
             int command = scan.nextInt();
             scan.nextLine();
@@ -241,40 +242,64 @@ public class SocketClientSide implements VirtualViewSocket {
     @Override
     public void showUpdateBank(Bank bank) throws RemoteException {
         gameCliView.setBank(bank);
+        System.out.println("Bank updated:");
+        System.out.println(bank);
+        System.out.flush();
     }
 
     @Override
     public void showUpdateTileInHand(String player, ComponentTile tile) throws RemoteException {
-
+        gameCliView.getShipboard(player).setTileInHand(tile);
+        System.out.println("Tile in hand updated:");
+        System.out.println(gameCliView.getShipboard(player).getTileInHand());
+        System.out.flush();
     }
 
     @Override
     public void showUpdateUncoveredComponentTiles(ComponentTile tile) throws RemoteException {
-
+        gameCliView.getUncoveredComponentTiles().add(tile);
+        System.out.println("Uncovered component tiles list updated:");
+        System.out.println(gameCliView.getUncoveredComponentTiles());
+        System.out.flush();
     }
 
     @Override
-    public void showUpdateShipboard(Shipboard shipboard) throws RemoteException {
-
+    public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {
+        gameCliView.getShipboards().put(player, shipboard);
+        System.out.println("Shipboard updated:");
+        System.out.println(gameCliView.getShipboard(player));
+        System.out.flush();
     }
 
     @Override
     public void showUpdateFlightboard(Flightboard flightboard) throws RemoteException {
-
+        gameCliView.setFlightboard(flightboard);
+        System.out.println("Flightboard updated:");
+        System.out.println(gameCliView.getFlightboard());
+        System.out.flush();
     }
 
     @Override
     public void showUpdateCurrCard(AdventureCard adventureCard) throws RemoteException {
-
+        gameCliView.setCurrCard(adventureCard);
+        System.out.println("Current card updated:");
+        System.out.println(gameCliView.getCurrCard());
+        System.out.flush();
     }
 
     @Override
     public void showUpdateDices(Dices dices) throws RemoteException {
-
+        gameCliView.setDices(dices);
+        System.out.println("Dices updated:");
+        System.out.println(gameCliView.getDices());
+        System.out.flush();
     }
 
     @Override
     public void showUpdateCurrPlayer(String currPlayer) throws RemoteException {
-
+        gameCliView.setCurrPlayer(currPlayer);
+        System.out.println("Current player updated:");
+        System.out.println(gameCliView.getCurrPlayer());
+        System.out.flush();
     }
 }

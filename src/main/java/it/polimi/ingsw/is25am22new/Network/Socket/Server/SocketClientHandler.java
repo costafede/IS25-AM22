@@ -148,8 +148,8 @@ public class SocketClientHandler implements VirtualViewSocket {
     }
 
     @Override
-    public void showUpdateShipboard(Shipboard shipboard) throws IOException {
-        SocketMessage message = new SocketMessage("Shipboard", shipboard, null);
+    public void showUpdateShipboard(String player, Shipboard shipboard) throws IOException {
+        SocketMessage message = new SocketMessage("Shipboard", shipboard, player);
         objectOutput.writeObject(message);
         objectOutput.flush();
     }

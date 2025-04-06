@@ -83,10 +83,10 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateShipboard(Shipboard shipboard) throws IOException {
+    public void updateShipboard(String player, Shipboard shipboard) throws IOException {
         synchronized (this.clients) {
             for (var client : this.clients) {
-                client.showUpdateShipboard(shipboard);
+                client.showUpdateShipboard(player, shipboard);
             }
         }
     }

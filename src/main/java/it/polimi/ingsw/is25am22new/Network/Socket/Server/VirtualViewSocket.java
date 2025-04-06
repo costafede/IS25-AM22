@@ -19,7 +19,7 @@ public interface VirtualViewSocket extends VirtualView {
     @Override
     void showUpdateUncoveredComponentTiles(ComponentTile tile) throws IOException;
     @Override
-    void showUpdateShipboard(Shipboard shipboard) throws IOException;
+    void showUpdateShipboard(String player, Shipboard shipboard) throws IOException;
     @Override
     void showUpdateFlightboard(Flightboard flightboard) throws IOException;
     @Override
