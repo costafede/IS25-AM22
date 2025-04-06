@@ -11,7 +11,7 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
-import java.net.InetAddress;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -49,7 +49,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void connect(VirtualView client) throws RemoteException {
-        String clientHost = "unknown";
+        String clientHost;
 
         try {
             clientHost = RemoteServer.getClientHost();
@@ -241,6 +241,19 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void weldComponentTile(String nickname, int i, int j) {
         gameController.weldComponentTile(nickname, i, j);
+    }
+
+    @Override
+    public void weldComponentTile(String nickname, int i, int j, int numOfRotations) throws IOException {
+        if(numOfRotations < 0) {
+            gameController.rotateCounterClockwise(nickname, -numOfRotations);
+            gameController.weldComponentTile(nickname, i, j);
+        } else if(numOfRotations > 0) {
+            gameController.rotateClockwise(nickname, numOfRotations);
+            gameController.weldComponentTile(nickname, i, j);
+        } else {
+            System.err.println("Invalid number of rotations: " + numOfRotations);
+        }
     }
 
     @Override
