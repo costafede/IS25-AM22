@@ -36,9 +36,9 @@ public class ObservableModel {
             ld.updateUncoveredComponentTiles(ct);
     }
 
-    protected void updateAllShipboard(Shipboard shipboard) throws IOException {
+    protected void updateAllShipboard(String player, Shipboard shipboard) throws IOException {
         for(ObserverModel ld : listeners)
-            ld.updateShipboard(shipboard);
+            ld.updateShipboard(player, shipboard);
     }
 
     protected void updateAllFlightboard(Flightboard flightboard) throws IOException {
