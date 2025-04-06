@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="resources/imageForReadMe/horizontalLogo.png" alt="Galaxy Trucker Logo" style="max-width: 100%; height: auto;">
+  <img src="resources/imageForReadMe/BetterHorizontalLogo.png" alt="Galaxy Trucker Logo" style="max-width: 100%; height: auto;">
 </p>
 
 # 🚀 Galaxy Trucker - Software Engineering Final Project (2024/2025)
@@ -41,30 +41,30 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 ### 🔑 Legend
 
 | Symbol  | Meaning                        |
-|--------|--------------------------------|
-| ✅      | Completed and fully functional |
-| 👨🏻‍💻   | Work In Progress               |
-| ❌      | Not implemented / Not planned  |
+|---------|--------------------------------|
+| ✅       | Completed and fully functional |
+| 👨🏻‍💻 | Work In Progress               |
+| ❌       | Not implemented / Not planned  |
 
 ---
 
 ### 📜 Progress Table
 
-| Requirements                            | Status    |
-|-----------------------------------------|----------|
-| Full implementation of game rules       | 👨🏻‍💻    |
-| Initial UML diagram                     | 👨🏻‍💻    |
-| Final UML diagram                       | 👨🏻‍💻    |
-| Command Line Interface (CLI)             | 👨🏻‍💻    |
-| Graphical User Interface (GUI - JavaFX) | 👨🏻‍💻    |
-| Client-Server communication via Socket  | 👨🏻‍💻    |
-| Client-Server communication via RMI     | 👨🏻‍💻    |
-| Test Flight mode                        | 👨🏻‍💻    |
-| Multiple game sessions                  | 👨🏻‍💻    |
-| Resilience to disconnections            | 👨🏻‍💻    |
-| Persistence of game state               | 👨🏻‍💻    |
-| JavaDoc documentation                   | 👨🏻‍💻    |
-| JUnit Testing                           | 👨🏻‍💻    |
+| Requirements                            | Status  |
+|-----------------------------------------|---------|
+| Full implementation of game rules       | ✅       |
+| Initial UML diagram                     | ✅       |
+| Final UML diagram                       | 👨🏻‍💻 |
+| Command Line Interface (CLI)            | 👨🏻‍💻 |
+| Graphical User Interface (GUI - JavaFX) | 👨🏻‍💻 |
+| Client-Server communication via Socket  | 👨🏻‍💻 |
+| Client-Server communication via RMI     | 👨🏻‍💻 |
+| Test Flight mode                        | 👨🏻‍💻 |
+| Multiple game sessions                  | 👨🏻‍💻 |
+| Resilience to disconnections            | 👨🏻‍💻 |
+| Persistence of game state               | 👨🏻‍💻 |
+| JavaDoc documentation                   | 👨🏻‍💻 |
+| JUnit Testing                           | 👨🏻‍💻 |
 
 ---
 
