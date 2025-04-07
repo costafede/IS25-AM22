@@ -9,12 +9,17 @@ public class BuildingPhase extends GamePhase {
     }
 
     public void trySwitchToNextPhase(){
-        boolean flag = true;
+        boolean flag_finished = true;
+        boolean flag_valid = true;
         for(String player : game.getPlayerList()){
             if(!game.getShipboards().get(player).isFinishedShipboard())
-                flag = false;
+                flag_finished = false;
+            if(!game.getShipboards().get(player).checkShipboard())
+                flag_valid = false;
         }
-        if(flag)
+        if(flag_finished && !flag_valid)
             transition(new CorrectingShipPhase(game));
+        if(flag_finished && flag_valid)
+            transition(new CardPhase(game));
     }
 }
