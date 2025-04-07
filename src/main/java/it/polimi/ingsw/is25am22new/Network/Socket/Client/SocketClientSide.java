@@ -1,6 +1,5 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
-import it.polimi.ingsw.is25am22new.Client.View.GameCliView;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
