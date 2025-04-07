@@ -42,6 +42,14 @@ public class GameController {
 
     // Lobby methods
 
+    public String getLobbyState() {
+        return
+                "Players: " + lobby.getPlayers() + "\n" +
+                "Lobby Creator: " + lobbyCreator + "\n" +
+                "Ready Status: " + lobby.getReadyStatus() + "\n" +
+                "Game Type: " + lobby.getGameType() + "\n";
+    }
+
     private void setLobbyCreator(String player) {
         if(currentState == GameState.LOBBY) {
             this.lobbyCreator = player;

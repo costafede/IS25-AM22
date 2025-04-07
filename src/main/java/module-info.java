@@ -8,6 +8,7 @@ module it.polimi.ingsw.is25am22new {
         requires java.rmi;
         requires javafx.graphics;
         requires java.base;
+        requires java.logging;
 
         opens it.polimi.ingsw.is25am22new to javafx.fxml;
 

@@ -218,7 +218,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
     }
 
     @Override
-    public void showUpdateShipboard(Shipboard shipboard) throws RemoteException {
+    public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {
         clientView.displayShipboard(shipboard);
     }
 

@@ -106,10 +106,10 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateShipboard(Shipboard shipboard) throws RemoteException {
+    public void updateShipboard(String player, Shipboard shipboard) throws RemoteException {
         for (VirtualView connectedClient : connectedClients) {
             try {
-                connectedClient.showUpdateShipboard(shipboard);
+                connectedClient.showUpdateShipboard(player, shipboard);
             } catch (RemoteException e) {
                 System.err.println("Error updating client with shipboard: " + e.getMessage());
                 handleClientError(connectedClient, e);
