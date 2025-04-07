@@ -41,7 +41,6 @@ public class GameController {
     }
 
     // Lobby methods
-
     public String getLobbyState() {
         return
                 "Players: " + lobby.getPlayers() + "\n" +
