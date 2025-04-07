@@ -13,23 +13,32 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
 
     private final VirtualServerRMI server;
-    private final ClientView clientView;
+    private final EnhancedClientView clientView;
     private static final String SERVER_NAME = "GalaxyTruckerServer";
+    private boolean isHost = false;
 
-    protected RmiClient(String host, int port, ClientView clientView) throws RemoteException, NotBoundException {
+    protected RmiClient(String host, int port, EnhancedClientView clientView) throws RemoteException, NotBoundException {
         super();
         this.clientView = clientView;
 
         Registry registry = LocateRegistry.getRegistry(host, port);
-        // Let RMI handle the proxy creation directly
         this.server = (VirtualServerRMI) registry.lookup(SERVER_NAME);
-        this.server.connect( this);
-        System.out.println("Connected to server: " + host + ":" + port);
+
+        //this.server.connect( this);
+        //System.out.println("Connected to server: " + host + ":" + port);
+
+        System.out.println("Found server: " + host + ":" + port);
+    }
+
+    public void connectWithNickname(String nickname) throws RemoteException {
+        server.connect(this, nickname);
     }
 
     public static void main(String[] args) {
@@ -49,7 +58,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
 
         try {
             // Create a console-based ClientView implementation
-            ClientView view = new SimpleClientView();
+            ConsoleClientView view = new ConsoleClientView();
 
             // Create the RMI client
             RmiClient client = new RmiClient(host, port, view);
@@ -59,47 +68,17 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
             System.out.print("Enter your name: ");
             String playerName = scanner.nextLine();
 
-            client.addPlayer(playerName);
+            client.connectWithNickname(playerName);
 
-            // Main command loop
-            boolean running = true;
-            while(running) {
-                System.out.println("\nCommands: ready, unready, gametype tut, gametype lvl2, start, exit");
-                String command = scanner.nextLine().trim();
-
-                switch(command) {
-                    case "ready":
-                        client.setPlayerReady(playerName);
-                        break;
-                    case "unready":
-                        client.setPlayerNotReady(playerName);
-                        break;
-                    case "gametype tut":
-                        client.setGameType("tutorial");
-                        break;
-                    case "gametype lvl2":
-                        client.setGameType("level2");
-                        break;
-                    case "start":
-                        client.startGameByHost(playerName);
-                        break;
-                    case "exit":
-                        running = false;
-                        break;
-                    default:
-                        System.out.println("Unknown command");
-                }
-            }
-
-            // Clean disconnect
-            System.out.println("Disconnecting...");
-            client.removePlayer(playerName);
+            view.startCommandLoop(client, playerName, scanner);
 
         } catch (Exception e) {
             System.err.println("Client exception: " + e);
         }
         System.exit(0);
     }
+
+
 
     public void addPlayer(String playerName) throws RemoteException {
         server.addPlayer(playerName);
@@ -201,6 +180,31 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
         server.endGame();
     }
 
+    @Override
+    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException {
+        clientView.displayLobbyUpdate(players, readyStatus, gameType, isHost);
+    }
+
+    @Override
+    public void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException {
+        this.isHost = isHost;
+        clientView.displayConnectionResult(isHost, success, message);
+    }
+
+    @Override
+    public void showNicknameResult(boolean valid, String message) throws RemoteException {
+        clientView.displayNicknameResult(valid, message);
+    }
+
+    @Override
+    public void showGameStarted() throws RemoteException {
+        clientView.displayGameStarted();
+    }
+
+    @Override
+    public void showPlayerJoined(String playerName) throws RemoteException {
+        clientView.displayPlayerJoined(playerName);
+    }
 
     @Override
     public void showUpdateBank(Bank bank) throws RemoteException {
@@ -219,7 +223,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
 
     @Override
     public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {
-        clientView.displayShipboard(shipboard);
+        clientView.displayShipboard(player, shipboard);
     }
 
     @Override
@@ -243,8 +247,20 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
     }
 }
 
+interface EnhancedClientView extends ClientView {
+    void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost);
+    void displayConnectionResult(boolean isHost, boolean success, String message);
+    void displayNicknameResult(boolean valid, String message);
+    void displayGameStarted();
+    void displayPlayerJoined(String playerName);
+    void startCommandLoop(RmiClient client, String playerName, Scanner scanner);
+}
+
 // Simple implementation of ClientView for console output
-class SimpleClientView implements ClientView {
+class ConsoleClientView implements EnhancedClientView {
+
+    private boolean inGame = false;
+
     @Override
     public void displayBank(Bank bank) {
         System.out.println("Bank update received");
@@ -261,7 +277,7 @@ class SimpleClientView implements ClientView {
     }
 
     @Override
-    public void displayShipboard(Shipboard shipboard) {
+    public void displayShipboard(String player, Shipboard shipboard) {
         System.out.println("Shipboard update received");
     }
 
@@ -283,5 +299,139 @@ class SimpleClientView implements ClientView {
     @Override
     public void displayCurrentPlayer(String currPlayer) {
         System.out.println("Current player: " + currPlayer);
+    }
+
+    @Override
+    public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
+        System.out.println("\n=== LOBBY UPDATE ===");
+        System.out.println("Players:");
+        for (String player : players) {
+            String status = readyStatus.getOrDefault(player, false) ? "READY" : "NOT READY";
+            System.out.println("  " + player + " - " + status);
+        }
+        System.out.println("Game Type: " + gameType);
+        if (isHost) {
+            System.out.println("You are the HOST of this lobby");
+        }
+        System.out.println("===================\n");
+    }
+
+    @Override
+    public void displayConnectionResult(boolean isHost, boolean success, String message) {
+        System.out.println("\n=== CONNECTION RESULT ===");
+        if (success) {
+            System.out.println("Successfully connected to the game!");
+            System.out.println(message);
+            if (isHost) {
+                System.out.println("As the host, you can start the game when at least 2 players are ready.");
+            }
+        } else {
+            System.out.println("Connection failed: " + message);
+        }
+        System.out.println("=========================\n");
+    }
+
+    @Override
+    public void displayNicknameResult(boolean valid, String message) {
+        System.out.println("\n=== NICKNAME RESULT ===");
+        if (valid) {
+            System.out.println("Nickname accepted!");
+        } else {
+            System.out.println("Nickname error: " + message);
+        }
+        System.out.println("======================\n");
+    }
+
+    @Override
+    public void displayGameStarted() {
+        System.out.println("\n🚀 GAME STARTED! 🚀");
+        System.out.println("Welcome to Galaxy Trucker!");
+        inGame = true;
+    }
+
+    @Override
+    public void displayPlayerJoined(String playerName) {
+        System.out.println("\n>>> " + playerName + " has joined the lobby! <<<\n");
+    }
+
+    @Override
+    public void startCommandLoop(RmiClient client, String playerName, Scanner scanner) {
+        boolean running = true;
+
+        while(running && !inGame) {
+            System.out.println("\nCommands: ready, unready, gametype tut, gametype lvl2, start, exit");
+            String command = scanner.nextLine().trim();
+
+            try {
+                switch(command) {
+                    case "ready":
+                        client.setPlayerReady(playerName);
+                        break;
+                    case "unready":
+                        client.setPlayerNotReady(playerName);
+                        break;
+                    case "gametype tut":
+                        client.setGameType("tutorial");
+                        break;
+                    case "gametype lvl2":
+                        client.setGameType("level2");
+                        break;
+                    case "start":
+                        client.startGameByHost(playerName);
+                        break;
+                    case "exit":
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Unknown command");
+                }
+            } catch (RemoteException e) {
+                System.err.println("Error executing command: " + e.getMessage());
+            }
+        }
+
+        // Game commands once in game
+        while(running && inGame) {
+            System.out.println("\nGame Commands: [Enter number for commands]");
+            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
+
+            String command = scanner.nextLine().trim();
+            try {
+                int cmd = Integer.parseInt(command);
+                switch(cmd) {
+                    case 6:
+                        client.pickCoveredTile(playerName);
+                        break;
+                    case 7:
+                        System.out.println("Which tile do you want to pick?: ");
+                        int index = scanner.nextInt();
+                        scanner.nextLine(); // consume newline
+                        client.pickUncoveredTile(playerName, index);
+                        break;
+                    case 20:
+                        client.playerAbandons(playerName);
+                        running = false;
+                        break;
+                    case 22:
+                        client.endGame();
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Unknown command: " + cmd);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a number for commands");
+            } catch (RemoteException e) {
+                System.err.println("Error executing command: " + e.getMessage());
+            }
+        }
+
+        // Clean disconnect
+        try {
+            System.out.println("Disconnecting...");
+            client.removePlayer(playerName);
+        } catch (RemoteException e) {
+            System.err.println("Error during disconnect: " + e.getMessage());
+        }
     }
 }

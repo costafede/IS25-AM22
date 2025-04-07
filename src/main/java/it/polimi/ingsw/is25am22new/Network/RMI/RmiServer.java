@@ -19,18 +19,22 @@ import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RmiServer extends UnicastRemoteObject implements ObserverModel, VirtualServerRMI {
 
     private final GameController gameController;
     private final List<VirtualView> connectedClients;
+    private final Map<String, VirtualView> clientMap; //Map nickname to clients
     private static final String SERVER_NAME = "GalaxyTruckerServer";
 
     public RmiServer(GameController gameController) throws RemoteException {
         super();
         this.gameController = gameController;
         this.connectedClients = new ArrayList<>();
+        this.clientMap = new HashMap<>();
 
         Registry registry = LocateRegistry.createRegistry(1234);
         registry.rebind(SERVER_NAME, this);
@@ -48,7 +52,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void connect(VirtualView client) throws RemoteException {
+    public void connect(VirtualView client, String nickname) throws RemoteException {
         String clientHost;
 
         try {
@@ -59,7 +63,69 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
 
         synchronized (connectedClients) {
+            if(clientMap.containsKey(nickname)){
+                ((VirtualViewRMI) client).showNicknameResult(false, "Nickname already taken");
+                return;
+            }
             connectedClients.add(client);
+
+            boolean isHost = connectedClients.size() == 1;
+
+            int result = gameController.addPlayer(nickname);
+            if(result < 0){
+                ((VirtualViewRMI) client).showConnectionResult(false, false, "Failed to join the lobby: " + result);
+                connectedClients.remove(client);
+                return;
+            }
+
+            clientMap.put(nickname, client);
+
+            ((VirtualViewRMI) client).showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
+
+            if(!isHost){
+                broadcastPlayerJoined(nickname);
+            }
+
+            broadcastLobbyUpdate();
+        }
+    }
+
+    private void broadcastPlayerJoined(String nickname) {
+        for (VirtualView client : connectedClients) {
+            try {
+                if (client instanceof VirtualViewRMI && !client.equals(clientMap.get(nickname))) {
+                    ((VirtualViewRMI)client).showPlayerJoined(nickname);
+                }
+            } catch (RemoteException e) {
+                System.err.println("Error notifying client about new player: " + e.getMessage());
+                handleClientError(client, e);
+            }
+        }
+    }
+
+    private void broadcastLobbyUpdate() {
+        List<String> players = gameController.getPlayers();
+        Map<String, Boolean> readyStatus = gameController.getReadyStatus();
+        String gameType = gameController.getGameType();
+
+        for (VirtualView client : connectedClients) {
+            try {
+                ((VirtualViewRMI) client).showLobbyUpdate(players, readyStatus, gameType);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with lobby information: " + e.getMessage());
+                handleClientError(client, e);
+            }
+        }
+    }
+
+    private void broadcastGameStarted() {
+        for (VirtualView client : connectedClients) {
+            try {
+                ((VirtualViewRMI)client).showGameStarted();
+            } catch (RemoteException e) {
+                System.err.println("Error notifying client about game start: " + e.getMessage());
+                handleClientError(client, e);
+            }
         }
     }
 
@@ -179,40 +245,68 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         System.err.println("Client " + client.getClass() + " disconnected: " + e.getMessage());
         synchronized (connectedClients) {
             connectedClients.remove(client);
+            // Remove from nickname map
+            for (Map.Entry<String, VirtualView> entry : clientMap.entrySet()) {
+                if (entry.getValue().equals(client)) {
+                    String nickname = entry.getKey();
+                    clientMap.remove(nickname);
+                    gameController.removePlayer(nickname);
+                    break;
+                }
+            }
         }
+        broadcastLobbyUpdate();
     }
 
 
+    @Override
+    public void connect(VirtualView client) throws RemoteException {
+        throw new UnsupportedOperationException(
+                "Direct connection without nickname is not supported. " +
+                        "Please use connect(VirtualView, String) method instead."
+        );
+    }
 
     @Override
     public void addPlayer(String nickname) {
         gameController.addPlayer(nickname);
+        broadcastGameStarted();
     }
 
     @Override
     public void removePlayer(String nickname) {
         gameController.removePlayer(nickname);
+        clientMap.remove(nickname);
+        broadcastLobbyUpdate();
     }
 
     @Override
     public void setPlayerReady(String nickname) {
         gameController.setPlayerReady(nickname);
+        broadcastLobbyUpdate();
     }
 
     @Override
     public void startGameByHost(String nickname) {
-        gameController.startGameByHost(nickname);
+        boolean result = gameController.startGameByHost(nickname);
+        if(result) {
+            broadcastGameStarted();
+        } else {
+            System.err.println("Error starting game: " + result);
+        }
     }
 
     @Override
     public void setPlayerNotReady(String nickname) {
         gameController.setPlayerNotReady(nickname);
+        broadcastLobbyUpdate();
     }
 
     @Override
     public void setGameType(String gameType) {
         if(gameType.equals("level2") || gameType.equals("tutorial")) {
             gameController.setGameType(gameType);
+            broadcastLobbyUpdate();
         } else {
             System.err.println("Invalid game type: " + gameType);
         }

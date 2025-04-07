@@ -11,7 +11,7 @@ public interface ClientView {
     void displayBank(Bank bank);
     void displayTileInHand(String player, ComponentTile tile);
     void displayUncoveredComponentTiles(ComponentTile tile);
-    void displayShipboard(Shipboard shipboard);
+    void displayShipboard(String player, Shipboard shipboard);
     void displayFlightboard(Flightboard flightboard);
     void displayCurrentCard(AdventureCard card);
     void displayDices(Dices dices);

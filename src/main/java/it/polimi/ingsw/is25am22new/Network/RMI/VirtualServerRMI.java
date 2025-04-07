@@ -7,7 +7,8 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 import java.rmi.RemoteException;
 
 public interface VirtualServerRMI extends VirtualServer {
-    void connect(VirtualView client) throws RemoteException;
+    void connect(VirtualView client, String nickname) throws RemoteException;
+
     void addPlayer(String nickname) throws RemoteException;
     void removePlayer(String nickname) throws RemoteException;
     void setPlayerReady(String nickname) throws RemoteException;
