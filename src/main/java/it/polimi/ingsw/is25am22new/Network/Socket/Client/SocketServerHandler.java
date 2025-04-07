@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
@@ -187,5 +188,10 @@ public class SocketServerHandler implements VirtualServerSocket{
     @Override
     public void connect(VirtualView client) throws RemoteException {
         // used only by RMI
+    }
+
+    @Override
+    public void connect(VirtualViewRMI client, String nickname) throws RemoteException {
+        //used only by RMI
     }
 }
