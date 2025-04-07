@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
+import it.polimi.ingsw.is25am22new.Model.GamePhase.*;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
@@ -29,6 +30,7 @@ public abstract class Game extends ObservableModel {
     protected String currPlayer;
     protected AdventureCard currCard;
     private Dices dices;
+    protected GamePhase gamePhase;
 
     public Game(List<String> playerList) {
         this.playerList = playerList;
@@ -40,6 +42,7 @@ public abstract class Game extends ObservableModel {
         shipboards = new HashMap<>();
         this.deck = new ArrayList<>();
         this.dices = new Dices();
+        this.gamePhase = new SetUpPhase(this);
 
         List<String> colors = List.of("red", "green", "blue", "yellow");
         for(int i = 0; i < playerList.size(); i++) {
@@ -65,6 +68,7 @@ public abstract class Game extends ObservableModel {
         ObjectMapper objectMapper = new ObjectMapper();
         GameInitializer.initComponent(this, objectMapper);
         GameInitializer.initCardArchive(this, objectMapper);
+        gamePhase.trySwitchToNextPhase();
     }
 
     public void pickCoveredTile(String nickname) {
@@ -111,18 +115,17 @@ public abstract class Game extends ObservableModel {
         shipboards.get(nickname).setTileInHand(null);
     }
 
-    public boolean finishBuilding(String nickname, int pos) {
+    public void finishBuilding(String nickname, int pos) {
         // pos is 1, 2, 3, 4
         flightboard.placeRocket(nickname, pos);
-        boolean actuallyFinished = shipboards.get(nickname).checkShipboard();
-        if(actuallyFinished){ shipboards.get(nickname).setFinishedShipboard(true); }
-        return actuallyFinished;
+        shipboards.get(nickname).setFinishedShipboard(true);
+        gamePhase.trySwitchToNextPhase();
     }
 
-    public boolean finishBuilding(String nickname) {
-        boolean actuallyFinished = shipboards.get(nickname).checkShipboard();
-        if(actuallyFinished){ shipboards.get(nickname).setFinishedShipboard(true); }
-        return actuallyFinished;
+
+    /*these next two methods may be useless*/
+    public void finishBuilding(String nickname) {
+        shipboards.get(nickname).setFinishedShipboard(true);
     }
 
     public boolean finishedAllShipboards() {
@@ -132,6 +135,8 @@ public abstract class Game extends ObservableModel {
         }
         return true;
     }
+    /***************************************/
+
 
     public void flipHourglass(Runnable callbackMethod) {
         return;
@@ -148,6 +153,7 @@ public abstract class Game extends ObservableModel {
 
     public void destroyTile(String nickname, int i, int j) {
         shipboards.get(nickname).destroyTile(i, j);
+        gamePhase.trySwitchToNextPhase();
     }
 
     public List<CardPile> getCardPiles(){
@@ -259,6 +265,11 @@ public abstract class Game extends ObservableModel {
 
     public void activateCard(InputCommand inputCommand){
         currCard.activateEffect(inputCommand);
+        gamePhase.trySwitchToNextPhase();
+    }
+
+    public void setGamePhase(GamePhase gamePhase){
+        this.gamePhase = gamePhase;
     }
 
 }

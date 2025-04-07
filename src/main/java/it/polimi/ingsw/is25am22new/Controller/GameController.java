@@ -271,9 +271,7 @@ public class GameController {
 
     public void flipHourglass() {
         if(currentState == GameState.GAME) {
-            game.flipHourglass(() -> {
-                //TO BE IMPLEMENTED
-            });
+            game.flipHourglass(() -> {});
         } else {
             System.out.println("Cannot flip hourglass outside game state.");
         }

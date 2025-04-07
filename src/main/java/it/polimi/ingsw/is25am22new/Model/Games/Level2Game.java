@@ -114,6 +114,7 @@ public class Level2Game extends Game {
                 for(String p : playerList) {
                     shipboards.get(p).setFinishedShipboard(true);
                 }
+                gamePhase.trySwitchToNextPhase();
             };
         hourglass.startTimer(callbackMethod);
     }
