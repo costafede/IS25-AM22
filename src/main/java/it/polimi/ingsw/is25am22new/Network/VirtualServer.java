@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Network;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Network.RMI.VirtualViewRMI;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -8,7 +9,7 @@ import java.rmi.RemoteException;
 
 public interface VirtualServer extends Remote {
     void connect(VirtualView client) throws RemoteException;
-
+    void connect(VirtualViewRMI client, String nickname) throws RemoteException;
     void addPlayer(String nickname) throws IOException;
     void removePlayer(String nickname) throws IOException;
     void setPlayerReady(String nickname) throws IOException;

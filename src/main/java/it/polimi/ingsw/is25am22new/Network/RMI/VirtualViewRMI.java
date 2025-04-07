@@ -29,5 +29,4 @@ public interface VirtualViewRMI extends Remote, VirtualView {
     void showNicknameResult(boolean valid, String message) throws RemoteException;
     void showGameStarted() throws RemoteException;
     void showPlayerJoined(String player) throws RemoteException;
-
 }

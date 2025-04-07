@@ -26,8 +26,8 @@ import java.util.Map;
 public class RmiServer extends UnicastRemoteObject implements ObserverModel, VirtualServerRMI {
 
     private final GameController gameController;
-    private final List<VirtualView> connectedClients;
-    private final Map<String, VirtualView> clientMap; //Map nickname to clients
+    private final List<VirtualViewRMI> connectedClients;
+    private final Map<String, VirtualViewRMI> clientMap; //Map nickname to clients
     private static final String SERVER_NAME = "GalaxyTruckerServer";
 
     public RmiServer(GameController gameController) throws RemoteException {
@@ -52,7 +52,12 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void connect(VirtualView client, String nickname) throws RemoteException {
+    public void connect(VirtualView client) throws RemoteException {
+        // This method is not used in RMI, but it is required by the interface
+    }
+
+    @Override
+    public void connect(VirtualViewRMI client, String nickname) throws RemoteException {
         String clientHost;
 
         try {
@@ -64,7 +69,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
         synchronized (connectedClients) {
             if(clientMap.containsKey(nickname)){
-                ((VirtualViewRMI) client).showNicknameResult(false, "Nickname already taken");
+                (client).showNicknameResult(false, "Nickname already taken");
                 return;
             }
             connectedClients.add(client);
@@ -73,14 +78,14 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
             int result = gameController.addPlayer(nickname);
             if(result < 0){
-                ((VirtualViewRMI) client).showConnectionResult(false, false, "Failed to join the lobby: " + result);
+                (client).showConnectionResult(false, false, "Failed to join the lobby: " + result);
                 connectedClients.remove(client);
                 return;
             }
 
             clientMap.put(nickname, client);
 
-            ((VirtualViewRMI) client).showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
+            (client).showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
             if(!isHost){
                 broadcastPlayerJoined(nickname);
@@ -91,10 +96,10 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     private void broadcastPlayerJoined(String nickname) {
-        for (VirtualView client : connectedClients) {
+        for (VirtualViewRMI client : connectedClients) {
             try {
-                if (client instanceof VirtualViewRMI && !client.equals(clientMap.get(nickname))) {
-                    ((VirtualViewRMI)client).showPlayerJoined(nickname);
+                if (!client.equals(clientMap.get(nickname))) {
+                    (client).showPlayerJoined(nickname);
                 }
             } catch (RemoteException e) {
                 System.err.println("Error notifying client about new player: " + e.getMessage());
@@ -108,9 +113,9 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         Map<String, Boolean> readyStatus = gameController.getReadyStatus();
         String gameType = gameController.getGameType();
 
-        for (VirtualView client : connectedClients) {
+        for (VirtualViewRMI client : connectedClients) {
             try {
-                ((VirtualViewRMI) client).showLobbyUpdate(players, readyStatus, gameType);
+                (client).showLobbyUpdate(players, readyStatus, gameType);
             } catch (RemoteException e) {
                 System.err.println("Error updating client with lobby information: " + e.getMessage());
                 handleClientError(client, e);
@@ -119,9 +124,9 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     private void broadcastGameStarted() {
-        for (VirtualView client : connectedClients) {
+        for (VirtualViewRMI client : connectedClients) {
             try {
-                ((VirtualViewRMI)client).showGameStarted();
+                (client).showGameStarted();
             } catch (RemoteException e) {
                 System.err.println("Error notifying client about game start: " + e.getMessage());
                 handleClientError(client, e);
@@ -131,7 +136,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateBank(Bank bank) throws RemoteException {
-        for (VirtualView connectedClient : connectedClients) {
+        for (VirtualViewRMI connectedClient : connectedClients) {
             try{
                 connectedClient.showUpdateBank(bank);
             } catch (RemoteException e) {
@@ -145,7 +150,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateTileInHand(String player, ComponentTile ct) throws RemoteException {
-        for (VirtualView connectedClient : connectedClients) {
+        for (VirtualViewRMI connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateTileInHand(player, ct);
             } catch (RemoteException e) {
@@ -159,7 +164,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateUncoveredComponentTiles(ComponentTile ct) throws RemoteException {
-        for (VirtualView connectedClient : connectedClients) {
+        for (VirtualViewRMI connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateUncoveredComponentTiles(ct);
             } catch (RemoteException e) {
@@ -173,7 +178,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateShipboard(String player, Shipboard shipboard) throws RemoteException {
-        for (VirtualView connectedClient : connectedClients) {
+        for (VirtualViewRMI connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateShipboard(player, shipboard);
             } catch (RemoteException e) {
@@ -187,7 +192,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateFlightboard(Flightboard flightboard) throws RemoteException {
-        for(VirtualView connectedClient : connectedClients) {
+        for(VirtualViewRMI connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateFlightboard(flightboard);
             } catch (RemoteException e) {
@@ -201,7 +206,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateCurrCard(AdventureCard adventureCard) throws RemoteException {
-        for (VirtualView connectedClient : connectedClients) {
+        for (VirtualViewRMI connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateCurrCard(adventureCard);
             } catch (RemoteException e) {
@@ -215,7 +220,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateDices(Dices dices) throws RemoteException {
-        for (VirtualView connectedClient : connectedClients) {
+        for (VirtualViewRMI connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateDices(dices);
             } catch (RemoteException e) {
@@ -229,7 +234,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void updateCurrPlayer(String currPlayer) throws RemoteException {
-        for (VirtualView connectedClient : connectedClients) {
+        for (VirtualViewRMI connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateCurrPlayer(currPlayer);
             } catch (RemoteException e) {
@@ -241,12 +246,12 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
     }
 
-    private void handleClientError(VirtualView client, RemoteException e) {
+    private void handleClientError(VirtualViewRMI client, RemoteException e) {
         System.err.println("Client " + client.getClass() + " disconnected: " + e.getMessage());
         synchronized (connectedClients) {
             connectedClients.remove(client);
             // Remove from nickname map
-            for (Map.Entry<String, VirtualView> entry : clientMap.entrySet()) {
+            for (Map.Entry<String, VirtualViewRMI> entry : clientMap.entrySet()) {
                 if (entry.getValue().equals(client)) {
                     String nickname = entry.getKey();
                     clientMap.remove(nickname);
@@ -256,15 +261,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             }
         }
         broadcastLobbyUpdate();
-    }
-
-
-    @Override
-    public void connect(VirtualView client) throws RemoteException {
-        throw new UnsupportedOperationException(
-                "Direct connection without nickname is not supported. " +
-                        "Please use connect(VirtualView, String) method instead."
-        );
     }
 
     @Override
@@ -289,10 +285,8 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void startGameByHost(String nickname) throws RemoteException {
         if (!gameController.getLobbyCreator().equals(nickname)) {
-            VirtualView client = clientMap.get(nickname);
-            if (client instanceof VirtualViewRMI) {
-                ((VirtualViewRMI) client).showConnectionResult(false, false, "Only the host can start the game");
-            }
+            VirtualViewRMI client = clientMap.get(nickname);
+            (client).showConnectionResult(false, false, "Only the host can start the game");
             return;
         }
 
@@ -308,11 +302,9 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
         if (!unreadyPlayers.isEmpty()) {
             // Some players are not ready
-            VirtualView hostClient = clientMap.get(nickname);
-            if (hostClient instanceof VirtualViewRMI) {
-                String message = "Cannot start game: " + String.join(", ", unreadyPlayers) + " not ready";
-                ((VirtualViewRMI) hostClient).showConnectionResult(true, false, message);
-            }
+            VirtualViewRMI hostClient = clientMap.get(nickname);
+            String message = "Cannot start game: " + String.join(", ", unreadyPlayers) + " not ready";
+            (hostClient).showConnectionResult(true, false, message);
             return;
         }
 
