@@ -287,12 +287,40 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void startGameByHost(String nickname) {
+    public void startGameByHost(String nickname) throws RemoteException {
+        if (!gameController.getLobbyCreator().equals(nickname)) {
+            VirtualView client = clientMap.get(nickname);
+            if (client instanceof VirtualViewRMI) {
+                ((VirtualViewRMI) client).showConnectionResult(false, false, "Only the host can start the game");
+            }
+            return;
+        }
+
+        // Check if all players are ready
+        Map<String, Boolean> readyStatus = gameController.getReadyStatus();
+        List<String> unreadyPlayers = new ArrayList<>();
+
+        for (Map.Entry<String, Boolean> entry : readyStatus.entrySet()) {
+            if (!entry.getValue()) {
+                unreadyPlayers.add(entry.getKey());
+            }
+        }
+
+        if (!unreadyPlayers.isEmpty()) {
+            // Some players are not ready
+            VirtualView hostClient = clientMap.get(nickname);
+            if (hostClient instanceof VirtualViewRMI) {
+                String message = "Cannot start game: " + String.join(", ", unreadyPlayers) + " not ready";
+                ((VirtualViewRMI) hostClient).showConnectionResult(true, false, message);
+            }
+            return;
+        }
+
         boolean result = gameController.startGameByHost(nickname);
-        if(result) {
+        if (result) {
             broadcastGameStarted();
         } else {
-            System.err.println("Error starting game: " + result);
+            System.err.println("Error starting game");
         }
     }
 

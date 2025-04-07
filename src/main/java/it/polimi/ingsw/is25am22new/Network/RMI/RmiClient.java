@@ -65,10 +65,25 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
 
             // Interaction logic to join game, etc.
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter your name: ");
-            String playerName = scanner.nextLine();
 
-            client.connectWithNickname(playerName);
+            boolean nickAccepted = false;
+            String playerName = "";
+
+            while(!nickAccepted) {
+                System.out.print("Enter your name: ");
+                playerName = scanner.nextLine();
+
+                try{
+                    view.resetNicknameStatus();
+                    client.connectWithNickname(playerName);
+
+                    Thread.sleep(1000);
+
+                    nickAccepted = view.isNicknameValid();
+                }catch (RemoteException | InterruptedException e){
+                    System.err.println("Error connecting with nickname" + e.getMessage());
+                }
+            }
 
             view.startCommandLoop(client, playerName, scanner);
 
@@ -247,19 +262,18 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
     }
 }
 
-interface EnhancedClientView extends ClientView {
-    void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost);
-    void displayConnectionResult(boolean isHost, boolean success, String message);
-    void displayNicknameResult(boolean valid, String message);
-    void displayGameStarted();
-    void displayPlayerJoined(String playerName);
-    void startCommandLoop(RmiClient client, String playerName, Scanner scanner);
-}
-
 // Simple implementation of ClientView for console output
 class ConsoleClientView implements EnhancedClientView {
-
     private boolean inGame = false;
+    private boolean nicknameValid = false;
+
+    public boolean isNicknameValid() {
+        return nicknameValid;
+    }
+
+    public void resetNicknameStatus(){
+        nicknameValid = false;
+    }
 
     @Override
     public void displayBank(Bank bank) {
@@ -325,6 +339,7 @@ class ConsoleClientView implements EnhancedClientView {
             if (isHost) {
                 System.out.println("As the host, you can start the game when at least 2 players are ready.");
             }
+            nicknameValid = true;
         } else {
             System.out.println("Connection failed: " + message);
         }
@@ -332,12 +347,14 @@ class ConsoleClientView implements EnhancedClientView {
     }
 
     @Override
-    public void displayNicknameResult(boolean valid, String message) {
+    public void displayNicknameResult(boolean valid, String message){
         System.out.println("\n=== NICKNAME RESULT ===");
-        if (valid) {
+        if(valid){
             System.out.println("Nickname accepted!");
-        } else {
+            nicknameValid = true;
+        }else{
             System.out.println("Nickname error: " + message);
+            nicknameValid = false;
         }
         System.out.println("======================\n");
     }
@@ -347,6 +364,9 @@ class ConsoleClientView implements EnhancedClientView {
         System.out.println("\n🚀 GAME STARTED! 🚀");
         System.out.println("Welcome to Galaxy Trucker!");
         inGame = true;
+
+        System.out.println("\nGame Commands: [Enter number for commands]");
+        System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
     }
 
     @Override
@@ -392,8 +412,8 @@ class ConsoleClientView implements EnhancedClientView {
 
         // Game commands once in game
         while(running && inGame) {
-            System.out.println("\nGame Commands: [Enter number for commands]");
-            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
+//            System.out.println("\nGame Commands: [Enter number for commands]");
+//            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
 
             String command = scanner.nextLine().trim();
             try {
