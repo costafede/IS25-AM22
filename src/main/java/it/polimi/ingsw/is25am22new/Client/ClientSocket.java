@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
@@ -72,6 +73,11 @@ public class ClientSocket implements VirtualView, VirtualServer {
     @Override
     public void connect(VirtualView client) throws RemoteException {
 
+    }
+
+    @Override
+    public void connect(VirtualViewRMI client, String nickname) throws RemoteException {
+        // This method is not used in the Socket implementation
     }
 
     @Override
