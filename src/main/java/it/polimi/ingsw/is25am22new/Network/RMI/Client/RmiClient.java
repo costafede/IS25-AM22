@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Network.RMI;
+package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Network.RMI.Server.VirtualServerRMI;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

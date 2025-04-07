@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Network.RMI;
+package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Network.RMI;
+package it.polimi.ingsw.is25am22new.Network.RMI.Server;
 
 import it.polimi.ingsw.is25am22new.Controller.GameController;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
@@ -9,6 +9,7 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.IOException;

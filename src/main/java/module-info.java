@@ -32,4 +32,8 @@ module it.polimi.ingsw.is25am22new {
         opens it.polimi.ingsw.is25am22new.Model.AdventureCard to java.rmi;
 
         exports it.polimi.ingsw.is25am22new;
-    }
+    exports it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
+    opens it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
+        exports it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
+        opens it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
+}

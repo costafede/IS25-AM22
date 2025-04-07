@@ -1,7 +1,7 @@
 package it.polimi.ingsw.is25am22new.Network;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Network.RMI.VirtualViewRMI;
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 
 import java.io.IOException;
 import java.rmi.Remote;
