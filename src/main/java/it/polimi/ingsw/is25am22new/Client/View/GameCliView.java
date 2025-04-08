@@ -3,6 +3,9 @@ package it.polimi.ingsw.is25am22new.Client.View;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.SetUpPhase;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Hourglass;
@@ -25,6 +28,7 @@ public class GameCliView implements GameView{
     protected String currPlayer;
     protected AdventureCard currCard;
     private Dices dices;
+    protected PhaseType phaseType;
 
     public GameCliView() {
         bank = new Bank();
@@ -35,6 +39,7 @@ public class GameCliView implements GameView{
         shipboards = new HashMap<>();
         this.deck = new ArrayList<>();
         this.dices = new Dices();
+        this.phaseType = PhaseType.SETUP;
     }
 
     public Dices getDices() {
@@ -127,5 +132,13 @@ public class GameCliView implements GameView{
 
     public Shipboard getShipboard(String player) {
         return this.shipboards.get(player);
+    }
+
+    public PhaseType getPhaseType() {
+        return phaseType;
+    }
+
+    public void setPhaseType(PhaseType phaseType) {
+        this.phaseType = phaseType;
     }
 }
