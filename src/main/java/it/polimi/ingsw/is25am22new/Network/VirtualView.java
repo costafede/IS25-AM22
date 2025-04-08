@@ -9,6 +9,9 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.io.IOException;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.List;
+import java.util.Map;
 
 public interface VirtualView extends Remote {
 
@@ -20,4 +23,12 @@ public interface VirtualView extends Remote {
     void showUpdateCurrCard(AdventureCard adventureCard) throws IOException;
     void showUpdateDices(Dices dices) throws IOException;
     void showUpdateCurrPlayer(String currPlayer) throws IOException;
+
+    //Methods for lobby management
+    void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException;
+    void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException;
+    void showNicknameResult(boolean valid, String message) throws RemoteException;
+    void showGameStarted() throws RemoteException;
+    void showPlayerJoined(String player) throws RemoteException;
+
 }

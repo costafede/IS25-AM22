@@ -7,7 +7,6 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
@@ -16,6 +15,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
+import java.util.Map;
 
 public class ClientRMI implements VirtualView, VirtualServer {
     private VirtualServer server;
@@ -67,13 +68,33 @@ public class ClientRMI implements VirtualView, VirtualServer {
     }
 
     @Override
-    public void connect(VirtualView client) throws RemoteException {
-        // This method is not used in the RMI implementation
+    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException {
+
     }
 
     @Override
-    public void connect(VirtualViewRMI client, String nickname) throws RemoteException {
-        server.connect(client);
+    public void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void showNicknameResult(boolean valid, String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void showGameStarted() throws RemoteException {
+
+    }
+
+    @Override
+    public void showPlayerJoined(String player) throws RemoteException {
+
+    }
+
+    @Override
+    public void connect(VirtualView client, String nickname) throws RemoteException {
+        //Used only for RMI
     }
 
     @Override
@@ -179,5 +200,15 @@ public class ClientRMI implements VirtualView, VirtualServer {
     @Override
     public void endGame() throws IOException {
         server.endGame();
+    }
+
+    @Override
+    public void setCurrPlayer(String currPlayer) throws RemoteException {
+
+    }
+
+    @Override
+    public void setCurrPlayerToLeader() throws RemoteException {
+
     }
 }

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
 
-public class SocketServerHandler implements VirtualServerSocket{
+public class SocketServerHandler implements VirtualServer {
     final ObjectOutputStream objectOutput;
 
     public SocketServerHandler(OutputStream os) throws IOException {
@@ -177,21 +177,27 @@ public class SocketServerHandler implements VirtualServerSocket{
         objectOutput.flush();
     }
 
+
+    @Override
+    public void setCurrPlayer(String currPlayer) throws RemoteException {
+
+    }
+
+    @Override
+    public void setCurrPlayerToLeader() throws RemoteException {
+
+    }
+
+    @Override
+    public void connect(VirtualView client, String nickname) throws RemoteException {
+        //Used only for RMI
+    }
+
     public void connectionTester(String a, int b) throws IOException {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(b);
         SocketMessage msg = new SocketMessage("connectionTester", inputCommand, a);
         objectOutput.writeObject(msg);
         objectOutput.flush();
-    }
-
-    @Override
-    public void connect(VirtualView client) throws RemoteException {
-        // used only by RMI
-    }
-
-    @Override
-    public void connect(VirtualViewRMI client, String nickname) throws RemoteException {
-        //used only by RMI
     }
 }
