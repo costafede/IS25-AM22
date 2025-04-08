@@ -395,7 +395,7 @@ class ConsoleClientView implements EnhancedClientView {
             System.out.println("Commands: ready, unready, gametype tut, gametype lvl2, start, exit");
         } else {
             System.out.println("Game commands: [Enter number for commands]");
-            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
+            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 8: Weld component tile | 9: Standby component tile | 10: Pick standby component tile | 11: Discard component tile \n12: Finish building | 13: Finish building with index | 14: Finished all shipboards | 15: Flip hourglass \n16: Pick card | 17: Activate card | 18: Remove player | 19: Destroy component tile \n20: Abandon game | 21: End game");
         }
         System.out.print("> ");
     }
@@ -445,7 +445,7 @@ class ConsoleClientView implements EnhancedClientView {
                 System.out.println("Command: " + command);
                 switch(cmd) {
                     case 6:
-                        System.out.print("Picking covered tile...");
+                        System.out.println("Picking covered tile...");
                         client.pickCoveredTile(playerName);
                         displayCurrentCommands();
                         break;
@@ -456,12 +456,84 @@ class ConsoleClientView implements EnhancedClientView {
                         client.pickUncoveredTile(playerName, index);
                         displayCurrentCommands();
                         break;
+                    case 8:
+                        System.out.println("Welding component tile...");
+                        System.out.print("Enter i, j, numOfRotation (positive for clockwise, negative for counterclockwise: ");
+                        String[] input = scanner.nextLine().split(",");
+                        int i = Integer.parseInt(input[0]);
+                        int j = Integer.parseInt(input[1]);
+                        int numOfRotation = Integer.parseInt(input[2]);
+                        client.weldComponentTile(playerName, i, j, numOfRotation);
+                        displayCurrentCommands();
+                        break;
+                    case 9:
+                        System.out.println("Standby component tile...");
+                        client.standbyComponentTile(playerName);
+                        displayCurrentCommands();
+                        break;
+                    case 10:
+                        System.out.println("Pick standby component tile...");
+                        System.out.print("Enter index: ");
+                        int standbyIndex = scanner.nextInt();
+                        scanner.nextLine(); // consume newline
+                        client.pickStandbyComponentTile(playerName, standbyIndex);
+                        displayCurrentCommands();
+                        break;
+                    case 11:
+                        System.out.println("Discard component tile...");
+                        client.discardComponentTile(playerName);
+                        displayCurrentCommands();
+                        break;
+                    case 12:
+                        System.out.println("Finish building...");
+                        client.finishBuilding(playerName);
+                        displayCurrentCommands();
+                        break;
+                    case 13:
+                        System.out.println("Finish building...");
+                        //To be implemented
+                        break;
+                    case 14:
+                        System.out.println("Finished all shipboards...");
+                        client.finishedAllShipboards();
+                        displayCurrentCommands();
+                        break;
+                    case 15:
+                        System.out.println("Flipping hourglass...");
+                        client.flipHourglass();
+                        displayCurrentCommands();
+                        break;
+                    case 16:
+                        System.out.println("Picking card...");
+                        client.pickCard();
+                        displayCurrentCommands();
+                        break;
+                    case 17:
+                        System.out.println("Activating card...");
+                        //To be implemented
+                        break;
+                    case 18:
+                        System.out.println("Removing player...");
+                        System.out.print("Enter player name: ");
+                        String removePlayerName = scanner.nextLine();
+                        client.removePlayer(removePlayerName);
+                        displayCurrentCommands();
+                        break;
+                    case 19:
+                        System.out.println("Destroying component tile...");
+                        System.out.print("Enter i, j: ");
+                        String[] destroyInput = scanner.nextLine().split(",");
+                        int destroyI = Integer.parseInt(destroyInput[0]);
+                        int destroyJ = Integer.parseInt(destroyInput[1]);
+                        client.destroyComponentTile(playerName, destroyI, destroyJ);
+                        displayCurrentCommands();
+                        break;
                     case 20:
                         client.playerAbandons(playerName);
                         running = false;
                         displayCurrentCommands();
                         break;
-                    case 22:
+                    case 21:
                         client.endGame();
                         running = false;
                         displayCurrentCommands();
