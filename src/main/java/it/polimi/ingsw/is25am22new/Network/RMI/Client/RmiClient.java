@@ -279,41 +279,49 @@ class ConsoleClientView implements EnhancedClientView {
     @Override
     public void displayBank(Bank bank) {
         System.out.println("Bank update received");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayTileInHand(String player, ComponentTile tile) {
         System.out.println("Tile in hand update received");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayUncoveredComponentTiles(ComponentTile tile) {
         System.out.println("Uncovered component tile update received");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayShipboard(String player, Shipboard shipboard) {
         System.out.println("Shipboard update received");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayFlightboard(Flightboard flightboard) {
         System.out.println("Flightboard update received");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayCurrentCard(AdventureCard card) {
         System.out.println("Current card update received");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayDices(Dices dices) {
         System.out.println("Dices update received");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayCurrentPlayer(String currPlayer) {
         System.out.println("Current player: " + currPlayer);
+        displayCurrentCommands();
     }
 
     @Override
@@ -329,6 +337,7 @@ class ConsoleClientView implements EnhancedClientView {
             System.out.println("You are the HOST of this lobby");
         }
         System.out.println("===================\n");
+        displayCurrentCommands();
     }
 
     @Override
@@ -345,6 +354,7 @@ class ConsoleClientView implements EnhancedClientView {
             System.out.println("Connection failed: " + message);
         }
         System.out.println("=========================\n");
+        displayCurrentCommands();
     }
 
     @Override
@@ -358,6 +368,7 @@ class ConsoleClientView implements EnhancedClientView {
             nicknameValid = false;
         }
         System.out.println("======================\n");
+        displayCurrentCommands();
     }
 
     @Override
@@ -365,22 +376,32 @@ class ConsoleClientView implements EnhancedClientView {
         System.out.println("\n🚀 GAME STARTED! 🚀");
         System.out.println("Welcome to Galaxy Trucker!");
         inGame = true;
-
-        System.out.println("\nGame Commands: [Enter number for commands]");
-        System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
+        displayCurrentCommands();
     }
 
     @Override
     public void displayPlayerJoined(String playerName) {
         System.out.println("\n>>> " + playerName + " has joined the lobby! <<<\n");
+        displayCurrentCommands();
+    }
+
+    private void displayCurrentCommands() {
+        if(!inGame){
+            System.out.println("Commands: ready, unready, gametype tut, gametype lvl2, start, exit");
+        } else {
+            System.out.println("Game commands: [Enter number for commands]");
+            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
+        }
+        System.out.print("> ");
     }
 
     @Override
     public void startCommandLoop(RmiClient client, String playerName, Scanner scanner) {
         boolean running = true;
 
+        displayCurrentCommands();
+
         while(running && !inGame) {
-            System.out.println("\nCommands: ready, unready, gametype tut, gametype lvl2, start, exit");
             String command = scanner.nextLine().trim();
 
             try {
@@ -405,17 +426,16 @@ class ConsoleClientView implements EnhancedClientView {
                         break;
                     default:
                         System.out.println("Unknown command");
+                        displayCurrentCommands();
                 }
             } catch (RemoteException e) {
                 System.err.println("Error executing command: " + e.getMessage());
+                displayCurrentCommands();
             }
         }
 
         // Game commands once in game
         while(running && inGame) {
-//            System.out.println("\nGame Commands: [Enter number for commands]");
-//            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 20: Abandon game | 22: End game");
-
             String command = scanner.nextLine().trim();
             try {
                 int cmd = Integer.parseInt(command);
@@ -439,11 +459,14 @@ class ConsoleClientView implements EnhancedClientView {
                         break;
                     default:
                         System.out.println("Unknown command: " + cmd);
+                        displayCurrentCommands();
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a number for commands");
+                displayCurrentCommands();
             } catch (RemoteException e) {
                 System.err.println("Error executing command: " + e.getMessage());
+                displayCurrentCommands();
             }
         }
 
