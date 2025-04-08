@@ -32,9 +32,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
         Registry registry = LocateRegistry.getRegistry(host, port);
         this.server = (VirtualServerRMI) registry.lookup(SERVER_NAME);
 
-        //this.server.connect( this);
-        //System.out.println("Connected to server: " + host + ":" + port);
-
         System.out.println("Found server: " + host + ":" + port);
     }
 
