@@ -1,7 +1,6 @@
 package it.polimi.ingsw.is25am22new.Network;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 
 import java.io.IOException;
 import java.rmi.Remote;
@@ -9,7 +8,7 @@ import java.rmi.RemoteException;
 
 public interface VirtualServer extends Remote {
     void connect(VirtualView client) throws RemoteException;
-    void connect(VirtualViewRMI client, String nickname) throws RemoteException;
+    void connect(VirtualView client, String nickname) throws RemoteException;
     void addPlayer(String nickname) throws IOException;
     void removePlayer(String nickname) throws IOException;
     void setPlayerReady(String nickname) throws IOException;
@@ -32,4 +31,11 @@ public interface VirtualServer extends Remote {
     void playerAbandons(String nickname) throws IOException;
     void destroyComponentTile(String nickname, int i, int j) throws IOException;
     void endGame() throws IOException;
+    
+    void rotateClockwise(String nickname, int rotationNum) throws RemoteException;
+    void rotateCounterClockwise(String nickname, int rotationNum) throws RemoteException;
+    void weldComponentTile(String nickname, int i, int j) throws RemoteException;
+    void setCurrPlayer(String currPlayer) throws RemoteException;
+    void setCurrPlayerToLeader() throws RemoteException;
+
 }

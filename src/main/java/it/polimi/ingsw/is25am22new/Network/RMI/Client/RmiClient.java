@@ -7,8 +7,10 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.RMI.Server.VirtualServerRMI;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
+import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
+public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
-    private final VirtualServerRMI server;
+    private final VirtualServer server;
     private final EnhancedClientView clientView;
     private static final String SERVER_NAME = "GalaxyTruckerServer";
     private boolean isHost = false;
@@ -30,7 +32,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
         this.clientView = clientView;
 
         Registry registry = LocateRegistry.getRegistry(host, port);
-        this.server = (VirtualServerRMI) registry.lookup(SERVER_NAME);
+        this.server = (VirtualServer) registry.lookup(SERVER_NAME);
 
         System.out.println("Found server: " + host + ":" + port);
     }
@@ -93,31 +95,31 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
 
 
 
-    public void addPlayer(String playerName) throws RemoteException {
+    public void addPlayer(String playerName) throws IOException {
         server.addPlayer(playerName);
     }
 
-    public void setPlayerReady(String playerName) throws RemoteException {
+    public void setPlayerReady(String playerName) throws IOException {
         server.setPlayerReady(playerName);
     }
 
-    public void setPlayerNotReady(String playerName) throws RemoteException {
+    public void setPlayerNotReady(String playerName) throws IOException {
         server.setPlayerNotReady(playerName);
     }
 
-    public void startGameByHost(String playerName) throws RemoteException {
+    public void startGameByHost(String playerName) throws IOException {
         server.startGameByHost(playerName);
     }
 
-    public void setGameType(String gameType) throws RemoteException {
+    public void setGameType(String gameType) throws IOException {
         server.setGameType(gameType);
     }
 
-    public void pickCoveredTile(String playerName) throws RemoteException {
+    public void pickCoveredTile(String playerName) throws IOException {
         server.pickCoveredTile(playerName);
     }
 
-    public void pickUncoveredTile(String playerName, int index) throws RemoteException {
+    public void pickUncoveredTile(String playerName, int index) throws IOException {
         server.pickUncoveredTile(playerName, index);
     }
 
@@ -133,51 +135,51 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
         server.weldComponentTile(playerName, i, j);
     }
 
-    public void standbyComponentTile(String playerName) throws RemoteException {
+    public void standbyComponentTile(String playerName) throws IOException {
         server.standbyComponentTile(playerName);
     }
 
-    public void pickStandbyComponentTile(String playerName, int index) throws RemoteException {
+    public void pickStandbyComponentTile(String playerName, int index) throws IOException {
         server.pickStandbyComponentTile(playerName, index);
     }
 
-    public void discardComponentTile(String playerName) throws RemoteException {
+    public void discardComponentTile(String playerName) throws IOException {
         server.discardComponentTile(playerName);
     }
 
-    public void finishBuilding(String playerName) throws RemoteException {
+    public void finishBuilding(String playerName) throws IOException {
         server.finishBuilding(playerName);
     }
 
-    public void finishBuilding(String playerName, int index) throws RemoteException {
+    public void finishBuilding(String playerName, int index) throws IOException {
         server.finishBuilding(playerName, index);
     }
 
-    public void finishedAllShipboards() throws RemoteException {
+    public void finishedAllShipboards() throws IOException {
         server.finishedAllShipboards();
     }
 
-    public void flipHourglass() throws RemoteException {
+    public void flipHourglass() throws IOException {
         server.flipHourglass();
     }
 
-    public void pickCard() throws RemoteException {
+    public void pickCard() throws IOException {
         server.pickCard();
     }
 
-    public void activateCard(InputCommand inputCommand) throws RemoteException {
+    public void activateCard(InputCommand inputCommand) throws IOException {
         server.activateCard(inputCommand);
     }
 
-    public void removePlayer(String playerName) throws RemoteException {
+    public void removePlayer(String playerName) throws IOException {
         server.removePlayer(playerName);
     }
 
-    public void playerAbandons(String playerName) throws RemoteException {
+    public void playerAbandons(String playerName) throws IOException {
         server.playerAbandons(playerName);
     }
 
-    public void destroyComponentTile(String playerName, int i, int j) throws RemoteException {
+    public void destroyComponentTile(String playerName, int i, int j) throws IOException {
         server.destroyComponentTile(playerName, i, j);
     }
 
@@ -189,7 +191,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualViewRMI {
         server.setCurrPlayerToLeader();
     }
 
-    public void endGame() throws RemoteException {
+    public void endGame() throws IOException {
         server.endGame();
     }
 
@@ -281,8 +283,22 @@ class ConsoleClientView implements EnhancedClientView {
 
     @Override
     public void displayTileInHand(String player, ComponentTile tile) {
-        System.out.println("Tile in hand update received");
-        displayCurrentCommands();
+        if(tile == null){
+            System.out.println("No tile in hand");
+            displayCurrentCommands();
+            return;
+        }
+
+        System.out.println("\n=== TILE IN HAND ===");
+        System.out.println("Player: " + player);
+        System.out.println("Tile type: " + tile.getClass().getSimpleName());
+        System.out.println("Sides:\n " +
+                "- Top -> " + tile.getTopSide() + "\n " +
+                "- Right -> " + tile.getRightSide() + "\n " +
+                "- Bottom -> " + tile.getBottomSide() + "\n " +
+                "- Left -> " + tile.getLeftSide() + "\n");
+
+        System.out.println("=================\n");
     }
 
     @Override
@@ -423,7 +439,7 @@ class ConsoleClientView implements EnhancedClientView {
                         System.out.println("Unknown command");
                         displayCurrentCommands();
                 }
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 System.err.println("Error executing command: " + e.getMessage());
                 displayCurrentCommands();
             }
@@ -434,23 +450,29 @@ class ConsoleClientView implements EnhancedClientView {
             String command = scanner.nextLine().trim();
             try {
                 int cmd = Integer.parseInt(command);
+                System.out.println("Command: " + command);
                 switch(cmd) {
                     case 6:
+                        System.out.print("Picking covered tile...");
                         client.pickCoveredTile(playerName);
+                        displayCurrentCommands();
                         break;
                     case 7:
                         System.out.println("Which tile do you want to pick?: ");
                         int index = scanner.nextInt();
                         scanner.nextLine(); // consume newline
                         client.pickUncoveredTile(playerName, index);
+                        displayCurrentCommands();
                         break;
                     case 20:
                         client.playerAbandons(playerName);
                         running = false;
+                        displayCurrentCommands();
                         break;
                     case 22:
                         client.endGame();
                         running = false;
+                        displayCurrentCommands();
                         break;
                     default:
                         System.out.println("Unknown command: " + cmd);
@@ -459,7 +481,7 @@ class ConsoleClientView implements EnhancedClientView {
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a number for commands");
                 displayCurrentCommands();
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 System.err.println("Error executing command: " + e.getMessage());
                 displayCurrentCommands();
             }
@@ -469,7 +491,7 @@ class ConsoleClientView implements EnhancedClientView {
         try {
             System.out.println("Disconnecting...");
             client.removePlayer(playerName);
-        } catch (RemoteException e) {
+        } catch (IOException e) {
             System.err.println("Error during disconnect: " + e.getMessage());
         }
     }
