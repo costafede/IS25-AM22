@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -253,6 +254,7 @@ public class GameController {
         }
     }
 
+    /*These two methods may be useless*/
     public void finishBuilding(String player, int pos) {
         if(currentState == GameState.GAME) {
             game.finishBuilding(player, pos);
@@ -268,6 +270,7 @@ public class GameController {
             System.out.println("Cannot check if all shipboards are finished outside game state.");
         }
     }
+    /*********************************/
 
     public void flipHourglass() {
         if(currentState == GameState.GAME) {
@@ -308,6 +311,7 @@ public class GameController {
             System.out.println("Player " + player + " cannot destroy a tile outside game state.");
         }
     }
+
 
     public void setCurrPlayer(String player) {
         if(currentState == GameState.GAME) {
