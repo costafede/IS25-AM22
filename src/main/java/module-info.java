@@ -15,7 +15,6 @@ module it.polimi.ingsw.is25am22new {
         exports it.polimi.ingsw.is25am22new.Model.Games;
         exports it.polimi.ingsw.is25am22new.Controller;
         exports it.polimi.ingsw.is25am22new.Network to java.rmi;
-        exports it.polimi.ingsw.is25am22new.Network.RMI to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.Miscellaneous to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.ComponentTiles to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.Shipboards to java.rmi;
@@ -24,7 +23,6 @@ module it.polimi.ingsw.is25am22new {
 
         // Open packages for deep reflection needed by RMI
         opens it.polimi.ingsw.is25am22new.Network to java.rmi;
-        opens it.polimi.ingsw.is25am22new.Network.RMI to java.rmi;
         opens it.polimi.ingsw.is25am22new.Model.Miscellaneous to java.rmi;
         opens it.polimi.ingsw.is25am22new.Model.ComponentTiles to java.rmi;
         opens it.polimi.ingsw.is25am22new.Model.Shipboards to java.rmi;
@@ -32,8 +30,8 @@ module it.polimi.ingsw.is25am22new {
         opens it.polimi.ingsw.is25am22new.Model.AdventureCard to java.rmi;
 
         exports it.polimi.ingsw.is25am22new;
-    exports it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
-    opens it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
+        exports it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
+        opens it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
         exports it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
         opens it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
 }

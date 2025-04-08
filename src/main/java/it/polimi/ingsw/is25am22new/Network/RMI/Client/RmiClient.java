@@ -351,10 +351,10 @@ class ConsoleClientView implements EnhancedClientView {
             }
             nicknameValid = true;
         } else {
-            System.out.println("Connection failed: " + message);
+            System.out.println("Connection failed: " + message + "\n");
+            System.out.println("=========================");
+            displayCurrentCommands();
         }
-        System.out.println("=========================\n");
-        displayCurrentCommands();
     }
 
     @Override
@@ -368,7 +368,7 @@ class ConsoleClientView implements EnhancedClientView {
             nicknameValid = false;
         }
         System.out.println("======================\n");
-        displayCurrentCommands();
+        //displayCurrentCommands();
     }
 
     @Override
@@ -398,8 +398,6 @@ class ConsoleClientView implements EnhancedClientView {
     @Override
     public void startCommandLoop(RmiClient client, String playerName, Scanner scanner) {
         boolean running = true;
-
-        displayCurrentCommands();
 
         while(running && !inGame) {
             String command = scanner.nextLine().trim();
