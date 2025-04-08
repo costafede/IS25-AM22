@@ -45,7 +45,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     public static void main(String[] args) {
         try{
             GameController gameController = new GameController();
-            RmiServer server = new RmiServer(gameController);
+            @SuppressWarnings("unused") RmiServer server = new RmiServer(gameController);
             System.out.println("RMI Server is running... waiting for clients to connect.");
         }catch (Exception e){
             System.err.println("Error starting RMI Server: " + e.getMessage());
