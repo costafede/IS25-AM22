@@ -272,4 +272,7 @@ public abstract class Game extends ObservableModel {
         this.gamePhase = gamePhase;
     }
 
+    public GamePhase getGamePhase() {
+        return gamePhase;
+    }
 }
