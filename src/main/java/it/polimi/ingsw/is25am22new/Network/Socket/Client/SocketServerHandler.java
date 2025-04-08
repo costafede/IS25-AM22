@@ -188,6 +188,11 @@ public class SocketServerHandler implements VirtualServer {
 
     }
 
+    @Override
+    public void connect(VirtualView client, String nickname) throws RemoteException {
+        //Used only for RMI
+    }
+
     public void connectionTester(String a, int b) throws IOException {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(b);

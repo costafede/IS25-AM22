@@ -52,12 +52,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
     }
 
-    @Override
-    public void connect(VirtualView client) throws RemoteException {
-        // This method is not used in RMI, but it is required by the interface
-    }
-
-    @Override
     public void connect(VirtualView client, String nickname) throws RemoteException {
         String clientHost;
 
@@ -343,19 +337,12 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         gameController.pickUncoveredTile(nickname, index);
     }
 
-    @Override
     public void rotateClockwise(String nickname, int rotationNum) {
         gameController.rotateClockwise(nickname, rotationNum);
     }
 
-    @Override
     public void rotateCounterClockwise(String nickname, int rotationNum) {
         gameController.rotateCounterClockwise(nickname, rotationNum);
-    }
-
-    @Override
-    public void weldComponentTile(String nickname, int i, int j) {
-        gameController.weldComponentTile(nickname, i, j);
     }
 
     @Override

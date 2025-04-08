@@ -97,6 +97,11 @@ public class ClientSocket implements VirtualView, VirtualServer {
     }
 
     @Override
+    public void connect(VirtualView client, String nickname) throws RemoteException {
+        //Used only for RMI
+    }
+
+    @Override
     public void addPlayer(String nickname) throws IOException {
 
     }

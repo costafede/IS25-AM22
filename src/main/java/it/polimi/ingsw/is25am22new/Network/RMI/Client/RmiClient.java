@@ -123,16 +123,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         server.pickUncoveredTile(playerName, index);
     }
 
-    public void rotateClockwise(String playerName, int rotationNum) throws RemoteException {
-        server.rotateClockwise(playerName, rotationNum);
-    }
-
-    public void rotateCounterClockwise(String playerName, int rotationNum) throws RemoteException {
-        server.rotateCounterClockwise(playerName, rotationNum);
-    }
-
-    public void weldComponentTile(String playerName, int i, int j) throws RemoteException {
-        server.weldComponentTile(playerName, i, j);
+    public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
+        server.weldComponentTile(playerName, i, j, numOfRotation);
     }
 
     public void standbyComponentTile(String playerName) throws IOException {
