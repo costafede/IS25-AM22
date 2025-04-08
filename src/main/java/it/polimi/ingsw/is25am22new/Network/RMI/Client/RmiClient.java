@@ -175,14 +175,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         server.destroyComponentTile(playerName, i, j);
     }
 
-    public void setCurrPlayer(String currPlayer) throws RemoteException {
-        server.setCurrPlayer(currPlayer);
-    }
-
-    public void setCurrPlayerToLeader() throws RemoteException {
-        server.setCurrPlayerToLeader();
-    }
-
     public void endGame() throws IOException {
         server.endGame();
     }
@@ -224,8 +216,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showUpdateUncoveredComponentTiles(ComponentTile tile) throws RemoteException {
-        clientView.displayUncoveredComponentTiles(tile);
+    public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList) throws RemoteException {
+        clientView.displayUncoveredComponentTiles(ctList);
     }
 
     @Override

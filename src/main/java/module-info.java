@@ -20,6 +20,7 @@ module it.polimi.ingsw.is25am22new {
         exports it.polimi.ingsw.is25am22new.Model.Shipboards to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.Flightboards to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.AdventureCard to java.rmi;
+        exports it.polimi.ingsw.is25am22new.Model.GamePhase to java.rmi;
 
         // Open packages for deep reflection needed by RMI
         opens it.polimi.ingsw.is25am22new.Network to java.rmi;

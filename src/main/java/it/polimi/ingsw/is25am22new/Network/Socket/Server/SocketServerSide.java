@@ -4,6 +4,8 @@ import it.polimi.ingsw.is25am22new.Controller.GameController;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -59,7 +61,7 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateBank(Bank bank) throws IOException {
+    public void updateBank(Bank bank){
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateBank(bank);
@@ -67,7 +69,7 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateTileInHand(String player, ComponentTile ct) throws IOException {
+    public void updateTileInHand(String player, ComponentTile ct){
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateTileInHand(player, ct);
@@ -75,15 +77,16 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateUncoveredComponentTiles(ComponentTile ct) throws IOException {
+    @Override
+    public void updateUncoveredComponentTiles(List<ComponentTile> ctList) {
         synchronized (this.clients) {
             for (var client : this.clients) {
-                client.showUpdateUncoveredComponentTiles(ct);
+                client.showUpdateUncoveredComponentTiles(ctList);
             }
         }
     }
 
-    public void updateShipboard(String player, Shipboard shipboard) throws IOException {
+    public void updateShipboard(String player, Shipboard shipboard){
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateShipboard(player, shipboard);
@@ -91,7 +94,7 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateFlightboard(Flightboard flightboard) throws IOException {
+    public void updateFlightboard(Flightboard flightboard){
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateFlightboard(flightboard);
@@ -99,7 +102,7 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateCurrCard(AdventureCard adventureCard) throws IOException {
+    public void updateCurrCard(AdventureCard adventureCard){
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateCurrCard(adventureCard);
@@ -107,7 +110,7 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateDices(Dices dices) throws IOException {
+    public void updateDices(Dices dices) {
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateDices(dices);
@@ -115,10 +118,55 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-    public void updateCurrPlayer(String currPlayer) throws IOException {
+    public void updateCurrPlayer(String currPlayer) {
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateCurrPlayer(currPlayer);
+            }
+        }
+    }
+
+    @Override
+    public void updateGamePhase(GamePhase gamePhase) {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showUpdateGamePhase(gamePhase);
+            }
+        }
+    }
+
+    @Override
+    public void updateCoveredComponentTiles(List<ComponentTile> ctList) {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showUpdateCoveredComponentTiles(ctList);
+            }
+        }
+    }
+
+    @Override
+    public void updateDeck(List<AdventureCard> deck) {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showUpdateDeck(deck);
+            }
+        }
+    }
+
+    @Override
+    public void updateGame(Game game) {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showUpdateGame(game);
+            }
+        }
+    }
+
+    @Override
+    public void updateHourglassSpot(int hourglassSpot) {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showUpdateHourglassSpot(hourglassSpot);
             }
         }
     }

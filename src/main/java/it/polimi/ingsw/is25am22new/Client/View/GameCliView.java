@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.SetUpPhase;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Hourglass;
@@ -28,18 +29,21 @@ public class GameCliView implements GameView{
     protected String currPlayer;
     protected AdventureCard currCard;
     private Dices dices;
-    protected PhaseType phaseType;
+    protected GamePhase gamePhase;
 
-    public GameCliView() {
-        bank = new Bank();
-        cardArchive = new ArrayList<>();
-        coveredComponentTiles = new ArrayList<>();
-        uncoveredComponentTiles = new ArrayList<>();
+    public GameCliView(Game game) {
+        bank = game.getBank();
+        cardArchive = game.getCardArchive();
+        flightboard = game.getFlightboard();
+        shipboards = game.getShipboards();
+        coveredComponentTiles = game.getCoveredComponentTiles();
+        uncoveredComponentTiles = game.getUncoveredComponentTiles();
         hourglass = new Hourglass(60);
-        shipboards = new HashMap<>();
-        this.deck = new ArrayList<>();
-        this.dices = new Dices();
-        this.phaseType = PhaseType.SETUP;
+        deck = game.getDeck();
+        currPlayer = game.getCurrPlayer();
+        currCard = game.getCurrCard();
+        dices = game.getDices();
+        gamePhase = game.getGamePhase();
     }
 
     public Dices getDices() {
@@ -134,11 +138,12 @@ public class GameCliView implements GameView{
         return this.shipboards.get(player);
     }
 
-    public PhaseType getPhaseType() {
-        return phaseType;
+    public GamePhase getGamePhase() {
+        return gamePhase;
     }
 
-    public void setPhaseType(PhaseType phaseType) {
-        this.phaseType = phaseType;
+    public void setGamePhase(GamePhase gamePhase) {
+        this.gamePhase = gamePhase;
     }
+
 }
