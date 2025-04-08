@@ -7,7 +7,6 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.RMI.Client.VirtualViewRMI;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
@@ -17,6 +16,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.List;
+import java.util.Map;
 
 public class ClientSocket implements VirtualView, VirtualServer {
     private Socket socket;
@@ -71,13 +72,28 @@ public class ClientSocket implements VirtualView, VirtualServer {
     }
 
     @Override
-    public void connect(VirtualView client) throws RemoteException {
+    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException {
 
     }
 
     @Override
-    public void connect(VirtualViewRMI client, String nickname) throws RemoteException {
-        // This method is not used in the Socket implementation
+    public void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void showNicknameResult(boolean valid, String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void showGameStarted() throws RemoteException {
+
+    }
+
+    @Override
+    public void showPlayerJoined(String player) throws RemoteException {
+
     }
 
     @Override
@@ -182,6 +198,16 @@ public class ClientSocket implements VirtualView, VirtualServer {
 
     @Override
     public void endGame() throws IOException {
+
+    }
+
+    @Override
+    public void setCurrPlayer(String currPlayer) throws RemoteException {
+
+    }
+
+    @Override
+    public void setCurrPlayerToLeader() throws RemoteException {
 
     }
 }

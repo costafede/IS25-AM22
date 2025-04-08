@@ -10,15 +10,17 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.Socket.Server.VirtualViewSocket;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
+import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
-public class SocketClientSide implements VirtualViewSocket {
+public class SocketClientSide implements VirtualView {
 
     GameCliView gameCliView;
     final ObjectInputStream objectInput;
@@ -526,5 +528,30 @@ public class SocketClientSide implements VirtualViewSocket {
         System.out.println("Current player updated:");
         System.out.println(gameCliView.getCurrPlayer());
         System.out.flush();
+    }
+
+    @Override
+    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException {
+
+    }
+
+    @Override
+    public void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void showNicknameResult(boolean valid, String message) throws RemoteException {
+
+    }
+
+    @Override
+    public void showGameStarted() throws RemoteException {
+
+    }
+
+    @Override
+    public void showPlayerJoined(String player) throws RemoteException {
+
     }
 }
