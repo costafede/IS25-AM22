@@ -4,20 +4,16 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.SetUpPhase;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Hourglass;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameCliView implements GameView{
+public class ClientModel extends ObservableModelView {
     protected Bank bank;
     protected List<ComponentTile> coveredComponentTiles;
     protected List<ComponentTile> uncoveredComponentTiles;
@@ -31,7 +27,7 @@ public class GameCliView implements GameView{
     private Dices dices;
     protected GamePhase gamePhase;
 
-    public GameCliView(Game game) {
+    public ClientModel(Game game) {
         bank = game.getBank();
         cardArchive = game.getCardArchive();
         flightboard = game.getFlightboard();

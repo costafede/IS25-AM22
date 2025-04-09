@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Client;
+package it.polimi.ingsw.is25am22new.Client.Network;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -12,34 +12,28 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-public class ClientSocket implements VirtualView, VirtualServer {
-    private Socket socket;
-    private PrintWriter out;
-    private BufferedReader in;
-    private Thread listenerThread;
+public class ClientRMI implements ClientInterface {
+    private VirtualServer server;
 
-    public ClientSocket() throws Exception {
-        socket = new Socket("localhost", 5000);
-        out = new PrintWriter(socket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    public ClientRMI(String host, int port) throws Exception {
+        String registryUrl = "//" + host + ":" + port + "/Server";
+        this.server = (VirtualServer) Naming.lookup(registryUrl);
+    }
+
+
+    @Override
+    public void showUpdateBank(Bank bank) throws IOException {
+
     }
 
     @Override
-    public void showUpdateBank(Bank bank) throws RemoteException {
-
-    }
-
-    @Override
-    public void showUpdateTileInHand(String player, ComponentTile tile) throws RemoteException {
+    public void showUpdateTileInHand(String player, ComponentTile tile) throws IOException {
 
     }
 
@@ -54,27 +48,27 @@ public class ClientSocket implements VirtualView, VirtualServer {
     }
 
     @Override
-    public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {
+    public void showUpdateShipboard(String player, Shipboard shipboard) throws IOException {
 
     }
 
     @Override
-    public void showUpdateFlightboard(Flightboard flightboard) throws RemoteException {
+    public void showUpdateFlightboard(Flightboard flightboard) throws IOException {
 
     }
 
     @Override
-    public void showUpdateCurrCard(AdventureCard adventureCard) throws RemoteException {
+    public void showUpdateCurrCard(AdventureCard adventureCard) throws IOException {
 
     }
 
     @Override
-    public void showUpdateDices(Dices dices) throws RemoteException {
+    public void showUpdateDices(Dices dices) throws IOException {
 
     }
 
     @Override
-    public void showUpdateCurrPlayer(String currPlayer) throws RemoteException {
+    public void showUpdateCurrPlayer(String currPlayer) throws IOException {
 
     }
 
@@ -125,7 +119,7 @@ public class ClientSocket implements VirtualView, VirtualServer {
 
     @Override
     public void connect(VirtualView client, String nickname) throws RemoteException {
-        //Used only for RMI
+
     }
 
     @Override

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
-import it.polimi.ingsw.is25am22new.Client.View.GameCliView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 public class SocketClientSide implements VirtualView {
 
-    GameCliView gameCliView;
+    ClientModel clientModel;
     final ObjectInputStream objectInput;
     final SocketServerHandler output;
     String thisPlayerName;
@@ -213,7 +213,7 @@ public class SocketClientSide implements VirtualView {
                     output.setGameType(gameType);
                 }
                 case 6 -> {
-                    if(gameCliView.getShipboard(thisPlayerName).getTileInHand() != null) {
+                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
                         System.out.println("You already have a tile in your hand!");
                     }
                     else {
@@ -222,7 +222,7 @@ public class SocketClientSide implements VirtualView {
                     }
                 }
                 case 7 -> {
-                    if(gameCliView.getShipboard(thisPlayerName).getTileInHand() != null) {
+                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
                         System.out.println("You already have a tile in your hand!");
                     }
                     else {
@@ -240,7 +240,7 @@ public class SocketClientSide implements VirtualView {
                     }
                 }
                 case 8 -> {
-                    if(gameCliView.getShipboard(thisPlayerName).getTileInHand() != null) {
+                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
                         System.out.println("Tile rotated to the right!");
                         numOfRotations++;
                     }
@@ -249,7 +249,7 @@ public class SocketClientSide implements VirtualView {
                     }
                 }
                 case 9 -> {
-                    if(gameCliView.getShipboard(thisPlayerName).getTileInHand() != null) {
+                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
                         System.out.println("Tile rotated to the left!");
                         numOfRotations--;
                     }
@@ -271,9 +271,9 @@ public class SocketClientSide implements VirtualView {
                 }
                 case 11 -> {
                     try {
-                        gameCliView.getShipboard(thisPlayerName).pickStandByComponentTile(0);
+                        clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
                         try{
-                            gameCliView.getShipboard(thisPlayerName).pickStandByComponentTile(1);
+                            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
                             System.out.println("Standby positions are full!");
                         }
                         catch(IllegalStateException e){
@@ -299,7 +299,7 @@ public class SocketClientSide implements VirtualView {
 
                     if(index == 1) {
                         try {
-                            gameCliView.getShipboard(thisPlayerName).pickStandByComponentTile(0);
+                            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
                             output.pickStandbyComponentTile(thisPlayerName, 0);
                         } catch (IllegalStateException e) {
                             System.out.println("You don't have a tile in that position!");
@@ -307,7 +307,7 @@ public class SocketClientSide implements VirtualView {
                     }
                     else {
                         try {
-                            gameCliView.getShipboard(thisPlayerName).pickStandByComponentTile(1);
+                            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
                             output.pickStandbyComponentTile(thisPlayerName, 1);
                         } catch (IllegalStateException e) {
                             System.out.println("You don't have a tile in that position!");
@@ -316,7 +316,7 @@ public class SocketClientSide implements VirtualView {
 
                 }
                 case 13 -> {
-                    if(gameCliView.getShipboard(thisPlayerName).getTileInHand() != null) {
+                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
                         System.out.println("Tile discarded!");
                         output.discardComponentTile(thisPlayerName);
                     }
@@ -348,7 +348,7 @@ public class SocketClientSide implements VirtualView {
                     output.pickCard();
                 }
                 case 19 -> {
-                    if(gameCliView.getCurrCard() == null) {
+                    if(clientModel.getCurrCard() == null) {
                         System.out.println("There is no card to activate!");
                     }
                     else {
@@ -358,7 +358,7 @@ public class SocketClientSide implements VirtualView {
                     }
                 }
                 case 20 -> {
-                    if(gameCliView.getShipboard(thisPlayerName).isAbandoned()) {
+                    if(clientModel.getShipboard(thisPlayerName).isAbandoned()) {
                         System.out.println("You have already abandoned the game!");
                     }
                     else {
@@ -377,7 +377,7 @@ public class SocketClientSide implements VirtualView {
                     int y = scan.nextInt();
                     scan.nextLine();
 
-                    if(gameCliView.getShipboard(thisPlayerName).getComponentTileFromGrid(x, y).isEmpty()) {
+                    if(clientModel.getShipboard(thisPlayerName).getComponentTileFromGrid(x, y).isEmpty()) {
                         System.out.println("You don't have a tile in that position!");
                     }
                     else {
@@ -386,7 +386,7 @@ public class SocketClientSide implements VirtualView {
                     }
                 }
                 case 22 -> {
-                    if(gameCliView.getGamePhase().getPhaseType() == PhaseType.END) {
+                    if(clientModel.getGamePhase().getPhaseType() == PhaseType.END) {
                         System.out.println("Game is over!");
                         output.endGame();
                     }
@@ -523,7 +523,7 @@ public class SocketClientSide implements VirtualView {
     //
     @Override
     public void showUpdateBank(Bank bank) {
-        gameCliView.setBank(bank);
+        clientModel.setBank(bank);
         System.out.println("Bank updated:");
         System.out.println(bank);
         System.out.flush();
@@ -531,17 +531,17 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showUpdateTileInHand(String player, ComponentTile tile) {
-        gameCliView.getShipboard(player).setTileInHand(tile);
+        clientModel.getShipboard(player).setTileInHand(tile);
         System.out.println("Tile in hand updated:");
-        System.out.println(gameCliView.getShipboard(player).getTileInHand());
+        System.out.println(clientModel.getShipboard(player).getTileInHand());
         System.out.flush();
     }
 
     @Override
     public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList) {
-        gameCliView.setCoveredComponentTiles(ctList);
+        clientModel.setCoveredComponentTiles(ctList);
         System.out.println("Uncovered component tiles list updated:");
-        System.out.println(gameCliView.getUncoveredComponentTiles());
+        System.out.println(clientModel.getUncoveredComponentTiles());
         System.out.flush();
     }
 
@@ -552,65 +552,65 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showUpdateShipboard(String player, Shipboard shipboard) {
-        gameCliView.getShipboards().put(player, shipboard);
+        clientModel.getShipboards().put(player, shipboard);
         System.out.println("Shipboard updated:");
-        System.out.println(gameCliView.getShipboard(player));
+        System.out.println(clientModel.getShipboard(player));
         System.out.flush();
     }
 
     @Override
     public void showUpdateFlightboard(Flightboard flightboard) {
-        gameCliView.setFlightboard(flightboard);
+        clientModel.setFlightboard(flightboard);
         System.out.println("Flightboard updated:");
-        System.out.println(gameCliView.getFlightboard());
+        System.out.println(clientModel.getFlightboard());
         System.out.flush();
     }
 
     @Override
     public void showUpdateCurrCard(AdventureCard adventureCard)  {
-        gameCliView.setCurrCard(adventureCard);
+        clientModel.setCurrCard(adventureCard);
         System.out.println("Current card updated:");
-        System.out.println(gameCliView.getCurrCard());
+        System.out.println(clientModel.getCurrCard());
         System.out.flush();
     }
 
     @Override
     public void showUpdateDices(Dices dices) {
-        gameCliView.setDices(dices);
+        clientModel.setDices(dices);
         System.out.println("Dices updated:");
-        System.out.println(gameCliView.getDices());
+        System.out.println(clientModel.getDices());
         System.out.flush();
     }
 
     @Override
     public void showUpdateCurrPlayer(String currPlayer)  {
-        gameCliView.setCurrPlayer(currPlayer);
+        clientModel.setCurrPlayer(currPlayer);
         System.out.println("Current player updated:");
-        System.out.println(gameCliView.getCurrPlayer());
+        System.out.println(clientModel.getCurrPlayer());
         System.out.flush();
     }
 
     @Override
     public void showUpdateGamePhase(GamePhase gamePhase)  {
-        gameCliView.setGamePhase(gamePhase);
+        clientModel.setGamePhase(gamePhase);
         System.out.println("Game phase updated:");
-        System.out.println(gameCliView.getGamePhase());
+        System.out.println(clientModel.getGamePhase());
         System.out.flush();
     }
 
     @Override
     public void showUpdateDeck(List<AdventureCard> deck)  {
-        gameCliView.setDeck(deck);
+        clientModel.setDeck(deck);
         System.out.println("Deck updated:");
-        System.out.println(gameCliView.getDeck());
+        System.out.println(clientModel.getDeck());
         System.out.flush();
     }
 
     @Override
     public void showUpdateGame(Game game)  {
-        gameCliView = new GameCliView(game);
+        clientModel = new ClientModel(game);
         System.out.println("Game updated:");
-        System.out.println(gameCliView);
+        System.out.println(clientModel);
         System.out.flush();
     }
 
