@@ -196,15 +196,6 @@ public class SocketClientSide implements VirtualView {
         Scanner scan = new Scanner(System.in);
         int numOfRotations = 0;
 
-        System.out.println("Enter your cool trucker name: ");
-        System.out.flush();
-        thisPlayerName = scan.nextLine();
-
-        while(thisPlayerName == null || thisPlayerName.isEmpty()) {
-            System.out.println("Please enter a valid name: ");
-            thisPlayerName = scan.nextLine();
-        }
-
         while (true) {
             Thread.sleep(50);
             System.out.print(">>> ");
@@ -557,123 +548,84 @@ public class SocketClientSide implements VirtualView {
     @Override
     public void showUpdateBank(Bank bank) {
         clientModel.setBank(bank);
-        System.out.println("Bank updated:");
-        System.out.println(bank);
-        System.out.flush();
     }
 
     @Override
     public void showUpdateTileInHand(String player, ComponentTile tile) {
         clientModel.getShipboard(player).setTileInHand(tile);
-        System.out.println("Tile in hand updated:");
-        System.out.println(clientModel.getShipboard(player).getTileInHand());
-        System.out.flush();
     }
 
     @Override
     public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList) {
-        clientModel.setCoveredComponentTiles(ctList);
-        System.out.println("Uncovered component tiles list updated:");
-        System.out.println(clientModel.getUncoveredComponentTiles());
-        System.out.flush();
+        clientModel.setUncoveredComponentTiles(ctList);
     }
 
     @Override
     public void showUpdateCoveredComponentTiles(List<ComponentTile> ctList) {
-
+        clientModel.setCoveredComponentTiles(ctList);
     }
 
     @Override
     public void showUpdateShipboard(String player, Shipboard shipboard) {
         clientModel.getShipboards().put(player, shipboard);
-        System.out.println("Shipboard updated:");
-        System.out.println(clientModel.getShipboard(player));
-        System.out.flush();
     }
 
     @Override
     public void showUpdateFlightboard(Flightboard flightboard) {
         clientModel.setFlightboard(flightboard);
-        System.out.println("Flightboard updated:");
-        System.out.println(clientModel.getFlightboard());
-        System.out.flush();
     }
 
     @Override
     public void showUpdateCurrCard(AdventureCard adventureCard)  {
         clientModel.setCurrCard(adventureCard);
-        System.out.println("Current card updated:");
-        System.out.println(clientModel.getCurrCard());
-        System.out.flush();
     }
 
     @Override
     public void showUpdateDices(Dices dices) {
         clientModel.setDices(dices);
-        System.out.println("Dices updated:");
-        System.out.println(clientModel.getDices());
-        System.out.flush();
     }
 
     @Override
     public void showUpdateCurrPlayer(String currPlayer)  {
         clientModel.setCurrPlayer(currPlayer);
-        System.out.println("Current player updated:");
-        System.out.println(clientModel.getCurrPlayer());
-        System.out.flush();
     }
 
     @Override
     public void showUpdateGamePhase(GamePhase gamePhase)  {
         clientModel.setGamePhase(gamePhase);
-        System.out.println("Game phase updated:");
-        System.out.println(clientModel.getGamePhase());
-        System.out.flush();
     }
 
     @Override
     public void showUpdateDeck(List<AdventureCard> deck)  {
         clientModel.setDeck(deck);
-        System.out.println("Deck updated:");
-        System.out.println(clientModel.getDeck());
-        System.out.flush();
     }
 
     @Override
     public void showUpdateGame(Game game)  {
         clientModel = new ClientModel(game);
-        System.out.println("Game updated:");
-        System.out.println(clientModel);
-        System.out.flush();
     }
 
     @Override
     public void showUpdateHourglassSpot(int hourglassSpot){
-
     }
 
     @Override
     public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
-
     }
 
     @Override
     public void showConnectionResult(boolean isHost, boolean success, String message) {
-
     }
 
     @Override
     public void showNicknameResult(boolean valid, String message) {
-
     }
 
     @Override
     public void showGameStarted() {
-
     }
 
     @Override
     public void showPlayerJoined(String player) {
-
     }
 }
