@@ -217,7 +217,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showUpdateCoveredComponentTiles(List<ComponentTile> ctList) throws IOException {
+    public void showUpdateCoveredComponentTiles(List<ComponentTile> ctList) {
         //
     }
 
@@ -247,22 +247,22 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showUpdateGamePhase(GamePhase gamePhase) throws IOException {
+    public void showUpdateGamePhase(GamePhase gamePhase) {
 
     }
 
     @Override
-    public void showUpdateDeck(List<AdventureCard> deck) throws IOException {
+    public void showUpdateDeck(List<AdventureCard> deck) {
 
     }
 
     @Override
-    public void showUpdateGame(Game game) throws IOException {
+    public void showUpdateGame(Game game) {
 
     }
 
     @Override
-    public void showUpdateHourglassSpot(int hourglassSpot) throws IOException {
+    public void showUpdateHourglassSpot(int hourglassSpot) {
 
     }
 }
