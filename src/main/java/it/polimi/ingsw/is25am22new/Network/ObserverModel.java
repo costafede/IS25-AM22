@@ -31,4 +31,5 @@ public interface ObserverModel {
 
     void updateGameStarted();
     void updateLobby();
+    void updatePlayerJoined(String player);
 }

@@ -92,14 +92,15 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             (client).showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
             if(!isHost){
-                broadcastPlayerJoined(nickname);
+                updatePlayerJoined(nickname);
             }
 
-            broadcastLobbyUpdate();
+            updateLobby();
         }
     }
 
-    private void broadcastPlayerJoined(String nickname) {
+    @Override
+    public void updatePlayerJoined(String nickname) {
         for (VirtualView client : connectedClients) {
             try {
                 if (!client.equals(clientMap.get(nickname))) {
@@ -336,20 +337,20 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                 }
             }
         }
-        broadcastLobbyUpdate();
+        updateLobby();
     }
 
     @Override
     public void removePlayer(String nickname) {
         gameController.removePlayer(nickname);
         clientMap.remove(nickname);
-        broadcastLobbyUpdate();
+        updateLobby();
     }
 
     @Override
     public void setPlayerReady(String nickname) {
         gameController.setPlayerReady(nickname);
-        broadcastLobbyUpdate();
+        updateLobby();
     }
 
     @Override
@@ -380,7 +381,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
         boolean result = gameController.startGameByHost(nickname);
         if (result) {
-            broadcastGameStarted();
+            updateGameStarted();
         } else {
             System.err.println("Error starting game");
         }
@@ -389,14 +390,14 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void setPlayerNotReady(String nickname) {
         gameController.setPlayerNotReady(nickname);
-        broadcastLobbyUpdate();
+        updateLobby();
     }
 
     @Override
     public void setGameType(String gameType) {
         if(gameType.equals("level2") || gameType.equals("tutorial")) {
             gameController.setGameType(gameType);
-            broadcastLobbyUpdate();
+            updateLobby();
         } else {
             System.err.println("Invalid game type: " + gameType);
         }
