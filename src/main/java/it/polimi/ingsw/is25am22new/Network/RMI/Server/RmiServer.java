@@ -112,7 +112,8 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
     }
 
-    private void broadcastLobbyUpdate() {
+    @Override
+    public void updateLobby() {
         List<String> players = gameController.getPlayers();
         Map<String, Boolean> readyStatus = gameController.getReadyStatus();
         String gameType = gameController.getGameType();
@@ -127,7 +128,8 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
     }
 
-    private void broadcastGameStarted() {
+    @Override
+    public void updateGameStarted() {
         for (VirtualView client : connectedClients) {
             try {
                 (client).showGameStarted();
