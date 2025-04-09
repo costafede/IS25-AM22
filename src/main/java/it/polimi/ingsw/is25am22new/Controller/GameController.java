@@ -71,10 +71,16 @@ public class GameController {
     public int addPlayer(String player) {
         if(currentState == GameState.LOBBY) {
             int res = lobby.addPlayer(player);
-            if(res == 1 && lobby.getPlayers().size() == 1) {
-                setLobbyCreator(player);
+            if(res == 1) {
+                if(lobby.getPlayers().size() == 1)  setLobbyCreator(player);
+                System.out.println("Player " + player + " added to lobby");
             }
-            System.out.println("Player " + player + " added to lobby");
+            else if(res == -1) {
+                System.out.println("Lobby is full, player " + player + " cannot be added.");
+            }
+            else if(res == -2) {
+                System.out.println("Player " + player + " already in lobby.");
+            }
             return res;
         }else {
             System.out.println("Player " + player + " cannot be added outside lobby state.");

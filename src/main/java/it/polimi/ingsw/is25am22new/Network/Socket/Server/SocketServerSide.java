@@ -27,7 +27,7 @@ public class SocketServerSide implements ObserverModel {
         this.controller = new GameController();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
 
@@ -36,20 +36,17 @@ public class SocketServerSide implements ObserverModel {
         new SocketServerSide(listenSocket).runServer();
     }
 
-    private void runServer() throws IOException {
+    private void runServer() throws IOException, InterruptedException {
         Socket clientSocket = null;
         while ((clientSocket = this.listenSocket.accept()) != null) {
             System.out.println("Client connected: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+
             SocketClientHandler handler = new SocketClientHandler(
                     this.controller,
                     this,
                     clientSocket.getInputStream(),
                     clientSocket.getOutputStream()
             );
-
-            synchronized (this.clients){
-                clients.add(handler);
-            }
 
             new Thread(() -> {
                 try {
@@ -61,6 +58,14 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
+    public void addHandlerToClients(SocketClientHandler handler) {
+        synchronized (this.clients){
+            clients.add(handler);
+            System.out.println(clients);
+        }
+    }
+
+    @Override
     public void updateBank(Bank bank){
         synchronized (this.clients) {
             for (var client : this.clients) {
@@ -68,7 +73,7 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
-
+    @Override
     public void updateTileInHand(String player, ComponentTile ct){
         synchronized (this.clients) {
             for (var client : this.clients) {
@@ -85,7 +90,7 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
-
+    @Override
     public void updateShipboard(String player, Shipboard shipboard){
         synchronized (this.clients) {
             for (var client : this.clients) {
@@ -93,7 +98,7 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
-
+    @Override
     public void updateFlightboard(Flightboard flightboard){
         synchronized (this.clients) {
             for (var client : this.clients) {
@@ -101,7 +106,7 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
-
+    @Override
     public void updateCurrCard(AdventureCard adventureCard){
         synchronized (this.clients) {
             for (var client : this.clients) {
@@ -109,7 +114,7 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
-
+    @Override
     public void updateDices(Dices dices) {
         synchronized (this.clients) {
             for (var client : this.clients) {
@@ -117,7 +122,7 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
-
+    @Override
     public void updateCurrPlayer(String currPlayer) {
         synchronized (this.clients) {
             for (var client : this.clients) {
@@ -155,6 +160,7 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateGame(Game game) {
+        System.out.println("updateGame called");
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateGame(game);

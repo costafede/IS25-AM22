@@ -28,21 +28,57 @@ public class SocketClientSide implements VirtualView {
     final SocketServerHandler output;
     String thisPlayerName;
 
-    protected SocketClientSide(InputStream is, OutputStream os) throws IOException {
-        this.output = new SocketServerHandler(os);
-        this.objectInput = new ObjectInputStream(is);
-        this.thisPlayerName = "Player";
+    protected SocketClientSide(ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName) throws IOException {
+        this.output = output;
+        this.objectInput = objectInput;
+        this.thisPlayerName = thisPlayerName;
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
+        Scanner scanner = new Scanner(System.in);
+        Socket socket = new Socket(host, port);
+        SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
+        ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
 
-        Socket serverSocket = new Socket(host, port);
-        new SocketClientSide(serverSocket.getInputStream(), serverSocket.getOutputStream()).run();
+        boolean joined = false;
+        String thisPlayerName = "Player";
+
+        while(!joined) {
+            System.out.println("Enter your cool trucker name: ");
+            System.out.flush();
+            thisPlayerName = scanner.nextLine();
+
+            while(thisPlayerName == null || thisPlayerName.isEmpty()) {
+                System.out.println("Please enter a valid name: ");
+                thisPlayerName = scanner.nextLine();
+            }
+
+            output.checkAvailability(thisPlayerName);
+            SocketMessage msg = null;
+            if((msg = (SocketMessage) objectInput.readObject()) != null) {
+                switch (msg.getCommand()) {
+                    case "LobbyFullOrOutsideLobbyState" -> {
+                        System.out.println("Lobby is full or you are outside the lobby state");
+                    }
+                    case "PlayerAlreadyInLobby" -> {
+                        System.out.println("Player already in lobby");
+                    }
+                    case "PlayerAdded" -> {
+                        System.out.println("You've successfully joined the lobby!");
+                        joined = true;
+                    }
+                }
+            }
+
+            if(!joined) System.out.println("Try again!");
+        }
+
+        new SocketClientSide(objectInput, output, thisPlayerName).run();
     }
 
-    private void run() throws IOException, InterruptedException {
+    private void run() throws InterruptedException, IOException {
         new Thread(() -> {
             try {
                 runVirtualServer();
@@ -175,9 +211,6 @@ public class SocketClientSide implements VirtualView {
             int command = scan.nextInt();
             scan.nextLine();
             switch (command) {
-                case 0 -> {
-                    output.addPlayer(thisPlayerName);
-                }
                 case 1 -> {
                     System.out.println("Enter the name of the player to remove: ");
                     String player = scan.nextLine();

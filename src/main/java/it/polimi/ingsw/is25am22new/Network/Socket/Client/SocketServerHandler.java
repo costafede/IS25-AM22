@@ -17,19 +17,18 @@ public class SocketServerHandler implements VirtualServer {
         this.objectOutput = new ObjectOutputStream(os);
     }
 
-    @Override
-    public void addPlayer(String nickname) throws IOException {
-        SocketMessage msg = new SocketMessage("addPlayer", null, nickname);
+    public void checkAvailability(String nickname) {
+        SocketMessage msg = new SocketMessage("checkAvailability", null, nickname);
         try {
             objectOutput.writeObject(msg);
             objectOutput.flush();
         } catch (IOException e) {
-            System.out.println("Error in addPlayer: " + e.getMessage());
+            System.out.println("Error in checkAvailability: " + e.getMessage());
         }
     }
 
     @Override
-    public void removePlayer(String nickname) throws IOException {
+    public void removePlayer(String nickname) {
         SocketMessage msg = new SocketMessage("removePlayer", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -40,7 +39,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void setPlayerReady(String nickname) throws IOException {
+    public void setPlayerReady(String nickname)  {
         SocketMessage msg = new SocketMessage("setPlayerReady", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -51,7 +50,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void startGameByHost(String nickname) throws IOException {
+    public void startGameByHost(String nickname){
         SocketMessage msg = new SocketMessage("startGameByHost", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -62,7 +61,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void setPlayerNotReady(String nickname) throws IOException {
+    public void setPlayerNotReady(String nickname) {
         SocketMessage msg = new SocketMessage("setPlayerNotReady", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -73,7 +72,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void setGameType(String gameType) throws IOException {
+    public void setGameType(String gameType) {
         SocketMessage msg = new SocketMessage("setGameType", null, gameType);
         try {
             objectOutput.writeObject(msg);
@@ -84,7 +83,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void pickCoveredTile(String nickname) throws IOException {
+    public void pickCoveredTile(String nickname)  {
         SocketMessage msg = new SocketMessage("pickCoveredTile", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -95,7 +94,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void pickUncoveredTile(String nickname, int index) throws IOException {
+    public void pickUncoveredTile(String nickname, int index) {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(index);
         SocketMessage msg = new SocketMessage("pickUncoveredTile", inputCommand, nickname);
@@ -108,7 +107,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void weldComponentTile(String nickname, int i, int j, int numOfRotations) throws IOException {
+    public void weldComponentTile(String nickname, int i, int j, int numOfRotations)  {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setRow(i);
         inputCommand.setCol(j);
@@ -123,7 +122,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void standbyComponentTile(String nickname) throws IOException {
+    public void standbyComponentTile(String nickname) {
         SocketMessage msg = new SocketMessage("standbyComponentTile", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -134,7 +133,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void pickStandbyComponentTile(String nickname, int index) throws IOException {
+    public void pickStandbyComponentTile(String nickname, int index)  {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(index);
         SocketMessage msg = new SocketMessage("pickStandByComponentTile", inputCommand, nickname);
@@ -147,7 +146,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void discardComponentTile(String nickname) throws IOException {
+    public void discardComponentTile(String nickname) {
         SocketMessage msg = new SocketMessage("discardComponentTile", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -158,7 +157,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void finishBuilding(String nickname) throws IOException {
+    public void finishBuilding(String nickname) {
         SocketMessage msg = new SocketMessage("finishBuilding1", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -169,7 +168,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void finishBuilding(String nickname, int index) throws IOException {
+    public void finishBuilding(String nickname, int index) {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(index);
         SocketMessage msg = new SocketMessage("finishBuilding2", inputCommand, nickname);
@@ -182,7 +181,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void finishedAllShipboards() throws IOException {
+    public void finishedAllShipboards() {
         SocketMessage msg = new SocketMessage("finishedAllShipboards", null, null);
         try {
             objectOutput.writeObject(msg);
@@ -193,7 +192,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void flipHourglass() throws IOException {
+    public void flipHourglass()  {
         SocketMessage msg = new SocketMessage("flipHourglass", null, null);
         try {
             objectOutput.writeObject(msg);
@@ -204,7 +203,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void pickCard() throws IOException {
+    public void pickCard()  {
         SocketMessage msg = new SocketMessage("pickCard", null, null);
         try {
             objectOutput.writeObject(msg);
@@ -215,7 +214,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void activateCard(InputCommand inputCommand) throws IOException {
+    public void activateCard(InputCommand inputCommand)  {
         SocketMessage msg = new SocketMessage("activateCard", inputCommand, null);
         try {
             objectOutput.writeObject(msg);
@@ -226,7 +225,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void playerAbandons(String nickname) throws IOException {
+    public void playerAbandons(String nickname) {
         SocketMessage msg = new SocketMessage("playerAbandons", null, nickname);
         try {
             objectOutput.writeObject(msg);
@@ -237,7 +236,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void destroyComponentTile(String nickname, int i, int j) throws IOException {
+    public void destroyComponentTile(String nickname, int i, int j)  {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setRow(i);
         inputCommand.setCol(j);
@@ -251,7 +250,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void endGame() throws IOException {
+    public void endGame() {
         SocketMessage msg = new SocketMessage("endGame", null, null);
         try {
             objectOutput.writeObject(msg);
@@ -262,15 +261,19 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void connect(VirtualView client, String nickname) throws RemoteException {
+    public void connect(VirtualView client, String nickname){
         //Used only for RMI
     }
 
-    public void connectionTester(String a, int b) throws IOException {
+    public void connectionTester(String a, int b) {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(b);
         SocketMessage msg = new SocketMessage("connectionTester", inputCommand, a);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in connectionTester: " + e.getMessage());
+        }
     }
 }

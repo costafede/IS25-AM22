@@ -29,6 +29,7 @@ public class SocketClientHandler implements VirtualView {
         this.controller = controller;
         this.server = server;
         this.objectOutput = new ObjectOutputStream(os);
+        objectOutput.flush();
         this.objectInput = new ObjectInputStream(is);
     }
 
@@ -37,8 +38,13 @@ public class SocketClientHandler implements VirtualView {
         SocketMessage msg = null;
         while ((msg = (SocketMessage) objectInput.readObject()) != null){
             switch (msg.getCommand()) {
-                case "addPlayer" -> {
-                    this.controller.addPlayer(msg.getPayload());
+                case "checkAvailability" -> {
+                    int res = this.controller.addPlayer(msg.getPayload());
+                    if(res == 1) {
+                        server.addHandlerToClients(this);
+                    }
+                    handleAvailabilityMessages(res);
+                    System.out.println(this.controller.getPlayers());
                 }
                 case "removePlayer" -> {
                     this.controller.removePlayer(msg.getPayload());
@@ -133,6 +139,38 @@ public class SocketClientHandler implements VirtualView {
             objectOutput.flush();
         } catch (IOException e) {
             System.out.println("Error test: " + e.getMessage());
+        }
+    }
+
+    public void handleAvailabilityMessages(int res) {
+        switch (res) {
+            case -1 -> {
+                SocketMessage message = new SocketMessage("LobbyFullOrOutsideLobbyState", null, null);
+                try {
+                    objectOutput.writeObject(message);
+                    objectOutput.flush();
+                } catch (IOException e) {
+                    System.out.println("Error handling availability error: " + e.getMessage());
+                }
+            }
+            case -2 -> {
+                SocketMessage message = new SocketMessage("PlayerAlreadyInLobby", null, null);
+                try {
+                    objectOutput.writeObject(message);
+                    objectOutput.flush();
+                } catch (IOException e) {
+                    System.out.println("Error handling availability error: " + e.getMessage());
+                }
+            }
+            case 1 -> {
+                SocketMessage message = new SocketMessage("PlayerAdded", null, null);
+                try {
+                    objectOutput.writeObject(message);
+                    objectOutput.flush();
+                } catch (IOException e) {
+                    System.out.println("Error handling availability error: " + e.getMessage());
+                }
+            }
         }
     }
 
@@ -259,6 +297,7 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void showUpdateGame(Game game)  {
+        System.out.println("showUpdateGame called");
         SocketMessage message = new SocketMessage("Game", game, null);
         try {
             objectOutput.writeObject(message);

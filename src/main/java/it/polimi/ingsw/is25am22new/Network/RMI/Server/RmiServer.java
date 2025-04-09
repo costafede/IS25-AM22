@@ -338,12 +338,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void addPlayer(String nickname) {
-        gameController.addPlayer(nickname);
-        broadcastGameStarted();
-    }
-
-    @Override
     public void removePlayer(String nickname) {
         gameController.removePlayer(nickname);
         clientMap.remove(nickname);
