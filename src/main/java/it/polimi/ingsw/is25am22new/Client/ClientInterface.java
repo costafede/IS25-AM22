@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Client.Network;
+package it.polimi.ingsw.is25am22new.Client;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -9,15 +9,16 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.IOException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-public interface ClientInterface {
+public interface ClientInterface extends Remote {
+
     void showUpdateBank(Bank bank) throws IOException;
     void showUpdateTileInHand(String player, ComponentTile tile) throws IOException;
     void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList) throws IOException;
