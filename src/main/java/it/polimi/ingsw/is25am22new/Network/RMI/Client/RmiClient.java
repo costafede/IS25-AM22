@@ -95,8 +95,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         System.exit(0);
     }
 
-
-
     public void setPlayerReady(String playerName) throws IOException {
         server.setPlayerReady(playerName);
     }
