@@ -176,4 +176,42 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
+
+    @Override
+    public void updateGameStarted() {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showGameStarted();
+            }
+        }
+    }
+
+    @Override
+    public void updateLobby() {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showLobbyUpdate(this.controller.getPlayers(), this.controller.getReadyStatus(), this.controller.getGameType());
+            }
+        }
+    }
+
+    @Override
+    public void updatePlayerJoined(String player) {
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showPlayerJoined(player);
+
+            }
+        }
+    }
+
+    @Override
+    public void updateConnectionResult(boolean isHost, boolean success, String message) {
+
+    }
+
+    @Override
+    public void updateNicknameResult(boolean valid, String message) {
+
+    }
 }

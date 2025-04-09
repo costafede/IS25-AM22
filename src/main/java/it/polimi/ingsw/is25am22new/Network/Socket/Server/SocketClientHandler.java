@@ -293,7 +293,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException {
+    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType)  {
         SocketMessage message1 = new SocketMessage("LobbyUpdate", players, gameType);
         try {
             objectOutput.writeObject(message1);
@@ -311,7 +311,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException {
+    public void showConnectionResult(boolean isHost, boolean success, String message)  {
         SocketMessage message1 = new SocketMessage("ConnectionResult", isHost, message);
         try {
             objectOutput.writeObject(message1);
@@ -329,7 +329,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void showNicknameResult(boolean valid, String payload) throws RemoteException {
+    public void showNicknameResult(boolean valid, String payload) {
         SocketMessage message = new SocketMessage("LobbyFullOrOutsideLobbyState", valid, payload);
         try {
             objectOutput.writeObject(message);
@@ -340,7 +340,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void showGameStarted() throws RemoteException {
+    public void showGameStarted(){
         SocketMessage message = new SocketMessage("GameStarted", null, null);
         try {
             objectOutput.writeObject(message);
@@ -351,7 +351,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void showPlayerJoined(String player) throws RemoteException {
+    public void showPlayerJoined(String player){
         SocketMessage message = new SocketMessage("PlayerJoined", null, player);
         try {
             objectOutput.writeObject(message);
