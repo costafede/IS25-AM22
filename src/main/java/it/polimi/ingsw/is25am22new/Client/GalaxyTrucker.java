@@ -1,29 +1,27 @@
 package it.polimi.ingsw.is25am22new.Client;
 
-import it.polimi.ingsw.is25am22new.Client.Network.ClientInterface;
-import it.polimi.ingsw.is25am22new.Client.Network.ClientRMI;
 import it.polimi.ingsw.is25am22new.Client.View.CLIView;
-import it.polimi.ingsw.is25am22new.Client.View.VirtualViewClient;
-import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
-import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
-import it.polimi.ingsw.is25am22new.Network.VirtualServer;
+import it.polimi.ingsw.is25am22new.Client.View.GUIView;
+import it.polimi.ingsw.is25am22new.Client.View.GameView;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 public class GalaxyTrucker {
 
+    public static GameView gameView;
+    public static Client client;
+    public static String protocolType;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ClientInterface client;
         String playerName;
 
         System.out.println("=== GALAXY TRUCKER GAME ===");
-        System.out.println("Select connection type:");
-        System.out.println("1. RMI (Remote Method Invocation)");
-        System.out.println("2. Socket");
+        System.out.println("Select CLI or GUI:");
+        System.out.println("1. CLI");
+        System.out.println("2. GUI");
         System.out.print("Enter your choice (1 or 2): ");
 
         int choice = 0;
@@ -54,19 +52,47 @@ public class GalaxyTrucker {
 
         try{
             if(choice == 1) {
-                // RMI connection
-                RmiClient.main(new String[]{host, String.valueOf(port)});
+                gameView = new CLIView();
             } else {
-                // Socket connection
-                SocketClientSide.main(new String[]{host, String.valueOf(port)});
+                gameView = new GUIView();
             }
         } catch (Exception e){
             System.err.println("Error: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
 
+        gameView.startView();
 
+    }
+
+    public void setClient(Client client) {
+        GalaxyTrucker.client = client;
+    }
+
+    public static void setParameters(String protocolType, GameView gameView) {
+        GalaxyTrucker.protocolType = protocolType;
+        GalaxyTrucker.gameView = gameView;
+        switch (protocolType) {
+            case "rmi" -> {
+                try {
+                    client = new ClientRMI();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case "tcp" -> {
+                try {
+                    client = new ClientSocket();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            default -> {
+                System.err.println("Invalid protocol: " + protocolType + ". Use 'rmi' or 'tcp'.");
+                System.exit(1);
+            }
+        }
+        client.setView(gameView);
+        gameView.setClient(client);
     }
 
 }

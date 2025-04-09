@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Client.Network;
+package it.polimi.ingsw.is25am22new.Client;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -14,16 +14,27 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.IOException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Map;
 
-public class ClientRMI implements ClientInterface {
+public class ClientRMI extends Client implements ClientInterface {
     private VirtualServer server;
+    private static final String SERVER_NAME = "GalaxyTruckerServer";
+    String host = "localhost";
+    int port = 1234;
 
-    public ClientRMI(String host, int port) throws Exception {
-        String registryUrl = "//" + host + ":" + port + "/Server";
-        this.server = (VirtualServer) Naming.lookup(registryUrl);
+    public ClientRMI() throws RemoteException {
+        super();
+    }
+
+    @Override
+    public void connect() throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(host, port);
+        this.server = (VirtualServer) registry.lookup(SERVER_NAME);
     }
 
 

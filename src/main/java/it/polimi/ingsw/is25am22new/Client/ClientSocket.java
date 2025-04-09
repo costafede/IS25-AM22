@@ -1,6 +1,7 @@
-package it.polimi.ingsw.is25am22new.Client.View;
+package it.polimi.ingsw.is25am22new.Client;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
@@ -10,17 +11,27 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Map;
 
-public class VirtualViewClient extends UnicastRemoteObject implements VirtualView {
+public class ClientSocket extends Client implements ClientInterface {
 
-    public VirtualViewClient() throws RemoteException {
+
+
+    public ClientSocket() throws RemoteException {
         super();
+        //to do
     }
+
+    @Override
+    public void connect() throws IOException, NotBoundException {
+
+    }
+
 
     @Override
     public void showUpdateBank(Bank bank) throws IOException {
@@ -109,6 +120,116 @@ public class VirtualViewClient extends UnicastRemoteObject implements VirtualVie
 
     @Override
     public void showPlayerJoined(String player) throws RemoteException {
+
+    }
+
+    @Override
+    public void connect(VirtualView client, String nickname) throws RemoteException {
+
+    }
+
+    @Override
+    public void addPlayer(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void removePlayer(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void setPlayerReady(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void startGameByHost(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void setPlayerNotReady(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void setGameType(String gameType) throws IOException {
+
+    }
+
+    @Override
+    public void pickCoveredTile(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void pickUncoveredTile(String nickname, int index) throws IOException {
+
+    }
+
+    @Override
+    public void weldComponentTile(String nickname, int i, int j, int numOfRotations) throws IOException {
+
+    }
+
+    @Override
+    public void standbyComponentTile(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void pickStandbyComponentTile(String nickname, int index) throws IOException {
+
+    }
+
+    @Override
+    public void discardComponentTile(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void finishBuilding(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void finishBuilding(String nickname, int index) throws IOException {
+
+    }
+
+    @Override
+    public void finishedAllShipboards() throws IOException {
+
+    }
+
+    @Override
+    public void flipHourglass() throws IOException {
+
+    }
+
+    @Override
+    public void pickCard() throws IOException {
+
+    }
+
+    @Override
+    public void activateCard(InputCommand inputCommand) throws IOException {
+
+    }
+
+    @Override
+    public void playerAbandons(String nickname) throws IOException {
+
+    }
+
+    @Override
+    public void destroyComponentTile(String nickname, int i, int j) throws IOException {
+
+    }
+
+    @Override
+    public void endGame() throws IOException {
 
     }
 }
