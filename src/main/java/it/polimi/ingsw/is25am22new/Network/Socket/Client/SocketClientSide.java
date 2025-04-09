@@ -5,7 +5,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
@@ -15,7 +17,6 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -55,6 +56,10 @@ public class SocketClientSide implements VirtualView {
     // comunicazione dal server al client
     private void runVirtualServer() throws IOException, ClassNotFoundException {
         SocketMessage msg;
+        List<String> players = List.of("ERROR");
+        String gameType = "ERROR";
+        boolean isHost = false;
+        String message = "ERROR";
         while ((msg = (SocketMessage) objectInput.readObject()) != null) {
             switch (msg.getCommand()) {
                 case "Bank" -> {
@@ -67,8 +72,12 @@ public class SocketClientSide implements VirtualView {
                     this.showUpdateTileInHand(player, tile);
                 }
                 case "UncoveredComponentTile" -> {
-                    ComponentTile tile = (ComponentTile) msg.getObject();
-                    this.showUpdateUncoveredComponentTiles(tile);
+                    List<ComponentTile> ctList = (List<ComponentTile>) msg.getObject();
+                    this.showUpdateUncoveredComponentTiles(ctList);
+                }
+                case "CoveredComponentTile" -> {
+                    List<ComponentTile> ctList = (List<ComponentTile>) msg.getObject();
+                    this.showUpdateCoveredComponentTiles(ctList);
                 }
                 case "Shipboard" -> {
                     String player = msg.getPayload();
@@ -90,6 +99,52 @@ public class SocketClientSide implements VirtualView {
                 case "CurrPlayer" -> {
                     String currPlayer = msg.getPayload();
                     this.showUpdateCurrPlayer(currPlayer);
+                }
+                case "GamePhase" -> {
+                    GamePhase gamePhase = (GamePhase) msg.getObject();
+                    this.showUpdateGamePhase(gamePhase);
+                }
+                case "Deck" -> {
+                    List<AdventureCard> deck = (List<AdventureCard>) msg.getObject();
+                    this.showUpdateDeck(deck);
+                }
+                case "Game" -> {
+                    Game game = (Game) msg.getObject();
+                    this.showUpdateGame(game);
+                }
+                case "HourglassSpot" -> {
+                    int hourglassSpot = (int) msg.getObject();
+                    this.showUpdateHourglassSpot(hourglassSpot);
+                }
+                case "LobbyUpdate" -> {
+                    players = (List<String>) msg.getObject();
+                    gameType = msg.getPayload();
+                }
+                case "ReadyStatus" -> {
+                    // might be wrong
+                    Map<String, Boolean> readyStatus = (Map<String, Boolean>) msg.getObject();
+                    this.showLobbyUpdate(players, readyStatus, gameType);
+                }
+                case "ConnectionResult" -> {
+                    // might be wrong
+                    isHost = (boolean) msg.getObject();
+                    message = msg.getPayload();
+                }
+                case "Success" -> {
+                    boolean success = (boolean) msg.getObject();
+                    this.showConnectionResult(isHost, success, message);
+                }
+                case "NicknameResult" -> {
+                    boolean valid = (boolean) msg.getObject();
+                    message = msg.getPayload();
+                    this.showNicknameResult(valid, message);
+                }
+                case "GameStarted" -> {
+                    this.showGameStarted();
+                }
+                case "PlayerJoined" -> {
+                    String player = msg.getPayload();
+                    this.showPlayerJoined(player);
                 }
                 case "updateTest" -> {
                     System.out.println(msg.getPayload());
@@ -331,7 +386,7 @@ public class SocketClientSide implements VirtualView {
                     }
                 }
                 case 22 -> {
-                    if(gameCliView.getPhaseType() == PhaseType.END) {
+                    if(gameCliView.getGamePhase().getPhaseType() == PhaseType.END) {
                         System.out.println("Game is over!");
                         output.endGame();
                     }
@@ -467,7 +522,7 @@ public class SocketClientSide implements VirtualView {
     // TUTTE LE FUNZIONI SONO DA SINCRONIZZARE
     //
     @Override
-    public void showUpdateBank(Bank bank) throws RemoteException {
+    public void showUpdateBank(Bank bank) {
         gameCliView.setBank(bank);
         System.out.println("Bank updated:");
         System.out.println(bank);
@@ -475,7 +530,7 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateTileInHand(String player, ComponentTile tile) throws RemoteException {
+    public void showUpdateTileInHand(String player, ComponentTile tile) {
         gameCliView.getShipboard(player).setTileInHand(tile);
         System.out.println("Tile in hand updated:");
         System.out.println(gameCliView.getShipboard(player).getTileInHand());
@@ -483,15 +538,20 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateUncoveredComponentTiles(ComponentTile tile) throws RemoteException {
-        gameCliView.getUncoveredComponentTiles().add(tile);
+    public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList) {
+        gameCliView.setCoveredComponentTiles(ctList);
         System.out.println("Uncovered component tiles list updated:");
         System.out.println(gameCliView.getUncoveredComponentTiles());
         System.out.flush();
     }
 
     @Override
-    public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {
+    public void showUpdateCoveredComponentTiles(List<ComponentTile> ctList) {
+
+    }
+
+    @Override
+    public void showUpdateShipboard(String player, Shipboard shipboard) {
         gameCliView.getShipboards().put(player, shipboard);
         System.out.println("Shipboard updated:");
         System.out.println(gameCliView.getShipboard(player));
@@ -499,7 +559,7 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateFlightboard(Flightboard flightboard) throws RemoteException {
+    public void showUpdateFlightboard(Flightboard flightboard) {
         gameCliView.setFlightboard(flightboard);
         System.out.println("Flightboard updated:");
         System.out.println(gameCliView.getFlightboard());
@@ -507,7 +567,7 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateCurrCard(AdventureCard adventureCard) throws RemoteException {
+    public void showUpdateCurrCard(AdventureCard adventureCard)  {
         gameCliView.setCurrCard(adventureCard);
         System.out.println("Current card updated:");
         System.out.println(gameCliView.getCurrCard());
@@ -515,7 +575,7 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateDices(Dices dices) throws RemoteException {
+    public void showUpdateDices(Dices dices) {
         gameCliView.setDices(dices);
         System.out.println("Dices updated:");
         System.out.println(gameCliView.getDices());
@@ -523,7 +583,7 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateCurrPlayer(String currPlayer) throws RemoteException {
+    public void showUpdateCurrPlayer(String currPlayer)  {
         gameCliView.setCurrPlayer(currPlayer);
         System.out.println("Current player updated:");
         System.out.println(gameCliView.getCurrPlayer());
@@ -531,27 +591,56 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException {
+    public void showUpdateGamePhase(GamePhase gamePhase)  {
+        gameCliView.setGamePhase(gamePhase);
+        System.out.println("Game phase updated:");
+        System.out.println(gameCliView.getGamePhase());
+        System.out.flush();
+    }
+
+    @Override
+    public void showUpdateDeck(List<AdventureCard> deck)  {
+        gameCliView.setDeck(deck);
+        System.out.println("Deck updated:");
+        System.out.println(gameCliView.getDeck());
+        System.out.flush();
+    }
+
+    @Override
+    public void showUpdateGame(Game game)  {
+        gameCliView = new GameCliView(game);
+        System.out.println("Game updated:");
+        System.out.println(gameCliView);
+        System.out.flush();
+    }
+
+    @Override
+    public void showUpdateHourglassSpot(int hourglassSpot){
 
     }
 
     @Override
-    public void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException {
+    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
 
     }
 
     @Override
-    public void showNicknameResult(boolean valid, String message) throws RemoteException {
+    public void showConnectionResult(boolean isHost, boolean success, String message) {
 
     }
 
     @Override
-    public void showGameStarted() throws RemoteException {
+    public void showNicknameResult(boolean valid, String message) {
 
     }
 
     @Override
-    public void showPlayerJoined(String player) throws RemoteException {
+    public void showGameStarted() {
+
+    }
+
+    @Override
+    public void showPlayerJoined(String player) {
 
     }
 }

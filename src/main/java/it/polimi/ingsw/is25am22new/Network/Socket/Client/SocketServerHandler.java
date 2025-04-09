@@ -20,50 +20,78 @@ public class SocketServerHandler implements VirtualServer {
     @Override
     public void addPlayer(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("addPlayer", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in addPlayer: " + e.getMessage());
+        }
     }
 
     @Override
     public void removePlayer(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("removePlayer", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in removePlayer: " + e.getMessage());
+        }
     }
 
     @Override
     public void setPlayerReady(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("setPlayerReady", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in setPlayerReady: " + e.getMessage());
+        }
     }
 
     @Override
     public void startGameByHost(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("startGameByHost", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in startGameByHost: " + e.getMessage());
+        }
     }
 
     @Override
     public void setPlayerNotReady(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("setPlayerNotReady", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in setPlayerNotReady: " + e.getMessage());
+        }
     }
 
     @Override
     public void setGameType(String gameType) throws IOException {
         SocketMessage msg = new SocketMessage("setGameType", null, gameType);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in setGameType: " + e.getMessage());
+        }
     }
 
     @Override
     public void pickCoveredTile(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("pickCoveredTile", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in pickCoveredTile: " + e.getMessage());
+        }
     }
 
     @Override
@@ -71,8 +99,12 @@ public class SocketServerHandler implements VirtualServer {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(index);
         SocketMessage msg = new SocketMessage("pickUncoveredTile", inputCommand, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in pickUncoveredTile: " + e.getMessage());
+        }
     }
 
     @Override
@@ -82,15 +114,23 @@ public class SocketServerHandler implements VirtualServer {
         inputCommand.setCol(j);
         inputCommand.setIndexChosen(numOfRotations);
         SocketMessage msg = new SocketMessage("weldComponentTile", inputCommand, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in weldComponentTile: " + e.getMessage());
+        }
     }
 
     @Override
     public void standbyComponentTile(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("standbyComponentTile", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in standbyComponentTile: " + e.getMessage());
+        }
     }
 
     @Override
@@ -98,22 +138,34 @@ public class SocketServerHandler implements VirtualServer {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(index);
         SocketMessage msg = new SocketMessage("pickStandByComponentTile", inputCommand, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in pickStandbyComponentTile: " + e.getMessage());
+        }
     }
 
     @Override
     public void discardComponentTile(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("discardComponentTile", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in discardComponentTile: " + e.getMessage());
+        }
     }
 
     @Override
     public void finishBuilding(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("finishBuilding1", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in finishBuilding: " + e.getMessage());
+        }
     }
 
     @Override
@@ -121,43 +173,67 @@ public class SocketServerHandler implements VirtualServer {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(index);
         SocketMessage msg = new SocketMessage("finishBuilding2", inputCommand, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in finishBuilding: " + e.getMessage());
+        }
     }
 
     @Override
     public void finishedAllShipboards() throws IOException {
         SocketMessage msg = new SocketMessage("finishedAllShipboards", null, null);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in finishedAllShipboards: " + e.getMessage());
+        }
     }
 
     @Override
     public void flipHourglass() throws IOException {
         SocketMessage msg = new SocketMessage("flipHourglass", null, null);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in flipHourglass: " + e.getMessage());
+        }
     }
 
     @Override
     public void pickCard() throws IOException {
         SocketMessage msg = new SocketMessage("pickCard", null, null);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in pickCard: " + e.getMessage());
+        }
     }
 
     @Override
     public void activateCard(InputCommand inputCommand) throws IOException {
         SocketMessage msg = new SocketMessage("activateCard", inputCommand, null);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in activateCard: " + e.getMessage());
+        }
     }
 
     @Override
     public void playerAbandons(String nickname) throws IOException {
         SocketMessage msg = new SocketMessage("playerAbandons", null, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in playerAbandons: " + e.getMessage());
+        }
     }
 
     @Override
@@ -166,26 +242,23 @@ public class SocketServerHandler implements VirtualServer {
         inputCommand.setRow(i);
         inputCommand.setCol(j);
         SocketMessage msg = new SocketMessage("destroyTile", inputCommand, nickname);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in destroyComponentTile: " + e.getMessage());
+        }
     }
 
     @Override
     public void endGame() throws IOException {
         SocketMessage msg = new SocketMessage("endGame", null, null);
-        objectOutput.writeObject(msg);
-        objectOutput.flush();
-    }
-
-
-    @Override
-    public void setCurrPlayer(String currPlayer) throws RemoteException {
-
-    }
-
-    @Override
-    public void setCurrPlayerToLeader() throws RemoteException {
-
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in endGame: " + e.getMessage());
+        }
     }
 
     @Override

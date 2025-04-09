@@ -31,6 +31,7 @@ public abstract class Game extends ObservableModel {
     protected AdventureCard currCard;
     private Dices dices;
     protected GamePhase gamePhase;
+    protected int hourglassSpot = 0;
 
     public Game(List<String> playerList) {
         this.playerList = playerList;
@@ -69,26 +70,33 @@ public abstract class Game extends ObservableModel {
         GameInitializer.initComponent(this, objectMapper);
         GameInitializer.initCardArchive(this, objectMapper);
         gamePhase.trySwitchToNextPhase();
+        updateAllGame(this);
     }
 
     public void pickCoveredTile(String nickname) {
         if(coveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no covered components in this game");
         shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
+        updateAllCoveredComponentTiles(coveredComponentTiles);
     }
 
     public void pickUncoveredTile(String nickname, int index) {
         if(uncoveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no uncovered components in this game");
         shipboards.get(nickname).setTileInHand(uncoveredComponentTiles.remove(index));
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
+        updateAllUncoveredComponentTiles(uncoveredComponentTiles);
     }
 
     public void rotateClockwise(String nickname) {
         shipboards.get(nickname).getTileInHand().rotateClockwise();
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
     }
 
     public void rotateCounterClockwise(String nickname) {
         shipboards.get(nickname).getTileInHand().rotateCounterClockwise();
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
     }
 
     public void weldComponentTile(String nickname, int i, int j) {
@@ -97,22 +105,30 @@ public abstract class Game extends ObservableModel {
             throw new IllegalStateException("Component tile already present in the chosen slot");
         shipboards.get(nickname).weldComponentTile(tileInHand, i, j);
         shipboards.get(nickname).setTileInHand(null);
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
+        updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
     public void standbyComponentTile(String nickname) {
         ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
         shipboards.get(nickname).standbyComponentTile(tileInHand);
         shipboards.get(nickname).setTileInHand(null);
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
+        updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
     public void pickStandByComponentTile(String nickname, int index) {
         ComponentTile ct = shipboards.get(nickname).pickStandByComponentTile(index);
         shipboards.get(nickname).setTileInHand(ct);
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
+        updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
     public void discardComponentTile(String nickname) {
         uncoveredComponentTiles.add(shipboards.get(nickname).getTileInHand());
         shipboards.get(nickname).setTileInHand(null);
+        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
+        updateAllUncoveredComponentTiles(uncoveredComponentTiles);
     }
 
     public void finishBuilding(String nickname, int pos) {
@@ -120,6 +136,9 @@ public abstract class Game extends ObservableModel {
         flightboard.placeRocket(nickname, pos);
         shipboards.get(nickname).setFinishedShipboard(true);
         gamePhase.trySwitchToNextPhase();
+        updateAllShipboard(nickname, shipboards.get(nickname));
+        updateAllFlightboard(flightboard);
+        updateAllGamePhase(gamePhase);
     }
 
 
@@ -144,16 +163,22 @@ public abstract class Game extends ObservableModel {
 
     public void pickCard() {
         setCurrCard(deck.remove(new Random().nextInt(deck.size())));
+        updateAllDeck(deck);
+        updateAllCurrCard(currCard);
     }
 
     public void playerAbandons(String nickname) {
         shipboards.get(nickname).abandons();
         flightboard.getOrderedRockets().remove(nickname);
+        updateAllFlightboard(flightboard);
+        updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
     public void destroyTile(String nickname, int i, int j) {
         shipboards.get(nickname).destroyTile(i, j);
         gamePhase.trySwitchToNextPhase();
+        updateAllShipboard(nickname, shipboards.get(nickname));
+        updateAllGamePhase(gamePhase);
     }
 
     public List<CardPile> getCardPiles(){
@@ -251,7 +276,7 @@ public abstract class Game extends ObservableModel {
     }
 
     // check if active players still fulfill the conditions to play and eliminates the ones who don't (usually called at the end of the cards effects)
-    public void manageInvalidPlayers(){
+    public void manageInvalidPlayers() {
         Iterator<String> iterator = flightboard.getOrderedRockets().iterator();
         while(iterator.hasNext()){
             String p = iterator.next();
@@ -263,9 +288,10 @@ public abstract class Game extends ObservableModel {
         }
     }
 
-    public void activateCard(InputCommand inputCommand){
+    public void activateCard(InputCommand inputCommand) {
         currCard.activateEffect(inputCommand);
         gamePhase.trySwitchToNextPhase();
+        updateAllGame(this);
     }
 
     public void setGamePhase(GamePhase gamePhase){
@@ -274,5 +300,9 @@ public abstract class Game extends ObservableModel {
 
     public GamePhase getGamePhase() {
         return gamePhase;
+    }
+
+    public int getHourglassSpot() {
+        return hourglassSpot;
     }
 }

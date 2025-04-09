@@ -37,10 +37,6 @@ public class ClientRMI implements VirtualView, VirtualServer {
 
     }
 
-    @Override
-    public void showUpdateUncoveredComponentTiles(ComponentTile tile) throws RemoteException {
-
-    }
 
     @Override
     public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {

@@ -414,16 +414,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void setCurrPlayer(String currPlayer) {
-        gameController.setCurrPlayer(currPlayer);
-    }
-
-    @Override
-    public void setCurrPlayerToLeader() {
-        gameController.setCurrPlayerToLeader();
-    }
-
-    @Override
     public void endGame() {
         gameController.endGame();
     }
