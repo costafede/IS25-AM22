@@ -25,7 +25,6 @@ public class SocketServerSide implements ObserverModel {
     public SocketServerSide(ServerSocket listenSocket) {
         this.listenSocket = listenSocket;
         this.controller = new GameController();
-        this.controller.getObservers().add(this);
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {

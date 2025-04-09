@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
-import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,8 +11,8 @@ import java.util.stream.Collectors;
 public class Level2Game extends Game {
     private final List<CardPile> cardPiles;
 
-    public Level2Game(List<String> nicknames, List<ObserverModel> observers) {
-        super(nicknames, observers);
+    public Level2Game(List<String> nicknames) {
+        super(nicknames);
         this.cardPiles = new ArrayList<>();
         this.flightboard = new Level2FlightBoard(this);
     }

@@ -36,7 +36,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     public RmiServer(GameController gameController) throws RemoteException {
         super();
         this.gameController = gameController;
-        this.gameController.getObservers().add(this);
         this.connectedClients = new ArrayList<>();
         this.clientMap = new HashMap<>();
 

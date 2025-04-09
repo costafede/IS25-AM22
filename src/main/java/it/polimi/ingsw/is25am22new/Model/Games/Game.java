@@ -15,7 +15,6 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Network.ObservableModel;
-import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
 
 public abstract class Game extends ObservableModel {
@@ -34,7 +33,7 @@ public abstract class Game extends ObservableModel {
     protected GamePhase gamePhase;
     protected int hourglassSpot = 0;
 
-    public Game(List<String> playerList, List<ObserverModel> observers) {
+    public Game(List<String> playerList) {
         this.playerList = playerList;
         bank = new Bank();
         cardArchive = new ArrayList<>();
@@ -45,10 +44,6 @@ public abstract class Game extends ObservableModel {
         this.deck = new ArrayList<>();
         this.dices = new Dices();
         this.gamePhase = new SetUpPhase(this);
-
-        for (ObserverModel observer : observers) {
-            this.addObserver(observer);
-        }
 
         List<String> colors = List.of("red", "green", "blue", "yellow");
         for(int i = 0; i < playerList.size(); i++) {
