@@ -22,4 +22,19 @@ public class GUIView implements GameView{
     public void startView() {
 
     }
+
+    @Override
+    public void initiateConnection() {
+
+    }
+
+    @Override
+    public void connectionSuccessful() {
+
+    }
+
+    @Override
+    public void connectionFailure() {
+
+    }
 }
