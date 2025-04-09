@@ -5,6 +5,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -130,7 +132,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateBank(Bank bank) throws RemoteException {
+    public void updateBank(Bank bank) {
         for (VirtualView connectedClient : connectedClients) {
             try{
                 connectedClient.showUpdateBank(bank);
@@ -144,7 +146,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateTileInHand(String player, ComponentTile ct) throws RemoteException {
+    public void updateTileInHand(String player, ComponentTile ct) {
         for (VirtualView connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateTileInHand(player, ct);
@@ -158,10 +160,10 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateUncoveredComponentTiles(ComponentTile ct) throws RemoteException {
+    public void updateUncoveredComponentTiles(List<ComponentTile> tilesList) {
         for (VirtualView connectedClient : connectedClients) {
             try {
-                connectedClient.showUpdateUncoveredComponentTiles(ct);
+                connectedClient.showUpdateUncoveredComponentTiles(tilesList);
             } catch (RemoteException e) {
                 System.err.println("Error updating client with uncovered component tiles: " + e.getMessage());
                 handleClientError(connectedClient, e);
@@ -172,7 +174,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateShipboard(String player, Shipboard shipboard) throws RemoteException {
+    public void updateShipboard(String player, Shipboard shipboard) {
         for (VirtualView connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateShipboard(player, shipboard);
@@ -186,7 +188,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateFlightboard(Flightboard flightboard) throws RemoteException {
+    public void updateFlightboard(Flightboard flightboard) {
         for(VirtualView connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateFlightboard(flightboard);
@@ -200,7 +202,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateCurrCard(AdventureCard adventureCard) throws RemoteException {
+    public void updateCurrCard(AdventureCard adventureCard) {
         for (VirtualView connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateCurrCard(adventureCard);
@@ -214,7 +216,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateDices(Dices dices) throws RemoteException {
+    public void updateDices(Dices dices) {
         for (VirtualView connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateDices(dices);
@@ -228,7 +230,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateCurrPlayer(String currPlayer) throws RemoteException {
+    public void updateCurrPlayer(String currPlayer) {
         for (VirtualView connectedClient : connectedClients) {
             try {
                 connectedClient.showUpdateCurrPlayer(currPlayer);
@@ -237,6 +239,76 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                 handleClientError(connectedClient, e);
             } catch (Exception e) {
                 //handle showUpdateCurrPlayer exception
+            }
+        }
+    }
+
+    @Override
+    public void updateGamePhase(GamePhase gamePhase) {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateGamePhase(gamePhase);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with game phase: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateGamePhase exception
+            }
+        }
+    }
+
+    @Override
+    public void updateCoveredComponentTiles(List<ComponentTile> ctList) {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateCoveredComponentTiles(ctList);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with covered component tiles: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateCoveredComponentTiles exception
+            }
+        }
+    }
+
+    @Override
+    public void updateDeck(List<AdventureCard> deck) {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateDeck(deck);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with deck: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateDeck exception
+            }
+        }
+    }
+
+    @Override
+    public void updateGame(Game game) {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateGame(game);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with game: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateGame exception
+            }
+        }
+    }
+
+    @Override
+    public void updateHourglassSpot(int hourglassSpot) {
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateHourglassSpot(hourglassSpot);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with hourglass spot: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showUpdateHourglassSpot exception
             }
         }
     }

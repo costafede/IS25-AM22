@@ -4,6 +4,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -42,6 +44,16 @@ public class ClientSocket implements VirtualView, VirtualServer {
     }
 
     @Override
+    public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList) throws IOException {
+
+    }
+
+    @Override
+    public void showUpdateCoveredComponentTiles(List<ComponentTile> ctList) throws IOException {
+
+    }
+
+    @Override
     public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {
 
     }
@@ -63,6 +75,26 @@ public class ClientSocket implements VirtualView, VirtualServer {
 
     @Override
     public void showUpdateCurrPlayer(String currPlayer) throws RemoteException {
+
+    }
+
+    @Override
+    public void showUpdateGamePhase(GamePhase gamePhase) throws IOException {
+
+    }
+
+    @Override
+    public void showUpdateDeck(List<AdventureCard> deck) throws IOException {
+
+    }
+
+    @Override
+    public void showUpdateGame(Game game) throws IOException {
+
+    }
+
+    @Override
+    public void showUpdateHourglassSpot(int hourglassSpot) throws IOException {
 
     }
 
@@ -198,16 +230,6 @@ public class ClientSocket implements VirtualView, VirtualServer {
 
     @Override
     public void endGame() throws IOException {
-
-    }
-
-    @Override
-    public void setCurrPlayer(String currPlayer) throws RemoteException {
-
-    }
-
-    @Override
-    public void setCurrPlayerToLeader() throws RemoteException {
 
     }
 }
