@@ -59,6 +59,15 @@ public class GameController {
         }
     }
 
+    public void setMaxPlayers(int maxPlayers) {
+        if(currentState == GameState.LOBBY) {
+            lobby.setMaxPlayers(maxPlayers);
+            System.out.println("Max players set to " + maxPlayers);
+        } else {
+            System.out.println("Max players cannot be set outside lobby state.");
+        }
+    }
+
     public int addPlayer(String player) {
         if(currentState == GameState.LOBBY) {
             int res = lobby.addPlayer(player);

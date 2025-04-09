@@ -11,13 +11,26 @@ public class Lobby {
     private final List<String> players;
     private final Map<String, Boolean> readyStatus;
     //private final int minPlayers = 2; //can be converted to a local variable
-    private final int maxPlayers = 4;
+    private int maxPlayers;
     private String gameType;
 
     public Lobby() {
         this.players = new ArrayList<>();
         this.readyStatus = new HashMap<>();
+        this.maxPlayers = 4; // Default max players
         this.gameType = "tutorial"; // Default game type
+    }
+
+    public void setMaxPlayers(int maxPlayers) {
+        if(maxPlayers < 2 || maxPlayers > 4){
+            throw new IllegalArgumentException("Max players must be between 2 and 4");
+        } else {
+            this.maxPlayers = maxPlayers;
+        }
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
     }
 
     public Lobby(List<String> players, Map<String, Boolean> readyStatus) {
@@ -66,7 +79,7 @@ public class Lobby {
     public boolean isLobbyReady() {
         //can be converted to a local variable
         int minPlayers = 2;
-        return players.size() >= minPlayers && readyStatus.values().stream().allMatch(Boolean::booleanValue);
+        return players.size() >= minPlayers && players.size() <= maxPlayers && readyStatus.values().stream().allMatch(Boolean::booleanValue);
     }
 
     public void setGameType(String gameType) {
