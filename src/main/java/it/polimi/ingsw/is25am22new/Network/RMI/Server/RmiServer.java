@@ -65,6 +65,13 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
 
         synchronized (connectedClients) {
+
+            if(connectedClients.size() >= 4) {
+                client.showConnectionResult(false, false, "Lobby is full. Connecting failed.");
+                //UnicastRemoteObject.unexportObject(client, true);
+                return;
+            }
+
             if(clientMap.containsKey(nickname)){
                 (client).showNicknameResult(false, "Nickname already taken");
                 return;

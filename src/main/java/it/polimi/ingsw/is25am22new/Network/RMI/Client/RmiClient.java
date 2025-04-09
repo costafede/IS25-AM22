@@ -374,10 +374,11 @@ class ConsoleClientView implements EnhancedClientView {
                 System.out.println("As the host, you can start the game when at least 2 players are ready.");
             }
             nicknameValid = true;
+            //displayCurrentCommands();
         } else {
-            System.out.println("Connection failed: " + message + "\n");
+            System.out.println("Connection failed: " + message);
             System.out.println("=========================");
-            displayCurrentCommands();
+            System.exit(0);
         }
     }
 
