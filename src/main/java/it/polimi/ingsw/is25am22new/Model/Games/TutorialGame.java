@@ -2,12 +2,13 @@ package it.polimi.ingsw.is25am22new.Model.Games;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
+import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
 import java.util.*;
 
 public class TutorialGame extends Game {
-    public TutorialGame(List<String> nicknames) {
-        super(nicknames);
+    public TutorialGame(List<String> nicknames, List<ObserverModel> observers) {
+        super(nicknames, observers);
         this.flightboard = new TutorialFlightBoard(this);
     }
 
