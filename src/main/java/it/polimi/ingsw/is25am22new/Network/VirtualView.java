@@ -34,9 +34,9 @@ public interface VirtualView extends Remote {
     void showUpdateHourglassSpot(int hourglassSpot) throws IOException;
 
     //Methods for lobby management
-    void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException;
-    void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException;
-    void showNicknameResult(boolean valid, String message) throws RemoteException;
-    void showGameStarted() throws RemoteException;
-    void showPlayerJoined(String player) throws RemoteException;
+    void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType);
+    void showConnectionResult(boolean isHost, boolean success, String message);
+    void showNicknameResult(boolean valid, String message);
+    void showGameStarted();
+    void showPlayerJoined(String player);
 }

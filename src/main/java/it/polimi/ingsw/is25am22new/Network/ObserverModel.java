@@ -32,4 +32,8 @@ public interface ObserverModel {
     void updateGameStarted();
     void updateLobby();
     void updatePlayerJoined(String player);
+
+    void updateConnectionResult(boolean isHost, boolean success, String message);
+    void updateNicknameResult(boolean valid, String message);
+
 }

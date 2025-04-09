@@ -82,7 +82,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     Thread.sleep(1000);
 
                     nickAccepted = view.isNicknameValid();
-                }catch (RemoteException | InterruptedException e){
+                }catch (InterruptedException e){
                     System.err.println("Error connecting with nickname" + e.getMessage());
                 }
             }
@@ -176,43 +176,43 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException {
+    public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
         clientView.displayLobbyUpdate(players, readyStatus, gameType, isHost);
     }
 
     @Override
-    public void showConnectionResult(boolean isHost, boolean success, String message) throws RemoteException {
+    public void showConnectionResult(boolean isHost, boolean success, String message) {
         this.isHost = isHost;
         clientView.displayConnectionResult(isHost, success, message);
     }
 
     @Override
-    public void showNicknameResult(boolean valid, String message) throws RemoteException {
+    public void showNicknameResult(boolean valid, String message) {
         clientView.displayNicknameResult(valid, message);
     }
 
     @Override
-    public void showGameStarted() throws RemoteException {
+    public void showGameStarted() {
         clientView.displayGameStarted();
     }
 
     @Override
-    public void showPlayerJoined(String playerName) throws RemoteException {
+    public void showPlayerJoined(String playerName) {
         clientView.displayPlayerJoined(playerName);
     }
 
     @Override
-    public void showUpdateBank(Bank bank) throws RemoteException {
+    public void showUpdateBank(Bank bank)  {
         clientView.displayBank(bank);
     }
 
     @Override
-    public void showUpdateTileInHand(String player, ComponentTile tile) throws RemoteException {
+    public void showUpdateTileInHand(String player, ComponentTile tile)  {
         clientView.displayTileInHand(player, tile);
     }
 
     @Override
-    public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList) throws RemoteException {
+    public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList)  {
         clientView.displayUncoveredComponentTiles(ctList);
     }
 
@@ -222,27 +222,27 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     }
 
     @Override
-    public void showUpdateShipboard(String player, Shipboard shipboard) throws RemoteException {
+    public void showUpdateShipboard(String player, Shipboard shipboard)  {
         clientView.displayShipboard(player, shipboard);
     }
 
     @Override
-    public void showUpdateFlightboard(Flightboard flightboard) throws RemoteException {
+    public void showUpdateFlightboard(Flightboard flightboard)  {
         clientView.displayFlightboard(flightboard);
     }
 
     @Override
-    public void showUpdateCurrCard(AdventureCard adventureCard) throws RemoteException {
+    public void showUpdateCurrCard(AdventureCard adventureCard)  {
         clientView.displayCurrentCard(adventureCard);
     }
 
     @Override
-    public void showUpdateDices(Dices dices) throws RemoteException {
+    public void showUpdateDices(Dices dices)  {
         clientView.displayDices(dices);
     }
 
     @Override
-    public void showUpdateCurrPlayer(String currPlayer) throws RemoteException {
+    public void showUpdateCurrPlayer(String currPlayer)  {
         clientView.displayCurrentPlayer(currPlayer);
     }
 
