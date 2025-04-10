@@ -7,9 +7,10 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class CombatZoneState_10 extends CombatZoneState{
+public class CombatZoneState_10 extends CombatZoneState implements Serializable {
     public CombatZoneState_10(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }

@@ -258,7 +258,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showUpdateGame(Game game) {
-
+        clientView.displayGame(game);
     }
 
     @Override
@@ -284,6 +284,17 @@ class ConsoleClientView implements EnhancedClientView {
     public void displayBank(Bank bank) {
         System.out.println("Bank update received");
         displayCurrentCommands();
+    }
+
+    public void displayGame(Game game){
+        System.out.println("Game update received");
+        System.out.println(game.getPlayerList());
+        System.out.println(game.getGamePhase());
+        System.out.println(game.getFlightboard());
+        if(game.getShipboards().get(game.getPlayerList().getFirst()).getComponentTilesGridCopy(3, 2) == null){
+            System.out.println("3, 2 is empty");
+        }
+        System.out.println("TEST PASSED");
     }
 
     @Override

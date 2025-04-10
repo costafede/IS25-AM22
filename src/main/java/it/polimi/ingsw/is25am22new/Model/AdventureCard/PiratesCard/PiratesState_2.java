@@ -4,9 +4,10 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class PiratesState_2 extends PiratesState {
+public class PiratesState_2 extends PiratesState implements Serializable {
     public PiratesState_2(PiratesCard piratesCard) {
         super(piratesCard);
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.Miscellaneous;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.GREENBLO
 import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.BLUEBLOCK;
 
 
-public class Bank {
+public class Bank implements Serializable {
 
     private final Map<GoodBlock, Integer> goodblockToNum;
 

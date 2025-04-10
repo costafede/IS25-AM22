@@ -5,10 +5,11 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanetsCard extends AdventureCard {
+public class PlanetsCard extends AdventureCard implements Serializable {
     private List<Planet> planets;
     private int flightDaysLost;
     private PlanetsState planetsState;

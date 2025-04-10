@@ -2,7 +2,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-public class AbandonedShipState_1 extends AbandonedShipState {
+import java.io.Serializable;
+
+public class AbandonedShipState_1 extends AbandonedShipState implements Serializable {
     public AbandonedShipState_1(AbandonedShipCard abandonedShipCard) {
         super(abandonedShipCard);
     }

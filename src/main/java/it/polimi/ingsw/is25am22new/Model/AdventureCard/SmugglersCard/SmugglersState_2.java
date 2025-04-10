@@ -3,7 +3,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 
-public class SmugglersState_2 extends SmugglersState{
+import java.io.Serializable;
+
+public class SmugglersState_2 extends SmugglersState implements Serializable {
     public SmugglersState_2(SmugglersCard smugglersCard) {
         super(smugglersCard);
     }

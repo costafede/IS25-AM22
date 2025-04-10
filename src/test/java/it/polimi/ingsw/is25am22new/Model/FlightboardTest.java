@@ -21,8 +21,8 @@ class FlightboardTest {
     int level2BoardLength = 24;
     int tutorialBoardLength = 18;
 
-    Level2Game level2Game = new Level2Game(playerList);
-    TutorialGame tutorialGame = new TutorialGame(playerList);
+    Level2Game level2Game = new Level2Game(playerList, null);
+    TutorialGame tutorialGame = new TutorialGame(playerList, null);
 
     Level2FlightBoard level2FlightBoard = new Level2FlightBoard(level2Game);
     TutorialFlightBoard tutorialFlightBoard = new TutorialFlightBoard(tutorialGame);

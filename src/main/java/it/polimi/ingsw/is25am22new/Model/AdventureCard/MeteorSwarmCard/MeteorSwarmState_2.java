@@ -6,10 +6,11 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Orientation;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
-public class MeteorSwarmState_2 extends MeteorSwarmState {
+public class MeteorSwarmState_2 extends MeteorSwarmState implements Serializable {
     public MeteorSwarmState_2(MeteorSwarmCard meteorSwarmCard) { super(meteorSwarmCard); }
 
     @Override

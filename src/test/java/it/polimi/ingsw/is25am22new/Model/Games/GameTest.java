@@ -19,8 +19,8 @@ class GameTest {
     void setCurrPlayerToNext() {
         Game tutorialGame;
         Game level2Game;
-        tutorialGame = new TutorialGame(playerList);
-        level2Game = new Level2Game(playerList);
+        tutorialGame = new TutorialGame(playerList, null);
+        level2Game = new Level2Game(playerList, null);
         setCurrentPlayerToNextInTutorialGame(tutorialGame);
         setCurrentPlayerToNextInLevel2(level2Game);
     }
@@ -78,8 +78,8 @@ class GameTest {
     void setCurrPlayerToLeader() {
         Game tutorialGame;
         Game level2Game;
-        tutorialGame = new TutorialGame(playerList);
-        level2Game = new Level2Game(playerList);
+        tutorialGame = new TutorialGame(playerList, null);
+        level2Game = new Level2Game(playerList, null);
         setCurrPlayerToLeaderInTutorialGame(tutorialGame);
         setCurrPlayerToLeaderInLevel2Game(level2Game);
     }
@@ -110,8 +110,8 @@ class GameTest {
     void isPlayerStillAbleToPlay() {
         Game tutorialGame;
         Game level2Game;
-        tutorialGame = new TutorialGame(playerList);
-        level2Game = new Level2Game(playerList);
+        tutorialGame = new TutorialGame(playerList,null);
+        level2Game = new Level2Game(playerList,null);
         isPlayerStillAbleToPlayInTutorialGame(tutorialGame);
         isPlayerStillAbleToPlayInLevel2Game(level2Game);
 
@@ -179,8 +179,8 @@ class GameTest {
     void manageInvalidPlayers() {
         Game tutorialGame;
         Game level2Game;
-        tutorialGame = new TutorialGame(playerList);
-        level2Game = new Level2Game(playerList);
+        tutorialGame = new TutorialGame(playerList, null);
+        level2Game = new Level2Game(playerList, null);
         manageInvalidPlayersInTutorialGame(tutorialGame);
         manageInvalidPlayersInLevel2Game(level2Game);
     }
@@ -251,7 +251,7 @@ class GameTest {
             4. Sort the scores in descending order
         * */
         List<String> players = List.of("Anatoly", "Tommaso");
-        Game level2Game = new Level2Game(players);
+        Game level2Game = new Level2Game(players, null);
 
         level2Game.getFlightboard().placeRocket("Anatoly", 0);
         level2Game.getFlightboard().placeRocket("Tommaso", 1);
@@ -311,7 +311,7 @@ class GameTest {
             4. Sort the scores in descending order
         * */
         List<String> players = List.of("Anatoly", "Tommaso");
-        Game tutorial = new TutorialGame(players);
+        Game tutorial = new TutorialGame(players, null);
 
         tutorial.getFlightboard().placeRocket("Anatoly", 0);
         tutorial.getFlightboard().placeRocket("Tommaso", 1);

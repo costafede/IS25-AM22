@@ -18,7 +18,7 @@ class MeteorSwarmCardTest {
     @Test
     void test_correct_after_activate_effect() {
         List<String> players = List.of("A", "B", "C");
-        Game game = new Level2Game(players);
+        Game game = new Level2Game(players, null);
         game.initGame();
         MeteorSwarmCard meteorSwarmCard =
                 (MeteorSwarmCard) game.getCardArchive().stream()

@@ -3,12 +3,13 @@ package it.polimi.ingsw.is25am22new.Model.Flightboards;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Flightboard {
+public abstract class Flightboard implements Serializable {
     protected List<String> orderedRockets;
     protected Map<String, Integer> positions; // positions are relative to the flightboard
     protected int flightBoardLength;

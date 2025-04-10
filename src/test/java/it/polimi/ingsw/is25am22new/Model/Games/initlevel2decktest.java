@@ -16,7 +16,7 @@ class initlevel2deckandpilestest {
         nicknames.add("Giovanni");
         nicknames.add("Alessandro");
         nicknames.add("Davide");
-        Level2Game l2g = new Level2Game(nicknames);
+        Level2Game l2g = new Level2Game(nicknames, null);
 
         l2g.initGame();
         assertEquals(12, l2g.getDeck().size());
@@ -29,7 +29,7 @@ class initlevel2deckandpilestest {
         nicknames.add("Giovanni");
         nicknames.add("Alessandro");
         nicknames.add("Davide");
-        Level2Game l2g = new Level2Game(nicknames);
+        Level2Game l2g = new Level2Game(nicknames, null);
 
         l2g.initGame();
         assertEquals(4, l2g.getCardPiles().size());

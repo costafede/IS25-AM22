@@ -2,7 +2,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-public class PlanetsState_1 extends PlanetsState {
+import java.io.Serializable;
+
+public class PlanetsState_1 extends PlanetsState implements Serializable {
     public PlanetsState_1(PlanetsCard planetsCard) {
         super(planetsCard);
     }

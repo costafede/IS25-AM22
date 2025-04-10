@@ -86,18 +86,18 @@ public class Lobby {
         this.gameType = gameType;
     }
 
-    public Game createGame() {
-        if(!isLobbyReady()){
-            return null; // Lobby is not ready
-        }
-
-        List<String> playersCopy = new ArrayList<>(players);
-        return switch (gameType) {
-            case "tutorial" -> new TutorialGame(playersCopy);
-            case "level2" -> new Level2Game(playersCopy);
-            default -> null; // Invalid game type
-        };
-    }
+    //public Game createGame() {
+    //    if(!isLobbyReady()){
+    //        return null; // Lobby is not ready
+    //    }
+    //
+    //    List<String> playersCopy = new ArrayList<>(players);
+    //    return switch (gameType) {
+    //        case "tutorial" -> new TutorialGame(playersCopy, null);
+    //        case "level2" -> new Level2Game(playersCopy, null);
+    //        default -> null; // Invalid game type
+    //    };
+    //}
 
     public List<String> getPlayers() {
         return new ArrayList<>(players);

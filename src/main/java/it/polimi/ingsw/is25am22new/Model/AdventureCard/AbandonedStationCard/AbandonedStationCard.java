@@ -5,10 +5,11 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbandonedStationCard extends AdventureCard {
+public class AbandonedStationCard extends AdventureCard implements Serializable {
 
     private int flightDaysLost;
     private int astronautsNumber;

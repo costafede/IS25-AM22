@@ -17,7 +17,7 @@ class inittutorialdecktest {
         nicknames.add("Giovanni");
         nicknames.add("Alessandro");
         nicknames.add("Davide");
-        TutorialGame tg = new TutorialGame(nicknames);
+        TutorialGame tg = new TutorialGame(nicknames, null);
 
         tg.initGame();
         assertEquals(8, tg.getDeck().size());

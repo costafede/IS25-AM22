@@ -23,7 +23,7 @@ class SmugglersCardTest {
         players.add(2,"C");
         players.add(3,"D");
 
-        Game game = new Level2Game(players);
+        Game game = new Level2Game(players, null);
 
         for(String player : game.getShipboards().keySet()) {
             if(player.equals("A") || player.equals("D")) {

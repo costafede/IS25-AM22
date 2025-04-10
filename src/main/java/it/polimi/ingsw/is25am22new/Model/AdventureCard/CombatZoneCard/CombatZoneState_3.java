@@ -4,9 +4,10 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class CombatZoneState_3 extends CombatZoneState {
+public class CombatZoneState_3 extends CombatZoneState implements Serializable {
     public CombatZoneState_3(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }

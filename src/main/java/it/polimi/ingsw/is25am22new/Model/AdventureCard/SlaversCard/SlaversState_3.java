@@ -4,7 +4,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
-public class SlaversState_3 extends SlaversState {
+import java.io.Serializable;
+
+public class SlaversState_3 extends SlaversState implements Serializable {
     public SlaversState_3(SlaversCard slaversCard) {
         super(slaversCard);
     }

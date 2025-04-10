@@ -4,7 +4,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmState;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
-public abstract class SlaversState {
+import java.io.Serializable;
+
+public abstract class SlaversState implements Serializable {
     protected SlaversCard slaversCard;
     protected Game game;
 

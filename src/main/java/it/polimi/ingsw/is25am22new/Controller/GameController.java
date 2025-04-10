@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
+import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class GameController {
     private Lobby lobby;
     private Game game;
     private String lobbyCreator;
+    private List<ObserverModel> observers;
 
     private GameState currentState;
     private String gameType; // "tutorial" or "level2"
@@ -33,6 +35,7 @@ public class GameController {
         this.lobby = new Lobby();
         this.currentState = GameState.LOBBY;
         this.gameType = lobby.getGameType();
+        this.observers = new ArrayList<>();
     }
 
     public GameController(Lobby lobby) {
@@ -161,10 +164,10 @@ public class GameController {
 
     private void startGame() {
         if("tutorial".equals(gameType)) {
-            game = new TutorialGame(new ArrayList<>(lobby.getPlayers()));
+            game = new TutorialGame(new ArrayList<>(lobby.getPlayers()), observers);
             System.out.println("Tutorial Game started");
         } else if("level2".equals(gameType)) {
-            game = new Level2Game(new ArrayList<>(lobby.getPlayers()));
+            game = new Level2Game(new ArrayList<>(lobby.getPlayers()), observers);
             System.out.println("Level 2 Game started");
         } else {
             System.out.println("Invalid game type: " + gameType);
@@ -440,5 +443,9 @@ public class GameController {
 
     public GameState getCurrentState() {
         return currentState;
+    }
+
+    public List<ObserverModel> getObservers() {
+        return observers;
     }
 }

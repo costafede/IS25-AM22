@@ -6,23 +6,25 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.StartingCabin;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class Shipboard {
+public class Shipboard implements Serializable {
 
     private boolean abandoned;
     private int daysOnFlight;
     private String color;
     private String nickname;
-    private ComponentTilesGrid componentTilesGrid;
-    private Optional<ComponentTile>[] standbyComponent;
+    private transient ComponentTilesGrid componentTilesGrid;
+    private transient Optional<ComponentTile>[] standbyComponent;
     private int discardedTiles;
     private boolean finishedShipboard;
     private int CosmicCredits;
     private Bank bank;
     private ComponentTile tileInHand;
+    private ComponentTile[][] componentTilesGridCopy;
 
     public Shipboard(String color, String nickname, Bank bank) {
         this.abandoned = false;
@@ -36,6 +38,7 @@ public class Shipboard {
         this.finishedShipboard = false;
         this.CosmicCredits = 0;
         this.bank = bank;
+        this.componentTilesGridCopy = new ComponentTile[5][7];
         weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
     }
 
@@ -90,6 +93,14 @@ public class Shipboard {
 
     public void setDaysOnFlight(int daysOnFlight){
         this.daysOnFlight = daysOnFlight;
+    }
+
+    public void setComponentTilesGridCopy(int i, int j, ComponentTile componentTile) {
+        this.componentTilesGridCopy[i][j] = componentTile;
+    }
+
+    public ComponentTile getComponentTilesGridCopy(int i, int j) {
+        return componentTilesGridCopy[i][j];
     }
 
     public void weldComponentTile (ComponentTile ct, int i, int j){
@@ -595,7 +606,7 @@ public class Shipboard {
 }
 
 class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
-    private Optional<ComponentTile>[][] componentTilesGrid;
+    private transient Optional<ComponentTile>[][] componentTilesGrid;
     private final int rows, columns;
     public ComponentTilesGrid(){
         rows = 5;

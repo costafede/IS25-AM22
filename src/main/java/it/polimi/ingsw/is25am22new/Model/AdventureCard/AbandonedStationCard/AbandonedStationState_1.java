@@ -2,7 +2,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-public class AbandonedStationState_1 extends AbandonedStationState{
+import java.io.Serializable;
+
+public class AbandonedStationState_1 extends AbandonedStationState implements Serializable {
 
     public AbandonedStationState_1(AbandonedStationCard abandonedStationCard) {
         super(abandonedStationCard);

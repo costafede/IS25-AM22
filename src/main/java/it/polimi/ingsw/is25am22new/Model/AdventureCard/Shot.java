@@ -1,6 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-public class Shot {
+import java.io.Serializable;
+
+public class Shot implements Serializable {
     private final boolean big;
     private final Orientation orientation;
 

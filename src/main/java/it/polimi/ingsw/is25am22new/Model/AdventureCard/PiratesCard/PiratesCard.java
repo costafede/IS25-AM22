@@ -6,9 +6,10 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
 
+import java.io.Serializable;
 import java.util.*;
 
-public class PiratesCard extends AdventureCard {
+public class PiratesCard extends AdventureCard implements Serializable {
 
     private Map<Integer, Shot> numberToShot;
     private int flightDaysLost;

@@ -4,10 +4,11 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpenSpaceCard extends AdventureCard {
+public class OpenSpaceCard extends AdventureCard implements Serializable {
 
     private OpenSpaceState openSpaceState;
     private List<String> orderedPlayersBeforeEffect;

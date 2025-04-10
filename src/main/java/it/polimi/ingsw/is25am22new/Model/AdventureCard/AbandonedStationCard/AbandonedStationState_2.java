@@ -4,7 +4,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
-public class AbandonedStationState_2 extends AbandonedStationState{
+import java.io.Serializable;
+
+public class AbandonedStationState_2 extends AbandonedStationState implements Serializable {
 
     public AbandonedStationState_2(AbandonedStationCard abandonedStationCard){
         super(abandonedStationCard);

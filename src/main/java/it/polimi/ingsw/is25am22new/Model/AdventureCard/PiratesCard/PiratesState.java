@@ -4,7 +4,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversState;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
-public abstract class PiratesState {
+import java.io.Serializable;
+
+public abstract class PiratesState implements Serializable {
     protected PiratesCard piratesCard;
     protected Game game;
 

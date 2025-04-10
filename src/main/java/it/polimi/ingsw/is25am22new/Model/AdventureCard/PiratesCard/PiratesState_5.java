@@ -7,9 +7,10 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class PiratesState_5 extends PiratesState{
+public class PiratesState_5 extends PiratesState implements Serializable {
     public PiratesState_5(PiratesCard piratesCard) {
         super(piratesCard);
     }
