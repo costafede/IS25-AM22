@@ -48,7 +48,7 @@ public class SocketClientSide implements VirtualView {
         while(!joined) {
             System.out.println("Enter your cool trucker name: ");
             System.out.flush();
-            thisPlayerName = scanner.nextLine();
+            thisPlayerName = scanner.nextLine().trim();
 
             while(thisPlayerName == null || thisPlayerName.isEmpty()) {
                 System.out.println("Please enter a valid name: ");
@@ -96,6 +96,7 @@ public class SocketClientSide implements VirtualView {
         String gameType = "ERROR";
         boolean isHost = false;
         String message = "ERROR";
+
         while ((msg = (SocketMessage) objectInput.readObject()) != null) {
             switch (msg.getCommand()) {
                 case "Bank" -> {
@@ -182,6 +183,9 @@ public class SocketClientSide implements VirtualView {
                     String player = msg.getPayload();
                     this.showPlayerJoined(player);
                 }
+                case "MessageToEveryone" -> {
+                    this.showMessage(msg.getPayload());
+                }
                 case "updateTest" -> {
                     System.out.println(msg.getPayload());
                     System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
@@ -199,8 +203,18 @@ public class SocketClientSide implements VirtualView {
         while (true) {
             Thread.sleep(50);
             System.out.print(">>> ");
+
+            while (!scan.hasNextInt()) {
+                String invalidInput = scan.next(); // consume the invalid input
+                System.out.println("Invalid input: not an integer -> " + invalidInput);
+                // handle invalid input (e.g., show message or ask again)
+                System.out.print(">>> ");
+            }
+
             int command = scan.nextInt();
-            scan.nextLine();
+            scan.nextLine(); // consume the newline character
+
+            // process the command
             switch (command) {
                 case 1 -> {
                     System.out.println("Enter the name of the player to remove: ");
@@ -423,6 +437,12 @@ public class SocketClientSide implements VirtualView {
                     String test = scan.nextLine();
                     output.connectionTester(test, 33879);
                 }
+                default -> {
+                    this.output.disconnect(thisPlayerName);
+                    System.out.println("Invalid command, you will be kicked out of the game!");
+                    System.out.flush();
+                    System.exit(0);
+                }
             }
         }
     }
@@ -602,7 +622,6 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showUpdateGame(Game game)  {
-        clientModel = new ClientModel(game);
     }
 
     @Override
@@ -627,5 +646,10 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showPlayerJoined(String player) {
+    }
+
+    public void showMessage(String message) {
+        System.out.println("Message from server: " + message);
+        System.out.flush();
     }
 }

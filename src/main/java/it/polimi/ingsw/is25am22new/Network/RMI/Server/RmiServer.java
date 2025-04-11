@@ -119,16 +119,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateConnectionResult(boolean isHost, boolean success, String message) {
-        //
-    }
-
-    @Override
-    public void updateNicknameResult(boolean valid, String message) {
-        //
-    }
-
-    @Override
     public void updateLobby() {
         List<String> players = gameController.getPlayers();
         Map<String, Boolean> readyStatus = gameController.getReadyStatus();

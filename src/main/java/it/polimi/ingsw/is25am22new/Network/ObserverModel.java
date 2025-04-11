@@ -29,11 +29,9 @@ public interface ObserverModel {
     void updateGame(Game game);
     void updateHourglassSpot(int hourglassSpot);
 
-    void updateGameStarted();
     void updateLobby();
+    void updateGameStarted();
     void updatePlayerJoined(String player);
 
-    void updateConnectionResult(boolean isHost, boolean success, String message);
-    void updateNicknameResult(boolean valid, String message);
 
 }

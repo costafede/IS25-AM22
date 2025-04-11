@@ -10,6 +10,7 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
+import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -53,7 +54,7 @@ public class SocketServerSide implements ObserverModel {
                 try {
                     handler.runVirtualView();
                 } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Thread interrupted: " + e.getMessage());
                 }
             }).start();
         }
@@ -62,7 +63,6 @@ public class SocketServerSide implements ObserverModel {
     public void addHandlerToClients(SocketClientHandler handler) {
         synchronized (this.clients){
             clients.add(handler);
-            System.out.println(clients);
         }
     }
 
@@ -201,18 +201,16 @@ public class SocketServerSide implements ObserverModel {
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showPlayerJoined(player);
-
             }
         }
     }
 
-    @Override
-    public void updateConnectionResult(boolean isHost, boolean success, String message) {
-
-    }
-
-    @Override
-    public void updateNicknameResult(boolean valid, String message) {
-
-    }
+   public void disconnect(SocketClientHandler handler, String nickname) {
+        this.clients.remove(handler);
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showMessageToEveryone("Player " + nickname + " has disconnected");
+            }
+        }
+   }
 }
