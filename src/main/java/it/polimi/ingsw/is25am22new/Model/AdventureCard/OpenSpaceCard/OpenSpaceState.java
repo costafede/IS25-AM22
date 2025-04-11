@@ -3,7 +3,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
-public abstract class OpenSpaceState {
+import java.io.Serializable;
+
+public abstract class OpenSpaceState implements Serializable {
     protected OpenSpaceCard openSpaceCard;
     protected Game game;
 

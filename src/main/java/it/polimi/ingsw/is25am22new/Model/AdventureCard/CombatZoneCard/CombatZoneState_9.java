@@ -6,10 +6,11 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class CombatZoneState_9 extends CombatZoneState {
+public class CombatZoneState_9 extends CombatZoneState implements Serializable {
     public CombatZoneState_9(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }

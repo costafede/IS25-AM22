@@ -3,9 +3,10 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OpenSpaceState_1 extends OpenSpaceState {
+public class OpenSpaceState_1 extends OpenSpaceState implements Serializable {
     public OpenSpaceState_1(OpenSpaceCard openSpaceCard) {
         super(openSpaceCard);
     }

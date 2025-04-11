@@ -1,6 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.GamePhase;
 
-public enum PhaseType {
+import java.io.Serializable;
+
+public enum PhaseType implements Serializable {
     SETUP,
     BUILDING,
     CORRECTINGSHIP,

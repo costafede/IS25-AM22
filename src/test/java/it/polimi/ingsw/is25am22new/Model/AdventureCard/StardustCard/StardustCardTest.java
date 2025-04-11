@@ -64,7 +64,7 @@ class StardustCardTest {
     void moves_back_more_ships_correctly_level2(){
         List<ComponentTile> tiles = initializeTiles();
         List<String> players = List.of("Federico", "Emanuele");
-        Game level2Game = new Level2Game(players);
+        Game level2Game = new Level2Game(players, null);
 
         Shipboard ship0 = level2Game.getShipboards().get(players.get(0));
         Shipboard ship1 = level2Game.getShipboards().get(players.get(1));
@@ -96,7 +96,7 @@ class StardustCardTest {
     void  moves_back_more_ships_correctly_tutorial() {
         List<ComponentTile> tiles = initializeTiles();
         List<String> players = List.of("Federico", "Emanuele");
-        Game tutorialGame = new TutorialGame(players);
+        Game tutorialGame = new TutorialGame(players, null);
 
         Shipboard ship0 = tutorialGame.getShipboards().get(players.get(0));
         Shipboard ship1 = tutorialGame.getShipboards().get(players.get(1));

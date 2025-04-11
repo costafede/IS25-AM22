@@ -25,7 +25,7 @@ class PiratesCardTest {
     @BeforeEach
     void test_simulate_a_game_with_different_cases() {
         players = List.of("A", "B", "C");
-        game = new Level2Game(players);
+        game = new Level2Game(players, null);
         game.initGame();
         piratesCard =
                 (PiratesCard) game.getCardArchive().stream()

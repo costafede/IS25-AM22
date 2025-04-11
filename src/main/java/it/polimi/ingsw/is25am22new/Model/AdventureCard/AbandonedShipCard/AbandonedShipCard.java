@@ -4,7 +4,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
-public class AbandonedShipCard extends AdventureCard {
+import java.io.Serializable;
+
+public class AbandonedShipCard extends AdventureCard implements Serializable {
 
     private int flightdaysLost;
     private int credits;

@@ -12,7 +12,7 @@ class sortDescMapScoresTest {
 
     @Test
     void sortDescLevel2() {
-        Level2Game level2Game = new Level2Game(List.of("player1level2", "player2level2", "player3level2"));
+        Level2Game level2Game = new Level2Game(List.of("player1level2", "player2level2", "player3level2"), null);
 
         // Testing sortDesc() method from Level2Game
         Map<String, Integer> scores = new java.util.HashMap<>();
@@ -39,7 +39,7 @@ class sortDescMapScoresTest {
 
     @Test
     void sortDeskTutorial(){
-        TutorialGame tutorialGame = new TutorialGame(List.of("player1tutorial", "player2tutorial", "player3tutorial"));
+        TutorialGame tutorialGame = new TutorialGame(List.of("player1tutorial", "player2tutorial", "player3tutorial"), null);
 
         // Testing sortDesc() method from TutorialGame
         Map<String, Integer> scores = new java.util.HashMap<>();

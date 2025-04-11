@@ -2,7 +2,9 @@ package it.polimi.ingsw.is25am22new.Model.GamePhase;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
-public abstract class GamePhase {
+import java.io.Serializable;
+
+public abstract class GamePhase implements Serializable {
     protected Game game;
     protected PhaseType phaseType;
 

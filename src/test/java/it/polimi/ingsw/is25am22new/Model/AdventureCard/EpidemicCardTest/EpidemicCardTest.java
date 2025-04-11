@@ -65,7 +65,7 @@ class EpidemicCardTest {
 
         List<ComponentTile> tiles = initializeTiles();
         List<String> players = List.of("Federico", "Anatoly");
-        Game game = new Level2Game(players);
+        Game game = new Level2Game(players, null);
         Shipboard ship0 = game.getShipboards().get(players.get(0));
         // check connection with starting cabin
         ship0.weldComponentTile(tiles.get(9),2, 2);

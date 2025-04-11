@@ -2,10 +2,11 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Planet {
+public class Planet implements Serializable {
     private Map<GoodBlock, Integer> theoreticalGoodblocks;
 
     private Map<GoodBlock, Integer> actualGoodblocks;

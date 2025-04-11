@@ -22,7 +22,7 @@ class AbandonedShipCardTest {
         players.add(2,"C");
         players.add(3,"D");
 
-        Game game = new Level2Game(players);
+        Game game = new Level2Game(players, null);
 
         for(String player : game.getShipboards().keySet()) {
             game.getShipboards().get(player).weldComponentTile(new AlienAddon("0", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, "brown"), 3, 4);

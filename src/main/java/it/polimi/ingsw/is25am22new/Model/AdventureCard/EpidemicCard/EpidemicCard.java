@@ -6,9 +6,10 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class EpidemicCard extends AdventureCard {
+public class EpidemicCard extends AdventureCard implements Serializable {
 
     public EpidemicCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);

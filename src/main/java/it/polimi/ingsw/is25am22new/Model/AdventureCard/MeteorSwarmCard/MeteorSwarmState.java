@@ -5,7 +5,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsState;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
-public abstract class MeteorSwarmState {
+import java.io.Serializable;
+
+public abstract class MeteorSwarmState implements Serializable {
     protected MeteorSwarmCard meteorSwarmCard;
     protected Game game;
 

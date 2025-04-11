@@ -5,10 +5,11 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversState_
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicInteger ;
 
-public class PiratesState_1 extends PiratesState {
+public class PiratesState_1 extends PiratesState implements Serializable {
     public PiratesState_1(PiratesCard piratesCard) {
         super(piratesCard);
     }

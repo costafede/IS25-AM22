@@ -2,9 +2,10 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public abstract class ComponentTile {
+public abstract class ComponentTile implements Serializable {
     protected Side topSide;
     protected Side bottomSide;
     protected Side leftSide;

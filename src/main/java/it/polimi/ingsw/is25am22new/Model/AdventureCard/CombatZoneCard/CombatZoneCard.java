@@ -5,11 +5,12 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class CombatZoneCard extends AdventureCard {
+public class CombatZoneCard extends AdventureCard implements Serializable {
 
     private int flightDaysLost;
     private int astronautsToLose;

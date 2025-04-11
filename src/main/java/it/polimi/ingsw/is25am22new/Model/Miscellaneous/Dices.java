@@ -1,8 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.Miscellaneous;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Dices {
+public class Dices implements Serializable {
     int dice1;
     int dice2;
 

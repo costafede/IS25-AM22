@@ -1,6 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
-public class Meteor {
+import java.io.Serializable;
+
+public class Meteor implements Serializable {
     private final boolean big;
     private final Orientation orientation;
 

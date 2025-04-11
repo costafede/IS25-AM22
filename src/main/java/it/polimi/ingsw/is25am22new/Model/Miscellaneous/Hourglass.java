@@ -1,10 +1,11 @@
 package it.polimi.ingsw.is25am22new.Model.Miscellaneous;
 
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Hourglass {
-    private final Timer timer;
+public class Hourglass implements Serializable {
+    private transient final Timer timer;
     private int remainingSeconds;
     boolean active;
 

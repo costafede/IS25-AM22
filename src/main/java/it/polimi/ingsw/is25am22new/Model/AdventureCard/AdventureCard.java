@@ -2,7 +2,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
-public abstract class AdventureCard {
+import java.io.Serializable;
+
+public abstract class AdventureCard implements Serializable {
 
     protected String pngName;
     protected String name;

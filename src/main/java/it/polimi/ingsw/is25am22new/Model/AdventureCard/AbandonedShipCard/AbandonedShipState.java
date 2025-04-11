@@ -3,7 +3,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
-public abstract class AbandonedShipState {
+import java.io.Serializable;
+
+public abstract class AbandonedShipState implements Serializable {
     protected AbandonedShipCard abandonedShipCard;
     protected Game game;
 

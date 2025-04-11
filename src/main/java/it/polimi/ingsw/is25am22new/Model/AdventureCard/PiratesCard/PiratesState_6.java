@@ -3,7 +3,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
-public class PiratesState_6 extends PiratesState {
+import java.io.Serializable;
+
+public class PiratesState_6 extends PiratesState implements Serializable {
     public PiratesState_6(PiratesCard card) {
         super(card);
     }

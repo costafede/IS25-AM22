@@ -38,6 +38,7 @@ public class ObservableModel {
     }
 
     protected void updateAllShipboard(String player, Shipboard shipboard) {
+        correctShipboard(shipboard);
         for(ObserverModel ld : observers)
             ld.updateShipboard(player, shipboard);
     }
@@ -85,5 +86,15 @@ public class ObservableModel {
     protected void updateAllGame(Game game) {
         for(ObserverModel ld : observers)
             ld.updateGame(game);
+    }
+
+    private void correctShipboard(Shipboard shipboard){
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 7; j++){
+                if(shipboard.getComponentTileFromGrid(i, j).isPresent()){
+                    shipboard.setComponentTilesGridCopy(i, j, shipboard.getComponentTileFromGrid(i, j).get());
+                }
+            }
+        }
     }
 }

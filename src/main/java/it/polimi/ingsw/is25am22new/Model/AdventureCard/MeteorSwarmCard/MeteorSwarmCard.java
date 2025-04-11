@@ -5,10 +5,11 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.Meteor;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Random;
 
-public class MeteorSwarmCard extends AdventureCard {
+public class MeteorSwarmCard extends AdventureCard implements Serializable {
 
     private Map<Integer, Meteor> numberToMeteor;
     private MeteorSwarmState meteorSwarmState;

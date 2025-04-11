@@ -4,9 +4,10 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class AbandonedShipState_2 extends AbandonedShipState {
+public class AbandonedShipState_2 extends AbandonedShipState implements Serializable {
 
     private int membersStillToRemove;
 

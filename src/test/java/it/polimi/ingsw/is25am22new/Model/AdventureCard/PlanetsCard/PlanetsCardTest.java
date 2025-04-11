@@ -24,7 +24,7 @@ class PlanetsCardTest {
         players.add(2,"C");
         players.add(3,"D");
 
-        Game game = new Level2Game(players);
+        Game game = new Level2Game(players, null);
 
         for(String player : game.getShipboards().keySet()) {
             game.getShipboards().get(player).weldComponentTile(new StorageCompartment("0", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2), 1, 3);

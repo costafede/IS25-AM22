@@ -3,7 +3,9 @@ package it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
-public class MeteorSwarmState_3 extends MeteorSwarmState {
+import java.io.Serializable;
+
+public class MeteorSwarmState_3 extends MeteorSwarmState implements Serializable {
     public MeteorSwarmState_3(MeteorSwarmCard meteorSwarmCard) {
        super(meteorSwarmCard);
     }

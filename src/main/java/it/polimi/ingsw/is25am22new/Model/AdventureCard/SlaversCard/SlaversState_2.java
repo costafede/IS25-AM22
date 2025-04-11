@@ -5,9 +5,10 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwa
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class SlaversState_2 extends SlaversState{
+public class SlaversState_2 extends SlaversState implements Serializable {
     public SlaversState_2(SlaversCard slaversCard) {
         super(slaversCard);
     }

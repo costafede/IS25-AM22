@@ -18,7 +18,7 @@ public class InitializingFromJsonComponentTest {
     @Test
     void init_game_should_initialize_components_from_json_properly(){
         List<String> nicknames = List.of("Federico", "Alex", "Giuseppe", "Umberto");
-        game = new TutorialGame(nicknames);
+        game = new TutorialGame(nicknames, null);
         game.initGame();
         ObjectMapper objectMapper = new ObjectMapper();
 
