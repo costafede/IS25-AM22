@@ -57,9 +57,9 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 | Final UML diagram                       | 👨🏻‍💻 |
 | Command Line Interface (CLI)            | 👨🏻‍💻 |
 | Graphical User Interface (GUI - JavaFX) | 👨🏻‍💻 |
-| Client-Server communication via Socket  | 👨🏻‍💻 |
-| Client-Server communication via RMI     | 👨🏻‍💻 |
-| Test Flight mode                        | 👨🏻‍💻 |
+| Client-Server communication via Socket  | ✅       |
+| Client-Server communication via RMI     | ✅       |
+| Test Flight mode                        | ✅       |
 | Multiple game sessions                  | 👨🏻‍💻 |
 | Resilience to disconnections            | 👨🏻‍💻 |
 | Persistence of game state               | 👨🏻‍💻 |
