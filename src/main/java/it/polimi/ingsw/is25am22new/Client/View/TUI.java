@@ -20,7 +20,7 @@ public class TUI implements ClientModelObserver {
     public void modelChanged(ClientModel model) {
         CommandType chosen = askToChooseAvailableCommandType(commandManager.getAvailableCommandTypes(model));
         if(chosen.getInputLength() == 0) {
-            ParametrizedCommand cmd = chosen.createWithInput(model, null);  //no input
+            ParametrizedCommand cmd = commandManager.createCommand(model, chosen, null);  //no input
             cmd.execute();
         }
         else {
@@ -28,7 +28,7 @@ public class TUI implements ClientModelObserver {
             ParametrizedCommand cmd;
             do {
                 List<Integer> input = askToInsertInput(chosen);
-                cmd = chosen.createWithInput(model, input);
+                cmd = commandManager.createCommand(model, chosen, input);
                 commandNotValid = !cmd.isValid(model);
                 if(commandNotValid) {
                     System.out.println("Invalid input, try again");
