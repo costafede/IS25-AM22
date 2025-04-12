@@ -263,7 +263,7 @@ public class GameController {
             System.out.println("Player " + player + " cannot discard a component tile outside game state.");
         }
     }
-
+    /*These method may be useless*/
     public void finishBuilding(String player) {
         if(currentState == GameState.GAME) {
             game.finishBuilding(player);
@@ -271,8 +271,8 @@ public class GameController {
             System.out.println("Player " + player + " cannot finish building outside game state.");
         }
     }
+    /*********************************/
 
-    /*These two methods may be useless*/
     public void finishBuilding(String player, int pos) {
         if(currentState == GameState.GAME) {
             game.finishBuilding(player, pos);
@@ -280,7 +280,7 @@ public class GameController {
             System.out.println("Player " + player + " cannot finish building outside game state.");{
         }
     }
-
+    /*These method may be useless*/
     public void finishedAllShipboards() {
         if(currentState == GameState.GAME) {
             game.finishedAllShipboards();

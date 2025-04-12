@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SetGameTypeCommand extends AbstractParametrizedCommand {
 
-    private final List<Integer> input;   //0 for tutorial, 1 for level 2
+    //input: 0 for tutorial, 1 for level 2
 
     public SetGameTypeCommand(VirtualServer virtualServer, ClientModel clientModel, List<Integer> input) {
         super(virtualServer, clientModel);

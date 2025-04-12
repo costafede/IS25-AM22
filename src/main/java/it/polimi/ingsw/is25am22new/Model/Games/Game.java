@@ -138,7 +138,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     public void finishBuilding(String nickname, int pos) {
-        // pos is 1, 2, 3, 4
+        // pos is 0, 1, 2, 3
         flightboard.placeRocket(nickname, pos);
         shipboards.get(nickname).setFinishedShipboard(true);
         gamePhase.trySwitchToNextPhase();
