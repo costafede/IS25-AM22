@@ -40,7 +40,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         this.connectedClients = new ArrayList<>();
         this.clientMap = new HashMap<>();
 
-        System.setProperty("java.rmi.server.hostname", "172.20.10.2");
+        //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
         Registry registry = LocateRegistry.createRegistry(1234);
         registry.rebind(SERVER_NAME, this);
         System.out.println("RMI Server bound to registry - it is running on port 1234...");
@@ -48,7 +48,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     public static void main(String[] args) {
         try{
-            System.setProperty("java.rmi.server.hostname", "172.20.10.2");
+            //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
             GameController gameController = new GameController();
             @SuppressWarnings("unused") RmiServer server = new RmiServer(gameController);
             System.out.println("RMI Server is running... waiting for clients to connect.");
