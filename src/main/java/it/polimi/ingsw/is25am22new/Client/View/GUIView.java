@@ -1,7 +1,5 @@
 package it.polimi.ingsw.is25am22new.Client.View;
 
-import it.polimi.ingsw.is25am22new.Client.Client;
-
 public class GUIView implements GameView{
 
     public GUIView() {

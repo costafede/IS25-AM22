@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.Client.Commands;
+package it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands;
 
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 

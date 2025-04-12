@@ -27,7 +27,7 @@ public class GalaxyTruckerClient {
             }
         }
 
-        String host = "172.20.10.2";
+        String host = "localhost";
         int port = 1234;
 
         if (args.length >= 1) {

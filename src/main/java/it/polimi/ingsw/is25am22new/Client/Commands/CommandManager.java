@@ -1,15 +1,18 @@
 package it.polimi.ingsw.is25am22new.Client.Commands;
 
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandTypes.CommandType;
+import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.ParametrizedCommand;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager {
-    private List<CommandType> allCommands =; //Devo inizializzarlo con tutti i tipi di comando
+    private final List<CommandType> allCommands;
 
-    public CommandManager(List<CommandType> allCommands) {
-        this.allCommands = allCommands;
+    public CommandManager(List<CommandType> allCommands, VirtualServer virtualServer) {
+        this.allCommands = allCommands //Devo inizializzarlo con tutti i tipi di comando  TO DO
     }
 
     public List<CommandType> getAvailableCommandTypes(ClientModel model) {
@@ -24,8 +27,8 @@ public class CommandManager {
         return availableCommands;
     }
 
-    public ParametrizedCommand createCommand(CommandType commandType, Object... args) {
-        return commandType.createWithInput(args);
+    public ParametrizedCommand createCommand(ClientModel clientModel, CommandType commandType, List<Integer> input) {
+        return commandType.createWithInput(clientModel, input);
     }
 
 }

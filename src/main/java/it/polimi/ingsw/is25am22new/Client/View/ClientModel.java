@@ -50,6 +50,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setDices(Dices dices) {
         this.dices = dices;
+        notifyObservers(this);
     }
 
     public AdventureCard getCurrCard() {
@@ -58,6 +59,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setCurrCard(AdventureCard currCard) {
         this.currCard = currCard;
+        notifyObservers(this);
     }
 
     public String getCurrPlayer() {
@@ -66,6 +68,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setCurrPlayer(String currPlayer) {
         this.currPlayer = currPlayer;
+        notifyObservers(this);
     }
 
     public List<AdventureCard> getDeck() {
@@ -74,6 +77,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setDeck(List<AdventureCard> deck) {
         this.deck = deck;
+        notifyObservers(this);
     }
 
     public Hourglass getHourglass() {
@@ -82,6 +86,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setHourglass(Hourglass hourglass) {
         this.hourglass = hourglass;
+        notifyObservers(this);
     }
 
     public List<AdventureCard> getCardArchive() {
@@ -90,6 +95,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setCardArchive(List<AdventureCard> cardArchive) {
         this.cardArchive = cardArchive;
+        notifyObservers(this);
     }
 
     public Flightboard getFlightboard() {
@@ -98,6 +104,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setFlightboard(Flightboard flightboard) {
         this.flightboard = flightboard;
+        notifyObservers(this);
     }
 
     public Map<String, Shipboard> getShipboards() {
@@ -106,6 +113,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setShipboards(Map<String, Shipboard> shipboards) {
         this.shipboards = shipboards;
+        notifyObservers(this);
     }
 
     public List<ComponentTile> getUncoveredComponentTiles() {
@@ -114,6 +122,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
         this.uncoveredComponentTiles = uncoveredComponentTiles;
+        notifyObservers(this);
     }
 
     public List<ComponentTile> getCoveredComponentTiles() {
@@ -122,10 +131,12 @@ public class ClientModel extends ObservableModelView {
 
     public void setCoveredComponentTiles(List<ComponentTile> coveredComponentTiles) {
         this.coveredComponentTiles = coveredComponentTiles;
+        notifyObservers(this);
     }
 
     public void setBank(Bank bank) {
         this.bank = bank;
+        notifyObservers(this);
     }
 
     public Bank getBank() {
@@ -142,6 +153,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setGamePhase(GamePhase gamePhase) {
         this.gamePhase = gamePhase;
+        notifyObservers(this);
     }
 
     public String getPlayerName() {

@@ -1,8 +1,5 @@
 package it.polimi.ingsw.is25am22new.Client.View;
 
-import it.polimi.ingsw.is25am22new.Client.Client;
-import it.polimi.ingsw.is25am22new.Client.GalaxyTrucker;
-
 import java.util.Objects;
 import java.util.Scanner;
 
