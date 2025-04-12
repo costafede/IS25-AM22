@@ -15,6 +15,7 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,30 +43,69 @@ public class SocketClientHandler implements VirtualView {
                     int res = this.controller.addPlayer(msg.getPayload());
                     if(res == 1) {
                         server.addHandlerToClients(this);
-                        showNicknameResult(true, "You joined an existing lobby");
+                        showNicknameResult(true, "PlayerAdded");
+
+                        boolean isHost = this.controller.getPlayers().size() == 1;
+
+                        showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
+
+                        if(!isHost)    this.server.updatePlayerJoined(msg.getPayload());
+                        this.server.updateLobby();
                     }
                     else if(res == -2){
-                        showNicknameResult(false, "Nickname already taken");
+                        showNicknameResult(false, "PlayerAlreadyInLobby");
                     }
                     else if(res == -1){
-                        showNicknameResult(false, "Lobby is full");
+                        showNicknameResult(false, "LobbyFullOrOutsideLobbyState");
                     }
-                    System.out.println(this.controller.getPlayers());
+                    System.out.println("List of players updated: " + this.controller.getPlayers());
                 }
                 case "removePlayer" -> {
                     this.controller.removePlayer(msg.getPayload());
+                    System.out.println("List of players updated: " + this.controller.getPlayers());
+                    this.server.updateLobby();
                 }
                 case "setPlayerReady" -> {
                     this.controller.setPlayerReady(msg.getPayload());
+                    this.server.updateLobby();
                 }
                 case "startGameByHost" -> {
-                    this.controller.startGameByHost(msg.getPayload());
+                    if(!msg.getPayload().equals(this.controller.getLobbyCreator())) {
+                        showConnectionResult(false, false, "Only the host can start the game");
+                    }
+                    else {
+                        Map<String, Boolean> readyStatus = this.controller.getReadyStatus();
+                        List<String> unreadyPlayers = new ArrayList<>();
+
+                        for (Map.Entry<String, Boolean> entry : readyStatus.entrySet()) {
+                            if (!entry.getValue()) {
+                                unreadyPlayers.add(entry.getKey());
+                            }
+                        }
+
+                        if (!unreadyPlayers.isEmpty()) {
+                            // Some players are not ready
+                            String message = "Cannot start game: " + String.join(", ", unreadyPlayers) + " not ready";
+                            showConnectionResult(true, false, message);
+                        }
+                        else {
+                            boolean result = this.controller.startGameByHost(msg.getPayload());
+                            if(result) {
+                                this.server.updateGameStarted();
+                            }
+                            else {
+                                System.out.println("Error starting game");
+                            }
+                        }
+                    }
                 }
                 case "setPlayerNotReady" -> {
                     this.controller.setPlayerNotReady(msg.getPayload());
+                    this.server.updateLobby();
                 }
                 case "setGameType" -> {
                     this.controller.setGameType(msg.getPayload());
+                    this.server.updateLobby();
                 }
                 case "pickCoveredTile" -> {
                     this.controller.pickCoveredTile(msg.getPayload());
@@ -126,6 +166,10 @@ public class SocketClientHandler implements VirtualView {
                 }
                 case "endGame" -> {
                     this.controller.endGame();
+                }
+                case "disconnect" -> {
+                    this.controller.removePlayer(msg.getPayload());
+                    this.server.disconnect(this, msg.getPayload());
                 }
                 case "connectionTester" -> {
                     System.out.println(msg.getPayload());
@@ -330,7 +374,7 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void showNicknameResult(boolean valid, String payload) {
-        SocketMessage message = new SocketMessage("LobbyFullOrOutsideLobbyState", valid, payload);
+        SocketMessage message = new SocketMessage(payload, valid, null);
         try {
             objectOutput.writeObject(message);
             objectOutput.flush();
@@ -358,6 +402,16 @@ public class SocketClientHandler implements VirtualView {
             objectOutput.flush();
         } catch (IOException e) {
             System.out.println("Error updating player joined for client: " + e.getMessage());
+        }
+    }
+
+    public void showMessageToEveryone(String mess) {
+        SocketMessage message = new SocketMessage("MessageToEveryone", null, mess);
+        try {
+            objectOutput.writeObject(message);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error updating message to everyone for client: " + e.getMessage());
         }
     }
 }

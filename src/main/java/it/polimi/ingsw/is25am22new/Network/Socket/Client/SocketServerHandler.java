@@ -276,4 +276,14 @@ public class SocketServerHandler implements VirtualServer {
             System.out.println("Error in connectionTester: " + e.getMessage());
         }
     }
+
+    public void disconnect(String nickname) {
+        try {
+            SocketMessage msg = new SocketMessage("disconnect", null, nickname);
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in disconnect: " + e.getMessage());
+        }
+    }
 }

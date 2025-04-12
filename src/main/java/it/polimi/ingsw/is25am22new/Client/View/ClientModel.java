@@ -26,8 +26,9 @@ public class ClientModel extends ObservableModelView {
     protected AdventureCard currCard;
     private Dices dices;
     protected GamePhase gamePhase;
+    protected String playerName;    //name of the player using this client
 
-    public ClientModel(Game game) {
+    public ClientModel(Game game, String playerName) {
         bank = game.getBank();
         cardArchive = game.getCardArchive();
         flightboard = game.getFlightboard();
@@ -40,6 +41,7 @@ public class ClientModel extends ObservableModelView {
         currCard = game.getCurrCard();
         dices = game.getDices();
         gamePhase = game.getGamePhase();
+        this.playerName = playerName;
     }
 
     public Dices getDices() {
@@ -142,4 +144,7 @@ public class ClientModel extends ObservableModelView {
         this.gamePhase = gamePhase;
     }
 
+    public String getPlayerName() {
+        return playerName;
+    }
 }
