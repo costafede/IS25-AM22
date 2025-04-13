@@ -30,15 +30,14 @@ public class SocketServerSide implements ObserverModel {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
+        int port = Integer.parseInt(args[0]);
 
         ServerSocket listenSocket = new ServerSocket(port);
 
         new SocketServerSide(listenSocket).runServer();
     }
 
-    private void runServer() throws IOException, InterruptedException {
+    private void runServer() throws IOException{
         Socket clientSocket = null;
         while ((clientSocket = this.listenSocket.accept()) != null) {
             System.out.println("Client connected: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());

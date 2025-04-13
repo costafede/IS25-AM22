@@ -96,5 +96,19 @@ public class ObservableModel {
                 }
             }
         }
+
+        try {
+            shipboard.setStandbyComponentCopy(0, shipboard.pickStandByComponentTile(0));
+        }
+        catch (IllegalStateException e) {
+            shipboard.setStandbyComponentCopy(0, null);
+        }
+
+        try {
+            shipboard.setStandbyComponentCopy(1, shipboard.pickStandByComponentTile(1));
+        }
+        catch (IllegalStateException e) {
+            shipboard.setStandbyComponentCopy(1, null);
+        }
     }
 }
