@@ -3,12 +3,14 @@ package it.polimi.ingsw.is25am22new.Client.View;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandTypes.CommandType;
 import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.ParametrizedCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TUI implements ClientModelObserver {
+public class TUI implements ClientModelObserver, ViewAdapter{
 
     private final CommandManager commandManager;
 
@@ -18,24 +20,26 @@ public class TUI implements ClientModelObserver {
 
     @Override
     public void modelChanged(ClientModel model) {
+        boolean commandInputNotValid;
         CommandType chosen = askToChooseAvailableCommandType(commandManager.getAvailableCommandTypes(model));
-        if(chosen.getInputLength() == 0) {
-            ParametrizedCommand cmd = commandManager.createCommand(model, chosen, null);  //no input
-            cmd.execute();
-        }
-        else {
-            boolean commandNotValid = false;
-            ParametrizedCommand cmd;
-            do {
+        do {
+            commandInputNotValid = false;
+            if(chosen.getInputLength() == 0) {
+                ParametrizedCommand cmd = commandManager.createCommand(model, chosen, null, this);  //no input
+                cmd.execute();
+            }
+            else {
+                ParametrizedCommand cmd;
                 List<Integer> input = askToInsertInput(chosen);
-                cmd = commandManager.createCommand(model, chosen, input);
-                commandNotValid = !cmd.isValid(model);
-                if(commandNotValid) {
+                cmd = commandManager.createCommand(model, chosen, input, this);
+                commandInputNotValid = !cmd.isValid(model);
+                if(commandInputNotValid) {
                     System.out.println("Invalid input, try again");
                 }
-            } while (commandNotValid);
-            cmd.execute();
-        }
+                else
+                    cmd.execute();
+            }
+        } while (commandInputNotValid);
     }
 
     private List<Integer> askToInsertInput(CommandType chosen) {
@@ -66,4 +70,35 @@ public class TUI implements ClientModelObserver {
         return commandsAvailable.get(commandIndex);
     }
 
+    @Override
+    public void showCardPile(int idx, ClientModel model) {
+        CardPile card = model.getCardPiles().get(idx);
+        /* Logica di stampa delle carte della pila TO DO*/
+    }
+
+    @Override
+    public void showShipboardGrid(String player, ClientModel clientModel) {
+        /*TO DO*/
+    }
+
+    @Override
+    public void showShipboardStandByComponents(String player, ClientModel clientModel) {
+        /*TO DO*/
+    }
+
+    @Override
+    public void showFlightboard(ClientModel clientModel) {
+        /*TO DO*/
+    }
+
+    @Override
+    public void showCard(AdventureCard card, ClientModel clientModel) {
+        /*TO DO*/
+    }
+
+    @Override
+    public void showUncoveredComponentTiles(ClientModel clientModel) {
+        /*TO DO*/
+        /* mostra accanto ad ogni tile il suo indice nella lista*/
+    }
 }

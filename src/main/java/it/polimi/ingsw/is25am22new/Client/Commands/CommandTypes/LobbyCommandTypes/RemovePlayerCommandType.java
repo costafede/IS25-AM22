@@ -4,6 +4,7 @@ import it.polimi.ingsw.is25am22new.Client.Commands.CommandTypes.AbstractCommandT
 import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.LobbyCommands.RemovePlayerCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.ParametrizedCommand;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class RemovePlayerCommandType extends AbstractCommandType {
 
 
     @Override
-    public ParametrizedCommand createWithInput(ClientModel clientModel, List<Integer> input) {
+    public ParametrizedCommand createWithInput(ClientModel clientModel, List<Integer> input, ViewAdapter viewAdapter) {
         return new RemovePlayerCommand(virtualServer, clientModel);
     }
 }

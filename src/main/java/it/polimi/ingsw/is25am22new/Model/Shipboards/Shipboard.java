@@ -103,6 +103,10 @@ public class Shipboard implements Serializable {
         return componentTilesGridCopy[i][j];
     }
 
+    public Optional<ComponentTile>[] getStandbyComponent() {
+        return standbyComponent;
+    }
+
     public void weldComponentTile (ComponentTile ct, int i, int j){
         if (componentTilesGrid.get(i, j).isPresent())
             throw new IllegalStateException("Cannot weld tile on an already existing one");

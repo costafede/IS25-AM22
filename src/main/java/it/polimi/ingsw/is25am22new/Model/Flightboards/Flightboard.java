@@ -68,4 +68,7 @@ public abstract class Flightboard implements Serializable {
     private int mathematical_module(int n, int mod){    //I need the mathematical definition of the % operator, not the Java one
         return ((n % mod) + mod) % mod;
     }
+
+    //returns a list of the indexes of the starting positions: List(0) is the first place, so List(0) = 6 for the level2 flightoboard
+    public abstract List<Integer> getStartingPositions();
 }

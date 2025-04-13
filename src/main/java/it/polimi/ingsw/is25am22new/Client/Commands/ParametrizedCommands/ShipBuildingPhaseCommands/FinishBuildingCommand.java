@@ -25,7 +25,10 @@ public class FinishBuildingCommand extends AbstractParametrizedCommand {
 
     @Override
     public boolean isValid(ClientModel model) {
-        /* bisogna distinguere tra gioco di livello 2 e tutorial*/
-        return (input.getFirst() >= 0 || input.getFirst() <= 3)
+        int idx = input.getFirst() - 1;
+            if(idx < 0 || idx > 3) return false;
+        int pos = model.getFlightboard().getStartingPositions().get(idx);
+        boolean alreadyPresent = model.getFlightboard().getPositions().containsValue(pos);
+        return !alreadyPresent;
     }
 }

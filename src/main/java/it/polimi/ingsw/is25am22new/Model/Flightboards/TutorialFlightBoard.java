@@ -46,4 +46,9 @@ public class TutorialFlightBoard extends Flightboard{
             shipboards.get(nickname).setDaysOnFlight(positions.get(nickname));
         }
     }
+
+    @Override
+    public List<Integer> getStartingPositions() {
+        return List.of(4, 2, 1, 0);
+    }
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Hourglass;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -27,8 +28,12 @@ public class ClientModel extends ObservableModelView {
     private Dices dices;
     protected GamePhase gamePhase;
     protected String playerName;    //name of the player using this client
+    protected int hourglassSpot;
+    protected GameType gameType;
 
-    public ClientModel(Game game, String playerName) {
+    protected List<CardPile> cardPiles;
+
+    public ClientModel(Game game, String playerName, GameType gameType) {
         bank = game.getBank();
         cardArchive = game.getCardArchive();
         flightboard = game.getFlightboard();
@@ -42,6 +47,7 @@ public class ClientModel extends ObservableModelView {
         dices = game.getDices();
         gamePhase = game.getGamePhase();
         this.playerName = playerName;
+        this.gameType = gameType;
     }
 
     public Dices getDices() {
@@ -158,5 +164,26 @@ public class ClientModel extends ObservableModelView {
 
     public String getPlayerName() {
         return playerName;
+    }
+
+    public GameType getGametype() {
+        return gameType;
+    }
+
+    public void setHourglassSpot(int hourglassSpot) {
+        this.hourglassSpot = hourglassSpot;
+        notifyObservers(this);
+    }
+
+    public int getHourglassSpot() {
+        return hourglassSpot;
+    }
+
+    public List<CardPile> getCardPiles() {
+        return cardPiles;
+    }
+
+    public void setCardPiles(List<CardPile> cardPiles) {
+        this.cardPiles = cardPiles;
     }
 }

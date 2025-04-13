@@ -4,6 +4,7 @@ import it.polimi.ingsw.is25am22new.Client.Commands.CommandTypes.AbstractCommandT
 import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.ParametrizedCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.ShipBuildingPhaseCommands.FinishBuildingCommand;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
@@ -32,12 +33,12 @@ public class FinishBuildingCommandType extends AbstractCommandType {
     }
 
     @Override
-    public ParametrizedCommand createWithInput(ClientModel clientModel, List<Integer> input) {
+    public ParametrizedCommand createWithInput(ClientModel clientModel, List<Integer> input, ViewAdapter viewAdapter) {
         return new FinishBuildingCommand(virtualServer, clientModel, input);
     }
 
     @Override
     public String getInputRequest(){
-        return "Select a starting position (0, 1, 2, 3):";
+        return "Select a starting position:/n1 - first place/n2 - second place/n3 - third place/n4 - second place/n";
     }
 }
