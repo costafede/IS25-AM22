@@ -25,6 +25,7 @@ public class Shipboard implements Serializable {
     private Bank bank;
     private ComponentTile tileInHand;
     private ComponentTile[][] componentTilesGridCopy;
+    private ComponentTile[] standbyComponentCopy;
 
     public Shipboard(String color, String nickname, Bank bank) {
         this.abandoned = false;
@@ -39,6 +40,7 @@ public class Shipboard implements Serializable {
         this.CosmicCredits = 0;
         this.bank = bank;
         this.componentTilesGridCopy = new ComponentTile[5][7];
+        this.standbyComponentCopy = new ComponentTile[2];
         weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
     }
 
@@ -97,6 +99,10 @@ public class Shipboard implements Serializable {
 
     public void setComponentTilesGridCopy(int i, int j, ComponentTile componentTile) {
         this.componentTilesGridCopy[i][j] = componentTile;
+    }
+
+    public void setStandbyComponentCopy(int i, ComponentTile componentTile) {
+        this.standbyComponentCopy[i] = componentTile;
     }
 
     public ComponentTile getComponentTilesGridCopy(int i, int j) {
