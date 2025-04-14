@@ -14,4 +14,9 @@ public class Shot implements Serializable {
     public boolean isBig() { return big; }
 
     public Orientation getOrientation() { return orientation; }
+
+    @Override
+    public String toString() {
+        return (big ? "Big" : "Small") + " shot facing " + orientation;
+    }
 }

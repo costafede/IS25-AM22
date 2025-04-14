@@ -19,4 +19,9 @@ public class Meteor implements Serializable {
         return orientation;
     }
 
+    @Override
+    public String toString() {
+        return (big ? "Big" : "Small") + " meteor facing " + orientation;
+    }
+
 }
