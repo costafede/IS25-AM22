@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
+import it.polimi.ingsw.is25am22new.Client.LobbyView;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -46,6 +47,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     public static void main(String[] args) {
         String host = "localhost";
         int port = 1234;
+        int uiChoice = 1; // Default to TUI
 
         if(args.length >= 1) {
             host = args[0];
@@ -57,10 +59,25 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 System.out.println("Invalid port number. Using default port 1234.");
             }
         }
+        if(args.length >= 3) {
+            try {
+                uiChoice = Integer.parseInt(args[2]);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid UI choice. Defaulting to TUI.");
+            }
+        }
 
         try {
-            // Create a console-based ClientView implementation
-            ConsoleClientView view = new ConsoleClientView();
+            // Create UI based on choice
+            EnhancedClientView view;
+
+            if(uiChoice == 1) {
+                view = new LobbyView();
+            } else {
+                // GUI would be implemented here
+                System.out.println("GUI not yet implemented. Defaulting to TUI.");
+                view = new LobbyView();
+            }
 
             // Create the RMI client
             RmiClient client = new RmiClient(host, port, view);
@@ -78,9 +95,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 try{
                     view.resetNicknameStatus();
                     client.connectWithNickname(playerName);
-
                     Thread.sleep(1000);
-
                     nickAccepted = view.isNicknameValid();
                 }catch (InterruptedException e){
                     System.err.println("Error connecting with nickname" + e.getMessage());
@@ -92,6 +107,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         } catch (Exception e) {
             System.err.println("Client exception: " + e);
         }
+
         System.exit(0);
     }
 
@@ -264,324 +280,5 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void showUpdateHourglassSpot(int hourglassSpot) {
 
-    }
-}
-
-// Simple implementation of ClientView for console output
-class ConsoleClientView implements EnhancedClientView {
-    private boolean inGame = false;
-    private boolean nicknameValid = false;
-
-    public boolean isNicknameValid() {
-        return nicknameValid;
-    }
-
-    public void resetNicknameStatus(){
-        nicknameValid = false;
-    }
-
-    @Override
-    public void displayBank(Bank bank) {
-        System.out.println("Bank update received");
-        displayCurrentCommands();
-    }
-
-    public void displayGame(Game game){
-        System.out.println("Game update received");
-        System.out.println(game.getPlayerList());
-        System.out.println(game.getGamePhase());
-        System.out.println(game.getFlightboard());
-        if(game.getShipboards().get(game.getPlayerList().getFirst()).getComponentTilesGridCopy(3, 2) == null){
-            System.out.println("3, 2 is empty");
-        }
-        System.out.println("TEST PASSED");
-    }
-
-    @Override
-    public void displayTileInHand(String player, ComponentTile tile) {
-        if(tile == null){
-            System.out.println("No tile in hand");
-            displayCurrentCommands();
-            return;
-        }
-
-        System.out.println("\n=== TILE IN HAND ===");
-        System.out.println("Player: " + player);
-        System.out.println("Tile type: " + tile.getClass().getSimpleName());
-        System.out.println("Sides:\n " +
-                "- Top -> " + tile.getTopSide() + "\n " +
-                "- Right -> " + tile.getRightSide() + "\n " +
-                "- Bottom -> " + tile.getBottomSide() + "\n " +
-                "- Left -> " + tile.getLeftSide() + "\n");
-
-        System.out.println("=================\n");
-    }
-
-    @Override
-    public void displayUncoveredComponentTiles(List<ComponentTile> tiles) {
-        System.out.println("Uncovered component tile update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayShipboard(String player, Shipboard shipboard) {
-        System.out.println("Shipboard update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayFlightboard(Flightboard flightboard) {
-        System.out.println("Flightboard update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayCurrentCard(AdventureCard card) {
-        System.out.println("Current card update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayDices(Dices dices) {
-        System.out.println("Dices update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayCurrentPlayer(String currPlayer) {
-        System.out.println("Current player: " + currPlayer);
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
-        System.out.println("\n=== LOBBY UPDATE ===");
-        System.out.println("Players:");
-        for (String player : players) {
-            String status = readyStatus.getOrDefault(player, false) ? "READY" : "NOT READY";
-            System.out.println("  " + player + " - " + status);
-        }
-        System.out.println("Game Type: " + gameType);
-        if (isHost) {
-            System.out.println("You are the HOST of this lobby");
-        }
-        System.out.println("===================\n");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayConnectionResult(boolean isHost, boolean success, String message) {
-        System.out.println("\n=== CONNECTION RESULT ===");
-        if (success) {
-            System.out.println("Successfully connected to the game!");
-            System.out.println(message);
-            if (isHost) {
-                System.out.println("As the host, you can start the game when at least 2 players are ready.");
-            }
-            nicknameValid = true;
-            //displayCurrentCommands();
-        } else {
-            System.out.println("Connection failed: " + message);
-            System.out.println("=========================");
-            System.exit(0);
-        }
-    }
-
-    @Override
-    public void displayNicknameResult(boolean valid, String message){
-        System.out.println("\n=== NICKNAME RESULT ===");
-        if(valid){
-            System.out.println("Nickname accepted!");
-            nicknameValid = true;
-        }else{
-            System.out.println("Nickname error: " + message);
-            nicknameValid = false;
-        }
-        System.out.println("======================\n");
-        //displayCurrentCommands();
-    }
-
-    @Override
-    public void displayGameStarted() {
-        System.out.println("\n🚀 GAME STARTED! 🚀");
-        System.out.println("Welcome to Galaxy Trucker!");
-        inGame = true;
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayPlayerJoined(String playerName) {
-        System.out.println("\n>>> " + playerName + " has joined the lobby! <<<\n");
-        displayCurrentCommands();
-    }
-
-    private void displayCurrentCommands() {
-        if(!inGame){
-            System.out.println("Commands: ready, unready, gametype tut, gametype lvl2, start, exit");
-        } else {
-            System.out.println("Game commands: [Enter number for commands]");
-            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 8: Weld component tile | 9: Standby component tile | 10: Pick standby component tile | 11: Discard component tile \n12: Finish building | 13: Finish building with index | 14: Finished all shipboards | 15: Flip hourglass \n16: Pick card | 17: Activate card | 18: Remove player | 19: Destroy component tile \n20: Abandon game | 21: End game");
-        }
-        System.out.print("> ");
-    }
-
-    @Override
-    public void startCommandLoop(RmiClient client, String playerName, Scanner scanner) {
-        boolean running = true;
-
-        while(running && !inGame) {
-            String command = scanner.nextLine().trim();
-
-            try {
-                switch(command) {
-                    case "ready":
-                        client.setPlayerReady(playerName);
-                        break;
-                    case "unready":
-                        client.setPlayerNotReady(playerName);
-                        break;
-                    case "gametype tut":
-                        client.setGameType("tutorial");
-                        break;
-                    case "gametype lvl2":
-                        client.setGameType("level2");
-                        break;
-                    case "start":
-                        client.startGameByHost(playerName);
-                        break;
-                    case "exit":
-                        running = false;
-                        break;
-                    default:
-                        System.out.println("Unknown command");
-                        displayCurrentCommands();
-                }
-            } catch (IOException e) {
-                System.err.println("Error executing command: " + e.getMessage());
-                displayCurrentCommands();
-            }
-        }
-
-        // Game commands once in game
-        while(running && inGame) {
-            String command = scanner.nextLine().trim();
-            try {
-                int cmd = Integer.parseInt(command);
-                System.out.println("Command: " + command);
-                switch(cmd) {
-                    case 6:
-                        System.out.println("Picking covered tile...");
-                        client.pickCoveredTile(playerName);
-                        displayCurrentCommands();
-                        break;
-                    case 7:
-                        System.out.println("Which tile do you want to pick?: ");
-                        int index = scanner.nextInt();
-                        scanner.nextLine(); // consume newline
-                        client.pickUncoveredTile(playerName, index);
-                        displayCurrentCommands();
-                        break;
-                    case 8:
-                        System.out.println("Welding component tile...");
-                        System.out.print("Enter i, j, numOfRotation (positive for clockwise, negative for counterclockwise: ");
-                        String[] input = scanner.nextLine().split(",");
-                        int i = Integer.parseInt(input[0]);
-                        int j = Integer.parseInt(input[1]);
-                        int numOfRotation = Integer.parseInt(input[2]);
-                        client.weldComponentTile(playerName, i, j, numOfRotation);
-                        displayCurrentCommands();
-                        break;
-                    case 9:
-                        System.out.println("Standby component tile...");
-                        client.standbyComponentTile(playerName);
-                        displayCurrentCommands();
-                        break;
-                    case 10:
-                        System.out.println("Pick standby component tile...");
-                        System.out.print("Enter index: ");
-                        int standbyIndex = scanner.nextInt();
-                        scanner.nextLine(); // consume newline
-                        client.pickStandbyComponentTile(playerName, standbyIndex);
-                        displayCurrentCommands();
-                        break;
-                    case 11:
-                        System.out.println("Discard component tile...");
-                        client.discardComponentTile(playerName);
-                        displayCurrentCommands();
-                        break;
-                    case 12:
-                        System.out.println("Finish building...");
-                        client.finishBuilding(playerName);
-                        displayCurrentCommands();
-                        break;
-                    case 13:
-                        System.out.println("Finish building...");
-                        //To be implemented
-                        break;
-                    case 14:
-                        System.out.println("Finished all shipboards...");
-                        client.finishedAllShipboards();
-                        displayCurrentCommands();
-                        break;
-                    case 15:
-                        System.out.println("Flipping hourglass...");
-                        client.flipHourglass();
-                        displayCurrentCommands();
-                        break;
-                    case 16:
-                        System.out.println("Picking card...");
-                        client.pickCard();
-                        displayCurrentCommands();
-                        break;
-                    case 17:
-                        System.out.println("Activating card...");
-                        //To be implemented
-                        break;
-                    case 18:
-                        System.out.println("Removing player...");
-                        System.out.print("Enter player name: ");
-                        String removePlayerName = scanner.nextLine();
-                        client.removePlayer(removePlayerName);
-                        displayCurrentCommands();
-                        break;
-                    case 19:
-                        System.out.println("Destroying component tile...");
-                        System.out.print("Enter i, j: ");
-                        String[] destroyInput = scanner.nextLine().split(",");
-                        int destroyI = Integer.parseInt(destroyInput[0]);
-                        int destroyJ = Integer.parseInt(destroyInput[1]);
-                        client.destroyComponentTile(playerName, destroyI, destroyJ);
-                        displayCurrentCommands();
-                        break;
-                    case 20:
-                        client.playerAbandons(playerName);
-                        running = false;
-                        displayCurrentCommands();
-                        break;
-                    case 21:
-                        client.endGame();
-                        running = false;
-                        displayCurrentCommands();
-                        break;
-                    default:
-                        System.out.println("Unknown command: " + cmd);
-                        displayCurrentCommands();
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a number for commands");
-                displayCurrentCommands();
-            } catch (IOException e) {
-                System.err.println("Error executing command: " + e.getMessage());
-                displayCurrentCommands();
-            }
-        }
-
-        // Clean disconnect
-        try {
-            System.out.println("Disconnecting...");
-            client.removePlayer(playerName);
-        } catch (IOException e) {
-            System.err.println("Error during disconnect: " + e.getMessage());
-        }
     }
 }
