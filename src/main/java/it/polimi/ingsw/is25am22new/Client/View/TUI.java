@@ -5,9 +5,11 @@ import it.polimi.ingsw.is25am22new.Client.Commands.CommandTypes.CommandType;
 import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.ParametrizedCommand;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TUI implements ClientModelObserver, ViewAdapter{
@@ -78,7 +80,15 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     @Override
     public void showShipboardGrid(String player, ClientModel clientModel) {
-        /*TO DO*/
+        Map<String, Shipboard> shipboards = clientModel.getShipboards();
+        Shipboard ship = shipboards.get(player);
+        System.out.println("=== LA TUA NAVE ===");
+        System.out.println("Giorni di volo: " + ship.getDaysOnFlight());
+        System.out.println("Crediti: " + ship.getCosmicCredits());
+        System.out.println("Equipaggio di volo: " + ship.getCrewNumber());
+        System.out.println("Astronauti: " + ship.getOnlyHumanNumber());
+        //print welded components
+
     }
 
     @Override
