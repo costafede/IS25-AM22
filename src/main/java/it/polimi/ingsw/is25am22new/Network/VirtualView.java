@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Network;
 
     import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+    import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
     import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
     import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
     import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
@@ -9,6 +10,7 @@ package it.polimi.ingsw.is25am22new.Network;
     import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
     import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+    import java.io.IOException;
     import java.rmi.Remote;
     import java.rmi.RemoteException;
     import java.util.List;
@@ -37,4 +39,26 @@ package it.polimi.ingsw.is25am22new.Network;
         void showNicknameResult(boolean valid, String message) throws RemoteException;
         void showGameStarted() throws RemoteException;
         void showPlayerJoined(String player) throws RemoteException;
+
+        //Methods for game management
+        void setPlayerReady(String playerName) throws IOException;
+        void setPlayerNotReady(String playerName) throws IOException;
+        void startGameByHost(String playerName) throws IOException;
+        void setGameType(String gameType) throws IOException;
+        void pickCoveredTile(String playerName) throws IOException;
+        void pickUncoveredTile(String playerName, int index) throws IOException;
+        void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException;
+        void standbyComponentTile(String playerName) throws IOException;
+        void pickStandbyComponentTile(String playerName, int index) throws IOException;
+        void discardComponentTile(String playerName) throws IOException;
+        void finishBuilding(String playerName) throws IOException;
+        void finishBuilding(String playerName, int index) throws IOException;
+        void finishedAllShipboards() throws IOException;
+        void flipHourglass() throws IOException;
+        void pickCard() throws IOException;
+        void activateCard(InputCommand inputCommand) throws IOException;
+        void removePlayer(String playerName) throws IOException;
+        void playerAbandons(String playerName) throws IOException;
+        void destroyComponentTile(String playerName, int i, int j) throws IOException;
+        void endGame() throws IOException;
     }
