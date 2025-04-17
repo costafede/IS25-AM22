@@ -33,28 +33,16 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     private final Map<String, VirtualView> clientMap; //Map nickname to clients
     private static final String SERVER_NAME = "GalaxyTruckerServer";
 
-    public RmiServer(GameController gameController) throws RemoteException {
+    public RmiServer(GameController gameController, int port) throws RemoteException {
         super();
         this.gameController = gameController;
-        this.gameController.getObservers().add(this);
         this.connectedClients = new ArrayList<>();
         this.clientMap = new HashMap<>();
 
         //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
-        Registry registry = LocateRegistry.createRegistry(1234);
+        Registry registry = LocateRegistry.createRegistry(port);
         registry.rebind(SERVER_NAME, this);
-        System.out.println("RMI Server bound to registry - it is running on port 1234...");
-    }
-
-    public static void main(String[] args) {
-        try{
-            //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
-            GameController gameController = new GameController();
-            @SuppressWarnings("unused") RmiServer server = new RmiServer(gameController);
-            System.out.println("RMI Server is running... waiting for clients to connect.");
-        }catch (Exception e){
-            System.err.println("Error starting RMI Server: " + e.getMessage());
-        }
+        System.out.println("RMI Server bound to registry - it is running on port " + port + "...");
     }
 
     public void connect(VirtualView client, String nickname) throws RemoteException {
@@ -95,10 +83,10 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             (client).showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
             if(!isHost){
-                updatePlayerJoined(nickname);
+                gameController.updateAllPlayerJoined(nickname);
             }
 
-            updateLobby();
+            gameController.updateAllLobbies();
         }
     }
 
@@ -346,20 +334,20 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                 }
             }
         }
-        updateLobby();
+        gameController.updateAllLobbies();
     }
 
     @Override
     public void removePlayer(String nickname) {
         gameController.removePlayer(nickname);
         clientMap.remove(nickname);
-        updateLobby();
+        gameController.updateAllLobbies();
     }
 
     @Override
     public void setPlayerReady(String nickname) {
         gameController.setPlayerReady(nickname);
-        updateLobby();
+        gameController.updateAllLobbies();
     }
 
     @Override
@@ -390,7 +378,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
         boolean result = gameController.startGameByHost(nickname);
         if (result) {
-            updateGameStarted();
+            gameController.updateAllGameStarted();
         } else {
             System.err.println("Error starting game");
         }
@@ -399,14 +387,14 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void setPlayerNotReady(String nickname) {
         gameController.setPlayerNotReady(nickname);
-        updateLobby();
+        gameController.updateAllLobbies();
     }
 
     @Override
     public void setGameType(String gameType) {
         if(gameType.equals("level2") || gameType.equals("tutorial")) {
             gameController.setGameType(gameType);
-            updateLobby();
+            gameController.updateAllLobbies();
         } else {
             System.err.println("Invalid game type: " + gameType);
         }

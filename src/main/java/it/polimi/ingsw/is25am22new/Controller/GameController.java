@@ -7,11 +7,15 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
+import it.polimi.ingsw.is25am22new.Network.RMI.Server.RmiServer;
+import it.polimi.ingsw.is25am22new.Network.Socket.Server.SocketServerSide;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController {
     private Lobby lobby;
@@ -22,9 +26,11 @@ public class GameController {
     private GameState currentState;
     private String gameType; // "tutorial" or "level2"
 
-    public String getLobbyCreator() {
-        return lobbyCreator;
-    }
+    private final Object LOCK_COVEREDTILES = new Object();
+    private final Object LOCK_UNCOVEREDTILES = new Object();
+    private final Object LOCK_FLIGHTBOARD = new Object();
+    private final Object LOCK_HOURGLASS = new Object();
+    private final Object LOCK_CURRCARDDECK = new Object();
 
     public enum GameState {
         LOBBY,
@@ -44,6 +50,37 @@ public class GameController {
         this.gameType = lobby.getGameType();
     }
 
+    public static void main(String[] args) throws IOException {
+        GameController gameController = new GameController();
+        // Starts Rmi Server
+        new Thread(() -> {
+            try {
+                //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
+                int port = Integer.parseInt(args[0]);
+                RmiServer rmiServer = new RmiServer(gameController, port);
+                gameController.getObservers().add(rmiServer);
+                System.out.println("RMI Server is running... waiting for clients to connect.");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
+        // Starts Socket Server
+        new Thread(() -> {
+            try {
+                int port = Integer.parseInt(args[0]);
+                ServerSocket listenSocket = new ServerSocket(++port);
+                System.out.println("Socket Server is running... waiting for clients to connect.");
+                System.out.println("Socket server on listen - it is running on port " + port + "...");
+                SocketServerSide socketServerSide = new SocketServerSide(gameController, listenSocket);
+                gameController.getObservers().add(socketServerSide);
+                socketServerSide.runServer();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
+
     // Lobby methods
     public String getLobbyState() {
         return
@@ -51,6 +88,10 @@ public class GameController {
                 "Lobby Creator: " + lobbyCreator + "\n" +
                 "Ready Status: " + lobby.getReadyStatus() + "\n" +
                 "Game Type: " + lobby.getGameType() + "\n";
+    }
+
+    public String getLobbyCreator() {
+        return lobbyCreator;
     }
 
     private void setLobbyCreator(String player) {
@@ -181,36 +222,40 @@ public class GameController {
 
     // Game methods
     public void pickCoveredTile(String player) {
-        if(currentState == GameState.GAME) {
-            game.pickCoveredTile(player);
-        }else {
-            System.out.println("Player " + player + " cannot pick a covered tile outside game state.");
+        synchronized (LOCK_COVEREDTILES){
+            if(currentState == GameState.GAME) {
+                game.pickCoveredTile(player);
+            }else {
+                System.out.println("Player " + player + " cannot pick a covered tile outside game state.");
+            }
         }
     }
 
     public void pickUncoveredTile(String player, int index) {
-        if(currentState == GameState.GAME) {
-            game.pickUncoveredTile(player, index);
-        } else {
-            System.out.println("Player " + player + " cannot pick an uncovered tile outside game state.");
+        synchronized (LOCK_UNCOVEREDTILES) {
+            if(currentState == GameState.GAME) {
+                game.pickUncoveredTile(player, index);
+            } else {
+                System.out.println("Player " + player + " cannot pick an uncovered tile outside game state.");
+            }
         }
     }
 
-    public void rotateClockwise(String player) {
-        if(currentState == GameState.GAME) {
-            game.rotateClockwise(player);
-        } else {
-            System.out.println("Player " + player + " cannot rotate clockwise outside game state.");
-        }
-    }
-
-    public void rotateCounterClockwise(String player) {
-        if(currentState == GameState.GAME) {
-            game.rotateCounterClockwise(player);
-        } else {
-            System.out.println("Player " + player + " cannot rotate counterclockwise outside game state.");
-        }
-    }
+    //public void rotateClockwise(String player) {
+    //    if(currentState == GameState.GAME) {
+    //        game.rotateClockwise(player);
+    //    } else {
+    //        System.out.println("Player " + player + " cannot rotate clockwise outside game state.");
+    //    }
+    //}
+    //
+    //public void rotateCounterClockwise(String player) {
+    //    if(currentState == GameState.GAME) {
+    //        game.rotateCounterClockwise(player);
+    //    } else {
+    //        System.out.println("Player " + player + " cannot rotate counterclockwise outside game state.");
+    //    }
+    //}
 
     public void rotateClockwise(String player, int rotationNum) {
         if(currentState == GameState.GAME) {
@@ -263,6 +308,7 @@ public class GameController {
             System.out.println("Player " + player + " cannot discard a component tile outside game state.");
         }
     }
+    // NOT USED BY CLIENT?
     /*These method may be useless*/
     public void finishBuilding(String player) {
         if(currentState == GameState.GAME) {
@@ -274,12 +320,16 @@ public class GameController {
     /*********************************/
 
     public void finishBuilding(String player, int pos) {
-        if(currentState == GameState.GAME) {
-            game.finishBuilding(player, pos);
-        } else
-            System.out.println("Player " + player + " cannot finish building outside game state.");{
+        synchronized (LOCK_FLIGHTBOARD){
+            if(currentState == GameState.GAME) {
+                game.finishBuilding(player, pos);
+            } else {
+                System.out.println("Player " + player + " cannot finish building outside game state.");
+            }
         }
     }
+
+    // NOT USED BY CLIENT?
     /*These method may be useless*/
     public void finishedAllShipboards() {
         if(currentState == GameState.GAME) {
@@ -291,18 +341,22 @@ public class GameController {
     /*********************************/
 
     public void flipHourglass() {
-        if(currentState == GameState.GAME) {
-            game.flipHourglass(() -> {});
-        } else {
-            System.out.println("Cannot flip hourglass outside game state.");
+        synchronized (LOCK_HOURGLASS) {
+            if(currentState == GameState.GAME) {
+                game.flipHourglass(() -> {});
+            } else {
+                System.out.println("Cannot flip hourglass outside game state.");
+            }
         }
     }
 
     public void pickCard() {
-        if(currentState == GameState.GAME) {
-            game.pickCard();
-        } else {
-            System.out.println("Cannot pick card outside game state.");
+        synchronized (LOCK_CURRCARDDECK) {
+            if(currentState == GameState.GAME) {
+                game.pickCard();
+            } else {
+                System.out.println("Cannot pick card outside game state.");
+            }
         }
     }
 
@@ -315,10 +369,12 @@ public class GameController {
     }
 
     public void playerAbandons(String player) {
-        if(currentState == GameState.GAME) {
-            game.playerAbandons(player);
-        } else {
-            System.out.println("Player " + player + " cannot abandon outside game state.");
+        synchronized (LOCK_FLIGHTBOARD){
+            if(currentState == GameState.GAME) {
+                game.playerAbandons(player);
+            } else {
+                System.out.println("Player " + player + " cannot abandon outside game state.");
+            }
         }
     }
 
@@ -330,7 +386,7 @@ public class GameController {
         }
     }
 
-
+    // NOT USED BY CLIENT?
     public void setCurrPlayer(String player) {
         if(currentState == GameState.GAME) {
             game.setCurrPlayer(player);
@@ -338,7 +394,7 @@ public class GameController {
             System.out.println("Current player cannot be set outside game state.");
         }
     }
-
+    // NOT USED BY CLIENT?
     public void setCurrPlayerToLeader() {
         if(currentState == GameState.GAME) {
             game.setCurrPlayerToLeader();
@@ -386,30 +442,36 @@ public class GameController {
     }
 
     public List<AdventureCard> getDeck() {
-        if(currentState == GameState.GAME) {
-            return game.getDeck();
-        } else {
-            System.out.println("Deck cannot be retrieved outside game state.");
+        synchronized (LOCK_CURRCARDDECK){
+            if(currentState == GameState.GAME) {
+                return game.getDeck();
+            } else {
+                System.out.println("Deck cannot be retrieved outside game state.");
+            }
+            return null;
         }
-        return null;
     }
 
     public AdventureCard getCurrCard() {
-        if(currentState == GameState.GAME) {
-            return game.getCurrCard();
-        } else {
-            System.out.println("Current card cannot be retrieved outside game state.");
+        synchronized (LOCK_CURRCARDDECK) {
+            if(currentState == GameState.GAME) {
+                return game.getCurrCard();
+            } else {
+                System.out.println("Current card cannot be retrieved outside game state.");
+            }
+            return null;
         }
-        return null;
     }
 
     public String getLastPlayer() {
-        if(currentState == GameState.GAME) {
-            return game.getLastPlayer();
-        } else {
-            System.out.println("Last player cannot be retrieved outside game state.");
+        synchronized (LOCK_FLIGHTBOARD) {
+            if(currentState == GameState.GAME) {
+                return game.getLastPlayer();
+            } else {
+                System.out.println("Last player cannot be retrieved outside game state.");
+            }
+            return null;
         }
-        return null;
     }
 
     public List<String> getPlayers() {
@@ -447,5 +509,23 @@ public class GameController {
 
     public List<ObserverModel> getObservers() {
         return observers;
+    }
+
+    public void updateAllLobbies() {
+        for (var observer : this.observers) {
+            observer.updateLobby();
+        }
+    }
+
+    public void updateAllGameStarted() {
+        for (var observer : this.observers) {
+            observer.updateGameStarted();
+        }
+    }
+
+    public void updateAllPlayerJoined(String player) {
+        for (var observer : this.observers) {
+            observer.updatePlayerJoined(player);
+        }
     }
 }

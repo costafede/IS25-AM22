@@ -21,23 +21,16 @@ import java.util.List;
 public class SocketServerSide implements ObserverModel {
     final ServerSocket listenSocket;
     final GameController controller;
-    final List<SocketClientHandler> clients = new ArrayList<>();
+    final List<SocketClientHandler> clients;
 
-    public SocketServerSide(ServerSocket listenSocket) {
+    public SocketServerSide(GameController gameController, ServerSocket listenSocket) {
         this.listenSocket = listenSocket;
-        this.controller = new GameController();
-        this.controller.getObservers().add(this);
+        this.controller = gameController;
+        this.clients = new ArrayList<>();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        int port = Integer.parseInt(args[0]);
-
-        ServerSocket listenSocket = new ServerSocket(port);
-
-        new SocketServerSide(listenSocket).runServer();
-    }
-
-    private void runServer() throws IOException{
+    public void runServer() throws IOException{
+        System.out.println("Server started, waiting for clients...");
         Socket clientSocket = null;
         while ((clientSocket = this.listenSocket.accept()) != null) {
             System.out.println("Client connected: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
@@ -205,8 +198,8 @@ public class SocketServerSide implements ObserverModel {
     }
 
    public void disconnect(SocketClientHandler handler, String nickname) {
-        this.clients.remove(handler);
         synchronized (this.clients) {
+            this.clients.remove(handler);
             for (var client : this.clients) {
                 client.showMessageToEveryone("Player " + nickname + " has disconnected");
             }
