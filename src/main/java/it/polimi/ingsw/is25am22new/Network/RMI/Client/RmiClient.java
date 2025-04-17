@@ -108,7 +108,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
             System.err.println("Client exception: " + e);
         }
 
-        System.exit(0);
+        //System.exit(0);
     }
 
     public void setPlayerReady(String playerName) throws IOException {
@@ -219,17 +219,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showUpdateBank(Bank bank)  {
-        clientView.displayBank(bank);
     }
 
     @Override
     public void showUpdateTileInHand(String player, ComponentTile tile)  {
-        clientView.displayTileInHand(player, tile);
     }
 
     @Override
     public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList)  {
-        clientView.displayUncoveredComponentTiles(ctList);
     }
 
     @Override
@@ -239,27 +236,22 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showUpdateShipboard(String player, Shipboard shipboard)  {
-        clientView.displayShipboard(player, shipboard);
     }
 
     @Override
     public void showUpdateFlightboard(Flightboard flightboard)  {
-        clientView.displayFlightboard(flightboard);
     }
 
     @Override
     public void showUpdateCurrCard(AdventureCard adventureCard)  {
-        clientView.displayCurrentCard(adventureCard);
     }
 
     @Override
     public void showUpdateDices(Dices dices)  {
-        clientView.displayDices(dices);
     }
 
     @Override
     public void showUpdateCurrPlayer(String currPlayer)  {
-        clientView.displayCurrentPlayer(currPlayer);
     }
 
     @Override

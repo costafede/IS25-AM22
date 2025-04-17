@@ -67,6 +67,8 @@ public class GalaxyTruckerClient {
                 RmiClient.main(rmiArgs);
             } else {
                 // Socket connection
+                // Port has to be different from the one used by RMI
+                port += 1;
                 String[] socketArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
                 SocketClientSide.main(socketArgs);
             }

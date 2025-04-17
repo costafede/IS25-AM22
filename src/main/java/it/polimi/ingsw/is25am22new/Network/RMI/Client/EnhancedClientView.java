@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public interface EnhancedClientView extends ClientView {
+public interface EnhancedClientView {
     void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost);
     void displayConnectionResult(boolean isHost, boolean success, String message);
     void displayNicknameResult(boolean valid, String message);
