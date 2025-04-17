@@ -38,47 +38,50 @@ public class SocketClientSide implements VirtualView {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
         Scanner scanner = new Scanner(System.in);
-        Socket socket = new Socket(host, port);
-        SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
-        ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
+        try (Socket socket = new Socket(host, port)){
+            SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
+            ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
+            boolean joined = false;
+            String thisPlayerName = "Player";
 
-        boolean joined = false;
-        String thisPlayerName = "Player";
+            while(!joined) {
+                System.out.println("Enter your cool trucker name: ");
+                System.out.flush();
+                thisPlayerName = scanner.nextLine().trim();
 
-        while(!joined) {
-            System.out.println("Enter your cool trucker name: ");
-            System.out.flush();
-            thisPlayerName = scanner.nextLine().trim();
+                while(thisPlayerName == null || thisPlayerName.isEmpty()) {
+                    System.out.println("Please enter a valid name: ");
+                    thisPlayerName = scanner.nextLine();
+                }
 
-            while(thisPlayerName == null || thisPlayerName.isEmpty()) {
-                System.out.println("Please enter a valid name: ");
-                thisPlayerName = scanner.nextLine();
-            }
-
-            output.checkAvailability(thisPlayerName);
-            SocketMessage msg = null;
-            if((msg = (SocketMessage) objectInput.readObject()) != null) {
-                switch (msg.getCommand()) {
-                    case "LobbyFullOrOutsideLobbyState" -> {
-                        System.out.println("Lobby is full or you are outside the lobby state");
-                    }
-                    case "PlayerAlreadyInLobby" -> {
-                        System.out.println("Player already in lobby");
-                    }
-                    case "PlayerAdded" -> {
-                        System.out.println("You've successfully joined the lobby!");
-                        joined = true;
+                output.checkAvailability(thisPlayerName);
+                SocketMessage msg = null;
+                if((msg = (SocketMessage) objectInput.readObject()) != null) {
+                    switch (msg.getCommand()) {
+                        case "LobbyFullOrOutsideLobbyState" -> {
+                            System.out.println("Lobby is full or you are outside the lobby state");
+                        }
+                        case "PlayerAlreadyInLobby" -> {
+                            System.out.println("Player already in lobby");
+                        }
+                        case "PlayerAdded" -> {
+                            System.out.println("You've successfully joined the lobby!");
+                            joined = true;
+                        }
                     }
                 }
+
+                if(!joined) System.out.println("Try again!");
             }
 
-            if(!joined) System.out.println("Try again!");
-        }
+            new SocketClientSide(objectInput, output, thisPlayerName).run();
 
-        new SocketClientSide(objectInput, output, thisPlayerName).run();
+        } catch (IOException e) {
+            System.out.println("Error connecting to server: " + e.getMessage());
+        }
     }
 
-    private void run() throws InterruptedException, IOException {
+    private void run() throws IOException, InterruptedException {
         new Thread(() -> {
             try {
                 runVirtualServer();
@@ -86,6 +89,9 @@ public class SocketClientSide implements VirtualView {
                 throw new RuntimeException(e);
             }
         }).start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> this.output.disconnect(thisPlayerName)));
+
         runCli();
     }
 
@@ -201,7 +207,7 @@ public class SocketClientSide implements VirtualView {
         int numOfRotations = 0;
 
         while (true) {
-            Thread.sleep(50);
+            Thread.sleep(100);
             System.out.print(">>> ");
 
             while (!scan.hasNextInt()) {
@@ -526,7 +532,6 @@ public class SocketClientSide implements VirtualView {
                     }
                 }
             }
-            
         }
         return inputCommand;
     }
@@ -622,30 +627,147 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showUpdateGame(Game game)  {
+        System.out.println(game);
     }
 
     @Override
     public void showUpdateHourglassSpot(int hourglassSpot){
+        System.out.println("Hourglass spot: " + hourglassSpot);
     }
 
     @Override
     public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
+        System.out.println("Lobby update:");
+        System.out.println(players);
+        System.out.println(readyStatus);
+        System.out.println(gameType);
     }
 
     @Override
     public void showConnectionResult(boolean isHost, boolean success, String message) {
+        System.out.println("Connection result:");
+        System.out.println(isHost);
+        System.out.println(success);
+        System.out.println(message);
     }
 
     @Override
     public void showNicknameResult(boolean valid, String message) {
+        System.out.println("Nickname result:");
+        System.out.println(valid);
+        System.out.println(message);
     }
 
     @Override
     public void showGameStarted() {
+        System.out.println("Game started!");
+        System.out.flush();
     }
 
     @Override
     public void showPlayerJoined(String player) {
+        System.out.println(player + " joined the game!");
+        System.out.flush();
+    }
+
+    @Override
+    public void setPlayerReady(String playerName) throws IOException {
+        output.setPlayerReady(playerName);
+    }
+
+    @Override
+    public void setPlayerNotReady(String playerName) throws IOException {
+        output.setPlayerNotReady(playerName);
+    }
+
+    @Override
+    public void startGameByHost(String playerName) throws IOException {
+        output.setPlayerReady(playerName);
+    }
+
+    @Override
+    public void setGameType(String gameType) throws IOException {
+        output.setGameType(gameType);
+    }
+
+    @Override
+    public void pickCoveredTile(String playerName) throws IOException {
+        output.pickCoveredTile(playerName);
+    }
+
+    @Override
+    public void pickUncoveredTile(String playerName, int index) throws IOException {
+        output.pickUncoveredTile(playerName, index);
+    }
+
+    @Override
+    public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
+        output.weldComponentTile(playerName, i, j, numOfRotation);
+    }
+
+    @Override
+    public void standbyComponentTile(String playerName) throws IOException {
+        output.standbyComponentTile(playerName);
+    }
+
+    @Override
+    public void pickStandbyComponentTile(String playerName, int index) throws IOException {
+        output.pickStandbyComponentTile(playerName, index);
+    }
+
+    @Override
+    public void discardComponentTile(String playerName) throws IOException {
+        output.discardComponentTile(playerName);
+    }
+
+    @Override
+    public void finishBuilding(String playerName) throws IOException {
+        output.finishBuilding(playerName);
+    }
+
+    @Override
+    public void finishBuilding(String playerName, int index) throws IOException {
+        output.finishBuilding(playerName, index);
+    }
+
+    @Override
+    public void finishedAllShipboards() throws IOException {
+        output.finishedAllShipboards();
+    }
+
+    @Override
+    public void flipHourglass() throws IOException {
+        output.flipHourglass();
+    }
+
+    @Override
+    public void pickCard() throws IOException {
+        output.pickCard();
+    }
+
+    @Override
+    public void activateCard(InputCommand inputCommand) throws IOException {
+        output.activateCard(inputCommand);
+    }
+
+    @Override
+    public void removePlayer(String playerName) throws IOException {
+        output.removePlayer(playerName);
+    }
+
+    @Override
+    public void playerAbandons(String playerName) throws IOException {
+        output.playerAbandons(playerName);
+    }
+
+    @Override
+    public void destroyComponentTile(String playerName, int i, int j) throws IOException {
+        output.destroyComponentTile(playerName, i, j);
+    }
+
+    @Override
+    public void endGame() throws IOException {
+        output.endGame();
     }
 
     public void showMessage(String message) {

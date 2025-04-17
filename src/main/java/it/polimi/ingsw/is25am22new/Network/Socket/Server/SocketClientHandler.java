@@ -49,8 +49,8 @@ public class SocketClientHandler implements VirtualView {
 
                         showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
-                        if(!isHost)    this.server.updatePlayerJoined(msg.getPayload());
-                        this.server.updateLobby();
+                        if(!isHost)    this.controller.updateAllPlayerJoined(msg.getPayload());
+                        this.controller.updateAllLobbies();
                     }
                     else if(res == -2){
                         showNicknameResult(false, "PlayerAlreadyInLobby");
@@ -61,115 +61,77 @@ public class SocketClientHandler implements VirtualView {
                     System.out.println("List of players updated: " + this.controller.getPlayers());
                 }
                 case "removePlayer" -> {
-                    this.controller.removePlayer(msg.getPayload());
-                    System.out.println("List of players updated: " + this.controller.getPlayers());
-                    this.server.updateLobby();
+                    this.removePlayer(msg.getPayload());
                 }
                 case "setPlayerReady" -> {
-                    this.controller.setPlayerReady(msg.getPayload());
-                    this.server.updateLobby();
+                    this.setPlayerReady(msg.getPayload());
                 }
                 case "startGameByHost" -> {
-                    if(!msg.getPayload().equals(this.controller.getLobbyCreator())) {
-                        showConnectionResult(false, false, "Only the host can start the game");
-                    }
-                    else {
-                        Map<String, Boolean> readyStatus = this.controller.getReadyStatus();
-                        List<String> unreadyPlayers = new ArrayList<>();
-
-                        for (Map.Entry<String, Boolean> entry : readyStatus.entrySet()) {
-                            if (!entry.getValue()) {
-                                unreadyPlayers.add(entry.getKey());
-                            }
-                        }
-
-                        if (!unreadyPlayers.isEmpty()) {
-                            // Some players are not ready
-                            String message = "Cannot start game: " + String.join(", ", unreadyPlayers) + " not ready";
-                            showConnectionResult(true, false, message);
-                        }
-                        else {
-                            boolean result = this.controller.startGameByHost(msg.getPayload());
-                            if(result) {
-                                this.server.updateGameStarted();
-                            }
-                            else {
-                                System.out.println("Error starting game");
-                            }
-                        }
-                    }
+                    this.startGameByHost(msg.getPayload());
                 }
                 case "setPlayerNotReady" -> {
-                    this.controller.setPlayerNotReady(msg.getPayload());
-                    this.server.updateLobby();
+                    this.setPlayerNotReady(msg.getPayload());
                 }
                 case "setGameType" -> {
-                    this.controller.setGameType(msg.getPayload());
-                    this.server.updateLobby();
+                    this.setGameType(msg.getPayload());
                 }
                 case "pickCoveredTile" -> {
-                    this.controller.pickCoveredTile(msg.getPayload());
+                    this.pickCoveredTile(msg.getPayload());
                 }
                 case "pickUncoveredTile" -> {
-                    this.controller.pickUncoveredTile(msg.getPayload(),
+                    this.pickUncoveredTile(msg.getPayload(),
                             ((InputCommand) msg.getObject()).getIndexChosen());
                 }
                 case "weldComponentTile" -> {
-                    if(((InputCommand) msg.getObject()).getIndexChosen() >= 0){
-                        this.controller.rotateClockwise(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getIndexChosen());
-                    }
-                    else {
-                        this.controller.rotateCounterClockwise(msg.getPayload(),
-                                -((InputCommand) msg.getObject()).getIndexChosen());
-                    }
-                    this.controller.weldComponentTile(msg.getPayload(),
+                    this.weldComponentTile(msg.getPayload(),
                             ((InputCommand) msg.getObject()).getRow(),
-                            ((InputCommand) msg.getObject()).getCol());
+                            ((InputCommand) msg.getObject()).getCol(),
+                            ((InputCommand) msg.getObject()).getIndexChosen());
                 }
                 case "standbyComponentTile" -> {
-                    this.controller.standbyComponentTile(msg.getPayload());
+                    this.standbyComponentTile(msg.getPayload());
                 }
                 case "pickStandByComponentTile" -> {
-                    this.controller.pickStandByComponentTile(msg.getPayload(),
+                    this.pickStandbyComponentTile(msg.getPayload(),
                             ((InputCommand) msg.getObject()).getIndexChosen());
                 }
                 case "discardComponentTile" -> {
-                    this.controller.discardComponentTile(msg.getPayload());
+                    this.discardComponentTile(msg.getPayload());
                 }
                 case "finishBuilding1" -> {
-                    this.controller.finishBuilding(msg.getPayload());
+                    this.finishBuilding(msg.getPayload());
                 }
                 case "finishBuilding2" -> {
-                    this.controller.finishBuilding(msg.getPayload(),
+                    this.finishBuilding(msg.getPayload(),
                             ((InputCommand) msg.getObject()).getIndexChosen());
                 }
                 case "finishedAllShipboards" -> {
-                    this.controller.finishedAllShipboards();
+                    this.finishedAllShipboards();
                 }
                 case "flipHourglass" -> {
-                    this.controller.flipHourglass();
+                    this.flipHourglass();
                 }
                 case "pickCard" -> {
-                    this.controller.pickCard();
+                    this.pickCard();
                 }
                 case "activateCard" -> {
-                    this.controller.activateCard((InputCommand) msg.getObject());
+                    this.activateCard((InputCommand) msg.getObject());
                 }
                 case "playerAbandons" -> {
-                    this.controller.playerAbandons(msg.getPayload());
+                    this.playerAbandons(msg.getPayload());
                 }
                 case "destroyTile" -> {
-                    this.controller.destroyTile(msg.getPayload(),
+                    this.destroyComponentTile(msg.getPayload(),
                             ((InputCommand) msg.getObject()).getRow(),
                             ((InputCommand) msg.getObject()).getCol());
                 }
                 case "endGame" -> {
-                    this.controller.endGame();
+                    this.endGame();
                 }
                 case "disconnect" -> {
-                    this.controller.removePlayer(msg.getPayload());
+                    this.removePlayer(msg.getPayload());
                     this.server.disconnect(this, msg.getPayload());
+                    this.controller.updateAllLobbies();
                 }
                 case "connectionTester" -> {
                     System.out.println(msg.getPayload());
@@ -403,6 +365,143 @@ public class SocketClientHandler implements VirtualView {
         } catch (IOException e) {
             System.out.println("Error updating player joined for client: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void setPlayerReady(String playerName) throws IOException {
+        this.controller.setPlayerReady(playerName);
+        this.controller.updateAllLobbies();
+    }
+
+    @Override
+    public void setPlayerNotReady(String playerName) throws IOException {
+        this.controller.setPlayerNotReady(playerName);
+        this.controller.updateAllLobbies();
+    }
+
+    @Override
+    public void startGameByHost(String playerName) throws IOException {
+        if(!playerName.equals(this.controller.getLobbyCreator())) {
+            showConnectionResult(false, false, "Only the host can start the game");
+        }
+        else {
+            Map<String, Boolean> readyStatus = this.controller.getReadyStatus();
+            List<String> unreadyPlayers = new ArrayList<>();
+
+            for (Map.Entry<String, Boolean> entry : readyStatus.entrySet()) {
+                if (!entry.getValue()) {
+                    unreadyPlayers.add(entry.getKey());
+                }
+            }
+
+            if (!unreadyPlayers.isEmpty()) {
+                // Some players are not ready
+                String message = "Cannot start game: " + String.join(", ", unreadyPlayers) + " not ready";
+                showConnectionResult(true, false, message);
+            }
+            else {
+                boolean result = this.controller.startGameByHost(playerName);
+                if(result) {
+                    this.controller.updateAllGameStarted();
+                }
+                else {
+                    System.out.println("Error starting game");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setGameType(String gameType) throws IOException {
+        this.controller.setGameType(gameType);
+        this.controller.updateAllLobbies();
+    }
+
+    @Override
+    public void pickCoveredTile(String playerName) throws IOException {
+        this.controller.pickCoveredTile(playerName);
+    }
+
+    @Override
+    public void pickUncoveredTile(String playerName, int index) throws IOException {
+        this.controller.pickUncoveredTile(playerName, index);
+    }
+
+    @Override
+    public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
+        if(numOfRotation >= 0){
+            this.controller.rotateClockwise(playerName, numOfRotation);
+        }
+        else {
+            this.controller.rotateCounterClockwise(playerName, -numOfRotation);
+        }
+        this.controller.weldComponentTile(playerName, i, j);
+    }
+
+    @Override
+    public void standbyComponentTile(String playerName) throws IOException {
+        this.controller.standbyComponentTile(playerName);
+    }
+
+    @Override
+    public void pickStandbyComponentTile(String playerName, int index) throws IOException {
+        this.controller.pickStandByComponentTile(playerName, index);
+    }
+
+    @Override
+    public void discardComponentTile(String playerName) throws IOException {
+        this.controller.discardComponentTile(playerName);
+    }
+
+    @Override
+    public void finishBuilding(String playerName) throws IOException {
+        this.controller.finishBuilding(playerName);
+    }
+
+    @Override
+    public void finishBuilding(String playerName, int index) throws IOException {
+        this.controller.finishBuilding(playerName, index);
+    }
+
+    @Override
+    public void finishedAllShipboards() throws IOException {
+        this.controller.finishedAllShipboards();
+    }
+
+    @Override
+    public void flipHourglass() throws IOException {
+        this.controller.flipHourglass();
+    }
+
+    @Override
+    public void pickCard() throws IOException {
+        this.controller.pickCard();
+    }
+
+    @Override
+    public void activateCard(InputCommand inputCommand) throws IOException {
+        this.controller.activateCard(inputCommand);
+    }
+
+    @Override
+    public void removePlayer(String playerName) throws IOException {
+        this.controller.removePlayer(playerName);
+        this.controller.updateAllLobbies();
+    }
+
+    @Override
+    public void playerAbandons(String playerName) throws IOException {
+        this.controller.playerAbandons(playerName);
+    }
+
+    @Override
+    public void destroyComponentTile(String playerName, int i, int j) throws IOException {
+        this.controller.destroyTile(playerName, i, j);
+    }
+
+    @Override
+    public void endGame() throws IOException {
+        this.controller.endGame();
     }
 
     public void showMessageToEveryone(String mess) {
