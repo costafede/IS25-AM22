@@ -1,12 +1,12 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
+import it.polimi.ingsw.is25am22new.Client.LobbyView;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
@@ -20,6 +20,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class SocketClientSide implements VirtualView {
 
@@ -27,11 +28,14 @@ public class SocketClientSide implements VirtualView {
     final ObjectInputStream objectInput;
     final SocketServerHandler output;
     String thisPlayerName;
+    LobbyView view;
+    boolean isHost;
 
     protected SocketClientSide(ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName) throws IOException {
         this.output = output;
         this.objectInput = objectInput;
         this.thisPlayerName = thisPlayerName;
+        this.view = new LobbyView();
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
@@ -100,7 +104,6 @@ public class SocketClientSide implements VirtualView {
         SocketMessage msg;
         List<String> players = List.of("ERROR");
         String gameType = "ERROR";
-        boolean isHost = false;
         String message = "ERROR";
 
         while ((msg = (SocketMessage) objectInput.readObject()) != null) {
@@ -205,24 +208,28 @@ public class SocketClientSide implements VirtualView {
     private void runCli() throws IOException, InterruptedException {
         Scanner scan = new Scanner(System.in);
         int numOfRotations = 0;
+        Set<String> validCommands = Set.of("remove", "ready", "start", "notready", "setgametype");
 
         while (true) {
-            Thread.sleep(100);
-            System.out.print(">>> ");
-
-            while (!scan.hasNextInt()) {
-                String invalidInput = scan.next(); // consume the invalid input
-                System.out.println("Invalid input: not an integer -> " + invalidInput);
+            boolean validInput = false;
+            while (!validInput) {
                 // handle invalid input (e.g., show message or ask again)
-                System.out.print(">>> ");
+                presentCommands();
+
+                String input = scan.nextLine().trim().toLowerCase();
+
+                if (validCommands.contains(input)) {
+                    validInput = true;
+                } else {
+                    System.out.println("❗ Invalid command: \"" + input + "\"");
+                }
             }
 
-            int command = scan.nextInt();
-            scan.nextLine(); // consume the newline character
+            String command = scan.nextLine().trim();
 
             // process the command
             switch (command) {
-                case 1 -> {
+                case "remove" -> {
                     System.out.println("Enter the name of the player to remove: ");
                     String player = scan.nextLine();
 
@@ -233,19 +240,19 @@ public class SocketClientSide implements VirtualView {
 
                     output.removePlayer(player);
                 }
-                case 2 -> {
+                case "ready" -> {
                     System.out.println("You're ready!");
                     output.setPlayerReady(thisPlayerName);
                 }
-                case 3 -> {
+                case "start" -> {
                     System.out.println("Let's start the game!");
                     output.startGameByHost(thisPlayerName);
                 }
-                case 4 -> {
+                case "notready" -> {
                     System.out.println("You're not ready!");
                     output.setPlayerNotReady(thisPlayerName);
                 }
-                case 5 -> {
+                case "setgametype" -> {
                     System.out.println("What type of game do you want to play? (tutorial/level2)");
                     String gameType = scan.nextLine();
 
@@ -256,189 +263,189 @@ public class SocketClientSide implements VirtualView {
 
                     output.setGameType(gameType);
                 }
-                case 6 -> {
-                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                        System.out.println("You already have a tile in your hand!");
-                    }
-                    else {
-                        System.out.println("Covered tile picked!");
-                        output.pickCoveredTile(thisPlayerName);
-                    }
-                }
-                case 7 -> {
-                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                        System.out.println("You already have a tile in your hand!");
-                    }
-                    else {
-                        System.out.println("Which tile you want to pick?: ");
-                        int index = scan.nextInt();
-                        scan.nextLine();
-
-                        while(index < 0) {
-                            System.out.println("Please enter a valid index: ");
-                            index = scan.nextInt();
-                            scan.nextLine();
-                        }
-                        System.out.println("Uncovered tile picked!");
-                        output.pickUncoveredTile(thisPlayerName, index);
-                    }
-                }
-                case 8 -> {
-                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                        System.out.println("Tile rotated to the right!");
-                        numOfRotations++;
-                    }
-                    else {
-                        System.out.println("You don't have a tile in your hand!");
-                    }
-                }
-                case 9 -> {
-                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                        System.out.println("Tile rotated to the left!");
-                        numOfRotations--;
-                    }
-                    else {
-                        System.out.println("You don't have a tile in your hand!");
-                    }
-                }
-                case 10 -> {
-                    // based on the type of game HAVE TO SET LIMITS THE COORDINATES
-                    System.out.println("Where do you want to place the tile?: \n");
-                    System.out.println("X coordinate: ");
-                    int x = scan.nextInt();
-                    scan.nextLine();
-                    System.out.println("Y coordinate: ");
-                    int y = scan.nextInt();
-                    scan.nextLine();
-                    output.weldComponentTile(thisPlayerName, x, y, numOfRotations);
-                    numOfRotations = 0;
-                }
-                case 11 -> {
-                    try {
-                        clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
-                        try{
-                            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
-                            System.out.println("Standby positions are full!");
-                        }
-                        catch(IllegalStateException e){
-                            System.out.println("Putting tile in standby!");
-                            output.standbyComponentTile(thisPlayerName);
-                        }
-                    }
-                    catch (IllegalStateException e){
-                        System.out.println("Putting tile in standby!");
-                        output.standbyComponentTile(thisPlayerName);
-                    }
-                }
-                case 12 -> {
-                    System.out.println("Which tile do you want to pick?: (1/2) ");
-                    int index = scan.nextInt();
-                    scan.nextLine();
-
-                    while(index != 1 && index != 2) {
-                        System.out.println("Please enter a valid index: ");
-                        index = scan.nextInt();
-                        scan.nextLine();
-                    }
-
-                    if(index == 1) {
-                        try {
-                            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
-                            output.pickStandbyComponentTile(thisPlayerName, 0);
-                        } catch (IllegalStateException e) {
-                            System.out.println("You don't have a tile in that position!");
-                        }
-                    }
-                    else {
-                        try {
-                            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
-                            output.pickStandbyComponentTile(thisPlayerName, 1);
-                        } catch (IllegalStateException e) {
-                            System.out.println("You don't have a tile in that position!");
-                        }
-                    }
-
-                }
-                case 13 -> {
-                    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                        System.out.println("Tile discarded!");
-                        output.discardComponentTile(thisPlayerName);
-                    }
-                    else {
-                        System.out.println("You don't have a tile in your hand!");
-                    }
-                }
-                case 14 -> {
-                    System.out.println("You've finally finished your ship! Wow!");
-                    output.finishBuilding(thisPlayerName);
-                }
-                case 15 -> {
-                    System.out.println("You've finished your ship! Congrats!");
-                    System.out.println("Fast! Where do you want to place your rocket? (1/2/3/4)");
-                    int pos = scan.nextInt();
-                    scan.nextLine();
-                    output.finishBuilding(thisPlayerName, pos);
-                }
-                case 16 -> {
-                    System.out.println("All shipboards are finished! Let's go!");
-                    output.finishedAllShipboards();
-                }
-                case 17 -> {
-                    System.out.println("Hourglass flipped!");
-                    output.flipHourglass();
-                }
-                case 18 -> {
-                    System.out.println("Card picked!");
-                    output.pickCard();
-                }
-                case 19 -> {
-                    if(clientModel.getCurrCard() == null) {
-                        System.out.println("There is no card to activate!");
-                    }
-                    else {
-                        System.out.println("Card activated!");
-                        InputCommand inputCommand = constructInputCommand();
-                        output.activateCard(inputCommand);
-                    }
-                }
-                case 20 -> {
-                    if(clientModel.getShipboard(thisPlayerName).isAbandoned()) {
-                        System.out.println("You have already abandoned the game!");
-                    }
-                    else {
-                        System.out.println("Are you sure you want to abandon the game? (true/false)");
-                        boolean choice = scan.nextBoolean();
-                        scan.nextLine();
-                        if(choice)  output.playerAbandons(thisPlayerName);
-                    }
-                }
-                case 21 -> {
-                    System.out.println("Which tile do you want to destroy?: ");
-                    System.out.println("X coordinate: ");
-                    int x = scan.nextInt();
-                    scan.nextLine();
-                    System.out.println("Y coordinate: ");
-                    int y = scan.nextInt();
-                    scan.nextLine();
-
-                    if(clientModel.getShipboard(thisPlayerName).getComponentTileFromGrid(x, y).isEmpty()) {
-                        System.out.println("You don't have a tile in that position!");
-                    }
-                    else {
-                        System.out.println("Tile destroyed!");
-                        output.destroyComponentTile(thisPlayerName, x, y);
-                    }
-                }
-                case 22 -> {
-                    if(clientModel.getGamePhase().getPhaseType() == PhaseType.END) {
-                        System.out.println("Game is over!");
-                        output.endGame();
-                    }
-                    else {
-                        System.out.println("Game is not over yet!");
-                    }
-                }
-                case 99 -> {
+                //case 6 -> {
+                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
+                //        System.out.println("You already have a tile in your hand!");
+                //    }
+                //    else {
+                //        System.out.println("Covered tile picked!");
+                //        output.pickCoveredTile(thisPlayerName);
+                //    }
+                //}
+                //case 7 -> {
+                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
+                //        System.out.println("You already have a tile in your hand!");
+                //    }
+                //    else {
+                //        System.out.println("Which tile you want to pick?: ");
+                //        int index = scan.nextInt();
+                //        scan.nextLine();
+                //
+                //        while(index < 0) {
+                //            System.out.println("Please enter a valid index: ");
+                //            index = scan.nextInt();
+                //            scan.nextLine();
+                //        }
+                //        System.out.println("Uncovered tile picked!");
+                //        output.pickUncoveredTile(thisPlayerName, index);
+                //    }
+                //}
+                //case 8 -> {
+                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
+                //        System.out.println("Tile rotated to the right!");
+                //        numOfRotations++;
+                //    }
+                //    else {
+                //        System.out.println("You don't have a tile in your hand!");
+                //    }
+                //}
+                //case 9 -> {
+                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
+                //        System.out.println("Tile rotated to the left!");
+                //        numOfRotations--;
+                //    }
+                //    else {
+                //        System.out.println("You don't have a tile in your hand!");
+                //    }
+                //}
+                //case 10 -> {
+                //    // based on the type of game HAVE TO SET LIMITS THE COORDINATES
+                //    System.out.println("Where do you want to place the tile?: \n");
+                //    System.out.println("X coordinate: ");
+                //    int x = scan.nextInt();
+                //    scan.nextLine();
+                //    System.out.println("Y coordinate: ");
+                //    int y = scan.nextInt();
+                //    scan.nextLine();
+                //    output.weldComponentTile(thisPlayerName, x, y, numOfRotations);
+                //    numOfRotations = 0;
+                //}
+                //case 11 -> {
+                //    try {
+                //        clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
+                //        try{
+                //            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
+                //            System.out.println("Standby positions are full!");
+                //        }
+                //        catch(IllegalStateException e){
+                //            System.out.println("Putting tile in standby!");
+                //            output.standbyComponentTile(thisPlayerName);
+                //        }
+                //    }
+                //    catch (IllegalStateException e){
+                //        System.out.println("Putting tile in standby!");
+                //        output.standbyComponentTile(thisPlayerName);
+                //    }
+                //}
+                //case 12 -> {
+                //    System.out.println("Which tile do you want to pick?: (1/2) ");
+                //    int index = scan.nextInt();
+                //    scan.nextLine();
+                //
+                //    while(index != 1 && index != 2) {
+                //        System.out.println("Please enter a valid index: ");
+                //        index = scan.nextInt();
+                //        scan.nextLine();
+                //    }
+                //
+                //    if(index == 1) {
+                //        try {
+                //            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
+                //            output.pickStandbyComponentTile(thisPlayerName, 0);
+                //        } catch (IllegalStateException e) {
+                //            System.out.println("You don't have a tile in that position!");
+                //        }
+                //    }
+                //    else {
+                //        try {
+                //            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
+                //            output.pickStandbyComponentTile(thisPlayerName, 1);
+                //        } catch (IllegalStateException e) {
+                //            System.out.println("You don't have a tile in that position!");
+                //        }
+                //    }
+                //
+                //}
+                //case 13 -> {
+                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
+                //        System.out.println("Tile discarded!");
+                //        output.discardComponentTile(thisPlayerName);
+                //    }
+                //    else {
+                //        System.out.println("You don't have a tile in your hand!");
+                //    }
+                //}
+                //case 14 -> {
+                //    System.out.println("You've finally finished your ship! Wow!");
+                //    output.finishBuilding(thisPlayerName);
+                //}
+                //case 15 -> {
+                //    System.out.println("You've finished your ship! Congrats!");
+                //    System.out.println("Fast! Where do you want to place your rocket? (1/2/3/4)");
+                //    int pos = scan.nextInt();
+                //    scan.nextLine();
+                //    output.finishBuilding(thisPlayerName, pos);
+                //}
+                //case 16 -> {
+                //    System.out.println("All shipboards are finished! Let's go!");
+                //    output.finishedAllShipboards();
+                //}
+                //case 17 -> {
+                //    System.out.println("Hourglass flipped!");
+                //    output.flipHourglass();
+                //}
+                //case 18 -> {
+                //    System.out.println("Card picked!");
+                //    output.pickCard();
+                //}
+                //case 19 -> {
+                //    if(clientModel.getCurrCard() == null) {
+                //        System.out.println("There is no card to activate!");
+                //    }
+                //    else {
+                //        System.out.println("Card activated!");
+                //        InputCommand inputCommand = constructInputCommand();
+                //        output.activateCard(inputCommand);
+                //    }
+                //}
+                //case 20 -> {
+                //    if(clientModel.getShipboard(thisPlayerName).isAbandoned()) {
+                //        System.out.println("You have already abandoned the game!");
+                //    }
+                //    else {
+                //        System.out.println("Are you sure you want to abandon the game? (true/false)");
+                //        boolean choice = scan.nextBoolean();
+                //        scan.nextLine();
+                //        if(choice)  output.playerAbandons(thisPlayerName);
+                //    }
+                //}
+                //case 21 -> {
+                //    System.out.println("Which tile do you want to destroy?: ");
+                //    System.out.println("X coordinate: ");
+                //    int x = scan.nextInt();
+                //    scan.nextLine();
+                //    System.out.println("Y coordinate: ");
+                //    int y = scan.nextInt();
+                //    scan.nextLine();
+                //
+                //    if(clientModel.getShipboard(thisPlayerName).getComponentTileFromGrid(x, y).isEmpty()) {
+                //        System.out.println("You don't have a tile in that position!");
+                //    }
+                //    else {
+                //        System.out.println("Tile destroyed!");
+                //        output.destroyComponentTile(thisPlayerName, x, y);
+                //    }
+                //}
+                //case 22 -> {
+                //    if(clientModel.getGamePhase().getPhaseType() == PhaseType.END) {
+                //        System.out.println("Game is over!");
+                //        output.endGame();
+                //    }
+                //    else {
+                //        System.out.println("Game is not over yet!");
+                //    }
+                //}
+                case "test" -> {
                     System.out.println("String to send: ");
                     String test = scan.nextLine();
                     output.connectionTester(test, 33879);
@@ -637,38 +644,33 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
-        System.out.println("Lobby update:");
-        System.out.println(players);
-        System.out.println(readyStatus);
-        System.out.println(gameType);
+        this.view.displayLobbyUpdate(players, readyStatus, gameType, isHost);
+        presentCommands();
     }
 
     @Override
     public void showConnectionResult(boolean isHost, boolean success, String message) {
-        System.out.println("Connection result:");
-        System.out.println(isHost);
-        System.out.println(success);
-        System.out.println(message);
+        this.view.displayConnectionResult(isHost, success, message);
     }
 
     @Override
     public void showNicknameResult(boolean valid, String message) {
-        System.out.println("Nickname result:");
-        System.out.println(valid);
-        System.out.println(message);
-    }
-
-    @Override
-    public void showGameStarted() {
-        System.out.println("Game started!");
-        System.out.flush();
+        this.view.displayNicknameResult(valid, message);
+        presentCommands();
     }
 
     @Override
     public void showPlayerJoined(String player) {
-        System.out.println(player + " joined the game!");
-        System.out.flush();
+        this.view.displayPlayerJoined(player);
+        presentCommands();
     }
+
+    @Override
+    public void showGameStarted() {
+        this.view.displayGameStarted();
+        presentCommands();
+    }
+
 
     @Override
     public void setPlayerReady(String playerName) throws IOException {
@@ -773,5 +775,17 @@ public class SocketClientSide implements VirtualView {
     public void showMessage(String message) {
         System.out.println("Message from server: " + message);
         System.out.flush();
+    }
+
+    public void presentCommands() {
+        System.out.println("\n================= COMMAND MENU =================");
+        System.out.println("Please enter one of the following commands:");
+        System.out.println("  📦  remove      - Remove a player from the lobby");
+        System.out.println("  ✅  ready       - Mark yourself as ready");
+        System.out.println("  🚀  start       - Start the game");
+        System.out.println("  ❌  notready    - Unmark readiness");
+        System.out.println("  🎮  setgametype - Choose a game type");
+        System.out.println("================================================\n");
+        System.out.print(">>> ");
     }
 }

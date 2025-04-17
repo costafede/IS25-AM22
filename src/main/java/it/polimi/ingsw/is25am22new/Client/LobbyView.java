@@ -34,12 +34,6 @@ public class LobbyView implements EnhancedClientView {
         nicknameValid = false;
     }
 
-    @Override
-    public void displayBank(Bank bank) {
-        System.out.println("Bank update received");
-        displayCurrentCommands();
-    }
-
     public void displayGame(Game game){
         System.out.println("Game update received");
         System.out.println(game.getPlayerList());
@@ -51,61 +45,67 @@ public class LobbyView implements EnhancedClientView {
         System.out.println("TEST PASSED");
     }
 
-    @Override
-    public void displayTileInHand(String player, ComponentTile tile) {
-        if(tile == null){
-            System.out.println("No tile in hand");
-            displayCurrentCommands();
-            return;
-        }
-
-        System.out.println("\n=== TILE IN HAND ===");
-        System.out.println("Player: " + player);
-        System.out.println("Tile type: " + tile.getClass().getSimpleName());
-        System.out.println("Sides:\n " +
-                "- Top -> " + tile.getTopSide() + "\n " +
-                "- Right -> " + tile.getRightSide() + "\n " +
-                "- Bottom -> " + tile.getBottomSide() + "\n " +
-                "- Left -> " + tile.getLeftSide() + "\n");
-
-        System.out.println("=================\n");
-    }
-
-    @Override
-    public void displayUncoveredComponentTiles(List<ComponentTile> tiles) {
-        System.out.println("Uncovered component tile update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayShipboard(String player, Shipboard shipboard) {
-        System.out.println("Shipboard update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayFlightboard(Flightboard flightboard) {
-        System.out.println("Flightboard update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayCurrentCard(AdventureCard card) {
-        System.out.println("Current card update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayDices(Dices dices) {
-        System.out.println("Dices update received");
-        displayCurrentCommands();
-    }
-
-    @Override
-    public void displayCurrentPlayer(String currPlayer) {
-        System.out.println("Current player: " + currPlayer);
-        displayCurrentCommands();
-    }
+    //@Override
+    //public void displayBank(Bank bank) {
+    //    System.out.println("Bank update received");
+    //    displayCurrentCommands();
+    //}
+    //
+    //@Override
+    //public void displayTileInHand(String player, ComponentTile tile) {
+    //    if(tile == null){
+    //        System.out.println("No tile in hand");
+    //        displayCurrentCommands();
+    //        return;
+    //    }
+//
+    //    System.out.println("\n=== TILE IN HAND ===");
+    //    System.out.println("Player: " + player);
+    //    System.out.println("Tile type: " + tile.getClass().getSimpleName());
+    //    System.out.println("Sides:\n " +
+    //            "- Top -> " + tile.getTopSide() + "\n " +
+    //            "- Right -> " + tile.getRightSide() + "\n " +
+    //            "- Bottom -> " + tile.getBottomSide() + "\n " +
+    //            "- Left -> " + tile.getLeftSide() + "\n");
+//
+    //    System.out.println("=================\n");
+    //}
+//
+    //@Override
+    //public void displayUncoveredComponentTiles(List<ComponentTile> tiles) {
+    //    System.out.println("Uncovered component tile update received");
+    //    displayCurrentCommands();
+    //}
+//
+    //@Override
+    //public void displayShipboard(String player, Shipboard shipboard) {
+    //    System.out.println("Shipboard update received");
+    //    displayCurrentCommands();
+    //}
+//
+    //@Override
+    //public void displayFlightboard(Flightboard flightboard) {
+    //    System.out.println("Flightboard update received");
+    //    displayCurrentCommands();
+    //}
+//
+    //@Override
+    //public void displayCurrentCard(AdventureCard card) {
+    //    System.out.println("Current card update received");
+    //    displayCurrentCommands();
+    //}
+//
+    //@Override
+    //public void displayDices(Dices dices) {
+    //    System.out.println("Dices update received");
+    //    displayCurrentCommands();
+    //}
+//
+    //@Override
+    //public void displayCurrentPlayer(String currPlayer) {
+    //    System.out.println("Current player: " + currPlayer);
+    //    displayCurrentCommands();
+    //}
 
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
