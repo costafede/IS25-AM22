@@ -265,6 +265,11 @@ public class SocketServerHandler implements VirtualServer {
         //Used only for RMI
     }
 
+    @Override
+    public void setNumPlayers(int numPlayers) throws IOException {
+
+    }
+
     public void connectionTester(String a, int b) {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(b);

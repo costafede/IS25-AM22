@@ -91,6 +91,15 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
+    public void setNumPlayers(int numPlayers) throws IOException {
+        if(numPlayers < 2 || numPlayers > 4){
+            throw new IOException("Invalid number of players: " + numPlayers);
+        }
+        gameController.setNumPlayers(numPlayers);
+        gameController.updateAllLobbies();
+    }
+
+    @Override
     public void updatePlayerJoined(String nickname) {
         for (VirtualView client : connectedClients) {
             if (!client.equals(clientMap.get(nickname))) {
@@ -334,20 +343,20 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                 }
             }
         }
-        gameController.updateAllLobbies();
+        //gameController.updateAllLobbies();
     }
 
     @Override
     public void removePlayer(String nickname) {
         gameController.removePlayer(nickname);
         clientMap.remove(nickname);
-        gameController.updateAllLobbies();
+        //gameController.updateAllLobbies();
     }
 
     @Override
     public void setPlayerReady(String nickname) {
         gameController.setPlayerReady(nickname);
-        gameController.updateAllLobbies();
+        //gameController.updateAllLobbies();
     }
 
     @Override
@@ -387,7 +396,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void setPlayerNotReady(String nickname) {
         gameController.setPlayerNotReady(nickname);
-        gameController.updateAllLobbies();
+        //gameController.updateAllLobbies();
     }
 
     @Override

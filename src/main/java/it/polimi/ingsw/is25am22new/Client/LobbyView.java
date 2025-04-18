@@ -1,12 +1,6 @@
 package it.polimi.ingsw.is25am22new.Client;
 
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
-import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
-import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
-import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 
@@ -21,7 +15,7 @@ public class LobbyView implements EnhancedClientView {
     private boolean isHostPlayer = false;
     private boolean hostSetupCompleted = false;
     private int currentPlayerCount = 0;
-    private int maxPlayers = 0;
+    private int numPlayers = 0;
     private String gameType = null;
     private RmiClient rmiClient;
     private boolean autostart = false;
@@ -119,7 +113,7 @@ public class LobbyView implements EnhancedClientView {
         }
 
         System.out.println("\n=== LOBBY UPDATE ===");
-        System.out.println("Players (" + players.size() + (maxPlayers > 0 ? "/" + maxPlayers : "") + "):");
+        System.out.println("Players (" + players.size() + (numPlayers > 0 ? "/" + numPlayers : "") + "):");
         for (String player : players) {
             System.out.println("  " + player + " - " + (readyStatus.getOrDefault(player, false) ? "READY" : "NOT READY"));
         }
@@ -130,7 +124,7 @@ public class LobbyView implements EnhancedClientView {
         System.out.println("===================\n");
 
         // Auto-start when minimum player count (2) is reached
-        if (maxPlayers > 0 && currentPlayerCount >= 2 && isHostPlayer &&
+        if (numPlayers > 0 && currentPlayerCount == numPlayers && isHostPlayer &&
                 hostSetupCompleted && !autostart && !inGame) {
 
             System.out.println("Sufficient players joined. Starting game automatically...");
@@ -217,7 +211,7 @@ public class LobbyView implements EnhancedClientView {
         currentPlayerCount++;
 
         // Auto-start if max player count reached
-        if (maxPlayers > 0 && currentPlayerCount >= maxPlayers && isHostPlayer) {
+        if (numPlayers > 0 && currentPlayerCount >= numPlayers && isHostPlayer) {
             System.out.println("Maximum number of players reached. Starting game automatically...");
         }
 
@@ -263,7 +257,7 @@ public class LobbyView implements EnhancedClientView {
                     // Just refresh the lobby status
                     System.out.println("Waiting for more players to join...");
                     System.out.println("Current players: " + currentPlayerCount +
-                            (maxPlayers > 0 ? "/" + maxPlayers : ""));
+                            (numPlayers > 0 ? "/" + numPlayers : ""));
                     System.out.println("Type 'exit' to leave the lobby.");
                     System.out.print("> ");
                 }
@@ -276,17 +270,18 @@ public class LobbyView implements EnhancedClientView {
     private void setupAsHost(RmiClient client, Scanner scanner) {
         try {
             // Get max players
-            System.out.print("Enter maximum number of players (2-4): ");
-            while (maxPlayers < 2 || maxPlayers > 4) {
+            System.out.print("Enter number of players (2-4): ");
+            while (numPlayers < 2 || numPlayers > 4) {
                 try {
-                    maxPlayers = Integer.parseInt(scanner.nextLine().trim());
-                    if (maxPlayers < 2 || maxPlayers > 4) {
+                    numPlayers = Integer.parseInt(scanner.nextLine().trim());
+                    if (numPlayers < 2 || numPlayers > 4) {
                         System.out.print("Please enter a number between 2 and 4: ");
                     }
                 } catch (NumberFormatException e) {
                     System.out.print("Invalid input. Please enter a number between 2 and 4: ");
                 }
             }
+            client.setNumPlayers(numPlayers);
 
             // Get game type
             System.out.println("Select game type:");

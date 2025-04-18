@@ -103,7 +103,7 @@ public class GameController {
         }
     }
 
-    public void setMaxPlayers(int maxPlayers) {
+    public void setNumPlayers(int maxPlayers) {
         if(currentState == GameState.LOBBY) {
             lobby.setMaxPlayers(maxPlayers);
             System.out.println("Max players set to " + maxPlayers);

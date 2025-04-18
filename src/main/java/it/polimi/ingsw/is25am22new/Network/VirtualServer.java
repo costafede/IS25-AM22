@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 public interface VirtualServer extends Remote {
 
     void connect(VirtualView client, String nickname) throws RemoteException;
+    void setNumPlayers(int numPlayers) throws IOException;
     void removePlayer(String nickname) throws IOException;
     void setPlayerReady(String nickname) throws IOException;
     void startGameByHost(String nickname) throws IOException;
