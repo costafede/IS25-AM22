@@ -4,7 +4,6 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
-import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +19,7 @@ public class LobbyView implements EnhancedClientView {
     private int numPlayers = 0;
     private String gameType = null;
     private RmiClient rmiClient;
+    private SocketClientSide socketClient;
     private boolean autostart = false;
     private boolean gameStarted = false;
 
@@ -144,7 +144,11 @@ public class LobbyView implements EnhancedClientView {
                     if (!readyStatus.getOrDefault(player, false)) {
                         allReady = false;
                         System.out.println("Setting player " + player + " as ready...");
-                        rmiClient.setPlayerReady(player);
+                        if(rmiClient != null) {
+                            rmiClient.setPlayerReady(player);
+                        } else {
+                            socketClient.setPlayerReady(player);
+                        }
                     }
                 }
 
@@ -152,7 +156,11 @@ public class LobbyView implements EnhancedClientView {
                 if (allReady || players.size() >= 2) {
                     System.out.println("All players ready. Starting game...");
                     String hostName = players.getFirst();
-                    rmiClient.startGameByHost(hostName);
+                    if(rmiClient != null) {
+                        rmiClient.startGameByHost(hostName);
+                    } else {
+                        socketClient.startGameByHost(hostName);
+                    }
                 }
             } catch (Exception e) {
                 System.err.println("Error starting game: " + e.getMessage());
@@ -284,6 +292,7 @@ public class LobbyView implements EnhancedClientView {
     }
 
     public void startCommandLoopSocket(SocketClientSide client, String playerName, Scanner scanner) {
+        this.socketClient = client;
         boolean running = true;
 
         // If this is the host player, handle host setup

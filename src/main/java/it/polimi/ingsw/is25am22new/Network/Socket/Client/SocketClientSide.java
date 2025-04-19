@@ -680,7 +680,7 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void startGameByHost(String playerName) throws IOException {
-        output.setPlayerReady(playerName);
+        output.startGameByHost(playerName);
     }
 
     @Override
