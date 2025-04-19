@@ -3,6 +3,8 @@ package it.polimi.ingsw.is25am22new.Client;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
+import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
+import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
 
 import java.io.IOException;
 import java.util.List;
@@ -226,7 +228,7 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Maximum number of players reached. Starting game automatically...");
         }
 
-        displayCurrentCommands();
+        //displayCurrentCommands();
     }
 
     private void displayCurrentCommands() {
@@ -244,13 +246,13 @@ public class LobbyView implements EnhancedClientView {
     }
 
     @Override
-    public void startCommandLoop(RmiClient client, String playerName, Scanner scanner) {
+    public void startCommandLoopRMI(RmiClient client, String playerName, Scanner scanner) {
         boolean running = true;
         this.rmiClient = client;
 
         // If this is the host player, handle host setup
         if (isHostPlayer) {
-            setupAsHost(client, scanner);
+            setupAsHostRMI(client, scanner);
         } else {
             // Non-host players just wait
             if(gameStarted){
@@ -281,7 +283,93 @@ public class LobbyView implements EnhancedClientView {
         }
     }
 
-    private void setupAsHost(RmiClient client, Scanner scanner) {
+    public void startCommandLoopSocket(SocketClientSide client, String playerName, Scanner scanner) {
+        boolean running = true;
+
+        // If this is the host player, handle host setup
+        if (isHostPlayer) {
+            setupAsHostSocket(client, scanner);
+        } else {
+            // Non-host players just wait
+            if(gameStarted){
+                return;
+            }
+            System.out.println("Waiting for other players to join...");
+            System.out.println("Game will start automatically when all players have joined.");
+        }
+
+        while (running && !inGame) {
+            String command = scanner.nextLine().trim();
+
+            try {
+                if (command.equals("exit")) {
+                    running = false;
+                    client.playerAbandons(playerName);
+                } else {
+                    // Just refresh the lobby status
+                    System.out.println("Waiting for more players to join...");
+                    System.out.println("Current players: " + currentPlayerCount +
+                            (numPlayers > 0 ? "/" + numPlayers : ""));
+                    System.out.println("Type 'exit' to leave the lobby.");
+                    System.out.print("> ");
+                }
+            } catch (IOException e) {
+                System.err.println("Error executing command: " + e.getMessage());
+            }
+        }
+    }
+
+    private void setupAsHostSocket(SocketClientSide client, Scanner scanner) {
+        try {
+            // Get max players
+            System.out.print("Enter number of players (2-4): ");
+            while (numPlayers < 2 || numPlayers > 4) {
+                try {
+                    numPlayers = Integer.parseInt(scanner.nextLine().trim());
+                    if (numPlayers < 2 || numPlayers > 4) {
+                        System.out.print("Please enter a number between 2 and 4: ");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.print("Invalid input. Please enter a number between 2 and 4: ");
+                }
+            }
+            client.setNumPlayers(numPlayers);
+
+            // Get game type
+            System.out.println("Select game type:");
+            System.out.println("1. Tutorial");
+            System.out.println("2. Level 2");
+            System.out.print("Enter your choice (1 or 2): ");
+            int typeChoice = 0;
+            while (typeChoice != 1 && typeChoice != 2) {
+                try {
+                    typeChoice = Integer.parseInt(scanner.nextLine().trim());
+                    if (typeChoice != 1 && typeChoice != 2) {
+                        System.out.print("Invalid choice. Please enter 1 or 2: ");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.print("Invalid input. Please enter a number (1 or 2): ");
+                }
+            }
+
+            // Set game type
+            if (typeChoice == 1) {
+                client.setGameType("tutorial");
+                gameType = "tutorial";
+            } else {
+                client.setGameType("level2");
+                gameType = "level2";
+            }
+
+            hostSetupCompleted = true;
+            System.out.println("Lobby setup complete. Waiting for players to join...");
+
+        } catch (IOException e) {
+            System.err.println("Error setting up lobby: " + e.getMessage());
+        }
+    }
+
+    private void setupAsHostRMI(RmiClient client, Scanner scanner) {
         try {
             // Get max players
             System.out.print("Enter number of players (2-4): ");

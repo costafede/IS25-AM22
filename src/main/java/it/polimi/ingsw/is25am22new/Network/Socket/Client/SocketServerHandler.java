@@ -266,8 +266,16 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void setNumPlayers(int numPlayers) throws IOException {
-
+    public void setNumPlayers(int numPlayers) {
+        InputCommand inputCommand = new InputCommand();
+        inputCommand.setIndexChosen(numPlayers);
+        SocketMessage msg = new SocketMessage("setNumPlayers", inputCommand, null);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in setNumPlayers: " + e.getMessage());
+        }
     }
 
     public void connectionTester(String a, int b) {

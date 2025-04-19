@@ -96,11 +96,12 @@ public class SocketClientSide implements VirtualView {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> this.output.disconnect(thisPlayerName)));
 
-        runCli();
+        Thread.sleep(1000);
+        this.view.startCommandLoopSocket(this, thisPlayerName, new Scanner(System.in));
     }
 
     // comunicazione dal server al client
-    private void runVirtualServer() throws IOException, ClassNotFoundException {
+    private void runVirtualServer() throws IOException, ClassNotFoundException, InterruptedException {
         SocketMessage msg;
         List<String> players = List.of("ERROR");
         String gameType = "ERROR";
@@ -214,7 +215,6 @@ public class SocketClientSide implements VirtualView {
             boolean validInput = false;
             while (!validInput) {
                 // handle invalid input (e.g., show message or ask again)
-                presentCommands();
 
                 String input = scan.nextLine().trim().toLowerCase();
 
@@ -645,7 +645,6 @@ public class SocketClientSide implements VirtualView {
     @Override
     public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
         this.view.displayLobbyUpdate(players, readyStatus, gameType, isHost);
-        presentCommands();
     }
 
     @Override
@@ -656,19 +655,16 @@ public class SocketClientSide implements VirtualView {
     @Override
     public void showNicknameResult(boolean valid, String message) {
         this.view.displayNicknameResult(valid, message);
-        presentCommands();
     }
 
     @Override
     public void showPlayerJoined(String player) {
         this.view.displayPlayerJoined(player);
-        presentCommands();
     }
 
     @Override
     public void showGameStarted() {
         this.view.displayGameStarted();
-        presentCommands();
     }
 
 
@@ -787,5 +783,9 @@ public class SocketClientSide implements VirtualView {
         System.out.println("  🎮  setgametype - Choose a game type");
         System.out.println("================================================\n");
         System.out.print(">>> ");
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        output.setNumPlayers(numPlayers);
     }
 }

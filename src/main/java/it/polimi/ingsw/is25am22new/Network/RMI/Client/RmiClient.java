@@ -102,7 +102,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 }
             }
 
-            view.startCommandLoop(client, playerName, scanner);
+            view.startCommandLoopRMI(client, playerName, scanner);
 
         } catch (Exception e) {
             System.err.println("Client exception: " + e);

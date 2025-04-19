@@ -128,6 +128,10 @@ public class SocketClientHandler implements VirtualView {
                 case "endGame" -> {
                     this.endGame();
                 }
+                case "setNumPlayers" -> {
+                    int numPlayers = ((InputCommand) msg.getObject()).getIndexChosen();
+                    this.controller.setNumPlayers(numPlayers);
+                }
                 case "disconnect" -> {
                     this.removePlayer(msg.getPayload());
                     this.server.disconnect(this, msg.getPayload());

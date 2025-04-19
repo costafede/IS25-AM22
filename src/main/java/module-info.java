@@ -15,6 +15,7 @@ module it.polimi.ingsw.is25am22new {
         exports it.polimi.ingsw.is25am22new.Model.Games;
         exports it.polimi.ingsw.is25am22new.Controller;
         exports it.polimi.ingsw.is25am22new.Network to java.rmi;
+        exports it.polimi.ingsw.is25am22new.Network.Socket.Client;
         exports it.polimi.ingsw.is25am22new.Model.Miscellaneous to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.ComponentTiles to java.rmi;
         exports it.polimi.ingsw.is25am22new.Model.Shipboards to java.rmi;
