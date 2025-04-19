@@ -46,49 +46,48 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     public void connect(VirtualView client, String nickname) throws RemoteException {
-        String clientHost;
+        if (client == null) {
+            System.err.println("Client reference is null.");
+            return;
+        }
 
-        try {
-            clientHost = RemoteServer.getClientHost();
-            System.out.println("Client connected from " + clientHost);
-        } catch (ServerNotActiveException e) {
-            System.err.println("Could not get client host: " + e.getMessage());
+        if (nickname == null || nickname.trim().isEmpty()) {
+            client.showConnectionResult(false, false, "Invalid nickname. Connection failed.");
+            return;
         }
 
         synchronized (connectedClients) {
-
-            if(connectedClients.size() >= 4) {
+            if (connectedClients.size() >= 4) {
                 client.showConnectionResult(false, false, "Lobby is full. Connecting failed.");
-                //UnicastRemoteObject.unexportObject(client, true);
                 return;
             }
 
-            if(clientMap.containsKey(nickname)){
-                (client).showNicknameResult(false, "Nickname already taken");
+            if (clientMap.containsKey(nickname)) {
+                client.showNicknameResult(false, "Nickname already taken.");
                 return;
             }
-            connectedClients.add(client);
-
-            boolean isHost = gameController.getLobbyCreator().equals(nickname);
 
             int result = gameController.addPlayer(nickname);
-            if(result < 0){
-                (client).showConnectionResult(false, false, "Failed to join the lobby: " + result);
-                connectedClients.remove(client);
+            if (result < 0) {
+                client.showConnectionResult(false, false, "Failed to join the lobby.");
                 return;
             }
 
+            connectedClients.add(client);
             clientMap.put(nickname, client);
-            (client).showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
-            if(!isHost){
+            String lobbyCreator = gameController.getLobbyCreator();
+            boolean isHost = nickname.equals(lobbyCreator);
+
+            client.showConnectionResult(isHost, true, isHost ? "You are the host of the lobby." : "You joined an existing lobby.");
+
+            if (!isHost) {
                 gameController.updateAllPlayerJoined(nickname);
             }
 
             gameController.updateAllLobbies();
         }
     }
-
     @Override
     public void setNumPlayers(int numPlayers) throws IOException {
         if(numPlayers < 2 || numPlayers > 4){
