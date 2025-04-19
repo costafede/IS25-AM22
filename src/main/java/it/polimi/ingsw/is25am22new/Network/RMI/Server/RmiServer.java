@@ -69,7 +69,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             }
             connectedClients.add(client);
 
-            boolean isHost = connectedClients.size() == 1;
+            boolean isHost = gameController.getLobbyCreator().equals(nickname);
 
             int result = gameController.addPlayer(nickname);
             if(result < 0){
@@ -79,7 +79,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             }
 
             clientMap.put(nickname, client);
-
             (client).showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
             if(!isHost){
@@ -96,7 +95,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             throw new IOException("Invalid number of players: " + numPlayers);
         }
         gameController.setNumPlayers(numPlayers);
-        gameController.updateAllLobbies();
+        //gameController.updateAllLobbies();
     }
 
     @Override

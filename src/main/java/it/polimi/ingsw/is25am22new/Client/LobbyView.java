@@ -19,6 +19,7 @@ public class LobbyView implements EnhancedClientView {
     private String gameType = null;
     private RmiClient rmiClient;
     private boolean autostart = false;
+    private boolean gameStarted = false;
 
     public boolean isNicknameValid() {
         return nicknameValid;
@@ -103,6 +104,10 @@ public class LobbyView implements EnhancedClientView {
 
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
+        if (gameStarted) {
+            return; // Evita stampe duplicate o successive
+        }
+
         isHostPlayer = isHost;
         currentPlayerCount = players.size();
         this.gameType = gameType;
@@ -199,10 +204,16 @@ public class LobbyView implements EnhancedClientView {
 
     @Override
     public void displayGameStarted() {
+        if (gameStarted) {
+            return; // Evita stampe duplicate o successive
+        }
+        gameStarted = true;
+        System.out.println("\n\n\n");
         System.out.println("\n🚀 GAME STARTED! 🚀");
         System.out.println("Welcome to Galaxy Trucker!");
+        System.out.println("===========================");
         inGame = true;
-        displayCurrentCommands();
+        //displayCurrentCommands();
     }
 
     @Override
@@ -242,6 +253,9 @@ public class LobbyView implements EnhancedClientView {
             setupAsHost(client, scanner);
         } else {
             // Non-host players just wait
+            if(gameStarted){
+                return;
+            }
             System.out.println("Waiting for other players to join...");
             System.out.println("Game will start automatically when all players have joined.");
         }
