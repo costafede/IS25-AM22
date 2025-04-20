@@ -47,12 +47,18 @@ public class SocketClientSide implements VirtualView {
             String thisPlayerName = "Player";
 
             while(!joined) {
-                System.out.println("Enter your cool trucker name: ");
+                System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                System.out.println("║                     ENTER YOUR COOL TRUCKER NAME                     ║");
+                System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                System.out.print("➤ ");
                 System.out.flush();
                 thisPlayerName = scanner.nextLine().trim();
 
                 while(thisPlayerName == null || thisPlayerName.isEmpty()) {
-                    System.out.println("Please enter a valid name: ");
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║                      PLEASE ENTER A VALID NAME                       ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
                     thisPlayerName = scanner.nextLine();
                 }
 
@@ -94,7 +100,7 @@ public class SocketClientSide implements VirtualView {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> this.output.disconnect(thisPlayerName)));
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
         this.view.startCommandLoopSocket(this, thisPlayerName, new Scanner(System.in));
     }
 
@@ -638,7 +644,8 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showUpdateGame(Game game)  {
-        System.out.println(game);
+        // temporary test
+        this.view.displayGame(game);
     }
 
     @Override

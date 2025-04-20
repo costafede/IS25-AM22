@@ -12,17 +12,24 @@ public class GalaxyTruckerClient {
         // Choose connection type
         int connectionChoice = 0;
         while (connectionChoice != 1 && connectionChoice != 2) {
-            System.out.println("Choose connection type:");
-            System.out.println("1. RMI");
-            System.out.println("2. Socket");
-            System.out.print("> ");
+            System.out.println("\n╔══════════════════════════════╗");
+            System.out.println("║    Choose Connection Type    ║");
+            System.out.println("╠══════════════════════════════╣");
+            System.out.println("║           1. RMI             ║");
+            System.out.println("║          2. Socket           ║");
+            System.out.println("╚══════════════════════════════╝");
+            System.out.print("➤ ");
+
             if (scanner.hasNextInt()) {
                 connectionChoice = scanner.nextInt();
             } else {
                 scanner.next(); // consume invalid input
             }
             if (connectionChoice != 1 && connectionChoice != 2) {
-                System.out.println("Invalid choice. Please enter 1 or 2.");
+                System.out.println("\n╔══════════════════════════════╗");
+                System.out.println("║       ⚠Invalid Choice⚠       ║");
+                System.out.println("║     Please enter 1 or 2.     ║");
+                System.out.println("╚══════════════════════════════╝\n");
             }
         }
         scanner.nextLine(); // consume newline
@@ -30,17 +37,25 @@ public class GalaxyTruckerClient {
         // Choose UI type
         int uiChoice = 0;
         while (uiChoice != 1 && uiChoice != 2) {
-            System.out.println("Choose UI type:");
-            System.out.println("1. Text-based UI");
-            System.out.println("2. Graphical UI");
-            System.out.print("> ");
+            System.out.println("\n╔══════════════════════════════╗");
+            System.out.println("║        Choose UI Type        ║");
+            System.out.println("╠══════════════════════════════╣");
+            System.out.println("║       1. Text-based UI       ║");
+            System.out.println("║       2. Graphical UI        ║");
+            System.out.println("╚══════════════════════════════╝");
+            System.out.print("➤ ");
+
             if (scanner.hasNextInt()) {
                 uiChoice = scanner.nextInt();
             } else {
                 scanner.next(); // consume invalid input
             }
             if (uiChoice != 1 && uiChoice != 2) {
-                System.out.println("Invalid choice. Please enter 1 or 2.");
+                System.out.println("\n╔══════════════════════════════╗");
+                System.out.println("║       ⚠Invalid Choice⚠       ║");
+                System.out.println("║     Please enter 1 or 2.     ║");
+                System.out.println("╚══════════════════════════════╝\n");
+
             }
         }
         scanner.nextLine(); // consume newline
@@ -56,7 +71,10 @@ public class GalaxyTruckerClient {
             try {
                 port = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid port number. Using default port 1234.");
+                System.out.println("\n╔══════════════════════════════╗");
+                System.out.println("║    ⚠Invalid Port Number⚠     ║");
+                System.out.println("║   Using default port: 1234   ║");
+                System.out.println("╚══════════════════════════════╝\n");
             }
         }
 
