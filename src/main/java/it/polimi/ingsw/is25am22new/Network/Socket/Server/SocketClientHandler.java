@@ -37,112 +37,117 @@ public class SocketClientHandler implements VirtualView {
     //comunicazione dal client al server
     public void runVirtualView() throws IOException, ClassNotFoundException {
         SocketMessage msg = null;
-        while ((msg = (SocketMessage) objectInput.readObject()) != null){
-            switch (msg.getCommand()) {
-                case "checkAvailability" -> {
-                    int res = this.controller.addPlayer(msg.getPayload());
-                    if(res == 1) {
-                        server.addHandlerToClients(this);
-                        showNicknameResult(true, "PlayerAdded");
+        try{
+            while ((msg = (SocketMessage) objectInput.readObject()) != null){
+                switch (msg.getCommand()) {
+                    case "checkAvailability" -> {
+                        int res = this.controller.addPlayer(msg.getPayload());
+                        if(res == 1) {
+                            server.addHandlerToClients(this);
+                            showNicknameResult(true, "PlayerAdded");
 
-                        boolean isHost = this.controller.getPlayers().size() == 1;
+                            boolean isHost = this.controller.getPlayers().size() == 1;
 
-                        showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
+                            showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
-                        if(!isHost)    this.controller.updateAllPlayerJoined(msg.getPayload());
+                            if(!isHost)    this.controller.updateAllPlayerJoined(msg.getPayload());
+                            this.controller.updateAllLobbies();
+                        }
+                        else if(res == -2){
+                            showNicknameResult(false, "PlayerAlreadyInLobby");
+                        }
+                        else if(res == -1){
+                            showNicknameResult(false, "LobbyFullOrOutsideLobbyState");
+                        }
+                        System.out.println("List of players updated: " + this.controller.getPlayers());
+                    }
+                    case "removePlayer" -> {
+                        this.removePlayer(msg.getPayload());
+                    }
+                    case "setPlayerReady" -> {
+                        this.setPlayerReady(msg.getPayload());
+                    }
+                    case "startGameByHost" -> {
+                        this.startGameByHost(msg.getPayload());
+                    }
+                    case "setPlayerNotReady" -> {
+                        this.setPlayerNotReady(msg.getPayload());
+                    }
+                    case "setGameType" -> {
+                        this.setGameType(msg.getPayload());
+                    }
+                    case "pickCoveredTile" -> {
+                        this.pickCoveredTile(msg.getPayload());
+                    }
+                    case "pickUncoveredTile" -> {
+                        this.pickUncoveredTile(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getIndexChosen());
+                    }
+                    case "weldComponentTile" -> {
+                        this.weldComponentTile(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getRow(),
+                                ((InputCommand) msg.getObject()).getCol(),
+                                ((InputCommand) msg.getObject()).getIndexChosen());
+                    }
+                    case "standbyComponentTile" -> {
+                        this.standbyComponentTile(msg.getPayload());
+                    }
+                    case "pickStandByComponentTile" -> {
+                        this.pickStandbyComponentTile(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getIndexChosen());
+                    }
+                    case "discardComponentTile" -> {
+                        this.discardComponentTile(msg.getPayload());
+                    }
+                    case "finishBuilding1" -> {
+                        this.finishBuilding(msg.getPayload());
+                    }
+                    case "finishBuilding2" -> {
+                        this.finishBuilding(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getIndexChosen());
+                    }
+                    case "finishedAllShipboards" -> {
+                        this.finishedAllShipboards();
+                    }
+                    case "flipHourglass" -> {
+                        this.flipHourglass();
+                    }
+                    case "pickCard" -> {
+                        this.pickCard();
+                    }
+                    case "activateCard" -> {
+                        this.activateCard((InputCommand) msg.getObject());
+                    }
+                    case "playerAbandons" -> {
+                        this.playerAbandons(msg.getPayload());
+                    }
+                    case "destroyTile" -> {
+                        this.destroyComponentTile(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getRow(),
+                                ((InputCommand) msg.getObject()).getCol());
+                    }
+                    case "endGame" -> {
+                        this.endGame();
+                    }
+                    case "setNumPlayers" -> {
+                        int numPlayers = ((InputCommand) msg.getObject()).getIndexChosen();
+                        this.controller.setNumPlayers(numPlayers);
+                    }
+                    case "disconnect" -> {
+                        this.removePlayer(msg.getPayload());
+                        this.server.disconnect(this, msg.getPayload());
                         this.controller.updateAllLobbies();
                     }
-                    else if(res == -2){
-                        showNicknameResult(false, "PlayerAlreadyInLobby");
+                    case "connectionTester" -> {
+                        System.out.println(msg.getPayload());
+                        System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
+                        showUpdateTest();
                     }
-                    else if(res == -1){
-                        showNicknameResult(false, "LobbyFullOrOutsideLobbyState");
-                    }
-                    System.out.println("List of players updated: " + this.controller.getPlayers());
-                }
-                case "removePlayer" -> {
-                    this.removePlayer(msg.getPayload());
-                }
-                case "setPlayerReady" -> {
-                    this.setPlayerReady(msg.getPayload());
-                }
-                case "startGameByHost" -> {
-                    this.startGameByHost(msg.getPayload());
-                }
-                case "setPlayerNotReady" -> {
-                    this.setPlayerNotReady(msg.getPayload());
-                }
-                case "setGameType" -> {
-                    this.setGameType(msg.getPayload());
-                }
-                case "pickCoveredTile" -> {
-                    this.pickCoveredTile(msg.getPayload());
-                }
-                case "pickUncoveredTile" -> {
-                    this.pickUncoveredTile(msg.getPayload(),
-                            ((InputCommand) msg.getObject()).getIndexChosen());
-                }
-                case "weldComponentTile" -> {
-                    this.weldComponentTile(msg.getPayload(),
-                            ((InputCommand) msg.getObject()).getRow(),
-                            ((InputCommand) msg.getObject()).getCol(),
-                            ((InputCommand) msg.getObject()).getIndexChosen());
-                }
-                case "standbyComponentTile" -> {
-                    this.standbyComponentTile(msg.getPayload());
-                }
-                case "pickStandByComponentTile" -> {
-                    this.pickStandbyComponentTile(msg.getPayload(),
-                            ((InputCommand) msg.getObject()).getIndexChosen());
-                }
-                case "discardComponentTile" -> {
-                    this.discardComponentTile(msg.getPayload());
-                }
-                case "finishBuilding1" -> {
-                    this.finishBuilding(msg.getPayload());
-                }
-                case "finishBuilding2" -> {
-                    this.finishBuilding(msg.getPayload(),
-                            ((InputCommand) msg.getObject()).getIndexChosen());
-                }
-                case "finishedAllShipboards" -> {
-                    this.finishedAllShipboards();
-                }
-                case "flipHourglass" -> {
-                    this.flipHourglass();
-                }
-                case "pickCard" -> {
-                    this.pickCard();
-                }
-                case "activateCard" -> {
-                    this.activateCard((InputCommand) msg.getObject());
-                }
-                case "playerAbandons" -> {
-                    this.playerAbandons(msg.getPayload());
-                }
-                case "destroyTile" -> {
-                    this.destroyComponentTile(msg.getPayload(),
-                            ((InputCommand) msg.getObject()).getRow(),
-                            ((InputCommand) msg.getObject()).getCol());
-                }
-                case "endGame" -> {
-                    this.endGame();
-                }
-                case "setNumPlayers" -> {
-                    int numPlayers = ((InputCommand) msg.getObject()).getIndexChosen();
-                    this.controller.setNumPlayers(numPlayers);
-                }
-                case "disconnect" -> {
-                    this.removePlayer(msg.getPayload());
-                    this.server.disconnect(this, msg.getPayload());
-                    this.controller.updateAllLobbies();
-                }
-                case "connectionTester" -> {
-                    System.out.println(msg.getPayload());
-                    System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
-                    showUpdateTest();
                 }
             }
+        } catch (Exception e) {
+            System.out.println("Error in SocketClientHandler:");
+            e.printStackTrace();
         }
     }
 

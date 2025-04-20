@@ -17,10 +17,7 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class SocketClientSide implements VirtualView {
 
@@ -42,7 +39,8 @@ public class SocketClientSide implements VirtualView {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
         Scanner scanner = new Scanner(System.in);
-        try (Socket socket = new Socket(host, port)){
+        try {
+            Socket socket = new Socket(host, port);
             SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
             ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
             boolean joined = false;
@@ -103,106 +101,112 @@ public class SocketClientSide implements VirtualView {
     // comunicazione dal server al client
     private void runVirtualServer() throws IOException, ClassNotFoundException, InterruptedException {
         SocketMessage msg;
-        List<String> players = List.of("ERROR");
+        List<String> players = new ArrayList<>();
         String gameType = "ERROR";
         String message = "ERROR";
-
-        while ((msg = (SocketMessage) objectInput.readObject()) != null) {
-            switch (msg.getCommand()) {
-                case "Bank" -> {
-                    Bank bank = (Bank) msg.getObject();
-                    this.showUpdateBank(bank);
+        try {
+            while ((msg = (SocketMessage) objectInput.readObject()) != null) {
+                switch (msg.getCommand()) {
+                    case "Bank" -> {
+                        Bank bank = (Bank) msg.getObject();
+                        this.showUpdateBank(bank);
+                    }
+                    case "TileInHand" -> {
+                        ComponentTile tile = (ComponentTile) msg.getObject();
+                        String player = msg.getPayload();
+                        this.showUpdateTileInHand(player, tile);
+                    }
+                    case "UncoveredComponentTile" -> {
+                        List<ComponentTile> ctList = (ArrayList<ComponentTile>) msg.getObject();
+                        this.showUpdateUncoveredComponentTiles(ctList);
+                    }
+                    case "CoveredComponentTile" -> {
+                        List<ComponentTile> ctList = (ArrayList<ComponentTile>) msg.getObject();
+                        this.showUpdateCoveredComponentTiles(ctList);
+                    }
+                    case "Shipboard" -> {
+                        String player = msg.getPayload();
+                        Shipboard shipboard = (Shipboard) msg.getObject();
+                        this.showUpdateShipboard(player, shipboard);
+                    }
+                    case "Flightboard" -> {
+                        Flightboard flightboard = (Flightboard) msg.getObject();
+                        this.showUpdateFlightboard(flightboard);
+                    }
+                    case "CurrCard" -> {
+                        AdventureCard card = (AdventureCard) msg.getObject();
+                        this.showUpdateCurrCard(card);
+                    }
+                    case "Dices" -> {
+                        Dices dices = (Dices) msg.getObject();
+                        this.showUpdateDices(dices);
+                    }
+                    case "CurrPlayer" -> {
+                        String currPlayer = msg.getPayload();
+                        this.showUpdateCurrPlayer(currPlayer);
+                    }
+                    case "GamePhase" -> {
+                        GamePhase gamePhase = (GamePhase) msg.getObject();
+                        this.showUpdateGamePhase(gamePhase);
+                    }
+                    case "Deck" -> {
+                        List<AdventureCard> deck = (ArrayList<AdventureCard>) msg.getObject();
+                        this.showUpdateDeck(deck);
+                    }
+                    case "Game" -> {
+                        Game game = (Game) msg.getObject();
+                        this.showUpdateGame(game);
+                    }
+                    case "HourglassSpot" -> {
+                        int hourglassSpot = (int) msg.getObject();
+                        this.showUpdateHourglassSpot(hourglassSpot);
+                    }
+                    case "LobbyUpdate" -> {
+                        players = (ArrayList<String>) msg.getObject();
+                        gameType = msg.getPayload();
+                    }
+                    case "ReadyStatus" -> {
+                        // might be wrong
+                        Map<String, Boolean> readyStatus = (Map<String, Boolean>) msg.getObject();
+                        this.showLobbyUpdate(players, readyStatus, gameType);
+                    }
+                    case "ConnectionResult" -> {
+                        // might be wrong
+                        isHost = (boolean) msg.getObject();
+                        message = msg.getPayload();
+                    }
+                    case "Success" -> {
+                        boolean success = (boolean) msg.getObject();
+                        this.showConnectionResult(isHost, success, message);
+                    }
+                    case "NicknameResult" -> {
+                        boolean valid = (boolean) msg.getObject();
+                        message = msg.getPayload();
+                        this.showNicknameResult(valid, message);
+                    }
+                    case "GameStarted" -> {
+                        this.showGameStarted();
+                    }
+                    case "PlayerJoined" -> {
+                        String player = msg.getPayload();
+                        this.showPlayerJoined(player);
+                    }
+                    case "MessageToEveryone" -> {
+                        this.showMessage(msg.getPayload());
+                    }
+                    case "updateTest" -> {
+                        System.out.println(msg.getPayload());
+                        System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
+                        System.out.flush();
+                    }
+                    default -> System.err.println("[INVALID MESSAGE]");
                 }
-                case "TileInHand" -> {
-                    ComponentTile tile = (ComponentTile) msg.getObject();
-                    String player = msg.getPayload();
-                    this.showUpdateTileInHand(player, tile);
-                }
-                case "UncoveredComponentTile" -> {
-                    List<ComponentTile> ctList = (List<ComponentTile>) msg.getObject();
-                    this.showUpdateUncoveredComponentTiles(ctList);
-                }
-                case "CoveredComponentTile" -> {
-                    List<ComponentTile> ctList = (List<ComponentTile>) msg.getObject();
-                    this.showUpdateCoveredComponentTiles(ctList);
-                }
-                case "Shipboard" -> {
-                    String player = msg.getPayload();
-                    Shipboard shipboard = (Shipboard) msg.getObject();
-                    this.showUpdateShipboard(player, shipboard);
-                }
-                case "Flightboard" -> {
-                    Flightboard flightboard = (Flightboard) msg.getObject();
-                    this.showUpdateFlightboard(flightboard);
-                }
-                case "CurrCard" -> {
-                    AdventureCard card = (AdventureCard) msg.getObject();
-                    this.showUpdateCurrCard(card);
-                }
-                case "Dices" -> {
-                    Dices dices = (Dices) msg.getObject();
-                    this.showUpdateDices(dices);
-                }
-                case "CurrPlayer" -> {
-                    String currPlayer = msg.getPayload();
-                    this.showUpdateCurrPlayer(currPlayer);
-                }
-                case "GamePhase" -> {
-                    GamePhase gamePhase = (GamePhase) msg.getObject();
-                    this.showUpdateGamePhase(gamePhase);
-                }
-                case "Deck" -> {
-                    List<AdventureCard> deck = (List<AdventureCard>) msg.getObject();
-                    this.showUpdateDeck(deck);
-                }
-                case "Game" -> {
-                    Game game = (Game) msg.getObject();
-                    this.showUpdateGame(game);
-                }
-                case "HourglassSpot" -> {
-                    int hourglassSpot = (int) msg.getObject();
-                    this.showUpdateHourglassSpot(hourglassSpot);
-                }
-                case "LobbyUpdate" -> {
-                    players = (List<String>) msg.getObject();
-                    gameType = msg.getPayload();
-                }
-                case "ReadyStatus" -> {
-                    // might be wrong
-                    Map<String, Boolean> readyStatus = (Map<String, Boolean>) msg.getObject();
-                    this.showLobbyUpdate(players, readyStatus, gameType);
-                }
-                case "ConnectionResult" -> {
-                    // might be wrong
-                    isHost = (boolean) msg.getObject();
-                    message = msg.getPayload();
-                }
-                case "Success" -> {
-                    boolean success = (boolean) msg.getObject();
-                    this.showConnectionResult(isHost, success, message);
-                }
-                case "NicknameResult" -> {
-                    boolean valid = (boolean) msg.getObject();
-                    message = msg.getPayload();
-                    this.showNicknameResult(valid, message);
-                }
-                case "GameStarted" -> {
-                    this.showGameStarted();
-                }
-                case "PlayerJoined" -> {
-                    String player = msg.getPayload();
-                    this.showPlayerJoined(player);
-                }
-                case "MessageToEveryone" -> {
-                    this.showMessage(msg.getPayload());
-                }
-                case "updateTest" -> {
-                    System.out.println(msg.getPayload());
-                    System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
-                    System.out.flush();
-                }
-                default -> System.err.println("[INVALID MESSAGE]");
             }
+        } catch (Exception e) {
+            System.out.println("Connection closed: " + e.getMessage());
+            System.out.flush();
+            this.output.disconnect(thisPlayerName);
+            System.exit(0);
         }
     }
 

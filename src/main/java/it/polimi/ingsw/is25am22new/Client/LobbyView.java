@@ -219,8 +219,9 @@ public class LobbyView implements EnhancedClientView {
         }
         gameStarted = true;
         System.out.println("\n\n\n");
-        System.out.println("\n🚀 GAME STARTED! 🚀");
-        System.out.println("Welcome to Galaxy Trucker!");
+        System.out.println("===========================");
+        System.out.println("   🚀 !GAME STARTED! 🚀   ");
+        System.out.println("Welcome to Galaxy Trucker! ");
         System.out.println("===========================");
         inGame = true;
         //displayCurrentCommands();
