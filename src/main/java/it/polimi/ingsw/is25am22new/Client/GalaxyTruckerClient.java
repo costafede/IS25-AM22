@@ -127,7 +127,6 @@ public class GalaxyTruckerClient {
      * Start a Socket client connection
      */
     private void startSocketClient(String host, int port, int uiChoice, Scanner scanner) {
-        // This will be implemented by someone else
         // For now, just use the original implementation
         String[] socketArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
         try {
