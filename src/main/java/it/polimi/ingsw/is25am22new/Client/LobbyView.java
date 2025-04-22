@@ -67,7 +67,7 @@ public class LobbyView implements EnhancedClientView {
 //
     //    System.out.println("=================\n");
     //}
-//
+
     //@Override
     //public void displayUncoveredComponentTiles(List<ComponentTile> tiles) {
     //    System.out.println("Uncovered component tile update received");
