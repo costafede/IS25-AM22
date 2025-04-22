@@ -35,7 +35,7 @@ public class SocketClientSide implements VirtualView {
         this.view = new LobbyView();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
+    public static SocketServerHandler connectToServer(String[] args) throws InterruptedException, ClassNotFoundException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
         Scanner scanner = new Scanner(System.in);
@@ -82,11 +82,13 @@ public class SocketClientSide implements VirtualView {
                 if(!joined) System.out.println("Try again!");
             }
 
-            new SocketClientSide(objectInput, output, thisPlayerName).run();
-
+            SocketClientSide newSocket = new SocketClientSide(objectInput, output, thisPlayerName);
+            newSocket.run();
+            return newSocket.getServerHandler();
         } catch (IOException e) {
             System.out.println("Error connecting to server: " + e.getMessage());
         }
+        return null;
     }
 
     private void run() throws IOException, InterruptedException {
@@ -105,7 +107,7 @@ public class SocketClientSide implements VirtualView {
     }
 
     // comunicazione dal server al client
-    private void runVirtualServer() throws IOException, ClassNotFoundException, InterruptedException {
+    private void runVirtualServer() {
         SocketMessage msg;
         List<String> players = new ArrayList<>();
         String gameType = "ERROR";
@@ -584,9 +586,6 @@ public class SocketClientSide implements VirtualView {
         }
     }
 
-    //
-    // TUTTE LE FUNZIONI SONO DA SINCRONIZZARE
-    //
     @Override
     public void showUpdateBank(Bank bank) {
         clientModel.setBank(bank);
@@ -784,19 +783,11 @@ public class SocketClientSide implements VirtualView {
         System.out.flush();
     }
 
-    public void presentCommands() {
-        System.out.println("\n================= COMMAND MENU =================");
-        System.out.println("Please enter one of the following commands:");
-        System.out.println("  📦  remove      - Remove a player from the lobby");
-        System.out.println("  ✅  ready       - Mark yourself as ready");
-        System.out.println("  🚀  start       - Start the game");
-        System.out.println("  ❌  notready    - Unmark readiness");
-        System.out.println("  🎮  setgametype - Choose a game type");
-        System.out.println("================================================\n");
-        System.out.print(">>> ");
-    }
-
     public void setNumPlayers(int numPlayers) {
         output.setNumPlayers(numPlayers);
+    }
+
+    public SocketServerHandler getServerHandler() {
+        return output;
     }
 }
