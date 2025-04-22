@@ -1,11 +1,17 @@
 package it.polimi.ingsw.is25am22new.Client;
 
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class GalaxyTruckerClient {
+    private VirtualServer virtualServer;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -55,7 +61,6 @@ public class GalaxyTruckerClient {
                 System.out.println("║       ⚠Invalid Choice⚠       ║");
                 System.out.println("║     Please enter 1 or 2.     ║");
                 System.out.println("╚══════════════════════════════╝\n");
-
             }
         }
         scanner.nextLine(); // consume newline
@@ -78,22 +83,57 @@ public class GalaxyTruckerClient {
             }
         }
 
+        GalaxyTruckerClient client = new GalaxyTruckerClient();
+
         try {
             if (connectionChoice == 1) {
-                // RMI connection
-                String[] rmiArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
-                RmiClient.main(rmiArgs);
+                client.startRmiClient(host, port, uiChoice, scanner);
             } else {
                 // Socket connection
                 // Port has to be different from the one used by RMI
-                port += 1;
-                String[] socketArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
-                SocketClientSide.main(socketArgs);
+                client.startSocketClient(host, port + 1, uiChoice, scanner);
             }
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         } finally {
             scanner.close();
+        }
+    }
+
+    /**
+     * Start an RMI client connection
+     */
+    private void startRmiClient(String host, int port, int uiChoice, Scanner scanner) throws RemoteException, NotBoundException {
+        // Create UI based on choice
+        EnhancedClientView view;
+
+        if (uiChoice == 1) {
+            view = new LobbyView();
+        } else {
+            // GUI would be implemented here
+            System.out.println("GUI not yet implemented. Defaulting to TUI.");
+            view = new LobbyView();
+        }
+
+        // Connect to server
+        virtualServer = RmiClient.connectToServer(host, port);
+
+        // Create and run RMI client
+        RmiClient client = new RmiClient(virtualServer, view);
+        client.run(null, scanner); // null means it will prompt for a name
+    }
+
+    /**
+     * Start a Socket client connection
+     */
+    private void startSocketClient(String host, int port, int uiChoice, Scanner scanner) {
+        // This will be implemented by someone else
+        // For now, just use the original implementation
+        String[] socketArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
+        try {
+            SocketClientSide.main(socketArgs);
+        } catch (Exception e) {
+            System.err.println("Socket client error: " + e.getMessage());
         }
     }
 }

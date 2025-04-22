@@ -25,90 +25,68 @@ import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
+
     private final VirtualServer server;
     private final EnhancedClientView clientView;
     private static final String SERVER_NAME = "GalaxyTruckerServer";
     private boolean isHost = false;
 
-    protected RmiClient(String host, int port, EnhancedClientView clientView) throws RemoteException, NotBoundException {
+    public RmiClient(VirtualServer server, EnhancedClientView clientView) throws RemoteException {
         super();
+        this.server = server;
         this.clientView = clientView;
+    }
 
+    /**
+     * Creates a VirtualServer connection through RMI
+     * @param host The server host
+     * @param port The server port
+     * @return The VirtualServer instance
+     */
+    public static VirtualServer connectToServer(String host, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(host, port);
-        this.server = (VirtualServer) registry.lookup(SERVER_NAME);
-
+        VirtualServer server = (VirtualServer) registry.lookup(SERVER_NAME);
         System.out.println("Found server: " + host + ":" + port);
+        return server;
     }
 
-    public void connectWithNickname(String nickname) throws RemoteException {
-        server.connect(this, nickname);
-    }
-
-    public static void main(String[] args) {
-        String host = "localhost";
-        int port = 1234;
-        int uiChoice = 1; // Default to TUI
-
-        if(args.length >= 1) {
-            host = args[0];
-        }
-        if(args.length >= 2) {
-            try {
-                port = Integer.parseInt(args[1]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid port number. Using default port 1234.");
-            }
-        }
-        if(args.length >= 3) {
-            try {
-                uiChoice = Integer.parseInt(args[2]);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid UI choice. Defaulting to TUI.");
-            }
-        }
-
+    /**
+     * Run the RMI client
+     * @param playerName The player name (or null to prompt for name)
+     * @param scanner The scanner for input
+     */
+    public void run(String playerName, Scanner scanner) {
         try {
-            // Create UI based on choice
-            EnhancedClientView view;
-
-            if(uiChoice == 1) {
-                view = new LobbyView();
-            } else {
-                // GUI would be implemented here
-                System.out.println("GUI not yet implemented. Defaulting to TUI.");
-                view = new LobbyView();
-            }
-
-            // Create the RMI client
-            RmiClient client = new RmiClient(host, port, view);
-
-            // Interaction logic to join game, etc.
-            Scanner scanner = new Scanner(System.in);
-
             boolean nickAccepted = false;
-            String playerName = "";
 
             while(!nickAccepted) {
-                System.out.print("Enter your name: ");
-                playerName = scanner.nextLine();
+                if (playerName == null || playerName.isEmpty()) {
+                    System.out.print("Enter your name: ");
+                    playerName = scanner.nextLine();
+                }
 
-                try{
-                    view.resetNicknameStatus();
-                    client.connectWithNickname(playerName);
+                try {
+                    clientView.resetNicknameStatus();
+                    connectWithNickname(playerName);
                     Thread.sleep(1000);
-                    nickAccepted = view.isNicknameValid();
-                }catch (InterruptedException e){
-                    System.err.println("Error connecting with nickname" + e.getMessage());
+                    nickAccepted = clientView.isNicknameValid();
+                    if (!nickAccepted) {
+                        playerName = null; // Reset to prompt again
+                    }
+                } catch (InterruptedException e) {
+                    System.err.println("Error connecting with nickname: " + e.getMessage());
                 }
             }
 
-            view.startCommandLoopRMI(client, playerName, scanner);
+            clientView.startCommandLoopRMI(this, playerName, scanner);
 
         } catch (Exception e) {
             System.err.println("Client exception: " + e);
         }
+    }
 
-        //System.exit(0);
+    public void connectWithNickname(String nickname) throws RemoteException {
+        server.connect(this, nickname);
     }
 
     public void setNumPlayers(int numPlayers) throws IOException {
