@@ -100,7 +100,7 @@ public class GalaxyTruckerClient {
         }
     }
 
-    /**
+    /*
      * Start an RMI client connection
      */
     private void startRmiClient(String host, int port, int uiChoice, Scanner scanner) throws RemoteException, NotBoundException {
@@ -123,7 +123,7 @@ public class GalaxyTruckerClient {
         client.run(null, scanner); // null means it will prompt for a name
     }
 
-    /**
+    /*
      * Start a Socket client connection
      */
     private void startSocketClient(String host, int port, int uiChoice, Scanner scanner) {

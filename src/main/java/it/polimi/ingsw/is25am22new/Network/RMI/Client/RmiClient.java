@@ -37,11 +37,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         this.clientView = clientView;
     }
 
-    /**
+    /*
      * Creates a VirtualServer connection through RMI
-     * @param host The server host
-     * @param port The server port
-     * @return The VirtualServer instance
      */
     public static VirtualServer connectToServer(String host, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(host, port);
@@ -50,10 +47,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         return server;
     }
 
-    /**
+    /*
      * Run the RMI client
-     * @param playerName The player name (or null to prompt for name)
-     * @param scanner The scanner for input
      */
     public void run(String playerName, Scanner scanner) {
         try {
