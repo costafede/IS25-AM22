@@ -226,10 +226,10 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("╚══════════════════════════════════╝");
             nicknameValid = true;
         } else {
-            System.out.println("║ ❌ Connection failed!             ║");
+            System.out.println("║ ❌ Connection failed!            ║");
 
             // Wrap the failure message if needed
-            System.out.printf("║ %s%s║\n", message, " ".repeat(34 - message.length()));
+            System.out.printf("║ %s%s║\n", message, " ".repeat(33 - message.length()));
 
             System.out.println("╚══════════════════════════════════╝\n");
             System.exit(0);
@@ -238,16 +238,26 @@ public class LobbyView implements EnhancedClientView {
     }
 
     @Override
-    public void displayNicknameResult(boolean valid, String message){
-        System.out.println("\n=== NICKNAME RESULT ===");
+    public void displayNicknameResult(boolean valid, String errorMessage){
         if(valid){
-            System.out.println("Nickname accepted!");
+            System.out.println("╔═════════════════════╗");
+            System.out.println("║   NICKNAME RESULT   ║");
+            System.out.println("╠═════════════════════╣");
+            System.out.println("║  Nickname accepted  ║");
+            System.out.println("╚═════════════════════╝");
             nicknameValid = true;
-        }else{
-            System.out.println("Nickname error: " + message);
+        } else {
+            String message = "Nickname error: " + errorMessage;
+            int length = message.length();
+            String horizontalLine = "═".repeat(length + 4);
+
+            System.out.println("╔" + horizontalLine + "╗");
+            System.out.println("║  NICKNAME RESULT" + " ".repeat(Math.max(0, length + 4 - 17)) + "║");
+            System.out.println("╠" + horizontalLine + "╣");
+            System.out.println("║  " + message + "  ║");
+            System.out.println("╚" + horizontalLine + "╝");
             nicknameValid = false;
         }
-        System.out.println("======================\n");
     }
 
     @Override
@@ -261,11 +271,11 @@ public class LobbyView implements EnhancedClientView {
         System.out.println("╔════════════════════════════════════════════════════════════════╗");
         System.out.println("║  🚀🚀🚀🚀        GAME STARTED - WELCOME TO:        🚀🚀🚀🚀  ║");
         System.out.println("╚════════════════════════════════════════════════════════════════╝");
-        System.out.println(" ______   ______   __       ______   __  __   __  __");
-        System.out.println("/\\  ___\\ /\\  __ \\ /\\ \\     /\\  __ \\ /\\_\\_\\_\\ /\\ \\_\\ \\  ");
-        System.out.println("\\ \\ \\__ \\\\ \\  __ \\\\ \\ \\____\\ \\  __ \\/_/\\_\\/\\_\\ \\____ \\  ");
-        System.out.println(" \\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ /\\_/\\_/ \\/\\_____\\ ");
-        System.out.println("  \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/\\/_/ \\/_/\\/ / \\/_____/    ");
+        System.out.println(" ______   ______   __       ______   __  __   __  __       ");
+        System.out.println("/\\  ___\\ /\\  __ \\ /\\ \\     /\\  __ \\ /\\_\\_\\_\\ /\\ \\_\\ \\      ");
+        System.out.println("\\ \\ \\__ \\\\ \\  __ \\\\ \\ \\____\\ \\  __ \\ /_/\\_\\/_\\ \\____ \\     ");
+        System.out.println(" \\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ /\\_\\/\\_\\\\ \\_____\\    ");
+        System.out.println("  \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/\\/_/ \\/_/\\/_/ \\/_____/    ");
         System.out.println("  ______  ______   __  __   ______   __  __   ______   ______    ");
         System.out.println(" /\\__  _\\/\\  == \\ /\\ \\/\\ \\ /\\  ___\\ /\\ \\/ /  /\\  ___\\ /\\  == \\   ");
         System.out.println(" \\/_/\\ \\/\\ \\  __< \\ \\ \\_\\ \\\\ \\ \\____\\ \\  _\"-.\\ \\  __\\ \\ \\  __<   ");
