@@ -119,16 +119,42 @@ public class LobbyView implements EnhancedClientView {
             hostSetupCompleted = true;
         }
 
-        System.out.println("\n=== LOBBY UPDATE ===");
-        System.out.println("Players (" + players.size() + (numPlayers > 0 ? "/" + numPlayers : "") + "):");
+        System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+        System.out.println(  "║                            LOBBY UPDATE                              ║");
+        System.out.println(  "╠══════════════════════════════════════════════════════════════════════╣");
+        String playersLine = String.format("        Players (%d%s)",
+                players.size(),
+                (numPlayers > 0 ? "/" + numPlayers : "")
+        );
+        String gameTypeStr = String.format("[Game Type] : %s",
+                (gameType != null ? gameType : "Not set")
+        );
+
+        int contentWidth = playersLine.length() + gameTypeStr.length();
+        int totalWidth = 60; // adjust based on your design
+        int spacing = totalWidth - contentWidth;
+
+        System.out.printf("║%s%s%s          ║\n",
+                playersLine,
+                " ".repeat(Math.max(0, spacing)),
+                gameTypeStr
+        );
+        System.out.println("╠══════════════════════════════════════════════════════════════════════╣");
+
         for (String player : players) {
-            System.out.println("  " + player + " - " + (readyStatus.getOrDefault(player, false) ? "READY" : "NOT READY"));
+            String readyText = readyStatus.getOrDefault(player, false) ? "READY" : "NOT READY";
+            System.out.printf("║        %-25s│  STATUS: %-9s                 ║\n", player, readyText);
         }
-        System.out.println("Game Type: " + (gameType != null ? gameType : "Not set"));
+
+        System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+
         if (isHost) {
-            System.out.println("You are the HOST of this lobby");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║                 >>> YOU ARE THE HOST OF THIS LOBBY <<<               ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════════════╝\n");
         }
-        System.out.println("===================\n");
+
+
 
         // Auto-start when minimum player count (2) is reached
         if (numPlayers > 0 && currentPlayerCount == numPlayers && isHostPlayer &&
@@ -182,21 +208,33 @@ public class LobbyView implements EnhancedClientView {
     public void displayConnectionResult(boolean isHost, boolean success, String message) {
         isHostPlayer = isHost;
 
-        System.out.println("\n=== CONNECTION RESULT ===");
+        System.out.println("\n╔══════════════════════════════════╗");
+        System.out.println("║         CONNECTION RESULT        ║");
+        System.out.println("╠══════════════════════════════════╣");
+
         if (success) {
-            System.out.println("Successfully connected to the game!");
-            System.out.println(message);
+            System.out.println("║ ✅ Successfully connected!       ║");
+
+            // Wrap the message if it's long in real use
+            System.out.printf("║ %s%s║\n", message, " ".repeat(33 - message.length()));
+
             if (isHost) {
-                System.out.println("As the host, you need to set up the game parameters.");
+                System.out.println("║ 🛠️  As host, set up the game.    ║");
             } else {
-                System.out.println("Waiting for the host to complete setup...");
+                System.out.println("║ ⏳ Waiting for host setup...     ║");
             }
+            System.out.println("╚══════════════════════════════════╝");
             nicknameValid = true;
         } else {
-            System.out.println("Connection failed: " + message);
-            System.out.println("=========================");
+            System.out.println("║ ❌ Connection failed!             ║");
+
+            // Wrap the failure message if needed
+            System.out.printf("║ %s%s║\n", message, " ".repeat(34 - message.length()));
+
+            System.out.println("╚══════════════════════════════════╝\n");
             System.exit(0);
         }
+
     }
 
     @Override
@@ -215,16 +253,31 @@ public class LobbyView implements EnhancedClientView {
     @Override
     public void displayGameStarted() {
         if (gameStarted) {
-            return; // Evita stampe duplicate o successive
+            return; // Avoid duplicate or repeated prints
         }
         gameStarted = true;
-        System.out.println("\n\n\n");
-        System.out.println("\n🚀 GAME STARTED! 🚀");
-        System.out.println("Welcome to Galaxy Trucker!");
-        System.out.println("===========================");
+        System.out.println("\n\n");
+
+        System.out.println("╔════════════════════════════════════════════════════════════════╗");
+        System.out.println("║  🚀🚀🚀🚀        GAME STARTED - WELCOME TO:        🚀🚀🚀🚀  ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════╝");
+        System.out.println(" ______   ______   __       ______   __  __   __  __");
+        System.out.println("/\\  ___\\ /\\  __ \\ /\\ \\     /\\  __ \\ /\\_\\_\\_\\ /\\ \\_\\ \\  ");
+        System.out.println("\\ \\ \\__ \\\\ \\  __ \\\\ \\ \\____\\ \\  __ \\/_/\\_\\/\\_\\ \\____ \\  ");
+        System.out.println(" \\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ /\\_/\\_/ \\/\\_____\\ ");
+        System.out.println("  \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/\\/_/ \\/_/\\/ / \\/_____/    ");
+        System.out.println("  ______  ______   __  __   ______   __  __   ______   ______    ");
+        System.out.println(" /\\__  _\\/\\  == \\ /\\ \\/\\ \\ /\\  ___\\ /\\ \\/ /  /\\  ___\\ /\\  == \\   ");
+        System.out.println(" \\/_/\\ \\/\\ \\  __< \\ \\ \\_\\ \\\\ \\ \\____\\ \\  _\"-.\\ \\  __\\ \\ \\  __<   ");
+        System.out.println("    \\ \\_\\ \\ \\_\\ \\_\\\\ \\_____\\\\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ ");
+        System.out.println("     \\/_/  \\/_/ /_/ \\/_____/ \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/ /_/ ");
+        System.out.println("\n══════════════════════════════════════════════════════════════════\n");
+
         inGame = true;
-        //displayCurrentCommands();
+        // displayCurrentCommands();
     }
+
+
 
     @Override
     public void displayPlayerJoined(String playerName) {
@@ -331,35 +384,56 @@ public class LobbyView implements EnhancedClientView {
     private void setupAsHostSocket(SocketClientSide client, Scanner scanner) {
         try {
             // Get max players
-            System.out.print("Enter number of players (2-4): ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║                  Enter number of players (2-4)                       ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+            System.out.print("➤ ");
+
             while (numPlayers < 2 || numPlayers > 4) {
                 try {
                     numPlayers = Integer.parseInt(scanner.nextLine().trim());
+
                     if (numPlayers < 2 || numPlayers > 4) {
-                        System.out.print("Please enter a number between 2 and 4: ");
+                        System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                        System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
+                        System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                        System.out.print("➤ ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.print("Invalid input. Please enter a number between 2 and 4: ");
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
                 }
             }
+
             client.setNumPlayers(numPlayers);
 
             // Get game type
-            System.out.println("Select game type:");
-            System.out.println("1. Tutorial");
-            System.out.println("2. Level 2");
-            System.out.print("Enter your choice (1 or 2): ");
+            System.out.println("\n╔═══════════════════════════════════════════╗");
+            System.out.println("║             Select game type:             ║");
+            System.out.println("║               1. Tutorial                 ║");
+            System.out.println("║               2. Level 2                  ║");
+            System.out.println("╚═══════════════════════════════════════════╝");
+            System.out.print("➤ ");
             int typeChoice = 0;
             while (typeChoice != 1 && typeChoice != 2) {
                 try {
                     typeChoice = Integer.parseInt(scanner.nextLine().trim());
                     if (typeChoice != 1 && typeChoice != 2) {
-                        System.out.print("Invalid choice. Please enter 1 or 2: ");
+                        System.out.println("\n╔════════════════════════════════════════════════╗");
+                        System.out.println("║     Invalid choice. Please enter 1 or 2.       ║");
+                        System.out.println("╚════════════════════════════════════════════════╝");
+                        System.out.print("➤ ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.print("Invalid input. Please enter a number (1 or 2): ");
+                    System.out.println("\n╔════════════════════════════════════════════════════════╗");
+                    System.out.println("║     Invalid input. Please enter a number (1 or 2).     ║");
+                    System.out.println("╚════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
                 }
             }
+
 
             // Set game type
             if (typeChoice == 1) {
@@ -381,33 +455,53 @@ public class LobbyView implements EnhancedClientView {
     private void setupAsHostRMI(RmiClient client, Scanner scanner) {
         try {
             // Get max players
-            System.out.print("Enter number of players (2-4): ");
+            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║                  Enter number of players (2-4)                       ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+            System.out.print("➤ ");
+
             while (numPlayers < 2 || numPlayers > 4) {
                 try {
                     numPlayers = Integer.parseInt(scanner.nextLine().trim());
+
                     if (numPlayers < 2 || numPlayers > 4) {
-                        System.out.print("Please enter a number between 2 and 4: ");
+                        System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                        System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
+                        System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                        System.out.print("➤ ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.print("Invalid input. Please enter a number between 2 and 4: ");
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
                 }
             }
+
             client.setNumPlayers(numPlayers);
 
             // Get game type
-            System.out.println("Select game type:");
-            System.out.println("1. Tutorial");
-            System.out.println("2. Level 2");
-            System.out.print("Enter your choice (1 or 2): ");
+            System.out.println("\n╔═══════════════════════════════════════════╗");
+            System.out.println("║             Select game type:             ║");
+            System.out.println("║               1. Tutorial                 ║");
+            System.out.println("║               2. Level 2                  ║");
+            System.out.println("╚═══════════════════════════════════════════╝");
+            System.out.print("➤ ");
             int typeChoice = 0;
             while (typeChoice != 1 && typeChoice != 2) {
                 try {
                     typeChoice = Integer.parseInt(scanner.nextLine().trim());
                     if (typeChoice != 1 && typeChoice != 2) {
-                        System.out.print("Invalid choice. Please enter 1 or 2: ");
+                        System.out.println("\n╔═══════════════════════════════════════════════╗");
+                        System.out.println("║     Invalid choice. Please enter 1 or 2.       ║");
+                        System.out.println("╚════════════════════════════════════════════════╝");
+                        System.out.print("➤ ");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.print("Invalid input. Please enter a number (1 or 2): ");
+                    System.out.println("\n╔═══════════════════════════════════════════════════════╗");
+                    System.out.println("║     Invalid input. Please enter a number (1 or 2).     ║");
+                    System.out.println("╚════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
                 }
             }
 
