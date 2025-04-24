@@ -20,6 +20,6 @@ public class StartingCabin extends Cabin {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + color + " Numero di astronauti: " + numOfAstronauts + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+        return getClass().getSimpleName() + color + " Astronaut's number: " + numOfAstronauts + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
     }
 }

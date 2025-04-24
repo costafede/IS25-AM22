@@ -64,7 +64,7 @@ public class RegularCabin extends Cabin {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " Numero di astronauti: " + numOfAstronauts + " Alieno viola: " +
-                purpleAlienPresent + " Alieno marrone: " + brownAlienPresent + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+        return getClass().getSimpleName() + " Astronaut's number: " + numOfAstronauts + " Purple alien: " +
+                purpleAlienPresent + " Brown alien: " + brownAlienPresent + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
     }
 }
