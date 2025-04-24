@@ -23,4 +23,10 @@ public class SpecialStorageCompartment extends StorageCompartment {
             throw new IllegalArgumentException("Block not placeable");
         goodBlocks.put(gb, goodBlocks.get(gb) + 1);
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " Capacity: " + capacity + getGoodBlocks()
+                + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+    }
 }

@@ -54,4 +54,13 @@ public class Cannon extends ComponentTile {
     public boolean isRightSideCannon() {
         return rightSideCannon;
     }
+
+    @Override
+    public String toString() {
+        if (topSideCannon) return getClass().getSimpleName() + " Top: Cannon Barrel" + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (bottomSideCannon) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: Cannon Barrel" + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (leftSideCannon) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: Cannon Barrel" + " Rigth: " + rightSide;
+        else if (rightSideCannon) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: Cannon Barrel";
+        else return "";
+    }
 }

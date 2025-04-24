@@ -65,4 +65,13 @@ public class Engine extends ComponentTile {
     public boolean isRightSideEngine() {
         return rightSideEngine;
     }
+
+    @Override
+    public String toString() {
+        if (topSideEngine) return getClass().getSimpleName() + " Top: Engine" + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (bottomSideEngine) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: Engine" + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (leftSideEngine) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: Engine" + " Rigth: " + rightSide;
+        else if (rightSideEngine) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: Engine";
+        else return "";
+    }
 }

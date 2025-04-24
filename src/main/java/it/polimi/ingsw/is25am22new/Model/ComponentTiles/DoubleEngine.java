@@ -31,4 +31,13 @@ public class DoubleEngine extends Engine {
     public boolean isDoubleEngine() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        if (topSideEngine) return getClass().getSimpleName() + " Active: " + bottomSideActive + " Top: Double Engine" + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (bottomSideEngine) return getClass().getSimpleName() + " Active: " + bottomSideActive + " Top: " + topSide + " Bottom: Double Engine" + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (leftSideEngine) return getClass().getSimpleName() + " Active: " + bottomSideActive + " Top: " + topSide + " Bottom: " + bottomSide + " Left: Double Engine" + " Rigth: " + rightSide;
+        else if (rightSideEngine) return getClass().getSimpleName() + " Active: " + bottomSideActive + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: Double Engine";
+        else return "";
+    }
 }
