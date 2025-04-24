@@ -21,4 +21,9 @@ public class BatteryComponent extends ComponentTile {
     public boolean isBattery() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " Batteries number: " + numOfBatteries + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+    }
 }

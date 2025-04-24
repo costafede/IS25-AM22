@@ -61,4 +61,10 @@ public class RegularCabin extends Cabin {
     public boolean isBrownAlienPresent() {
         return brownAlienPresent;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " Astronaut's number: " + numOfAstronauts + " Purple alien: " +
+                purpleAlienPresent + " Brown alien: " + brownAlienPresent + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+    }
 }

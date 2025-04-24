@@ -17,4 +17,9 @@ public class StartingCabin extends Cabin {
     public boolean isStartingCabin(){
         return true;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + color + " Astronaut's number: " + numOfAstronauts + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+    }
 }

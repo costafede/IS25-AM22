@@ -67,4 +67,13 @@ public class ShieldGenerator extends ComponentTile {
     public boolean isShieldGenerator() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        if (topSideShieldable) return getClass().getSimpleName() + " Active: " + topSideShielded + " Top: Shield" + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (bottomSideShieldable) return getClass().getSimpleName() + " Active: " + bottomSideShielded + " Top: " + topSide + " Bottom: Shield" + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (leftSideShieldable) return getClass().getSimpleName() + " Active: " + leftSideShielded + " Top: " + topSide + " Bottom: " + bottomSide + " Left: Shield" + " Rigth: " + rightSide;
+        else if (rightSideShieldable) return getClass().getSimpleName() + " Active: " + rightSideShielded + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: Shield";
+        else return "";
+    }
 }

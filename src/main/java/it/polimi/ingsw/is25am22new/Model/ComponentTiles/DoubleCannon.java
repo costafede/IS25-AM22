@@ -40,4 +40,13 @@ public class DoubleCannon extends Cannon {
     public boolean isDoubleCannon() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        if (topSideCannon) return getClass().getSimpleName() + " Active: " + topSideActive + " Top: Double Cannon Barrel" + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (bottomSideCannon) return getClass().getSimpleName() + " Active: " + bottomSideActive + " Top: " + topSide + " Bottom: Double Cannon Barrel" + " Left: " + leftSide + " Rigth: " + rightSide;
+        else if (leftSideCannon) return getClass().getSimpleName() + " Active: " + leftSideActive + " Top: " + topSide + " Bottom: " + bottomSide + " Left: Double Cannon Barrel" + " Rigth: " + rightSide;
+        else if (rightSideCannon) return getClass().getSimpleName() + " Active: " + rightSideActive + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: Double Cannon Barrel";
+        else return "";
+    }
 }

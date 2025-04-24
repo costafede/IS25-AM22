@@ -4,4 +4,9 @@ public class StructuralModule extends ComponentTile {
     public StructuralModule(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide){
         super(pngName, topSide, bottomSide, leftSide, rightSide);
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
+    }
 }
