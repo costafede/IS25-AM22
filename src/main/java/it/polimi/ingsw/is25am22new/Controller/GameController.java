@@ -231,10 +231,10 @@ public class GameController {
         }
     }
 
-    public void pickUncoveredTile(String player, int index) {
+    public void pickUncoveredTile(String player, String tilePngName) {
         synchronized (LOCK_UNCOVEREDTILES) {
             if(currentState == GameState.GAME) {
-                game.pickUncoveredTile(player, index);
+                game.pickUncoveredTile(player, tilePngName);
             } else {
                 System.out.println("Player " + player + " cannot pick an uncovered tile outside game state.");
             }

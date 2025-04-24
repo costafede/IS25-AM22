@@ -17,7 +17,7 @@ public interface VirtualServer extends Remote {
     void setGameType(String gameType) throws IOException;
 
     void pickCoveredTile(String nickname) throws IOException;
-    void pickUncoveredTile(String nickname, int index) throws IOException;
+    void pickUncoveredTile(String nickname, String tilePngName) throws IOException;
     void weldComponentTile(String nickname, int i, int j, int numOfRotations) throws IOException;
     void standbyComponentTile(String nickname) throws IOException;
     void pickStandbyComponentTile(String nickname, int index) throws IOException;

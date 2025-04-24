@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Client;
 
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.TUI;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
@@ -98,6 +101,11 @@ public class GalaxyTruckerClient {
         } finally {
             scanner.close();
         }
+
+        CommandManager commandManager = new CommandManager(null, client.virtualServer);
+        /*TUI tui = new TUI(commandManager, istanza di client model);
+        commandManager.initializeCommandManager(client.virtualServer, tui);
+        tui.run();*/
     }
 
     /*

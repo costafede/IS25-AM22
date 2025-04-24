@@ -1,9 +1,11 @@
 package it.polimi.ingsw.is25am22new.Client.View;
 
+import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandTypes.CommandType;
 import it.polimi.ingsw.is25am22new.Client.Commands.ParametrizedCommands.ParametrizedCommand;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
@@ -15,61 +17,68 @@ import java.util.Scanner;
 public class TUI implements ClientModelObserver, ViewAdapter{
 
     private final CommandManager commandManager;
+    private boolean cliRunning;
+    private ClientModel model;
+    private List<String> input;
+    private String commandName;
+    private final Scanner scanner = new Scanner(System.in);
+    private final List<Command> allCommands;
 
-    public TUI(CommandManager commandManager) {
+    public TUI(CommandManager commandManager, ClientModel model) {
         this.commandManager = commandManager;
+        this.cliRunning = true;
+        this.model = model;
+        this.input = new ArrayList<>();
+        this.allCommands = commandManager.getAllCommandTypes();
     }
 
     @Override
-    public void modelChanged(ClientModel model) {
-        boolean commandInputNotValid;
-        CommandType chosen = askToChooseAvailableCommandType(commandManager.getAvailableCommandTypes(model));
-        do {
-            commandInputNotValid = false;
-            if(chosen.getInputLength() == 0) {
-                ParametrizedCommand cmd = commandManager.createCommand(model, chosen, null, this);  //no input
-                cmd.execute();
-            }
-            else {
-                ParametrizedCommand cmd;
-                List<Integer> input = askToInsertInput(chosen);
-                cmd = commandManager.createCommand(model, chosen, input, this);
-                commandInputNotValid = !cmd.isValid(model);
-                if(commandInputNotValid) {
-                    System.out.println("Invalid input, try again");
-                }
-                else
-                    cmd.execute();
-            }
-        } while (commandInputNotValid);
-    }
-
-    private List<Integer> askToInsertInput(CommandType chosen) {
-        Scanner scanner = new Scanner(System.in);
-        List<Integer> input = new ArrayList<>();
-        ParametrizedCommand cmd = null;
-        System.out.println(chosen.getInputRequest());
-        for(int i = 0; i < chosen.getInputLength(); i++){
-            System.out.print("> ");
-            input.add(scanner.nextInt());
+    public synchronized void modelChanged(ClientModel model) {
+        System.out.println("/n");
+        List<Command> availableCommands = commandManager.getAvailableCommandTypes(model);
+        for(Command command : availableCommands) {
+            System.out.println(command.getName());
         }
-        return input;
+        System.out.print("> ");
+        this.model = model;
+        if(model.getGamePhase().getPhaseType().equals(PhaseType.END))
+            cliRunning = false;
     }
 
-    private CommandType askToChooseAvailableCommandType(List<CommandType> commandsAvailable) {
-        Scanner scanner = new Scanner(System.in);
-        int commandIndex;
-        do {
-            System.out.println("Select one of the following commands:");
-            for (CommandType command : commandsAvailable) {
-                System.out.println(commandsAvailable.indexOf(command) + " - " + command.getName());
+
+    //return true if the format is valid
+    private boolean askCommand() {
+        String inputLine = scanner.nextLine();
+        char currChar = inputLine.charAt(0);
+        this.input.clear();
+        int i = 0;
+        while(currChar != '(') {
+            i++;
+            currChar = inputLine.charAt(i);
+        }
+        if(i == 0)
+            return false;
+        this.commandName = inputLine.substring(0, i - 1).replaceAll("\\s+", "");
+        while(currChar != ')') {
+            int beginningIndex = i + 1;
+            while(currChar !=  ',' && currChar != ')') {
+                i++;
+                currChar = inputLine.charAt(i);
             }
-            System.out.print("> ");
-            commandIndex = scanner.nextInt();
-            if (commandIndex < 0 || commandIndex >= commandsAvailable.size())
-                System.out.println("Invalid command, try again");
-        } while (commandIndex < 0 || commandIndex >= commandsAvailable.size());
-        return commandsAvailable.get(commandIndex);
+            this.input.add(inputLine.substring(beginningIndex, i - 1).replaceAll("\\s+", ""));
+        }
+        if(inputLine.length() == i + 1)
+            return false;
+        return true;
+    }
+
+    private Command findCommand(String CommandName) {
+        for(Command command : allCommands) {
+            if(commandName.equalsIgnoreCase(command.getName())) {
+                return command;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -111,4 +120,48 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         /*TO DO*/
         /* mostra accanto ad ogni tile il suo indice nella lista*/
     }
+
+    @Override
+    public void showLeaderboard(ClientModel clientModel) {
+        /*TO DO*/
+    }
+
+    public void run() {
+        Command chosen = null;
+        boolean commandNotValid;
+        System.out.print("> ");
+        while(cliRunning) {
+            do {
+                do {
+                    while (!askCommand())
+                        System.out.println("Invalid format, try again");
+                    chosen = findCommand(commandName);
+                    if (chosen == null)
+                        System.out.println("Command does not exist, try again");
+                } while(chosen == null);
+
+                commandNotValid = false;
+
+                chosen.setInput(this.input);
+                synchronized(this) {
+                    if(!chosen.isApplicable(model)) {
+                        System.out.println("Command is not available, try again");
+                        commandNotValid = true;
+                    }
+                    else {
+                        commandNotValid = !chosen.isInputValid(model);
+                        if (commandNotValid)
+                            System.out.println("Invalid input, try again");
+                        else
+                            chosen.execute(model);
+                    }
+                }
+            } while (commandNotValid);
+        }
+
+        synchronized(this) {
+            showLeaderboard(model);
+        }
+    }
+
 }

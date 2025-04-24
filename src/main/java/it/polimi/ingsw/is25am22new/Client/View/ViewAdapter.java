@@ -9,4 +9,5 @@ public interface ViewAdapter {
     void showFlightboard(ClientModel clientModel);
     void showCard(AdventureCard card, ClientModel clientModel);
     void showUncoveredComponentTiles(ClientModel clientModel);
+    void showLeaderboard(ClientModel clientModel);
 }

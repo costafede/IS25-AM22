@@ -87,9 +87,18 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllCoveredComponentTiles(coveredComponentTiles);
     }
 
-    public void pickUncoveredTile(String nickname, int index) {
+    public void pickUncoveredTile(String nickname, String tilePngName) {
         if(uncoveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no uncovered components in this game");
+        int index = -1;
+        for(ComponentTile componentTile : uncoveredComponentTiles) {
+            if(tilePngName.equals(componentTile.getPngName())) {
+                index = uncoveredComponentTiles.indexOf(componentTile);
+                break;
+            }
+        }
+        if(index == -1)
+            throw new IllegalStateException("There is no such component tile to pick");
         shipboards.get(nickname).setTileInHand(uncoveredComponentTiles.remove(index));
         updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
         updateAllUncoveredComponentTiles(uncoveredComponentTiles);
