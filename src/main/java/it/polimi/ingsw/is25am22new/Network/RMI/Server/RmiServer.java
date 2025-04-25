@@ -413,8 +413,8 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void pickUncoveredTile(String nickname, int index) {
-        gameController.pickUncoveredTile(nickname, index);
+    public void pickUncoveredTile(String nickname, String pngName) {
+        gameController.pickUncoveredTile(nickname, pngName);
     }
 
     public void rotateClockwise(String nickname, int rotationNum) {

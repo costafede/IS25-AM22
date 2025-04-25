@@ -108,8 +108,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         server.pickCoveredTile(playerName);
     }
 
-    public void pickUncoveredTile(String playerName, int index) throws IOException {
-        server.pickUncoveredTile(playerName, index);
+    public void pickUncoveredTile(String playerName, String pngName) throws IOException {
+        server.pickUncoveredTile(playerName, pngName);
     }
 
     public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {

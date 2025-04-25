@@ -46,7 +46,7 @@ package it.polimi.ingsw.is25am22new.Network;
         void startGameByHost(String playerName) throws IOException;
         void setGameType(String gameType) throws IOException;
         void pickCoveredTile(String playerName) throws IOException;
-        void pickUncoveredTile(String playerName, int index) throws IOException;
+        void pickUncoveredTile(String playerName, String pngName) throws IOException;
         void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException;
         void standbyComponentTile(String playerName) throws IOException;
         void pickStandbyComponentTile(String playerName, int index) throws IOException;

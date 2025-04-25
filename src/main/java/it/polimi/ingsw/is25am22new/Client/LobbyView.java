@@ -114,7 +114,7 @@ public class LobbyView implements EnhancedClientView {
         currentPlayerCount = players.size();
         this.gameType = gameType;
 
-        // Check if host setup is completed (game type is set)
+        // Check if the host setup is completed (game type is set)
         if (gameType != null && !gameType.isEmpty()) {
             hostSetupCompleted = true;
         }
@@ -195,7 +195,7 @@ public class LobbyView implements EnhancedClientView {
             // Reset the flag after a delay to allow for retries if needed
             new Thread(() -> {
                 try {
-                    Thread.sleep(3000);  // 3 second cooldown
+                    Thread.sleep(3000);  // 3 second cooldowns
                     autostart = false;
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -341,7 +341,7 @@ public class LobbyView implements EnhancedClientView {
                     running = false;
                     client.playerAbandons(playerName);
                 } else {
-                    // Just refresh the lobby status
+                    // Refresh the lobby status
                     System.out.println("Waiting for more players to join...");
                     System.out.println("Current players: " + currentPlayerCount +
                             (numPlayers > 0 ? "/" + numPlayers : ""));
@@ -378,7 +378,7 @@ public class LobbyView implements EnhancedClientView {
                     running = false;
                     client.playerAbandons(playerName);
                 } else {
-                    // Just refresh the lobby status
+                    // Refresh the lobby status
                     System.out.println("Waiting for more players to join...");
                     System.out.println("Current players: " + currentPlayerCount +
                             (numPlayers > 0 ? "/" + numPlayers : ""));
