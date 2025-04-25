@@ -704,8 +704,8 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void pickUncoveredTile(String playerName, int index) throws IOException {
-        output.pickUncoveredTile(playerName, index);
+    public void pickUncoveredTile(String playerName, String pngName) throws IOException {
+        output.pickUncoveredTile(playerName, pngName);
     }
 
     @Override

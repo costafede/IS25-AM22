@@ -94,10 +94,8 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void pickUncoveredTile(String nickname, int index) {
-        InputCommand inputCommand = new InputCommand();
-        inputCommand.setIndexChosen(index);
-        SocketMessage msg = new SocketMessage("pickUncoveredTile", inputCommand, nickname);
+    public void pickUncoveredTile(String nickname, String pngName) {
+        SocketMessage msg = new SocketMessage("pickUncoveredTile", pngName, nickname);
         try {
             objectOutput.writeObject(msg);
             objectOutput.flush();

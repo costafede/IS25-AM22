@@ -80,8 +80,7 @@ public class SocketClientHandler implements VirtualView {
                         this.pickCoveredTile(msg.getPayload());
                     }
                     case "pickUncoveredTile" -> {
-                        this.pickUncoveredTile(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getIndexChosen());
+                        this.pickUncoveredTile(msg.getPayload(), (String) msg.getObject());
                     }
                     case "weldComponentTile" -> {
                         this.weldComponentTile(msg.getPayload(),
@@ -432,8 +431,8 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void pickUncoveredTile(String playerName, int index) throws IOException {
-        this.controller.pickUncoveredTile(playerName, index);
+    public void pickUncoveredTile(String playerName, String pngName) throws IOException {
+        this.controller.pickUncoveredTile(playerName, pngName);
     }
 
     @Override
