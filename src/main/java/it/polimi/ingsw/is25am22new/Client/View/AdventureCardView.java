@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class AdventureCardView {
 
-    public void showPlanetsCard(PlanetsCard card) {
+    public static void showPlanetsCard(PlanetsCard card) {
         System.out.println("=== PIANETI ===");
         System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
         for (int i = 0; i < card.getPlanets().size(); i++) {
@@ -33,14 +33,14 @@ public class AdventureCardView {
         }
     }
 
-    public void showAbandonedShipCard(AbandonedShipCard card) {
+    public static void showAbandonedShipCard(AbandonedShipCard card) {
         System.out.println("=== NAVE ABBANDONATA ===");
         System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
         System.out.println("Crediti: " + card.getCredits());
         System.out.println("Astronauti persi: " + card.getLostAstronauts());
     }
 
-    public void showAbandonedStationCard(AbandonedStationCard card) {
+    public static void showAbandonedStationCard(AbandonedStationCard card) {
         System.out.println("=== STAZIONE ABBANDONATA ===");
         System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
         System.out.println("Numero di astronauti: " + card.getAstronautsNumber());
@@ -50,7 +50,7 @@ public class AdventureCardView {
         );
     }
 
-    public void showCombatZoneCard(CombatZoneCard card) {
+    public static void showCombatZoneCard(CombatZoneCard card) {
         System.out.println("=== ZONA DI GUERRA ===");
         System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
         System.out.println("Numero di astronauti: " + card.getAstronautsToLose());
@@ -61,12 +61,12 @@ public class AdventureCardView {
         }
     }
 
-    public void showEpidemicCard(EpidemicCard card) {
+    public static void showEpidemicCard(EpidemicCard card) {
         System.out.println("=== EPIDEMIA ===");
         //Self-explanatory
     }
 
-    public void showMeteorSwarmCard(MeteorSwarmCard card) {
+    public static void showMeteorSwarmCard(MeteorSwarmCard card) {
         System.out.println("=== PIOGGIA DI METEORITI ===");
         Map<Integer, Meteor> numberToMeteor = card.getNumberToMeteor();
         for (Map.Entry<Integer, Meteor> entry : numberToMeteor.entrySet()) {
@@ -74,12 +74,12 @@ public class AdventureCardView {
         }
     }
 
-    public void showOpenSpaceCard(OpenSpaceCard card) {
+    public static void showOpenSpaceCard(OpenSpaceCard card) {
         System.out.println("=== SPAZIO APERTO ===");
         //Self-explanatory
     }
 
-    public void showPiratesCard(PiratesCard card) {
+    public static void showPiratesCard(PiratesCard card) {
         System.out.println("=== PIRATI ===");
         System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
         System.out.println("Crediti: " + card.getCredits());
@@ -90,7 +90,7 @@ public class AdventureCardView {
         }
     }
 
-    public void showSlaversCard(SlaversCard card) {
+    public static void showSlaversCard(SlaversCard card) {
         System.out.println("=== SCHIAVISTI ===");
         System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
         System.out.println("Crediti: " + card.getCredits());
@@ -98,7 +98,7 @@ public class AdventureCardView {
         System.out.println("Potenza cannoni: " + card.getCannonStrength());
     }
 
-    public void showSmugglersCard(SmugglersCard card) {
+    public static void showSmugglersCard(SmugglersCard card) {
         System.out.println("=== CONTRABBANDIERI ===");
         System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
         System.out.println("Merci perse: " + card.getLostGoods());
@@ -109,7 +109,7 @@ public class AdventureCardView {
         );
     }
 
-    public void showStardustCard(StardustCard card) {
+    public static void showStardustCard(StardustCard card) {
         System.out.println("=== POLVERE STELLARE ===");
         //Self-explanatory
     }

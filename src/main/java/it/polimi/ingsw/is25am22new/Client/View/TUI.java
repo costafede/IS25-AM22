@@ -2,7 +2,18 @@ package it.polimi.ingsw.is25am22new.Client.View;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
@@ -11,6 +22,8 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
 
 import java.util.*;
+
+import static it.polimi.ingsw.is25am22new.Client.View.AdventureCardView.*;
 
 public class TUI implements ClientModelObserver, ViewAdapter{
 
@@ -86,28 +99,37 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             AdventureCard card = deck.get(i);
             switch (deck.get(i).getClass().getSimpleName()){
                 case "AbandonedShipCard":
-                    //showAbandonedShipCard(card);
+                    showAbandonedShipCard((AbandonedShipCard) card);
                     break;
                 case "AbandonedStationCard":
-                    //showAbandonedStationCard(card);
+                    showAbandonedStationCard((AbandonedStationCard) card);
                     break;
                 case "CombatZoneCard":
+                    showCombatZoneCard((CombatZoneCard) card);
                     break;
                 case "EpidemicCard":
+                    showEpidemicCard((EpidemicCard) card);
                     break;
                 case "MeteorSwarmCard":
+                    showMeteorSwarmCard((MeteorSwarmCard) card);
                     break;
                 case "OpenSpaceCard":
+                    showOpenSpaceCard((OpenSpaceCard) card);
                     break;
                 case "PiratesCard":
+                    showPiratesCard((PiratesCard) card);
                     break;
                 case "PlanetsCard":
+                    showPlanetsCard((PlanetsCard) card);
                     break;
                 case "SlaversCard":
+                    showSlaversCard((SlaversCard) card);
                     break;
                 case "SmugglersCard":
+                    showSmugglersCard((SmugglersCard) card);
                     break;
                 case "StardustCard":
+                    showStardustCard((StardustCard) card);
                     break;
                 default: break;
             }
@@ -163,7 +185,42 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     @Override
     public void showCard(AdventureCard card, ClientModel clientModel) {
-        /*TO DO*/
+        switch (card.getClass().getSimpleName()){
+            case "AbandonedShipCard":
+                showAbandonedShipCard((AbandonedShipCard) card);
+                break;
+            case "AbandonedStationCard":
+                showAbandonedStationCard((AbandonedStationCard) card);
+                break;
+            case "CombatZoneCard":
+                showCombatZoneCard((CombatZoneCard) card);
+                break;
+            case "EpidemicCard":
+                showEpidemicCard((EpidemicCard) card);
+                break;
+            case "MeteorSwarmCard":
+                showMeteorSwarmCard((MeteorSwarmCard) card);
+                break;
+            case "OpenSpaceCard":
+                showOpenSpaceCard((OpenSpaceCard) card);
+                break;
+            case "PiratesCard":
+                showPiratesCard((PiratesCard) card);
+                break;
+            case "PlanetsCard":
+                showPlanetsCard((PlanetsCard) card);
+                break;
+            case "SlaversCard":
+                showSlaversCard((SlaversCard) card);
+                break;
+            case "SmugglersCard":
+                showSmugglersCard((SmugglersCard) card);
+                break;
+            case "StardustCard":
+                showStardustCard((StardustCard) card);
+                break;
+            default: break;
+        }
     }
 
     @Override
@@ -177,7 +234,53 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     @Override
     public void showLeaderboard(ClientModel clientModel) {
-        // TO DO
+        Map<String, Shipboard> shipboards = clientModel.getShipboards();
+        List <String> players = new ArrayList<>();
+
+        for (Map.Entry<String, Shipboard> entry : shipboards.entrySet()){
+            players.add(entry.getKey());
+        }
+
+        Map<String, Integer> scores = new HashMap<>();
+
+        for (int i = 0; i < players.size(); i++){
+            scores.put(players.get(i), shipboards.get(players.get(i)).getScore());
+        }
+
+        Flightboard flightboard = clientModel.getFlightboard();
+        List<String> orderedRockets = flightboard.getOrderedRockets();
+
+        if (clientModel.getGametype().equals(GameType.TUTORIAL)){
+            for(int i = 0; i < orderedRockets.size(); i++) {
+                scores.put(orderedRockets.get(i), scores.get(orderedRockets.get(i)) + (4 - orderedRockets.indexOf(orderedRockets.get(i))));
+            }
+            // scores.put(betterShipboard(), scores.get(betterShipboard()) + 2);
+            // betterShipboard() come va usato?
+        }
+        else {
+            for(int i = 0; i < orderedRockets.size(); i++) {
+                scores.put(orderedRockets.get(i), scores.get(orderedRockets.get(i)) + 2*(4 - orderedRockets.indexOf(orderedRockets.get(i))));
+            }
+            // scores.put(ClientModel.betterShipboard(), scores.get(betterShipboard()) + 4);
+            // betterShipboard() come va usato?
+        }
+
+        scores = scores.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(
+                        LinkedHashMap::new,
+                        (m, e) -> m.put(e.getKey(), e.getValue()),
+                        LinkedHashMap::putAll
+                );
+
+        System.out.println("=== LEADERBOARD ===");
+        for (Map.Entry<String, Integer> entry : scores.entrySet()){
+            int x = 1;
+            System.out.println(x + entry.getKey() + ": " + entry.getValue());
+            x++;
+        }
+
     }
 
     public void run() {
