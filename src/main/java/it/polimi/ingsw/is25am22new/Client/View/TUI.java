@@ -4,6 +4,7 @@ import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -152,7 +153,12 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     @Override
     public void showFlightboard(ClientModel clientModel) {
-        /*TO DO*/
+        Flightboard flightboard = clientModel.getFlightboard();
+        Map <String, Integer> positions = flightboard.getPositions();
+        System.out.println("=== FLIGHTBOARD ===");
+        for (Map.Entry<String, Integer> entry : positions.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 
     @Override
@@ -162,13 +168,16 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     @Override
     public void showUncoveredComponentTiles(ClientModel clientModel) {
-        /*TO DO*/
-        /* mostra accanto ad ogni tile il suo indice nella lista*/
+        List <ComponentTile> componentTiles = clientModel.getUncoveredComponentTiles();
+        System.out.println("=== UNCOVERED COMPONENTS ===");
+        for (int i = 0; i < componentTiles.size(); i++){
+            System.out.println(i + ": " + componentTiles.get(i));
+        }
     }
 
     @Override
     public void showLeaderboard(ClientModel clientModel) {
-        /*TO DO*/
+        // TO DO
     }
 
     public void run() {
