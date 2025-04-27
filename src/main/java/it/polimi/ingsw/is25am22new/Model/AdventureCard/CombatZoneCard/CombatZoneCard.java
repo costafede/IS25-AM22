@@ -126,4 +126,9 @@ public class CombatZoneCard extends AdventureCard implements Serializable {
     public void activateEffect(InputCommand inputCommand) {
         combatZoneState.activateEffect(inputCommand);
     }
+
+    @Override
+    public String getStateName() {
+        return combatZoneState.getStateName();
+    }
 }

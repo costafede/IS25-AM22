@@ -19,4 +19,7 @@ public abstract class CombatZoneState implements Serializable {
     protected void transition(CombatZoneState combatZoneState) {
         combatZoneCard.setCombatZoneState(combatZoneState);
     }
+
+    public abstract String getStateName();
+
 }

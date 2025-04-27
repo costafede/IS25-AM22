@@ -27,6 +27,11 @@ public class PlanetsCard extends AdventureCard implements Serializable {
         planetsState.activateEffect(inputCommand);
     }
 
+    @Override
+    public String getStateName() {
+        return planetsState.getStateName();
+    }
+
     public int getFlightDaysLost(){
         return flightDaysLost;
     }

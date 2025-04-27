@@ -52,6 +52,11 @@ public class SmugglersCard extends AdventureCard implements Serializable {
         smugglersState.activateEffect(inputCommand);
     }
 
+    @Override
+    public String getStateName() {
+        return smugglersState.getStateName();
+    }
+
     public void setSmugglersState(SmugglersState smugglersState){
         this.smugglersState = smugglersState;
     }

@@ -40,4 +40,9 @@ public class PiratesState_3 extends PiratesState implements Serializable {
             game.setCurrCard(null);
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "PiratesState_3";
+    }
 }

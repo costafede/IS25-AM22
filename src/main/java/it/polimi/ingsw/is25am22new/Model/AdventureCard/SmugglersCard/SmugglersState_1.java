@@ -40,4 +40,9 @@ public class SmugglersState_1 extends SmugglersState implements Serializable {
         }
     }
 
+    @Override
+    public String getStateName() {
+        return "SmugglersState_1";
+    }
+
 }

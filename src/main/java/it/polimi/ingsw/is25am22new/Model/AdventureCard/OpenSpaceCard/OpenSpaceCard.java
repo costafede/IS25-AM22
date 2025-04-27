@@ -26,6 +26,11 @@ public class OpenSpaceCard extends AdventureCard implements Serializable {
         openSpaceState.activateEffect(inputCommand);
     }
 
+    @Override
+    public String getStateName() {
+        return openSpaceState.getStateName();
+    }
+
     public void setOpenSpaceState(OpenSpaceState openSpaceState) {
         this.openSpaceState = openSpaceState;
     }

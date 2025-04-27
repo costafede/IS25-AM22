@@ -106,6 +106,11 @@ public class PiratesCard extends AdventureCard implements Serializable {
         piratesState.activateEffect(inputCommand);
     }
 
+    @Override
+    public String getStateName() {
+        return piratesState.getStateName();
+    }
+
     public String getCurrDefeatedPlayer() {
         return currDefeatedPlayer;
     }

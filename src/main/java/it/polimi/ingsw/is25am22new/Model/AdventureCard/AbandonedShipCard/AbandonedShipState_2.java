@@ -33,6 +33,11 @@ public class AbandonedShipState_2 extends AbandonedShipState implements Serializ
         }
     }
 
+    @Override
+    public String getStateName() {
+        return "AbandonedShipState_2";
+    }
+
     public int getMembersStillToRemove() {
         return membersStillToRemove;
     }

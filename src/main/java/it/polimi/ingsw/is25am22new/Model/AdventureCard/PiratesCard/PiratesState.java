@@ -18,4 +18,7 @@ public abstract class PiratesState implements Serializable {
     protected void transition(PiratesState piratesState) {
         piratesCard.setPiratesState(piratesState);
     }
+
+    public abstract String getStateName();
+
 }

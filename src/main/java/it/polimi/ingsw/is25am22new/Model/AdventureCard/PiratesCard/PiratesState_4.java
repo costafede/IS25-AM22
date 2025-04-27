@@ -121,4 +121,9 @@ public class PiratesState_4 extends PiratesState implements Serializable {
             }
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "PiratesState_4";
+    }
 }

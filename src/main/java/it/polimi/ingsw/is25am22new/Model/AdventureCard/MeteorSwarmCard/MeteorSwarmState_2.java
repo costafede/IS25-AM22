@@ -30,4 +30,9 @@ public class MeteorSwarmState_2 extends MeteorSwarmState implements Serializable
 
         transition(new MeteorSwarmState_1(meteorSwarmCard));
     }
+
+    @Override
+    public String getStateName() {
+        return "MeteorSwarmState_2";
+    }
 }

@@ -19,4 +19,5 @@ public abstract class SmugglersState implements Serializable {
         smugglersCard.setSmugglersState(smugglersState);
     }
 
+    public abstract String getStateName();
 }

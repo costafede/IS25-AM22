@@ -52,4 +52,9 @@ public class SlaversState_4 extends SlaversState implements Serializable {
             transition(new SlaversState_4(slaversCard));
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "SlaversState_4";
+    }
 }

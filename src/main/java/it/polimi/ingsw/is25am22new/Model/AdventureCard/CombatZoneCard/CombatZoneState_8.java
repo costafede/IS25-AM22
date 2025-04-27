@@ -30,4 +30,9 @@ public class CombatZoneState_8 extends CombatZoneState implements Serializable {
             game.setCurrCard(null);
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "CombatZoneState_8";
+    }
 }

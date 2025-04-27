@@ -45,4 +45,9 @@ public class SmugglersState_4 extends SmugglersState implements Serializable {
         }   //as the card is implemented, even if there are no more moves available for the curr player, he still has to send the message with choice set on false to end the card effect or pass the turn to the next one
 
     }
+
+    @Override
+    public String getStateName() {
+        return "SmugglersState_4";
+    }
 }

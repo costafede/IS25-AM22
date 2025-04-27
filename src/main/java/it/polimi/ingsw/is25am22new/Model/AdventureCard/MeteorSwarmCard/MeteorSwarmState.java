@@ -20,4 +20,6 @@ public abstract class MeteorSwarmState implements Serializable {
     protected void transition(MeteorSwarmState meteorSwarmState) {
         meteorSwarmCard.setMeteorSwarmState(meteorSwarmState);
     }
+
+    public abstract String getStateName();
 }

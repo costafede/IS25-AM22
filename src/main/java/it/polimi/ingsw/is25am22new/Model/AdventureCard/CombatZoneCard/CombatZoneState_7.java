@@ -30,4 +30,9 @@ public class CombatZoneState_7 extends CombatZoneState implements Serializable {
 
         transition(new CombatZoneState_6(combatZoneCard));
     }
+
+    @Override
+    public String getStateName() {
+        return "CombatZoneState_7";
+    }
 }

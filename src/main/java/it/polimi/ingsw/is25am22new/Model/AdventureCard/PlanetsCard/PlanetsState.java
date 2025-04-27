@@ -19,4 +19,6 @@ public abstract class PlanetsState implements Serializable {
         planetsCard.setPlanetsState(planetsState);
     }
 
+    public abstract String getStateName();
+
 }

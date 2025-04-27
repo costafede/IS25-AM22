@@ -26,4 +26,9 @@ public class AbandonedStationState_1 extends AbandonedStationState implements Se
             game.setCurrCard(null);
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "AbandonedStationState_1";
+    }
 }

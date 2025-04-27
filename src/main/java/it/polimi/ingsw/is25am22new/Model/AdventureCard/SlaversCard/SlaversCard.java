@@ -32,6 +32,11 @@ public class SlaversCard extends AdventureCard implements Serializable {
         slaversState.activateEffect(inputCommand);
     }
 
+    @Override
+    public String getStateName() {
+        return slaversState.getStateName();
+    }
+
     public int getFlightDaysLost() {
         return flightDaysLost;
     }

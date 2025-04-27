@@ -19,4 +19,6 @@ public abstract class AbandonedShipState implements Serializable {
         abandonedShipCard.setAbandonedShipState(abandonedShipState);
     }
 
+
+    public abstract String getStateName();
 }
