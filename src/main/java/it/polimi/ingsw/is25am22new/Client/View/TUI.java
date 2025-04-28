@@ -146,7 +146,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         System.out.println("Equipaggio di volo: " + ship.getCrewNumber());
         System.out.println("Astronauti: " + ship.getOnlyHumanNumber());
 
-        for (int y = 0; y < 7; y++){
+        for (int y = 0; y < 5; y++){
             for (int x = 0; x < 7; x++){
                 Optional<ComponentTile> c = ship.getComponentTileFromGrid(x, y);
                 if(c.isPresent()){
