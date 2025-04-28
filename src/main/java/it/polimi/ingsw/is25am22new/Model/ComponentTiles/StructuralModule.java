@@ -9,4 +9,12 @@ public class StructuralModule extends ComponentTile {
     public String toString() {
         return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
     }
+
+    @Override
+    public String[] draw(){
+        return new String[]{
+                " ",
+                " "
+        };
+    }
 }

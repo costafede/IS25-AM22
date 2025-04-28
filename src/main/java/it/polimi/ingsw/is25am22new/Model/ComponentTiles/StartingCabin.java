@@ -22,4 +22,12 @@ public class StartingCabin extends Cabin {
     public String toString() {
         return getClass().getSimpleName() + color + " Astronaut's number: " + numOfAstronauts + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
     }
+
+    @Override
+    public String[] draw(){
+        return new String[]{
+                " ",
+                " "
+        };
+    }
 }

@@ -29,4 +29,12 @@ public class SpecialStorageCompartment extends StorageCompartment {
         return getClass().getSimpleName() + " Capacity: " + capacity + getGoodBlocks()
                 + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
     }
+
+    @Override
+    public String[] draw(){
+        return new String[]{
+                " ",
+                " "
+        };
+    }
 }

@@ -28,4 +28,15 @@ abstract class Cabin extends ComponentTile {
     }
 
     public boolean isCabin() { return true;}
+
+    @Override
+    public String[] draw(){
+        return new String[]{
+                "       ",
+                "       ",
+                "       ",
+                "       ",
+                "       "
+        };
+    }
 }

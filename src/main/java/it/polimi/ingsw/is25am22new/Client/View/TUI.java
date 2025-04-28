@@ -17,9 +17,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
 
 import java.util.*;
 
@@ -146,18 +144,40 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         System.out.println("Equipaggio di volo: " + ship.getCrewNumber());
         System.out.println("Astronauti: " + ship.getOnlyHumanNumber());
 
-        for (int y = 0; y < 5; y++){
-            for (int x = 0; x < 7; x++){
-                Optional<ComponentTile> c = ship.getComponentTileFromGrid(x, y);
-                if(c.isPresent()){
-                    System.out.println("Riga: " + y + " Colonna: " + x + c);
-                }
-                else{
-                    System.out.println("Riga: " + y + " Colonna: " + x + " Vuoto");
+        for (int line = 0; line < 5; line++) {
+            for (int column = 0; column < 7; column++) {
+                System.out.print("+");
+                for (int i = 0; i < 7; i++) {
+                    System.out.print("-");
                 }
             }
+            System.out.println("+");
+
+            for (int h = 0; h < 5; h++) {
+                for (int column = 0; column < 7; column++) {
+                    System.out.print("|");
+                    Optional<ComponentTile> c = ship.getComponentTileFromGrid(column, line);
+                    if (c.isPresent()) {
+                        String[] draw = c.get().draw();
+                        System.out.print(draw[h]);
+                    }
+                    else {
+                        System.out.print("       "); //no component = empty cell
+                    }
+                }
+                System.out.println("|");
+            }
         }
+
+        for (int column = 0; column < 7; column++) {
+            System.out.print("+");
+            for (int i = 0; i < 7; i++) {
+                System.out.print("-");
+            }
+        }
+        System.out.println("+");
     }
+
 
     @Override
     public void showShipboardStandByComponents(String player, ClientModel clientModel) {

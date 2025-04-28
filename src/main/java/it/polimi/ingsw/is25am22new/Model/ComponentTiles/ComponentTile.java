@@ -232,4 +232,5 @@ public abstract class ComponentTile implements Serializable {
         return 0;
     }
 
+    public String[] draw() {return null;};
 }

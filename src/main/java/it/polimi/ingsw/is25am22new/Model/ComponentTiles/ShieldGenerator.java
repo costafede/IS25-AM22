@@ -76,4 +76,12 @@ public class ShieldGenerator extends ComponentTile {
         else if (rightSideShieldable) return getClass().getSimpleName() + " Active: " + rightSideShielded + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: Shield";
         else return "";
     }
+
+    @Override
+    public String[] draw(){
+        return new String[]{
+                " ",
+                " "
+        };
+    }
 }

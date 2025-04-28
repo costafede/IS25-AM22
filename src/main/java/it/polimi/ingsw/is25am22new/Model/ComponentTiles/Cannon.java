@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
+import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
+
 public class Cannon extends ComponentTile {
     protected boolean topSideCannon;
     protected boolean bottomSideCannon;
@@ -62,5 +65,45 @@ public class Cannon extends ComponentTile {
         else if (leftSideCannon) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: Cannon Barrel" + " Rigth: " + rightSide;
         else if (rightSideCannon) return getClass().getSimpleName() + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: Cannon Barrel";
         else return "";
+    }
+
+    @Override
+    public String[] draw(){
+        String top;
+        String bottom;
+        String left;
+        String right;
+
+        if (topSide.equals(SMOOTH) && !topSideCannon){top = "L";}
+        else if (topSide.equals(ONEPIPE) && !topSideCannon){top = "1";}
+        else if (topSide.equals(TWOPIPES) && !topSideCannon){top = "2";}
+        else if (topSide.equals(UNIVERSALPIPE) && !topSideCannon){top = "3";}
+        else {top = "$";}
+
+        if (bottomSide.equals(SMOOTH) && !bottomSideCannon){bottom = "L";}
+        else if (bottomSide.equals(ONEPIPE) && !bottomSideCannon){bottom = "1";}
+        else if (bottomSide.equals(TWOPIPES) && !bottomSideCannon){bottom = "2";}
+        else if (bottomSide.equals(UNIVERSALPIPE) && !bottomSideCannon){bottom = "3";}
+        else {bottom = "$";}
+
+        if (leftSide.equals(SMOOTH) && !leftSideCannon){left = "L";}
+        else if (leftSide.equals(ONEPIPE) && !leftSideCannon){left = "1";}
+        else if (leftSide.equals(TWOPIPES) && !leftSideCannon){left = "2";}
+        else if (leftSide.equals(UNIVERSALPIPE) && !leftSideCannon){left = "3";}
+        else {left = "$";}
+
+        if (rightSide.equals(SMOOTH) && !rightSideCannon){right = "L";}
+        else if (rightSide.equals(ONEPIPE) && !rightSideCannon){right = "1";}
+        else if (rightSide.equals(TWOPIPES) && !rightSideCannon){right = "2";}
+        else if (rightSide.equals(UNIVERSALPIPE) && !rightSideCannon){right = "3";}
+        else {right = "$";}
+
+        return new String[]{
+                "   " + top + "   ",
+                "       ",
+                left + "  C  " + right,
+                "       ",
+                "   " + bottom + "   ",
+        };
     }
 }

@@ -72,4 +72,12 @@ public class StorageCompartment extends ComponentTile{
         return getClass().getSimpleName() + " Capacity: " + capacity + getGoodBlocks()
                 + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;
     }
+
+    @Override
+    public String[] draw(){
+        return new String[]{
+                " ",
+                " "
+        };
+    }
 }
