@@ -1,28 +1,36 @@
 package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
-public class DeclareEngineStrengthCommand extends AbstractCommand {
-    public DeclareEngineStrengthCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
+public class ResolveEffectCommand extends AbstractCommand{
+    public ResolveEffectCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);
     }
 
     @Override
     public String getName() {
-        return "DeclareEngineStrength";
+        return "ResolveEffect";
     }
 
     @Override
     public boolean isApplicable(ClientModel model) {
         return model.getGamePhase().getPhaseType().equals(PhaseType.CARD) &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
-                (model.getCurrCard().getStateName().equals("OpenSpaceState_1") ||
-                model.getCurrCard().getStateName().equals("CombatZoneState_1"));
+                (model.getCurrCard().getStateName().equals("CombatZoneState_6") ||
+                model.getCurrCard().getStateName().equals("SmugglersState_1") ||
+                model.getCurrCard().getStateName().equals("MeteorSwarmState_1") ||
+                model.getCurrCard().getStateName().equals("SlaversState_1") ||
+                model.getCurrCard().getStateName().equals("PiratesState_1") ||
+                model.getCurrCard().getStateName().equals("OpenSpaceState_1") ||
+                model.getCurrCard().getStateName().equals("CombatZoneState_1") ||
+                model.getCurrCard().getStateName().equals("SlaversState_3") ||
+                model.getCurrCard().getStateName().equals("PiratesState_3"));
     }
 
     @Override

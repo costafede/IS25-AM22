@@ -33,8 +33,9 @@ public class PiratesCard extends AdventureCard implements Serializable {
         this.batteryUsed = false;
         this.defeatedPlayers = new ArrayList<>();
         this.indexOfIncomingShot = 0;
-        this.dice1 = new Random().nextInt(6) + 1;
-        this.dice2 = new Random().nextInt(6) + 1;
+        game.getDices().rollDices();
+        this.dice1 = game.getDices().getDice1();
+        this.dice2 = game.getDices().getDice2();
     }
 
     public int getDice1() {

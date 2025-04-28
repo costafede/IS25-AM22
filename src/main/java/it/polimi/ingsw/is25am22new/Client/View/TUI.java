@@ -45,21 +45,21 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     @Override
     public synchronized void modelChanged(ClientModel model) {
-        System.out.println("/n");
-        List<Command> availableCommands = commandManager.getAvailableCommandTypes(model);
-        for(Command command : availableCommands) {
-            System.out.println(command.getName());
-        }
-        System.out.print("> ");
         this.model = model;
         if(model.getGamePhase().getPhaseType().equals(PhaseType.END))
             cliRunning = false;
+        this.notifyAll();
     }
 
 
     //return true if the format is valid
     private boolean askCommand() {
-        String inputLine = scanner.nextLine();
+        String inputLine = null;
+        try {
+            inputLine = scanner.nextLine();
+        } catch (RuntimeException e) {
+            inputLine = "";
+        }
         char currChar = inputLine.charAt(0);
         this.input.clear();
         int i = 0;
@@ -283,24 +283,44 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     }
 
+    @Override
+    public synchronized void showAvailableCommands(ClientModel clientModel) {
+        List<Command> availableCommands = commandManager.getAvailableCommandTypes(model);
+        for(Command command : availableCommands) {
+            System.out.println(command.getName());
+        }
+    }
+
     public void run() {
         Command chosen = null;
         boolean commandNotValid;
-        System.out.print("> ");
         while(cliRunning) {
             do {
+                System.out.println();
+                System.out.print("> ");
                 do {
-                    while (!askCommand())
+                    while (!askCommand()) {
                         System.out.println("Invalid format, try again");
+                        System.out.print("> ");
+                    }
                     chosen = findCommand(commandName);
-                    if (chosen == null)
+                    if (chosen == null) {
                         System.out.println("Command does not exist, try again");
+                        System.out.print("> ");
+                    }
                 } while(chosen == null);
 
                 commandNotValid = false;
 
                 chosen.setInput(this.input);
                 synchronized(this) {
+                    while(model.getBank() == null)
+                        try {
+                            this.wait();
+                        }
+                        catch(InterruptedException e) {
+                            System.out.println(e.getMessage());
+                        }
                     if(!chosen.isApplicable(model)) {
                         System.out.println("Command is not available, try again");
                         commandNotValid = true;

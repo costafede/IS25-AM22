@@ -643,8 +643,7 @@ public class SocketClientSide implements VirtualView {
 
     @Override
     public void showUpdateGame(Game game)  {
-        // temporary test
-        this.view.displayGame(game);
+        clientModel.setGame(game);
     }
 
     @Override

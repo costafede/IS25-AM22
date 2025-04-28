@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Client.Commands;
 
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.util.ArrayList;
@@ -31,5 +32,14 @@ public abstract class AbstractCommand implements Command {
     @Override
     public int getInputLength() {
         return 0;   //no input
+    }
+
+    protected void activateCard(InputCommand inputCommand) {
+        try{
+            virtualServer.activateCard(inputCommand);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -24,8 +24,9 @@ public class MeteorSwarmCard extends AdventureCard implements Serializable {
         this.meteorSwarmState = new MeteorSwarmState_1(this);
         this.indexOfIncomingMeteor = 0;
         this.batteryUsed = false;
-        this.dice1 = new Random().nextInt(6) + 1;
-        this.dice2 = new Random().nextInt(6) + 1;
+        game.getDices().rollDices();
+        this.dice1 = game.getDices().getDice1();
+        this.dice2 = game.getDices().getDice2();
     }
 
     @Override

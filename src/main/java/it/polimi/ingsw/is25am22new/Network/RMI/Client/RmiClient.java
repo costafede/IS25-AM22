@@ -206,6 +206,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showUpdateBank(Bank bank)  {
+
     }
 
     @Override

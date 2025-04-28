@@ -33,21 +33,8 @@ public class ClientModel extends ObservableModelView {
 
     protected List<CardPile> cardPiles;
 
-    public ClientModel(Game game, String playerName, GameType gameType) {
-        bank = game.getBank();
-        cardArchive = game.getCardArchive();
-        flightboard = game.getFlightboard();
-        shipboards = game.getShipboards();
-        coveredComponentTiles = game.getCoveredComponentTiles();
-        uncoveredComponentTiles = game.getUncoveredComponentTiles();
-        hourglass = new Hourglass(60);
-        deck = game.getDeck();
-        currPlayer = game.getCurrPlayer();
-        currCard = game.getCurrCard();
-        dices = game.getDices();
-        gamePhase = game.getGamePhase();
+    public ClientModel(String playerName) {
         this.playerName = playerName;
-        this.gameType = gameType;
     }
 
     public Dices getDices() {
@@ -119,6 +106,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setShipboards(Map<String, Shipboard> shipboards) {
         this.shipboards = shipboards;
+        //add optional methods
+        /*TO DO TOMMY*/
         notifyObservers(this);
     }
 
@@ -185,5 +174,23 @@ public class ClientModel extends ObservableModelView {
 
     public void setCardPiles(List<CardPile> cardPiles) {
         this.cardPiles = cardPiles;
+    }
+
+    public void setGame(Game game) {
+        bank = game.getBank();
+        cardArchive = game.getCardArchive();
+        flightboard = game.getFlightboard();
+        shipboards = game.getShipboards();
+        //add optional methods
+        /*TO DO TOMMY*/
+        coveredComponentTiles = game.getCoveredComponentTiles();
+        uncoveredComponentTiles = game.getUncoveredComponentTiles();
+        deck = game.getDeck();
+        currPlayer = game.getCurrPlayer();
+        currCard = game.getCurrCard();
+        dices = game.getDices();
+        gamePhase = game.getGamePhase();
+        gameType = game.getFlightboard().getFlightBoardLength() == 24 ? GameType.LEVEL2 : GameType.TUTORIAL;
+        notifyObservers(this);
     }
 }

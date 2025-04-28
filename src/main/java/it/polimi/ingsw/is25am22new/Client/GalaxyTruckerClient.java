@@ -2,6 +2,8 @@ package it.polimi.ingsw.is25am22new.Client;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModelObserver;
+import it.polimi.ingsw.is25am22new.Client.View.ObservableModelView;
 import it.polimi.ingsw.is25am22new.Client.View.TUI;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
@@ -107,9 +109,11 @@ public class GalaxyTruckerClient {
         System.out.println("!!!!! - Game Type: " + client.gameType + ", Player Name: " + client.playerName);
 
         CommandManager commandManager = new CommandManager(null, client.virtualServer);
-        /*TUI tui = new TUI(commandManager, istanza di client model);
+        ClientModel clientModel = new ClientModel(client.playerName);
+        TUI tui = new TUI(commandManager, clientModel);
+        ((ObservableModelView) clientModel).addListener(tui);
         commandManager.initializeCommandManager(client.virtualServer, tui);
-        tui.run();*/
+        tui.run();
         System.exit(0);
     }
 

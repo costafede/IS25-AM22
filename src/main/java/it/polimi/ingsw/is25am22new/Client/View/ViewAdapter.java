@@ -10,4 +10,5 @@ public interface ViewAdapter {
     void showCard(AdventureCard card, ClientModel clientModel);
     void showUncoveredComponentTiles(ClientModel clientModel);
     void showLeaderboard(ClientModel clientModel);
+    void showAvailableCommands(ClientModel clientModel);
 }
