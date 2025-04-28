@@ -185,12 +185,38 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         Shipboard ship = shipboards.get(player);
         System.out.println("=== COMPONENTI IN STAND BY ===");
 
-        for (int i = 0; i < 2; i++){
-            Optional<ComponentTile>[] standbyComponents = ship.getStandbyComponent();
-            Optional<ComponentTile> c = standbyComponents[i];
-            if (c.isPresent()){ System.out.println(c); }
-            else{ System.out.println("Vuoto"); }
+        for (int column = 0; column < 2; column++) {
+            System.out.print("+");
+            for (int i = 0; i < 7; i++) {
+                System.out.print("-");
+            }
         }
+        System.out.println("+");
+
+        for (int h = 0; h < 5; h++) {
+            for (int column = 0; column < 2; column++) {
+                System.out.print("|");
+                Optional<ComponentTile>[] standbyComponents = ship.getStandbyComponent();
+                Optional<ComponentTile> c = standbyComponents[column];
+                if (c.isPresent()) {
+                    String[] draw = c.get().draw();
+                    System.out.print(draw[h]);
+                }
+                else {
+                    System.out.print("       "); //no component = empty cell
+                }
+            }
+            System.out.println("|");
+        }
+
+
+        for (int column = 0; column < 2; column++) {
+            System.out.print("+");
+            for (int i = 0; i < 7; i++) {
+                System.out.print("-");
+            }
+        }
+        System.out.println("+");
     }
 
     @Override
