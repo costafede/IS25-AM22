@@ -30,4 +30,9 @@ public class EpidemicCard extends AdventureCard implements Serializable {
             }
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "";
+    }
 }

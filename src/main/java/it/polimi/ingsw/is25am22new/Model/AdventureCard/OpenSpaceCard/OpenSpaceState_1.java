@@ -12,6 +12,11 @@ public class OpenSpaceState_1 extends OpenSpaceState implements Serializable {
     }
 
     @Override
+    public String getStateName() {
+        return "OpenSpaceState_1";
+    }
+
+    @Override
     public void activateEffect(InputCommand inputCommand) {
         if(inputCommand.getChoice()){   //player wants to activate a double engine, so he removes a battery token from the component tile with the coordinates given
             ComponentTile batteryComponent = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();

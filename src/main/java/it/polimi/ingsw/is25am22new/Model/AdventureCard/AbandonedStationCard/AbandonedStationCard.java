@@ -36,6 +36,11 @@ public class AbandonedStationCard extends AdventureCard implements Serializable 
         abandonedStationState.activateEffect(inputCommand);
     }
 
+    @Override
+    public String getStateName() {
+        return abandonedStationState.getStateName();
+    }
+
     public int getFlightDaysLost() {
         return flightDaysLost;
     }

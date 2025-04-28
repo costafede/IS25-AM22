@@ -41,4 +41,6 @@ public abstract class AdventureCard implements Serializable {
     }
 
     public abstract void activateEffect(InputCommand inputCommand);
+
+    public abstract String getStateName();
 }

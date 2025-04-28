@@ -21,4 +21,9 @@ public class StardustCard extends AdventureCard {
             game.getFlightboard().shiftRocket(nickname, stepsBackwards);
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "";
+    }
 }

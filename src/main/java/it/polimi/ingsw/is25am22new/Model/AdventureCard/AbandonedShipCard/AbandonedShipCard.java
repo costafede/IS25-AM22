@@ -39,6 +39,11 @@ public class AbandonedShipCard extends AdventureCard implements Serializable {
         abandonedShipState.activateEffect(inputCommand);
     }
 
+    @Override
+    public String getStateName() {
+        return abandonedShipState.getStateName();
+    }
+
     public void setAbandonedShipState(AbandonedShipState abandonedShipState) {
         this.abandonedShipState = abandonedShipState;
     }

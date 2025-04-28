@@ -39,4 +39,9 @@ public class PiratesState_6 extends PiratesState implements Serializable {
             transition(new PiratesState_4(piratesCard));
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "PiratesState_6";
+    }
 }

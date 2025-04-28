@@ -14,6 +14,8 @@ public abstract class OpenSpaceState implements Serializable {
         game = openSpaceCard.getGame();
     }
 
+    public abstract String getStateName();
+
     public abstract void activateEffect(InputCommand inputCommand);
 
     public void transition(OpenSpaceState openSpaceState) {

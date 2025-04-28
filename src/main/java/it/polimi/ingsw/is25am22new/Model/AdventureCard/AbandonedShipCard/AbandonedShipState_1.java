@@ -25,4 +25,9 @@ public class AbandonedShipState_1 extends AbandonedShipState implements Serializ
             game.setCurrCard(null);
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "AbandonedShipState_1";
+    }
 }

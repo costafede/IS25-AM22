@@ -11,6 +11,11 @@ public class OpenSpaceState_2 extends OpenSpaceState implements Serializable {
     }
 
     @Override
+    public String getStateName() {
+        return "OpenSpaceState_1";
+    }
+
+    @Override
     public void activateEffect(InputCommand inputCommand) {
         ComponentTile doubleEngine = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
         doubleEngine.activateComponent();

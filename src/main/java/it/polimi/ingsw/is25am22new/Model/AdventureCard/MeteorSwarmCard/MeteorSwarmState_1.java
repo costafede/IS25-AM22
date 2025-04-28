@@ -123,6 +123,11 @@ public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable
         }
     }
 
+    @Override
+    public String getStateName() {
+        return "MeteorSwarmState_1";
+    }
+
     private void setNewDices() {
         game.getDices().rollDices();
         meteorSwarmCard.setDice1(game.getDices().getDice1());

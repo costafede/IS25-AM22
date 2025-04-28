@@ -37,4 +37,9 @@ public class CombatZoneState_5 extends CombatZoneState implements Serializable {
         }
     }
 
+    @Override
+    public String getStateName() {
+        return "CombatZoneState_5";
+    }
+
 }

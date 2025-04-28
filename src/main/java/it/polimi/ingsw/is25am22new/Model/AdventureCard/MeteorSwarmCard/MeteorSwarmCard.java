@@ -33,6 +33,11 @@ public class MeteorSwarmCard extends AdventureCard implements Serializable {
         meteorSwarmState.activateEffect(command);
     }
 
+    @Override
+    public String getStateName() {
+        return meteorSwarmState.getStateName();
+    }
+
     public Map<Integer, Meteor> getNumberToMeteor() {
         return numberToMeteor;
     }

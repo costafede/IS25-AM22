@@ -59,4 +59,9 @@ public class SlaversState_1 extends SlaversState implements Serializable {
             }
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "SlaversState_1";
+    }
 }

@@ -34,4 +34,9 @@ public class SlaversState_3 extends SlaversState implements Serializable {
         game.setCurrPlayerToLeader();
         game.setCurrCard(null);
     }
+
+    @Override
+    public String getStateName() {
+        return "SlaversState_3";
+    }
 }

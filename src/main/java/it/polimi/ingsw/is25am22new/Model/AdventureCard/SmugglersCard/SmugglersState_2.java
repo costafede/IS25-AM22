@@ -18,4 +18,9 @@ public class SmugglersState_2 extends SmugglersState implements Serializable {
             throw new IllegalArgumentException("You didn't select a cannon");
         transition(new SmugglersState_1(smugglersCard));
     }
+
+    @Override
+    public String getStateName() {
+        return "SmugglersState_2";
+    }
 }

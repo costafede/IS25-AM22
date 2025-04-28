@@ -44,4 +44,9 @@ public class AbandonedStationState_2 extends AbandonedStationState implements Se
             game.setCurrCard(null); //card effect has ended
         }   //as the card is implemented, even if there are no more moves available for the curr player, he still has to send the message with choice set on false to end the card effect or pass the turn to the next one
     }
+
+    @Override
+    public String getStateName() {
+        return "AbandonedStationState_2";
+    }
 }

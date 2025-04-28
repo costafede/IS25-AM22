@@ -19,4 +19,6 @@ public abstract class AbandonedStationState implements Serializable {
     public void transition(AbandonedStationState abandonedStationState) {
         abandonedStationCard.setAbandonedStationState(abandonedStationState);
     }
+
+    public abstract String getStateName();
 }

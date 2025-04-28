@@ -36,4 +36,9 @@ public class CombatZoneState_10 extends CombatZoneState implements Serializable 
 
         transition(new CombatZoneState_9(combatZoneCard));
     }
+
+    @Override
+    public String getStateName() {
+        return "CombatZoneState_10";
+    }
 }

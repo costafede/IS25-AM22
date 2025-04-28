@@ -27,4 +27,9 @@ public class SlaversState_2 extends SlaversState implements Serializable {
         slaversCard.setBatteryUsed(false);
         transition(new SlaversState_1(slaversCard));
     }
+
+    @Override
+    public String getStateName() {
+        return "SlaversState_2";
+    }
 }

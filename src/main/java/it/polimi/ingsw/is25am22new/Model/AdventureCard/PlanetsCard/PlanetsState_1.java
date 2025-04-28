@@ -27,4 +27,9 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
             transition(new PlanetsState_2(planetsCard));
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "PlanetsState_1";
+    }
 }

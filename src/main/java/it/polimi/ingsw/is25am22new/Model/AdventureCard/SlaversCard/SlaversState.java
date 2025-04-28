@@ -19,4 +19,6 @@ public abstract class SlaversState implements Serializable {
     protected void transition(SlaversState slaversState) {
         slaversCard.setSlaversState(slaversState);
     }
+
+    public abstract String getStateName();
 }

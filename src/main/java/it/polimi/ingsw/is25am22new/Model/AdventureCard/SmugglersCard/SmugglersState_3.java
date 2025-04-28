@@ -22,4 +22,9 @@ public class SmugglersState_3 extends SmugglersState implements Serializable {
             game.setCurrCard(null); //card effect has ended
         }
     }
+
+    @Override
+    public String getStateName() {
+        return "SmugglersState_3";
+    }
 }
