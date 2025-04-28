@@ -326,30 +326,44 @@ public class LobbyView implements EnhancedClientView {
             setupAsHostRMI(client, scanner);
         } else {
             // Non-host players just wait
-            if(gameStarted){
+            if(gameStarted || inGame){
                 return;
             }
             System.out.println("Waiting for other players to join...");
             System.out.println("Game will start automatically when all players have joined.");
         }
 
-        while (running && !inGame) {
-            String command = scanner.nextLine().trim();
+        while (running && !inGame && !gameStarted) {
+            System.out.println("Waiting for more players to join...");
+            System.out.println("Current players: " + currentPlayerCount +
+                    (numPlayers > 0 ? "/" + numPlayers : ""));
+            System.out.println("Type 'exit' to leave the lobby.");
+            System.out.print("> ");
 
+            // Use scanner with timeout to avoid blocking indefinitely
             try {
-                if (command.equals("exit")) {
-                    running = false;
-                    client.playerAbandons(playerName);
+                if (scanner.hasNextLine()) {
+                    String command = scanner.nextLine().trim();
+
+                    if (command.equals("exit")) {
+                        running = false;
+                        client.playerAbandons(playerName);
+                    }
                 } else {
-                    // Refresh the lobby status
-                    System.out.println("Waiting for more players to join...");
-                    System.out.println("Current players: " + currentPlayerCount +
-                            (numPlayers > 0 ? "/" + numPlayers : ""));
-                    System.out.println("Type 'exit' to leave the lobby.");
-                    System.out.print("> ");
+                    // No input available, sleep briefly then check game status
+
+                    if (gameStarted || inGame) {
+                        break;
+                    }
+                    Thread.sleep(100);
                 }
-            } catch (IOException e) {
-                System.err.println("Error executing command: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Error in command loop: " + e.getMessage());
+            }
+
+            // Break the loop if game started during this iteration
+            if (gameStarted || inGame) {
+                break;
             }
         }
     }
@@ -544,5 +558,9 @@ public class LobbyView implements EnhancedClientView {
             }
         }
         System.out.println("Host has completed setup. Game type: " + gameType);
+    }
+
+    public String getGameType() {
+        return gameType;
     }
 }

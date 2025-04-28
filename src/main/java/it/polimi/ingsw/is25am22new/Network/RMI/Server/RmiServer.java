@@ -135,7 +135,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     public void updateGameStarted() {
         for (VirtualView client : connectedClients) {
             try {
-                (client).showGameStarted();
+                client.showGameStarted();
             } catch (RemoteException e) {
                 System.err.println("Error updating client with game started: " + e.getMessage());
                 handleClientError(client, e);

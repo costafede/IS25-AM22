@@ -25,11 +25,12 @@ import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
-
     private final VirtualServer server;
     private final EnhancedClientView clientView;
     private static final String SERVER_NAME = "GalaxyTruckerServer";
     private boolean isHost = false;
+    private String playerName;
+    private String gameType;
 
     public RmiClient(VirtualServer server, EnhancedClientView clientView) throws RemoteException {
         super();
@@ -72,12 +73,20 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                     System.err.println("Error connecting with nickname: " + e.getMessage());
                 }
             }
-
+            this.playerName = playerName;
             clientView.startCommandLoopRMI(this, playerName, scanner);
-
         } catch (Exception e) {
             System.err.println("Client exception: " + e);
         }
+
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public String getGameType() {
+        return gameType;
     }
 
     public void connectWithNickname(String nickname) throws RemoteException {
@@ -170,6 +179,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
+        this.gameType = gameType;
         clientView.displayLobbyUpdate(players, readyStatus, gameType, isHost);
     }
 
@@ -250,5 +260,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     @Override
     public void showUpdateHourglassSpot(int hourglassSpot) {
 
+    }
+
+    public void setPlayerName(String testPlayer) {
+        this.playerName = testPlayer;
     }
 }

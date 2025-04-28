@@ -14,6 +14,8 @@ import java.util.Scanner;
 
 public class GalaxyTruckerClient {
     private VirtualServer virtualServer;
+    private String playerName;
+    private String gameType;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -102,10 +104,13 @@ public class GalaxyTruckerClient {
             scanner.close();
         }
 
+        System.out.println("!!!!! - Game Type: " + client.gameType + ", Player Name: " + client.playerName);
+
         CommandManager commandManager = new CommandManager(null, client.virtualServer);
         /*TUI tui = new TUI(commandManager, istanza di client model);
         commandManager.initializeCommandManager(client.virtualServer, tui);
         tui.run();*/
+        System.exit(0);
     }
 
     /*
@@ -128,7 +133,13 @@ public class GalaxyTruckerClient {
 
         // Create and run RMI client
         RmiClient client = new RmiClient(virtualServer, view);
+
+        System.out.println("Before client.run()");
         client.run(null, scanner); // null means it will prompt for a name
+        System.out.println("After client.run()");
+
+        this.gameType = client.getGameType();
+        this.playerName = client.getPlayerName();
     }
 
     /*
