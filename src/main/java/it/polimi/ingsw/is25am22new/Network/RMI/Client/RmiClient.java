@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
-import it.polimi.ingsw.is25am22new.Client.LobbyView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -25,6 +25,7 @@ import java.util.Scanner;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
+    ClientModel clientModel;
     private final VirtualServer server;
     private final EnhancedClientView clientView;
     private static final String SERVER_NAME = "GalaxyTruckerServer";
@@ -206,61 +207,67 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showUpdateBank(Bank bank)  {
-
+        clientModel.setBank(bank);
     }
 
     @Override
     public void showUpdateTileInHand(String player, ComponentTile tile)  {
+        clientModel.getShipboard(player).setTileInHand(tile);
     }
 
     @Override
     public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList)  {
+        clientModel.setUncoveredComponentTiles(ctList);
     }
 
     @Override
     public void showUpdateCoveredComponentTiles(List<ComponentTile> ctList) {
-        //
+        clientModel.setCoveredComponentTiles(ctList);
     }
 
     @Override
     public void showUpdateShipboard(String player, Shipboard shipboard)  {
+        clientModel.getShipboards().put(player, shipboard);
     }
 
     @Override
     public void showUpdateFlightboard(Flightboard flightboard)  {
+        clientModel.setFlightboard(flightboard);
     }
 
     @Override
     public void showUpdateCurrCard(AdventureCard adventureCard)  {
+        clientModel.setCurrCard(adventureCard);
     }
 
     @Override
     public void showUpdateDices(Dices dices)  {
+        clientModel.setDices(dices);
     }
 
     @Override
     public void showUpdateCurrPlayer(String currPlayer)  {
+        clientModel.setCurrPlayer(currPlayer);
     }
 
     @Override
     public void showUpdateGamePhase(GamePhase gamePhase) {
-
+        clientModel.setGamePhase(gamePhase);
     }
 
     @Override
     public void showUpdateDeck(List<AdventureCard> deck) {
-
+        clientModel.setDeck(deck);
     }
 
     @Override
     public void showUpdateGame(Game game) {
-        //temporary test
-        clientView.displayGame(game);
+        clientModel.setGame(game);
     }
 
     @Override
     public void showUpdateHourglassSpot(int hourglassSpot) {
-
+        System.out.println("Hourglass spot: " + hourglassSpot);
     }
 
     public void setPlayerName(String testPlayer) {
