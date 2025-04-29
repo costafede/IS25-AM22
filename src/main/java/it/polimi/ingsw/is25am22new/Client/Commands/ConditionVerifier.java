@@ -25,4 +25,11 @@ public class ConditionVerifier {
                 throw new IllegalStateException("Model has no GameType (LEVEL2 or TUTORIAL)");
         }
     }
+
+    public static boolean stringIsGoodBlock(String block) {
+        return block.equalsIgnoreCase("redblock") ||
+                block.equalsIgnoreCase("blueblock") ||
+                block.equalsIgnoreCase("greenblock") ||
+                block.equalsIgnoreCase("yellowblock");
+    }
 }

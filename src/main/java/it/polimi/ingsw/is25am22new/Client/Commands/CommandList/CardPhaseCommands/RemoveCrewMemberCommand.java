@@ -20,10 +20,11 @@ public class RemoveCrewMemberCommand extends AbstractCommand {
     @Override
     public boolean isApplicable(ClientModel model) {
         return model.getGamePhase().getPhaseType().equals(PhaseType.CARD) &&
+                model.getCurrCard() != null &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
                 (model.getCurrCard().getStateName().equals("SlaversState_4") ||
-                model.getCurrCard().getStateName().equals("CombatZoneState_5") /*||
-                model.getCurrCard().getStateName().equals(TO DO SHIP)*/);
+                model.getCurrCard().getStateName().equals("CombatZoneState_5") ||
+                model.getCurrCard().getStateName().equals("AbandonedShipState_2"));
     }
 
     public int getInputLength() {

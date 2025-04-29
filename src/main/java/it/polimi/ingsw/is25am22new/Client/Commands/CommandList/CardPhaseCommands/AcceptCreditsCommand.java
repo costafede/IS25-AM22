@@ -20,6 +20,7 @@ public class AcceptCreditsCommand extends AbstractCommand {
     @Override
     public boolean isApplicable(ClientModel model) {
         return model.getGamePhase().getPhaseType().equals(PhaseType.CARD) &&
+                model.getCurrCard() != null &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
                 (model.getCurrCard().getStateName().equals("SlaversState_3") ||
                 model.getCurrCard().getStateName().equals("PiratesState_3"));

@@ -20,6 +20,7 @@ public class ActivateDoubleCannonCommand extends AbstractCommand {
     @Override
     public boolean isApplicable(ClientModel model) {
         return model.getGamePhase().getPhaseType().equals(PhaseType.CARD) &&
+                model.getCurrCard() != null &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
                 (model.getCurrCard().getStateName().equals("CombatZoneState_6") ||
                 model.getCurrCard().getStateName().equals("SmugglersState_1") ||

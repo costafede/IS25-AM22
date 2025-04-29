@@ -1,0 +1,75 @@
+package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands;
+
+import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
+import it.polimi.ingsw.is25am22new.Client.Commands.StringConverter;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
+
+public class RemoveGoodBlockCommand extends AbstractCommand {
+    public RemoveGoodBlockCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
+        super(virtualServer, viewAdapter);
+    }
+
+    @Override
+    public String getName() {
+        return "RemoveGoodBlock";
+    }
+
+    @Override
+    public boolean isApplicable(ClientModel model) {
+        return model.getGamePhase().getPhaseType().equals(PhaseType.CARD) &&
+                model.getCurrCard() != null &&
+                model.getCurrPlayer().equals(model.getPlayerName()) &&
+                (model.getCurrCard().getStateName().equals("PlanetsState_2") ||
+                model.getCurrCard().getStateName().equals("SmugglersState_4") ||
+                model.getCurrCard().getStateName().equals("AbandonedStationState_2"));
+    }
+
+    public int getInputLength() {
+        return 3;
+    }
+
+    @Override
+    public void execute(ClientModel model) {
+        InputCommand inputCommand = new InputCommand();
+        inputCommand.setChoice(true);
+        GoodBlock gb_1 = StringConverter.stringToGoodBlock(input.getFirst());
+        int row_1 = Integer.parseInt(input.get(1));
+        int col_1 = Integer.parseInt(input.get(2));
+        inputCommand.setRow(row_1);
+        inputCommand.setCol(col_1);
+        inputCommand.setGoodBlock(gb_1);
+        inputCommand.flagIsRemovingGoodBlock();
+        activateCard(inputCommand);
+    }
+
+    //input: gb_1, row_1, col_1
+    @Override
+    public boolean isInputValid(ClientModel model) {
+        if(!super.isInputValid(model))
+            return false;
+        GoodBlock gb_1;
+        int row_1, col_1;
+        try {
+            row_1 = Integer.parseInt(input.get(1));
+            col_1 = Integer.parseInt(input.get(2));
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+        if(!ConditionVerifier.stringIsGoodBlock(input.getFirst()))
+            return false;
+        gb_1 = StringConverter.stringToGoodBlock(input.getFirst());
+        if(model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_1, col_1).isEmpty() ||
+                !model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_1, col_1).get().isStorageCompartment() ||
+                model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_1, col_1).get().getGoodBlocks().get(gb_1) <= 0) {
+            return false;
+        }
+        return true;
+    }
+}

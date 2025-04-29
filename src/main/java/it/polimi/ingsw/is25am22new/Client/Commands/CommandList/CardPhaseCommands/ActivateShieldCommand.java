@@ -21,6 +21,7 @@ public class ActivateShieldCommand extends AbstractCommand {
     public boolean isApplicable(ClientModel model) {
         return model.getGamePhase().getPhaseType().equals(PhaseType.CARD) &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
+                model.getCurrCard() != null &&
                 (model.getCurrCard().getStateName().equals("MeteorSwarmState_1") ||
                 model.getCurrCard().getStateName().equals("CombatZoneState_9") ||
                 model.getCurrCard().getStateName().equals("PiratesState_4"));
