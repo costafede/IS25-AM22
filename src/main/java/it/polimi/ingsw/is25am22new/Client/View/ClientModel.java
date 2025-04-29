@@ -104,10 +104,14 @@ public class ClientModel extends ObservableModelView {
         return shipboards;
     }
 
+    public void setShipboard(String player, Shipboard shipboard){
+        this.shipboards.put(player, shipboard);
+        fixShipboards(this.shipboards);
+    }
+
     public void setShipboards(Map<String, Shipboard> shipboards) {
         this.shipboards = shipboards;
-        //add optional methods
-        /*TO DO TOMMY*/
+        fixShipboards(this.shipboards);
         notifyObservers(this);
     }
 
@@ -181,8 +185,7 @@ public class ClientModel extends ObservableModelView {
         cardArchive = game.getCardArchive();
         flightboard = game.getFlightboard();
         shipboards = game.getShipboards();
-        //add optional methods
-        /*TO DO TOMMY*/
+        fixShipboards(this.shipboards);
         coveredComponentTiles = game.getCoveredComponentTiles();
         uncoveredComponentTiles = game.getUncoveredComponentTiles();
         deck = game.getDeck();
@@ -192,5 +195,15 @@ public class ClientModel extends ObservableModelView {
         gamePhase = game.getGamePhase();
         gameType = game.getFlightboard().getFlightBoardLength() == 24 ? GameType.LEVEL2 : GameType.TUTORIAL;
         notifyObservers(this);
+    }
+
+    public void fixShipboards(Map<String, Shipboard> shipboards) {
+        for (Shipboard shipboard : shipboards.values()) {
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 7; j++) {
+                    shipboard.setComponentTileOnGrid(i, j, shipboard.getComponentTilesGridCopy(i, j));
+                }
+            }
+        }
     }
 }

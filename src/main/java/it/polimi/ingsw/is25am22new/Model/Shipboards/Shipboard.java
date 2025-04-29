@@ -105,6 +105,10 @@ public class Shipboard implements Serializable {
         this.standbyComponentCopy[i] = componentTile;
     }
 
+    public void setComponentTileOnGrid(int i, int j, ComponentTile componentTile){
+        componentTilesGrid.set(i, j, componentTile);
+    }
+
     public ComponentTile getComponentTilesGridCopy(int i, int j) {
         return componentTilesGridCopy[i][j];
     }
