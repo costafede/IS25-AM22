@@ -26,7 +26,7 @@ This repository contains the implementation of the final project for the **Softw
 - **Language**: Java SE
 - **Framework**: JavaFX / Swing for GUI
 - **Architectural Pattern**: Model-View-Controller (MVC)
-- **Communication**: Socket TCP-IP e/o RMI
+- **Communication**: Socket TCP-IP e RMI
 - **Build Tool**: Maven
 - **Version Control**: Git
 
