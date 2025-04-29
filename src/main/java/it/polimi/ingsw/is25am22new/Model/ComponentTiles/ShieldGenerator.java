@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
+import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
+
 public class ShieldGenerator extends ComponentTile {
     private boolean topSideShieldable, bottomSideShieldable, leftSideShieldable, rightSideShieldable;   //sono i lati su cui si può attivare lo scudo
     private boolean topSideShielded, bottomSideShielded, leftSideShielded, rightSideShielded; //booleani che servono a capire che lati sono effettivamente attivi
@@ -79,9 +82,45 @@ public class ShieldGenerator extends ComponentTile {
 
     @Override
     public String[] draw(){
+        String top;
+        String bottom;
+        String left;
+        String right;
+        String active = "";
+
+        if (topSide.equals(SMOOTH) && !topSideShieldable){top = "L";}
+        else if (topSide.equals(ONEPIPE) && !topSideShieldable){top = "1";}
+        else if (topSide.equals(TWOPIPES) && !topSideShieldable){top = "2";}
+        else if (topSide.equals(UNIVERSALPIPE) && !topSideShieldable){top = "3";}
+        else {top = "%";}
+
+        if (bottomSide.equals(SMOOTH) && !bottomSideShieldable){bottom = "L";}
+        else if (bottomSide.equals(ONEPIPE) && !bottomSideShieldable){bottom = "1";}
+        else if (bottomSide.equals(TWOPIPES) && !bottomSideShieldable){bottom = "2";}
+        else if (bottomSide.equals(UNIVERSALPIPE) && !bottomSideShieldable){bottom = "3";}
+        else {bottom = "%";}
+
+        if (leftSide.equals(SMOOTH) && !leftSideShieldable){left = "L";}
+        else if (leftSide.equals(ONEPIPE) && !leftSideShieldable){left = "1";}
+        else if (leftSide.equals(TWOPIPES) && !leftSideShieldable){left = "2";}
+        else if (leftSide.equals(UNIVERSALPIPE) && !leftSideShieldable){left = "3";}
+        else {left = "%";}
+
+        if (rightSide.equals(SMOOTH) && !rightSideShieldable){right = "L";}
+        else if (rightSide.equals(ONEPIPE) && !rightSideShieldable){right = "1";}
+        else if (rightSide.equals(TWOPIPES) && !rightSideShieldable){right = "2";}
+        else if (rightSide.equals(UNIVERSALPIPE) && !rightSideShieldable){right = "3";}
+        else {right = "%";}
+
+        if (topSideShielded || bottomSideShielded || leftSideShielded || rightSideShielded) {active = "A";}
+        else {active = " ";}
+
         return new String[]{
-                " ",
-                " "
+                "   " + top + "   ",
+                "       ",
+                left + "  SG " + right,
+                "   " + active + "   ",
+                "   " + bottom + "   ",
         };
     }
 }
