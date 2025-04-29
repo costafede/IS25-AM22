@@ -2,8 +2,6 @@ package it.polimi.ingsw.is25am22new.Client;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
-import it.polimi.ingsw.is25am22new.Client.View.ClientModelObserver;
-import it.polimi.ingsw.is25am22new.Client.View.ObservableModelView;
 import it.polimi.ingsw.is25am22new.Client.View.TUI;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
@@ -17,7 +15,6 @@ import java.util.Scanner;
 public class GalaxyTruckerClient {
     private VirtualServer virtualServer;
     private String playerName;
-    private String gameType;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -106,12 +103,12 @@ public class GalaxyTruckerClient {
             scanner.close();
         }
 
-        System.out.println("!!!!! - Game Type: " + client.gameType + ", Player Name: " + client.playerName);
+        //System.out.println("!!!!! - Game Type: " + client.gameType + ", PlayerName: " + client.playerName);
 
         CommandManager commandManager = new CommandManager(null, client.virtualServer);
         ClientModel clientModel = new ClientModel(client.playerName);
         TUI tui = new TUI(commandManager, clientModel);
-        ((ObservableModelView) clientModel).addListener(tui);
+        clientModel.addListener(tui);
         commandManager.initializeCommandManager(client.virtualServer, tui);
         tui.run();
         System.exit(0);
@@ -138,11 +135,8 @@ public class GalaxyTruckerClient {
         // Create and run RMI client
         RmiClient client = new RmiClient(virtualServer, view);
 
-        System.out.println("Before client.run()");
         client.run(null, scanner); // null means it will prompt for a name
-        System.out.println("After client.run()");
 
-        this.gameType = client.getGameType();
         this.playerName = client.getPlayerName();
     }
 

@@ -31,7 +31,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private static final String SERVER_NAME = "GalaxyTruckerServer";
     private boolean isHost = false;
     private String playerName;
-    private String gameType;
 
     public RmiClient(VirtualServer server, EnhancedClientView clientView) throws RemoteException {
         super();
@@ -84,10 +83,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     public String getPlayerName() {
         return playerName;
-    }
-
-    public String getGameType() {
-        return gameType;
     }
 
     public void connectWithNickname(String nickname) throws RemoteException {
@@ -180,7 +175,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
 
     @Override
     public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
-        this.gameType = gameType;
         clientView.displayLobbyUpdate(players, readyStatus, gameType, isHost);
     }
 
