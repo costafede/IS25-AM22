@@ -210,14 +210,14 @@ public class ClientModel extends ObservableModelView {
             }
             if(shipboard.getStandbyComponent() == null) {
                 shipboard.setNewStandbyComponent();
-                shipboard.setStandbyComponent(0, Optional.ofNullable(shipboard.getStandbyComponentCopy(0)));
-                shipboard.setStandbyComponent(1, Optional.ofNullable(shipboard.getStandbyComponentCopy(1)));
             }
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 7; j++) {
                     shipboard.setComponentTileOnGrid(i, j, shipboard.getComponentTilesGridCopy(i, j));
                 }
             }
+            shipboard.setStandbyComponent(0, Optional.ofNullable(shipboard.getStandbyComponentCopy(0)));
+            shipboard.setStandbyComponent(1, Optional.ofNullable(shipboard.getStandbyComponentCopy(1)));
         }
     }
 }
