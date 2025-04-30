@@ -100,8 +100,6 @@ public class GalaxyTruckerClient {
             }
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
 
         //System.out.println("!!!!! - Game Type: " + client.gameType + ", PlayerName: " + client.playerName);
@@ -110,7 +108,7 @@ public class GalaxyTruckerClient {
         TUI tui = new TUI(commandManager, clientModel);
         clientModel.addListener(tui);
         commandManager.initializeCommandManager(client.virtualServer, tui);
-        tui.run();
+        tui.run(scanner);
         System.exit(0);
     }
 

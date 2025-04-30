@@ -51,14 +51,11 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
 
     //return true if the format is valid
-    private boolean askCommand() {
+    private boolean askCommand(Scanner scanner) {
         String inputLine = null;
-        try {
-            inputLine = scanner.nextLine();
-
-        } catch (NoSuchElementException e) {
+        inputLine = scanner.nextLine();
+        if(inputLine == null || inputLine.isEmpty())
             return false;
-        }
         char currChar = inputLine.charAt(0);
         this.input.clear();
         int i = 0;
@@ -338,7 +335,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         }
     }
 
-    public void run() {
+    public void run(Scanner scanner) {
         Command chosen = null;
         boolean commandNotValid;
         while(cliRunning) {
@@ -346,7 +343,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
                 System.out.println();
                 System.out.print("> ");
                 do {
-                    while (!askCommand()) {
+                    while (!askCommand(scanner)) {
                         System.out.println("Invalid format, try again");
                         System.out.print("> ");
                     }

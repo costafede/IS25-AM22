@@ -89,6 +89,7 @@ public class SocketClientSide implements VirtualView {
         } catch (IOException e) {
             System.out.println("Error connecting to server: " + e.getMessage());
         }
+        scanner.close();
         return null;
     }
 
