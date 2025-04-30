@@ -104,7 +104,7 @@ public class GalaxyTruckerClient {
 
         //System.out.println("!!!!! - Game Type: " + client.gameType + ", PlayerName: " + client.playerName);
 
-        CommandManager commandManager = new CommandManager(null, client.virtualServer);
+        CommandManager commandManager = new CommandManager();
         TUI tui = new TUI(commandManager, clientModel);
         clientModel.addListener(tui);
         commandManager.initializeCommandManager(client.virtualServer, tui);

@@ -47,7 +47,7 @@ public class FinishBuildingCommand extends AbstractCommand {
         return !alreadyPresent;
     }
 
-    //input: one of the four position: 0, 1, 2, 3 (if it's free)
+    //input: one of the four positions: 1, 2, 3, 4 (if it's free)
     @Override
     public void execute(ClientModel model) {
         try {

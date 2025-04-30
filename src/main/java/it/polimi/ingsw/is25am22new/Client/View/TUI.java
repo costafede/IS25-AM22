@@ -30,7 +30,6 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     private ClientModel model;
     private List<String> input;
     private String commandName;
-    private final Scanner scanner = new Scanner(System.in);
     private final List<Command> allCommands;
 
     public TUI(CommandManager commandManager, ClientModel model) {
@@ -51,7 +50,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
 
     //return true if the format is valid
-    private boolean askCommand(Scanner scanner) {
+    public boolean askCommand(Scanner scanner) {
         String inputLine = null;
         inputLine = scanner.nextLine();
         if(inputLine == null || inputLine.isEmpty())
@@ -61,21 +60,35 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         int i = 0;
         while(currChar != '(') {
             i++;
+            if(i == inputLine.length())
+                return false;
             currChar = inputLine.charAt(i);
         }
         if(i == 0)
             return false;
-        this.commandName = inputLine.substring(0, i - 1).replaceAll("\\s+", "");
+        this.commandName = inputLine.substring(0, i).replaceAll("\\s+", "");
+        if(inputLine.charAt(inputLine.length() - 1) != ')')
+            return false;
+        inputLine = inputLine.substring(i + 1).replaceAll("\\s+", "");
+        if(inputLine.equals(")"))
+            return true;
+        if(inputLine.contains("(") || inputLine.substring(0, inputLine.length() - 1).contains(")"))
+            return false;
+        i = 0;
         while(currChar != ')') {
-            int beginningIndex = i + 1;
+            int beginningIndex = i;
+            currChar = inputLine.charAt(i);
             while(currChar !=  ',' && currChar != ')') {
                 i++;
                 currChar = inputLine.charAt(i);
             }
-            this.input.add(inputLine.substring(beginningIndex, i - 1).replaceAll("\\s+", ""));
+            String inputParameter = inputLine.substring(beginningIndex, i).replaceAll("\\s+", "");
+            if(!inputParameter.isEmpty())
+                this.input.add(inputParameter);
+            else
+                return false;
+            i++;
         }
-        if(inputLine.length() == i + 1)
-            return false;
         return true;
     }
 
@@ -383,6 +396,14 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         synchronized(this) {
             showLeaderboard(model);
         }
+    }
+
+    public List<String> getInput() {
+        return this.input;
+    }
+
+    public String getCommandName() {
+        return this.commandName;
     }
 
 }
