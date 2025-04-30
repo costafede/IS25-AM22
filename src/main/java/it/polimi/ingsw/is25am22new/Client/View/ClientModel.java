@@ -15,6 +15,7 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ClientModel extends ObservableModelView {
     protected Bank bank;
@@ -206,6 +207,11 @@ public class ClientModel extends ObservableModelView {
         for (Shipboard shipboard : shipboards.values()) {
             if(shipboard.getComponentTilesGrid() == null) {
                 shipboard.setNewComponentTilesGrid();
+            }
+            if(shipboard.getStandbyComponent() == null) {
+                shipboard.setNewStandbyComponent();
+                shipboard.setStandbyComponent(0, Optional.ofNullable(shipboard.getStandbyComponentCopy(0)));
+                shipboard.setStandbyComponent(1, Optional.ofNullable(shipboard.getStandbyComponentCopy(1)));
             }
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 7; j++) {
