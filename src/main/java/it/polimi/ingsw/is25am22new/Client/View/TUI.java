@@ -55,8 +55,9 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         String inputLine = null;
         try {
             inputLine = scanner.nextLine();
-        } catch (RuntimeException e) {
-            inputLine = "";
+
+        } catch (NoSuchElementException e) {
+            return false;
         }
         char currChar = inputLine.charAt(0);
         this.input.clear();

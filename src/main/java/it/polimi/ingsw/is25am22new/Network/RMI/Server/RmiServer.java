@@ -121,7 +121,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
         for (VirtualView client : connectedClients) {
             try {
-                (client).showLobbyUpdate(players, readyStatus, gameType);
+                client.showLobbyUpdate(players, readyStatus, gameType);
             } catch (RemoteException e) {
                 System.err.println("Error updating client with lobby information: " + e.getMessage());
                 handleClientError(client, e);

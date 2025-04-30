@@ -4,6 +4,8 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.SetUpPhase;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
@@ -30,10 +32,13 @@ public class ClientModel extends ObservableModelView {
     protected String playerName;    //name of the player using this client
     protected int hourglassSpot;
     protected GameType gameType;
-
     protected List<CardPile> cardPiles;
 
-    public ClientModel(String playerName) {
+    public ClientModel() {
+        this.gamePhase = new SetUpPhase(null);
+    }
+
+    public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
