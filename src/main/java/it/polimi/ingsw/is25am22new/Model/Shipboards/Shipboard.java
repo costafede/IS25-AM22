@@ -121,8 +121,20 @@ public class Shipboard implements Serializable {
         return componentTilesGridCopy[i][j];
     }
 
+    public ComponentTile getStandbyComponentCopy(int i) {
+        return standbyComponentCopy[i];
+    }
+
     public Optional<ComponentTile>[] getStandbyComponent() {
         return standbyComponent;
+    }
+
+    public void setStandbyComponent(int i, Optional<ComponentTile> standbyComponent) {
+        this.standbyComponent[i] = standbyComponent;
+    }
+
+    public void setNewStandbyComponent() {
+        this.standbyComponent = (Optional<ComponentTile>[]) new Optional[2];
     }
 
     public void weldComponentTile (ComponentTile ct, int i, int j){
