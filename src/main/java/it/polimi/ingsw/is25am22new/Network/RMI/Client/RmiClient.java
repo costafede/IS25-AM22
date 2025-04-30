@@ -32,10 +32,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     private boolean isHost = false;
     private String playerName;
 
-    public RmiClient(VirtualServer server, EnhancedClientView clientView) throws RemoteException {
+    public RmiClient(VirtualServer server, EnhancedClientView clientView, ClientModel clientModel) throws RemoteException {
         super();
         this.server = server;
         this.clientView = clientView;
+        this.clientModel = clientModel;
     }
 
     /*
@@ -74,6 +75,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
                 }
             }
             this.playerName = playerName;
+            clientModel.setPlayerName(playerName);
             clientView.startCommandLoopRMI(this, playerName, scanner);
         } catch (Exception e) {
             System.err.println("Client exception: " + e);

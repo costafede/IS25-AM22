@@ -28,14 +28,15 @@ public class SocketClientSide implements VirtualView {
     LobbyView view;
     boolean isHost;
 
-    protected SocketClientSide(ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName) throws IOException {
+    protected SocketClientSide(ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel) throws IOException {
         this.output = output;
         this.objectInput = objectInput;
         this.thisPlayerName = thisPlayerName;
         this.view = new LobbyView();
+        this.clientModel = clientModel;
     }
 
-    public static SocketServerHandler connectToServer(String[] args) throws InterruptedException, ClassNotFoundException {
+    public static SocketServerHandler connectToServer(String[] args, ClientModel clientModel) throws InterruptedException, ClassNotFoundException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
         Scanner scanner = new Scanner(System.in);
@@ -82,7 +83,7 @@ public class SocketClientSide implements VirtualView {
                 if(!joined) System.out.println("Try again!");
             }
 
-            SocketClientSide newSocket = new SocketClientSide(objectInput, output, thisPlayerName);
+            SocketClientSide newSocket = new SocketClientSide(objectInput, output, thisPlayerName, clientModel);
             newSocket.run();
             return newSocket.getServerHandler();
         } catch (IOException e) {
@@ -103,6 +104,7 @@ public class SocketClientSide implements VirtualView {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> this.output.disconnect(thisPlayerName)));
 
         Thread.sleep(500);
+        clientModel.setPlayerName(thisPlayerName);
         this.view.startCommandLoopSocket(this, thisPlayerName, new Scanner(System.in));
     }
 

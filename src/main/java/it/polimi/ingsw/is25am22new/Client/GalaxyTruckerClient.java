@@ -18,6 +18,7 @@ public class GalaxyTruckerClient {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ClientModel clientModel = new ClientModel();
 
         // Choose connection type
         int connectionChoice = 0;
@@ -91,11 +92,11 @@ public class GalaxyTruckerClient {
 
         try {
             if (connectionChoice == 1) {
-                client.startRmiClient(host, port, uiChoice, scanner);
+                client.startRmiClient(host, port, uiChoice, scanner, clientModel);
             } else {
                 // Socket connection
                 // Port has to be different from the one used by RMI
-                client.startSocketClient(host, port + 1, uiChoice, scanner);
+                client.startSocketClient(host, port + 1, uiChoice, scanner, clientModel);
             }
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
@@ -106,7 +107,6 @@ public class GalaxyTruckerClient {
         //System.out.println("!!!!! - Game Type: " + client.gameType + ", PlayerName: " + client.playerName);
 
         CommandManager commandManager = new CommandManager(null, client.virtualServer);
-        ClientModel clientModel = new ClientModel(client.playerName);
         TUI tui = new TUI(commandManager, clientModel);
         clientModel.addListener(tui);
         commandManager.initializeCommandManager(client.virtualServer, tui);
@@ -117,7 +117,7 @@ public class GalaxyTruckerClient {
     /*
      * Start an RMI client connection
      */
-    private void startRmiClient(String host, int port, int uiChoice, Scanner scanner) throws RemoteException, NotBoundException {
+    private void startRmiClient(String host, int port, int uiChoice, Scanner scanner, ClientModel clientModel) throws RemoteException, NotBoundException {
         // Create UI based on choice
         EnhancedClientView view;
 
@@ -133,7 +133,7 @@ public class GalaxyTruckerClient {
         virtualServer = RmiClient.connectToServer(host, port);
 
         // Create and run RMI client
-        RmiClient client = new RmiClient(virtualServer, view);
+        RmiClient client = new RmiClient(virtualServer, view, clientModel);
 
         client.run(null, scanner); // null means it will prompt for a name
 
@@ -143,11 +143,11 @@ public class GalaxyTruckerClient {
     /*
      * Start a Socket client connection
      */
-    private void startSocketClient(String host, int port, int uiChoice, Scanner scanner) {
+    private void startSocketClient(String host, int port, int uiChoice, Scanner scanner, ClientModel clientModel) {
         // For now, just use the original implementation
         String[] socketArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
         try {
-            virtualServer = SocketClientSide.connectToServer(socketArgs);
+            virtualServer = SocketClientSide.connectToServer(socketArgs, clientModel);
         } catch (Exception e) {
             System.err.println("Socket client error: " + e.getMessage());
         }
