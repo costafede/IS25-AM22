@@ -199,6 +199,9 @@ public class ClientModel extends ObservableModelView {
 
     public void fixShipboards(Map<String, Shipboard> shipboards) {
         for (Shipboard shipboard : shipboards.values()) {
+            if(shipboard.getComponentTilesGrid() == null) {
+                shipboard.setNewComponentTilesGrid();
+            }
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 7; j++) {
                     shipboard.setComponentTileOnGrid(i, j, shipboard.getComponentTilesGridCopy(i, j));

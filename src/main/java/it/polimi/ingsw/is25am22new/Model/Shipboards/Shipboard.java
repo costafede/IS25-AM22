@@ -93,6 +93,14 @@ public class Shipboard implements Serializable {
         return daysOnFlight;
     }
 
+    public ComponentTilesGrid getComponentTilesGrid() {
+        return this.componentTilesGrid;
+    }
+
+    public void setNewComponentTilesGrid() {
+        this.componentTilesGrid = new ComponentTilesGrid();
+    }
+
     public void setDaysOnFlight(int daysOnFlight){
         this.daysOnFlight = daysOnFlight;
     }

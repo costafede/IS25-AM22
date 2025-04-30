@@ -218,63 +218,63 @@ public class SocketClientSide implements VirtualView {
         }
     }
 
-    private void runCli() throws IOException, InterruptedException {
-        Scanner scan = new Scanner(System.in);
-        int numOfRotations = 0;
-        Set<String> validCommands = Set.of("remove", "ready", "start", "notready", "setgametype");
-
-        while (true) {
-            boolean validInput = false;
-            while (!validInput) {
-                // handle invalid input (e.g., show message or ask again)
-
-                String input = scan.nextLine().trim().toLowerCase();
-
-                if (validCommands.contains(input)) {
-                    validInput = true;
-                } else {
-                    System.out.println("❗ Invalid command: \"" + input + "\"");
-                }
-            }
-
-            String command = scan.nextLine().trim();
-
-            // process the command
-            switch (command) {
-                case "remove" -> {
-                    System.out.println("Enter the name of the player to remove: ");
-                    String player = scan.nextLine();
-
-                    while(player == null || player.isEmpty()) {
-                        System.out.println("Please enter a valid name: ");
-                        player = scan.nextLine();
-                    }
-
-                    output.removePlayer(player);
-                }
-                case "ready" -> {
-                    System.out.println("You're ready!");
-                    output.setPlayerReady(thisPlayerName);
-                }
-                case "start" -> {
-                    System.out.println("Let's start the game!");
-                    output.startGameByHost(thisPlayerName);
-                }
-                case "notready" -> {
-                    System.out.println("You're not ready!");
-                    output.setPlayerNotReady(thisPlayerName);
-                }
-                case "setgametype" -> {
-                    System.out.println("What type of game do you want to play? (tutorial/level2)");
-                    String gameType = scan.nextLine();
-
-                    while(gameType == null || (!gameType.equals("tutorial") && !gameType.equals("level2"))) {
-                        System.out.println("Please enter a valid type: ");
-                        gameType = scan.nextLine();
-                    }
-
-                    output.setGameType(gameType);
-                }
+//    private void runCli() throws IOException, InterruptedException {
+//        Scanner scan = new Scanner(System.in);
+//        int numOfRotations = 0;
+//        Set<String> validCommands = Set.of("remove", "ready", "start", "notready", "setgametype");
+//
+//        while (true) {
+//            boolean validInput = false;
+//            while (!validInput) {
+//                // handle invalid input (e.g., show message or ask again)
+//
+//                String input = scan.nextLine().trim().toLowerCase();
+//
+//                if (validCommands.contains(input)) {
+//                    validInput = true;
+//                } else {
+//                    System.out.println("❗ Invalid command: \"" + input + "\"");
+//                }
+//            }
+//
+//            String command = scan.nextLine().trim();
+//
+//            // process the command
+//            switch (command) {
+//                case "remove" -> {
+//                    System.out.println("Enter the name of the player to remove: ");
+//                    String player = scan.nextLine();
+//
+//                    while(player == null || player.isEmpty()) {
+//                        System.out.println("Please enter a valid name: ");
+//                        player = scan.nextLine();
+//                    }
+//
+//                    output.removePlayer(player);
+//                }
+//                case "ready" -> {
+//                    System.out.println("You're ready!");
+//                    output.setPlayerReady(thisPlayerName);
+//                }
+//                case "start" -> {
+//                    System.out.println("Let's start the game!");
+//                    output.startGameByHost(thisPlayerName);
+//                }
+//                case "notready" -> {
+//                    System.out.println("You're not ready!");
+//                    output.setPlayerNotReady(thisPlayerName);
+//                }
+//                case "setgametype" -> {
+//                    System.out.println("What type of game do you want to play? (tutorial/level2)");
+//                    String gameType = scan.nextLine();
+//
+//                    while(gameType == null || (!gameType.equals("tutorial") && !gameType.equals("level2"))) {
+//                        System.out.println("Please enter a valid type: ");
+//                        gameType = scan.nextLine();
+//                    }
+//
+//                    output.setGameType(gameType);
+//                }
                 //case 6 -> {
                 //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
                 //        System.out.println("You already have a tile in your hand!");
@@ -457,134 +457,134 @@ public class SocketClientSide implements VirtualView {
                 //        System.out.println("Game is not over yet!");
                 //    }
                 //}
-                case "test" -> {
-                    System.out.println("String to send: ");
-                    String test = scan.nextLine();
-                    output.connectionTester(test, 33879);
-                }
-                default -> {
-                    this.output.disconnect(thisPlayerName);
-                    System.out.println("Invalid command, you will be kicked out of the game!");
-                    System.out.flush();
-                    System.exit(0);
-                }
-            }
-        }
-    }
-
-    private InputCommand constructInputCommand(){
-        Scanner scanner = new Scanner(System.in);
-        InputCommand inputCommand = new InputCommand();
-        System.out.println("Possible commands: \n");
-        System.out.println("1. Choice command");
-        System.out.println("2. Choose index command");
-        System.out.println("3. Choose tile coordinates command");
-        System.out.println("4. Manage good-blocks command");
-        int index = scanner.nextInt();
-        switch (index) {
-            case 1 -> {
-                System.out.println("Enter your choice: (true/false)");
-                boolean choice = scanner.nextBoolean();
-                scanner.nextLine();
-                inputCommand.setChoice(choice);
-            }
-            case 2 -> {
-                System.out.println("Enter the index you want to choose: ");
-                int indexChosen = scanner.nextInt();
-                scanner.nextLine();
-                inputCommand.setIndexChosen(indexChosen);
-            }
-            case 3 -> {
-                System.out.println("Enter the row you want to choose: ");
-                int row = scanner.nextInt();
-                scanner.nextLine();
-                inputCommand.setRow(row);
-                System.out.println("Enter the column you want to choose: ");
-                int col = scanner.nextInt();
-                scanner.nextLine();
-                inputCommand.setCol(col);
-            }
-            case 4 -> {
-                System.out.println("Would you like to add, remove or switch a good-block? (add/remove/switch)");
-                String command = scanner.nextLine();
-                switch (command) {
-                    case "add" -> {
-                        setCoordinates(scanner, inputCommand);
-                        System.out.println("Choose the block you want to add: (RED/BLUE/GREEN/YELLOW)");
-                        setGoodBlock(scanner, inputCommand);
-                        inputCommand.flagIsAddingGoodBlock();
-                    }
-                    case "remove" -> {
-                        setCoordinates(scanner, inputCommand);
-                        System.out.println("Choose the block you want to remove: (RED/BLUE/GREEN/YELLOW)");
-                        setGoodBlock(scanner, inputCommand);
-                        inputCommand.flagIsRemovingGoodBlock();
-                    }
-                    case "switch" -> {
-                        System.out.println("Enter the row of the first storage compartment :");
-                        int row = scanner.nextInt();
-                        scanner.nextLine();
-                        inputCommand.setRow(row);
-                        System.out.println("Enter the column of the first storage compartment :");
-                        int col = scanner.nextInt();
-                        scanner.nextLine();
-                        inputCommand.setCol(col);
-
-                        System.out.println("Choose the block you want to switch: (RED/BLUE/GREEN/YELLOW)");
-                        setGoodBlock(scanner, inputCommand);
-
-                        System.out.println("Enter the row of the second storage compartment :");
-                        int row_1 = scanner.nextInt();
-                        scanner.nextLine();
-                        inputCommand.setRow_1(row_1);
-                        System.out.println("Enter the column of the second storage compartment :");
-                        int col_1 = scanner.nextInt();
-                        scanner.nextLine();
-                        inputCommand.setCol_1(col_1);
-
-                        System.out.println("Choose the block you want to switch: (RED/BLUE/GREEN/YELLOW)");
-                        setGoodBlock_1(scanner, inputCommand);
-                    }
-                    default -> {
-                        System.out.println("Invalid command");
-                        return null;
-                    }
-                }
-            }
-        }
-        return inputCommand;
-    }
-
-    private void setCoordinates(Scanner scanner, InputCommand inputCommand) {
-        System.out.println("Enter the row of the storage compartment: ");
-        int row = scanner.nextInt();
-        scanner.nextLine();
-        inputCommand.setRow(row);
-        System.out.println("Enter the column of the storage compartment: ");
-        int col = scanner.nextInt();
-        scanner.nextLine();
-        inputCommand.setCol(col);
-    }
-
-    private void setGoodBlock(Scanner scanner, InputCommand inputCommand) {
-        String block = scanner.nextLine();
-        switch (block) {
-            case "RED" -> inputCommand.setGoodBlock(GoodBlock.REDBLOCK);
-            case "BLUE" -> inputCommand.setGoodBlock(GoodBlock.BLUEBLOCK);
-            case "GREEN" -> inputCommand.setGoodBlock(GoodBlock.GREENBLOCK);
-            case "YELLOW" -> inputCommand.setGoodBlock(GoodBlock.YELLOWBLOCK);
-        }
-    }
-
-    private void setGoodBlock_1(Scanner scanner, InputCommand inputCommand) {
-        String block = scanner.nextLine();
-        switch (block) {
-            case "RED" -> inputCommand.setGoodBlock_1(GoodBlock.REDBLOCK);
-            case "BLUE" -> inputCommand.setGoodBlock_1(GoodBlock.BLUEBLOCK);
-            case "GREEN" -> inputCommand.setGoodBlock_1(GoodBlock.GREENBLOCK);
-            case "YELLOW" -> inputCommand.setGoodBlock_1(GoodBlock.YELLOWBLOCK);
-        }
-    }
+    //            case "test" -> {
+    //                System.out.println("String to send: ");
+    //                String test = scan.nextLine();
+    //                output.connectionTester(test, 33879);
+    //            }
+    //            default -> {
+    //                this.output.disconnect(thisPlayerName);
+    //                System.out.println("Invalid command, you will be kicked out of the game!");
+    //                System.out.flush();
+    //                System.exit(0);
+    //            }
+    //        }
+    //    }
+    //}
+//
+    //private InputCommand constructInputCommand(){
+    //    Scanner scanner = new Scanner(System.in);
+    //    InputCommand inputCommand = new InputCommand();
+    //    System.out.println("Possible commands: \n");
+    //    System.out.println("1. Choice command");
+    //    System.out.println("2. Choose index command");
+    //    System.out.println("3. Choose tile coordinates command");
+    //    System.out.println("4. Manage good-blocks command");
+    //    int index = scanner.nextInt();
+    //    switch (index) {
+    //        case 1 -> {
+    //            System.out.println("Enter your choice: (true/false)");
+    //            boolean choice = scanner.nextBoolean();
+    //            scanner.nextLine();
+    //            inputCommand.setChoice(choice);
+    //        }
+    //        case 2 -> {
+    //            System.out.println("Enter the index you want to choose: ");
+    //            int indexChosen = scanner.nextInt();
+    //            scanner.nextLine();
+    //            inputCommand.setIndexChosen(indexChosen);
+    //        }
+    //        case 3 -> {
+    //            System.out.println("Enter the row you want to choose: ");
+    //            int row = scanner.nextInt();
+    //            scanner.nextLine();
+    //            inputCommand.setRow(row);
+    //            System.out.println("Enter the column you want to choose: ");
+    //            int col = scanner.nextInt();
+    //            scanner.nextLine();
+    //            inputCommand.setCol(col);
+    //        }
+    //        case 4 -> {
+    //            System.out.println("Would you like to add, remove or switch a good-block? (add/remove/switch)");
+    //            String command = scanner.nextLine();
+    //            switch (command) {
+    //                case "add" -> {
+    //                    setCoordinates(scanner, inputCommand);
+    //                    System.out.println("Choose the block you want to add: (RED/BLUE/GREEN/YELLOW)");
+    //                    setGoodBlock(scanner, inputCommand);
+    //                    inputCommand.flagIsAddingGoodBlock();
+    //                }
+    //                case "remove" -> {
+    //                    setCoordinates(scanner, inputCommand);
+    //                    System.out.println("Choose the block you want to remove: (RED/BLUE/GREEN/YELLOW)");
+    //                    setGoodBlock(scanner, inputCommand);
+    //                    inputCommand.flagIsRemovingGoodBlock();
+    //                }
+    //                case "switch" -> {
+    //                    System.out.println("Enter the row of the first storage compartment :");
+    //                    int row = scanner.nextInt();
+    //                    scanner.nextLine();
+    //                    inputCommand.setRow(row);
+    //                    System.out.println("Enter the column of the first storage compartment :");
+    //                    int col = scanner.nextInt();
+    //                    scanner.nextLine();
+    //                    inputCommand.setCol(col);
+//
+    //                    System.out.println("Choose the block you want to switch: (RED/BLUE/GREEN/YELLOW)");
+    //                    setGoodBlock(scanner, inputCommand);
+//
+    //                    System.out.println("Enter the row of the second storage compartment :");
+    //                    int row_1 = scanner.nextInt();
+    //                    scanner.nextLine();
+    //                    inputCommand.setRow_1(row_1);
+    //                    System.out.println("Enter the column of the second storage compartment :");
+    //                    int col_1 = scanner.nextInt();
+    //                    scanner.nextLine();
+    //                    inputCommand.setCol_1(col_1);
+//
+    //                    System.out.println("Choose the block you want to switch: (RED/BLUE/GREEN/YELLOW)");
+    //                    setGoodBlock_1(scanner, inputCommand);
+    //                }
+    //                default -> {
+    //                    System.out.println("Invalid command");
+    //                    return null;
+    //                }
+    //            }
+    //        }
+    //    }
+    //    return inputCommand;
+    //}
+//
+    //private void setCoordinates(Scanner scanner, InputCommand inputCommand) {
+    //    System.out.println("Enter the row of the storage compartment: ");
+    //    int row = scanner.nextInt();
+    //    scanner.nextLine();
+    //    inputCommand.setRow(row);
+    //    System.out.println("Enter the column of the storage compartment: ");
+    //    int col = scanner.nextInt();
+    //    scanner.nextLine();
+    //    inputCommand.setCol(col);
+    //}
+//
+    //private void setGoodBlock(Scanner scanner, InputCommand inputCommand) {
+    //    String block = scanner.nextLine();
+    //    switch (block) {
+    //        case "RED" -> inputCommand.setGoodBlock(GoodBlock.REDBLOCK);
+    //        case "BLUE" -> inputCommand.setGoodBlock(GoodBlock.BLUEBLOCK);
+    //        case "GREEN" -> inputCommand.setGoodBlock(GoodBlock.GREENBLOCK);
+    //        case "YELLOW" -> inputCommand.setGoodBlock(GoodBlock.YELLOWBLOCK);
+    //    }
+    //}
+//
+    //private void setGoodBlock_1(Scanner scanner, InputCommand inputCommand) {
+    //    String block = scanner.nextLine();
+    //    switch (block) {
+    //        case "RED" -> inputCommand.setGoodBlock_1(GoodBlock.REDBLOCK);
+    //        case "BLUE" -> inputCommand.setGoodBlock_1(GoodBlock.BLUEBLOCK);
+    //        case "GREEN" -> inputCommand.setGoodBlock_1(GoodBlock.GREENBLOCK);
+    //        case "YELLOW" -> inputCommand.setGoodBlock_1(GoodBlock.YELLOWBLOCK);
+    //    }
+    //}
 
     @Override
     public void showUpdateBank(Bank bank) {
