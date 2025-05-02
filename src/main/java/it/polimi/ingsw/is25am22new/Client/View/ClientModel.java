@@ -113,6 +113,7 @@ public class ClientModel extends ObservableModelView {
     public void setShipboard(String player, Shipboard shipboard){
         this.shipboards.put(player, shipboard);
         fixShipboards(this.shipboards);
+        notifyObservers(this);
     }
 
     public void setShipboards(Map<String, Shipboard> shipboards) {

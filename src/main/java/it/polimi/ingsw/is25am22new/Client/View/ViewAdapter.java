@@ -11,4 +11,5 @@ public interface ViewAdapter {
     void showUncoveredComponentTiles(ClientModel clientModel);
     void showLeaderboard(ClientModel clientModel);
     void showAvailableCommands(ClientModel clientModel);
+    void showTileInHand(String player, ClientModel clientModel);
 }

@@ -45,6 +45,8 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         this.model = model;
         if(model.getGamePhase().getPhaseType().equals(PhaseType.END))
             cliRunning = false;
+        //debug print
+        System.out.println("Model changed");
         this.notifyAll();
     }
 
@@ -345,6 +347,17 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         List<Command> availableCommands = commandManager.getAvailableCommandTypes(model);
         for(Command command : availableCommands) {
             System.out.println(command.getName());
+        }
+    }
+
+    @Override
+    public void showTileInHand(String player, ClientModel clientModel) {
+        ComponentTile ct = clientModel.getShipboard(player).getTileInHand();
+        if(ct == null){
+            System.out.println("No tile in hand");
+        }
+        else {
+            System.out.println(ct.getClass().getSimpleName());
         }
     }
 

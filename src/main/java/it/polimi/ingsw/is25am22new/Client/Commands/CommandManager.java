@@ -4,6 +4,7 @@ import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPhaseCommands.DestroyTileCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.ShowAvailableCommandsCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.ShowShipCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.ShowTileInHandCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
@@ -33,6 +34,7 @@ public class CommandManager {
 
         this.allCommands.add(new ShowAvailableCommandsCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowShipCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowTileInHandCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new DestroyTileCommand(virtualServer, viewAdapter));
 
