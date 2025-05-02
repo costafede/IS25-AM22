@@ -45,8 +45,6 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         this.model = model;
         if(model.getGamePhase().getPhaseType().equals(PhaseType.END))
             cliRunning = false;
-        //debug print
-        System.out.println("Model changed");
         this.notifyAll();
     }
 
