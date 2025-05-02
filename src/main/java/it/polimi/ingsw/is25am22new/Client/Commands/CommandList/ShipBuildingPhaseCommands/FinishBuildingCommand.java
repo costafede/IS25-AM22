@@ -51,7 +51,7 @@ public class FinishBuildingCommand extends AbstractCommand {
     @Override
     public void execute(ClientModel model) {
         try {
-            virtualServer.finishBuilding(model.getPlayerName(), Integer.parseInt(input.getFirst()));
+            virtualServer.finishBuilding(model.getPlayerName(), Integer.parseInt(input.getFirst()) - 1);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
