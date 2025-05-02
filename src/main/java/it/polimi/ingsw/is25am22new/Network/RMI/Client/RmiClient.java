@@ -23,18 +23,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class RmiClient extends UnicastRemoteObject implements VirtualView {
+public class RmiClient extends UnicastRemoteObject implements VirtualView, VirtualServer {
 
     ClientModel clientModel;
-    private final VirtualServer server;
+    private VirtualServer server;
     private final EnhancedClientView clientView;
     private static final String SERVER_NAME = "GalaxyTruckerServer";
     private boolean isHost = false;
     private String playerName;
 
-    public RmiClient(VirtualServer server, EnhancedClientView clientView, ClientModel clientModel) throws RemoteException {
+    public RmiClient(EnhancedClientView clientView, ClientModel clientModel) throws RemoteException {
         super();
-        this.server = server;
         this.clientView = clientView;
         this.clientModel = clientModel;
     }
@@ -42,11 +41,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
     /*
      * Creates a VirtualServer connection through RMI
      */
-    public static VirtualServer connectToServer(String host, int port) throws RemoteException, NotBoundException {
+    public void connectToServer(String host, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(host, port);
         VirtualServer server = (VirtualServer) registry.lookup(SERVER_NAME);
         System.out.println("Found server: " + host + ":" + port);
-        return server;
+        this.server = server;
     }
 
     /*
@@ -91,6 +90,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         server.connect(this, nickname);
     }
 
+    @Override
+    public void connect(VirtualView client, String nickname) throws RemoteException {
+        this.connectWithNickname(nickname);
+    }
+
     public void setNumPlayers(int numPlayers) throws IOException {
         server.setNumPlayers(numPlayers);
     }
@@ -111,68 +115,164 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView {
         server.setGameType(gameType);
     }
 
-    public void pickCoveredTile(String playerName) throws IOException {
-        server.pickCoveredTile(playerName);
+    public void pickCoveredTile(String nickname) {
+        new Thread(() -> {
+            try {
+                server.pickCoveredTile(nickname);
+            } catch (IOException e) {
+                System.out.println("Error in pickCoveredTileAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void pickUncoveredTile(String playerName, String pngName) throws IOException {
-        server.pickUncoveredTile(playerName, pngName);
+        new Thread(() -> {
+            try {
+                server.pickUncoveredTile(playerName, pngName);
+            } catch (IOException e) {
+                System.out.println("Error in pickUncoveredTileAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
-        server.weldComponentTile(playerName, i, j, numOfRotation);
+        new Thread(() -> {
+            try {
+                server.weldComponentTile(playerName, i, j, numOfRotation);
+            } catch (IOException e) {
+                System.out.println("Error in weldComponentTileAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void standbyComponentTile(String playerName) throws IOException {
-        server.standbyComponentTile(playerName);
+        new Thread(() -> {
+            try {
+                server.standbyComponentTile(playerName);
+            } catch (IOException e) {
+                System.out.println("Error in standbyComponentTileAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void pickStandbyComponentTile(String playerName, int index) throws IOException {
-        server.pickStandbyComponentTile(playerName, index);
+        new Thread(() -> {
+            try {
+                server.pickStandbyComponentTile(playerName, index);
+            } catch (IOException e) {
+                System.out.println("Error in pickStandbyComponentTileAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void discardComponentTile(String playerName) throws IOException {
-        server.discardComponentTile(playerName);
+        new Thread(() -> {
+            try {
+                server.discardComponentTile(playerName);
+            } catch (IOException e) {
+                System.out.println("Error in discardComponentTileAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void finishBuilding(String playerName) throws IOException {
-        server.finishBuilding(playerName);
+        new Thread(() -> {
+            try {
+                server.finishBuilding(playerName);
+            } catch (IOException e) {
+                System.out.println("Error in finishBuildingAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void finishBuilding(String playerName, int index) throws IOException {
-        server.finishBuilding(playerName, index);
+        new Thread(() -> {
+            try {
+                server.finishBuilding(playerName, index);
+            } catch (IOException e) {
+                System.out.println("Error in finishBuildingAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void finishedAllShipboards() throws IOException {
-        server.finishedAllShipboards();
+        new Thread(() -> {
+            try {
+                server.finishedAllShipboards();
+            } catch (IOException e) {
+                System.out.println("Error in finishedAllShipboardsAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void flipHourglass() throws IOException {
-        server.flipHourglass();
+        new Thread(() -> {
+            try {
+                server.flipHourglass();
+            } catch (IOException e) {
+                System.out.println("Error in flipHourglassAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void pickCard() throws IOException {
-        server.pickCard();
+        new Thread(() -> {
+            try {
+                server.pickCard();
+            } catch (IOException e) {
+                System.out.println("Error in pickCardAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void activateCard(InputCommand inputCommand) throws IOException {
-        server.activateCard(inputCommand);
+        new Thread(() -> {
+            try {
+                server.activateCard(inputCommand);
+            } catch (IOException e) {
+                System.out.println("Error in activateCardAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void removePlayer(String playerName) throws IOException {
-        server.removePlayer(playerName);
+        new Thread(() -> {
+            try {
+                server.removePlayer(playerName);
+            } catch (IOException e) {
+                System.out.println("Error in removePlayerAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void playerAbandons(String playerName) throws IOException {
-        server.playerAbandons(playerName);
+        new Thread(() -> {
+            try {
+                server.playerAbandons(playerName);
+            } catch (IOException e) {
+                System.out.println("Error in playerAbandonsAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void destroyComponentTile(String playerName, int i, int j) throws IOException {
-        server.destroyComponentTile(playerName, i, j);
+        new Thread(() -> {
+            try {
+                server.destroyComponentTile(playerName, i, j);
+            } catch (IOException e) {
+                System.out.println("Error in destroyComponentTileAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void endGame() throws IOException {
-        server.endGame();
+        new Thread(() -> {
+            try {
+                server.endGame();
+            } catch (IOException e) {
+                System.out.println("Error in endGameAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     @Override

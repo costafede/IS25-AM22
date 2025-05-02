@@ -127,11 +127,13 @@ public class GalaxyTruckerClient {
             view = new LobbyView();
         }
 
-        // Connect to server
-        virtualServer = RmiClient.connectToServer(host, port);
 
         // Create and run RMI client
-        RmiClient client = new RmiClient(virtualServer, view, clientModel);
+        RmiClient client = new RmiClient(view, clientModel);
+        client.connectToServer(host, port);
+
+        // Connect to server
+        virtualServer = client;
 
         client.run(null, scanner); // null means it will prompt for a name
 
