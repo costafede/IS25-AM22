@@ -35,6 +35,8 @@ public class Shipboard implements Serializable {
         this.nickname = nickname;
         this.componentTilesGrid = new ComponentTilesGrid();
         this.standbyComponent = (Optional<ComponentTile>[]) new Optional[2];
+        this.standbyComponent[0] = Optional.empty();
+        this.standbyComponent[1] = Optional.empty();
         this.discardedTiles = 0;
         this.finishedShipboard = false;
         this.CosmicCredits = 0;
