@@ -427,14 +427,12 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void weldComponentTile(String nickname, int i, int j, int numOfRotations) throws IOException {
-        if(numOfRotations < 0) {
+        if(numOfRotations <= 0) {
             gameController.rotateCounterClockwise(nickname, -numOfRotations);
             gameController.weldComponentTile(nickname, i, j);
-        } else if(numOfRotations > 0) {
+        } else {
             gameController.rotateClockwise(nickname, numOfRotations);
             gameController.weldComponentTile(nickname, i, j);
-        } else {
-            System.err.println("Invalid number of rotations: " + numOfRotations);
         }
     }
 
