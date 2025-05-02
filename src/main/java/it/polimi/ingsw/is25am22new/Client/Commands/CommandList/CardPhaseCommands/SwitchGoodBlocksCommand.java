@@ -43,10 +43,10 @@ public class SwitchGoodBlocksCommand extends AbstractCommand {
         GoodBlock gb_1, gb_2;
         int row_1, col_1, row_2, col_2;
         try {
-            row_1 = Integer.parseInt(input.get(1));
-            col_1 = Integer.parseInt(input.get(2));
-            row_2 = Integer.parseInt(input.get(4));
-            col_2 = Integer.parseInt(input.get(5));
+            row_1 = StringConverter.stringToGridRow(input.get(1));
+            col_1 = StringConverter.stringToGridCol(input.get(2));
+            row_2 = StringConverter.stringToGridRow(input.get(4));
+            col_2 = StringConverter.stringToGridCol(input.get(5));
         }
         catch(NumberFormatException e) {
             return false;
@@ -75,11 +75,11 @@ public class SwitchGoodBlocksCommand extends AbstractCommand {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setChoice(true);
         GoodBlock gb_1 = StringConverter.stringToGoodBlock(input.getFirst());
-        int row_1 = Integer.parseInt(input.get(1));
-        int col_1 = Integer.parseInt(input.get(2));
+        int row_1 = StringConverter.stringToGridRow(input.get(1));
+        int col_1 = StringConverter.stringToGridCol(input.get(2));
         GoodBlock gb_2 = StringConverter.stringToGoodBlock(input.get(3));
-        int row_2 = Integer.parseInt(input.get(4));
-        int col_2 = Integer.parseInt(input.get(5));
+        int row_2 = StringConverter.stringToGridRow(input.get(4));
+        int col_2 = StringConverter.stringToGridCol(input.get(5));
         inputCommand.setRow(row_1);
         inputCommand.setCol(col_1);
         inputCommand.setRow_1(row_2);

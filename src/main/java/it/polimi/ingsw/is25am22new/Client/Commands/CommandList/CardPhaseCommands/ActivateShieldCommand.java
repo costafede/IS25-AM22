@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.StringConverter;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -37,19 +38,19 @@ public class ActivateShieldCommand extends AbstractCommand {
             return false;
         int row_batt, col_batt, row_sh, col_sh;
         try {
-            row_batt = Integer.parseInt(input.getFirst());
-            col_batt = Integer.parseInt(input.get(1));
-            row_sh = Integer.parseInt(input.get(2));
-            col_sh = Integer.parseInt(input.get(3));
+            row_batt = StringConverter.stringToGridRow(input.getFirst());
+            col_batt = StringConverter.stringToGridCol(input.get(1));
+            row_sh = StringConverter.stringToGridRow(input.get(2));
+            col_sh = StringConverter.stringToGridCol(input.get(3));
         }
         catch(NumberFormatException e) {
             return false;
         }
-        if(!model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_batt, col_batt).isPresent() ||
+        if(model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_batt, col_batt).isEmpty() ||
                 model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_batt, col_batt).get().getNumOfBatteries() <= 0) {
             return false;
         }
-        if(!model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_sh, col_sh).isPresent() ||
+        if(model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_sh, col_sh).isEmpty() ||
                 !model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_sh, col_sh).get().isShieldGenerator() ||
                 model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_sh, col_sh).get().isTopSideShielded() ||
                 model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row_sh, col_sh).get().isBottomSideShielded()
@@ -60,10 +61,10 @@ public class ActivateShieldCommand extends AbstractCommand {
 
     @Override
     public void execute(ClientModel model) {
-        int row_batt = Integer.parseInt(input.getFirst());
-        int col_batt = Integer.parseInt(input.get(1));
-        int row_sh = Integer.parseInt(input.get(2));
-        int col_sh = Integer.parseInt(input.get(3));
+        int row_batt = StringConverter.stringToGridRow(input.getFirst());
+        int col_batt = StringConverter.stringToGridCol(input.get(1));
+        int row_sh = StringConverter.stringToGridRow(input.get(2));
+        int col_sh = StringConverter.stringToGridCol(input.get(3));
         InputCommand inputCommand = new InputCommand();
         inputCommand.setChoice(true);
         inputCommand.setRow(row_batt);

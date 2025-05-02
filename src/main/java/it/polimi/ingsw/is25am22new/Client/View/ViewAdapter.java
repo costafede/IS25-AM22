@@ -12,4 +12,5 @@ public interface ViewAdapter {
     void showLeaderboard(ClientModel clientModel);
     void showAvailableCommands(ClientModel clientModel);
     void showTileInHand(String player, ClientModel clientModel);
+    void showStandbyComponentTiles(String player, ClientModel ClientModel);
 }

@@ -2,9 +2,7 @@ package it.polimi.ingsw.is25am22new.Client.Commands;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPhaseCommands.DestroyTileCommand;
-import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.ShowAvailableCommandsCommand;
-import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.ShowShipCommand;
-import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.ShowTileInHandCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
@@ -28,17 +26,18 @@ public class CommandManager {
         this.allCommands.add(new PickStandByComponentTileCommand(virtualServer, viewAdapter));
         this.allCommands.add(new PickUncoveredTileCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowPileCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowStandByComponentTilesCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowUncoveredComponentTiles(virtualServer, viewAdapter));
         this.allCommands.add(new StandByComponentTileCommand(virtualServer, viewAdapter));
         this.allCommands.add(new WeldComponentTileCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new ShowAvailableCommandsCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowCurrCardCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowFlightboardCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowShipCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowTileInHandCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new DestroyTileCommand(virtualServer, viewAdapter));
-
-        this.allCommands.add(new WeldComponentTileCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new AcceptCreditsCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ActivateDoubleCannonCommand(virtualServer, viewAdapter));

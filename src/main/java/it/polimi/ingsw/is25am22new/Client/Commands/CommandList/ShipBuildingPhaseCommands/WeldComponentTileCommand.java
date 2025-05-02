@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhas
 
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
+import it.polimi.ingsw.is25am22new.Client.Commands.StringConverter;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
@@ -52,7 +53,7 @@ public class WeldComponentTileCommand extends AbstractCommand {
     @Override
     public void execute(ClientModel model) {
         try{
-            virtualServer.weldComponentTile(model.getPlayerName(), Integer.parseInt(input.getFirst()), Integer.parseInt(input.get(1)), Integer.parseInt(input.get(2)));
+            virtualServer.weldComponentTile(model.getPlayerName(), StringConverter.stringToGridRow(input.getFirst()), StringConverter.stringToGridCol(input.get(1)), Integer.parseInt(input.get(2)));
         }
         catch(Exception e){
             System.out.println(e.getMessage());

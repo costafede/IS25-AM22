@@ -42,10 +42,10 @@ public class MoveGoodBlockCommand extends AbstractCommand {
         GoodBlock gb_1;
         int row_1, col_1, row_2, col_2;
         try {
-            row_1 = Integer.parseInt(input.get(1));
-            col_1 = Integer.parseInt(input.get(2));
-            row_2 = Integer.parseInt(input.get(3));
-            col_2 = Integer.parseInt(input.get(4));
+            row_1 = StringConverter.stringToGridRow(input.get(1));
+            col_1 = StringConverter.stringToGridCol(input.get(2));
+            row_2 = StringConverter.stringToGridRow(input.get(3));
+            col_2 = StringConverter.stringToGridCol(input.get(4));
         }
         catch(NumberFormatException e) {
             return false;
@@ -69,10 +69,10 @@ public class MoveGoodBlockCommand extends AbstractCommand {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setChoice(true);
         GoodBlock gb_1 = StringConverter.stringToGoodBlock(input.getFirst());
-        int row_1 = Integer.parseInt(input.get(1));
-        int col_1 = Integer.parseInt(input.get(2));
-        int row_2 = Integer.parseInt(input.get(3));
-        int col_2 = Integer.parseInt(input.get(4));
+        int row_1 = StringConverter.stringToGridRow(input.get(1));
+        int col_1 = StringConverter.stringToGridCol(input.get(2));
+        int row_2 = StringConverter.stringToGridRow(input.get(3));
+        int col_2 = StringConverter.stringToGridCol(input.get(4));
         inputCommand.setRow(row_1);
         inputCommand.setCol(col_1);
         inputCommand.setRow_1(row_2);

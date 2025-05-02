@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPh
 
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
+import it.polimi.ingsw.is25am22new.Client.Commands.StringConverter;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
@@ -49,7 +50,7 @@ public class DestroyTileCommand extends AbstractCommand {
     @Override
     public void execute(ClientModel model) {
         try {
-            virtualServer.destroyComponentTile(model.getPlayerName(), Integer.parseInt(input.getFirst()), Integer.parseInt(input.get(1)));
+            virtualServer.destroyComponentTile(model.getPlayerName(), StringConverter.stringToGridRow(input.getFirst()), StringConverter.stringToGridCol(input.get(1)));
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

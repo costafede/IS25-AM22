@@ -39,8 +39,8 @@ public class RemoveGoodBlockCommand extends AbstractCommand {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setChoice(true);
         GoodBlock gb_1 = StringConverter.stringToGoodBlock(input.getFirst());
-        int row_1 = Integer.parseInt(input.get(1));
-        int col_1 = Integer.parseInt(input.get(2));
+        int row_1 = StringConverter.stringToGridRow(input.get(1));
+        int col_1 = StringConverter.stringToGridCol(input.get(2));
         inputCommand.setRow(row_1);
         inputCommand.setCol(col_1);
         inputCommand.setGoodBlock(gb_1);
@@ -56,8 +56,8 @@ public class RemoveGoodBlockCommand extends AbstractCommand {
         GoodBlock gb_1;
         int row_1, col_1;
         try {
-            row_1 = Integer.parseInt(input.get(1));
-            col_1 = Integer.parseInt(input.get(2));
+            row_1 = StringConverter.stringToGridRow(input.get(1));
+            col_1 = StringConverter.stringToGridCol(input.get(2));
         }
         catch(NumberFormatException e) {
             return false;

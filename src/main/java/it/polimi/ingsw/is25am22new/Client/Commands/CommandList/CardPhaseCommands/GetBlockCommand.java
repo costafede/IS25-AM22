@@ -44,8 +44,8 @@ public class GetBlockCommand extends AbstractCommand {
         GoodBlock gb;
         int row, col;
         try {
-            row = Integer.parseInt(input.get(1));
-            col = Integer.parseInt(input.get(2));
+            row = StringConverter.stringToGridRow(input.get(1));
+            col = StringConverter.stringToGridCol(input.get(2));
         }
         catch(NumberFormatException e) {
             return false;
@@ -78,8 +78,8 @@ public class GetBlockCommand extends AbstractCommand {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setChoice(true);
         GoodBlock gb = StringConverter.stringToGoodBlock(input.getFirst());
-        int row = Integer.parseInt(input.get(1));
-        int col = Integer.parseInt(input.get(2));
+        int row = StringConverter.stringToGridRow(input.get(1));
+        int col = StringConverter.stringToGridCol(input.get(2));
         inputCommand.setRow(row);
         inputCommand.setCol(col);
         inputCommand.setGoodBlock(gb);

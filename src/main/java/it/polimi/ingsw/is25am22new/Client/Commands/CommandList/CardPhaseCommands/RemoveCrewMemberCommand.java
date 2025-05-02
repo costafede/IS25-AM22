@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.StringConverter;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -37,8 +38,8 @@ public class RemoveCrewMemberCommand extends AbstractCommand {
             return false;
         int row_1, col_1;
         try {
-            row_1 = Integer.parseInt(input.getFirst());
-            col_1 = Integer.parseInt(input.get(1));
+            row_1 = StringConverter.stringToGridRow(input.getFirst());
+            col_1 = StringConverter.stringToGridCol(input.get(1));
         }
         catch(NumberFormatException e) {
             return false;
@@ -52,8 +53,8 @@ public class RemoveCrewMemberCommand extends AbstractCommand {
 
     @Override
     public void execute(ClientModel model) {
-        int row_1 = Integer.parseInt(input.getFirst());
-        int col_1 = Integer.parseInt(input.get(1));
+        int row_1 = StringConverter.stringToGridRow(input.getFirst());
+        int col_1 = StringConverter.stringToGridCol(input.get(1));
         InputCommand inputCommand = new InputCommand();
         inputCommand.setRow(row_1);
         inputCommand.setCol(col_1);

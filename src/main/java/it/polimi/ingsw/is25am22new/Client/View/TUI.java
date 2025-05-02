@@ -357,8 +357,13 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             System.out.println("No tile in hand");
         }
         else {
-            System.out.println(ct.getClass().getSimpleName());
+            System.out.println(ct.getClass().getSimpleName()); //TO DO Toly
         }
+    }
+
+    @Override
+    public void showStandbyComponentTiles(String player, ClientModel ClientModel) {
+        //TO DO Toly
     }
 
     public void run(Scanner scanner) {
