@@ -120,7 +120,20 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         System.out.println("Equipaggio di volo: " + ship.getCrewNumber());
         System.out.println("Astronauti: " + ship.getOnlyHumanNumber());
 
+        int x = 4;
+        int y = 5;
+
+        System.out.print("    ");
+        for (int column = 0; column < 7; column++) {
+            System.out.print("   " + x + "   ");
+            x++;
+        }
+        System.out.println();
+
+
         for (int line = 0; line < 5; line++) {
+
+            System.out.print("    ");
             for (int column = 0; column < 7; column++) {
                 System.out.print("+");
                 for (int i = 0; i < 7; i++) {
@@ -130,6 +143,8 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             System.out.println("+");
 
             for (int h = 0; h < 5; h++) {
+                if (h == 2) System.out.print(y + "  "); // prints the line number on the left side of the grid
+                else System.out.print("    ");
                 for (int column = 0; column < 7; column++) {
                     System.out.print("|");
                     Optional<ComponentTile> c = ship.getComponentTileFromGrid(line, column);
@@ -142,6 +157,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
                     }
                 }
                 System.out.println("|");
+                y++;
             }
         }
 
