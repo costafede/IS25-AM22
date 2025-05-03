@@ -125,7 +125,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
         System.out.print("    ");
         for (int column = 0; column < 7; column++) {
-            System.out.print("   " + x + "   ");
+            System.out.print("    " + x + "    ");
             x++;
         }
         System.out.println();
@@ -143,7 +143,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             System.out.println("+");
 
             for (int h = 0; h < 5; h++) {
-                if (h == 2) System.out.print(y + "  "); // prints the line number on the left side of the grid
+                if (h == 2) System.out.print(" " + y + "  "); // prints the line number on the left side of the grid
                 else System.out.print("    ");
                 for (int column = 0; column < 7; column++) {
                     System.out.print("|");
@@ -157,10 +157,11 @@ public class TUI implements ClientModelObserver, ViewAdapter{
                     }
                 }
                 System.out.println("|");
-                y++;
             }
+            y++;
         }
 
+        System.out.print("    ");
         for (int column = 0; column < 7; column++) {
             System.out.print("+");
             for (int i = 0; i < 7; i++) {
