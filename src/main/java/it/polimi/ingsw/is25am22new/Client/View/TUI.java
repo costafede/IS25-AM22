@@ -125,7 +125,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
         System.out.print("    ");
         for (int column = 0; column < 7; column++) {
-            System.out.print("    " + x + "    ");
+            System.out.print("    " + x + "   ");
             x++;
         }
         System.out.println();
