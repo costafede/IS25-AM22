@@ -106,12 +106,10 @@ public abstract class Game extends ObservableModel implements Serializable {
 
     public void rotateClockwise(String nickname) {
         shipboards.get(nickname).getTileInHand().rotateClockwise();
-        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
     }
 
     public void rotateCounterClockwise(String nickname) {
         shipboards.get(nickname).getTileInHand().rotateCounterClockwise();
-        updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
     }
 
     public void weldComponentTile(String nickname, int i, int j) {

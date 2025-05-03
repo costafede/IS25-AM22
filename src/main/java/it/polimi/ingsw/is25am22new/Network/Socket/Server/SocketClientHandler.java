@@ -437,7 +437,7 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
-        if(numOfRotation >= 0){
+        if(numOfRotation > 0){
             this.controller.rotateClockwise(playerName, numOfRotation);
         }
         else {
