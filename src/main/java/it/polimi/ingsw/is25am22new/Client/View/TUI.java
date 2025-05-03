@@ -106,42 +106,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         List<AdventureCard> deck = model.getCardPiles().get(idx).getCards();
         for (int i = 0; i < 3; i++) {
             AdventureCard card = deck.get(i);
-            switch (deck.get(i).getClass().getSimpleName()){
-                case "AbandonedShipCard":
-                    showAbandonedShipCard((AbandonedShipCard) card);
-                    break;
-                case "AbandonedStationCard":
-                    showAbandonedStationCard((AbandonedStationCard) card);
-                    break;
-                case "CombatZoneCard":
-                    showCombatZoneCard((CombatZoneCard) card);
-                    break;
-                case "EpidemicCard":
-                    showEpidemicCard((EpidemicCard) card);
-                    break;
-                case "MeteorSwarmCard":
-                    showMeteorSwarmCard((MeteorSwarmCard) card);
-                    break;
-                case "OpenSpaceCard":
-                    showOpenSpaceCard((OpenSpaceCard) card);
-                    break;
-                case "PiratesCard":
-                    showPiratesCard((PiratesCard) card);
-                    break;
-                case "PlanetsCard":
-                    showPlanetsCard((PlanetsCard) card);
-                    break;
-                case "SlaversCard":
-                    showSlaversCard((SlaversCard) card);
-                    break;
-                case "SmugglersCard":
-                    showSmugglersCard((SmugglersCard) card);
-                    break;
-                case "StardustCard":
-                    showStardustCard((StardustCard) card);
-                    break;
-                default: break;
-            }
+            showCard(card, model);
         }
     }
 
