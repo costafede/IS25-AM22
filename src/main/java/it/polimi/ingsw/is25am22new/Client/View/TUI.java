@@ -132,7 +132,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             for (int h = 0; h < 5; h++) {
                 for (int column = 0; column < 7; column++) {
                     System.out.print("|");
-                    Optional<ComponentTile> c = ship.getComponentTileFromGrid(column, line);
+                    Optional<ComponentTile> c = ship.getComponentTileFromGrid(line, column);
                     if (c.isPresent()) {
                         String[] draw = c.get().draw();
                         System.out.print(draw[h]);
