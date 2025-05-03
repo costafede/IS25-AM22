@@ -97,18 +97,14 @@ public class ObservableModel {
             }
         }
 
-        try {
-            shipboard.setStandbyComponentCopy(0, shipboard.pickStandByComponentTile(0));
-        }
-        catch (IllegalStateException e) {
+        if(shipboard.getStandbyComponent()[0].isPresent())
+            shipboard.setStandbyComponentCopy(0, shipboard.getStandbyComponent()[0].get());
+        else
             shipboard.setStandbyComponentCopy(0, null);
-        }
 
-        try {
-            shipboard.setStandbyComponentCopy(1, shipboard.pickStandByComponentTile(1));
-        }
-        catch (IllegalStateException e) {
+        if(shipboard.getStandbyComponent()[1].isPresent())
+            shipboard.setStandbyComponentCopy(1, shipboard.getStandbyComponent()[1].get());
+        else
             shipboard.setStandbyComponentCopy(1, null);
-        }
     }
 }
