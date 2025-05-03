@@ -19,6 +19,8 @@ public class FlipHourglassCommand extends AbstractCommand {
 
     @Override
     public boolean isApplicable(ClientModel model) {
+        if(model.getHourglass() == null) //timer has not been initialized yet
+            return false;
         if(model.getGametype().equals(GameType.TUTORIAL) ||
                 !model.getGamePhase().getPhaseType().equals(PhaseType.BUILDING))
             return false;

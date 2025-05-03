@@ -20,7 +20,7 @@ public class StandByComponentTileCommand extends AbstractCommand {
     @Override
     public boolean isApplicable(ClientModel model) {
         ComponentTile standbyComponent1 = model.getShipboard(model.getPlayerName()).getStandbyComponent()[0].orElseGet(() -> null);
-        ComponentTile standbyComponent2 = model.getShipboard(model.getPlayerName()).getStandbyComponent()[0].orElseGet(() -> null);
+        ComponentTile standbyComponent2 = model.getShipboard(model.getPlayerName()).getStandbyComponent()[1].orElseGet(() -> null);
         return !model.getShipboard(model.getPlayerName()).isFinishedShipboard() &&
                 model.getGamePhase().getPhaseType().equals(PhaseType.BUILDING) &&
                 model.getShipboard(model.getPlayerName()).getTileInHand() != null &&
