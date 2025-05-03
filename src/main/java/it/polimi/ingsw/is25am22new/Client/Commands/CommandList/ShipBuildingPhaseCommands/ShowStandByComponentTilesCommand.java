@@ -24,6 +24,6 @@ public class ShowStandByComponentTilesCommand extends AbstractCommand {
 
     @Override
     public void execute(ClientModel model) {
-        viewAdapter.showStandbyComponentTiles(model.getPlayerName(), model);
+        viewAdapter.showShipboardStandByComponents(model.getPlayerName(), model);
     }
 }

@@ -365,11 +365,6 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         }
     }
 
-    @Override
-    public void showStandbyComponentTiles(String player, ClientModel ClientModel) {
-        //TO DO Toly
-    }
-
     public void run(Scanner scanner) {
         Command chosen = null;
         boolean commandNotValid;

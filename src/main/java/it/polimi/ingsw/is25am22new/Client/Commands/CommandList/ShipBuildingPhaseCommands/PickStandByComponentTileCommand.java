@@ -32,6 +32,7 @@ public class PickStandByComponentTileCommand extends AbstractCommand {
         return 1;
     }
 
+    //input is 0 or 1
     @Override
     public boolean isInputValid(ClientModel model) {
         int index;
