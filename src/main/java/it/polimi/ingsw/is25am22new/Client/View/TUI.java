@@ -355,7 +355,31 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             System.out.println("No tile in hand");
         }
         else {
-            System.out.println(ct.getClass().getSimpleName()); //TO DO Toly
+            System.out.println("Tile in hand: ");
+            for (int column = 0; column < 1; column++) {
+                System.out.print("+");
+                for (int i = 0; i < 7; i++) {
+                    System.out.print("-");
+                }
+            }
+            System.out.println("+");
+
+            for (int h = 0; h < 5; h++) {
+                for (int column = 0; column < 1; column++) {
+                    System.out.print("|");
+                    String[] draw = ct.draw();
+                    System.out.print(draw[h]);
+                }
+                System.out.println("|");
+            }
+
+            for (int column = 0; column < 1; column++) {
+                System.out.print("+");
+                for (int i = 0; i < 7; i++) {
+                    System.out.print("-");
+                }
+            }
+            System.out.println("+");
         }
     }
 
