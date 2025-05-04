@@ -166,6 +166,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateBank(Bank bank){
         SocketMessage message = new SocketMessage("Bank", bank, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -177,6 +178,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateTileInHand(String player, ComponentTile tile) {
         SocketMessage message = new SocketMessage("TileInHand", tile, player);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -188,6 +190,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateUncoveredComponentTiles(List<ComponentTile> ctList)  {
         SocketMessage message = new SocketMessage("UncoveredComponentTile", ctList, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -199,6 +202,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateCoveredComponentTiles(List<ComponentTile> ctList)  {
         SocketMessage message = new SocketMessage("CoveredComponentTile", ctList, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -210,6 +214,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateShipboard(String player, Shipboard shipboard) {
         SocketMessage message = new SocketMessage("Shipboard", shipboard, player);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -221,6 +226,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateFlightboard(Flightboard flightboard){
         SocketMessage message = new SocketMessage("Flightboard", flightboard, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -232,6 +238,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateCurrCard(AdventureCard adventureCard) {
         SocketMessage message = new SocketMessage("CurrCard", adventureCard, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -243,6 +250,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateDices(Dices dices)  {
         SocketMessage message = new SocketMessage("Dices", dices, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -254,6 +262,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateCurrPlayer(String currPlayer){
         SocketMessage message = new SocketMessage("CurrPlayer", null, currPlayer);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -265,6 +274,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateGamePhase(GamePhase gamePhase) {
         SocketMessage message = new SocketMessage("GamePhase", gamePhase, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -276,6 +286,7 @@ public class SocketClientHandler implements VirtualView {
     public void showUpdateDeck(List<AdventureCard> deck){
         SocketMessage message = new SocketMessage("Deck", deck, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
@@ -288,6 +299,7 @@ public class SocketClientHandler implements VirtualView {
         System.out.println("showUpdateGame called");
         SocketMessage message = new SocketMessage("Game", game, null);
         try {
+            objectOutput.reset();
             objectOutput.writeObject(message);
             objectOutput.flush();
         } catch (IOException e) {
