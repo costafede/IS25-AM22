@@ -293,15 +293,13 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             for(int i = 0; i < orderedRockets.size(); i++) {
                 scores.put(orderedRockets.get(i), scores.get(orderedRockets.get(i)) + (4 - orderedRockets.indexOf(orderedRockets.get(i))));
             }
-            // scores.put(betterShipboard(), scores.get(betterShipboard()) + 2);
-            // betterShipboard() come va usato?
+            scores.put(betterShipboard(players, shipboards), scores.get(betterShipboard(players, shipboards)) + 2);
         }
         else {
             for(int i = 0; i < orderedRockets.size(); i++) {
                 scores.put(orderedRockets.get(i), scores.get(orderedRockets.get(i)) + 2*(4 - orderedRockets.indexOf(orderedRockets.get(i))));
             }
-            // scores.put(ClientModel.betterShipboard(), scores.get(betterShipboard()) + 4);
-            // betterShipboard() come va usato?
+            scores.put(betterShipboard(players, shipboards), scores.get(betterShipboard(players, shipboards)) + 4);
         }
 
         scores = scores.entrySet()
@@ -320,6 +318,12 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             x++;
         }
 
+    }
+
+    public String betterShipboard(List <String> players, Map<String, Shipboard> shipboards) {
+        return players.stream()
+                .min(Comparator.comparingInt(nickname -> shipboards.get(nickname).countExposedConnectors()))
+                .orElse(null);
     }
 
     @Override
