@@ -780,6 +780,11 @@ public class SocketClientSide implements VirtualView {
         output.endGame();
     }
 
+    @Override
+    public void godMode(String playerName, String conf) throws IOException {
+        output.godMode(playerName, conf);
+    }
+
     public void showMessage(String message) {
         System.out.println("Message from server: " + message);
         System.out.flush();
