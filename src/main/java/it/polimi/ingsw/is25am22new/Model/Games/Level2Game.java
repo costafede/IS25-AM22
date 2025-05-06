@@ -60,6 +60,7 @@ public class Level2Game extends Game implements Serializable {
         ObjectMapper objectMapper = new ObjectMapper();
         super.initGame();
         this.initDeck();
+        updateAllGame(this);
     }
 
     @Override

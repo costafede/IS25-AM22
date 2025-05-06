@@ -47,7 +47,7 @@ public class WeldComponentTileCommand extends AbstractCommand {
         }
 
         return ConditionVerifier.coordinatesAreNotOutOfBound(row, col, model) &&
-                model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row, col).isEmpty();
+                model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(StringConverter.stringToGridRow(input.getFirst()), StringConverter.stringToGridCol(input.get(1))).isEmpty();
     }
 
     @Override

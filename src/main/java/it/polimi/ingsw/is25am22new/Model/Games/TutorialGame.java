@@ -17,6 +17,7 @@ public class TutorialGame extends Game implements Serializable {
     public void initGame() {
         super.initGame();
         this.initDeck();
+        updateAllGame(this);
     }
 
     public Map<String, Integer> endGame() {

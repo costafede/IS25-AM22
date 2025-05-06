@@ -29,6 +29,9 @@ public class EpidemicCard extends AdventureCard implements Serializable {
                 }
             }
         }
+        game.manageInvalidPlayers();
+        game.setCurrPlayerToLeader();
+        game.setCurrCard(null);
     }
 
     @Override

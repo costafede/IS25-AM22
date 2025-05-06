@@ -76,7 +76,6 @@ public abstract class Game extends ObservableModel implements Serializable {
         GameInitializer.initComponent(this, objectMapper);
         GameInitializer.initCardArchive(this, objectMapper);
         gamePhase.trySwitchToNextPhase();
-        updateAllGame(this);
     }
 
     public void pickCoveredTile(String nickname) {
@@ -148,10 +147,9 @@ public abstract class Game extends ObservableModel implements Serializable {
         // pos is 0, 1, 2, 3
         flightboard.placeRocket(nickname, pos);
         shipboards.get(nickname).setFinishedShipboard(true);
+        setCurrPlayerToLeader();
         gamePhase.trySwitchToNextPhase();
-        updateAllShipboard(nickname, shipboards.get(nickname));
-        updateAllFlightboard(flightboard);
-        updateAllGamePhase(gamePhase);
+        updateAllGame(this);
     }
 
 
@@ -192,6 +190,7 @@ public abstract class Game extends ObservableModel implements Serializable {
         gamePhase.trySwitchToNextPhase();
         updateAllShipboard(nickname, shipboards.get(nickname));
         updateAllGamePhase(gamePhase);
+        updateAllGame(this);
     }
 
     public List<CardPile> getCardPiles(){

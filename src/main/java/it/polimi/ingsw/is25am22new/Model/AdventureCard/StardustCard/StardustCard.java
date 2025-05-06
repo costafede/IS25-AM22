@@ -20,6 +20,9 @@ public class StardustCard extends AdventureCard {
             int stepsBackwards = game.getShipboards().get(nickname).countExposedConnectors();
             game.getFlightboard().shiftRocket(nickname, stepsBackwards);
         }
+        game.manageInvalidPlayers();
+        game.setCurrPlayerToLeader();
+        game.setCurrCard(null);
     }
 
     @Override

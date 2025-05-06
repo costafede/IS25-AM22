@@ -44,6 +44,7 @@ public class Shipboard implements Serializable {
         this.componentTilesGridCopy = new ComponentTile[5][7];
         this.standbyComponentCopy = new ComponentTile[2];
         weldComponentTile(new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color), 2, 3);
+        componentTilesGridCopy[2][3] = new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color);
     }
 
     public int getScore(){

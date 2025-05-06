@@ -14,7 +14,8 @@ public class CorrectingShipPhase extends GamePhase {
             if(!game.getShipboards().get(player).checkShipboard())
                 flag = false;
         }
-        if(flag)
+        if(flag) {
             transition(new CardPhase(game));
+        }
     }
 }
