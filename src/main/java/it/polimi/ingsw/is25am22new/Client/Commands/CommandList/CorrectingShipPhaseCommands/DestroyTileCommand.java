@@ -41,7 +41,11 @@ public class DestroyTileCommand extends AbstractCommand {
         catch(NumberFormatException e) {
             return false;
         }
-        if(ConditionVerifier.coordinatesAreNotOutOfBound(row, col, model) && model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(row, col).isPresent())
+        if(ConditionVerifier.coordinatesAreNotOutOfBound(row, col, model) &&
+                model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(
+                    StringConverter.stringToGridRow(input.getFirst()),
+                    StringConverter.stringToGridCol(input.get(1))
+                ).isPresent())
             return true;
         return false;
     }
