@@ -47,6 +47,10 @@ public class Shipboard implements Serializable {
         componentTilesGridCopy[2][3] = new StartingCabin(colorToPngName(color), Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, color);
     }
 
+    public String getColor() {
+        return color;
+    }
+
     public int getScore(){
         int score = 0;
         //"selling the goods" inside the component tiles

@@ -333,7 +333,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     private void setUpShipboardConfig(String player, int shipboardNumber) {
         Shipboard shipboard = shipboards.get(player);
 
-        shipboard.setNewComponentTilesGrid();
+        shipboard = new Shipboard(shipboards.get(player).getColor(), shipboard.getNickname(), bank);
         shipboard.setNewStandbyComponent();
 
         switch (shipboardNumber) {
@@ -391,7 +391,6 @@ public abstract class Game extends ObservableModel implements Serializable {
         tiles.add(new BatteryComponent("16", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, 3));
         tiles.add(new BatteryComponent("17", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, 4));
         tiles.add(new ShieldGenerator("18", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
-
         return tiles;
     }
 
