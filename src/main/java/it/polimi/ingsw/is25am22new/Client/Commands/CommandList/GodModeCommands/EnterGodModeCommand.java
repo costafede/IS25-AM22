@@ -32,7 +32,11 @@ public class EnterGodModeCommand extends AbstractCommand {
 
     @Override
     public void execute(ClientModel model) {
-        model.enterGodMode();
-        //to do
+        try {
+            virtualServer.godMode(model.getPlayerName(), input.getFirst());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
