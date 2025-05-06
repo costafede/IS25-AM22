@@ -64,12 +64,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                 try {
                     clientView.resetNicknameStatus();
                     connectWithNickname(playerName);
-                    Thread.sleep(1000);
+                    //Thread.sleep(1000);
                     nickAccepted = clientView.isNicknameValid();
                     if (!nickAccepted) {
                         playerName = null; // Reset to prompt again
                     }
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     System.err.println("Error connecting with nickname: " + e.getMessage());
                 }
             }
@@ -113,6 +113,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     public void setGameType(String gameType) throws IOException {
         server.setGameType(gameType);
+    }
+
+    public void godMode(String playerName, String conf) throws IOException {
+        new Thread(() -> {
+            try {
+                server.godMode(playerName, conf);
+            } catch (IOException e) {
+                System.out.println("Error in godModeAsync: " + e.getMessage());
+            }
+        }).start();
     }
 
     public void pickCoveredTile(String nickname) {

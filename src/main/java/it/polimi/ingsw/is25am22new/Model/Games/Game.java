@@ -317,4 +317,83 @@ public abstract class Game extends ObservableModel implements Serializable {
     public int getHourglassSpot() {
         return hourglassSpot;
     }
+
+    public void godMode(String player, String conf) {
+        conf = conf.toLowerCase().trim();
+        int shipboardNumber = Integer.parseInt(conf.substring(0, 1));
+        String deckConfig = conf.length() > 1 ? conf.substring(1) : "";
+
+        setUpShipboardConfig(player, shipboardNumber);
+
+        setUpDeckConfig(deckConfig);
+
+        updateAllGame(this);
+    }
+
+    private void setUpShipboardConfig(String player, int shipboardNumber) {
+        Shipboard shipboard = shipboards.get(player);
+
+        shipboard.setNewComponentTilesGrid();
+        shipboard.setNewStandbyComponent();
+
+        switch (shipboardNumber) {
+            case 1 -> setUpShipboard1(shipboard);
+            default -> throw new IllegalArgumentException("Invalid shipboard number: " + shipboardNumber);
+        }
+
+        updateAllShipboard(player, shipboard);
+
+    }
+
+    private void setUpDeckConfig(String deckConfig) {
+        deck.clear();
+
+        if(!deckConfig.isEmpty()){
+            String[] pngNames = deckConfig.split(",");
+
+            for(String pngName : pngNames){
+                for(AdventureCard card : cardArchive){
+                    if(card.getPngName().equals(pngName.trim())){
+                        deck.add(card);
+                        break;
+                    }
+                }
+            }
+        } else {
+            initDeck();
+        }
+
+        updateAllDeck(deck);
+    }
+
+    private void setUpShipboard1(Shipboard shipboard) {
+        List<ComponentTile> tiles = initializeTiles();
+    }
+
+    private List<ComponentTile> initializeTiles(){
+        List<ComponentTile> tiles = new ArrayList<>();
+        tiles.add(new Engine("0", Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new DoubleEngine("1", Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new Cannon("2", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new DoubleCannon("3", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new StructuralModule("4", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new StructuralModule("5", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new StructuralModule("6", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new AlienAddon("7", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "purple"));
+        tiles.add(new AlienAddon("8", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "brown"));
+        tiles.add(new RegularCabin("9", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new StorageCompartment("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
+        tiles.add(new SpecialStorageCompartment("11", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2));
+        tiles.add(new StorageCompartment("12", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
+        tiles.add(new StorageCompartment("13", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
+        tiles.add(new RegularCabin("14", Side.ONEPIPE, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
+        tiles.add(new BatteryComponent("15", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, 2));
+        tiles.add(new BatteryComponent("16", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, 3));
+        tiles.add(new BatteryComponent("17", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, 4));
+        tiles.add(new ShieldGenerator("18", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE));
+
+        return tiles;
+    }
+
+
 }

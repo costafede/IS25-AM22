@@ -408,6 +408,11 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
+    public void godMode(String nickname, String conf) {
+        gameController.godMode(nickname, conf);
+    }
+
+    @Override
     public void pickCoveredTile(String nickname) {
         gameController.pickCoveredTile(nickname);
     }
