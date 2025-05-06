@@ -34,6 +34,7 @@ public class ClientModel extends ObservableModelView {
     protected int hourglassSpot;
     protected GameType gameType;
     protected List<CardPile> cardPiles;
+    protected boolean godMode = false;
 
     public ClientModel() {
         this.gamePhase = new SetUpPhase(null);
@@ -220,5 +221,17 @@ public class ClientModel extends ObservableModelView {
             shipboard.setStandbyComponent(0, Optional.ofNullable(shipboard.getStandbyComponentCopy(0)));
             shipboard.setStandbyComponent(1, Optional.ofNullable(shipboard.getStandbyComponentCopy(1)));
         }
+    }
+
+    public boolean isGodMode() {
+        return godMode;
+    }
+
+    public void enterGodMode() {
+        this.godMode = true;
+    }
+
+    public void exitGodMode() {
+        this.godMode = false;
     }
 }
