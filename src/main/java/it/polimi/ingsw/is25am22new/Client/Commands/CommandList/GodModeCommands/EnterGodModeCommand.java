@@ -21,8 +21,18 @@ public class EnterGodModeCommand extends AbstractCommand {
         return true;
     }
 
+    public int getInputLength() {
+        return 1;
+    }
+
+    @Override
+    public boolean isInputValid(ClientModel model) {
+        return true;
+    }
+
     @Override
     public void execute(ClientModel model) {
         model.enterGodMode();
+        //to do
     }
 }
