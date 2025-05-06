@@ -78,9 +78,14 @@ public class ObservableModel {
             ld.updateDeck(deck);
     }
 
-    protected void updateAllHourglassSpot(int hourglassSpot) {
+    protected void updateAllStartHourglass(int hourglassSpot) {
         for(ObserverModel ld : observers)
-            ld.updateHourglassSpot(hourglassSpot);
+            ld.updateStartHourglass(hourglassSpot);
+    }
+
+    protected void updateAllStopHourglass() {
+        for(ObserverModel ld : observers)
+            ld.updateStopHourglass();
     }
 
     protected void updateAllGame(Game game) {

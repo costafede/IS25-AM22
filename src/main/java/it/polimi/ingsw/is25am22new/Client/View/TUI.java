@@ -224,6 +224,8 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     @Override
     public void showCard(AdventureCard card, ClientModel clientModel) {
+        if(card == null)
+            System.out.println("There is no card");
         switch (card.getClass().getSimpleName()){
             case "AbandonedShipCard":
                 showAbandonedShipCard((AbandonedShipCard) card);
@@ -425,6 +427,13 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
     public String getCommandName() {
         return this.commandName;
+    }
+
+    public void showRemainingSeconds(ClientModel clientModel) {
+        if(!clientModel.isHourglassActive())
+            System.out.println("Hourglass is not active");
+        else
+            System.out.println("There are " + clientModel.getHourglass().getRemainingSeconds() + " seconds left!");
     }
 
 }

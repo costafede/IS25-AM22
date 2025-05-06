@@ -26,6 +26,7 @@ public class CommandManager {
         this.allCommands.add(new PickStandByComponentTileCommand(virtualServer, viewAdapter));
         this.allCommands.add(new PickUncoveredTileCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowPileCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowRemainingSecondsCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowStandByComponentTilesCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowUncoveredComponentTiles(virtualServer, viewAdapter));
         this.allCommands.add(new StandByComponentTileCommand(virtualServer, viewAdapter));

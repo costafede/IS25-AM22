@@ -24,14 +24,15 @@ public class ClientModel extends ObservableModelView {
     protected Map<String, Shipboard> shipboards;
     protected Flightboard flightboard;
     protected List<AdventureCard> cardArchive;
-    protected Hourglass hourglass;
+    protected Hourglass hourglass = new Hourglass(60);
+    protected int hourglassSpot;
+    protected boolean hourglassActive;
     protected List<AdventureCard> deck;
     protected String currPlayer;
     protected AdventureCard currCard;
     private Dices dices;
     protected GamePhase gamePhase;
     protected String playerName;    //name of the player using this client
-    protected int hourglassSpot;
     protected GameType gameType;
     protected List<CardPile> cardPiles;
 
@@ -81,11 +82,6 @@ public class ClientModel extends ObservableModelView {
 
     public Hourglass getHourglass() {
         return hourglass;
-    }
-
-    public void setHourglass(Hourglass hourglass) {
-        this.hourglass = hourglass;
-        notifyObservers(this);
     }
 
     public List<AdventureCard> getCardArchive() {
@@ -170,9 +166,21 @@ public class ClientModel extends ObservableModelView {
         return gameType;
     }
 
-    public void setHourglassSpot(int hourglassSpot) {
+    public void startHourglass(int hourglassSpot) {
         this.hourglassSpot = hourglassSpot;
+        this.hourglass.startTimer(() -> {});
+        this.hourglassActive = true;
         notifyObservers(this);
+    }
+
+    public void stopHourglass() {
+        this.hourglassActive = false;
+        this.hourglass.stopTimer();
+        notifyObservers(this);
+    }
+
+    public boolean isHourglassActive() {
+        return hourglassActive;
     }
 
     public int getHourglassSpot() {
@@ -201,6 +209,11 @@ public class ClientModel extends ObservableModelView {
         dices = game.getDices();
         gamePhase = game.getGamePhase();
         gameType = game.getFlightboard().getFlightBoardLength() == 24 ? GameType.LEVEL2 : GameType.TUTORIAL;
+        if(gameType.equals(GameType.LEVEL2)) {
+            cardPiles = game.getCardPiles();
+            hourglassSpot = game.getHourglassSpot();
+            hourglassActive = game.isHourglassActive();
+        }
         notifyObservers(this);
     }
 

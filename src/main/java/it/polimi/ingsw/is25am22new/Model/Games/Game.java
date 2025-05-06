@@ -277,6 +277,10 @@ public abstract class Game extends ObservableModel implements Serializable {
         return dices;
     }
 
+    public boolean isHourglassActive() {
+        return hourglass.getRemainingSeconds() > 0;
+    }
+
     public boolean isPlayerStillAbleToPlay(String player){
         Shipboard shipboard = shipboards.get(player);
         String leader = flightboard.getOrderedRockets().getFirst();

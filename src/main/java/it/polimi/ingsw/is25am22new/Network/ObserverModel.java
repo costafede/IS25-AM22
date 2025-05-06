@@ -28,6 +28,8 @@ public interface ObserverModel {
     void updateDeck(List<AdventureCard> deck);
     void updateGame(Game game);
     void updateHourglassSpot(int hourglassSpot);
+    void updateStopHourglass();
+    void updateStartHourglass(int hourglassSpot);
 
     void updateLobby();
     void updateGameStarted();

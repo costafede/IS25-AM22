@@ -27,7 +27,7 @@ public class FlipHourglassCommand extends AbstractCommand {
         String player = model.getPlayerName();
         if(model.getHourglassSpot() == 1 && !model.getShipboard(player).isFinishedShipboard()) //player wants to flip the hourglass on the last spot but he's not finished yet
             return false;
-        if(model.getHourglass().getRemainingSeconds() > 0) //timer has not finished yet
+        if(model.isHourglassActive() || model.getHourglassSpot() >= 2) //timer has not finished yet or hourglass is not flippable anymore
             return false;
         return true;
     }
