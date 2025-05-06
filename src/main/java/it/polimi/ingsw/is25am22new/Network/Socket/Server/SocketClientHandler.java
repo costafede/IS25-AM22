@@ -137,6 +137,9 @@ public class SocketClientHandler implements VirtualView {
                         this.server.disconnect(this, msg.getPayload());
                         this.controller.updateAllLobbies();
                     }
+                    case "godMode" -> {
+                        this.godMode(msg.getPayload(), (String) msg.getObject());
+                    }
                     case "connectionTester" -> {
                         System.out.println(msg.getPayload());
                         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
@@ -385,6 +388,11 @@ public class SocketClientHandler implements VirtualView {
         } catch (IOException e) {
             System.out.println("Error updating player joined for client: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void godMode(String playerName, String conf) throws IOException {
+        this.controller.godMode(playerName, conf);
     }
 
     @Override

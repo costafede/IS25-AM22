@@ -83,6 +83,17 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
+    public void godMode(String nickname, String conf) {
+        SocketMessage msg = new SocketMessage("godMode", conf, nickname);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in sending godMode: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void pickCoveredTile(String nickname)  {
         SocketMessage msg = new SocketMessage("pickCoveredTile", null, nickname);
         try {
