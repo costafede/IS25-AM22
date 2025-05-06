@@ -528,4 +528,8 @@ public class GameController {
             observer.updatePlayerJoined(player);
         }
     }
+
+    public void godMode(String player, String conf) {
+        game.godMode(player, conf);
+    }
 }

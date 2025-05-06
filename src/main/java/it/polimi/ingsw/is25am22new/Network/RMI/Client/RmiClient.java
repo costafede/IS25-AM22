@@ -115,6 +115,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         server.setGameType(gameType);
     }
 
+    public void godMode(String playerName, String conf) throws IOException {
+        new Thread(() -> {
+            try {
+                server.godMode(playerName, conf);
+            } catch (IOException e) {
+                System.out.println("Error in godModeAsync: " + e.getMessage());
+            }
+        }).start();
+    }
+
     public void pickCoveredTile(String nickname) {
         new Thread(() -> {
             try {
