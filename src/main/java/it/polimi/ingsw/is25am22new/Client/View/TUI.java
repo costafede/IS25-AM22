@@ -114,11 +114,11 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     public void showShipboardGrid(String player, ClientModel clientModel) {
         Map<String, Shipboard> shipboards = clientModel.getShipboards();
         Shipboard ship = shipboards.get(player);
-        System.out.println("=== LA TUA NAVE ===");
-        System.out.println("Giorni di volo: " + ship.getDaysOnFlight());
-        System.out.println("Crediti: " + ship.getCosmicCredits());
-        System.out.println("Equipaggio di volo: " + ship.getCrewNumber());
-        System.out.println("Astronauti: " + ship.getOnlyHumanNumber());
+        System.out.println("=== YOUR SHIP ===");
+        System.out.println("Days on flight: " + ship.getDaysOnFlight());
+        System.out.println("Credits: " + ship.getCosmicCredits());
+        System.out.println("Flight crew: " + ship.getCrewNumber());
+        System.out.println("Astronauts: " + ship.getOnlyHumanNumber());
 
         int x = 4;
         int y = 5;
@@ -176,7 +176,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     public void showShipboardStandByComponents(String player, ClientModel clientModel) {
         Map<String, Shipboard> shipboards = clientModel.getShipboards();
         Shipboard ship = shipboards.get(player);
-        System.out.println("=== COMPONENTI IN STAND BY ===");
+        System.out.println("=== COMPONENTS IN STAND BY ===");
 
         for (int column = 0; column < 2; column++) {
             System.out.print("+");

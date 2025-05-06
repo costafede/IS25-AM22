@@ -22,39 +22,49 @@ import java.util.Map;
 public class AdventureCardView {
 
     public static void showPlanetsCard(PlanetsCard card) {
-        System.out.println("=== PIANETI ===");
-        System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
+        System.out.println("=== PLANETS ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         for (int i = 0; i < card.getPlanets().size(); i++) {
-            System.out.println("Pianeta" + i + ":");
+            System.out.print("Planet" + i + ":");
             Map<GoodBlock, Integer> theoreticalGoodblocks = card.getPlanets().get(i).getTheoreticalGoodblocks();
+            Map<GoodBlock, Integer> actualGoodblocks = card.getPlanets().get(i).getActualGoodblocks();
             theoreticalGoodblocks.forEach((goodBlock, quantity) ->
-                    System.out.println("Merce: " + goodBlock + ", Quantita': " + quantity)
+                    System.out.println("Good: " + goodBlock + ", Theoretical quantity: " + quantity)
+            );
+            actualGoodblocks.forEach((goodBlock, quantity) ->
+                    System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
             );
         }
     }
 
     public static void showAbandonedShipCard(AbandonedShipCard card) {
-        System.out.println("=== NAVE ABBANDONATA ===");
-        System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
-        System.out.println("Crediti: " + card.getCredits());
-        System.out.println("Astronauti persi: " + card.getLostAstronauts());
+        System.out.println("=== ABANDONED SHIP ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Credits: " + card.getCredits());
+        System.out.println("Astronauts lost: " + card.getLostAstronauts());
     }
 
     public static void showAbandonedStationCard(AbandonedStationCard card) {
-        System.out.println("=== STAZIONE ABBANDONATA ===");
-        System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
-        System.out.println("Numero di astronauti: " + card.getAstronautsNumber());
+        System.out.println("=== ABANDONED STATION ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Astronauts: " + card.getAstronautsNumber());
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
+        Map<GoodBlock, Integer> actualGoodblocks = card.getTheoreticalGoodBlocks();
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Merce: " + goodBlock + ", Quantita': " + quantity)
+                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+        );
+        actualGoodblocks.forEach((goodBlock, quantity) ->
+                System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
         );
     }
 
     public static void showCombatZoneCard(CombatZoneCard card) {
-        System.out.println("=== ZONA DI GUERRA ===");
-        System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
-        System.out.println("Numero di astronauti: " + card.getAstronautsToLose());
-        System.out.println("Merci perse: " + card.getLostGoods());
+        System.out.println("=== COMBAT ZONE ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Astronauts: " + card.getAstronautsToLose());
+        System.out.println("Lost goods: " + card.getLostGoods());
+        System.out.println("Dice1: " + card.getDice1());
+        System.out.println("Dice2: " + card.getDice2());
         Map<Integer, Shot> numberToShot = card.getNumberToShot();
         for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
             System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
@@ -62,12 +72,14 @@ public class AdventureCardView {
     }
 
     public static void showEpidemicCard(EpidemicCard card) {
-        System.out.println("=== EPIDEMIA ===");
+        System.out.println("=== EPIDEMIC ===");
         //Self-explanatory
     }
 
     public static void showMeteorSwarmCard(MeteorSwarmCard card) {
-        System.out.println("=== PIOGGIA DI METEORITI ===");
+        System.out.println("=== METEOR SWARM ===");
+        System.out.println("Dice1: " + card.getDice1());
+        System.out.println("Dice2: " + card.getDice2());
         Map<Integer, Meteor> numberToMeteor = card.getNumberToMeteor();
         for (Map.Entry<Integer, Meteor> entry : numberToMeteor.entrySet()) {
             System.out.println("Number: " + entry.getKey() + ", Meteor: " + entry.getValue());
@@ -75,15 +87,17 @@ public class AdventureCardView {
     }
 
     public static void showOpenSpaceCard(OpenSpaceCard card) {
-        System.out.println("=== SPAZIO APERTO ===");
+        System.out.println("=== OPEN SPACE ===");
         //Self-explanatory
     }
 
     public static void showPiratesCard(PiratesCard card) {
-        System.out.println("=== PIRATI ===");
-        System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
-        System.out.println("Crediti: " + card.getCredits());
-        System.out.println("Potenza cannoni: " + card.getCannonStrength());
+        System.out.println("=== PIRATES ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Credits: " + card.getCredits());
+        System.out.println("Cannon's strength: " + card.getCannonStrength());
+        System.out.println("Dice1: " + card.getDice1());
+        System.out.println("Dice2: " + card.getDice2());
         Map<Integer, Shot> numberToShot = card.getNumberToShot();
         for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
             System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
@@ -91,26 +105,26 @@ public class AdventureCardView {
     }
 
     public static void showSlaversCard(SlaversCard card) {
-        System.out.println("=== SCHIAVISTI ===");
-        System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
-        System.out.println("Crediti: " + card.getCredits());
-        System.out.println("Astronauti persi: " + card.getAstronautsToLose());
-        System.out.println("Potenza cannoni: " + card.getCannonStrength());
+        System.out.println("=== SLAVERS ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Credits: " + card.getCredits());
+        System.out.println("Astronauts to lose: " + card.getAstronautsToLose());
+        System.out.println("Cannon's strength: " + card.getCannonStrength());
     }
 
     public static void showSmugglersCard(SmugglersCard card) {
-        System.out.println("=== CONTRABBANDIERI ===");
-        System.out.println("Giorni di volo persi: " + card.getFlightDaysLost());
-        System.out.println("Merci perse: " + card.getLostGoods());
-        System.out.println("Potenza cannoni: " + card.getCannonStrength());
+        System.out.println("=== SMUGGLERS ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Lost goods: " + card.getLostGoods());
+        System.out.println("Cannon's strength: " + card.getCannonStrength());
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Merce: " + goodBlock + ", Quantita': " + quantity)
+                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
         );
     }
 
     public static void showStardustCard(StardustCard card) {
-        System.out.println("=== POLVERE STELLARE ===");
+        System.out.println("=== STARDUST ===");
         //Self-explanatory
     }
 
