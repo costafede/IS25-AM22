@@ -64,12 +64,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                 try {
                     clientView.resetNicknameStatus();
                     connectWithNickname(playerName);
-                    Thread.sleep(1000);
+                    //Thread.sleep(1000);
                     nickAccepted = clientView.isNicknameValid();
                     if (!nickAccepted) {
                         playerName = null; // Reset to prompt again
                     }
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     System.err.println("Error connecting with nickname: " + e.getMessage());
                 }
             }
