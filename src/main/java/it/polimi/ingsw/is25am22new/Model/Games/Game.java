@@ -47,8 +47,10 @@ public abstract class Game extends ObservableModel implements Serializable {
         this.dices = new Dices();
         this.gamePhase = new SetUpPhase(this);
 
-        for (ObserverModel observer : observers) {
-            this.addObserver(observer);
+        if(observers != null) {
+            for (ObserverModel observer : observers) {
+                this.addObserver(observer);
+            }
         }
 
         List<String> colors = List.of("red", "green", "blue", "yellow");
