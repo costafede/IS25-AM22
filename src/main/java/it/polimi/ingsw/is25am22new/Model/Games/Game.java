@@ -375,10 +375,15 @@ public abstract class Game extends ObservableModel implements Serializable {
         // Create new shipboard and store it in the map
         Shipboard newShipboard = new Shipboard(oldShipboard.getColor(), oldShipboard.getNickname(), bank);
         newShipboard.setNewStandbyComponent();
+        newShipboard.setStandbyComponent(0, Optional.empty());
+        newShipboard.setStandbyComponent(1, Optional.empty());
 
         switch (shipboardNumber) {
             case 1 -> setUpShipboard1(newShipboard); // Level2
             case 2 -> setUpShipboard2(newShipboard); // Tutorial
+            case 3 -> setUpShipboard3(newShipboard); // tutorial friendly
+            case 4 -> setUpShipboard4(newShipboard); // tutorial friendly
+            case 5 -> setUpShipboard5(newShipboard); // tutorial friendly
             default -> throw new IllegalArgumentException("Invalid shipboard number: " + shipboardNumber);
         }
 
