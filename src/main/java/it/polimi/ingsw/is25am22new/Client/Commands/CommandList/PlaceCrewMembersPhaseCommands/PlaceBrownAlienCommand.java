@@ -38,14 +38,15 @@ public class PlaceBrownAlienCommand extends AbstractCommand {
             return false;
 
         int row, col;
+        Optional<ComponentTile> ct;
         try {
             row = Integer.parseInt(input.getFirst());
             col = Integer.parseInt(input.get(1));
+            ct = model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(StringConverter.stringToGridRow(input.getFirst()), StringConverter.stringToGridCol(input.get(1)));
         }
         catch(NumberFormatException e) {
             return false;
         }
-        Optional<ComponentTile> ct = model.getShipboard(model.getPlayerName()).getComponentTileFromGrid(StringConverter.stringToGridRow(input.getFirst()), StringConverter.stringToGridCol(input.get(1)));
         return ConditionVerifier.coordinatesAreNotOutOfBound(row, col, model) &&
                 ct.isPresent() &&
                 ct.get().getCrewNumber() == 0 &&

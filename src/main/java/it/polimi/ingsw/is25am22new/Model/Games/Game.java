@@ -92,7 +92,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     public void placeBrownAlien(String nickname, int i, int j) {
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
-        if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || shipboard.isAlienPlaceable(i, j, "brown"))
+        if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || !shipboard.isAlienPlaceable(i, j, "brown"))
             throw new IllegalArgumentException("Cannot place Brown Alien at the given coordinates");
         tile.get().putAlien("brown");
         gamePhase.trySwitchToNextPhase();
@@ -103,7 +103,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     public void placePurpleAlien(String nickname, int i, int j) {
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
-        if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || shipboard.isAlienPlaceable(i, j, "purple"))
+        if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || !shipboard.isAlienPlaceable(i, j, "purple"))
             throw new IllegalArgumentException("Cannot place Purple Alien at the given coordinates");
         tile.get().putAlien("purple");
         gamePhase.trySwitchToNextPhase();
