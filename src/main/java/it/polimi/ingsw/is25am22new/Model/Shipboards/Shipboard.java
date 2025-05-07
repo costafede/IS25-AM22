@@ -142,6 +142,8 @@ public class Shipboard implements Serializable {
 
     public void setNewStandbyComponent() {
         this.standbyComponent = (Optional<ComponentTile>[]) new Optional[2];
+        this.standbyComponent[0] = Optional.empty();
+        this.standbyComponent[1] = Optional.empty();
     }
 
     public void weldComponentTile (ComponentTile ct, int i, int j){
