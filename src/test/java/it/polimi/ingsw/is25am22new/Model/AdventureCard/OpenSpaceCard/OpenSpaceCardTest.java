@@ -177,24 +177,6 @@ class OpenSpaceCardTest {
         openSpaceCard.activateEffect(inputCommand);
 
         inputCommand = new InputCommand();
-        inputCommand.setChoice(false);
-
-        openSpaceCard.activateEffect(inputCommand);
-
-        inputCommand = new InputCommand();
-        inputCommand.setChoice(true);
-        inputCommand.setRow(1);
-        inputCommand.setCol(3);
-
-        openSpaceCard.activateEffect(inputCommand);
-
-        inputCommand = new InputCommand();
-        inputCommand.setRow(2);
-        inputCommand.setCol(4);
-
-        openSpaceCard.activateEffect(inputCommand);
-
-        inputCommand = new InputCommand();
         inputCommand.setChoice(true);
         inputCommand.setRow(1);
         inputCommand.setCol(3);
@@ -209,6 +191,24 @@ class OpenSpaceCardTest {
 
         inputCommand = new InputCommand();
         inputCommand.setChoice(false);
+
+        openSpaceCard.activateEffect(inputCommand);
+
+        inputCommand = new InputCommand();
+        inputCommand.setChoice(false);
+
+        openSpaceCard.activateEffect(inputCommand);
+
+        inputCommand = new InputCommand();
+        inputCommand.setChoice(true);
+        inputCommand.setRow(1);
+        inputCommand.setCol(3);
+
+        openSpaceCard.activateEffect(inputCommand);
+
+        inputCommand = new InputCommand();
+        inputCommand.setRow(2);
+        inputCommand.setCol(4);
 
         openSpaceCard.activateEffect(inputCommand);
 

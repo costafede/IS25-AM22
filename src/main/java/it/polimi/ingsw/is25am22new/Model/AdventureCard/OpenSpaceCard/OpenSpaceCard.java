@@ -24,7 +24,7 @@ public class OpenSpaceCard extends AdventureCard implements Serializable {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(orderedPlayersBeforeEffect.isEmpty())
-            orderedPlayersBeforeEffect.addAll(game.getFlightboard().getOrderedRockets());
+            orderedPlayersBeforeEffect = new ArrayList<>(game.getFlightboard().getOrderedRockets());
         openSpaceState.activateEffect(inputCommand);
     }
 
