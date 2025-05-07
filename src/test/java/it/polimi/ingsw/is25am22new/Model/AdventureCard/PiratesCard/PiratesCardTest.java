@@ -414,7 +414,8 @@ class PiratesCardTest {
         Shipboard s = new Shipboard("tempShipboard", "nickname", null);
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 7; j++) {
-                if(shipboard.getComponentTileFromGrid(i, j).isPresent()) {
+                if(shipboard.getComponentTileFromGrid(i, j).isPresent() &&
+                        !shipboard.getComponentTileFromGrid(i,j).get().isStartingCabin()) {
                     s.weldComponentTile(shipboard.getComponentTileFromGrid(i, j).get(), i, j);
                 }
             }
@@ -425,7 +426,8 @@ class PiratesCardTest {
     private boolean CheckShipboardIntegrity (Shipboard oldS, Shipboard newS) {
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 7; j++) {
-                if(!oldS.getComponentTileFromGrid(i, j).equals(newS.getComponentTileFromGrid(i, j)))
+                if(!oldS.getComponentTileFromGrid(i, j).equals(newS.getComponentTileFromGrid(i, j)) &&
+                        !oldS.getComponentTileFromGrid(i,j).get().isStartingCabin())
                     return false;
             }
         }

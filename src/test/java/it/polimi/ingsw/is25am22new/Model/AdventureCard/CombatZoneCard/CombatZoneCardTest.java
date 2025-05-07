@@ -246,7 +246,7 @@ class CombatZoneCardTest {
         Shipboard s = new Shipboard("tempShipboard", "nickname", null);
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 7; j++) {
-                if(shipboard.getComponentTileFromGrid(i, j).isPresent()) {
+                if(shipboard.getComponentTileFromGrid(i, j).isPresent() && i != 2 && j != 3) {
                     s.weldComponentTile(shipboard.getComponentTileFromGrid(i, j).get(), i, j);
                 }
             }
