@@ -38,6 +38,7 @@ public class CommandManager {
 
         this.allCommands.add(new ShowAvailableCommandsCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowCurrCardCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowCurrPhaseCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowFlightboardCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowShipCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowTileInHandCommand(virtualServer, viewAdapter));

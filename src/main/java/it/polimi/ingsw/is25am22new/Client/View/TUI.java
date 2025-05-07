@@ -438,4 +438,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             System.out.println("There are " + clientModel.getHourglass().getRemainingSeconds() + " seconds left!");
     }
 
+    @Override
+    public void showCurrPhase(ClientModel model) {
+        System.out.println("=== CURRENT PHASE ===");
+        System.out.println("Current phase: " + model.getGamePhase().getPhaseType());
+    }
+
 }

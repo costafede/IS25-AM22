@@ -392,24 +392,22 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     private void setUpDeckConfig(String deckConfig) {
-        deck.clear();
 
         if(!deckConfig.isEmpty()){
+            deck.clear();
             String[] pngNames = deckConfig.split(",");
 
             for(String pngName : pngNames){
                 for(AdventureCard card : cardArchive){
-                    if(card.getPngName().equals(pngName.trim())){
+                    if(card.getPngName().equalsIgnoreCase(pngName.trim())){
                         deck.add(card);
                         break;
                     }
                 }
             }
-        } else {
-            initDeck();
+            updateAllDeck(deck);
         }
 
-        updateAllDeck(deck);
     }
 
     private void setUpShipboard1(Shipboard shipboard) {
