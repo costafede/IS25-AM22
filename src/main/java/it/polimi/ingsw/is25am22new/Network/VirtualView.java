@@ -31,7 +31,8 @@ package it.polimi.ingsw.is25am22new.Network;
         void showUpdateGamePhase(GamePhase gamePhase) throws RemoteException;
         void showUpdateDeck(List<AdventureCard> deck) throws RemoteException;
         void showUpdateGame(Game game) throws RemoteException;
-        void showUpdateHourglassSpot(int hourglassSpot) throws RemoteException;
+        void showUpdateStopHourglass() throws RemoteException;
+        void showUpdateStartHourglass(int hourglassSpot) throws RemoteException;
 
         // Methods for lobby management
         void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) throws RemoteException;
@@ -62,4 +63,8 @@ package it.polimi.ingsw.is25am22new.Network;
         void playerAbandons(String playerName) throws IOException;
         void destroyComponentTile(String playerName, int i, int j) throws IOException;
         void endGame() throws IOException;
+
+        void placeBrownAlien(String playerName, int i, int j) throws IOException;
+        void placeAstronauts(String playerName, int i, int j) throws IOException;
+        void placePurpleAlien(String playerName, int i, int j) throws IOException;
     }

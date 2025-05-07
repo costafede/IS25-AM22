@@ -162,22 +162,21 @@ public class SocketServerSide implements ObserverModel {
     }
 
     @Override
-    public void updateHourglassSpot(int hourglassSpot) {
+    public void updateStartHourglass(int hourglassSpot) {
         synchronized (this.clients) {
             for (var client : this.clients) {
-                client.showUpdateHourglassSpot(hourglassSpot);
+                client.showUpdateStartHourglass(hourglassSpot);
             }
         }
     }
 
     @Override
     public void updateStopHourglass() {
-        //TODO
-    }
-
-    @Override
-    public void updateStartHourglass(int hourglassSpot) {
-        //TODO
+        synchronized (this.clients) {
+            for (var client : this.clients) {
+                client.showUpdateStopHourglass();
+            }
+        }
     }
 
     @Override

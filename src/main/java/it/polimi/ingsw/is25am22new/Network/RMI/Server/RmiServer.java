@@ -314,27 +314,31 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void updateHourglassSpot(int hourglassSpot) {
+    public void updateStopHourglass() {
         for (VirtualView connectedClient : connectedClients) {
             try {
-                connectedClient.showUpdateHourglassSpot(hourglassSpot);
+                connectedClient.showUpdateStopHourglass();
             } catch (RemoteException e) {
-                System.err.println("Error updating client with hourglass spot: " + e.getMessage());
+                System.err.println("Error updating client with stop hourglass: " + e.getMessage());
                 handleClientError(connectedClient, e);
             } catch (Exception e) {
-                //handle showUpdateHourglassSpot exception
+                //handle showStopHourglass exception
             }
         }
     }
 
     @Override
-    public void updateStopHourglass() {
-        //TODO
-    }
-
-    @Override
     public void updateStartHourglass(int hourglassSpot) {
-        //TODO
+        for (VirtualView connectedClient : connectedClients) {
+            try {
+                connectedClient.showUpdateStartHourglass(hourglassSpot);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with start hourglass: " + e.getMessage());
+                handleClientError(connectedClient, e);
+            } catch (Exception e) {
+                //handle showStartHourglass exception
+            }
+        }
     }
 
     private void handleClientError(VirtualView client, RemoteException e) {
@@ -509,5 +513,20 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void endGame() {
         gameController.endGame();
+    }
+
+    @Override
+    public void placeBrownAlien(String playerName, int i, int j) throws IOException {
+        gameController.placeBrownAlien(playerName, i, j);
+    }
+
+    @Override
+    public void placeAstronauts(String playerName, int i, int j) throws IOException {
+        gameController.placeAstronauts(playerName, i, j);
+    }
+
+    @Override
+    public void placePurpleAlien(String playerName, int i, int j) throws IOException {
+        gameController.placePurpleAlien(playerName, i, j);
     }
 }

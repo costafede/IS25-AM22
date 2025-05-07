@@ -27,7 +27,6 @@ public interface ObserverModel {
     void updateCoveredComponentTiles(List<ComponentTile> ctList);
     void updateDeck(List<AdventureCard> deck);
     void updateGame(Game game);
-    void updateHourglassSpot(int hourglassSpot);
     void updateStopHourglass();
     void updateStartHourglass(int hourglassSpot);
 

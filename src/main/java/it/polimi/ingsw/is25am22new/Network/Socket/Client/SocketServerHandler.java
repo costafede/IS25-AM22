@@ -270,6 +270,48 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
+    public void placeBrownAlien(String playerName, int i, int j) {
+        InputCommand inputCommand = new InputCommand();
+        inputCommand.setRow(i);
+        inputCommand.setCol(j);
+        SocketMessage msg = new SocketMessage("placeBrownAlien", inputCommand, playerName);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in sending placeBrownAlien: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void placeAstronauts(String playerName, int i, int j) {
+        InputCommand inputCommand = new InputCommand();
+        inputCommand.setRow(i);
+        inputCommand.setCol(j);
+        SocketMessage msg = new SocketMessage("placeAstronauts", inputCommand, playerName);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in sending placeAstronauts: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void placePurpleAlien(String playerName, int i, int j){
+        InputCommand inputCommand = new InputCommand();
+        inputCommand.setRow(i);
+        inputCommand.setCol(j);
+        SocketMessage msg = new SocketMessage("placePurpleAlien", inputCommand, playerName);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in sending placePurpleAlien: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void connect(VirtualView client, String nickname){
         //Used only for RMI
     }
