@@ -5,6 +5,8 @@ import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+import java.io.IOException;
+
 public class EnterGodModeCommand extends AbstractCommand {
 
     public EnterGodModeCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {

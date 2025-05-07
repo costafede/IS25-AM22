@@ -3,6 +3,7 @@ package it.polimi.ingsw.is25am22new.Client.Commands;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPhaseCommands.DestroyTileCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.*;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GodModeCommands.EnterGodModeCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
@@ -56,6 +57,8 @@ public class CommandManager {
         this.allCommands.add(new RemoveGoodBlockCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ResolveEffectCommand(virtualServer, viewAdapter));
         this.allCommands.add(new SwitchGoodBlocksCommand(virtualServer, viewAdapter));
+
+        this.allCommands.add(new EnterGodModeCommand(virtualServer, viewAdapter));
     }
 
     public List<Command> getAvailableCommandTypes(ClientModel model) {
