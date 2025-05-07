@@ -17,6 +17,7 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class SocketClientSide implements VirtualView {
@@ -168,10 +169,6 @@ public class SocketClientSide implements VirtualView {
                         Game game = (Game) msg.getObject();
                         this.showUpdateGame(game);
                     }
-                    case "HourglassSpot" -> {
-                        int hourglassSpot = (int) msg.getObject();
-                        this.showUpdateHourglassSpot(hourglassSpot);
-                    }
                     case "LobbyUpdate" -> {
                         players = (ArrayList<String>) msg.getObject();
                         gameType = msg.getPayload();
@@ -205,6 +202,13 @@ public class SocketClientSide implements VirtualView {
                     case "MessageToEveryone" -> {
                         this.showMessage(msg.getPayload());
                     }
+                    case "StopHourglass" -> {
+                        this.showUpdateStopHourglass();
+                    }
+                    case "StartHourglass" -> {
+                        int hourglassSpot = (int) msg.getObject();
+                        this.showUpdateStartHourglass(hourglassSpot);
+                    }
                     case "updateTest" -> {
                         System.out.println(msg.getPayload());
                         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
@@ -220,374 +224,6 @@ public class SocketClientSide implements VirtualView {
             System.exit(0);
         }
     }
-
-//    private void runCli() throws IOException, InterruptedException {
-//        Scanner scan = new Scanner(System.in);
-//        int numOfRotations = 0;
-//        Set<String> validCommands = Set.of("remove", "ready", "start", "notready", "setgametype");
-//
-//        while (true) {
-//            boolean validInput = false;
-//            while (!validInput) {
-//                // handle invalid input (e.g., show message or ask again)
-//
-//                String input = scan.nextLine().trim().toLowerCase();
-//
-//                if (validCommands.contains(input)) {
-//                    validInput = true;
-//                } else {
-//                    System.out.println("❗ Invalid command: \"" + input + "\"");
-//                }
-//            }
-//
-//            String command = scan.nextLine().trim();
-//
-//            // process the command
-//            switch (command) {
-//                case "remove" -> {
-//                    System.out.println("Enter the name of the player to remove: ");
-//                    String player = scan.nextLine();
-//
-//                    while(player == null || player.isEmpty()) {
-//                        System.out.println("Please enter a valid name: ");
-//                        player = scan.nextLine();
-//                    }
-//
-//                    output.removePlayer(player);
-//                }
-//                case "ready" -> {
-//                    System.out.println("You're ready!");
-//                    output.setPlayerReady(thisPlayerName);
-//                }
-//                case "start" -> {
-//                    System.out.println("Let's start the game!");
-//                    output.startGameByHost(thisPlayerName);
-//                }
-//                case "notready" -> {
-//                    System.out.println("You're not ready!");
-//                    output.setPlayerNotReady(thisPlayerName);
-//                }
-//                case "setgametype" -> {
-//                    System.out.println("What type of game do you want to play? (tutorial/level2)");
-//                    String gameType = scan.nextLine();
-//
-//                    while(gameType == null || (!gameType.equals("tutorial") && !gameType.equals("level2"))) {
-//                        System.out.println("Please enter a valid type: ");
-//                        gameType = scan.nextLine();
-//                    }
-//
-//                    output.setGameType(gameType);
-//                }
-                //case 6 -> {
-                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                //        System.out.println("You already have a tile in your hand!");
-                //    }
-                //    else {
-                //        System.out.println("Covered tile picked!");
-                //        output.pickCoveredTile(thisPlayerName);
-                //    }
-                //}
-                //case 7 -> {
-                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                //        System.out.println("You already have a tile in your hand!");
-                //    }
-                //    else {
-                //        System.out.println("Which tile you want to pick?: ");
-                //        int index = scan.nextInt();
-                //        scan.nextLine();
-                //
-                //        while(index < 0) {
-                //            System.out.println("Please enter a valid index: ");
-                //            index = scan.nextInt();
-                //            scan.nextLine();
-                //        }
-                //        System.out.println("Uncovered tile picked!");
-                //        output.pickUncoveredTile(thisPlayerName, index);
-                //    }
-                //}
-                //case 8 -> {
-                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                //        System.out.println("Tile rotated to the right!");
-                //        numOfRotations++;
-                //    }
-                //    else {
-                //        System.out.println("You don't have a tile in your hand!");
-                //    }
-                //}
-                //case 9 -> {
-                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                //        System.out.println("Tile rotated to the left!");
-                //        numOfRotations--;
-                //    }
-                //    else {
-                //        System.out.println("You don't have a tile in your hand!");
-                //    }
-                //}
-                //case 10 -> {
-                //    // based on the type of game HAVE TO SET LIMITS THE COORDINATES
-                //    System.out.println("Where do you want to place the tile?: \n");
-                //    System.out.println("X coordinate: ");
-                //    int x = scan.nextInt();
-                //    scan.nextLine();
-                //    System.out.println("Y coordinate: ");
-                //    int y = scan.nextInt();
-                //    scan.nextLine();
-                //    output.weldComponentTile(thisPlayerName, x, y, numOfRotations);
-                //    numOfRotations = 0;
-                //}
-                //case 11 -> {
-                //    try {
-                //        clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
-                //        try{
-                //            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
-                //            System.out.println("Standby positions are full!");
-                //        }
-                //        catch(IllegalStateException e){
-                //            System.out.println("Putting tile in standby!");
-                //            output.standbyComponentTile(thisPlayerName);
-                //        }
-                //    }
-                //    catch (IllegalStateException e){
-                //        System.out.println("Putting tile in standby!");
-                //        output.standbyComponentTile(thisPlayerName);
-                //    }
-                //}
-                //case 12 -> {
-                //    System.out.println("Which tile do you want to pick?: (1/2) ");
-                //    int index = scan.nextInt();
-                //    scan.nextLine();
-                //
-                //    while(index != 1 && index != 2) {
-                //        System.out.println("Please enter a valid index: ");
-                //        index = scan.nextInt();
-                //        scan.nextLine();
-                //    }
-                //
-                //    if(index == 1) {
-                //        try {
-                //            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(0);
-                //            output.pickStandbyComponentTile(thisPlayerName, 0);
-                //        } catch (IllegalStateException e) {
-                //            System.out.println("You don't have a tile in that position!");
-                //        }
-                //    }
-                //    else {
-                //        try {
-                //            clientModel.getShipboard(thisPlayerName).pickStandByComponentTile(1);
-                //            output.pickStandbyComponentTile(thisPlayerName, 1);
-                //        } catch (IllegalStateException e) {
-                //            System.out.println("You don't have a tile in that position!");
-                //        }
-                //    }
-                //
-                //}
-                //case 13 -> {
-                //    if(clientModel.getShipboard(thisPlayerName).getTileInHand() != null) {
-                //        System.out.println("Tile discarded!");
-                //        output.discardComponentTile(thisPlayerName);
-                //    }
-                //    else {
-                //        System.out.println("You don't have a tile in your hand!");
-                //    }
-                //}
-                //case 14 -> {
-                //    System.out.println("You've finally finished your ship! Wow!");
-                //    output.finishBuilding(thisPlayerName);
-                //}
-                //case 15 -> {
-                //    System.out.println("You've finished your ship! Congrats!");
-                //    System.out.println("Fast! Where do you want to place your rocket? (1/2/3/4)");
-                //    int pos = scan.nextInt();
-                //    scan.nextLine();
-                //    output.finishBuilding(thisPlayerName, pos);
-                //}
-                //case 16 -> {
-                //    System.out.println("All shipboards are finished! Let's go!");
-                //    output.finishedAllShipboards();
-                //}
-                //case 17 -> {
-                //    System.out.println("Hourglass flipped!");
-                //    output.flipHourglass();
-                //}
-                //case 18 -> {
-                //    System.out.println("Card picked!");
-                //    output.pickCard();
-                //}
-                //case 19 -> {
-                //    if(clientModel.getCurrCard() == null) {
-                //        System.out.println("There is no card to activate!");
-                //    }
-                //    else {
-                //        System.out.println("Card activated!");
-                //        InputCommand inputCommand = constructInputCommand();
-                //        output.activateCard(inputCommand);
-                //    }
-                //}
-                //case 20 -> {
-                //    if(clientModel.getShipboard(thisPlayerName).isAbandoned()) {
-                //        System.out.println("You have already abandoned the game!");
-                //    }
-                //    else {
-                //        System.out.println("Are you sure you want to abandon the game? (true/false)");
-                //        boolean choice = scan.nextBoolean();
-                //        scan.nextLine();
-                //        if(choice)  output.playerAbandons(thisPlayerName);
-                //    }
-                //}
-                //case 21 -> {
-                //    System.out.println("Which tile do you want to destroy?: ");
-                //    System.out.println("X coordinate: ");
-                //    int x = scan.nextInt();
-                //    scan.nextLine();
-                //    System.out.println("Y coordinate: ");
-                //    int y = scan.nextInt();
-                //    scan.nextLine();
-                //
-                //    if(clientModel.getShipboard(thisPlayerName).getComponentTileFromGrid(x, y).isEmpty()) {
-                //        System.out.println("You don't have a tile in that position!");
-                //    }
-                //    else {
-                //        System.out.println("Tile destroyed!");
-                //        output.destroyComponentTile(thisPlayerName, x, y);
-                //    }
-                //}
-                //case 22 -> {
-                //    if(clientModel.getGamePhase().getPhaseType() == PhaseType.END) {
-                //        System.out.println("Game is over!");
-                //        output.endGame();
-                //    }
-                //    else {
-                //        System.out.println("Game is not over yet!");
-                //    }
-                //}
-    //            case "test" -> {
-    //                System.out.println("String to send: ");
-    //                String test = scan.nextLine();
-    //                output.connectionTester(test, 33879);
-    //            }
-    //            default -> {
-    //                this.output.disconnect(thisPlayerName);
-    //                System.out.println("Invalid command, you will be kicked out of the game!");
-    //                System.out.flush();
-    //                System.exit(0);
-    //            }
-    //        }
-    //    }
-    //}
-//
-    //private InputCommand constructInputCommand(){
-    //    Scanner scanner = new Scanner(System.in);
-    //    InputCommand inputCommand = new InputCommand();
-    //    System.out.println("Possible commands: \n");
-    //    System.out.println("1. Choice command");
-    //    System.out.println("2. Choose index command");
-    //    System.out.println("3. Choose tile coordinates command");
-    //    System.out.println("4. Manage good-blocks command");
-    //    int index = scanner.nextInt();
-    //    switch (index) {
-    //        case 1 -> {
-    //            System.out.println("Enter your choice: (true/false)");
-    //            boolean choice = scanner.nextBoolean();
-    //            scanner.nextLine();
-    //            inputCommand.setChoice(choice);
-    //        }
-    //        case 2 -> {
-    //            System.out.println("Enter the index you want to choose: ");
-    //            int indexChosen = scanner.nextInt();
-    //            scanner.nextLine();
-    //            inputCommand.setIndexChosen(indexChosen);
-    //        }
-    //        case 3 -> {
-    //            System.out.println("Enter the row you want to choose: ");
-    //            int row = scanner.nextInt();
-    //            scanner.nextLine();
-    //            inputCommand.setRow(row);
-    //            System.out.println("Enter the column you want to choose: ");
-    //            int col = scanner.nextInt();
-    //            scanner.nextLine();
-    //            inputCommand.setCol(col);
-    //        }
-    //        case 4 -> {
-    //            System.out.println("Would you like to add, remove or switch a good-block? (add/remove/switch)");
-    //            String command = scanner.nextLine();
-    //            switch (command) {
-    //                case "add" -> {
-    //                    setCoordinates(scanner, inputCommand);
-    //                    System.out.println("Choose the block you want to add: (RED/BLUE/GREEN/YELLOW)");
-    //                    setGoodBlock(scanner, inputCommand);
-    //                    inputCommand.flagIsAddingGoodBlock();
-    //                }
-    //                case "remove" -> {
-    //                    setCoordinates(scanner, inputCommand);
-    //                    System.out.println("Choose the block you want to remove: (RED/BLUE/GREEN/YELLOW)");
-    //                    setGoodBlock(scanner, inputCommand);
-    //                    inputCommand.flagIsRemovingGoodBlock();
-    //                }
-    //                case "switch" -> {
-    //                    System.out.println("Enter the row of the first storage compartment :");
-    //                    int row = scanner.nextInt();
-    //                    scanner.nextLine();
-    //                    inputCommand.setRow(row);
-    //                    System.out.println("Enter the column of the first storage compartment :");
-    //                    int col = scanner.nextInt();
-    //                    scanner.nextLine();
-    //                    inputCommand.setCol(col);
-//
-    //                    System.out.println("Choose the block you want to switch: (RED/BLUE/GREEN/YELLOW)");
-    //                    setGoodBlock(scanner, inputCommand);
-//
-    //                    System.out.println("Enter the row of the second storage compartment :");
-    //                    int row_1 = scanner.nextInt();
-    //                    scanner.nextLine();
-    //                    inputCommand.setRow_1(row_1);
-    //                    System.out.println("Enter the column of the second storage compartment :");
-    //                    int col_1 = scanner.nextInt();
-    //                    scanner.nextLine();
-    //                    inputCommand.setCol_1(col_1);
-//
-    //                    System.out.println("Choose the block you want to switch: (RED/BLUE/GREEN/YELLOW)");
-    //                    setGoodBlock_1(scanner, inputCommand);
-    //                }
-    //                default -> {
-    //                    System.out.println("Invalid command");
-    //                    return null;
-    //                }
-    //            }
-    //        }
-    //    }
-    //    return inputCommand;
-    //}
-//
-    //private void setCoordinates(Scanner scanner, InputCommand inputCommand) {
-    //    System.out.println("Enter the row of the storage compartment: ");
-    //    int row = scanner.nextInt();
-    //    scanner.nextLine();
-    //    inputCommand.setRow(row);
-    //    System.out.println("Enter the column of the storage compartment: ");
-    //    int col = scanner.nextInt();
-    //    scanner.nextLine();
-    //    inputCommand.setCol(col);
-    //}
-//
-    //private void setGoodBlock(Scanner scanner, InputCommand inputCommand) {
-    //    String block = scanner.nextLine();
-    //    switch (block) {
-    //        case "RED" -> inputCommand.setGoodBlock(GoodBlock.REDBLOCK);
-    //        case "BLUE" -> inputCommand.setGoodBlock(GoodBlock.BLUEBLOCK);
-    //        case "GREEN" -> inputCommand.setGoodBlock(GoodBlock.GREENBLOCK);
-    //        case "YELLOW" -> inputCommand.setGoodBlock(GoodBlock.YELLOWBLOCK);
-    //    }
-    //}
-//
-    //private void setGoodBlock_1(Scanner scanner, InputCommand inputCommand) {
-    //    String block = scanner.nextLine();
-    //    switch (block) {
-    //        case "RED" -> inputCommand.setGoodBlock_1(GoodBlock.REDBLOCK);
-    //        case "BLUE" -> inputCommand.setGoodBlock_1(GoodBlock.BLUEBLOCK);
-    //        case "GREEN" -> inputCommand.setGoodBlock_1(GoodBlock.GREENBLOCK);
-    //        case "YELLOW" -> inputCommand.setGoodBlock_1(GoodBlock.YELLOWBLOCK);
-    //    }
-    //}
 
     @Override
     public void showUpdateBank(Bank bank) {
@@ -650,8 +286,13 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateHourglassSpot(int hourglassSpot){
-        System.out.println("Hourglass spot: " + hourglassSpot);
+    public void showUpdateStopHourglass() throws RemoteException {
+        clientModel.stopHourglass();
+    }
+
+    @Override
+    public void showUpdateStartHourglass(int hourglassSpot) throws RemoteException {
+        clientModel.startHourglass(hourglassSpot);
     }
 
     @Override
@@ -778,6 +419,21 @@ public class SocketClientSide implements VirtualView {
     @Override
     public void endGame() throws IOException {
         output.endGame();
+    }
+
+    @Override
+    public void placeBrownAlien(String playerName, int i, int j) throws IOException {
+        output.placeBrownAlien(playerName, i, j);
+    }
+
+    @Override
+    public void placeAstronauts(String playerName, int i, int j) throws IOException {
+        output.placeAstronauts(playerName, i, j);
+    }
+
+    @Override
+    public void placePurpleAlien(String playerName, int i, int j) throws IOException {
+        output.placePurpleAlien(playerName, i, j);
     }
 
     @Override

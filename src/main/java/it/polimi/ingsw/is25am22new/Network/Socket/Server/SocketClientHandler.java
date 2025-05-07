@@ -140,6 +140,21 @@ public class SocketClientHandler implements VirtualView {
                     case "godMode" -> {
                         this.godMode(msg.getPayload(), (String) msg.getObject());
                     }
+                    case "placeBrownAlien" -> {
+                        this.placeBrownAlien(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getRow(),
+                                ((InputCommand) msg.getObject()).getCol());
+                    }
+                    case "placePurpleAlien" -> {
+                        this.placePurpleAlien(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getRow(),
+                                ((InputCommand) msg.getObject()).getCol());
+                    }
+                    case "placeAstronauts" -> {
+                        this.placeAstronauts(msg.getPayload(),
+                                ((InputCommand) msg.getObject()).getRow(),
+                                ((InputCommand) msg.getObject()).getCol());
+                    }
                     case "connectionTester" -> {
                         System.out.println(msg.getPayload());
                         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
@@ -311,8 +326,19 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void showUpdateHourglassSpot(int hourglassSpot){
-        SocketMessage message = new SocketMessage("Hourglass", hourglassSpot, null);
+    public void showUpdateStopHourglass() {
+        SocketMessage message = new SocketMessage("StopHourglass",null, null);
+        try {
+            objectOutput.writeObject(message);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error updating hourglass for client: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void showUpdateStartHourglass(int hourglassSpot){
+        SocketMessage message = new SocketMessage("StartHourglass",hourglassSpot, null);
         try {
             objectOutput.writeObject(message);
             objectOutput.flush();
@@ -530,6 +556,21 @@ public class SocketClientHandler implements VirtualView {
     @Override
     public void endGame() throws IOException {
         this.controller.endGame();
+    }
+
+    @Override
+    public void placeBrownAlien(String playerName, int i, int j) {
+        this.controller.placeBrownAlien(playerName, i, j);
+    }
+
+    @Override
+    public void placeAstronauts(String playerName, int i, int j) {
+        this.controller.placeAstronauts(playerName, i, j);
+    }
+
+    @Override
+    public void placePurpleAlien(String playerName, int i, int j) {
+        this.controller.placePurpleAlien(playerName, i, j);
     }
 
     public void showMessageToEveryone(String mess) {
