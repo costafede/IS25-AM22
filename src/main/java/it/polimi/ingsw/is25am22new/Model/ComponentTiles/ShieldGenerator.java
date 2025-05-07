@@ -128,11 +128,11 @@ public class ShieldGenerator extends ComponentTile {
         else {active = " ";}
 
         return new String[]{
-                "   " + top + "   ",
+                top,
                 "       ",
                 left + " SG" + right,
                 "   " + active + "   ",
-                "   " + bottom + "   ",
+                bottom,
         };
     }
 }
