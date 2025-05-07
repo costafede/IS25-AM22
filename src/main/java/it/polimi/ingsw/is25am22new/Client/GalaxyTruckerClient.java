@@ -109,6 +109,11 @@ public class GalaxyTruckerClient {
         clientModel.addListener(tui);
         commandManager.initializeCommandManager(client.virtualServer, tui);
         tui.run(scanner);
+
+        if(client.virtualServer instanceof RmiClient){
+            ((RmiClient) client.virtualServer).shutdown();
+        }
+
         System.exit(0);
     }
 

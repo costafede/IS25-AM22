@@ -22,6 +22,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView, VirtualServer {
 
@@ -31,6 +34,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     private static final String SERVER_NAME = "GalaxyTruckerServer";
     private boolean isHost = false;
     private String playerName;
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public RmiClient(EnhancedClientView clientView, ClientModel clientModel) throws RemoteException {
         super();
@@ -116,204 +121,217 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     public void godMode(String playerName, String conf) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.godMode(playerName, conf);
             } catch (IOException e) {
-                System.out.println("Error in godModeAsync: " + e.getMessage());
+                System.out.println("Error in godMode: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void pickCoveredTile(String nickname) {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.pickCoveredTile(nickname);
             } catch (IOException e) {
                 System.out.println("Error in pickCoveredTileAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void pickUncoveredTile(String playerName, String pngName) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.pickUncoveredTile(playerName, pngName);
             } catch (IOException e) {
                 System.out.println("Error in pickUncoveredTileAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.weldComponentTile(playerName, i, j, numOfRotation);
             } catch (IOException e) {
                 System.out.println("Error in weldComponentTileAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void standbyComponentTile(String playerName) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.standbyComponentTile(playerName);
             } catch (IOException e) {
                 System.out.println("Error in standbyComponentTileAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void pickStandbyComponentTile(String playerName, int index) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.pickStandbyComponentTile(playerName, index);
             } catch (IOException e) {
                 System.out.println("Error in pickStandbyComponentTileAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void discardComponentTile(String playerName) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.discardComponentTile(playerName);
             } catch (IOException e) {
                 System.out.println("Error in discardComponentTileAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void finishBuilding(String playerName) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.finishBuilding(playerName);
             } catch (IOException e) {
                 System.out.println("Error in finishBuildingAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void finishBuilding(String playerName, int index) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.finishBuilding(playerName, index);
             } catch (IOException e) {
                 System.out.println("Error in finishBuildingAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void finishedAllShipboards() throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.finishedAllShipboards();
             } catch (IOException e) {
                 System.out.println("Error in finishedAllShipboardsAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void flipHourglass() throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.flipHourglass();
             } catch (IOException e) {
                 System.out.println("Error in flipHourglassAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void pickCard() throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.pickCard();
             } catch (IOException e) {
                 System.out.println("Error in pickCardAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void activateCard(InputCommand inputCommand) throws IOException {
-        try {
-            server.activateCard(inputCommand);
-        } catch (IOException e) {
-            System.out.println("Error in activateCardAsync: " + e.getMessage());
-        }
+        executor.submit(() -> {
+            try {
+                server.activateCard(inputCommand);
+            } catch (IOException e) {
+                System.out.println("Error in activateCardAsync: " + e.getMessage());
+            }
+        });
     }
 
     public void removePlayer(String playerName) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.removePlayer(playerName);
             } catch (IOException e) {
                 System.out.println("Error in removePlayerAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void playerAbandons(String playerName) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.playerAbandons(playerName);
             } catch (IOException e) {
                 System.out.println("Error in playerAbandonsAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void destroyComponentTile(String playerName, int i, int j) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.destroyComponentTile(playerName, i, j);
             } catch (IOException e) {
                 System.out.println("Error in destroyComponentTileAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     public void endGame() throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.endGame();
             } catch (IOException e) {
                 System.out.println("Error in endGameAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     @Override
     public void placeBrownAlien(String playerName, int i, int j) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.placeBrownAlien(playerName, i, j);
             } catch (IOException e) {
                 System.out.println("Error in placeBrownAlienAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     @Override
     public void placeAstronauts(String playerName, int i, int j) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.placeAstronauts(playerName, i, j);
             } catch (IOException e) {
                 System.out.println("Error in placeAstronautsAsync: " + e.getMessage());
             }
-        }).start();
+        });
     }
 
     @Override
     public void placePurpleAlien(String playerName, int i, int j) throws IOException {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 server.placePurpleAlien(playerName, i, j);
             } catch (IOException e) {
                 System.out.println("Error in placePurpleAlienAsync: " + e.getMessage());
             }
-        }).start();
+        });
+    }
+
+    public void shutdown() {
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+        }
     }
 
     @Override
