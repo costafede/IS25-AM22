@@ -327,6 +327,16 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
     }
 
+    @Override
+    public void updateStopHourglass() {
+        //TODO
+    }
+
+    @Override
+    public void updateStartHourglass(int hourglassSpot) {
+        //TODO
+    }
+
     private void handleClientError(VirtualView client, RemoteException e) {
         System.err.println("Client " + client.getClass() + " disconnected: " + e.getMessage());
         synchronized (connectedClients) {
