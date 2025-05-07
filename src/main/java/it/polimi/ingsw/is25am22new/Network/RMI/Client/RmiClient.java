@@ -286,6 +286,39 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
+    public void placeBrownAlien(String playerName, int i, int j) throws IOException {
+        new Thread(() -> {
+            try {
+                server.placeBrownAlien(playerName, i, j);
+            } catch (IOException e) {
+                System.out.println("Error in placeBrownAlienAsync: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    @Override
+    public void placeAstronauts(String playerName, int i, int j) throws IOException {
+        new Thread(() -> {
+            try {
+                server.placeAstronauts(playerName, i, j);
+            } catch (IOException e) {
+                System.out.println("Error in placeAstronautsAsync: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    @Override
+    public void placePurpleAlien(String playerName, int i, int j) throws IOException {
+        new Thread(() -> {
+            try {
+                server.placePurpleAlien(playerName, i, j);
+            } catch (IOException e) {
+                System.out.println("Error in placePurpleAlienAsync: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    @Override
     public void showLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType) {
         clientView.displayLobbyUpdate(players, readyStatus, gameType, isHost);
     }
@@ -372,8 +405,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
-    public void showUpdateHourglassSpot(int hourglassSpot) {
-        System.out.println("Hourglass spot: " + hourglassSpot);
+    public void showUpdateStopHourglass() throws RemoteException {
+        //TODO
+    }
+
+    @Override
+    public void showUpdateStartHourglass(int hourglassSpot) throws RemoteException {
+        //TODO
     }
 
     public void setPlayerName(String testPlayer) {
