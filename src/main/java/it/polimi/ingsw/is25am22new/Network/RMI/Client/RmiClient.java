@@ -236,13 +236,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     public void activateCard(InputCommand inputCommand) throws IOException {
-        new Thread(() -> {
-            try {
-                server.activateCard(inputCommand);
-            } catch (IOException e) {
-                System.out.println("Error in activateCardAsync: " + e.getMessage());
-            }
-        }).start();
+        try {
+            server.activateCard(inputCommand);
+        } catch (IOException e) {
+            System.out.println("Error in activateCardAsync: " + e.getMessage());
+        }
     }
 
     public void removePlayer(String playerName) throws IOException {

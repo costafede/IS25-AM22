@@ -387,7 +387,7 @@ public class GameController {
         }
     }
 
-    public void activateCard(InputCommand inputCommand) {
+    public synchronized void activateCard(InputCommand inputCommand) {
         if(currentState == GameState.GAME) {
             game.activateCard(inputCommand);
         } else {
