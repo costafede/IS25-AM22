@@ -644,6 +644,14 @@ public class Shipboard implements Serializable {
     public ComponentTile getTileInHand() {
         return tileInHand;
     }
+
+    public boolean allCabinsArePopulated() {
+        for(Optional <ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && ct.get().isCabin() && ct.get().getCrewNumber() == 0)
+                return false;
+        }
+        return true;
+    }
 }
 
 class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{

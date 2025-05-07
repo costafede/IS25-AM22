@@ -78,6 +78,39 @@ public abstract class Game extends ObservableModel implements Serializable {
         gamePhase.trySwitchToNextPhase();
     }
 
+    public void placeAstronauts(String nickname, int i, int j) {
+        Shipboard shipboard = shipboards.get(nickname);
+        Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
+        if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin())
+            throw new IllegalArgumentException("Cannot place Astronaut at the given coordinates");
+        tile.get().putAstronauts();
+        gamePhase.trySwitchToNextPhase();
+        updateAllGamePhase(gamePhase);
+        updateAllShipboard(nickname, shipboards.get(nickname));
+    }
+
+    public void placeBrownAlien(String nickname, int i, int j) {
+        Shipboard shipboard = shipboards.get(nickname);
+        Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
+        if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || shipboard.isAlienPlaceable(i, j, "brown"))
+            throw new IllegalArgumentException("Cannot place Brown Alien at the given coordinates");
+        tile.get().putAlien("brown");
+        gamePhase.trySwitchToNextPhase();
+        updateAllGamePhase(gamePhase);
+        updateAllShipboard(nickname, shipboards.get(nickname));
+    }
+
+    public void placePurpleAlien(String nickname, int i, int j) {
+        Shipboard shipboard = shipboards.get(nickname);
+        Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
+        if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || shipboard.isAlienPlaceable(i, j, "purple"))
+            throw new IllegalArgumentException("Cannot place Purple Alien at the given coordinates");
+        tile.get().putAlien("purple");
+        gamePhase.trySwitchToNextPhase();
+        updateAllGamePhase(gamePhase);
+        updateAllShipboard(nickname, shipboards.get(nickname));
+    }
+
     public void pickCoveredTile(String nickname) {
         if(coveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no covered components in this game");
@@ -190,7 +223,6 @@ public abstract class Game extends ObservableModel implements Serializable {
         gamePhase.trySwitchToNextPhase();
         updateAllShipboard(nickname, shipboards.get(nickname));
         updateAllGamePhase(gamePhase);
-        updateAllGame(this);
     }
 
     public List<CardPile> getCardPiles(){
@@ -262,7 +294,10 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     public void setCurrPlayerToLeader(){
-        currPlayer = flightboard.getOrderedRockets().getFirst();
+        if(flightboard.getOrderedRockets().isEmpty())
+            gamePhase.trySwitchToNextPhase();
+        else
+            currPlayer = flightboard.getOrderedRockets().getFirst();
     }
 
     public String getLastPlayer() {

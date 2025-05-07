@@ -15,7 +15,7 @@ public class CorrectingShipPhase extends GamePhase {
                 flag = false;
         }
         if(flag) {
-            transition(new CardPhase(game));
+            transition(new PlaceCrewMembersPhase(game));
         }
     }
 }

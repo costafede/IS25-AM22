@@ -6,6 +6,7 @@ public enum PhaseType implements Serializable {
     SETUP,
     BUILDING,
     CORRECTINGSHIP,
+    PLACECREWMEMBERS,
     CARD,
     END
 }

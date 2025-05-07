@@ -3,6 +3,9 @@ package it.polimi.ingsw.is25am22new.Client.Commands;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPhaseCommands.DestroyTileCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.*;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlaceAstronautCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlaceBrownAlienCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlacePurpleAlienCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
@@ -39,6 +42,10 @@ public class CommandManager {
         this.allCommands.add(new ShowTileInHandCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new DestroyTileCommand(virtualServer, viewAdapter));
+
+        this.allCommands.add(new PlaceAstronautCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new PlaceBrownAlienCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new PlacePurpleAlienCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new AcceptCreditsCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ActivateDoubleCannonCommand(virtualServer, viewAdapter));

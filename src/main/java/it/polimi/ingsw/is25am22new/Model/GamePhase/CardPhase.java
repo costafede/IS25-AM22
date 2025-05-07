@@ -9,7 +9,7 @@ public class CardPhase extends GamePhase {
     }
 
     public void trySwitchToNextPhase(){
-        if(game.getCurrCard() == null && game.getDeck().isEmpty())
+        if(game.getCurrCard() == null && game.getDeck().isEmpty() || game.getFlightboard().getOrderedRockets().isEmpty())
             transition(new EndPhase(game));
     }
 }

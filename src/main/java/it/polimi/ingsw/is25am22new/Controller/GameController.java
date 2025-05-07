@@ -2,10 +2,12 @@ package it.polimi.ingsw.is25am22new.Controller;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 import it.polimi.ingsw.is25am22new.Network.RMI.Server.RmiServer;
 import it.polimi.ingsw.is25am22new.Network.Socket.Server.SocketServerSide;
@@ -15,6 +17,7 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController {
@@ -274,6 +277,30 @@ public class GameController {
             }
         } else {
             System.out.println("Player " + player + " cannot rotate counterclockwise outside game state.");
+        }
+    }
+
+    public void placeAstronauts(String nickname, int i, int j) {
+        if(currentState == GameState.GAME) {
+            game.placeAstronauts(nickname, i, j);
+        } else {
+            System.out.println("Player " + nickname + " cannot place astronauts outside game state.");
+        }
+    }
+
+    public void placeBrownAlien(String nickname, int i, int j) {
+        if(currentState == GameState.GAME) {
+            game.placeBrownAlien(nickname, i, j);
+        } else {
+            System.out.println("Player " + nickname + " cannot place brown alien outside game state.");
+        }
+    }
+
+    public void placePurpleAlien(String nickname, int i, int j) {
+        if(currentState == GameState.GAME) {
+            game.placePurpleAlien(nickname, i, j);
+        } else {
+            System.out.println("Player " + nickname + " cannot place purple alien outside game state.");
         }
     }
 

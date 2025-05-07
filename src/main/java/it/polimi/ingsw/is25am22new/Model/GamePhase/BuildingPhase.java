@@ -20,6 +20,6 @@ public class BuildingPhase extends GamePhase {
         if(flag_finished && !flag_valid)
             transition(new CorrectingShipPhase(game));
         if(flag_finished && flag_valid)
-            transition(new CardPhase(game));
+            transition(new PlaceCrewMembersPhase(game));
     }
 }
