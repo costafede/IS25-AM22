@@ -17,12 +17,14 @@ public class OpenSpaceCard extends AdventureCard implements Serializable {
     public OpenSpaceCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);
         openSpaceState = new OpenSpaceState_1(this);
-        orderedPlayersBeforeEffect = new ArrayList<>(game.getFlightboard().getOrderedRockets());
+        orderedPlayersBeforeEffect = new ArrayList<>();
         playersWithNoEngineStrength = new ArrayList<>();
     }
 
     @Override
     public void activateEffect(InputCommand inputCommand) {
+        if(orderedPlayersBeforeEffect.isEmpty())
+            orderedPlayersBeforeEffect.addAll(game.getFlightboard().getOrderedRockets());
         openSpaceState.activateEffect(inputCommand);
     }
 
