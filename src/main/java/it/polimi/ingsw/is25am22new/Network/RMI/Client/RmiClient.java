@@ -406,12 +406,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     @Override
     public void showUpdateStopHourglass() throws RemoteException {
-        //TODO
+        clientModel.stopHourglass();
     }
 
     @Override
     public void showUpdateStartHourglass(int hourglassSpot) throws RemoteException {
-        //TODO
+        clientModel.startHourglass(hourglassSpot);
     }
 
     public void setPlayerName(String testPlayer) {
