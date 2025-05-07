@@ -61,25 +61,25 @@ public class DoubleCannon extends Cannon {
         String right;
         String active = "";
 
-        if (topSide.equals(SMOOTH) && !topSideCannon){top = "L";}
+        if (topSide.equals(SMOOTH) && !topSideCannon){top = "S";}
         else if (topSide.equals(ONEPIPE) && !topSideCannon){top = "1";}
         else if (topSide.equals(TWOPIPES) && !topSideCannon){top = "2";}
         else if (topSide.equals(UNIVERSALPIPE) && !topSideCannon){top = "3";}
         else {top = "$";}
 
-        if (bottomSide.equals(SMOOTH) && !bottomSideCannon){bottom = "L";}
+        if (bottomSide.equals(SMOOTH) && !bottomSideCannon){bottom = "S";}
         else if (bottomSide.equals(ONEPIPE) && !bottomSideCannon){bottom = "1";}
         else if (bottomSide.equals(TWOPIPES) && !bottomSideCannon){bottom = "2";}
         else if (bottomSide.equals(UNIVERSALPIPE) && !bottomSideCannon){bottom = "3";}
         else {bottom = "$";}
 
-        if (leftSide.equals(SMOOTH) && !leftSideCannon){left = "L";}
+        if (leftSide.equals(SMOOTH) && !leftSideCannon){left = "S";}
         else if (leftSide.equals(ONEPIPE) && !leftSideCannon){left = "1";}
         else if (leftSide.equals(TWOPIPES) && !leftSideCannon){left = "2";}
         else if (leftSide.equals(UNIVERSALPIPE) && !leftSideCannon){left = "3";}
         else {left = "$";}
 
-        if (rightSide.equals(SMOOTH) && !rightSideCannon){right = "L";}
+        if (rightSide.equals(SMOOTH) && !rightSideCannon){right = "S";}
         else if (rightSide.equals(ONEPIPE) && !rightSideCannon){right = "1";}
         else if (rightSide.equals(TWOPIPES) && !rightSideCannon){right = "2";}
         else if (rightSide.equals(UNIVERSALPIPE) && !rightSideCannon){right = "3";}
