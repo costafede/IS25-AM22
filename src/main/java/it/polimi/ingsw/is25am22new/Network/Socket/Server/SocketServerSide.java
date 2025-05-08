@@ -153,7 +153,6 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateGame(Game game) {
-        System.out.println("updateGame called");
         synchronized (this.clients) {
             for (var client : this.clients) {
                 client.showUpdateGame(game);

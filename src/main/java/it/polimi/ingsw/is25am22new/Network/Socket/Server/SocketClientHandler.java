@@ -314,7 +314,6 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void showUpdateGame(Game game)  {
-        System.out.println("showUpdateGame called");
         SocketMessage message = new SocketMessage("Game", game, null);
         try {
             objectOutput.reset();
