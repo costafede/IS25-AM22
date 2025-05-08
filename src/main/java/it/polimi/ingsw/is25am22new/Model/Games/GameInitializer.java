@@ -30,7 +30,7 @@ public class GameInitializer {
 
     protected static void initComponent(Game game, ObjectMapper objectMapper) {
         initBatteryComponent(game, objectMapper);
-        initStartingCabin(game, objectMapper);
+        //initStartingCabin(game, objectMapper);
         initRegularCabin(game, objectMapper);
         initAlienAddon(game, objectMapper);
         initStorageCompartments(game, objectMapper);
