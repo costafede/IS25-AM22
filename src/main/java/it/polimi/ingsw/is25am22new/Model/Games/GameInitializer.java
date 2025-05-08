@@ -30,7 +30,7 @@ public class GameInitializer {
 
     protected static void initComponent(Game game, ObjectMapper objectMapper) {
         initBatteryComponent(game, objectMapper);
-        initStartingCabin(game, objectMapper);
+        //initStartingCabin(game, objectMapper);
         initRegularCabin(game, objectMapper);
         initAlienAddon(game, objectMapper);
         initStorageCompartments(game, objectMapper);
@@ -284,16 +284,25 @@ public class GameInitializer {
                 int numOfPlanets = node.get("numOfPlanets").asInt();
                 int flightDaysLost = node.get("flightDaysLost").asInt();
                 List<Planet> planets = new ArrayList<>();
-                Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
+
+                // Create planets with their goods
                 for (int i = 0; i < numOfPlanets; i++) {
-                    JsonNode goodBlocksNode = node.get(i + "PlanetGoods");
-                    for (JsonNode goodBlockNode : goodBlocksNode) {
-                        GoodBlock goodBlock = GoodBlock.valueOf(goodBlockNode.asText());
-                        theoreticalGoodBlocks.put(goodBlock, theoreticalGoodBlocks.getOrDefault(goodBlock, 0) + 1);
+                    String planetGoodsKey = i + "PlanetGoods";
+                    if (node.has(planetGoodsKey)) {
+                        Map<GoodBlock, Integer> planetGoods = new HashMap<>();
+                        JsonNode goodsArray = node.get(planetGoodsKey);
+
+                        // Count occurrences of each GoodBlock
+                        for (JsonNode goodNode : goodsArray) {
+                            GoodBlock goodBlock = GoodBlock.valueOf(goodNode.asText());
+                            planetGoods.put(goodBlock, planetGoods.getOrDefault(goodBlock, 0) + 1);
+                        }
+
+                        Planet planet = new Planet(planetGoods);
+                        planets.add(planet);
                     }
-                    Planet planet = new Planet(theoreticalGoodBlocks);
-                    planets.add(planet);
                 }
+
                 PlanetsCard card = new PlanetsCard(pngName, name, game, level, tutorial, planets, flightDaysLost);
                 game.getCardArchive().add(card);
             }
