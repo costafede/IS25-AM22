@@ -17,6 +17,22 @@ public class Shot implements Serializable {
 
     @Override
     public String toString() {
-        return (big ? "Big" : "Small") + " shot facing " + orientation;
+        switch (orientation){
+            case Orientation.TOP -> {
+                return (big ? "BIG" : "SMALL") + " shot coming from BOTTOM";
+            }
+            case Orientation.BOTTOM -> {
+                return (big ? "BIG" : "SMALL") + " shot coming from TOP";
+            }
+            case Orientation.LEFT -> {
+                return (big ? "BIG" : "SMALL") + " shot coming from RIGHT";
+            }
+            case Orientation.RIGHT -> {
+                return (big ? "BIG" : "SMALL") + " shot coming from LEFT";
+            }
+            default -> {
+                return (big ? "BIG" : "SMALL") + " shot default ERROR";
+            }
+        }
     }
 }

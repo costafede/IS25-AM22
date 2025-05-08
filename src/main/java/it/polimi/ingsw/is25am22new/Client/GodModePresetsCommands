@@ -1,7 +1,7 @@
-AcceptCreditsCommand
+AcceptCreditsCommand             CHECK
 ActivateDoubleCannonCommand      CHECK
 ActivateDoubleEngineCommand
-ActivateShieldCommand
+ActivateShieldCommand            CHECK
 ChooseShipWreckCommand           CHECK
 DecideToRemoveCrewMembersCommand
 DeclareCannonStrengthCommand

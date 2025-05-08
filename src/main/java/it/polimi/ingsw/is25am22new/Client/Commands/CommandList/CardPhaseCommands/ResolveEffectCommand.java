@@ -33,7 +33,7 @@ public class ResolveEffectCommand extends AbstractCommand{
                 model.getCurrCard().getStateName().equals("OpenSpaceState_1") ||
                 model.getCurrCard().getStateName().equals("CombatZoneState_1") ||
                 model.getCurrCard().getStateName().equals("SlaversState_3") ||
-                model.getCurrCard().getStateName().equals("PiratesState_3") ||
+                model.getCurrCard().getStateName().equals("PiratesState_4") ||
                 model.getCurrCard().getStateName().equals("PlanetsState_1") ||
                 model.getCurrCard().getStateName().equals("PlanetsState_2") ||
                 model.getCurrCard().getStateName().equals("AbandonedShipState_1") ||

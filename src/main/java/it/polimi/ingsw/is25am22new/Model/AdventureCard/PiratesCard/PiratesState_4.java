@@ -18,9 +18,7 @@ public class PiratesState_4 extends PiratesState implements Serializable {
     @Override
     public void activateEffect(InputCommand inputCommand) {
         Shot incomingShot = piratesCard.getNumberToShot().get(piratesCard.getIndexOfIncomingShot());
-        String defeatedPlayer = piratesCard.getCurrDefeatedPlayer();
-        game.setCurrPlayer(defeatedPlayer);
-        Shipboard shipboard = game.getShipboards().get(defeatedPlayer);
+        Shipboard shipboard = game.getShipboards().get(piratesCard.getCurrDefeatedPlayer());
         int col = piratesCard.getDice1() + piratesCard.getDice2() - 4;
         int row = piratesCard.getDice1() + piratesCard.getDice2() - 5;
 
@@ -90,17 +88,16 @@ public class PiratesState_4 extends PiratesState implements Serializable {
             // deactivates all components
             for(int i = 0; i < 5; i++){
                 for(int j = 0; j < 7; j++){
-                    game.getShipboards().get(defeatedPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
+                    game.getShipboards().get(piratesCard.getCurrDefeatedPlayer()).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                 }
             }
-
-            piratesCard.setNewDices();
 
             if(shipboard.highlightShipWrecks() > 1) {
                 transition(new PiratesState_6(piratesCard));
             }
             else {
                 if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {
+                    piratesCard.setNewDices();
                     piratesCard.setNextIndexOfShot();
                     piratesCard.setCurrDefeatedPlayerToFirst();
                     game.setCurrPlayer(piratesCard.getCurrDefeatedPlayer());

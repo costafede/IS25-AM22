@@ -650,7 +650,7 @@ public abstract class Game extends ObservableModel implements Serializable {
                         Side.UNIVERSALPIPE,  // left
                         Side.UNIVERSALPIPE,
                         3), // right
-                3, 2);
+                3,  1);
         shipboard.weldComponentTile(new RegularCabin("1",
                         Side.UNIVERSALPIPE,  // top
                         Side.UNIVERSALPIPE,  // bottom

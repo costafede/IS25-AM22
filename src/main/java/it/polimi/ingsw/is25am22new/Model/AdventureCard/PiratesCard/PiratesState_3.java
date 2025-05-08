@@ -32,6 +32,8 @@ public class PiratesState_3 extends PiratesState implements Serializable {
 
         if(!piratesCard.getDefeatedPlayers().isEmpty()){
             piratesCard.setCurrDefeatedPlayerToFirst();
+            String defeatedPlayer = piratesCard.getCurrDefeatedPlayer();
+            game.setCurrPlayer(defeatedPlayer);
             transition(new PiratesState_4(piratesCard));
         }
         else {

@@ -23,19 +23,19 @@ public class Meteor implements Serializable {
     public String toString() {
         switch (orientation){
             case Orientation.TOP -> {
-                return (big ? "Big" : "Small") + " meteor coming from BOTTOM";
+                return (big ? "BIG" : "SMALL") + " meteor coming from BOTTOM";
             }
             case Orientation.BOTTOM -> {
-                return (big ? "Big" : "Small") + " meteor coming from TOP";
+                return (big ? "BIG" : "SMALL") + " meteor coming from TOP";
             }
             case Orientation.LEFT -> {
-                return (big ? "Big" : "Small") + " meteor coming from RIGHT";
+                return (big ? "BIG" : "SMALL") + " meteor coming from RIGHT";
             }
             case Orientation.RIGHT -> {
-                return (big ? "Big" : "Small") + " meteor coming from LEFT";
+                return (big ? "BIG" : "SMALL") + " meteor coming from LEFT";
             }
             default -> {
-                return (big ? "Big" : "Small") + " meteor default ERROR";
+                return (big ? "BIG" : "SMALL") + " meteor default ERROR";
             }
         }
     }
