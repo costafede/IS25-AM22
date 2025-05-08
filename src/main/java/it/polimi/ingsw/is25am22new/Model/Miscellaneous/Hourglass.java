@@ -5,7 +5,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Hourglass implements Serializable {
-    private transient final Timer timer;
+    private transient Timer timer;
+    private final int timerDuration;
     private int remainingSeconds;
     boolean active;
 
@@ -13,6 +14,7 @@ public class Hourglass implements Serializable {
     public Hourglass(int remainingSeconds) {
         this.timer = new Timer();
         this.remainingSeconds = remainingSeconds;
+        this.timerDuration = remainingSeconds;
         this.active = false;
     }
 
@@ -36,7 +38,9 @@ public class Hourglass implements Serializable {
     public void stopTimer() {
         if (active) {
             timer.cancel();
+            timer = new Timer();
             active = false;
+            remainingSeconds = timerDuration;
         }
     }
 

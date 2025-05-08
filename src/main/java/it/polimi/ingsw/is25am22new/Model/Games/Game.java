@@ -315,7 +315,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     public boolean isHourglassActive() {
-        return hourglass.getRemainingSeconds() > 0;
+        return hourglass.getRemainingSeconds() < 60;
     }
 
     public boolean isPlayerStillAbleToPlay(String player){
