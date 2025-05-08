@@ -25,7 +25,7 @@ public class DecideToRemoveCrewMembersCommand extends AbstractCommand {
                 model.getCurrCard() != null &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
                 model.getCurrCard().getStateName().equals("AbandonedShipState_1") &&
-                ((AbandonedShipCard) model.getCurrCard()).getLostAstronauts() >= model.getShipboard(model.getCurrPlayer()).getCrewNumber();
+                ((AbandonedShipCard) model.getCurrCard()).getLostAstronauts() <= model.getShipboard(model.getCurrPlayer()).getCrewNumber();
     }
 
     @Override
