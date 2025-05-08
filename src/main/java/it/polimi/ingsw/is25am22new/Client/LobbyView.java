@@ -1,5 +1,7 @@
 package it.polimi.ingsw.is25am22new.Client;
 
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
@@ -22,6 +24,11 @@ public class LobbyView implements EnhancedClientView {
     private SocketClientSide socketClient;
     private boolean autostart = false;
     private boolean gameStarted = false;
+    private ClientModel clientModel;
+
+    public LobbyView(ClientModel clientModel) {
+        this.clientModel = clientModel;
+    }
 
     public boolean isNicknameValid() {
         return nicknameValid;
@@ -106,7 +113,7 @@ public class LobbyView implements EnhancedClientView {
 
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
-        if (gameStarted) {
+        if (gameStarted || inGame) {
             return; // Evita stampe duplicate o successive
         }
 
@@ -262,28 +269,30 @@ public class LobbyView implements EnhancedClientView {
 
     @Override
     public void displayGameStarted() {
-        if (gameStarted) {
-            return; // Avoid duplicate or repeated prints
+        if (clientModel != null) {
+            System.out.println("\n\n");
+
+            System.out.println("╔════════════════════════════════════════════════════════════════╗");
+            System.out.println("║  🚀🚀🚀🚀        GAME STARTED - WELCOME TO:        🚀🚀🚀🚀  ║");
+            System.out.println("╚════════════════════════════════════════════════════════════════╝");
+            System.out.println(" ______   ______   __       ______   __  __   __  __       ");
+            System.out.println("/\\  ___\\ /\\  __ \\ /\\ \\     /\\  __ \\ /\\_\\_\\_\\ /\\ \\_\\ \\      ");
+            System.out.println("\\ \\ \\__ \\\\ \\  __ \\\\ \\ \\____\\ \\  __ \\ /_/\\_\\/_\\ \\____ \\     ");
+            System.out.println(" \\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ /\\_\\/\\_\\\\ \\_____\\    ");
+            System.out.println("  \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/\\/_/ \\/_/\\/_/ \\/_____/    ");
+            System.out.println("  ______  ______   __  __   ______   __  __   ______   ______    ");
+            System.out.println(" /\\__  _\\/\\  == \\ /\\ \\/\\ \\ /\\  ___\\ /\\ \\/ /  /\\  ___\\ /\\  == \\   ");
+            System.out.println(" \\/_/\\ \\/\\ \\  __< \\ \\ \\_\\ \\\\ \\ \\____\\ \\  _\"-.\\ \\  __\\ \\ \\  __<   ");
+            System.out.println("    \\ \\_\\ \\ \\_\\ \\_\\\\ \\_____\\\\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ ");
+            System.out.println("     \\/_/  \\/_/ /_/ \\/_____/ \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/ /_/ ");
+            System.out.println("\n══════════════════════════════════════════════════════════════════\n");
+
+            inGame = true;
+
+            clientModel.setGameStartMessageReceived(true);
+        } else {
+            System.out.println("client model in lobbyview is null.");
         }
-        gameStarted = true;
-        System.out.println("\n\n");
-
-        System.out.println("╔════════════════════════════════════════════════════════════════╗");
-        System.out.println("║  🚀🚀🚀🚀        GAME STARTED - WELCOME TO:        🚀🚀🚀🚀  ║");
-        System.out.println("╚════════════════════════════════════════════════════════════════╝");
-        System.out.println(" ______   ______   __       ______   __  __   __  __       ");
-        System.out.println("/\\  ___\\ /\\  __ \\ /\\ \\     /\\  __ \\ /\\_\\_\\_\\ /\\ \\_\\ \\      ");
-        System.out.println("\\ \\ \\__ \\\\ \\  __ \\\\ \\ \\____\\ \\  __ \\ /_/\\_\\/_\\ \\____ \\     ");
-        System.out.println(" \\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ /\\_\\/\\_\\\\ \\_____\\    ");
-        System.out.println("  \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/\\/_/ \\/_/\\/_/ \\/_____/    ");
-        System.out.println("  ______  ______   __  __   ______   __  __   ______   ______    ");
-        System.out.println(" /\\__  _\\/\\  == \\ /\\ \\/\\ \\ /\\  ___\\ /\\ \\/ /  /\\  ___\\ /\\  == \\   ");
-        System.out.println(" \\/_/\\ \\/\\ \\  __< \\ \\ \\_\\ \\\\ \\ \\____\\ \\  _\"-.\\ \\  __\\ \\ \\  __<   ");
-        System.out.println("    \\ \\_\\ \\ \\_\\ \\_\\\\ \\_____\\\\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ ");
-        System.out.println("     \\/_/  \\/_/ /_/ \\/_____/ \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/ /_/ ");
-        System.out.println("\n══════════════════════════════════════════════════════════════════\n");
-
-        inGame = true;
         // displayCurrentCommands();
     }
 
@@ -332,40 +341,40 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Waiting for other players to join...");
             System.out.println("Game will start automatically when all players have joined.");
         }
-
-        while (running && !inGame && !gameStarted) {
-            System.out.println("Waiting for more players to join...");
-            System.out.println("Current players: " + currentPlayerCount +
-                    (numPlayers > 0 ? "/" + numPlayers : ""));
-            System.out.println("Type 'exit' to leave the lobby.");
-            System.out.print("> ");
-
-            // Use scanner with timeout to avoid blocking indefinitely
-            try {
-                if (scanner.hasNextLine()) {
-                    String command = scanner.nextLine().trim();
-
-                    if (command.equals("exit")) {
-                        running = false;
-                        client.playerAbandons(playerName);
-                    }
-                } else {
-                    // No input available, sleep briefly then check game status
-
-                    if (gameStarted || inGame) {
-                        break;
-                    }
-                    Thread.sleep(100);
-                }
-            } catch (Exception e) {
-                System.err.println("Error in command loop: " + e.getMessage());
-            }
-
-            // Break the loop if game started during this iteration
-            if (gameStarted || inGame) {
-                break;
-            }
-        }
+//
+//        while (running && !inGame && !gameStarted) {
+//            System.out.println("Waiting for more players to join...");
+//            System.out.println("Current players: " + currentPlayerCount +
+//                    (numPlayers > 0 ? "/" + numPlayers : ""));
+//            System.out.println("Type 'exit' to leave the lobby.");
+//            System.out.print("> ");
+//
+//            // Use scanner with timeout to avoid blocking indefinitely
+//            try {
+//                if (scanner.hasNextLine()) {
+//                    String command = scanner.nextLine().trim();
+//
+//                    if (command.equals("exit")) {
+//                        running = false;
+//                        client.playerAbandons(playerName);
+//                    }
+//                } else {
+//                    // No input available, sleep briefly then check game status
+//
+//                    if (gameStarted || inGame) {
+//                        break;
+//                    }
+//                    Thread.sleep(100);
+//                }
+//            } catch (Exception e) {
+//                System.err.println("Error in command loop: " + e.getMessage());
+//            }
+//
+//            // Break the loop if game started during this iteration
+//            if (gameStarted || inGame) {
+//                break;
+//            }
+//        }
     }
 
     public void startCommandLoopSocket(SocketClientSide client, String playerName, Scanner scanner) {
