@@ -72,7 +72,7 @@ public class SpecialStorageCompartment extends StorageCompartment {
         return new String[]{
                 "   " + top + "   ",
                 " R" + redBlock + " Y" + yellowBlock + " ",
-                left + "  S" + capacity + " " + right,
+                left + " SS" + capacity + " " + right,
                 " G" + greenBlock + " B" + blueBlock + " ",
                 "   " + bottom + "   ",
         };
