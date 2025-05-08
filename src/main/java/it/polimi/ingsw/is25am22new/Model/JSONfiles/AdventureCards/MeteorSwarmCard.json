@@ -21,7 +21,7 @@
     "level": 1,
     "tutorial": false,
     "meteorSize": [true, false, true],
-    "meteorOrientation": ["TOP", "TOP", "TOP"]
+    "meteorOrientation": ["BOTTOM", "BOTTOM", "BOTTOM"]
   },
   {
     "pngName": "GT-cards_II_IT_019.jpg",
@@ -29,7 +29,7 @@
     "level": 2,
     "tutorial": false,
     "meteorSize": [false, false, true, false, false],
-    "meteorOrientation": ["TOP", "TOP", "RIGHT", "RIGHT", "RIGHT"]
+    "meteorOrientation": ["BOTTOM", "BOTTOM", "RIGHT", "RIGHT", "RIGHT"]
   },
   {
     "pngName": "GT-cards_II_IT_0110.jpg",

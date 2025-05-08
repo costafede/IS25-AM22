@@ -33,7 +33,7 @@ public class SocketClientSide implements VirtualView {
         this.output = output;
         this.objectInput = objectInput;
         this.thisPlayerName = thisPlayerName;
-        this.view = new LobbyView();
+        this.view = new LobbyView(clientModel);
         this.clientModel = clientModel;
     }
 

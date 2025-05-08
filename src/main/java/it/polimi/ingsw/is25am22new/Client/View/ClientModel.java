@@ -35,6 +35,16 @@ public class ClientModel extends ObservableModelView {
     protected String playerName;    //name of the player using this client
     protected GameType gameType;
     protected List<CardPile> cardPiles;
+    private boolean gameStartMessageReceived = false;
+
+    public boolean isGameStartMessageReceived() {
+        return gameStartMessageReceived;
+    }
+
+    public void setGameStartMessageReceived(boolean gameStartMessageReceived) {
+        this.gameStartMessageReceived = gameStartMessageReceived;
+        notifyObservers(this);
+    }
 
     public ClientModel() {
         this.gamePhase = new SetUpPhase(null);

@@ -378,6 +378,16 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         boolean commandNotValid;
         while(cliRunning) {
             do {
+                synchronized (this){
+                    while(!model.isGameStartMessageReceived()) {
+                        try {
+                            this.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
+
                 System.out.println();
                 System.out.print("> ");
                 do {
@@ -396,13 +406,14 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
                 chosen.setInput(this.input);
                 synchronized(this) {
-                    while(model.getBank() == null)
+                    while(model.getBank() == null) {
                         try {
                             this.wait();
-                        }
-                        catch(InterruptedException e) {
+                        } catch (InterruptedException e) {
                             System.out.println(e.getMessage());
                         }
+                    }
+
                     if(!chosen.isApplicable(model)) {
                         System.out.println("Command is not available, try again");
                         commandNotValid = true;

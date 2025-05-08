@@ -80,6 +80,7 @@ public class AdventureCardView {
         System.out.println("=== METEOR SWARM ===");
         System.out.println("Dice1: " + card.getDice1());
         System.out.println("Dice2: " + card.getDice2());
+        System.out.println("Incoming meteor number: " + card.getIndexOfIncomingMeteor());
         Map<Integer, Meteor> numberToMeteor = card.getNumberToMeteor();
         for (Map.Entry<Integer, Meteor> entry : numberToMeteor.entrySet()) {
             System.out.println("Number: " + entry.getKey() + ", Meteor: " + entry.getValue());

@@ -3,6 +3,8 @@ package it.polimi.ingsw.is25am22new.Client;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.TUI;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
@@ -11,6 +13,8 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class GalaxyTruckerClient {
     private VirtualServer virtualServer;
@@ -103,6 +107,13 @@ public class GalaxyTruckerClient {
         }
 
         //System.out.println("!!!!! - Game Type: " + client.gameType + ", PlayerName: " + client.playerName);
+//        while(clientModel.getGamePhase().getPhaseType().equals(PhaseType.SETUP)) {
+//            try {
+//                Thread.sleep(100); // Small delay to reduce CPU usage
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }
+//        }
 
         CommandManager commandManager = new CommandManager();
         TUI tui = new TUI(commandManager, clientModel);
@@ -125,11 +136,11 @@ public class GalaxyTruckerClient {
         EnhancedClientView view;
 
         if (uiChoice == 1) {
-            view = new LobbyView();
+            view = new LobbyView(clientModel);
         } else {
             // GUI would be implemented here
             System.out.println("GUI not yet implemented. Defaulting to TUI.");
-            view = new LobbyView();
+            view = new LobbyView(clientModel);
         }
 
 

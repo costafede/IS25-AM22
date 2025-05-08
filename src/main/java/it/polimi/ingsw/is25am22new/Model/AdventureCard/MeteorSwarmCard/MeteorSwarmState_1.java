@@ -97,13 +97,12 @@ public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable
                 }
             }
 
-            setNewDices();
-
             if(shipboard.highlightShipWrecks() > 1) {
                 transition(new MeteorSwarmState_3(meteorSwarmCard));
             }
             else {
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
+                    setNewDices();
                     meteorSwarmCard.setNextIndexOfMeteor();
                     System.out.println(meteorSwarmCard.getIndexOfIncomingMeteor());
                     System.out.println(meteorSwarmCard.getNumberToMeteor().size());
