@@ -105,7 +105,7 @@ public class SocketClientSide implements VirtualView {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> this.output.disconnect(thisPlayerName)));
 
-        Thread.sleep(500);
+        Thread.sleep(150);
         clientModel.setPlayerName(thisPlayerName);
         this.view.startCommandLoopSocket(this, thisPlayerName, new Scanner(System.in));
     }
