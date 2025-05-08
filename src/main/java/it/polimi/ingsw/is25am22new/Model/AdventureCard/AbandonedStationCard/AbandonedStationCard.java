@@ -23,6 +23,11 @@ public class AbandonedStationCard extends AdventureCard implements Serializable 
         this.flightDaysLost = flightDaysLost;
         this.astronautsNumber = astronautsNumber;
         this.theoreticalGoodBlocks = theoreticalGoodBlocks;
+        for(GoodBlock gb : GoodBlock.values()) {
+            if(!theoreticalGoodBlocks.containsKey(gb)) {
+                theoreticalGoodBlocks.put(gb, 0);
+            }
+        }
         this.abandonedStationState = new AbandonedStationState_1(this);
         this.actualGoodBlocks = new HashMap<GoodBlock, Integer>();
         actualGoodBlocks.put(GoodBlock.BLUEBLOCK, 0);

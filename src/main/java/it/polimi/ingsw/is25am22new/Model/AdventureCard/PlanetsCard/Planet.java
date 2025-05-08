@@ -16,6 +16,11 @@ public class Planet implements Serializable {
     public Planet(Map<GoodBlock, Integer> theoreticalGoodblocks) {
         this.theoreticalGoodblocks = theoreticalGoodblocks;
         this.actualGoodblocks = new HashMap<GoodBlock, Integer>();
+        for(GoodBlock gb : GoodBlock.values()) {
+            if(!theoreticalGoodblocks.containsKey(gb)) {
+                theoreticalGoodblocks.put(gb, 0);
+            }
+        }
         actualGoodblocks.put(GoodBlock.BLUEBLOCK, 0);
         actualGoodblocks.put(GoodBlock.YELLOWBLOCK, 0);
         actualGoodblocks.put(GoodBlock.GREENBLOCK, 0);

@@ -40,6 +40,11 @@ public class SmugglersCard extends AdventureCard implements Serializable {
         this.CannonStrength = cannonStrength;
         this.lostGoods = lostGoods;
         this.theoreticalGoodBlocks = theoreticalGoodBlocks;
+        for(GoodBlock gb : GoodBlock.values()) {
+            if(!theoreticalGoodBlocks.containsKey(gb)) {
+                theoreticalGoodBlocks.put(gb, 0);
+            }
+        }
         this.smugglersState = new SmugglersState_1(this);
         this.actualGoodBlocks = new HashMap<GoodBlock, Integer>();
         actualGoodBlocks.put(GoodBlock.BLUEBLOCK, 0);
