@@ -236,6 +236,9 @@ class InitializingFromJsonCardsTest {
                                 pc.isTutorial() == card.isTutorial() &&
                                 pc.getFlightDaysLost() == card.getFlightDaysLost() &&
                                 check_planets(pc, card)){
+                            System.out.print("PlanetsCard found: " + pc.getPngName() +
+                                    " " + pc.getName() + " " + pc.getLevel() + " " + pc.isTutorial() + " " +
+                                    pc.getFlightDaysLost() + " " + pc.getPlanets().size());
                             check = true;
                             break;
                         }
@@ -251,6 +254,10 @@ class InitializingFromJsonCardsTest {
     private boolean check_planets(PlanetsCard pc, PlanetsCard card){
         boolean check = true;
         for(int i = 0; i < pc.getPlanets().size(); i++){
+            //Stampo i valori:
+            System.out.println(pc.getPngName() +
+                    " " + pc.getName() + " " + pc.getLevel() + " " + pc.isTutorial() + " " +
+                    pc.getFlightDaysLost() + " " + pc.getPlanets().size());
             if (!(pc.getPlanets().get(i).getTheoreticalGoodblocks().size() == card.getPlanets().get(i).getTheoreticalGoodblocks().size()) ||
                     !(pc.getPlanets().get(i).getTheoreticalGoodblocks().equals(card.getPlanets().get(i).getTheoreticalGoodblocks()))) {
                 check = false;
