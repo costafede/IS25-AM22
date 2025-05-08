@@ -393,25 +393,25 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Game will start automatically when all players have joined.");
         }
 
-        while (running && !inGame) {
-            String command = scanner.nextLine().trim();
-
-            try {
-                if (command.equals("exit")) {
-                    running = false;
-                    client.playerAbandons(playerName);
-                } else {
-                    // Refresh the lobby status
-                    System.out.println("Waiting for more players to join...");
-                    System.out.println("Current players: " + currentPlayerCount +
-                            (numPlayers > 0 ? "/" + numPlayers : ""));
-                    System.out.println("Type 'exit' to leave the lobby.");
-                    System.out.print("> ");
-                }
-            } catch (IOException e) {
-                System.err.println("Error executing command: " + e.getMessage());
-            }
-        }
+        //while (running && !inGame) {
+        //    String command = scanner.nextLine().trim();
+        //
+        //    try {
+        //        if (command.equals("exit")) {
+        //            running = false;
+        //            client.playerAbandons(playerName);
+        //        } else {
+        //            // Refresh the lobby status
+        //            System.out.println("Waiting for more players to join...");
+        //            System.out.println("Current players: " + currentPlayerCount +
+        //                    (numPlayers > 0 ? "/" + numPlayers : ""));
+        //            System.out.println("Type 'exit' to leave the lobby.");
+        //            System.out.print("> ");
+        //        }
+        //    } catch (IOException e) {
+        //        System.err.println("Error executing command: " + e.getMessage());
+        //    }
+        //}
     }
 
     private void setupAsHostSocket(SocketClientSide client, Scanner scanner) {

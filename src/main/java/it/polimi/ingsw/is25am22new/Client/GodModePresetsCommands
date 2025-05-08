@@ -1,3 +1,23 @@
+AcceptCreditsCommand
+ActivateDoubleCannonCommand      CHECK
+ActivateDoubleEngineCommand
+ActivateShieldCommand
+ChooseShipWreckCommand           CHECK
+DecideToRemoveCrewMembersCommand
+DeclareCannonStrengthCommand
+DeclareEngineStrengthCommand
+GetBlockCommand
+LandOnAbandonedStationCommand
+LandOnPlanetCommand
+ManageGoodBlocksCommand
+MoveGoodBlockCommand
+PickCardCommand                  CHECK
+RemoveCrewMemberCommand
+RemoveGoodBlockCommand
+ResolveEffectCommand             CHECK
+SwitchGoodBlocksCommand
+
+
 ABANDONEDSHIPCARD:
 
 ABANDONEDSTATION:
@@ -8,8 +28,9 @@ EPIDEMIC:
 
 METEORSWARM:
 entergodmode(2GT-cards_II_IT_0110.jpg)
+entergodmode(2GT-cards_I_IT_0111.jpg)
 
-OPENSPACE: CHECK
+OPENSPACE:
 entergodmode(2GT-cards_I_IT_018.jpg)
 
 PIRATES:
@@ -18,5 +39,5 @@ SLAVERS:
 
 SMUGGLERS:
 
-STARDUST: CHECK
+STARDUST:
 entergodmode(2GT-cards_II_IT_014.jpg)
