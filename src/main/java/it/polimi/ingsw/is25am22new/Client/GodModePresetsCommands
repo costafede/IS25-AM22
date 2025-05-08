@@ -24,22 +24,25 @@ ABANDONEDSTATION:
 
 COMBATZONE:
 
-EPIDEMIC:
+EPIDEMIC: CHECK
+entergodmode(2GT-cards_II_IT_015.jpg)
 
-METEORSWARM:
+METEORSWARM: CHECK
 entergodmode(2GT-cards_II_IT_0110.jpg)
 entergodmode(2GT-cards_I_IT_0111.jpg)
 
-OPENSPACE:
+OPENSPACE: CHECK
 entergodmode(2GT-cards_I_IT_018.jpg)
 
 PIRATES:
+entergodmode(2GT-cards_II_IT_013.jpg)
+entergodmode(6GT-cards_II_IT_013.jpg)
 
 SLAVERS:
 
 SMUGGLERS:
 
-STARDUST:
+STARDUST: CHECK
 entergodmode(2GT-cards_II_IT_014.jpg)
 
 PLANETS:

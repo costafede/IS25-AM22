@@ -41,7 +41,8 @@ public class ResolveEffectCommand extends AbstractCommand{
                 model.getCurrCard().getStateName().equals("AbandonedStationState_1") ||
                 model.getCurrCard().getStateName().equals("AbandonedStationState_2") ||
                 model.getCurrCard().getStateName().equals("OpenSpaceState_1") ||
-                model.getCurrCard().getName().equals("Stardust"));
+                model.getCurrCard().getName().equals("Stardust") ||
+                model.getCurrCard().getName().equals("Epidemic"));
     }
 
     @Override

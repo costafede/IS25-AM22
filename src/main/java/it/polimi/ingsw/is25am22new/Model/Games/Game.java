@@ -383,6 +383,7 @@ public abstract class Game extends ObservableModel implements Serializable {
             case 3 -> setUpShipboard3(newShipboard); // tutorial friendly
             case 4 -> setUpShipboard4(newShipboard); // tutorial friendly
             case 5 -> setUpShipboard5(newShipboard); // tutorial friendly
+            case 6 -> setUpShipboard6(newShipboard); // tutorial friendly
             default -> throw new IllegalArgumentException("Invalid shipboard number: " + shipboardNumber);
         }
 
@@ -499,7 +500,6 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     private void setUpShipboard2(Shipboard shipboard) {
-        List<ComponentTile> tiles = initializeTiles();
         shipboard.setStandbyComponent(0, Optional.empty());
         shipboard.setStandbyComponent(1, Optional.empty());
 
@@ -548,6 +548,109 @@ public abstract class Game extends ObservableModel implements Serializable {
                         Side.SMOOTH,
                         "purple"), // right
                 2, 5);
+        shipboard.weldComponentTile(new RegularCabin("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE), // right
+                3, 1);
+        shipboard.getComponentTileFromGrid(3, 1).get().putAstronauts();
+        shipboard.weldComponentTile(new RegularCabin("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE), // right
+                3, 2);
+        shipboard.getComponentTileFromGrid(3, 2).get().putAstronauts();
+        shipboard.weldComponentTile(new StorageCompartment("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE,3), // right
+                3, 3);
+        shipboard.weldComponentTile(new DoubleEngine("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.SMOOTH,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE), // right
+                3, 4);
+        shipboard.weldComponentTile(new RegularCabin("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.SMOOTH), // right
+                3, 5);
+        shipboard.getComponentTileFromGrid(3, 5).get().putAlien("purple");
+        shipboard.weldComponentTile(new Engine("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.SMOOTH,  // bottom
+                        Side.SMOOTH,  // left
+                        Side.SMOOTH), // right
+                4, 2);
+        shipboard.weldComponentTile(new RegularCabin("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE), // right
+                4, 5);
+        shipboard.getComponentTileFromGrid(4, 5).get().putAstronauts();
+    }
+
+    private void setUpShipboard6(Shipboard shipboard) {
+        shipboard.setStandbyComponent(0, Optional.empty());
+        shipboard.setStandbyComponent(1, Optional.empty());
+
+        shipboard.weldComponentTile(new DoubleCannon("1",
+                        Side.SMOOTH,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE), // right
+                1, 2);
+        shipboard.weldComponentTile(new DoubleCannon("1",
+                        Side.SMOOTH,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE), // right
+                1, 3);
+        shipboard.weldComponentTile(new DoubleCannon("1",
+                        Side.SMOOTH,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.SMOOTH), // right
+                1, 4);
+        shipboard.weldComponentTile(new Cannon("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE),  // right
+                2, 1);
+        shipboard.weldComponentTile(new ShieldGenerator("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE), // right
+                2, 2);
+        shipboard.weldComponentTile(new BatteryComponent("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE,
+                        2), // right
+                2, 4);
+        shipboard.weldComponentTile(new AlienAddon("1",
+                        Side.SMOOTH,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.SMOOTH,
+                        "purple"), // right
+                2, 5);
+        shipboard.weldComponentTile(new BatteryComponent("1",
+                        Side.UNIVERSALPIPE,  // top
+                        Side.UNIVERSALPIPE,  // bottom
+                        Side.UNIVERSALPIPE,  // left
+                        Side.UNIVERSALPIPE,
+                        3), // right
+                3, 2);
         shipboard.weldComponentTile(new RegularCabin("1",
                         Side.UNIVERSALPIPE,  // top
                         Side.UNIVERSALPIPE,  // bottom
