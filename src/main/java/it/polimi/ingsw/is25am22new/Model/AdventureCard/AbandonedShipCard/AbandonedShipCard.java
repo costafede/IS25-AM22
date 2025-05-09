@@ -52,7 +52,4 @@ public class AbandonedShipCard extends AdventureCard implements Serializable {
         return abandonedShipState;
     }
 
-    public int getFlightdaysLost() {
-        return flightdaysLost;
-    }
 }
