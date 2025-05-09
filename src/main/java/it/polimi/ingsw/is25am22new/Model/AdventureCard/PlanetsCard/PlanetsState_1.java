@@ -19,12 +19,19 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
         if(!planetsCard.planetsFull() && !game.getCurrPlayer().equals(game.getLastPlayer()))
             game.setCurrPlayerToNext();
         else {
-            for(int i = planetsCard.getPlayersWhoLanded().size() - 1; i >= 0; i--){   //all players who have decided to land lose flight days
-                game.getFlightboard().shiftRocket(planetsCard.getPlayersWhoLanded().get(i), planetsCard.getFlightDaysLost());
+            if(planetsCard.getPlayersWhoLanded().isEmpty()){
+                game.manageInvalidPlayers();
+                game.setCurrPlayerToLeader();
+                game.setCurrCard(null);
             }
-            game.setCurrPlayerToLeader();
-            planetsCard.loadPlanet(game.getCurrPlayer());
-            transition(new PlanetsState_2(planetsCard));
+            else{
+                for (int i = planetsCard.getPlayersWhoLanded().size() - 1; i >= 0; i--) {   //all players who have decided to land lose flight days
+                    game.getFlightboard().shiftRocket(planetsCard.getPlayersWhoLanded().get(i), planetsCard.getFlightDaysLost());
+                }
+                game.setCurrPlayer(planetsCard.getPlayersWhoLanded().getFirst());
+                planetsCard.loadPlanet(game.getCurrPlayer());
+                transition(new PlanetsState_2(planetsCard));
+            }
         }
     }
 
