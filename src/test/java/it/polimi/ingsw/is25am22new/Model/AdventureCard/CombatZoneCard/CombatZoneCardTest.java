@@ -29,9 +29,8 @@ class CombatZoneCardTest {
         game.initGame();
         combatZoneCard =
                 (CombatZoneCard) game.getCardArchive().stream()
-                        .filter(c -> c.getName().equals("CombatZone"))
+                        .filter(c -> c.getPngName().equals("GT-cards_I_IT_0116.jpg"))
                         .findFirst().get();
-        System.out.println(combatZoneCard.getPngName());
 
         level2FlightBoard = game.getFlightboard();
 
@@ -87,6 +86,10 @@ class CombatZoneCardTest {
         // player A has lowest crew number shift of 3 positions
         // Now player B is the leader
         // player B dont activate anything
+        InputCommand i0 = new InputCommand();
+        i0.setChoice(false);
+        combatZoneCard.activateEffect(i0);
+
         InputCommand i1 = new InputCommand();
         i1.setChoice(false);
         combatZoneCard.activateEffect(i1);

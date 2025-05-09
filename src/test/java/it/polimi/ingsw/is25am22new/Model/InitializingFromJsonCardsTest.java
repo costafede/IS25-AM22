@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
@@ -48,7 +49,7 @@ class InitializingFromJsonCardsTest {
 
         //check CombatZone2Card initialized properly
         assertTrue(check_combat_zone_2_card(objectMapper, game), "CombatZone2Card not initialized properly");
-        assertEquals(1, game.getCardArchive().stream().filter(card -> card instanceof CombatZoneCard && ((CombatZoneCard) card).getAstronautsToLose() == 0).count());
+        assertEquals(1, game.getCardArchive().stream().filter(card -> card instanceof CombatZoneCard2).count());
 
         //check EpidemicCard initialized properly
         assertTrue(check_epidemic_card(objectMapper, game), "EpidemicCard not initialized properly");
@@ -465,13 +466,12 @@ class InitializingFromJsonCardsTest {
 //                }
 
                 for (AdventureCard card : game.getCardArchive()) {
-                    if (card instanceof CombatZoneCard czc) {
+                    if (card instanceof CombatZoneCard2 czc) {
                         if (czc.getPngName().equals(pngName) &&
                                 czc.getName().equals(name) &&
                                 czc.getLevel() == level &&
                                 czc.isTutorial() == tutorial &&
                                 czc.getFlightDaysLost() == flightDaysLost &&
-                                czc.getAstronautsToLose() == 0 &&
                                 check_shot(shotSize, shotOrientation, czc)) {
                             check = true;
                             break;
@@ -533,6 +533,19 @@ class InitializingFromJsonCardsTest {
     }
 
     private boolean check_shot(boolean[] shotSize, String[] shotOrientation, CombatZoneCard czc){
+        boolean found = false;
+        for(int i = 0; i < shotSize.length; i++) {
+            if((czc.getNumberToShot().get(i).isBig() == shotSize[i]) &&
+                    czc.getNumberToShot().get(i).getOrientation().equals(Orientation.valueOf(shotOrientation[i]))){
+                found = true;
+            }else{
+                break;
+            }
+        }
+        return found;
+    }
+
+    private boolean check_shot(boolean[] shotSize, String[] shotOrientation, CombatZoneCard2 czc){
         boolean found = false;
         for(int i = 0; i < shotSize.length; i++) {
             if((czc.getNumberToShot().get(i).isBig() == shotSize[i]) &&
