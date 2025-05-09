@@ -16,17 +16,19 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SocketServerSide implements ObserverModel {
     final ServerSocket listenSocket;
     final GameController controller;
-    final List<SocketClientHandler> clients;
+    final Map<SocketClientHandler, Thread> clients;
 
     public SocketServerSide(GameController gameController, ServerSocket listenSocket) {
         this.listenSocket = listenSocket;
         this.controller = gameController;
-        this.clients = new ArrayList<>();
+        this.clients = new HashMap<>();
     }
 
     public void runServer() throws IOException{
@@ -42,34 +44,35 @@ public class SocketServerSide implements ObserverModel {
                     clientSocket.getOutputStream()
             );
 
-            new Thread(() -> {
+            Thread t = new Thread(() -> {
                 try {
-                    handler.runVirtualView();
+                    handler.runVirtualView(Thread.currentThread());
                 } catch (IOException | ClassNotFoundException e) {
                     System.out.println("Thread interrupted: " + e.getMessage());
                 }
-            }).start();
+            });
+            t.start();
         }
     }
 
-    public void addHandlerToClients(SocketClientHandler handler) {
-        synchronized (this.clients){
-            clients.add(handler);
+    public void addHandlerToClients(SocketClientHandler handler, Thread thread) {
+        synchronized (this.clients.keySet()){
+            clients.put(handler, thread);
         }
     }
 
     @Override
     public void updateBank(Bank bank){
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateBank(bank);
             }
         }
     }
     @Override
     public void updateTileInHand(String player, ComponentTile ct){
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateTileInHand(player, ct);
             }
         }
@@ -77,48 +80,48 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateUncoveredComponentTiles(List<ComponentTile> ctList) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateUncoveredComponentTiles(ctList);
             }
         }
     }
     @Override
     public void updateShipboard(String player, Shipboard shipboard){
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateShipboard(player, shipboard);
             }
         }
     }
     @Override
     public void updateFlightboard(Flightboard flightboard){
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateFlightboard(flightboard);
             }
         }
     }
     @Override
     public void updateCurrCard(AdventureCard adventureCard){
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateCurrCard(adventureCard);
             }
         }
     }
     @Override
     public void updateDices(Dices dices) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateDices(dices);
             }
         }
     }
     @Override
     public void updateCurrPlayer(String currPlayer) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateCurrPlayer(currPlayer);
             }
         }
@@ -126,8 +129,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateGamePhase(gamePhase);
             }
         }
@@ -135,8 +138,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateCoveredComponentTiles(List<ComponentTile> ctList) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateCoveredComponentTiles(ctList);
             }
         }
@@ -144,8 +147,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateDeck(List<AdventureCard> deck) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateDeck(deck);
             }
         }
@@ -153,8 +156,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateGame(Game game) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateGame(game);
             }
         }
@@ -162,8 +165,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateStartHourglass(int hourglassSpot) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateStartHourglass(hourglassSpot);
             }
         }
@@ -171,8 +174,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateStopHourglass() {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showUpdateStopHourglass();
             }
         }
@@ -180,8 +183,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateGameStarted() {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showGameStarted();
             }
         }
@@ -189,8 +192,8 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updateLobby() {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showLobbyUpdate(this.controller.getPlayers(), this.controller.getReadyStatus(), this.controller.getGameType());
             }
         }
@@ -198,17 +201,19 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void updatePlayerJoined(String player) {
-        synchronized (this.clients) {
-            for (var client : this.clients) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
                 client.showPlayerJoined(player);
             }
         }
     }
 
    public void disconnect(SocketClientHandler handler, String nickname) {
-        synchronized (this.clients) {
+        synchronized (this.clients.keySet()) {
+            System.out.println("Player disconnected: " + nickname);
+            this.clients.get(handler).interrupt();
             this.clients.remove(handler);
-            //for (var client : this.clients) {
+            //for (var client : this.clients.keySet()) {
             //    client.showMessageToEveryone("Player " + nickname + " has disconnected");
             //}
         }

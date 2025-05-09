@@ -35,7 +35,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     //comunicazione dal client al server
-    public void runVirtualView() throws IOException, ClassNotFoundException {
+    public void runVirtualView(Thread thread) throws IOException, ClassNotFoundException {
         SocketMessage msg = null;
         try{
             while ((msg = (SocketMessage) objectInput.readObject()) != null){
@@ -43,7 +43,7 @@ public class SocketClientHandler implements VirtualView {
                     case "checkAvailability" -> {
                         int res = this.controller.addPlayer(msg.getPayload());
                         if(res == 1) {
-                            server.addHandlerToClients(this);
+                            server.addHandlerToClients(this, thread);
                             showNicknameResult(true, "PlayerAdded");
 
                             boolean isHost = this.controller.getPlayers().size() == 1;
@@ -163,7 +163,7 @@ public class SocketClientHandler implements VirtualView {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Client disconnected");
+            System.out.println("SocketClientHandler: Client disconnected");
         }
     }
 
