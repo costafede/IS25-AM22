@@ -334,9 +334,9 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
         //prints the leaderboard
         System.out.println("=== LEADERBOARD ===");
+        int x = 1;
         for (Map.Entry<String, Integer> entry : scores.entrySet()){
-            int x = 1;
-            System.out.println(x + entry.getKey() + ": " + entry.getValue());
+            System.out.println(x + ". " + entry.getKey() + ": " + entry.getValue());
             x++;
         }
 
