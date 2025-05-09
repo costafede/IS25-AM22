@@ -18,9 +18,9 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static it.polimi.ingsw.is25am22new.Client.View.AdventureCardView.*;
@@ -45,8 +45,6 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     @Override
     public synchronized void modelChanged(ClientModel model) {
         this.model = model;
-        if(model.getGamePhase().getPhaseType().equals(PhaseType.END))
-            cliRunning = false;
         this.notifyAll();
     }
 
@@ -449,10 +447,6 @@ public class TUI implements ClientModelObserver, ViewAdapter{
                 }
             } while (commandNotValid);
         }
-
-        synchronized(this) {
-            showLeaderboard(model);
-        }
     }
 
     public List<String> getInput() {
@@ -474,6 +468,21 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     public void showCurrPhase(ClientModel model) {
         System.out.println("=== CURRENT PHASE ===");
         System.out.println("Current phase: " + model.getGamePhase().getPhaseType());
+    }
+
+    @Override
+    public void showBank(ClientModel model) {
+        Bank bank = model.getBank();
+        System.out.println("=== BANK ===");
+        System.out.println("RED BLOCKS: " + bank.getNumGoodBlock(GoodBlock.REDBLOCK));
+        System.out.println("YELLOW BLOCKS: " + bank.getNumGoodBlock(GoodBlock.YELLOWBLOCK));
+        System.out.println("GREEN BLOCKS: " + bank.getNumGoodBlock(GoodBlock.GREENBLOCK));
+        System.out.println("BLUE BLOCKS: " + bank.getNumGoodBlock(GoodBlock.BLUEBLOCK));
+    }
+
+    @Override
+    public void quit() {
+        this.cliRunning = false;
     }
 
 }

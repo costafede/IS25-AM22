@@ -13,6 +13,7 @@ public interface ViewAdapter {
     void showAvailableCommands(ClientModel clientModel);
     void showTileInHand(String player, ClientModel clientModel);
     void showRemainingSeconds(ClientModel model);
-
     void showCurrPhase(ClientModel model);
+    void showBank(ClientModel model);
+    void quit();
 }

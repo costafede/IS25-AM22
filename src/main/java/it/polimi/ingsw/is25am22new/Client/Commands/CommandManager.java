@@ -2,6 +2,8 @@ package it.polimi.ingsw.is25am22new.Client.Commands;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPhaseCommands.DestroyTileCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.EndPhaseCommands.QuitCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.EndPhaseCommands.ShowLeaderboardCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlaceAstronautCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlaceBrownAlienCommand;
@@ -37,6 +39,7 @@ public class CommandManager {
         this.allCommands.add(new WeldComponentTileCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new ShowAvailableCommandsCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowBankCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowCurrCardCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowCurrPhaseCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowFlightboardCommand(virtualServer, viewAdapter));
@@ -44,6 +47,9 @@ public class CommandManager {
         this.allCommands.add(new ShowTileInHandCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new DestroyTileCommand(virtualServer, viewAdapter));
+
+        this.allCommands.add(new QuitCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowLeaderboardCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new PlaceAstronautCommand(virtualServer, viewAdapter));
         this.allCommands.add(new PlaceBrownAlienCommand(virtualServer, viewAdapter));

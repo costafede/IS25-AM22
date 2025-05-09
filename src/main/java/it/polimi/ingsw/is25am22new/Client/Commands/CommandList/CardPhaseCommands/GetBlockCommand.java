@@ -62,12 +62,15 @@ public class GetBlockCommand extends AbstractCommand {
             case "AbandonedStation" :
                 if(((AbandonedStationCard) model.getCurrCard()).getActualGoodBlocks().get(gb) <= 0)
                     return false;
+                break;
             case "Smugglers" :
                 if(((SmugglersCard) model.getCurrCard()).getActualGoodBlocks().get(gb) <= 0)
                     return false;
+                break;
             case "Planets" :
                 if(((PlanetsCard) model.getCurrCard()).getPlanet(model.getPlayerName()).getActualGoodblocks().get(gb) <= 0)
                     return false;
+                break;
         }
 
         return true;

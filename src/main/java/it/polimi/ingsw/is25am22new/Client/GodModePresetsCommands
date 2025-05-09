@@ -18,9 +18,11 @@ ResolveEffectCommand              CHECK   CHECK
 SwitchGoodBlocksCommand
 
 
-ABANDONEDSHIPCARD:
+ABANDONEDSHIPCARD:               CHECK
+GT-cards_II_IT_0117.jpg
 
-ABANDONEDSTATION:
+ABANDONEDSTATION:                CHECK
+GT-cards_I_IT_0120.jpg
 
 COMBATZONE: CHECK
 entergodmode(2GT-cards_I_IT_0116.jpg)
@@ -45,12 +47,13 @@ entergodmode(6GT-cards_II_IT_013.jpg)
 SLAVERS: CHECK
 entergodmode(2GT-cards_I_IT_01.jpg)
 
-SMUGGLERS:
+SMUGGLERS:  CHECK
+GT-cards_I_IT_012.jpg
 
 STARDUST: CHECK
 entergodmode(2GT-cards_II_IT_014.jpg)
 
-PLANETS:
+PLANETS:            CHECK
 GT-cards_I_IT_0112.jpg
 GT-cards_II_IT_0112.jpg
 GT-cards_II_IT_0113.jpg
