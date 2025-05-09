@@ -18,7 +18,7 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.util.Map;
 
-//Methods used to show the cards
+//Methods used to show the cards in the TUI
 
 public class AdventureCardView {
 
