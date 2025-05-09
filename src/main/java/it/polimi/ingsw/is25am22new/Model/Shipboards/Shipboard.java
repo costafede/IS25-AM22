@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public class Shipboard implements Serializable {
 
+    //all the info related to the shipboard and the owner of the ship
     private boolean abandoned;
     private int daysOnFlight;
     private String color;
@@ -146,12 +147,14 @@ public class Shipboard implements Serializable {
         this.standbyComponent[1] = Optional.empty();
     }
 
+    //attaches the component to the ship, with a specific orientation
     public void weldComponentTile (ComponentTile ct, int i, int j){
         if (componentTilesGrid.get(i, j).isPresent())
             throw new IllegalStateException("Cannot weld tile on an already existing one");
         componentTilesGrid.set(i, j, ct);
     }
 
+    //put the tile in the hand in stand by
     public void standbyComponentTile (ComponentTile ct){
         if(standbyComponent[0].isEmpty())
             standbyComponent[0] = Optional.of(ct);
@@ -161,6 +164,7 @@ public class Shipboard implements Serializable {
             throw new IllegalStateException("Cannot standby other tiles");
     }
 
+    //picks the selected tile from standby, removing it from the standby list
     public ComponentTile pickStandByComponentTile (int index) {
         if(standbyComponent[index].isEmpty())
             throw new IllegalStateException("Cannot pick standby component tile");
@@ -169,6 +173,7 @@ public class Shipboard implements Serializable {
         return ct;
     }
 
+    //destroys the selected tile, removing it from the ship and adding the count of the 'garbage'
     public void destroyTile (int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty())
             throw new IllegalStateException("Cannot destroy a non existing tile");
@@ -180,6 +185,7 @@ public class Shipboard implements Serializable {
         manageAlienAddonRemoval(i, j+1);
     }
 
+    //manages the removal of the aliens present in a cabin after the adjacent alienAddon has been destroyed
     private void manageAlienAddonRemoval(int i, int j) {
         String color = null;
         if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isAlienPresent("purple")){
@@ -204,6 +210,7 @@ public class Shipboard implements Serializable {
         return true;
     }
 
+    //checks if the ship is constructed following the rules
     public boolean checkShipboard (){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 7; j++) {
@@ -252,6 +259,7 @@ public class Shipboard implements Serializable {
         return true;
     }
 
+    //support method used in the checkShipboard method
     private boolean tileConnectedProperly(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == 1)
             return true;
@@ -265,6 +273,7 @@ public class Shipboard implements Serializable {
         return tileConnectedProperly(i-1, j) && tileConnectedProperly(i+1, j) && tileConnectedProperly(i, j-1) && tileConnectedProperly(i, j+1);
     }
 
+    //support method used in the checkShipboard method
     private boolean sidesMatch(Side s1, Side s2){
         if(s1.equals(Side.SMOOTH) && !s2.equals(Side.SMOOTH) || !s1.equals(Side.SMOOTH) && s2.equals(Side.SMOOTH)) //connector adjacent to smooth side
             return false;
@@ -281,6 +290,7 @@ public class Shipboard implements Serializable {
         return abandoned;
     }
 
+    //counts the exposed connectors used for assigning points for the better looking shipboard
     public int countExposedConnectors (){
         int exposedConnectors = 0;
         for(int i = 0; i < 5; i++){
@@ -475,6 +485,7 @@ public class Shipboard implements Serializable {
         return false;
     }
 
+    //used to evaluate if a component is connected to a cabin
     public boolean isConnectedToCabin(int row, int col) throws RuntimeException{
         Optional<ComponentTile> ct = componentTilesGrid.get(row, col);
         if(ct.isPresent()) {
@@ -574,7 +585,8 @@ public class Shipboard implements Serializable {
         return finishedShipboard;
     }
 
-    public int highlightShipWrecks(){  //colors all the tiles belonging to the same wreck with the same color
+    //colors all the tiles belonging to the same wreck with the same color
+    public int highlightShipWrecks(){
         for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(c -> c.setColor(-1));
         }//reset colors for the algorithm
@@ -593,7 +605,8 @@ public class Shipboard implements Serializable {
         return color; //returns the number of colors used
     }
 
-    private void spreadColor(int i, int j, int color){  //method needed for the previous one to work
+    //method needed for the previous one to work
+    private void spreadColor(int i, int j, int color){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == color)
             return;
         componentTilesGrid.get(i, j).get().setColor(color);
@@ -611,7 +624,8 @@ public class Shipboard implements Serializable {
         }
     }
 
-    public void chooseShipWreck(int i, int j){ // keeps the ship wreck of the chosen color and eliminates the others
+    // keeps the ship wreck of the chosen color and eliminates the others
+    public void chooseShipWreck(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty())
             throw new IllegalArgumentException("There is no ship wreck in such coordinates");
         int color = componentTilesGrid.get(i, j).get().getColor();
@@ -640,6 +654,7 @@ public class Shipboard implements Serializable {
         return abandoned;
     }
 
+    //deactivates all the components present in the ship that use a battery
     public void deactivateAllComponent(){
         for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(ComponentTile::deactivateComponent);
