@@ -88,6 +88,12 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             gameController.updateAllLobbies();
         }
     }
+
+    @Override
+    public void disconnect(String nickname) {
+        // TO DO
+    }
+
     @Override
     public void setNumPlayers(int numPlayers) throws IOException {
         if(numPlayers < 2 || numPlayers > 4){

@@ -107,7 +107,7 @@ public class SocketClientSide implements VirtualView {
 
         Thread.sleep(150);
         clientModel.setPlayerName(thisPlayerName);
-        this.view.startCommandLoopSocket(this, thisPlayerName, new Scanner(System.in));
+        this.view.startCommandLoopSocket(this.output, thisPlayerName, new Scanner(System.in));
     }
 
     // comunicazione dal server al client
@@ -318,127 +318,6 @@ public class SocketClientSide implements VirtualView {
     @Override
     public void showGameStarted() {
         this.view.displayGameStarted();
-    }
-
-
-    @Override
-    public void setPlayerReady(String playerName) throws IOException {
-        output.setPlayerReady(playerName);
-    }
-
-    @Override
-    public void setPlayerNotReady(String playerName) throws IOException {
-        output.setPlayerNotReady(playerName);
-    }
-
-    @Override
-    public void startGameByHost(String playerName) throws IOException {
-        output.startGameByHost(playerName);
-    }
-
-    @Override
-    public void setGameType(String gameType) throws IOException {
-        output.setGameType(gameType);
-    }
-
-    @Override
-    public void pickCoveredTile(String playerName) throws IOException {
-        output.pickCoveredTile(playerName);
-    }
-
-    @Override
-    public void pickUncoveredTile(String playerName, String pngName) throws IOException {
-        output.pickUncoveredTile(playerName, pngName);
-    }
-
-    @Override
-    public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
-        output.weldComponentTile(playerName, i, j, numOfRotation);
-    }
-
-    @Override
-    public void standbyComponentTile(String playerName) throws IOException {
-        output.standbyComponentTile(playerName);
-    }
-
-    @Override
-    public void pickStandbyComponentTile(String playerName, int index) throws IOException {
-        output.pickStandbyComponentTile(playerName, index);
-    }
-
-    @Override
-    public void discardComponentTile(String playerName) throws IOException {
-        output.discardComponentTile(playerName);
-    }
-
-    @Override
-    public void finishBuilding(String playerName) throws IOException {
-        output.finishBuilding(playerName);
-    }
-
-    @Override
-    public void finishBuilding(String playerName, int index) throws IOException {
-        output.finishBuilding(playerName, index);
-    }
-
-    @Override
-    public void finishedAllShipboards() throws IOException {
-        output.finishedAllShipboards();
-    }
-
-    @Override
-    public void flipHourglass() throws IOException {
-        output.flipHourglass();
-    }
-
-    @Override
-    public void pickCard() throws IOException {
-        output.pickCard();
-    }
-
-    @Override
-    public void activateCard(InputCommand inputCommand) throws IOException {
-        output.activateCard(inputCommand);
-    }
-
-    @Override
-    public void removePlayer(String playerName) throws IOException {
-        output.removePlayer(playerName);
-    }
-
-    @Override
-    public void playerAbandons(String playerName) throws IOException {
-        output.playerAbandons(playerName);
-    }
-
-    @Override
-    public void destroyComponentTile(String playerName, int i, int j) throws IOException {
-        output.destroyComponentTile(playerName, i, j);
-    }
-
-    @Override
-    public void endGame() throws IOException {
-        output.endGame();
-    }
-
-    @Override
-    public void placeBrownAlien(String playerName, int i, int j) throws IOException {
-        output.placeBrownAlien(playerName, i, j);
-    }
-
-    @Override
-    public void placeAstronauts(String playerName, int i, int j) throws IOException {
-        output.placeAstronauts(playerName, i, j);
-    }
-
-    @Override
-    public void placePurpleAlien(String playerName, int i, int j) throws IOException {
-        output.placePurpleAlien(playerName, i, j);
-    }
-
-    @Override
-    public void godMode(String playerName, String conf) throws IOException {
-        output.godMode(playerName, conf);
     }
 
     public void showMessage(String message) {

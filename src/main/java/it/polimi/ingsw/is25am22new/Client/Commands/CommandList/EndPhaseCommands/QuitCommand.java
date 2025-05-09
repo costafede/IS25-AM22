@@ -23,6 +23,11 @@ public class QuitCommand extends AbstractCommand {
 
     @Override
     public void execute(ClientModel model) {
+        try {
+            virtualServer.disconnect(model.getPlayerName());
+        } catch (Exception e) {
+            System.out.println("Error while quitting: " + e.getMessage());
+        }
         viewAdapter.quit();
     }
 }

@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 public interface VirtualServer extends Remote {
 
     void connect(VirtualView client, String nickname) throws RemoteException;
+    void disconnect(String nickname) throws RemoteException;
     void setNumPlayers(int numPlayers) throws IOException;
     void removePlayer(String nickname) throws IOException;
     void setPlayerReady(String nickname) throws IOException;
@@ -32,7 +33,6 @@ public interface VirtualServer extends Remote {
     void playerAbandons(String nickname) throws IOException;
     void destroyComponentTile(String nickname, int i, int j) throws IOException;
     void endGame() throws IOException;
-
 
     void placeBrownAlien(String playerName, int i, int j) throws IOException;
     void placeAstronauts(String playerName, int i, int j) throws IOException;

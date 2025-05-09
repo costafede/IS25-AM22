@@ -414,24 +414,24 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
-    @Override
-    public void godMode(String playerName, String conf) throws IOException {
+
+    private void godMode(String playerName, String conf) throws IOException {
         this.controller.godMode(playerName, conf);
     }
 
-    @Override
-    public void setPlayerReady(String playerName) throws IOException {
+
+    private void setPlayerReady(String playerName) throws IOException {
         this.controller.setPlayerReady(playerName);
         this.controller.updateAllLobbies();
     }
 
-    @Override
-    public void setPlayerNotReady(String playerName) throws IOException {
+
+    private void setPlayerNotReady(String playerName) throws IOException {
         this.controller.setPlayerNotReady(playerName);
         this.controller.updateAllLobbies();
     }
 
-    @Override
+
     public void startGameByHost(String playerName) throws IOException {
         if(!playerName.equals(this.controller.getLobbyCreator())) {
             showConnectionResult(false, false, "Only the host can start the game");
@@ -463,23 +463,23 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
-    @Override
+
     public void setGameType(String gameType) throws IOException {
         this.controller.setGameType(gameType);
         this.controller.updateAllLobbies();
     }
 
-    @Override
+
     public void pickCoveredTile(String playerName) throws IOException {
         this.controller.pickCoveredTile(playerName);
     }
 
-    @Override
+
     public void pickUncoveredTile(String playerName, String pngName) throws IOException {
         this.controller.pickUncoveredTile(playerName, pngName);
     }
 
-    @Override
+
     public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
         if(numOfRotation > 0){
             this.controller.rotateClockwise(playerName, numOfRotation);
@@ -490,84 +490,84 @@ public class SocketClientHandler implements VirtualView {
         this.controller.weldComponentTile(playerName, i, j);
     }
 
-    @Override
-    public void standbyComponentTile(String playerName) throws IOException {
+
+    private void standbyComponentTile(String playerName) {
         this.controller.standbyComponentTile(playerName);
     }
 
-    @Override
-    public void pickStandbyComponentTile(String playerName, int index) throws IOException {
+
+    private void pickStandbyComponentTile(String playerName, int index) {
         this.controller.pickStandByComponentTile(playerName, index);
     }
 
-    @Override
-    public void discardComponentTile(String playerName) throws IOException {
+
+    private void discardComponentTile(String playerName) throws IOException {
         this.controller.discardComponentTile(playerName);
     }
 
-    @Override
-    public void finishBuilding(String playerName) throws IOException {
+
+    private void finishBuilding(String playerName) throws IOException {
         this.controller.finishBuilding(playerName);
     }
 
-    @Override
-    public void finishBuilding(String playerName, int index) throws IOException {
+
+    private void finishBuilding(String playerName, int index) throws IOException {
         this.controller.finishBuilding(playerName, index);
     }
 
-    @Override
-    public void finishedAllShipboards() throws IOException {
+
+    private void finishedAllShipboards() throws IOException {
         this.controller.finishedAllShipboards();
     }
 
-    @Override
-    public void flipHourglass() throws IOException {
+
+    private void flipHourglass() throws IOException {
         this.controller.flipHourglass();
     }
 
-    @Override
-    public void pickCard() throws IOException {
+
+    private void pickCard() throws IOException {
         this.controller.pickCard();
     }
 
-    @Override
-    public void activateCard(InputCommand inputCommand) throws IOException {
+
+    private void activateCard(InputCommand inputCommand) throws IOException {
         this.controller.activateCard(inputCommand);
     }
 
-    @Override
-    public void removePlayer(String playerName) throws IOException {
+
+    private void removePlayer(String playerName) throws IOException {
         this.controller.removePlayer(playerName);
         this.controller.updateAllLobbies();
     }
 
-    @Override
-    public void playerAbandons(String playerName) throws IOException {
+
+    private void playerAbandons(String playerName) throws IOException {
         this.controller.playerAbandons(playerName);
     }
 
-    @Override
-    public void destroyComponentTile(String playerName, int i, int j) throws IOException {
+
+    private void destroyComponentTile(String playerName, int i, int j) throws IOException {
         this.controller.destroyTile(playerName, i, j);
     }
 
-    @Override
-    public void endGame() throws IOException {
+
+    private void endGame() throws IOException {
         this.controller.endGame();
     }
 
-    @Override
-    public void placeBrownAlien(String playerName, int i, int j) {
+
+    private void placeBrownAlien(String playerName, int i, int j) {
         this.controller.placeBrownAlien(playerName, i, j);
     }
 
-    @Override
-    public void placeAstronauts(String playerName, int i, int j) {
+
+    private void placeAstronauts(String playerName, int i, int j) {
         this.controller.placeAstronauts(playerName, i, j);
     }
 
-    @Override
-    public void placePurpleAlien(String playerName, int i, int j) {
+
+    private void placePurpleAlien(String playerName, int i, int j) {
         this.controller.placePurpleAlien(playerName, i, j);
     }
 

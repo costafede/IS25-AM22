@@ -1,11 +1,10 @@
 package it.polimi.ingsw.is25am22new.Client;
 
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
-import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
+import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +20,7 @@ public class LobbyView implements EnhancedClientView {
     private int numPlayers = 0;
     private String gameType = null;
     private RmiClient rmiClient;
-    private SocketClientSide socketClient;
+    private SocketServerHandler socketClient;
     private boolean autostart = false;
     private boolean gameStarted = false;
     private ClientModel clientModel;
@@ -377,7 +376,7 @@ public class LobbyView implements EnhancedClientView {
 //        }
     }
 
-    public void startCommandLoopSocket(SocketClientSide client, String playerName, Scanner scanner) {
+    public void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner) {
         this.socketClient = client;
         boolean running = true;
 
@@ -414,75 +413,71 @@ public class LobbyView implements EnhancedClientView {
         //}
     }
 
-    private void setupAsHostSocket(SocketClientSide client, Scanner scanner) {
-        try {
-            // Get max players
-            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-            System.out.println("║                  Enter number of players (2-4)                       ║");
-            System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-            System.out.print("➤ ");
+    private void setupAsHostSocket(SocketServerHandler client, Scanner scanner) {
+        // Get max players
+        System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                  Enter number of players (2-4)                       ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+        System.out.print("➤ ");
 
-            while (numPlayers < 2 || numPlayers > 4) {
-                try {
-                    numPlayers = Integer.parseInt(scanner.nextLine().trim());
+        while (numPlayers < 2 || numPlayers > 4) {
+            try {
+                numPlayers = Integer.parseInt(scanner.nextLine().trim());
 
-                    if (numPlayers < 2 || numPlayers > 4) {
-                        System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                        System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
-                        System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                        System.out.print("➤ ");
-                    }
-                } catch (NumberFormatException e) {
+                if (numPlayers < 2 || numPlayers > 4) {
                     System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
                     System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
                     System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
                     System.out.print("➤ ");
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
+                System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                System.out.print("➤ ");
             }
+        }
 
-            client.setNumPlayers(numPlayers);
+        client.setNumPlayers(numPlayers);
 
-            // Get game type
-            System.out.println("\n╔═══════════════════════════════════════════╗");
-            System.out.println("║             Select game type:             ║");
-            System.out.println("║               1. Tutorial                 ║");
-            System.out.println("║               2. Level 2                  ║");
-            System.out.println("╚═══════════════════════════════════════════╝");
-            System.out.print("➤ ");
-            int typeChoice = 0;
-            while (typeChoice != 1 && typeChoice != 2) {
-                try {
-                    typeChoice = Integer.parseInt(scanner.nextLine().trim());
-                    if (typeChoice != 1 && typeChoice != 2) {
-                        System.out.println("\n╔════════════════════════════════════════════════╗");
-                        System.out.println("║     Invalid choice. Please enter 1 or 2.       ║");
-                        System.out.println("╚════════════════════════════════════════════════╝");
-                        System.out.print("➤ ");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("\n╔════════════════════════════════════════════════════════╗");
-                    System.out.println("║     Invalid input. Please enter a number (1 or 2).     ║");
-                    System.out.println("╚════════════════════════════════════════════════════════╝");
+        // Get game type
+        System.out.println("\n╔═══════════════════════════════════════════╗");
+        System.out.println("║             Select game type:             ║");
+        System.out.println("║               1. Tutorial                 ║");
+        System.out.println("║               2. Level 2                  ║");
+        System.out.println("╚═══════════════════════════════════════════╝");
+        System.out.print("➤ ");
+        int typeChoice = 0;
+        while (typeChoice != 1 && typeChoice != 2) {
+            try {
+                typeChoice = Integer.parseInt(scanner.nextLine().trim());
+                if (typeChoice != 1 && typeChoice != 2) {
+                    System.out.println("\n╔════════════════════════════════════════════════╗");
+                    System.out.println("║     Invalid choice. Please enter 1 or 2.       ║");
+                    System.out.println("╚════════════════════════════════════════════════╝");
                     System.out.print("➤ ");
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("\n╔════════════════════════════════════════════════════════╗");
+                System.out.println("║     Invalid input. Please enter a number (1 or 2).     ║");
+                System.out.println("╚════════════════════════════════════════════════════════╝");
+                System.out.print("➤ ");
             }
-
-
-            // Set game type
-            if (typeChoice == 1) {
-                client.setGameType("tutorial");
-                gameType = "tutorial";
-            } else {
-                client.setGameType("level2");
-                gameType = "level2";
-            }
-
-            hostSetupCompleted = true;
-            System.out.println("Lobby setup complete. Waiting for players to join...");
-
-        } catch (IOException e) {
-            System.err.println("Error setting up lobby: " + e.getMessage());
         }
+
+
+        // Set game type
+        if (typeChoice == 1) {
+            client.setGameType("tutorial");
+            gameType = "tutorial";
+        } else {
+            client.setGameType("level2");
+            gameType = "level2";
+        }
+
+        hostSetupCompleted = true;
+        System.out.println("Lobby setup complete. Waiting for players to join...");
+
     }
 
     private void setupAsHostRMI(RmiClient client, Scanner scanner) {

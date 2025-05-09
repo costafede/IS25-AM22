@@ -341,6 +341,7 @@ public class SocketServerHandler implements VirtualServer {
         }
     }
 
+    @Override
     public void disconnect(String nickname) {
         try {
             SocketMessage msg = new SocketMessage("disconnect", null, nickname);

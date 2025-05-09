@@ -100,6 +100,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         this.connectWithNickname(nickname);
     }
 
+    @Override
+    public void disconnect(String nickname) {
+        // TO DO
+    }
+
     public void setNumPlayers(int numPlayers) throws IOException {
         server.setNumPlayers(numPlayers);
     }

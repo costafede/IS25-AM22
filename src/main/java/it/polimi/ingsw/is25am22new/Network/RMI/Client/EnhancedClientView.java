@@ -1,7 +1,7 @@
 package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
-import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
+import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ public interface EnhancedClientView {
     void displayGame(Game game);
     void displayPlayerJoined(String playerName);
     void startCommandLoopRMI(RmiClient client, String playerName, Scanner scanner);
-    void startCommandLoopSocket(SocketClientSide client, String playerName, Scanner scanner);
+    void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner);
     boolean isNicknameValid();
     void resetNicknameStatus();
 }
