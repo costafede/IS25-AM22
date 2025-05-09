@@ -164,6 +164,7 @@ public class SocketClientHandler implements VirtualView {
             }
         } catch (Exception e) {
             System.out.println("SocketClientHandler: Client disconnected");
+            e.printStackTrace();
         }
     }
 

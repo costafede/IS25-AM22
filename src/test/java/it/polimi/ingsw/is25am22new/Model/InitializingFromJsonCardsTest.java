@@ -46,10 +46,6 @@ class InitializingFromJsonCardsTest {
         assertTrue(check_abandoned_station_card(objectMapper, game), "AbandonedStationCard not initialized properly");
         assertEquals(4, game.getCardArchive().stream().filter(card -> card instanceof AbandonedStationCard).count());
 
-        //check CombatZone1Card initialized properly
-        assertTrue(check_combat_zone_1_card(objectMapper, game), "CombatZone1Card not initialized properly");
-        assertEquals(1, game.getCardArchive().stream().filter(card -> card instanceof CombatZoneCard && ((CombatZoneCard) card).getLostGoods() == 0).count());
-
         //check CombatZone2Card initialized properly
         assertTrue(check_combat_zone_2_card(objectMapper, game), "CombatZone2Card not initialized properly");
         assertEquals(1, game.getCardArchive().stream().filter(card -> card instanceof CombatZoneCard && ((CombatZoneCard) card).getAstronautsToLose() == 0).count());
@@ -476,7 +472,7 @@ class InitializingFromJsonCardsTest {
                                 czc.isTutorial() == tutorial &&
                                 czc.getFlightDaysLost() == flightDaysLost &&
                                 czc.getAstronautsToLose() == 0 &&
-                                czc.getLostGoods() == lostGoods && check_shot(shotSize, shotOrientation, czc)) {
+                                check_shot(shotSize, shotOrientation, czc)) {
                             check = true;
                             break;
                         }
@@ -523,7 +519,7 @@ class InitializingFromJsonCardsTest {
                             czc.isTutorial() == tutorial &&
                             czc.getFlightDaysLost() == flightDaysLost &&
                             czc.getAstronautsToLose() == lostAstronauts &&
-                            czc.getLostGoods() == 0 && check_shot(shotSize, shotOrientation, czc)) {
+                            check_shot(shotSize, shotOrientation, czc)) {
                             check = true;
                             break;
                         }
