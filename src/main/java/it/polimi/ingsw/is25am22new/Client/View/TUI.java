@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.Abandon
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
@@ -236,6 +237,9 @@ public class TUI implements ClientModelObserver, ViewAdapter{
                     break;
                 case "CombatZoneCard":
                     showCombatZoneCard((CombatZoneCard) card);
+                    break;
+                case "CombatZoneCard2":
+                    showCombatZoneCard2((CombatZoneCard2) card);
                     break;
                 case "EpidemicCard":
                     showEpidemicCard((EpidemicCard) card);

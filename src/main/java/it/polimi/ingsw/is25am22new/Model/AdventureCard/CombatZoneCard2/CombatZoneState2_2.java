@@ -1,18 +1,16 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard;
+package it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneState_9;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.Orientation;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesState_4;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.io.Serializable;
 import java.util.Optional;
 
-public class CombatZoneState_10 extends CombatZoneState implements Serializable {
-    public CombatZoneState_10(CombatZoneCard combatZoneCard) {
-        super(combatZoneCard);
+public class CombatZoneState2_2 extends CombatZoneState2 implements Serializable {
+    public CombatZoneState2_2(CombatZoneCard2 combatZoneCard2) {
+        super(combatZoneCard2);
     }
 
     @Override
@@ -22,19 +20,20 @@ public class CombatZoneState_10 extends CombatZoneState implements Serializable 
         int x = inputCommand.getRow();
         int y = inputCommand.getCol();
 
+
         Optional<ComponentTile> ctOptional = shipboard.getComponentTileFromGrid(x, y);
-        if(combatZoneCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isShieldGenerator()) {
+        if(combatZoneCard2.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
         }
 
-        combatZoneCard.setBatteryUsed(false);
+        combatZoneCard2.setBatteryUsed(false);
 
-        transition(new CombatZoneState_9(combatZoneCard));
+        transition(new CombatZoneState2_1(combatZoneCard2));
     }
 
     @Override
     public String getStateName() {
-        return "CombatZoneState_10";
+        return "CombatZoneState2_2";
     }
 }

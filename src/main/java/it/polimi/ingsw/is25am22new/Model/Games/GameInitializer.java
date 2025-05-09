@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
@@ -137,7 +138,7 @@ public class GameInitializer {
                 for (int i = 0; i < shotSize.length; i++) {
                     numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
                 }
-                CombatZoneCard czc = new CombatZoneCard(pngName, name, game, level, tutorial, flightDaysLost, lostAstronauts, 0, numberToShot);
+                CombatZoneCard czc = new CombatZoneCard(pngName, name, game, level, tutorial, flightDaysLost, lostAstronauts, numberToShot);
                 game.getCardArchive().add(czc);
             }
         } catch (IOException e) {
@@ -169,11 +170,11 @@ public class GameInitializer {
                 for (int i = 0; i < shotSize.length; i++) {
                     numberToShot.put(i, new Shot(shotSize[i], Orientation.valueOf(shotOrientation[i])));
                 }
-                CombatZoneCard czc = new CombatZoneCard(pngName, name, game, level, tutorial, flightDaysLost, 0, lostGoods, numberToShot);
+                CombatZoneCard2 czc = new CombatZoneCard2(pngName, name, game, level, tutorial, flightDaysLost, lostGoods, numberToShot);
                 game.getCardArchive().add(czc);
             }
         } catch (IOException e) {
-            System.out.println("Error in reading CombatZoneCard1.json");
+            System.out.println("Error in reading CombatZoneCard2.json");
         }
     }
 

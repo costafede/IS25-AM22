@@ -24,6 +24,7 @@ public class ActivateDoubleCannonCommand extends AbstractCommand {
                 model.getCurrCard() != null &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
                 (model.getCurrCard().getStateName().equals("CombatZoneState_6") ||
+                model.getCurrCard().getStateName().equals("CombatZoneState2_1") ||
                 model.getCurrCard().getStateName().equals("SmugglersState_1") ||
                 model.getCurrCard().getStateName().equals("MeteorSwarmState_1") ||
                 model.getCurrCard().getStateName().equals("SlaversState_1") ||

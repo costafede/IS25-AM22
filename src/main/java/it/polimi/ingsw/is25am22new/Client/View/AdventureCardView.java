@@ -3,6 +3,7 @@ package it.polimi.ingsw.is25am22new.Client.View;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Meteor;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
@@ -61,7 +62,18 @@ public class AdventureCardView {
     public static void showCombatZoneCard(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
-        System.out.println("Astronauts: " + card.getAstronautsToLose());
+        System.out.println("Lost astronauts: " + card.getAstronautsToLose());
+        System.out.println("Dice1: " + card.getDice1());
+        System.out.println("Dice2: " + card.getDice2());
+        Map<Integer, Shot> numberToShot = card.getNumberToShot();
+        for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
+            System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
+        }
+    }
+
+    public static void showCombatZoneCard2(CombatZoneCard2 card) {
+        System.out.println("=== COMBAT ZONE ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Lost goods: " + card.getLostGoods());
         System.out.println("Dice1: " + card.getDice1());
         System.out.println("Dice2: " + card.getDice2());

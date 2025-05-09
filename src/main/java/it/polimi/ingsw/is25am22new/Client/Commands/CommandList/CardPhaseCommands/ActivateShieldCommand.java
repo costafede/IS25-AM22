@@ -25,6 +25,7 @@ public class ActivateShieldCommand extends AbstractCommand {
                 model.getCurrCard() != null &&
                 (model.getCurrCard().getStateName().equals("MeteorSwarmState_1") ||
                 model.getCurrCard().getStateName().equals("CombatZoneState_9") ||
+                model.getCurrCard().getStateName().equals("CombatZoneState2_7") ||
                 model.getCurrCard().getStateName().equals("PiratesState_4"));
     }
 

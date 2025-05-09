@@ -1,20 +1,20 @@
-AcceptCreditsCommand             CHECK
-ActivateDoubleCannonCommand      CHECK
-ActivateDoubleEngineCommand
-ActivateShieldCommand            CHECK
-ChooseShipWreckCommand           CHECK
+                                  SOCKET  RMI
+
+AcceptCreditsCommand              CHECK   CHECK
+ActivateDoubleCannonCommand       CHECK   CHECK
+ActivateDoubleEngineCommand       CHECK   CHECK
+ActivateShieldCommand             CHECK   CHECK
+ChooseShipWreckCommand            CHECK
 DecideToRemoveCrewMembersCommand
-DeclareCannonStrengthCommand
-DeclareEngineStrengthCommand
 GetBlockCommand
 LandOnAbandonedStationCommand
 LandOnPlanetCommand
 ManageGoodBlocksCommand
 MoveGoodBlockCommand
-PickCardCommand                  CHECK
-RemoveCrewMemberCommand
+PickCardCommand                   CHECK   CHECK
+RemoveCrewMemberCommand           CHECK   CHECK
 RemoveGoodBlockCommand
-ResolveEffectCommand             CHECK
+ResolveEffectCommand              CHECK   CHECK
 SwitchGoodBlocksCommand
 
 
@@ -22,7 +22,11 @@ ABANDONEDSHIPCARD:
 
 ABANDONEDSTATION:
 
-COMBATZONE:
+COMBATZONE: CHECK
+entergodmode(2GT-cards_I_IT_0116.jpg)
+
+COMBATZONE2: CHECK
+entergodmode(2GT-cards_II_IT_0116.jpg)
 
 EPIDEMIC: CHECK
 entergodmode(2GT-cards_II_IT_015.jpg)
@@ -38,7 +42,8 @@ PIRATES: CHECK
 entergodmode(2GT-cards_II_IT_013.jpg)
 entergodmode(6GT-cards_II_IT_013.jpg)
 
-SLAVERS:
+SLAVERS: CHECK
+entergodmode(2GT-cards_I_IT_01.jpg)
 
 SMUGGLERS:
 
