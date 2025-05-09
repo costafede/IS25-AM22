@@ -208,9 +208,9 @@ public class SocketServerSide implements ObserverModel {
    public void disconnect(SocketClientHandler handler, String nickname) {
         synchronized (this.clients) {
             this.clients.remove(handler);
-            for (var client : this.clients) {
-                client.showMessageToEveryone("Player " + nickname + " has disconnected");
-            }
+            //for (var client : this.clients) {
+            //    client.showMessageToEveryone("Player " + nickname + " has disconnected");
+            //}
         }
    }
 }

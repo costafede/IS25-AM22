@@ -104,8 +104,6 @@ public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
                     setNewDices();
                     meteorSwarmCard.setNextIndexOfMeteor();
-                    System.out.println(meteorSwarmCard.getIndexOfIncomingMeteor());
-                    System.out.println(meteorSwarmCard.getNumberToMeteor().size());
                     if(meteorSwarmCard.thereAreStillMeteors()) {
                         game.setCurrPlayerToLeader();
                         transition(new MeteorSwarmState_1(meteorSwarmCard));
