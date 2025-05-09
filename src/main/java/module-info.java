@@ -9,8 +9,9 @@ module it.polimi.ingsw.is25am22new {
         requires javafx.graphics;
         requires java.base;
         requires java.logging;
+    requires java.sql;
 
-        opens it.polimi.ingsw.is25am22new to javafx.fxml;
+    opens it.polimi.ingsw.is25am22new to javafx.fxml;
 
         exports it.polimi.ingsw.is25am22new.Model.Games;
         exports it.polimi.ingsw.is25am22new.Controller;

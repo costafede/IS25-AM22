@@ -52,7 +52,7 @@ public class AdventureCardView {
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
         Map<GoodBlock, Integer> actualGoodblocks = card.getTheoreticalGoodBlocks();
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+                System.out.println("Good: " + goodBlock + ", Theoretical quantity: " + quantity)
         );
         actualGoodblocks.forEach((goodBlock, quantity) ->
                 System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
@@ -131,8 +131,13 @@ public class AdventureCardView {
         System.out.println("Lost goods: " + card.getLostGoods());
         System.out.println("Cannon's strength: " + card.getCannonStrength());
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
+        Map<GoodBlock, Integer> actualGoodBlocks = card.getActualGoodBlocks();
+
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+                System.out.println("Good: " + goodBlock + ", Theoretical quantity: " + quantity)
+        );
+        actualGoodBlocks.forEach((goodBlock, quantity) ->
+                System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
         );
     }
 

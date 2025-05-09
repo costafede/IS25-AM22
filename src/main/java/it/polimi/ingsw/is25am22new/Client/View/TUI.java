@@ -20,6 +20,7 @@ import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 import static it.polimi.ingsw.is25am22new.Client.View.AdventureCardView.*;
@@ -120,6 +121,8 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         System.out.println("Credits: " + ship.getCosmicCredits());
         System.out.println("Flight crew: " + ship.getCrewNumber());
         System.out.println("Astronauts: " + ship.getOnlyHumanNumber());
+        System.out.println("Cannon strength: " + ship.getCannonStrength());
+        System.out.println("Engine strength: " + ship.getEngineStrength());
 
         int x = 4;
         int y = 5;
