@@ -24,7 +24,8 @@ public class ActivateDoubleEngineCommand extends AbstractCommand {
                 model.getCurrCard() != null &&
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
                 (model.getCurrCard().getStateName().equals("OpenSpaceState_1") ||
-                        model.getCurrCard().getStateName().equals("CombatZoneState_1"));
+                model.getCurrCard().getStateName().equals("CombatZoneState_1") ||
+                model.getCurrCard().getStateName().equals("CombatZoneState2_3"));
     }
 
     public int getInputLength() {

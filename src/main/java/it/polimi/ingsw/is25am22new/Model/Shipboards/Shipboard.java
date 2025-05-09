@@ -428,6 +428,15 @@ public class Shipboard implements Serializable {
         return false;
     }
 
+    public boolean thereAreStillBlocks() {
+        for(Optional<ComponentTile> ct : componentTilesGrid){
+            if(ct.isPresent() && !ct.get().getGoodBlocks().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getEngineStrength (){
         int strength = 0;
         for(Optional<ComponentTile> ct : componentTilesGrid){

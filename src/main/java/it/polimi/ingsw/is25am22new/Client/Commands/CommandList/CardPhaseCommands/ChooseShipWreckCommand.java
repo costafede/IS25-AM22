@@ -25,6 +25,7 @@ public class ChooseShipWreckCommand extends AbstractCommand {
                 model.getCurrPlayer().equals(model.getPlayerName()) &&
                 (model.getCurrCard().getStateName().equals("PiratesState_6") ||
                 model.getCurrCard().getStateName().equals("CombatZoneState_8") ||
+                model.getCurrCard().getStateName().equals("CombatZoneState2_9") ||
                 model.getCurrCard().getStateName().equals("MeteorSwarmState_3"));
     }
 
