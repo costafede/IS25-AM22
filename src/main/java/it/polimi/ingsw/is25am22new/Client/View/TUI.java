@@ -279,6 +279,54 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         }
     }
 
+    //shows the information during the CardPhase needed for the player to play the game
+    @Override
+    public void showCardInGame(AdventureCard card, ClientModel clientModel) {
+        if(card == null)
+            System.out.println("There is no card");
+        else {
+            switch (card.getClass().getSimpleName()){
+                case "AbandonedShipCard":
+                    showAbandonedShipCardInGame((AbandonedShipCard) card);
+                    break;
+                case "AbandonedStationCard":
+                    showAbandonedStationCardInGame((AbandonedStationCard) card);
+                    break;
+                case "CombatZoneCard":
+                    showCombatZoneCardInGame((CombatZoneCard) card);
+                    break;
+                case "CombatZoneCard2":
+                    showCombatZoneCard2InGame((CombatZoneCard2) card);
+                    break;
+                case "EpidemicCard":
+                    showEpidemicCardInGame((EpidemicCard) card);
+                    break;
+                case "MeteorSwarmCard":
+                    showMeteorSwarmCardInGame((MeteorSwarmCard) card);
+                    break;
+                case "OpenSpaceCard":
+                    showOpenSpaceCardInGame((OpenSpaceCard) card);
+                    break;
+                case "PiratesCard":
+                    showPiratesCardInGame((PiratesCard) card);
+                    break;
+                case "PlanetsCard":
+                    showPlanetsCardInGame((PlanetsCard) card);
+                    break;
+                case "SlaversCard":
+                    showSlaversCardInGame((SlaversCard) card);
+                    break;
+                case "SmugglersCard":
+                    showSmugglersCardInGame((SmugglersCard) card);
+                    break;
+                case "StardustCard":
+                    showStardustCardInGame((StardustCard) card);
+                    break;
+                default: break;
+            }
+        }
+    }
+
     @Override
     public void showUncoveredComponentTiles(ClientModel clientModel) {
         List <ComponentTile> componentTiles = clientModel.getUncoveredComponentTiles();
@@ -334,9 +382,9 @@ public class TUI implements ClientModelObserver, ViewAdapter{
 
         //prints the leaderboard
         System.out.println("=== LEADERBOARD ===");
+        int x = 1;
         for (Map.Entry<String, Integer> entry : scores.entrySet()){
-            int x = 1;
-            System.out.println(x + entry.getKey() + ": " + entry.getValue());
+            System.out.println(x + ". " + entry.getKey() + ": " + entry.getValue());
             x++;
         }
 

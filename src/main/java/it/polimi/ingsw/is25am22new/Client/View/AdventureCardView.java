@@ -38,11 +38,19 @@ public class AdventureCardView {
         }
     }
 
+    public static void showPlanetsCardInGame(PlanetsCard card) {
+        //to do
+    }
+
     public static void showAbandonedShipCard(AbandonedShipCard card) {
         System.out.println("=== ABANDONED SHIP ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Credits: " + card.getCredits());
         System.out.println("Astronauts lost: " + card.getLostAstronauts());
+    }
+
+    public static void showAbandonedShipCardInGame(AbandonedShipCard card) {
+        //to do
     }
 
     public static void showAbandonedStationCard(AbandonedStationCard card) {
@@ -59,6 +67,10 @@ public class AdventureCardView {
         );
     }
 
+    public static void showAbandonedStationCardInGame(AbandonedStationCard card) {
+        //to do
+    }
+
     public static void showCombatZoneCard(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -69,6 +81,10 @@ public class AdventureCardView {
         for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
             System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
         }
+    }
+
+    public static void showCombatZoneCardInGame(CombatZoneCard card) {
+        //to do
     }
 
     public static void showCombatZoneCard2(CombatZoneCard2 card) {
@@ -83,9 +99,17 @@ public class AdventureCardView {
         }
     }
 
+    public static void showCombatZoneCard2InGame(CombatZoneCard2 card) {
+        //to do
+    }
+
     public static void showEpidemicCard(EpidemicCard card) {
         System.out.println("=== EPIDEMIC ===");
         //Self-explanatory
+    }
+
+    public static void showEpidemicCardInGame(EpidemicCard card) {
+        //TO DO
     }
 
     public static void showMeteorSwarmCard(MeteorSwarmCard card) {
@@ -99,9 +123,17 @@ public class AdventureCardView {
         }
     }
 
+    public static void showMeteorSwarmCardInGame(MeteorSwarmCard card) {
+        //TO Do
+    }
+
     public static void showOpenSpaceCard(OpenSpaceCard card) {
         System.out.println("=== OPEN SPACE ===");
         //Self-explanatory
+    }
+
+    public static void showOpenSpaceCardInGame(OpenSpaceCard card) {
+        //TO do
     }
 
     public static void showPiratesCard(PiratesCard card) {
@@ -117,12 +149,20 @@ public class AdventureCardView {
         }
     }
 
+    public static void showPiratesCardInGame(PiratesCard card) {
+        //To do
+    }
+
     public static void showSlaversCard(SlaversCard card) {
         System.out.println("=== SLAVERS ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Credits: " + card.getCredits());
         System.out.println("Astronauts to lose: " + card.getAstronautsToLose());
         System.out.println("Cannon's strength: " + card.getCannonStrength());
+    }
+
+    public static void showSlaversCardInGame(SlaversCard card) {
+        //to do
     }
 
     public static void showSmugglersCard(SmugglersCard card) {
@@ -141,9 +181,17 @@ public class AdventureCardView {
         );
     }
 
+    public static void showSmugglersCardInGame(SmugglersCard card) {
+        //to do
+    }
+
     public static void showStardustCard(StardustCard card) {
         System.out.println("=== STARDUST ===");
         //Self-explanatory
+    }
+
+    public static void showStardustCardInGame(StardustCard card) {
+        //to do
     }
 
 }
