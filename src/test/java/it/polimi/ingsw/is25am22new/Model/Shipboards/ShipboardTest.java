@@ -107,7 +107,7 @@ class ShipboardTest {
     void test_shipboard_should_be_considered_invalid_due_to_tile_in_front_of_cannons() {
         List<ComponentTile> tiles = initializeTiles();
         Shipboard ship = new Shipboard("red", "Emanuele", null);
-        ship.weldComponentTile(tiles.get(2),3, 1);
+        ship.weldComponentTile(tiles.get(2),3, 4);
         tiles.get(4).rotateCounterClockwise();
         tiles.get(4).rotateCounterClockwise();
         ship.weldComponentTile(tiles.get(4),3, 3);
