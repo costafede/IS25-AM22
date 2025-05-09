@@ -20,8 +20,6 @@ import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static it.polimi.ingsw.is25am22new.Client.View.AdventureCardView.*;
