@@ -1,7 +1,6 @@
 package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
-import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -37,7 +36,6 @@ public class ResolveEffectCommand extends AbstractCommand{
                 model.getCurrCard().getStateName().equals("PlanetsState_1") ||
                 model.getCurrCard().getStateName().equals("PlanetsState_2") ||
                 model.getCurrCard().getStateName().equals("AbandonedShipState_1") ||
-                model.getCurrCard().getStateName().equals("AbandonedShipState_2") ||
                 model.getCurrCard().getStateName().equals("AbandonedStationState_1") ||
                 model.getCurrCard().getStateName().equals("AbandonedStationState_2") ||
                 model.getCurrCard().getStateName().equals("OpenSpaceState_1") ||

@@ -1,10 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
 import it.polimi.ingsw.is25am22new.Model.GamePhase.*;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Hourglass;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
@@ -390,6 +387,7 @@ public abstract class Game extends ObservableModel implements Serializable {
             case "b" -> setUpShipboardB(newShipboard); //engine not facing down
             case "c" -> setUpShipboardC(newShipboard); //tiles connected wrongly
             case "d" -> setUpShipboardD(newShipboard); //nave vuota
+            case "e" -> setUpShipboardE(newShipboard);
             default -> throw new IllegalArgumentException("Invalid shipboard number: " + shipboardNumber);
         }
 
@@ -794,6 +792,22 @@ public abstract class Game extends ObservableModel implements Serializable {
     private void setUpShipboardD(Shipboard newShipboard) {
         return;
     }
+
+    private void setUpShipboardE(Shipboard shipboard) {
+        shipboard.weldComponentTile(new DoubleCannon("0", Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 1, 4);
+        shipboard.weldComponentTile(new DoubleCannon("1", Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 1, 3);
+        //shipboard.weldComponentTile(new Cannon("2", Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 2, 2);
+        //shipboard.getComponentTileFromGrid(2,2).get().rotateCounterClockwise();
+        shipboard.weldComponentTile(new BatteryComponent("3", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2), 3, 3);
+        shipboard.weldComponentTile(new AlienAddon("4", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, "purple"), 2, 4);
+        shipboard.weldComponentTile(new RegularCabin("5", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 2, 5);
+        shipboard.weldComponentTile(new DoubleEngine("6", Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 2);
+        shipboard.weldComponentTile(new DoubleEngine("7", Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 1);
+        shipboard.weldComponentTile(new StorageCompartment("8", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3), 3, 4);
+        shipboard.weldComponentTile(new StorageCompartment("9", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3), 3, 5);
+        shipboard.weldComponentTile(new SpecialStorageCompartment("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2), 4, 4 );
+    }
+
     private List<ComponentTile> initializeTiles(){
         List<ComponentTile> tiles = new ArrayList<>();
         tiles.add(new Engine("0", Side.UNIVERSALPIPE, Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE));
