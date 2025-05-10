@@ -359,7 +359,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     public void godMode(String player, String conf) {
         conf = conf.toLowerCase().trim();
         String shipboardNumber = conf.substring(0, 1);
-        String deckConfig = conf.length() > 1 ? conf.substring(1) : "";
+        String deckConfig = conf.length() > 1 ? conf.substring(1) : ",";
 
         setUpShipboardConfig(player, shipboardNumber);
 
@@ -388,6 +388,8 @@ public abstract class Game extends ObservableModel implements Serializable {
             case "c" -> setUpShipboardC(newShipboard); //tiles connected wrongly
             case "d" -> setUpShipboardD(newShipboard); //nave vuota
             case "e" -> setUpShipboardE(newShipboard);
+            case "f" -> setUpShipboardF(newShipboard);
+            case "g" -> setUpShipboardG(newShipboard);
             default -> throw new IllegalArgumentException("Invalid shipboard number: " + shipboardNumber);
         }
 
@@ -419,7 +421,6 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     private void setUpShipboard1(Shipboard shipboard) {
-        List<ComponentTile> tiles = initializeTiles();
         shipboard.setStandbyComponent(0, Optional.empty());
         shipboard.setStandbyComponent(1, Optional.empty());
 
@@ -697,7 +698,6 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     private void setUpShipboard7(Shipboard shipboard) {
-        List<ComponentTile> tiles = initializeTiles();
         shipboard.setStandbyComponent(0, Optional.empty());
         shipboard.setStandbyComponent(1, Optional.empty());
 
@@ -808,43 +808,48 @@ public abstract class Game extends ObservableModel implements Serializable {
         shipboard.weldComponentTile(new SpecialStorageCompartment("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2), 4, 4 );
     }
 
-    private List<ComponentTile> initializeTiles(){
-        List<ComponentTile> tiles = new ArrayList<>();
-        tiles.add(new Engine("0", Side.UNIVERSALPIPE, Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE));
-        tiles.add(new DoubleEngine("1", Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE));
-        tiles.add(new Cannon("2", Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE));
-        tiles.add(new DoubleCannon("3", Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH, Side.SMOOTH));
-        tiles.add(new StructuralModule("4", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.ONEPIPE, Side.TWOPIPES));
-        tiles.add(new StructuralModule("5", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new StructuralModule("6", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE));
-        tiles.add(new AlienAddon("7", Side.SMOOTH, Side.TWOPIPES, Side.TWOPIPES, Side.TWOPIPES, "purple"));
-        tiles.add(new AlienAddon("8", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, "brown"));
-        tiles.add(new RegularCabin("9", Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES));
-        tiles.add(new StorageCompartment("10", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
-        tiles.add(new SpecialStorageCompartment("11", Side.SMOOTH, Side.SMOOTH, Side.SMOOTH, Side.TWOPIPES, 2));
-        tiles.add(new StorageCompartment("12", Side.ONEPIPE, Side.ONEPIPE, Side.UNIVERSALPIPE, Side.TWOPIPES, 2));
-        tiles.add(new StorageCompartment("13", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 3));
-        tiles.add(new RegularCabin("14", Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES, Side.SMOOTH));
-        tiles.add(new BatteryComponent("15", Side.TWOPIPES, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.TWOPIPES, 2));
-        tiles.add(new BatteryComponent("16", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, 3));
-        tiles.add(new BatteryComponent("17", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE, 4));
-        tiles.add(new ShieldGenerator("18", Side.TWOPIPES, Side.TWOPIPES, Side.ONEPIPE, Side.ONEPIPE));
-        tiles.add(new DoubleCannon("19", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH));
-        tiles.add(new Cannon("20", Side.SMOOTH, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.SMOOTH));
-        tiles.add(new Cannon("21", Side.SMOOTH, Side.ONEPIPE, Side.TWOPIPES, Side.SMOOTH));
-        tiles.add(new BatteryComponent("22", Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, 2));
-        tiles.add(new Cannon("23", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.UNIVERSALPIPE));
-        tiles.add(new ShieldGenerator("24", Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES, Side.SMOOTH));
-        tiles.add(new SpecialStorageCompartment("25", Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, 1));
-        tiles.add(new RegularCabin("26", Side.TWOPIPES, Side.TWOPIPES, Side.ONEPIPE, Side.ONEPIPE));
-        tiles.add(new BatteryComponent("27", Side.TWOPIPES, Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, 3));
-        tiles.add(new DoubleEngine("28", Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH));
-        tiles.add(new Engine("29", Side.TWOPIPES, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE));
-        tiles.add(new Cannon("30", Side.SMOOTH, Side.TWOPIPES, Side.TWOPIPES, Side.TWOPIPES));
-        tiles.add(new Engine("31", Side.TWOPIPES, Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH));
-        tiles.add(new DoubleCannon("32", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH));
+    private void setUpShipboardF(Shipboard shipboard) {
+        shipboard.weldComponentTile(new BatteryComponent("0", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 50), 2, 2);
+        shipboard.weldComponentTile(new DoubleEngine("1", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 1);
+        shipboard.weldComponentTile(new DoubleEngine("2", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 2);
+        shipboard.weldComponentTile(new DoubleEngine("3", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 3);
+        shipboard.weldComponentTile(new DoubleEngine("4", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 4);
+        shipboard.weldComponentTile(new DoubleEngine("5", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 5);
+    }
 
-        return tiles;
+    private void setUpShipboardG(Shipboard shipboard) {
+        shipboard.weldComponentTile(new DoubleCannon("32", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH), 0, 4);
+        shipboard.weldComponentTile(new Cannon("2", Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE), 1, 1);
+        shipboard.weldComponentTile(new BatteryComponent("15", Side.TWOPIPES, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.TWOPIPES, 2), 1, 4);
+        shipboard.getComponentTileFromGrid(1, 4).get().rotateClockwise();
+        shipboard.weldComponentTile(new Cannon("20", Side.SMOOTH, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.SMOOTH), 1, 5);
+        shipboard.weldComponentTile(new Cannon("21", Side.SMOOTH, Side.ONEPIPE, Side.TWOPIPES, Side.SMOOTH), 2, 0);
+        shipboard.getComponentTileFromGrid(2, 0).get().rotateCounterClockwise();
+        shipboard.weldComponentTile(new BatteryComponent("22", Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, 2), 2, 1);
+        shipboard.weldComponentTile(new SpecialStorageCompartment("11", Side.SMOOTH, Side.SMOOTH, Side.SMOOTH, Side.TWOPIPES, 2), 2, 2);
+        shipboard.weldComponentTile(new StorageCompartment("12", Side.ONEPIPE, Side.ONEPIPE, Side.UNIVERSALPIPE, Side.TWOPIPES, 2), 2, 4);
+        shipboard.getComponentTileFromGrid(2, 4).get().rotateClockwise();
+        shipboard.weldComponentTile(new ShieldGenerator("18", Side.TWOPIPES, Side.TWOPIPES, Side.ONEPIPE, Side.ONEPIPE), 2, 5);
+        shipboard.weldComponentTile(new Cannon("23", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.UNIVERSALPIPE), 2, 6);
+        shipboard.getComponentTileFromGrid(2, 6).get().rotateClockwise();
+        shipboard.weldComponentTile(new ShieldGenerator("24", Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES, Side.SMOOTH), 3, 0);
+        shipboard.getComponentTileFromGrid(3, 0).get().rotateClockwise();
+        shipboard.getComponentTileFromGrid(3, 0).get().rotateClockwise();
+        shipboard.weldComponentTile(new SpecialStorageCompartment("25", Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, 1), 3, 2);
+        shipboard.weldComponentTile(new Engine("0", Side.UNIVERSALPIPE, Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE), 3, 3);
+        shipboard.weldComponentTile(new RegularCabin("26", Side.TWOPIPES, Side.TWOPIPES, Side.ONEPIPE, Side.ONEPIPE), 3, 4);
+        shipboard.getComponentTileFromGrid(3, 4).get().putAstronauts();
+        shipboard.weldComponentTile(new StructuralModule("4", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.ONEPIPE, Side.TWOPIPES), 3, 5);
+        shipboard.weldComponentTile(new BatteryComponent("27", Side.TWOPIPES, Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, 3), 3, 6);
+        shipboard.getComponentTileFromGrid(3, 6).get().rotateCounterClockwise();
+        shipboard.weldComponentTile(new DoubleEngine("1", Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE), 4, 1);
+        shipboard.weldComponentTile(new DoubleEngine("28", Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH), 4, 2);
+        shipboard.weldComponentTile(new Engine("29", Side.TWOPIPES, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE), 4, 4);
+        shipboard.weldComponentTile(new Cannon("30", Side.SMOOTH, Side.TWOPIPES, Side.TWOPIPES, Side.TWOPIPES), 4, 5);
+        shipboard.getComponentTileFromGrid(4, 5).get().rotateClockwise();
+        shipboard.getComponentTileFromGrid(4, 5).get().rotateClockwise();
+        shipboard.weldComponentTile(new Engine("31", Side.TWOPIPES, Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH), 4, 6);
+
     }
 
 }

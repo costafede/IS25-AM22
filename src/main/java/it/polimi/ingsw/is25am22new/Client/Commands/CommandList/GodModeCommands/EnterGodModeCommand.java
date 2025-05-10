@@ -32,10 +32,24 @@ public class EnterGodModeCommand extends AbstractCommand {
         return true;
     }
 
+
+    //the second parameter has to be the concatenation of the strings in input
     @Override
     public void execute(ClientModel model) {
         try {
-            virtualServer.godMode(model.getPlayerName(), input.getFirst());
+            StringBuilder inputString = new StringBuilder();
+            boolean first = true;
+
+            for (String s : input) {
+                if (first) {
+                    inputString.append(s);
+                    first = false;
+                } else {
+                    inputString.append(",").append(s);
+                }
+            }
+
+            virtualServer.godMode(model.getPlayerName(), inputString.toString());
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
