@@ -15,7 +15,7 @@ public class CombatZoneState2_1 extends CombatZoneState2{
 
     @Override
     public void activateEffect(InputCommand inputCommand) {
-        if(game.getPlayerList().size() > 1) {
+        if(game.getFlightboard().getOrderedRockets().size() > 1) {
             String currentPlayer = game.getCurrPlayer();
             Shipboard shipboard = game.getShipboards().get(currentPlayer);
 
