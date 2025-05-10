@@ -31,6 +31,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     private Dices dices;
     protected GamePhase gamePhase;
     protected int hourglassSpot = 0;
+    boolean godMode = false;
 
     public Game(List<String> playerList, List<ObserverModel> observers) {
         this.playerList = playerList;
@@ -205,7 +206,11 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     public void pickCard() {
-        setCurrCard(deck.remove(new Random().nextInt(deck.size())));
+        if(godMode) {
+            setCurrCard(deck.removeFirst());
+        }else {
+            setCurrCard(deck.remove(new Random().nextInt(deck.size())));
+        }
         updateAllDeck(deck);
         updateAllCurrCard(currCard);
     }
@@ -359,7 +364,8 @@ public abstract class Game extends ObservableModel implements Serializable {
     public void godMode(String player, String conf) {
         conf = conf.toLowerCase().trim();
         String shipboardNumber = conf.substring(0, 1);
-        String deckConfig = conf.length() > 1 ? conf.substring(1) : ",";
+        String deckConfig = conf.length() > 1 ? conf.substring(2) : ",";
+        this.godMode = true;
 
         setUpShipboardConfig(player, shipboardNumber);
 
