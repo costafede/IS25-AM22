@@ -117,7 +117,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         Shipboard ship = shipboards.get(player);
 
         //shows the information of the ship
-        System.out.println("=== YOUR SHIP ===");
+        System.out.println("=== " + player + "'s SHIP ===");
         System.out.println("Days on flight: " + ship.getDaysOnFlight());
         System.out.println("Credits: " + ship.getCosmicCredits());
         System.out.println("Flight crew: " + ship.getCrewNumber());
@@ -526,6 +526,11 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         System.out.println("YELLOW BLOCKS: " + bank.getNumGoodBlock(GoodBlock.YELLOWBLOCK));
         System.out.println("GREEN BLOCKS: " + bank.getNumGoodBlock(GoodBlock.GREENBLOCK));
         System.out.println("BLUE BLOCKS: " + bank.getNumGoodBlock(GoodBlock.BLUEBLOCK));
+    }
+
+    @Override
+    public void abandonGame(String player) {
+        System.out.println(player + " have abandoned the game");
     }
 
     @Override

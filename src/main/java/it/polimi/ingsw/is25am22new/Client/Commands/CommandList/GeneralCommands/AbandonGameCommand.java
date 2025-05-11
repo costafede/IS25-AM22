@@ -26,7 +26,7 @@ public class AbandonGameCommand extends AbstractCommand {
 
     @Override
     public void execute(ClientModel model) {
-        //viewAdapter.abandonGame(model);
+        viewAdapter.abandonGame(model.getPlayerName());
         try {
             //virtualServer.abandonGame(model.getPlayerName());
         } catch (Exception e) {

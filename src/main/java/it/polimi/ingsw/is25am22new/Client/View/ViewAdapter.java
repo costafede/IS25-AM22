@@ -17,4 +17,5 @@ public interface ViewAdapter {
     void showCurrPhase(ClientModel model);
     void showBank(ClientModel model);
     void quit();
+    void abandonGame(String player);
 }

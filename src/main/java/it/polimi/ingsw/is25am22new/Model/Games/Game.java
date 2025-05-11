@@ -824,8 +824,12 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     private void setUpShipboardG(Shipboard shipboard) {
+        shipboard.weldComponentTile(new DoubleCannon("3", Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH, Side.SMOOTH), 0, 2);
         shipboard.weldComponentTile(new DoubleCannon("32", Side.SMOOTH, Side.ONEPIPE, Side.SMOOTH, Side.SMOOTH), 0, 4);
         shipboard.weldComponentTile(new Cannon("2", Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH, Side.ONEPIPE), 1, 1);
+        shipboard.weldComponentTile(new RegularCabin("9", Side.TWOPIPES, Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES), 1, 2);
+        shipboard.getComponentTileFromGrid(1, 2).get().putAlien("purple");
+        shipboard.weldComponentTile(new AlienAddon("7", Side.SMOOTH, Side.TWOPIPES, Side.TWOPIPES, Side.TWOPIPES, "purple"), 1, 3);
         shipboard.weldComponentTile(new BatteryComponent("15", Side.TWOPIPES, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.TWOPIPES, 2), 1, 4);
         shipboard.getComponentTileFromGrid(1, 4).get().rotateClockwise();
         shipboard.weldComponentTile(new Cannon("20", Side.SMOOTH, Side.TWOPIPES, Side.UNIVERSALPIPE, Side.SMOOTH), 1, 5);
@@ -841,6 +845,8 @@ public abstract class Game extends ObservableModel implements Serializable {
         shipboard.weldComponentTile(new ShieldGenerator("24", Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES, Side.SMOOTH), 3, 0);
         shipboard.getComponentTileFromGrid(3, 0).get().rotateClockwise();
         shipboard.getComponentTileFromGrid(3, 0).get().rotateClockwise();
+        shipboard.weldComponentTile(new RegularCabin("14", Side.SMOOTH, Side.UNIVERSALPIPE, Side.TWOPIPES, Side.SMOOTH), 3, 1);
+        shipboard.getComponentTileFromGrid(3, 1).get().putAstronauts();
         shipboard.weldComponentTile(new SpecialStorageCompartment("25", Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, 1), 3, 2);
         shipboard.weldComponentTile(new Engine("0", Side.UNIVERSALPIPE, Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE), 3, 3);
         shipboard.weldComponentTile(new RegularCabin("26", Side.TWOPIPES, Side.TWOPIPES, Side.ONEPIPE, Side.ONEPIPE), 3, 4);

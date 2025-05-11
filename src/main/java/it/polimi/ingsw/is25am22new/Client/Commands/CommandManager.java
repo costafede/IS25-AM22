@@ -44,6 +44,7 @@ public class CommandManager {
         this.allCommands.add(new ShowCurrPhaseCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowFlightboardCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowShipCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new ShowAllShipsCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowTileInHandCommand(virtualServer, viewAdapter));
         this.allCommands.add(new AbandonGameCommand(virtualServer, viewAdapter));
 
