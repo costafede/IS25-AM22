@@ -74,7 +74,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
     @Override
     public void heartbeat(String nickname) {
-        //System.out.println("Received heartbeat from: " + nickname);
+        System.out.println("Received heartbeat from: " + nickname);
         heartbeatManager.heartbeat(nickname);
     }
 

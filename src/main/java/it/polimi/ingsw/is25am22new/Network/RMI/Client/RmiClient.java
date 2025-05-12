@@ -106,7 +106,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     @Override
     public void disconnect() {
-        // TO DO
+        shutdown();
     }
 
     public void setNumPlayers(int numPlayers) throws IOException {
