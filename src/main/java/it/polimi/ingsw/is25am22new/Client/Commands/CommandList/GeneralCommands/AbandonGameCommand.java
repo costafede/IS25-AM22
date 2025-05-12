@@ -28,7 +28,7 @@ public class AbandonGameCommand extends AbstractCommand {
     public void execute(ClientModel model) {
         viewAdapter.abandonGame(model.getPlayerName());
         try {
-            //virtualServer.abandonGame(model.getPlayerName());
+            virtualServer.playerAbandons(model.getPlayerName());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

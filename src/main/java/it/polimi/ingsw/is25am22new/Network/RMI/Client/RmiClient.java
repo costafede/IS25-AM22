@@ -131,7 +131,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     public void godMode(String playerName, String conf) throws IOException {
         executor.submit(() -> {
-            //shutdown();
             try {
                 server.godMode(playerName, conf);
             } catch (IOException e) {
@@ -351,6 +350,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+        System.exit(0);
     }
 
     @Override
@@ -454,13 +454,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     private void startHeartbeat(String playerName, VirtualServer server) {
-        System.out.println("Starting heartbeat for: " + playerName);
+        //System.out.println("Starting heartbeat for: " + playerName);
         heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();
         heartbeatScheduler.scheduleAtFixedRate(() -> {
             try {
-                System.out.println("Sending heartbeat...");
+                //System.out.println("Sending heartbeat...");
                 server.heartbeat(playerName);
-                System.out.println("Heartbeat sent successfully");
+                //System.out.println("Heartbeat sent successfully");
             } catch (IOException e) {
                 System.err.println("Failed to send heartbeat: " + e.getMessage());
                 heartbeatScheduler.shutdown();
