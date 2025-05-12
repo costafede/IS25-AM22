@@ -136,11 +136,9 @@ public class SocketClientHandler implements VirtualView {
                         int numPlayers = ((InputCommand) msg.getObject()).getIndexChosen();
                         this.controller.setNumPlayers(numPlayers);
                     }
-                    case "disconnect" -> {
-                        this.removePlayer(msg.getPayload());
+                    case "quit" -> {
+                        this.controller.quit(msg.getPayload());
                         heartbeatManager.unregisterClient(msg.getPayload());
-                        this.server.disconnect(this, msg.getPayload());
-                        this.controller.updateAllLobbies();
                     }
                     case "godMode" -> {
                         this.godMode(msg.getPayload(), (String) msg.getObject());
@@ -198,8 +196,6 @@ public class SocketClientHandler implements VirtualView {
             System.out.println("Heartbeat timeout for client: " + nickname);
 
             this.server.disconnect(this, nickname);
-
-            this.controller.updateAllLobbies();
         } catch (Exception e) {
             System.err.println("Error handling client disconnect: " + e.getMessage());
         }

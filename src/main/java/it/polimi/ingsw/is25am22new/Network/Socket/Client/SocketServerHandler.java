@@ -328,6 +328,11 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
+    public void disconnect(String nickname) throws RemoteException {
+
+    }
+
+    @Override
     public void setNumPlayers(int numPlayers) {
         InputCommand inputCommand = new InputCommand();
         inputCommand.setIndexChosen(numPlayers);
@@ -353,13 +358,13 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void disconnect(String nickname) {
+    public void quit(String nickname) {
         try {
-            SocketMessage msg = new SocketMessage("disconnect", null, nickname);
+            SocketMessage msg = new SocketMessage("quit", null, nickname);
             objectOutput.writeObject(msg);
             objectOutput.flush();
         } catch (IOException e) {
-            System.out.println("Error in disconnect: " + e.getMessage());
+            System.out.println("Error in quit: " + e.getMessage());
         }
     }
 }

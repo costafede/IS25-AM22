@@ -565,18 +565,11 @@ public class GameController {
         if(game.getPlayerList().size() > 1)
             game.getPlayerList().remove(player);
         else{
-            terminateSocketConnection();
-            terminateRMIConnection();
+            for (var observer : this.observers) {
+                observer.terminateConnection();
+            }
             System.exit(0);
         }
-    }
-
-    private void terminateRMIConnection() {
-        ////TO DO Federico
-    }
-
-    private void terminateSocketConnection() {
-        ////Tommaso
     }
 
 }

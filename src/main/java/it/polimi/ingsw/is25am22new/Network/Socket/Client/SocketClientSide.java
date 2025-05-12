@@ -108,8 +108,6 @@ public class SocketClientSide implements VirtualView {
             }
         }).start();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> this.output.disconnect(thisPlayerName)));
-
         Thread.sleep(150);
         startHeartbeat(thisPlayerName, output);
         clientModel.setPlayerName(thisPlayerName);

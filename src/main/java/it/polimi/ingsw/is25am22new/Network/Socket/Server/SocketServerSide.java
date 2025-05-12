@@ -10,12 +10,10 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
-import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,14 +206,18 @@ public class SocketServerSide implements ObserverModel {
         }
     }
 
-   public void disconnect(SocketClientHandler handler, String nickname) {
+    @Override
+    public void terminateConnection() {
+
+    }
+
+    // closes all connections  TODO
+    public void disconnect(SocketClientHandler handler, String nickname) {
         synchronized (this.clients.keySet()) {
-            System.out.println("Player disconnected: " + nickname);
-            this.clients.get(handler).interrupt();
-            this.clients.remove(handler);
+
             //for (var client : this.clients.keySet()) {
             //    client.showMessageToEveryone("Player " + nickname + " has disconnected");
             //}
         }
-   }
+    }
 }
