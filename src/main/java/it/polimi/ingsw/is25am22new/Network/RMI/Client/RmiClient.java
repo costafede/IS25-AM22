@@ -407,6 +407,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     @Override
     public void showUpdateFlightboard(Flightboard flightboard)  {
         clientModel.setFlightboard(flightboard);
+        //// TODO
     }
 
     @Override

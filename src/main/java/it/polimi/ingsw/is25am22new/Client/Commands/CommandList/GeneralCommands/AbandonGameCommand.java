@@ -19,14 +19,13 @@ public class AbandonGameCommand extends AbstractCommand {
 
     @Override
     public boolean isApplicable(ClientModel model) {
-        return !model.getGamePhase().getPhaseType().equals(PhaseType.SETUP) &&
-                !model.getGamePhase().getPhaseType().equals(PhaseType.BUILDING) &&
-                !model.getGamePhase().getPhaseType().equals(PhaseType.END);
+        return model.getGamePhase().getPhaseType().equals(PhaseType.CARD) &&
+                model.getCurrCard() == null &&
+                !model.getShipboards().get(model.getPlayerName()).hasBeenKickedOut();
     }
 
     @Override
     public void execute(ClientModel model) {
-        viewAdapter.abandonGame(model.getPlayerName());
         try {
             virtualServer.playerAbandons(model.getPlayerName());
         } catch (Exception e) {
