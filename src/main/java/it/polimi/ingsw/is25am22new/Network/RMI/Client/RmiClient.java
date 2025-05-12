@@ -475,6 +475,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
             } catch (IOException e) {
                 System.err.println("Failed to send heartbeat: " + e.getMessage());
                 heartbeatScheduler.shutdown();
+                shutdown();
             }
         }, 0, 3, TimeUnit.SECONDS);
     }
