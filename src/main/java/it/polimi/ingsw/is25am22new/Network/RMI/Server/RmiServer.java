@@ -42,7 +42,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         this.connectedClients = new ArrayList<>();
         this.clientMap = new HashMap<>();
 
-        this.heartbeatManager = new HeartbeatManager(10000, this::handleHeartbeatDisconnect);
+        this.heartbeatManager = new HeartbeatManager(10000000, this::handleHeartbeatDisconnect); //// TODO fix timeout when finished everything
 
         //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
         Registry registry = LocateRegistry.createRegistry(port);
