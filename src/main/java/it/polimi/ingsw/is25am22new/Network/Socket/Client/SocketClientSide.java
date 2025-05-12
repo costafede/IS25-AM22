@@ -13,12 +13,16 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class SocketClientSide implements VirtualView {
 
@@ -28,6 +32,7 @@ public class SocketClientSide implements VirtualView {
     String thisPlayerName;
     LobbyView view;
     boolean isHost;
+    private ScheduledExecutorService heartbeatScheduler;
 
     protected SocketClientSide(ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel) throws IOException {
         this.output = output;
@@ -106,6 +111,7 @@ public class SocketClientSide implements VirtualView {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> this.output.disconnect(thisPlayerName)));
 
         Thread.sleep(150);
+        startHeartbeat(thisPlayerName, output);
         clientModel.setPlayerName(thisPlayerName);
         this.view.startCommandLoopSocket(this.output, thisPlayerName, new Scanner(System.in));
     }
@@ -220,7 +226,6 @@ public class SocketClientSide implements VirtualView {
         } catch (Exception e) {
             System.out.println("Connection closed: " + e.getMessage());
             System.out.flush();
-            this.output.disconnect(thisPlayerName);
             System.exit(0);
         }
     }
@@ -331,5 +336,20 @@ public class SocketClientSide implements VirtualView {
 
     public SocketServerHandler getServerHandler() {
         return output;
+    }
+
+    private void startHeartbeat(String playerName, VirtualServer output) {
+        //System.out.println("Starting heartbeat for: " + playerName);
+        heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();
+        heartbeatScheduler.scheduleAtFixedRate(() -> {
+            try {
+                //System.out.println("Sending heartbeat...");
+                output.heartbeat(playerName);
+                //System.out.println("Heartbeat sent successfully");
+            } catch (IOException e) {
+                System.err.println("Failed to send heartbeat: " + e.getMessage());
+                heartbeatScheduler.shutdown();
+            }
+        }, 0, 3, TimeUnit.SECONDS);
     }
 }

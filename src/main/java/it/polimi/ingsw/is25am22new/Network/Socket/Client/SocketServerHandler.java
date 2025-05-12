@@ -312,8 +312,14 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void heartbeat(String playerName) throws IOException {
-
+    public void heartbeat(String playerName) {
+        SocketMessage msg = new SocketMessage("heartbeat", null, playerName);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in sending heartbeat: " + e.getMessage());
+        }
     }
 
     @Override

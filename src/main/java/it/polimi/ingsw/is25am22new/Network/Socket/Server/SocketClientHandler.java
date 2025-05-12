@@ -10,6 +10,7 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Network.HeartbeatManager;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
@@ -24,6 +25,7 @@ public class SocketClientHandler implements VirtualView {
     final SocketServerSide server;
     final ObjectInputStream objectInput;
     final ObjectOutputStream objectOutput;
+    private final HeartbeatManager heartbeatManager;
 
     // CI SONO VARIE ISTANZE DI SOCKETCLIENTHANDLER, UNA PER OGNI GIOCATORE
     public SocketClientHandler(GameController controller, SocketServerSide server, InputStream is, OutputStream os) throws IOException {
@@ -32,6 +34,7 @@ public class SocketClientHandler implements VirtualView {
         this.objectOutput = new ObjectOutputStream(os);
         objectOutput.flush();
         this.objectInput = new ObjectInputStream(is);
+        this.heartbeatManager = new HeartbeatManager(10000, this::handleHeartbeatDisconnect);
     }
 
     //comunicazione dal client al server
@@ -43,6 +46,7 @@ public class SocketClientHandler implements VirtualView {
                     case "checkAvailability" -> {
                         int res = this.controller.addPlayer(msg.getPayload());
                         if(res == 1) {
+                            heartbeatManager.registerClient(msg.getPayload());
                             server.addHandlerToClients(this, thread);
                             showNicknameResult(true, "PlayerAdded");
 
@@ -134,6 +138,7 @@ public class SocketClientHandler implements VirtualView {
                     }
                     case "disconnect" -> {
                         this.removePlayer(msg.getPayload());
+                        heartbeatManager.unregisterClient(msg.getPayload());
                         this.server.disconnect(this, msg.getPayload());
                         this.controller.updateAllLobbies();
                     }
@@ -149,6 +154,9 @@ public class SocketClientHandler implements VirtualView {
                         this.placePurpleAlien(msg.getPayload(),
                                 ((InputCommand) msg.getObject()).getRow(),
                                 ((InputCommand) msg.getObject()).getCol());
+                    }
+                    case "heartbeat" -> {
+                        this.heartbeat(msg.getPayload());
                     }
                     case "placeAstronauts" -> {
                         this.placeAstronauts(msg.getPayload(),
@@ -177,6 +185,23 @@ public class SocketClientHandler implements VirtualView {
             objectOutput.flush();
         } catch (IOException e) {
             System.out.println("Error test: " + e.getMessage());
+        }
+    }
+
+    public void heartbeat(String nickname) {
+        System.out.println("Received heartbeat from: " + nickname);
+        heartbeatManager.heartbeat(nickname);
+    }
+
+    private void handleHeartbeatDisconnect(String nickname) {
+        try {
+            System.out.println("Heartbeat timeout for client: " + nickname);
+
+            this.server.disconnect(this, nickname);
+
+            this.controller.updateAllLobbies();
+        } catch (Exception e) {
+            System.err.println("Error handling client disconnect: " + e.getMessage());
         }
     }
 

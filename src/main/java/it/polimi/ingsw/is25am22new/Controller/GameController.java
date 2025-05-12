@@ -560,4 +560,23 @@ public class GameController {
     public void godMode(String player, String conf) {
         game.godMode(player, conf);
     }
+
+    public synchronized void quit(String player) {
+        if(game.getPlayerList().size() > 1)
+            game.getPlayerList().remove(player);
+        else{
+            terminateSocketConnection();
+            terminateRMIConnection();
+            System.exit(0);
+        }
+    }
+
+    private void terminateRMIConnection() {
+        ////TO DO Federico
+    }
+
+    private void terminateSocketConnection() {
+        ////Tommaso
+    }
+
 }
