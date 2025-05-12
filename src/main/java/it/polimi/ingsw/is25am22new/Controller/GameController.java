@@ -562,11 +562,12 @@ public class GameController {
     }
 
     public synchronized void quit(String player) {
-        if(game.getPlayerList().size() > 1)
+        if(game.getPlayerList().size() > 1) {
             game.getPlayerList().remove(player);
+        }
         else{
             for (var observer : this.observers) {
-                observer.terminateConnection();
+                observer.shutdown();
             }
             System.exit(0);
         }
@@ -574,7 +575,7 @@ public class GameController {
 
     public synchronized void disconnect() {
         for (var observer : this.observers) {
-            observer.terminateConnection();
+            observer.shutdown();
         }
         System.exit(0);
     }

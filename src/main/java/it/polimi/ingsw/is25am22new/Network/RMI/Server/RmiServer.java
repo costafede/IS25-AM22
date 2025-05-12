@@ -58,7 +58,8 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 //        }));
     }
 
-    public void shutdown() throws RemoteException {
+    @Override
+    public void shutdown() {
         try {
             // Unregister from RMI registry
             registry.unbind(SERVER_NAME);
@@ -81,6 +82,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void quit(String playerName) {
         gameController.quit(playerName);
+        heartbeatManager.unregisterClient(playerName);
     }
 
     private void handleHeartbeatDisconnect(String nickname) {
@@ -93,14 +95,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                 clientMap.remove(nickname);
             }
 
-            // If all clients have disconnected, shut down the server
-            if (clientMap.isEmpty()) {
-                try {
-                    shutdown();
-                } catch (RemoteException e) {
-                    System.err.println("Error shutting down server: " + e.getMessage());
-                }
-            }
+            shutdown();
 
         } catch (Exception e) {
             System.err.println("Error handling client disconnect: " + e.getMessage());
@@ -181,15 +176,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                     //handle showPlayerJoined exception
                 }
             }
-        }
-    }
-
-    @Override
-    public void terminateConnection() {
-        try {
-            shutdown();
-        } catch (RemoteException e) {
-            System.err.println("Error terminating connection: " + e.getMessage());
         }
     }
 

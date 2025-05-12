@@ -207,17 +207,7 @@ public class SocketServerSide implements ObserverModel {
     }
 
     @Override
-    public void terminateConnection() {
+    public void shutdown() {
 
-    }
-
-    // closes all connections  TODO
-    public void disconnect(SocketClientHandler handler, String nickname) {
-        synchronized (this.clients.keySet()) {
-
-            //for (var client : this.clients.keySet()) {
-            //    client.showMessageToEveryone("Player " + nickname + " has disconnected");
-            //}
-        }
     }
 }

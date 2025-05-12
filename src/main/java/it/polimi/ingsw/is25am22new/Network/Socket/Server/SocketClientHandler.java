@@ -195,7 +195,7 @@ public class SocketClientHandler implements VirtualView {
         try {
             System.out.println("Heartbeat timeout for client: " + nickname);
 
-            this.server.disconnect(this, nickname);
+            this.server.shutdown();
         } catch (Exception e) {
             System.err.println("Error handling client disconnect: " + e.getMessage());
         }
