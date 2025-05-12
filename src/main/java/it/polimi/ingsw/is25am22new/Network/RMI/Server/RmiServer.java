@@ -78,6 +78,11 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         heartbeatManager.heartbeat(nickname);
     }
 
+    @Override
+    public void quit(String playerName) {
+        gameController.quit(playerName);
+    }
+
     private void handleHeartbeatDisconnect(String nickname) {
         try {
             System.out.println("Heartbeat timeout for client: " + nickname);
@@ -176,6 +181,15 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                     //handle showPlayerJoined exception
                 }
             }
+        }
+    }
+
+    @Override
+    public void terminateConnection() {
+        try {
+            shutdown();
+        } catch (RemoteException e) {
+            System.err.println("Error terminating connection: " + e.getMessage());
         }
     }
 

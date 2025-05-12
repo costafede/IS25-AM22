@@ -337,6 +337,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     }
 
+    @Override
+    public void quit(String playerName) {
+        try {
+            server.quit(playerName);
+            shutdown();
+        } catch (IOException e) {
+            System.out.println("Error in quit: " + e.getMessage());
+        }
+    }
+
     public void shutdown() {
         if (heartbeatScheduler != null) {
             heartbeatScheduler.shutdown();
