@@ -17,6 +17,7 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.IOException;
 import java.rmi.NoSuchObjectException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -35,6 +36,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     private final Map<String, VirtualView> clientMap; //Map nickname to clients
     private static final String SERVER_NAME = "GalaxyTruckerServer";
     private final HeartbeatManager heartbeatManager;
+    private final Registry registry;
 
     public RmiServer(GameController gameController, int port) throws RemoteException {
         super();
@@ -45,18 +47,32 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         this.heartbeatManager = new HeartbeatManager(10000000, this::handleHeartbeatDisconnect); //// TODO fix timeout when finished everything
 
         //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
-        Registry registry = LocateRegistry.createRegistry(port);
+        registry = LocateRegistry.createRegistry(port);
         registry.rebind(SERVER_NAME, this);
         System.out.println("RMI Server bound to registry - it is running on port " + port + "...");
 
-        //Close server when the game is over
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                UnicastRemoteObject.unexportObject(this, true);
-            } catch (NoSuchObjectException e) {
-                System.err.println("Error unexporting RMI object: " + e.getMessage());
-            }
-        }));
+//        //Close server when the game is over
+//        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+//            try {
+//                UnicastRemoteObject.unexportObject(this, true);
+//            } catch (NoSuchObjectException e) {
+//                System.err.println("Error unexporting RMI object: " + e.getMessage());
+//            }
+//        }));
+    }
+
+    public void shutdown() throws RemoteException {
+        try {
+            // Unregister from RMI registry
+            registry.unbind(SERVER_NAME);
+            UnicastRemoteObject.unexportObject(this, true);
+            System.out.println("RMI Server shut down successfully");
+        } catch (RemoteException e) {
+            System.err.println("Error shutting down RMI Server: " + e.getMessage());
+        } catch (NotBoundException e) {
+            System.err.println("Server not bound: " + e.getMessage());
+        }
+        System.exit(0);
     }
 
     @Override
@@ -75,7 +91,15 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                 clientMap.remove(nickname);
             }
 
-            gameController.updateAllLobbies();
+            // If all clients have disconnected, shut down the server
+            if (clientMap.isEmpty()) {
+                try {
+                    shutdown();
+                } catch (RemoteException e) {
+                    System.err.println("Error shutting down server: " + e.getMessage());
+                }
+            }
+
         } catch (Exception e) {
             System.err.println("Error handling client disconnect: " + e.getMessage());
         }
