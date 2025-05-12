@@ -16,6 +16,7 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -47,6 +48,15 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         Registry registry = LocateRegistry.createRegistry(port);
         registry.rebind(SERVER_NAME, this);
         System.out.println("RMI Server bound to registry - it is running on port " + port + "...");
+
+        //Close server when the game is over
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                UnicastRemoteObject.unexportObject(this, true);
+            } catch (NoSuchObjectException e) {
+                System.err.println("Error unexporting RMI object: " + e.getMessage());
+            }
+        }));
     }
 
     @Override

@@ -218,6 +218,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     public void playerAbandons(String nickname) {
         shipboards.get(nickname).abandons();
         flightboard.getOrderedRockets().remove(nickname);
+        flightboard.getPositions().remove(nickname);
         updateAllFlightboard(flightboard);
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
