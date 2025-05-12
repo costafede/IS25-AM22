@@ -55,7 +55,7 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 | Full implementation of game rules       | ✅       |
 | Initial UML diagram                     | ✅       |
 | Final UML diagram                       | 👨🏻‍💻 |
-| Command Line Interface (CLI)            | 👨🏻‍💻 |
+| Command Line Interface (CLI)            | ✅|
 | Graphical User Interface (GUI - JavaFX) | 👨🏻‍💻 |
 | Client-Server communication via Socket  | ✅       |
 | Client-Server communication via RMI     | ✅       |
