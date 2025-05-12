@@ -39,4 +39,5 @@ public interface VirtualServer extends Remote {
     void placePurpleAlien(String playerName, int i, int j) throws IOException;
 
     void heartbeat(String playerName) throws IOException;
+    void quit(String playerName);
 }
