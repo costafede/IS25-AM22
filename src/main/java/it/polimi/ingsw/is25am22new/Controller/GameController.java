@@ -572,4 +572,11 @@ public class GameController {
         }
     }
 
+    public synchronized void disconnect() {
+        for (var observer : this.observers) {
+            observer.terminateConnection();
+        }
+        System.exit(0);
+    }
+
 }

@@ -328,7 +328,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void disconnect(String nickname) throws RemoteException {
+    public void disconnect() throws RemoteException {
 
     }
 

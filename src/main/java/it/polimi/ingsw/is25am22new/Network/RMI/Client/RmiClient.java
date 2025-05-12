@@ -105,7 +105,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
-    public void disconnect(String nickname) {
+    public void disconnect() {
         // TO DO
     }
 

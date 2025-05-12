@@ -47,6 +47,7 @@ public class CommandManager {
         this.allCommands.add(new ShowAllShipsCommand(virtualServer, viewAdapter));
         this.allCommands.add(new ShowTileInHandCommand(virtualServer, viewAdapter));
         this.allCommands.add(new AbandonGameCommand(virtualServer, viewAdapter));
+        this.allCommands.add(new DisconnectCommand(virtualServer, viewAdapter));
 
         this.allCommands.add(new DestroyTileCommand(virtualServer, viewAdapter));
 
