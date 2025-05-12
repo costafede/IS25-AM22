@@ -34,7 +34,7 @@ public class SocketClientHandler implements VirtualView {
         this.objectOutput = new ObjectOutputStream(os);
         objectOutput.flush();
         this.objectInput = new ObjectInputStream(is);
-        this.heartbeatManager = new HeartbeatManager(10000, this::handleHeartbeatDisconnect);
+        this.heartbeatManager = new HeartbeatManager(5000, this::handleHeartbeatDisconnect);
     }
 
     //comunicazione dal client al server

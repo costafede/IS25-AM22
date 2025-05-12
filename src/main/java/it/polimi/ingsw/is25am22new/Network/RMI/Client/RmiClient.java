@@ -473,7 +473,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                 server.heartbeat(playerName);
                 //System.out.println("Heartbeat sent successfully");
             } catch (IOException e) {
-                System.err.println("Failed to send heartbeat: " + e.getMessage());
+                System.err.println("Failed to send heartbeat - server is down");
                 heartbeatScheduler.shutdown();
                 shutdown();
             }
