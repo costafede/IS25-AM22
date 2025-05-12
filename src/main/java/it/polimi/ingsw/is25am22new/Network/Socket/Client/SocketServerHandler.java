@@ -312,6 +312,11 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
+    public void heartbeat(String playerName) throws IOException {
+
+    }
+
+    @Override
     public void connect(VirtualView client, String nickname){
         //Used only for RMI
     }

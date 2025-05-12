@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class RmiClient extends UnicastRemoteObject implements VirtualView, VirtualServer {
@@ -35,6 +36,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     private boolean isHost = false;
     private String playerName;
 
+    private ScheduledExecutorService heartbeatScheduler;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public RmiClient(EnhancedClientView clientView, ClientModel clientModel) throws RemoteException {
@@ -93,7 +95,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     public void connectWithNickname(String nickname) throws RemoteException {
         server.connect(this, nickname);
+        startHeartbeat(nickname, server);
     }
+
 
     @Override
     public void connect(VirtualView client, String nickname) throws RemoteException {
@@ -127,6 +131,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     public void godMode(String playerName, String conf) throws IOException {
         executor.submit(() -> {
+            //shutdown();
             try {
                 server.godMode(playerName, conf);
             } catch (IOException e) {
@@ -328,7 +333,16 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         });
     }
 
+    @Override
+    public void heartbeat(String playerName) throws IOException {
+
+    }
+
     public void shutdown() {
+        if (heartbeatScheduler != null) {
+            heartbeatScheduler.shutdown();
+        }
+
         executor.shutdown();
         try {
             if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
@@ -437,5 +451,20 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     public void setPlayerName(String testPlayer) {
         this.playerName = testPlayer;
+    }
+
+    private void startHeartbeat(String playerName, VirtualServer server) {
+        System.out.println("Starting heartbeat for: " + playerName);
+        heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();
+        heartbeatScheduler.scheduleAtFixedRate(() -> {
+            try {
+                System.out.println("Sending heartbeat...");
+                server.heartbeat(playerName);
+                System.out.println("Heartbeat sent successfully");
+            } catch (IOException e) {
+                System.err.println("Failed to send heartbeat: " + e.getMessage());
+                heartbeatScheduler.shutdown();
+            }
+        }, 0, 3, TimeUnit.SECONDS);
     }
 }

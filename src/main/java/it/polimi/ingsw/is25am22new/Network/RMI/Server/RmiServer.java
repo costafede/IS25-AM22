@@ -10,6 +10,7 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Network.HeartbeatManager;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
@@ -32,6 +33,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     private final List<VirtualView> connectedClients;
     private final Map<String, VirtualView> clientMap; //Map nickname to clients
     private static final String SERVER_NAME = "GalaxyTruckerServer";
+    private final HeartbeatManager heartbeatManager;
 
     public RmiServer(GameController gameController, int port) throws RemoteException {
         super();
@@ -39,10 +41,34 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         this.connectedClients = new ArrayList<>();
         this.clientMap = new HashMap<>();
 
+        this.heartbeatManager = new HeartbeatManager(10000, this::handleHeartbeatDisconnect);
+
         //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
         Registry registry = LocateRegistry.createRegistry(port);
         registry.rebind(SERVER_NAME, this);
         System.out.println("RMI Server bound to registry - it is running on port " + port + "...");
+    }
+
+    @Override
+    public void heartbeat(String nickname) {
+        System.out.println("Received heartbeat from: " + nickname);
+        heartbeatManager.heartbeat(nickname);
+    }
+
+    private void handleHeartbeatDisconnect(String nickname) {
+        try {
+            System.out.println("Heartbeat timeout for client: " + nickname);
+
+            VirtualView client = clientMap.get(nickname);
+            if (client != null) {
+                connectedClients.remove(client);
+                clientMap.remove(nickname);
+            }
+
+            gameController.updateAllLobbies();
+        } catch (Exception e) {
+            System.err.println("Error handling client disconnect: " + e.getMessage());
+        }
     }
 
     public void connect(VirtualView client, String nickname) throws RemoteException {
@@ -68,6 +94,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             }
 
             int result = gameController.addPlayer(nickname);
+
             if (result < 0) {
                 client.showConnectionResult(false, false, "Failed to join the lobby.");
                 return;
@@ -75,6 +102,8 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
 
             connectedClients.add(client);
             clientMap.put(nickname, client);
+
+            heartbeatManager.registerClient(nickname);
 
             String lobbyCreator = gameController.getLobbyCreator();
             boolean isHost = nickname.equals(lobbyCreator);
@@ -368,6 +397,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     public void removePlayer(String nickname) {
         gameController.removePlayer(nickname);
         clientMap.remove(nickname);
+        heartbeatManager.unregisterClient(nickname);
         //gameController.updateAllLobbies();
     }
 

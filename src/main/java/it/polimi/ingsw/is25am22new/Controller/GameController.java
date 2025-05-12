@@ -150,6 +150,7 @@ public class GameController {
             }
             return result;
         }else {
+
             System.out.println("Player " + player + " cannot be removed outside lobby state.");
         }
         return -1; // Can't remove players outside lobby state
