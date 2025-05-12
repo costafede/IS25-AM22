@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 public class SocketClientHandler implements VirtualView {
-    final GameController controller;
-    final SocketServerSide server;
-    final ObjectInputStream objectInput;
-    final ObjectOutputStream objectOutput;
+    private final GameController controller;
+    private final SocketServerSide server;
+    private final ObjectInputStream objectInput;
+    private final ObjectOutputStream objectOutput;
     private final HeartbeatManager heartbeatManager;
 
     // CI SONO VARIE ISTANZE DI SOCKETCLIENTHANDLER, UNA PER OGNI GIOCATORE
@@ -161,6 +161,9 @@ public class SocketClientHandler implements VirtualView {
                                 ((InputCommand) msg.getObject()).getRow(),
                                 ((InputCommand) msg.getObject()).getCol());
                     }
+                    case "disconnect" -> {
+                        this.controller.disconnect();
+                    }
                     case "connectionTester" -> {
                         System.out.println(msg.getPayload());
                         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
@@ -169,8 +172,19 @@ public class SocketClientHandler implements VirtualView {
                 }
             }
         } catch (Exception e) {
-            System.out.println("SocketClientHandler: Client disconnected");
-            e.printStackTrace();
+            System.out.println("Connection closed on ServerClientHandler: " + this);
+            System.out.flush();
+        } finally {
+            try {
+                if(objectInput != null) {
+                    objectInput.close();
+                }
+                if(objectOutput!= null) {
+                    objectOutput.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error closing connection: " + e.getMessage());
+            }
         }
     }
 
@@ -187,7 +201,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     public void heartbeat(String nickname) {
-        System.out.println("Received heartbeat from: " + nickname);
+        //System.out.println("Received heartbeat from: " + nickname);
         heartbeatManager.heartbeat(nickname);
     }
 
@@ -195,7 +209,7 @@ public class SocketClientHandler implements VirtualView {
         try {
             System.out.println("Heartbeat timeout for client: " + nickname);
 
-            this.server.shutdown();
+            this.controller.disconnect();
         } catch (Exception e) {
             System.err.println("Error handling client disconnect: " + e.getMessage());
         }
@@ -436,6 +450,16 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
+    public void shutdown() {
+        SocketMessage message = new SocketMessage("shutdown", null, null);
+        try {
+            objectOutput.writeObject(message);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending shutdown from server: " + e.getMessage());
+        }
+    }
+
 
     private void godMode(String playerName, String conf) throws IOException {
         this.controller.godMode(playerName, conf);
@@ -523,58 +547,58 @@ public class SocketClientHandler implements VirtualView {
     }
 
 
-    private void discardComponentTile(String playerName) throws IOException {
+    private void discardComponentTile(String playerName) {
         this.controller.discardComponentTile(playerName);
     }
 
 
-    private void finishBuilding(String playerName) throws IOException {
+    private void finishBuilding(String playerName) {
         this.controller.finishBuilding(playerName);
     }
 
 
-    private void finishBuilding(String playerName, int index) throws IOException {
+    private void finishBuilding(String playerName, int index) {
         this.controller.finishBuilding(playerName, index);
     }
 
 
-    private void finishedAllShipboards() throws IOException {
+    private void finishedAllShipboards()  {
         this.controller.finishedAllShipboards();
     }
 
 
-    private void flipHourglass() throws IOException {
+    private void flipHourglass(){
         this.controller.flipHourglass();
     }
 
 
-    private void pickCard() throws IOException {
+    private void pickCard() {
         this.controller.pickCard();
     }
 
 
-    private void activateCard(InputCommand inputCommand) throws IOException {
+    private void activateCard(InputCommand inputCommand) {
         this.controller.activateCard(inputCommand);
     }
 
 
-    private void removePlayer(String playerName) throws IOException {
+    private void removePlayer(String playerName) {
         this.controller.removePlayer(playerName);
         this.controller.updateAllLobbies();
     }
 
 
-    private void playerAbandons(String playerName) throws IOException {
+    private void playerAbandons(String playerName) {
         this.controller.playerAbandons(playerName);
     }
 
 
-    private void destroyComponentTile(String playerName, int i, int j) throws IOException {
+    private void destroyComponentTile(String playerName, int i, int j)  {
         this.controller.destroyTile(playerName, i, j);
     }
 
 
-    private void endGame() throws IOException {
+    private void endGame() {
         this.controller.endGame();
     }
 
@@ -601,5 +625,17 @@ public class SocketClientHandler implements VirtualView {
         } catch (IOException e) {
             System.out.println("Error updating message to everyone for client: " + e.getMessage());
         }
+    }
+
+    public ObjectInputStream getObjectInput() {
+        return objectInput;
+    }
+
+    public ObjectOutputStream getObjectOutput() {
+        return objectOutput;
+    }
+
+    public HeartbeatManager getHeartbeatManager() {
+        return heartbeatManager;
     }
 }

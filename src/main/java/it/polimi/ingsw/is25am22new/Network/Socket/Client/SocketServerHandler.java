@@ -329,7 +329,13 @@ public class SocketServerHandler implements VirtualServer {
 
     @Override
     public void disconnect() throws RemoteException {
-
+        SocketMessage msg = new SocketMessage("disconnect", null, null);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in sending disconnect: " + e.getMessage());
+        }
     }
 
     @Override

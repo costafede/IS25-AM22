@@ -10,7 +10,6 @@ import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
@@ -33,8 +32,10 @@ public class SocketClientSide implements VirtualView {
     LobbyView view;
     boolean isHost;
     private ScheduledExecutorService heartbeatScheduler;
+    Socket socket;
 
-    protected SocketClientSide(ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel) throws IOException {
+    protected SocketClientSide(Socket socket, ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel) throws IOException {
+        this.socket = socket;
         this.output = output;
         this.objectInput = objectInput;
         this.thisPlayerName = thisPlayerName;
@@ -89,7 +90,7 @@ public class SocketClientSide implements VirtualView {
                 if(!joined) System.out.println("Try again!");
             }
 
-            SocketClientSide newSocket = new SocketClientSide(objectInput, output, thisPlayerName, clientModel);
+            SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel);
             newSocket.run();
             return newSocket.getServerHandler();
         } catch (IOException e) {
@@ -218,13 +219,17 @@ public class SocketClientSide implements VirtualView {
                         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
                         System.out.flush();
                     }
+                    case "shutdown" -> {
+                        this.shutdown();
+                    }
                     default -> System.err.println("[INVALID MESSAGE]");
                 }
             }
         } catch (Exception e) {
-            System.out.println("Connection closed: " + e.getMessage());
+            System.out.println("Connection closed");
             System.out.flush();
-            System.exit(0);
+        } finally {
+            shutdown();
         }
     }
 
@@ -349,5 +354,22 @@ public class SocketClientSide implements VirtualView {
                 heartbeatScheduler.shutdown();
             }
         }, 0, 3, TimeUnit.SECONDS);
+    }
+
+    private void shutdown() {
+        try {
+            if(objectInput != null) {
+                objectInput.close();
+            }
+            if(output.objectOutput != null) {
+                output.objectOutput.close();
+            }
+            if(socket != null && !socket.isClosed()) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            System.err.println("Error closing connection: " + e.getMessage());
+        }
+        System.exit(0);
     }
 }

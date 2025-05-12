@@ -10,10 +10,13 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
+import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,34 +25,49 @@ public class SocketServerSide implements ObserverModel {
     final ServerSocket listenSocket;
     final GameController controller;
     final Map<SocketClientHandler, Thread> clients;
+    List<Socket> clientSockets;
 
     public SocketServerSide(GameController gameController, ServerSocket listenSocket) {
         this.listenSocket = listenSocket;
         this.controller = gameController;
         this.clients = new HashMap<>();
+        this.clientSockets = new ArrayList<>();
     }
 
     public void runServer() throws IOException{
         System.out.println("Server started, waiting for clients...");
         Socket clientSocket = null;
-        while ((clientSocket = this.listenSocket.accept()) != null) {
-            System.out.println("Client connected: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+        try {
+            while ((clientSocket = this.listenSocket.accept()) != null) {
+                System.out.println("Client connected: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+                clientSockets.add(clientSocket);
+                SocketClientHandler handler = new SocketClientHandler(
+                        this.controller,
+                        this,
+                        clientSocket.getInputStream(),
+                        clientSocket.getOutputStream()
+                );
 
-            SocketClientHandler handler = new SocketClientHandler(
-                    this.controller,
-                    this,
-                    clientSocket.getInputStream(),
-                    clientSocket.getOutputStream()
-            );
-
-            Thread t = new Thread(() -> {
-                try {
-                    handler.runVirtualView(Thread.currentThread());
-                } catch (IOException | ClassNotFoundException e) {
-                    System.out.println("Thread interrupted: " + e.getMessage());
-                }
-            });
-            t.start();
+                Thread t = new Thread(() -> {
+                    try {
+                        handler.runVirtualView(Thread.currentThread());
+                    } catch (IOException | ClassNotFoundException e) {
+                        System.out.println("Thread interrupted: " + e.getMessage());
+                    }
+                });
+                t.start();
+            }
+        } catch (SocketException e) {
+            System.out.println("Server socket correctly closed");
+        } catch (IOException e) {
+            System.out.println("Error accepting client connection: " + e.getMessage());
+        } finally {
+            try {
+                if(!listenSocket.isClosed())
+                    this.listenSocket.close();
+            } catch (IOException e) {
+                System.out.println("Error closing listen socket: " + e.getMessage());
+            }
         }
     }
 
@@ -208,6 +226,33 @@ public class SocketServerSide implements ObserverModel {
 
     @Override
     public void shutdown() {
-
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
+                client.getHeartbeatManager().unregisterAll();
+                try {
+                    client.getObjectInput().close();
+                    client.getObjectOutput().close();
+                } catch (IOException e) {
+                    System.out.println("Error closing client streams on server: " + e.getMessage());
+                }
+            }
+            for (var socket : this.clientSockets) {
+                try {
+                    if(!socket.isClosed())
+                        socket.close();
+                } catch (IOException e) {
+                    System.out.println("Error closing client socket on server: " + e.getMessage());
+                }
+            }
+            for (var t : this.clients.values()) {
+                t.interrupt();
+            }
+        }
+        try {
+            if(!listenSocket.isClosed())
+                this.listenSocket.close();
+        } catch (IOException e) {
+            System.out.println("Error closing listen socket: " + e.getMessage());
+        }
     }
 }

@@ -37,6 +37,10 @@ public class HeartbeatManager {
         lastHeartbeats.remove(clientId);
     }
 
+    public void unregisterAll() {
+        lastHeartbeats.clear();
+    }
+
     private void checkHeartbeats() {
         long now = System.currentTimeMillis();
         lastHeartbeats.forEach((clientId, lastHeartbeat) -> {
