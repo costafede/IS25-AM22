@@ -35,6 +35,16 @@ public class GameController {
     private final Object LOCK_HOURGLASS = new Object();
     private final Object LOCK_CURRCARDDECK = new Object();
 
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    private boolean started;
+
     public enum GameState {
         LOBBY,
         GAME

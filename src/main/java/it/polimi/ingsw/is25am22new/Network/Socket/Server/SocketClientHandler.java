@@ -201,7 +201,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     public void heartbeat(String nickname) {
-        //System.out.println("Received heartbeat from: " + nickname);
+        System.out.println("Received heartbeat from: " + nickname);
         heartbeatManager.heartbeat(nickname);
     }
 
@@ -448,6 +448,11 @@ public class SocketClientHandler implements VirtualView {
         } catch (IOException e) {
             System.out.println("Error updating player joined for client: " + e.getMessage());
         }
+    }
+
+    @Override
+    public void terminate() throws RemoteException {
+        /// TODO
     }
 
     public void shutdown() {

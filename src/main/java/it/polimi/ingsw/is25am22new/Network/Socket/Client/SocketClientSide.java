@@ -324,6 +324,11 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
+    public void terminate() throws RemoteException {
+        /// TODO
+    }
+
+    @Override
     public void showGameStarted() {
         this.view.displayGameStarted();
     }

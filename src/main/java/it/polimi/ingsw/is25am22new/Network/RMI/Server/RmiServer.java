@@ -113,39 +113,43 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             return;
         }
 
-        synchronized (connectedClients) {
-            if (connectedClients.size() >= 4) {
-                client.showConnectionResult(false, false, "Lobby is full. Connecting failed.");
-                return;
+        if(gameController.isStarted() || gameController.getPlayers().isEmpty()) {
+            synchronized (connectedClients) {
+                if (connectedClients.size() >= 4) {
+                    client.showConnectionResult(false, false, "Lobby is full. Connecting failed.");
+                    return;
+                }
+
+                if (clientMap.containsKey(nickname)) {
+                    client.showNicknameResult(false, "Nickname already taken.");
+                    return;
+                }
+
+                int result = gameController.addPlayer(nickname);
+
+                if (result < 0) {
+                    client.showConnectionResult(false, false, "Failed to join the lobby.");
+                    return;
+                }
+
+                connectedClients.add(client);
+                clientMap.put(nickname, client);
+
+                heartbeatManager.registerClient(nickname);
+
+                String lobbyCreator = gameController.getLobbyCreator();
+                boolean isHost = nickname.equals(lobbyCreator);
+
+                client.showConnectionResult(isHost, true, isHost ? "You are the host of the lobby." : "You joined an existing lobby.");
+
+                if (!isHost) {
+                    gameController.updateAllPlayerJoined(nickname);
+                }
+
+                gameController.updateAllLobbies();
             }
-
-            if (clientMap.containsKey(nickname)) {
-                client.showNicknameResult(false, "Nickname already taken.");
-                return;
-            }
-
-            int result = gameController.addPlayer(nickname);
-
-            if (result < 0) {
-                client.showConnectionResult(false, false, "Failed to join the lobby.");
-                return;
-            }
-
-            connectedClients.add(client);
-            clientMap.put(nickname, client);
-
-            heartbeatManager.registerClient(nickname);
-
-            String lobbyCreator = gameController.getLobbyCreator();
-            boolean isHost = nickname.equals(lobbyCreator);
-
-            client.showConnectionResult(isHost, true, isHost ? "You are the host of the lobby." : "You joined an existing lobby.");
-
-            if (!isHost) {
-                gameController.updateAllPlayerJoined(nickname);
-            }
-
-            gameController.updateAllLobbies();
+        }else{
+            client.terminate();
         }
     }
 
@@ -483,6 +487,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         if(gameType.equals("level2") || gameType.equals("tutorial")) {
             gameController.setGameType(gameType);
             gameController.updateAllLobbies();
+            gameController.setStarted(true);
         } else {
             System.err.println("Invalid game type: " + gameType);
         }

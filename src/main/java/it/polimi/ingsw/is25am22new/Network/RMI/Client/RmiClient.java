@@ -390,6 +390,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
+    public void terminate() throws RemoteException {
+        System.out.println("Game is not started yet, try again");
+        System.exit(0);
+    }
+
+    @Override
     public void showUpdateBank(Bank bank)  {
         clientModel.setBank(bank);
     }
