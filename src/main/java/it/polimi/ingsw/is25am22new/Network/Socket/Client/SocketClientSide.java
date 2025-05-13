@@ -84,6 +84,9 @@ public class SocketClientSide implements VirtualView {
                             System.out.println("You've successfully joined the lobby!");
                             joined = true;
                         }
+                        default -> {
+                            System.out.println("Host is configuring the lobby...please retry");
+                        }
                     }
                 }
 

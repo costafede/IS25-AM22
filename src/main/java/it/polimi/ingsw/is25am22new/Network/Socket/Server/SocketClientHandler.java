@@ -44,26 +44,30 @@ public class SocketClientHandler implements VirtualView {
             while ((msg = (SocketMessage) objectInput.readObject()) != null){
                 switch (msg.getCommand()) {
                     case "checkAvailability" -> {
-                        int res = this.controller.addPlayer(msg.getPayload());
-                        if(res == 1) {
-                            heartbeatManager.registerClient(msg.getPayload());
-                            server.addHandlerToClients(this, thread);
-                            showNicknameResult(true, "PlayerAdded");
+                        if(this.controller.isStarted() || this.controller.getPlayers().isEmpty()) {
+                            int res = this.controller.addPlayer(msg.getPayload());
+                            if(res == 1) {
+                                heartbeatManager.registerClient(msg.getPayload());
+                                server.addHandlerToClients(this, thread);
+                                showNicknameResult(true, "PlayerAdded");
 
-                            boolean isHost = this.controller.getPlayers().size() == 1;
+                                boolean isHost = this.controller.getPlayers().size() == 1;
 
-                            showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
+                                showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
 
-                            if(!isHost)    this.controller.updateAllPlayerJoined(msg.getPayload());
-                            this.controller.updateAllLobbies();
+                                if(!isHost)    this.controller.updateAllPlayerJoined(msg.getPayload());
+                                this.controller.updateAllLobbies();
+                            }
+                            else if(res == -2){
+                                showNicknameResult(false, "PlayerAlreadyInLobby");
+                            }
+                            else if(res == -1){
+                                showNicknameResult(false, "LobbyFullOrOutsideLobbyState");
+                            }
+                            System.out.println("List of players updated: " + this.controller.getPlayers());
+                        } else {
+                            terminate();
                         }
-                        else if(res == -2){
-                            showNicknameResult(false, "PlayerAlreadyInLobby");
-                        }
-                        else if(res == -1){
-                            showNicknameResult(false, "LobbyFullOrOutsideLobbyState");
-                        }
-                        System.out.println("List of players updated: " + this.controller.getPlayers());
                     }
                     case "removePlayer" -> {
                         this.removePlayer(msg.getPayload());
@@ -452,7 +456,17 @@ public class SocketClientHandler implements VirtualView {
 
     @Override
     public void terminate() throws RemoteException {
-        /// TODO
+        showWaitResult();
+    }
+
+    private void showWaitResult() {
+        SocketMessage message = new SocketMessage("waitResult", null, null);
+        try {
+            objectOutput.writeObject(message);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending wait result from server: " + e.getMessage());
+        }
     }
 
     public void shutdown() {
@@ -518,6 +532,7 @@ public class SocketClientHandler implements VirtualView {
     public void setGameType(String gameType) throws IOException {
         this.controller.setGameType(gameType);
         this.controller.updateAllLobbies();
+        this.controller.setStarted(true);
     }
 
 
