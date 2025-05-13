@@ -21,10 +21,15 @@ public class AbandonedStationState_2 extends AbandonedStationState implements Se
                 if(abandonedStationCard.getActualGoodBlocks().get(gb) == 0)
                     throw new IllegalArgumentException("There are no more blocks to pick on the Station");
                 abandonedStationCard.getActualGoodBlocks().put(gb, abandonedStationCard.getActualGoodBlocks().get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
+                abandonedStationCard.getObservableModel().updateAllBanks(game.getBank());
+                abandonedStationCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
+                abandonedStationCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
             }
             else if(inputCommand.isRemovingGoodBlock()){ //player decides to discard good block from his shipboard
                 game.getBank().depositGoodBlock(gb);
                 storageCompartment.removeGoodBlock(gb);
+                abandonedStationCard.getObservableModel().updateAllBanks(game.getBank());
+                abandonedStationCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
             }
             else if(inputCommand.isSwitchingGoodBlock()){ //player decides to switch a good block between two storage compartments
                 GoodBlock gb_1 = inputCommand.getGoodBlock_1();//row_1,row_2 are the coordinates of the destination of gb
@@ -35,13 +40,22 @@ public class AbandonedStationState_2 extends AbandonedStationState implements Se
                     storageCompartment.addGoodBlock(gb_1);
                 }
                 storageCompartment_1.addGoodBlock(gb);
+                abandonedStationCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
             }
         }
         else{    //if choice is false the card effect ends if the player is the last one
             abandonedStationCard.unloadStation();
+            abandonedStationCard.getObservableModel().updateAllBanks(game.getBank());
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null); //card effect has ended
+            game.manageInvalidPlayers();
+            game.setCurrPlayerToLeader();
+            game.setCurrCard(null);
+            abandonedStationCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+            abandonedStationCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
+            abandonedStationCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            abandonedStationCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }   //as the card is implemented, even if there are no more moves available for the curr player, he still has to send the message with choice set on false to end the card effect or pass the turn to the next one
     }
 

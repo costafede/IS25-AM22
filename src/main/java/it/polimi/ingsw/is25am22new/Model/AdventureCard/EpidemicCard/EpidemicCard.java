@@ -32,6 +32,10 @@ public class EpidemicCard extends AdventureCard implements Serializable {
         game.manageInvalidPlayers();
         game.setCurrPlayerToLeader();
         game.setCurrCard(null);
+        observableModel.updateAllCurrPlayer(game.getCurrPlayer());
+        observableModel.updateAllCurrCard(game.getCurrCard());
+        observableModel.updateAllFlightboard(game.getFlightboard());
+        observableModel.updateAllShipboardList(game.getShipboards());
     }
 
     @Override

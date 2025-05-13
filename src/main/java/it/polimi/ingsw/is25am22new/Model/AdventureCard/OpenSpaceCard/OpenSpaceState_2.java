@@ -23,5 +23,7 @@ public class OpenSpaceState_2 extends OpenSpaceState implements Serializable {
             throw new IllegalArgumentException("The tile you chose was not an engine");
         }
         transition(new OpenSpaceState_1(openSpaceCard));
+        openSpaceCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
+        openSpaceCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
     }
 }

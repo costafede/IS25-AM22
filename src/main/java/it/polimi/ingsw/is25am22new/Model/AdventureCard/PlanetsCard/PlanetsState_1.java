@@ -15,22 +15,34 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
                 throw new IllegalArgumentException("Player has already landed on a planet");
             planetsCard.getPlanets().get(inputCommand.getIndexChosen()).setPlayer(game.getCurrPlayer());
             planetsCard.getPlayersWhoLanded().add(game.getCurrPlayer());
+            planetsCard.getObservableModel().updateAllCurrCard(planetsCard);
         }
-        if(!planetsCard.planetsFull() && !game.getCurrPlayer().equals(game.getLastPlayer()))
+        if(!planetsCard.planetsFull() && !game.getCurrPlayer().equals(game.getLastPlayer())) {
             game.setCurrPlayerToNext();
+            planetsCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+        }
         else {
             if(planetsCard.getPlayersWhoLanded().isEmpty()){
                 game.manageInvalidPlayers();
                 game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
+                planetsCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                planetsCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
+                planetsCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                planetsCard.getObservableModel().updateAllShipboardList(game.getShipboards());
             }
             else{
                 for (int i = planetsCard.getPlayersWhoLanded().size() - 1; i >= 0; i--) {   //all players who have decided to land lose flight days
                     game.getFlightboard().shiftRocket(planetsCard.getPlayersWhoLanded().get(i), planetsCard.getFlightDaysLost());
                 }
+                planetsCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
+                planetsCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
                 game.setCurrPlayer(planetsCard.getPlayersWhoLanded().getFirst());
+                planetsCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                 planetsCard.loadPlanet(game.getCurrPlayer());
+                planetsCard.getObservableModel().updateAllBanks(game.getBank());
                 transition(new PlanetsState_2(planetsCard));
+                planetsCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             }
         }
     }

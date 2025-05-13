@@ -12,6 +12,7 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 
 public interface ObserverModel {
     void updateBank(Bank bank);
@@ -34,4 +35,5 @@ public interface ObserverModel {
     void updateGameStarted();
     void updatePlayerJoined(String player);
     void shutdown();
+    void updateShipboardList(Map<String, Shipboard> shipboards);
 }

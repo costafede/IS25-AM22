@@ -14,9 +14,11 @@ public class SmugglersState_2 extends SmugglersState implements Serializable {
     public void activateEffect(InputCommand inputCommand) {
         ComponentTile doubleCannon = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
         doubleCannon.activateComponent();
+        smugglersCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
         if(doubleCannon.getCannonStrength() == 0)
             throw new IllegalArgumentException("You didn't select a cannon");
         transition(new SmugglersState_1(smugglersCard));
+        smugglersCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
     }
 
     @Override

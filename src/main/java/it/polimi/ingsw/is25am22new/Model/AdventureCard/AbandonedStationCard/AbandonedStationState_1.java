@@ -15,15 +15,25 @@ public class AbandonedStationState_1 extends AbandonedStationState implements Se
             if(game.getShipboards().get(game.getCurrPlayer()).getCrewNumber() < abandonedStationCard.getAstronautsNumber())
                 throw new IllegalStateException("Not Enough Astronauts");
             game.getFlightboard().shiftRocket(game.getCurrPlayer(), abandonedStationCard.getFlightDaysLost());
+            abandonedStationCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
+            abandonedStationCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            abandonedStationCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             abandonedStationCard.loadStation();
+            abandonedStationCard.getObservableModel().updateAllBanks(game.getBank());
             transition(new AbandonedStationState_2(abandonedStationCard));
         }
-        else if(!game.getCurrPlayer().equals(game.getLastPlayer()))
+        else if(!game.getCurrPlayer().equals(game.getLastPlayer())) {
             game.setCurrPlayerToNext();
+            abandonedStationCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+        }
         else{
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
+            abandonedStationCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+            abandonedStationCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
+            abandonedStationCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            abandonedStationCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }
     }
 

@@ -25,11 +25,16 @@ public class AbandonedShipState_2 extends AbandonedShipState implements Serializ
         }
         ct.get().removeCrewMember();
         membersStillToRemove--;
+        abandonedShipCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), shipboard);
         if(membersStillToRemove == 0) {
             shipboard.addCosmicCredits(abandonedShipCard.getCredits());
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
+            abandonedShipCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+            abandonedShipCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
+            abandonedShipCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            abandonedShipCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }
     }
 

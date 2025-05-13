@@ -22,73 +22,80 @@ public class ObservableModel {
         observers.remove(ld);
     }
 
-    protected void updateAllBanks(Bank bank) {
+    public void updateAllBanks(Bank bank) {
         for(ObserverModel ld : observers)
             ld.updateBank(bank);
     }
 
-    protected void updateAllTileInHand(String player, ComponentTile ct) {
+    public void updateAllTileInHand(String player, ComponentTile ct) {
         for(ObserverModel ld : observers)
             ld.updateTileInHand(player, ct);
     }
 
-    protected void updateAllUncoveredComponentTiles(List<ComponentTile> ctList) {
+    public void updateAllUncoveredComponentTiles(List<ComponentTile> ctList) {
         for(ObserverModel ld : observers)
             ld.updateUncoveredComponentTiles(ctList);
     }
 
-    protected void updateAllShipboard(String player, Shipboard shipboard) {
+    public void updateAllShipboard(String player, Shipboard shipboard) {
         correctShipboard(shipboard);
         for(ObserverModel ld : observers)
             ld.updateShipboard(player, shipboard);
     }
 
-    protected void updateAllFlightboard(Flightboard flightboard) {
+    public void updateAllShipboardList(Map<String, Shipboard> shipboards) {
+        for(Shipboard shipboard : shipboards.values())
+            correctShipboard(shipboard);
+        for(ObserverModel ld : observers)
+            ld.updateShipboardList(shipboards);
+    }
+
+    public void updateAllFlightboard(Flightboard flightboard) {
         for(ObserverModel ld : observers)
             ld.updateFlightboard(flightboard);
     }
 
-    protected void updateAllCurrCard(AdventureCard adventureCard) {
+    public void updateAllCurrCard(AdventureCard adventureCard) {
         for(ObserverModel ld : observers)
             ld.updateCurrCard(adventureCard);
     }
 
-    protected void updateAllDices(Dices dices) {
+    public void updateAllDices(Dices dices) {
         for(ObserverModel ld : observers)
             ld.updateDices(dices);
     }
 
-    protected void updateAllCurrPlayer(String currPlayer) {
+    public void updateAllCurrPlayer(String currPlayer) {
         for(ObserverModel ld : observers)
             ld.updateCurrPlayer(currPlayer);
     }
 
-    protected void updateAllGamePhase(GamePhase gamePhase) {
+    public void updateAllGamePhase(GamePhase gamePhase) {
         for(ObserverModel ld : observers)
             ld.updateGamePhase(gamePhase);
     }
 
-    protected void updateAllCoveredComponentTiles(List<ComponentTile> ctList) {
+    public void updateAllCoveredComponentTiles(List<ComponentTile> ctList) {
         for(ObserverModel ld : observers)
             ld.updateCoveredComponentTiles(ctList);
     }
 
-    protected void updateAllDeck(List<AdventureCard> deck) {
+    public void updateAllDeck(List<AdventureCard> deck) {
         for(ObserverModel ld : observers)
             ld.updateDeck(deck);
     }
 
-    protected void updateAllStartHourglass(int hourglassSpot) {
+    public void updateAllStartHourglass(int hourglassSpot) {
         for(ObserverModel ld : observers)
             ld.updateStartHourglass(hourglassSpot);
     }
 
-    protected void updateAllStopHourglass() {
+    public void updateAllStopHourglass() {
         for(ObserverModel ld : observers)
             ld.updateStopHourglass();
     }
 
-    protected void updateAllGame(Game game) {
+    public void updateAllGame(Game game) {
         for(Shipboard s : game.getShipboards().values()){
             correctShipboard(s);
         }
