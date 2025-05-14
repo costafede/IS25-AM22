@@ -75,10 +75,9 @@ public class SocketClientSide implements VirtualView {
         commandMap.put("StartHourglass", this::handleStartHourglass);
         commandMap.put("updateTest", this::handleUpdateTest);
     }
-    public static SocketServerHandler connectToServer(String[] args, ClientModel clientModel) throws InterruptedException, ClassNotFoundException {
+    public static SocketServerHandler connectToServer(String[] args, ClientModel clientModel, Scanner scanner) throws InterruptedException, ClassNotFoundException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
-        Scanner scanner = new Scanner(System.in);
         try {
             Socket socket = new Socket(host, port);
             SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
@@ -131,7 +130,6 @@ public class SocketClientSide implements VirtualView {
         } catch (IOException e) {
             System.out.println("Error connecting to server: " + e.getMessage());
         }
-        scanner.close();
         return null;
     }
 
