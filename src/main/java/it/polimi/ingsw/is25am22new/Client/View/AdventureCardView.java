@@ -37,7 +37,7 @@ public class AdventureCardView {
             System.out.println("Planet" + i + ": ");
             Map<GoodBlock, Integer> theoreticalGoodblocks = card.getPlanets().get(i).getTheoreticalGoodblocks();
             theoreticalGoodblocks.forEach((goodBlock, quantity) ->
-                    System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+                    System.out.println(goodBlock + ", Quantity: " + quantity)
             );
             System.out.println();
         }
@@ -55,9 +55,15 @@ public class AdventureCardView {
             }
             else{
                 System.out.println("No player is present. You can land, enjoy!");
+                System.out.println();
+                Map<GoodBlock, Integer> theoreticalGoodblocks = card.getPlanets().get(i).getTheoreticalGoodblocks();
+                theoreticalGoodblocks.forEach((goodBlock, quantity) ->
+                        System.out.println(goodBlock + ", Quantity: " + quantity)
+                );
+                System.out.println();
                 Map<GoodBlock, Integer> actualGoodblocks = card.getPlanets().get(i).getActualGoodblocks();
                 actualGoodblocks.forEach((goodBlock, quantity) ->
-                        System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+                        System.out.println(goodBlock + ", Available: " + quantity)
                 );
             }
             System.out.println();
@@ -86,9 +92,8 @@ public class AdventureCardView {
         System.out.println();
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+                System.out.println(goodBlock + ", Quantity: " + quantity)
         );
-        System.out.println();
     }
 
     public void showAbandonedStationCardInGame(AbandonedStationCard card) {
@@ -96,9 +101,14 @@ public class AdventureCardView {
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Astronauts: " + card.getAstronautsNumber());
         System.out.println();
-        Map<GoodBlock, Integer> actualGoodblocks = card.getTheoreticalGoodBlocks();
+        Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
+        theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
+                System.out.println(goodBlock + ", Quantity: " + quantity)
+        );
+        System.out.println();
+        Map<GoodBlock, Integer> actualGoodblocks = card.getActualGoodBlocks();
         actualGoodblocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+                System.out.println(goodBlock + ", Available: " + quantity)
         );
         System.out.println();
         System.out.println("Is it a good idea to land on the station?");
@@ -287,7 +297,7 @@ public class AdventureCardView {
         System.out.println("Cannon's strength: " + card.getCannonStrength());
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+                System.out.println(goodBlock + ", Quantity: " + quantity)
         );
     }
 
@@ -298,8 +308,13 @@ public class AdventureCardView {
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("The reward if you eliminate the threat:");
         Map<GoodBlock, Integer> actualGoodBlocks = card.getActualGoodBlocks();
+        Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
+        theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
+                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
+        );
+        System.out.println();
         actualGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
+                System.out.println("Good: " + goodBlock + ", Available: " + quantity)
         );
         System.out.println("If you're weak you will lose " + card.getLostGoods() + " goods");
     }
