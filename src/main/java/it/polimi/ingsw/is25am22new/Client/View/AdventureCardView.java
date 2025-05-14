@@ -53,30 +53,20 @@ public class AdventureCardView {
             System.out.print("Planet" + i + ": ");
             if(card.getPlanets().get(i).playerPresent()){
                 System.out.println("A player is present");
-                System.out.println();
-                Map<GoodBlock, Integer> theoreticalGoodblocks = card.getPlanets().get(i).getTheoreticalGoodblocks();
-                theoreticalGoodblocks.forEach((goodBlock, quantity) ->
-                        System.out.println(goodBlock + ", Quantity: " + quantity)
-                );
-                System.out.println();
-                Map<GoodBlock, Integer> actualGoodblocks = card.getPlanets().get(i).getActualGoodblocks();
-                actualGoodblocks.forEach((goodBlock, quantity) ->
-                        System.out.println(goodBlock + ", Available: " + quantity)
-                );
             }
             else{
                 System.out.println("No player is present. You can land, enjoy!");
-                System.out.println();
-                Map<GoodBlock, Integer> theoreticalGoodblocks = card.getPlanets().get(i).getTheoreticalGoodblocks();
-                theoreticalGoodblocks.forEach((goodBlock, quantity) ->
-                        System.out.println(goodBlock + ", Quantity: " + quantity)
-                );
-                System.out.println();
-                Map<GoodBlock, Integer> actualGoodblocks = card.getPlanets().get(i).getActualGoodblocks();
-                actualGoodblocks.forEach((goodBlock, quantity) ->
-                        System.out.println(goodBlock + ", Available: " + quantity)
-                );
             }
+            System.out.println();
+            Map<GoodBlock, Integer> theoreticalGoodblocks = card.getPlanets().get(i).getTheoreticalGoodblocks();
+            theoreticalGoodblocks.forEach((goodBlock, quantity) ->
+                    System.out.println(goodBlock + ", Quantity: " + quantity)
+            );
+            System.out.println();
+            Map<GoodBlock, Integer> actualGoodblocks = card.getPlanets().get(i).getActualGoodblocks();
+            actualGoodblocks.forEach((goodBlock, quantity) ->
+                    System.out.println(goodBlock + ", Available: " + quantity)
+            );
             System.out.println();
         }
     }
