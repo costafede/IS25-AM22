@@ -1,12 +1,15 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.io.Serializable;
 
-public class SlaversCard extends AdventureCard implements Serializable {
+public class SlaversCard extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightDaysLost;
     private int cannonStrength;
@@ -75,5 +78,15 @@ public class SlaversCard extends AdventureCard implements Serializable {
 
     public void increaseSelectedMembers () {
         selectedMembers++;
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showSlaversCardInGame(this);
+        }
+        else{
+            view.showSlaversCard(this);
+        }
     }
 }

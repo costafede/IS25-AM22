@@ -2,19 +2,8 @@ package it.polimi.ingsw.is25am22new.Client.View;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
@@ -23,7 +12,6 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.util.*;
 
-import static it.polimi.ingsw.is25am22new.Client.View.AdventureCardView.*;
 
 public class TUI implements ClientModelObserver, ViewAdapter{
 
@@ -250,100 +238,14 @@ public class TUI implements ClientModelObserver, ViewAdapter{
      */
 
     @Override
-    public void showCard(AdventureCard card, ClientModel clientModel) {
-        if(card == null)
+    public void showCard(AdventureCard card, ClientModel model) {
+        AdventureCardView adventureCardView = new AdventureCardView();
+        if (card == null) {
             System.out.println("There is no card");
-        else {
-            switch (card.getClass().getSimpleName()){
-                case "AbandonedShipCard":
-                    showAbandonedShipCard((AbandonedShipCard) card);
-                    break;
-                case "AbandonedStationCard":
-                    showAbandonedStationCard((AbandonedStationCard) card);
-                    break;
-                case "CombatZoneCard":
-                    showCombatZoneCard((CombatZoneCard) card);
-                    break;
-                case "CombatZoneCard2":
-                    showCombatZoneCard2((CombatZoneCard2) card);
-                    break;
-                case "EpidemicCard":
-                    showEpidemicCard((EpidemicCard) card);
-                    break;
-                case "MeteorSwarmCard":
-                    showMeteorSwarmCard((MeteorSwarmCard) card);
-                    break;
-                case "OpenSpaceCard":
-                    showOpenSpaceCard((OpenSpaceCard) card);
-                    break;
-                case "PiratesCard":
-                    showPiratesCard((PiratesCard) card);
-                    break;
-                case "PlanetsCard":
-                    showPlanetsCard((PlanetsCard) card);
-                    break;
-                case "SlaversCard":
-                    showSlaversCard((SlaversCard) card);
-                    break;
-                case "SmugglersCard":
-                    showSmugglersCard((SmugglersCard) card);
-                    break;
-                case "StardustCard":
-                    showStardustCard((StardustCard) card);
-                    break;
-                default: break;
-            }
-        }
-    }
-
-    /**
-     * shows the information during the CardPhase needed for the player to play the game
-     */
-
-    @Override
-    public void showCardInGame(AdventureCard card, ClientModel clientModel) {
-        if(card == null)
-            System.out.println("There is no card");
-        else {
-            switch (card.getClass().getSimpleName()){
-                case "AbandonedShipCard":
-                    showAbandonedShipCardInGame((AbandonedShipCard) card);
-                    break;
-                case "AbandonedStationCard":
-                    showAbandonedStationCardInGame((AbandonedStationCard) card);
-                    break;
-                case "CombatZoneCard":
-                    showCombatZoneCardInGame((CombatZoneCard) card);
-                    break;
-                case "CombatZoneCard2":
-                    showCombatZoneCard2InGame((CombatZoneCard2) card);
-                    break;
-                case "EpidemicCard":
-                    showEpidemicCardInGame((EpidemicCard) card);
-                    break;
-                case "MeteorSwarmCard":
-                    showMeteorSwarmCardInGame((MeteorSwarmCard) card);
-                    break;
-                case "OpenSpaceCard":
-                    showOpenSpaceCardInGame((OpenSpaceCard) card);
-                    break;
-                case "PiratesCard":
-                    showPiratesCardInGame((PiratesCard) card);
-                    break;
-                case "PlanetsCard":
-                    showPlanetsCardInGame((PlanetsCard) card);
-                    break;
-                case "SlaversCard":
-                    showSlaversCardInGame((SlaversCard) card);
-                    break;
-                case "SmugglersCard":
-                    showSmugglersCardInGame((SmugglersCard) card);
-                    break;
-                case "StardustCard":
-                    showStardustCardInGame((StardustCard) card);
-                    break;
-                default: break;
-            }
+        } else if (card instanceof ViewableCard) {
+            ((ViewableCard) card).show(adventureCardView, model);
+        } else {
+            System.out.println("Unsupported card type: " + card.getClass().getSimpleName());
         }
     }
 
