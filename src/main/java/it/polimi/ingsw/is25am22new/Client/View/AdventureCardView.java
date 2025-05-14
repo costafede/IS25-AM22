@@ -48,6 +48,7 @@ public class AdventureCardView {
      */
     public void showPlanetsCardInGame(PlanetsCard card) {
         System.out.println("=== PLANETS ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         for (int i = 0; i < card.getPlanets().size(); i++) {
             System.out.print("Planet" + i + ": ");
             if(card.getPlanets().get(i).playerPresent()){
