@@ -2,19 +2,7 @@ package it.polimi.ingsw.is25am22new.Client.View;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
@@ -24,7 +12,6 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.util.*;
 
-import static it.polimi.ingsw.is25am22new.Client.View.AdventureCardView.*;
 
 public class TUI implements ClientModelObserver, ViewAdapter{
 
