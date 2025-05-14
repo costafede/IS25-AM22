@@ -1,12 +1,16 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.io.Serializable;
 
-public class AbandonedShipCard extends AdventureCard implements Serializable {
+public class AbandonedShipCard extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightdaysLost;
     private int credits;
@@ -50,6 +54,16 @@ public class AbandonedShipCard extends AdventureCard implements Serializable {
 
     public AbandonedShipState getAbandonedShipState() {
         return abandonedShipState;
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showAbandonedShipCardInGame(this);
+        }
+        else{
+            view.showAbandonedShipCard(this);
+        }
     }
 
 }

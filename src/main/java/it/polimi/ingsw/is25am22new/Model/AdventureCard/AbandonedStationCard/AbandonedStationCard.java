@@ -1,6 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -9,7 +12,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbandonedStationCard extends AdventureCard implements Serializable {
+public class AbandonedStationCard extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightDaysLost;
     private int astronautsNumber;
@@ -80,5 +83,15 @@ public class AbandonedStationCard extends AdventureCard implements Serializable 
 
     public Map<GoodBlock, Integer> getActualGoodBlocks() {
         return actualGoodBlocks;
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showAbandonedStationCardInGame(this);
+        }
+        else{
+            view.showAbandonedStationCard(this);
+        }
     }
 }

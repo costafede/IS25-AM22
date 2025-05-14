@@ -1,7 +1,10 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Meteor;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
@@ -9,7 +12,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Random;
 
-public class MeteorSwarmCard extends AdventureCard implements Serializable {
+public class MeteorSwarmCard extends AdventureCard implements Serializable, ViewableCard {
 
     private Map<Integer, Meteor> numberToMeteor;
     private MeteorSwarmState meteorSwarmState;
@@ -81,5 +84,15 @@ public class MeteorSwarmCard extends AdventureCard implements Serializable {
 
     public boolean isBatteryUsed() {
         return batteryUsed;
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showMeteorSwarmCardInGame(this);
+        }
+        else{
+            view.showMeteorSwarmCard(this);
+        }
     }
 }

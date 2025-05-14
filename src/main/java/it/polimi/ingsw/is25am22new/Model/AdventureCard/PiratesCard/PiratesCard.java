@@ -1,15 +1,18 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
 
 import java.io.Serializable;
 import java.util.*;
 
-public class PiratesCard extends AdventureCard implements Serializable {
+public class PiratesCard extends AdventureCard implements Serializable, ViewableCard {
 
     private Map<Integer, Shot> numberToShot;
     private int flightDaysLost;
@@ -130,5 +133,15 @@ public class PiratesCard extends AdventureCard implements Serializable {
 
     public void setCurrDefeatedPlayerToNext() {
         this.currDefeatedPlayer = defeatedPlayers.get(defeatedPlayers.indexOf(currDefeatedPlayer) + 1);
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showPiratesCardInGame(this);
+        }
+        else{
+            view.showPiratesCard(this);
+        }
     }
 }

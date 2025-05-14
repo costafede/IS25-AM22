@@ -1,6 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
@@ -8,7 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OpenSpaceCard extends AdventureCard implements Serializable {
+public class OpenSpaceCard extends AdventureCard implements Serializable, ViewableCard {
 
     private OpenSpaceState openSpaceState;
     private List<String> orderedPlayersBeforeEffect;
@@ -43,5 +46,15 @@ public class OpenSpaceCard extends AdventureCard implements Serializable {
 
     public List<String> getPlayersWithNoEngineStrength() {
         return playersWithNoEngineStrength;
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showOpenSpaceCardInGame(this);
+        }
+        else{
+            view.showOpenSpaceCard(this);
+        }
     }
 }

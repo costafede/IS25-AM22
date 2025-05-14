@@ -1,15 +1,19 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
+import javax.swing.text.View;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SmugglersCard extends AdventureCard implements Serializable {
+public class SmugglersCard extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightDaysLost;
     private int CannonStrength;
@@ -85,5 +89,15 @@ public class SmugglersCard extends AdventureCard implements Serializable {
 
     public Map<GoodBlock, Integer> getActualGoodBlocks() {
         return actualGoodBlocks;
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showSmugglersCardInGame(this);
+        }
+        else{
+            view.showSmugglersCard(this);
+        }
     }
 }

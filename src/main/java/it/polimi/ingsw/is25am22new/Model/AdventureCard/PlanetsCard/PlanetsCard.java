@@ -1,7 +1,10 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
@@ -9,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanetsCard extends AdventureCard implements Serializable {
+public class PlanetsCard extends AdventureCard implements Serializable, ViewableCard {
     private List<Planet> planets;
     private int flightDaysLost;
     private PlanetsState planetsState;
@@ -87,6 +90,16 @@ public class PlanetsCard extends AdventureCard implements Serializable {
 
     public List<String> getPlayersWhoLanded() {
         return playersWhoLanded;
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showPlanetsCardInGame(this);
+        }
+        else{
+            view.showPlanetsCard(this);
+        }
     }
 
 }

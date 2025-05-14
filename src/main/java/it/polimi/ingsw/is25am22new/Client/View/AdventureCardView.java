@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class AdventureCardView {
 
-    public static void showPlanetsCard(PlanetsCard card) {
+    public void showPlanetsCard(PlanetsCard card) {
         System.out.println("=== PLANETS ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println();
@@ -51,7 +51,7 @@ public class AdventureCardView {
     /**
      * shows the planets and if they're free, and also the respective goodBlocks available on the planet
      */
-    public static void showPlanetsCardInGame(PlanetsCard card) {
+    public void showPlanetsCardInGame(PlanetsCard card) {
         System.out.println("=== PLANETS ===");
         for (int i = 0; i < card.getPlanets().size(); i++) {
             System.out.print("Planet" + i + ": ");
@@ -69,19 +69,19 @@ public class AdventureCardView {
         }
     }
 
-    public static void showAbandonedShipCard(AbandonedShipCard card) {
+    public void showAbandonedShipCard(AbandonedShipCard card) {
         System.out.println("=== ABANDONED SHIP ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Credits: " + card.getCredits());
         System.out.println("Astronauts lost: " + card.getLostAstronauts());
     }
 
-    public static void showAbandonedShipCardInGame(AbandonedShipCard card) {
+    public void showAbandonedShipCardInGame(AbandonedShipCard card) {
         System.out.println("=== ABANDONED SHIP ===");
         System.out.println("Is it a good idea to take the ship?");
     }
 
-    public static void showAbandonedStationCard(AbandonedStationCard card) {
+    public void showAbandonedStationCard(AbandonedStationCard card) {
         System.out.println("=== ABANDONED STATION ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Astronauts: " + card.getAstronautsNumber());
@@ -97,7 +97,7 @@ public class AdventureCardView {
         );
     }
 
-    public static void showAbandonedStationCardInGame(AbandonedStationCard card) {
+    public void showAbandonedStationCardInGame(AbandonedStationCard card) {
         System.out.println("=== ABANDONED STATION ===");
         System.out.println("Is it a good idea to land on the station?");
         Map<GoodBlock, Integer> actualGoodblocks = card.getTheoreticalGoodBlocks();
@@ -107,7 +107,7 @@ public class AdventureCardView {
 
     }
 
-    public static void showCombatZoneCard(CombatZoneCard card) {
+    public void showCombatZoneCard(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Lost astronauts: " + card.getAstronautsToLose());
@@ -117,7 +117,7 @@ public class AdventureCardView {
         }
     }
 
-    public static void showCombatZoneCardInGame(CombatZoneCard card) {
+    public void showCombatZoneCardInGame(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
         String state = card.getStateName();
         if (state.equals("CombatZoneState_0")){
@@ -146,7 +146,7 @@ public class AdventureCardView {
         }
     }
 
-    public static void showCombatZoneCard2(CombatZoneCard2 card) {
+    public void showCombatZoneCard2(CombatZoneCard2 card) {
         System.out.println("=== COMBAT ZONE ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Lost goods: " + card.getLostGoods());
@@ -156,7 +156,7 @@ public class AdventureCardView {
         }
     }
 
-    public static void showCombatZoneCard2InGame(CombatZoneCard2 card) {
+    public void showCombatZoneCard2InGame(CombatZoneCard2 card) {
         System.out.println("=== COMBAT ZONE ===");
         String state = card.getStateName();
         if (state.equals("CombatZoneState2_1") || state.equals("CombatZoneState2_2")){
@@ -185,17 +185,17 @@ public class AdventureCardView {
         }
     }
 
-    public static void showEpidemicCard(EpidemicCard card) {
+    public void showEpidemicCard(EpidemicCard card) {
         System.out.println("=== EPIDEMIC ===");
         //Self-explanatory
     }
 
-    public static void showEpidemicCardInGame(EpidemicCard card) {
+    public void showEpidemicCardInGame(EpidemicCard card) {
         System.out.println("=== EPIDEMIC ===");
         System.out.println("Oh no, a virus broke out in the ship. Wash carefully your hands and put on a mask");
     }
 
-    public static void showMeteorSwarmCard(MeteorSwarmCard card) {
+    public void showMeteorSwarmCard(MeteorSwarmCard card) {
         System.out.println("=== METEOR SWARM ===");
         Map<Integer, Meteor> numberToMeteor = card.getNumberToMeteor();
         for (Map.Entry<Integer, Meteor> entry : numberToMeteor.entrySet()) {
@@ -203,7 +203,7 @@ public class AdventureCardView {
         }
     }
 
-    public static void showMeteorSwarmCardInGame(MeteorSwarmCard card) {
+    public void showMeteorSwarmCardInGame(MeteorSwarmCard card) {
         System.out.println("=== METEOR SWARM ===");
         int meteorIndex = card.getIndexOfIncomingMeteor();
         Map<Integer, Meteor> numberToMeteor = card.getNumberToMeteor();
@@ -222,17 +222,17 @@ public class AdventureCardView {
         }
     }
 
-    public static void showOpenSpaceCard(OpenSpaceCard card) {
+    public void showOpenSpaceCard(OpenSpaceCard card) {
         System.out.println("=== OPEN SPACE ===");
         //Self-explanatory
     }
 
-    public static void showOpenSpaceCardInGame(OpenSpaceCard card) {
+    public void showOpenSpaceCardInGame(OpenSpaceCard card) {
         System.out.println("=== OPEN SPACE ===");
         System.out.println("Who's the quickest? Go full throttle and overtake the competition!");
     }
 
-    public static void showPiratesCard(PiratesCard card) {
+    public void showPiratesCard(PiratesCard card) {
         System.out.println("=== PIRATES ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Credits: " + card.getCredits());
@@ -243,7 +243,7 @@ public class AdventureCardView {
         }
     }
 
-    public static void showPiratesCardInGame(PiratesCard card) {
+    public void showPiratesCardInGame(PiratesCard card) {
         System.out.println("=== PIRATES ===");
         System.out.println("ARRRR! Hide the bottles of Rum and load the cannons!");
         System.out.println("The reward if you eliminate the threat: " + card.getCredits() + " credits");
@@ -259,7 +259,7 @@ public class AdventureCardView {
 
     }
 
-    public static void showSlaversCard(SlaversCard card) {
+    public void showSlaversCard(SlaversCard card) {
         System.out.println("=== SLAVERS ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Credits: " + card.getCredits());
@@ -267,14 +267,14 @@ public class AdventureCardView {
         System.out.println("Cannon's strength: " + card.getCannonStrength());
     }
 
-    public static void showSlaversCardInGame(SlaversCard card) {
+    public void showSlaversCardInGame(SlaversCard card) {
         System.out.println("=== SLAVERS ===");
         System.out.println("We're back in colonialism... Prepare the cannons and watch out for the slavers!");
         System.out.println("Slavers's cannon strength: " + card.getCannonStrength());
         System.out.println("The reward if you eliminate the threat: " + card.getCredits() + " credits");
     }
 
-    public static void showSmugglersCard(SmugglersCard card) {
+    public void showSmugglersCard(SmugglersCard card) {
         System.out.println("=== SMUGGLERS ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("Lost goods: " + card.getLostGoods());
@@ -290,7 +290,7 @@ public class AdventureCardView {
         );
     }
 
-    public static void showSmugglersCardInGame(SmugglersCard card) {
+    public void showSmugglersCardInGame(SmugglersCard card) {
         System.out.println("=== SMUGGLERS ===");
         System.out.println("Better watch out! If you're weak you will lose valuable stuff");
         System.out.println("Smuggler's cannon strength: " + card.getCannonStrength());
@@ -302,12 +302,12 @@ public class AdventureCardView {
 
     }
 
-    public static void showStardustCard(StardustCard card) {
+    public void showStardustCard(StardustCard card) {
         System.out.println("=== STARDUST ===");
         //Self-explanatory
     }
 
-    public static void showStardustCardInGame(StardustCard card) {
+    public void showStardustCardInGame(StardustCard card) {
         System.out.println("=== STARDUST ===");
         System.out.println("Oh no, the exposed connectors of the ship will slow you down");
     }

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard;
 
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
@@ -10,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class CombatZoneCard extends AdventureCard implements Serializable {
+public class CombatZoneCard extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightDaysLost;
     private int astronautsToLose;
@@ -114,5 +117,15 @@ public class CombatZoneCard extends AdventureCard implements Serializable {
     @Override
     public String getStateName() {
         return combatZoneState.getStateName();
+    }
+
+    @Override
+    public void show(AdventureCardView view, ClientModel model){
+        if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
+            view.showCombatZoneCardInGame(this);
+        }
+        else{
+            view.showCombatZoneCard(this);
+        }
     }
 }

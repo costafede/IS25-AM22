@@ -8,7 +8,6 @@ public interface ViewAdapter {
     void showShipboardStandByComponents(String player, ClientModel clientModel);
     void showFlightboard(ClientModel clientModel);
     void showCard(AdventureCard card, ClientModel clientModel);
-    void showCardInGame(AdventureCard card, ClientModel clientModel);
     void showUncoveredComponentTiles(ClientModel clientModel);
     void showLeaderboard(ClientModel clientModel);
     void showAvailableCommands(ClientModel clientModel);
