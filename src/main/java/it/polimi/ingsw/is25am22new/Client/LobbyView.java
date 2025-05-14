@@ -357,8 +357,6 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Current players: " + currentPlayerCount +
                     (numPlayers > 0 ? "/" + numPlayers : ""));
             System.out.println("Type 'ready' to indicate you're ready.");
-            System.out.println("Type 'unready' to indicate you're not ready.");
-            System.out.println("Type 'start' to start the game.");
             System.out.println("Type 'exit' to leave the lobby.");
             System.out.print("> ");
             String command = scanner.nextLine().trim();
