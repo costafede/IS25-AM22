@@ -116,8 +116,8 @@ public class AdventureCardView {
 
     public void showCombatZoneCard(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
-        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
-        System.out.println("Lost astronauts: " + card.getAstronautsToLose());
+        System.out.println("The player with the least crewmembers loses " + card.getFlightDaysLost() + " days on flight");
+        System.out.println("The player with the least engine strength loses " + card.getAstronautsToLose() + " crewmembers");
         Map<Integer, Shot> numberToShot = card.getNumberToShot();
         for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
             System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
@@ -127,17 +127,16 @@ public class AdventureCardView {
     public void showCombatZoneCardInGame(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
         String state = card.getStateName();
-        if (state.equals("CombatZoneState_0")){
-            System.out.println("The player with the least crewmembers loses " + card.getFlightDaysLost() + " days on flight");
+        Map<Integer, Shot> numberToShot = card.getNumberToShot();
+        System.out.println("The player with the least crewmembers loses " + card.getFlightDaysLost() + " days on flight");
+        System.out.println("The player with the least engine strength loses " + card.getAstronautsToLose() + " crewmembers");
+        for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
+            System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
         }
-        else if (state.equals("CombatZoneState_1") || state.equals("CombatZoneState_3") || state.equals("CombatZoneState_5")){
-            System.out.println("The player with the least engine strength loses " + card.getAstronautsToLose() + " crewmembers");
-        }
-        else if (state.equals("CombatZoneState_6") || state.equals("CombatZoneState_7") || state.equals("CombatZoneState_8") || state.equals("CombatZoneState_9") || state.equals("CombatZoneState_10")){
+        if (state.equals("CombatZoneState_6") || state.equals("CombatZoneState_7") || state.equals("CombatZoneState_8") || state.equals("CombatZoneState_9") || state.equals("CombatZoneState_10")){
             System.out.println("The player with the least cannon strength will be shot from this projectile:");
-            Map<Integer, Shot> numberToShot = card.getNumberToShot();
             int shotIndex = card.getIndexOfIncomingShot();
-            System.out.println("Number of incoming shot: " + shotIndex + ", Shot: " + numberToShot.get(shotIndex));
+            System.out.println("Number of incoming shot: " + shotIndex);
             if (numberToShot.get(shotIndex).getOrientation().equals(Orientation.TOP) || numberToShot.get(shotIndex).getOrientation().equals(Orientation.BOTTOM)) {
                 System.out.println("Dice1: " + card.getDice1());
                 System.out.println("Dice2: " + card.getDice2());
@@ -155,8 +154,8 @@ public class AdventureCardView {
 
     public void showCombatZoneCard2(CombatZoneCard2 card) {
         System.out.println("=== COMBAT ZONE ===");
-        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
-        System.out.println("Lost goods: " + card.getLostGoods());
+        System.out.println("The player with the least cannon strength loses " + card.getFlightDaysLost() + " days on flight");
+        System.out.println("The player with the least engine strength loses " + card.getLostGoods() + " goods");
         Map<Integer, Shot> numberToShot = card.getNumberToShot();
         for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
             System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
@@ -166,17 +165,16 @@ public class AdventureCardView {
     public void showCombatZoneCard2InGame(CombatZoneCard2 card) {
         System.out.println("=== COMBAT ZONE ===");
         String state = card.getStateName();
-        if (state.equals("CombatZoneState2_1") || state.equals("CombatZoneState2_2")){
-            System.out.println("The player with the least cannon strength loses " + card.getFlightDaysLost() + " days on flight");
+        Map<Integer, Shot> numberToShot = card.getNumberToShot();
+        System.out.println("The player with the least cannon strength loses " + card.getFlightDaysLost() + " days on flight");
+        System.out.println("The player with the least engine strength loses " + card.getLostGoods() + " goods");
+        for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
+            System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
         }
-        else if (state.equals("CombatZoneState2_3") || state.equals("CombatZoneState2_4")){
-            System.out.println("The player with the least engine strength loses " + card.getLostGoods() + " goods");
-        }
-        else if (state.equals("CombatZoneState_6") || state.equals("CombatZoneState_7") || state.equals("CombatZoneState_8") || state.equals("CombatZoneState_9")){
+        if (state.equals("CombatZoneState_6") || state.equals("CombatZoneState_7") || state.equals("CombatZoneState_8") || state.equals("CombatZoneState_9")){
             System.out.println("The player with the least crewmembers will be shot from this projectile:");
-            Map<Integer, Shot> numberToShot = card.getNumberToShot();
             int shotIndex = card.getIndexOfIncomingShot();
-            System.out.println("Number of incoming shot: " + shotIndex + ", Shot: " + numberToShot.get(shotIndex));
+            System.out.println("Number of incoming shot: " + shotIndex);
             if (numberToShot.get(shotIndex).getOrientation().equals(Orientation.TOP) || numberToShot.get(shotIndex).getOrientation().equals(Orientation.BOTTOM)) {
                 System.out.println("Dice1: " + card.getDice1());
                 System.out.println("Dice2: " + card.getDice2());
