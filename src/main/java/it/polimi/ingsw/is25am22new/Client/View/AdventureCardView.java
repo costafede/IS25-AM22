@@ -36,13 +36,8 @@ public class AdventureCardView {
         for (int i = 0; i < card.getPlanets().size(); i++) {
             System.out.println("Planet" + i + ": ");
             Map<GoodBlock, Integer> theoreticalGoodblocks = card.getPlanets().get(i).getTheoreticalGoodblocks();
-            Map<GoodBlock, Integer> actualGoodblocks = card.getPlanets().get(i).getActualGoodblocks();
             theoreticalGoodblocks.forEach((goodBlock, quantity) ->
-                    System.out.println("Good: " + goodBlock + ", Theoretical quantity: " + quantity)
-            );
-            System.out.println();
-            actualGoodblocks.forEach((goodBlock, quantity) ->
-                    System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
+                    System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
             );
             System.out.println();
         }
@@ -62,7 +57,7 @@ public class AdventureCardView {
                 System.out.println("No player is present. You can land, enjoy!");
                 Map<GoodBlock, Integer> actualGoodblocks = card.getPlanets().get(i).getActualGoodblocks();
                 actualGoodblocks.forEach((goodBlock, quantity) ->
-                        System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
+                        System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
                 );
             }
             System.out.println();
@@ -78,6 +73,9 @@ public class AdventureCardView {
 
     public void showAbandonedShipCardInGame(AbandonedShipCard card) {
         System.out.println("=== ABANDONED SHIP ===");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Credits: " + card.getCredits());
+        System.out.println("Astronauts lost: " + card.getLostAstronauts());
         System.out.println("Is it a good idea to take the ship?");
     }
 
@@ -87,24 +85,23 @@ public class AdventureCardView {
         System.out.println("Astronauts: " + card.getAstronautsNumber());
         System.out.println();
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
-        Map<GoodBlock, Integer> actualGoodBlocks = card.getTheoreticalGoodBlocks();
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Theoretical quantity: " + quantity)
+                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
         );
         System.out.println();
-        actualGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
-        );
     }
 
     public void showAbandonedStationCardInGame(AbandonedStationCard card) {
         System.out.println("=== ABANDONED STATION ===");
-        System.out.println("Is it a good idea to land on the station?");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Astronauts: " + card.getAstronautsNumber());
+        System.out.println();
         Map<GoodBlock, Integer> actualGoodblocks = card.getTheoreticalGoodBlocks();
         actualGoodblocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
+                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
         );
-
+        System.out.println();
+        System.out.println("Is it a good idea to land on the station?");
     }
 
     public void showCombatZoneCard(CombatZoneCard card) {
@@ -207,7 +204,10 @@ public class AdventureCardView {
         System.out.println("=== METEOR SWARM ===");
         int meteorIndex = card.getIndexOfIncomingMeteor();
         Map<Integer, Meteor> numberToMeteor = card.getNumberToMeteor();
-        System.out.println("Number of incoming meteor: " + meteorIndex + ", Meteor: " + numberToMeteor.get(meteorIndex));
+        for (Map.Entry<Integer, Meteor> entry : numberToMeteor.entrySet()) {
+            System.out.println("Number: " + entry.getKey() + ", Meteor: " + entry.getValue());
+        }
+        System.out.println("Number of incoming meteor: " + meteorIndex);
         if (numberToMeteor.get(meteorIndex).getOrientation().equals(Orientation.TOP) || numberToMeteor.get(meteorIndex).getOrientation().equals(Orientation.BOTTOM)) {
             System.out.println("Dice1: " + card.getDice1());
             System.out.println("Dice2: " + card.getDice2());
@@ -247,9 +247,14 @@ public class AdventureCardView {
         System.out.println("=== PIRATES ===");
         System.out.println("ARRRR! Hide the bottles of Rum and load the cannons!");
         System.out.println("The reward if you eliminate the threat: " + card.getCredits() + " credits");
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
+        System.out.println("Pirate's cannons strength: " + card.getCannonStrength());
         Map<Integer, Shot> numberToShot = card.getNumberToShot();
         int shotIndex = card.getIndexOfIncomingShot();
-        System.out.println("Number of incoming shot: " + shotIndex + ", Shot: " + numberToShot.get(shotIndex));
+        for (Map.Entry<Integer, Shot> entry : numberToShot.entrySet()) {
+            System.out.println("Number: " + entry.getKey() + ", Shot: " + entry.getValue());
+        }
+        System.out.println("Number of incoming shot: " + shotIndex);
         if (numberToShot.get(shotIndex).getOrientation().equals(Orientation.TOP) || numberToShot.get(shotIndex).getOrientation().equals(Orientation.BOTTOM)) {
             System.out.println("Dice1: " + card.getDice1());
             System.out.println("Dice2: " + card.getDice2());
@@ -272,6 +277,7 @@ public class AdventureCardView {
         System.out.println("We're back in colonialism... Prepare the cannons and watch out for the slavers!");
         System.out.println("Slavers's cannon strength: " + card.getCannonStrength());
         System.out.println("The reward if you eliminate the threat: " + card.getCredits() + " credits");
+        System.out.println("If you're weak you will lose " + card.getAstronautsToLose() + " crewmembers");
     }
 
     public void showSmugglersCard(SmugglersCard card) {
@@ -280,13 +286,8 @@ public class AdventureCardView {
         System.out.println("Lost goods: " + card.getLostGoods());
         System.out.println("Cannon's strength: " + card.getCannonStrength());
         Map<GoodBlock, Integer> theoreticalGoodBlocks = card.getTheoreticalGoodBlocks();
-        Map<GoodBlock, Integer> actualGoodBlocks = card.getActualGoodBlocks();
-
         theoreticalGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Theoretical quantity: " + quantity)
-        );
-        actualGoodBlocks.forEach((goodBlock, quantity) ->
-                System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
+                System.out.println("Good: " + goodBlock + ", Quantity: " + quantity)
         );
     }
 
@@ -294,12 +295,13 @@ public class AdventureCardView {
         System.out.println("=== SMUGGLERS ===");
         System.out.println("Better watch out! If you're weak you will lose valuable stuff");
         System.out.println("Smuggler's cannon strength: " + card.getCannonStrength());
+        System.out.println("Days on flight lost: " + card.getFlightDaysLost());
         System.out.println("The reward if you eliminate the threat:");
         Map<GoodBlock, Integer> actualGoodBlocks = card.getActualGoodBlocks();
         actualGoodBlocks.forEach((goodBlock, quantity) ->
                 System.out.println("Good: " + goodBlock + ", Actual quantity: " + quantity)
         );
-
+        System.out.println("If you're weak you will lose " + card.getLostGoods() + " goods");
     }
 
     public void showStardustCard(StardustCard card) {
