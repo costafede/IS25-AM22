@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.LobbyController"
+            fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.ConnectToServerController"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>

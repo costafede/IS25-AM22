@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.StartMenu">
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.StartMenuController">
    <children>
       <AnchorPane prefHeight="720.0" prefWidth="1280.0">
          <children>
@@ -15,7 +15,7 @@
                   <Image url="@Graphics/StartMenu.png" />
                </image>
             </ImageView>
-F            <Button fx:id="StartMenu" layoutX="625.0" layoutY="448.0" mnemonicParsing="false" scaleX="3.0" scaleY="3.0" text="PLAY" AnchorPane.bottomAnchor="246.39999999999998" />
+            <Button fx:id="playButton" layoutX="625.0" layoutY="448.0" mnemonicParsing="false" onAction="#switchToConnectToServerScene" scaleX="3.0" scaleY="3.0" text="PLAY" AnchorPane.bottomAnchor="246.39999999999998" />
          </children>
       </AnchorPane>
    </children>
