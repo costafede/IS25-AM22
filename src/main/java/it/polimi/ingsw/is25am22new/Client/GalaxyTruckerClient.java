@@ -163,7 +163,7 @@ public class GalaxyTruckerClient {
         // For now, just use the original implementation
         String[] socketArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
         try {
-            virtualServer = SocketClientSide.connectToServer(socketArgs, clientModel);
+            virtualServer = SocketClientSide.connectToServer(socketArgs, clientModel, scanner);
         } catch (Exception e) {
             System.err.println("Socket client error: " + e.getMessage());
         }
