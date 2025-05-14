@@ -11,11 +11,13 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
+import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -253,6 +255,19 @@ public class SocketServerSide implements ObserverModel {
                 this.listenSocket.close();
         } catch (IOException e) {
             System.out.println("Error closing listen socket: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateShipboardList(Map<String, Shipboard> shipboards) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
+                for (Map.Entry<String, Shipboard> entry : shipboards.entrySet()) {
+                    String player = entry.getKey();
+                    Shipboard shipboard = entry.getValue();
+                    client.showUpdateShipboard(player, shipboard);
+                }
+            }
         }
     }
 }
