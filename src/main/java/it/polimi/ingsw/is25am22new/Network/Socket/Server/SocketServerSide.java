@@ -10,14 +10,11 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
-import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
-import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,11 +48,7 @@ public class SocketServerSide implements ObserverModel {
                 );
 
                 Thread t = new Thread(() -> {
-                    try {
-                        handler.runVirtualView(Thread.currentThread());
-                    } catch (IOException | ClassNotFoundException e) {
-                        System.out.println("Thread interrupted: " + e.getMessage());
-                    }
+                    handler.runVirtualView(Thread.currentThread());
                 });
                 t.start();
             }

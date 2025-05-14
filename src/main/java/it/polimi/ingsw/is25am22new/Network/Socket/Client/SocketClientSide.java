@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class SocketClientSide implements VirtualView {
 
@@ -33,6 +34,11 @@ public class SocketClientSide implements VirtualView {
     boolean isHost;
     private ScheduledExecutorService heartbeatScheduler;
     Socket socket;
+    private Map<String, Consumer<SocketMessage>> commandMap;
+
+    List<String> players = new ArrayList<>();
+    String gameType = "ERROR";
+    String message = "ERROR";
 
     protected SocketClientSide(Socket socket, ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel) throws IOException {
         this.socket = socket;
@@ -41,8 +47,34 @@ public class SocketClientSide implements VirtualView {
         this.thisPlayerName = thisPlayerName;
         this.view = new LobbyView(clientModel);
         this.clientModel = clientModel;
+        commandMap = new HashMap<>();
+        initializeCommandMap();
     }
-
+    private void initializeCommandMap() {
+        commandMap.put("Bank", this::handleBank);
+        commandMap.put("TileInHand", this::handleTileInHand);
+        commandMap.put("UncoveredComponentTile", this::handleUncoveredComponentTile);
+        commandMap.put("CoveredComponentTile", this::handleCoveredComponentTile);
+        commandMap.put("Shipboard", this::handleShipboard);
+        commandMap.put("Flightboard", this::handleFlightboard);
+        commandMap.put("CurrCard", this::handleCurrCard);
+        commandMap.put("Dices", this::handleDices);
+        commandMap.put("CurrPlayer", this::handleCurrPlayer);
+        commandMap.put("GamePhase", this::handleGamePhase);
+        commandMap.put("Deck", this::handleDeck);
+        commandMap.put("Game", this::handleGame);
+        commandMap.put("LobbyUpdate", this::handleLobbyUpdate);
+        commandMap.put("ReadyStatus", this::handleReadyStatus);
+        commandMap.put("ConnectionResult", this::handleConnectionResult);
+        commandMap.put("Success", this::handleSuccess);
+        commandMap.put("NicknameResult", this::handleNicknameResult);
+        commandMap.put("GameStarted", msg -> showGameStarted());
+        commandMap.put("PlayerJoined", this::handlePlayerJoined);
+        commandMap.put("MessageToEveryone", this::handleMessageToEveryone);
+        commandMap.put("StopHourglass", msg -> showUpdateStopHourglass());
+        commandMap.put("StartHourglass", this::handleStartHourglass);
+        commandMap.put("updateTest", this::handleUpdateTest);
+    }
     public static SocketServerHandler connectToServer(String[] args, ClientModel clientModel) throws InterruptedException, ClassNotFoundException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
@@ -118,115 +150,12 @@ public class SocketClientSide implements VirtualView {
         this.view.startCommandLoopSocket(this.output, thisPlayerName, new Scanner(System.in));
     }
 
-    // comunicazione dal server al client
-    private void runVirtualServer() {
+    public void runVirtualServer() {
         SocketMessage msg;
-        List<String> players = new ArrayList<>();
-        String gameType = "ERROR";
-        String message = "ERROR";
+
         try {
             while ((msg = (SocketMessage) objectInput.readObject()) != null) {
-                switch (msg.getCommand()) {
-                    case "Bank" -> {
-                        Bank bank = (Bank) msg.getObject();
-                        this.showUpdateBank(bank);
-                    }
-                    case "TileInHand" -> {
-                        ComponentTile tile = (ComponentTile) msg.getObject();
-                        String player = msg.getPayload();
-                        this.showUpdateTileInHand(player, tile);
-                    }
-                    case "UncoveredComponentTile" -> {
-                        List<ComponentTile> ctList = (ArrayList<ComponentTile>) msg.getObject();
-                        this.showUpdateUncoveredComponentTiles(ctList);
-                    }
-                    case "CoveredComponentTile" -> {
-                        List<ComponentTile> ctList = (ArrayList<ComponentTile>) msg.getObject();
-                        this.showUpdateCoveredComponentTiles(ctList);
-                    }
-                    case "Shipboard" -> {
-                        String player = msg.getPayload();
-                        Shipboard shipboard = (Shipboard) msg.getObject();
-                        this.showUpdateShipboard(player, shipboard);
-                    }
-                    case "Flightboard" -> {
-                        Flightboard flightboard = (Flightboard) msg.getObject();
-                        this.showUpdateFlightboard(flightboard);
-                    }
-                    case "CurrCard" -> {
-                        AdventureCard card = (AdventureCard) msg.getObject();
-                        this.showUpdateCurrCard(card);
-                    }
-                    case "Dices" -> {
-                        Dices dices = (Dices) msg.getObject();
-                        this.showUpdateDices(dices);
-                    }
-                    case "CurrPlayer" -> {
-                        String currPlayer = msg.getPayload();
-                        this.showUpdateCurrPlayer(currPlayer);
-                    }
-                    case "GamePhase" -> {
-                        GamePhase gamePhase = (GamePhase) msg.getObject();
-                        this.showUpdateGamePhase(gamePhase);
-                    }
-                    case "Deck" -> {
-                        List<AdventureCard> deck = (ArrayList<AdventureCard>) msg.getObject();
-                        this.showUpdateDeck(deck);
-                    }
-                    case "Game" -> {
-                        Game game = (Game) msg.getObject();
-                        this.showUpdateGame(game);
-                    }
-                    case "LobbyUpdate" -> {
-                        players = (ArrayList<String>) msg.getObject();
-                        gameType = msg.getPayload();
-                    }
-                    case "ReadyStatus" -> {
-                        // might be wrong
-                        Map<String, Boolean> readyStatus = (Map<String, Boolean>) msg.getObject();
-                        this.showLobbyUpdate(players, readyStatus, gameType);
-                    }
-                    case "ConnectionResult" -> {
-                        // might be wrong
-                        isHost = (boolean) msg.getObject();
-                        message = msg.getPayload();
-                    }
-                    case "Success" -> {
-                        boolean success = (boolean) msg.getObject();
-                        this.showConnectionResult(isHost, success, message);
-                    }
-                    case "NicknameResult" -> {
-                        boolean valid = (boolean) msg.getObject();
-                        message = msg.getPayload();
-                        this.showNicknameResult(valid, message);
-                    }
-                    case "GameStarted" -> {
-                        this.showGameStarted();
-                    }
-                    case "PlayerJoined" -> {
-                        String player = msg.getPayload();
-                        this.showPlayerJoined(player);
-                    }
-                    case "MessageToEveryone" -> {
-                        this.showMessage(msg.getPayload());
-                    }
-                    case "StopHourglass" -> {
-                        this.showUpdateStopHourglass();
-                    }
-                    case "StartHourglass" -> {
-                        int hourglassSpot = (int) msg.getObject();
-                        this.showUpdateStartHourglass(hourglassSpot);
-                    }
-                    case "updateTest" -> {
-                        System.out.println(msg.getPayload());
-                        System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
-                        System.out.flush();
-                    }
-                    case "shutdown" -> {
-                        this.shutdown();
-                    }
-                    default -> System.err.println("[INVALID MESSAGE]");
-                }
+                commandMap.getOrDefault(msg.getCommand(), this::handleInvalidMessage).accept(msg);
             }
         } catch (Exception e) {
             System.out.println("Connection closed");
@@ -297,12 +226,12 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateStopHourglass() throws RemoteException {
+    public void showUpdateStopHourglass(){
         clientModel.stopHourglass();
     }
 
     @Override
-    public void showUpdateStartHourglass(int hourglassSpot) throws RemoteException {
+    public void showUpdateStartHourglass(int hourglassSpot) {
         clientModel.startHourglass(hourglassSpot);
     }
 
@@ -379,5 +308,119 @@ public class SocketClientSide implements VirtualView {
             System.err.println("Error closing connection: " + e.getMessage());
         }
         System.exit(0);
+    }
+
+    private void handleBank(SocketMessage msg) {
+        Bank bank = (Bank) msg.getObject();
+        showUpdateBank(bank);
+    }
+
+    private void handleTileInHand(SocketMessage msg) {
+        ComponentTile tile = (ComponentTile) msg.getObject();
+        String player = msg.getPayload();
+        showUpdateTileInHand(player, tile);
+    }
+
+    private void handleUncoveredComponentTile(SocketMessage msg) {
+        List<ComponentTile> ctList = (ArrayList<ComponentTile>) msg.getObject();
+        showUpdateUncoveredComponentTiles(ctList);
+    }
+
+    private void handleCoveredComponentTile(SocketMessage msg) {
+        List<ComponentTile> ctList = (ArrayList<ComponentTile>) msg.getObject();
+        showUpdateCoveredComponentTiles(ctList);
+    }
+
+    private void handleShipboard(SocketMessage msg) {
+        String player = msg.getPayload();
+        Shipboard shipboard = (Shipboard) msg.getObject();
+        showUpdateShipboard(player, shipboard);
+    }
+
+    private void handleFlightboard(SocketMessage msg) {
+        Flightboard flightboard = (Flightboard) msg.getObject();
+        showUpdateFlightboard(flightboard);
+    }
+
+    private void handleCurrCard(SocketMessage msg) {
+        AdventureCard card = (AdventureCard) msg.getObject();
+        showUpdateCurrCard(card);
+    }
+
+    private void handleDices(SocketMessage msg) {
+        Dices dices = (Dices) msg.getObject();
+        showUpdateDices(dices);
+    }
+
+    private void handleCurrPlayer(SocketMessage msg) {
+        String currPlayer = msg.getPayload();
+        showUpdateCurrPlayer(currPlayer);
+    }
+
+    private void handleGamePhase(SocketMessage msg) {
+        GamePhase gamePhase = (GamePhase) msg.getObject();
+        showUpdateGamePhase(gamePhase);
+    }
+
+    private void handleDeck(SocketMessage msg) {
+        List<AdventureCard> deck = (ArrayList<AdventureCard>) msg.getObject();
+        showUpdateDeck(deck);
+    }
+
+    private void handleGame(SocketMessage msg) {
+        Game game = (Game) msg.getObject();
+        showUpdateGame(game);
+    }
+
+    private void handleLobbyUpdate(SocketMessage msg) {
+        players = (ArrayList<String>) msg.getObject();
+        gameType = msg.getPayload();
+    }
+
+    private void handleReadyStatus(SocketMessage msg) {
+        Map<String, Boolean> readyStatus = (Map<String, Boolean>) msg.getObject();
+        showLobbyUpdate(players, readyStatus, gameType);
+    }
+
+    private void handleConnectionResult(SocketMessage msg) {
+        isHost = (boolean) msg.getObject();
+        message = msg.getPayload();
+    }
+
+    private void handleSuccess(SocketMessage msg) {
+        boolean success = (boolean) msg.getObject();
+        showConnectionResult(isHost, success, message);
+    }
+
+    private void handleNicknameResult(SocketMessage msg) {
+        boolean valid = (boolean) msg.getObject();
+        message = msg.getPayload();
+        showNicknameResult(valid, message);
+    }
+
+    private void handlePlayerJoined(SocketMessage msg) {
+        String player = msg.getPayload();
+        showPlayerJoined(player);
+    }
+
+    private void handleMessageToEveryone(SocketMessage msg) {
+        showMessage(msg.getPayload());
+    }
+
+    private void handleStartHourglass(SocketMessage msg) {
+        int hourglassSpot = (int) msg.getObject();
+        showUpdateStartHourglass(hourglassSpot);
+    }
+
+    private void handleUpdateTest(SocketMessage msg) {
+        System.out.println(msg.getPayload());
+        System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
+        System.out.flush();
+    }
+
+
+
+    private void handleInvalidMessage(SocketMessage msg) {
+        System.err.println("[INVALID MESSAGE]: " + msg.getCommand());
     }
 }

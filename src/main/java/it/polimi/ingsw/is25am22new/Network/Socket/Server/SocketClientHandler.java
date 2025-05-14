@@ -17,8 +17,10 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 import java.io.*;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class SocketClientHandler implements VirtualView {
     private final GameController controller;
@@ -26,7 +28,8 @@ public class SocketClientHandler implements VirtualView {
     private final ObjectInputStream objectInput;
     private final ObjectOutputStream objectOutput;
     private final HeartbeatManager heartbeatManager;
-
+    private Map<String, Consumer<SocketMessage>> commandMap;
+    private Thread thisThread;
     // CI SONO VARIE ISTANZE DI SOCKETCLIENTHANDLER, UNA PER OGNI GIOCATORE
     public SocketClientHandler(GameController controller, SocketServerSide server, InputStream is, OutputStream os) throws IOException {
         this.controller = controller;
@@ -35,157 +38,57 @@ public class SocketClientHandler implements VirtualView {
         objectOutput.flush();
         this.objectInput = new ObjectInputStream(is);
         this.heartbeatManager = new HeartbeatManager(5000, this::handleHeartbeatDisconnect);
+        commandMap = new HashMap<>();
+        initializeCommandMap();
+    }
+
+    private void initializeCommandMap() {
+        commandMap.put("checkAvailability", this::handleCheckAvailability);
+        commandMap.put("removePlayer", msg -> removePlayer(msg.getPayload()));
+        commandMap.put("setPlayerReady", msg -> setPlayerReady(msg.getPayload()));
+        commandMap.put("setPlayerNotReady", msg -> setPlayerNotReady(msg.getPayload()));
+        commandMap.put("startGameByHost", msg -> startGameByHost(msg.getPayload()));
+        commandMap.put("setGameType", msg -> setGameType(msg.getPayload()));
+        commandMap.put("pickCoveredTile", msg -> pickCoveredTile(msg.getPayload()));
+        commandMap.put("pickUncoveredTile", msg -> pickUncoveredTile(msg.getPayload(), (String) msg.getObject()));
+        commandMap.put("weldComponentTile", this::handleWeldComponentTile);
+        commandMap.put("standbyComponentTile", msg -> standbyComponentTile(msg.getPayload()));
+        commandMap.put("pickStandByComponentTile", this::handlePickStandbyComponentTile);
+        commandMap.put("discardComponentTile", msg -> discardComponentTile(msg.getPayload()));
+        commandMap.put("finishBuilding1", msg -> finishBuilding(msg.getPayload()));
+        commandMap.put("finishBuilding2", this::handleFinishBuilding2);
+        commandMap.put("finishedAllShipboards", msg -> finishedAllShipboards());
+        commandMap.put("flipHourglass", msg -> flipHourglass());
+        commandMap.put("pickCard", msg -> pickCard());
+        commandMap.put("activateCard", msg -> activateCard((InputCommand) msg.getObject()));
+        commandMap.put("playerAbandons", msg -> playerAbandons(msg.getPayload()));
+        commandMap.put("destroyTile", this::handleDestroyTile);
+        commandMap.put("endGame", msg -> endGame());
+        commandMap.put("setNumPlayers", this::handleSetNumPlayers);
+        commandMap.put("quit", this::handleQuit);
+        commandMap.put("godMode", this::handleGodMode);
+        commandMap.put("placeBrownAlien", this::handlePlaceBrownAlien);
+        commandMap.put("placePurpleAlien", this::handlePlacePurpleAlien);
+        commandMap.put("heartbeat", msg -> heartbeat(msg.getPayload()));
+        commandMap.put("placeAstronauts", this::handlePlaceAstronauts);
+        commandMap.put("disconnect", msg -> controller.disconnect());
+        commandMap.put("connectionTester", this::handleConnectionTester);
     }
 
     //comunicazione dal client al server
-    public void runVirtualView(Thread thread) throws IOException, ClassNotFoundException {
-        SocketMessage msg = null;
-        try{
-            while ((msg = (SocketMessage) objectInput.readObject()) != null){
-                switch (msg.getCommand()) {
-                    case "checkAvailability" -> {
-                        if(this.controller.isStarted() || this.controller.getPlayers().isEmpty()) {
-                            int res = this.controller.addPlayer(msg.getPayload());
-                            if(res == 1) {
-                                heartbeatManager.registerClient(msg.getPayload());
-                                server.addHandlerToClients(this, thread);
-                                showNicknameResult(true, "PlayerAdded");
-
-                                boolean isHost = this.controller.getPlayers().size() == 1;
-
-                                showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
-
-                                if(!isHost)    this.controller.updateAllPlayerJoined(msg.getPayload());
-                                this.controller.updateAllLobbies();
-                            }
-                            else if(res == -2){
-                                showNicknameResult(false, "PlayerAlreadyInLobby");
-                            }
-                            else if(res == -1){
-                                showNicknameResult(false, "LobbyFullOrOutsideLobbyState");
-                            }
-                            System.out.println("List of players updated: " + this.controller.getPlayers());
-                        } else {
-                            terminate();
-                        }
-                    }
-                    case "removePlayer" -> {
-                        this.removePlayer(msg.getPayload());
-                    }
-                    case "setPlayerReady" -> {
-                        this.setPlayerReady(msg.getPayload());
-                    }
-                    case "startGameByHost" -> {
-                        this.startGameByHost(msg.getPayload());
-                    }
-                    case "setPlayerNotReady" -> {
-                        this.setPlayerNotReady(msg.getPayload());
-                    }
-                    case "setGameType" -> {
-                        this.setGameType(msg.getPayload());
-                    }
-                    case "pickCoveredTile" -> {
-                        this.pickCoveredTile(msg.getPayload());
-                    }
-                    case "pickUncoveredTile" -> {
-                        this.pickUncoveredTile(msg.getPayload(), (String) msg.getObject());
-                    }
-                    case "weldComponentTile" -> {
-                        this.weldComponentTile(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getRow(),
-                                ((InputCommand) msg.getObject()).getCol(),
-                                ((InputCommand) msg.getObject()).getIndexChosen());
-                    }
-                    case "standbyComponentTile" -> {
-                        this.standbyComponentTile(msg.getPayload());
-                    }
-                    case "pickStandByComponentTile" -> {
-                        this.pickStandbyComponentTile(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getIndexChosen());
-                    }
-                    case "discardComponentTile" -> {
-                        this.discardComponentTile(msg.getPayload());
-                    }
-                    case "finishBuilding1" -> {
-                        this.finishBuilding(msg.getPayload());
-                    }
-                    case "finishBuilding2" -> {
-                        this.finishBuilding(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getIndexChosen());
-                    }
-                    case "finishedAllShipboards" -> {
-                        this.finishedAllShipboards();
-                    }
-                    case "flipHourglass" -> {
-                        this.flipHourglass();
-                    }
-                    case "pickCard" -> {
-                        this.pickCard();
-                    }
-                    case "activateCard" -> {
-                        this.activateCard((InputCommand) msg.getObject());
-                    }
-                    case "playerAbandons" -> {
-                        this.playerAbandons(msg.getPayload());
-                    }
-                    case "destroyTile" -> {
-                        this.destroyComponentTile(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getRow(),
-                                ((InputCommand) msg.getObject()).getCol());
-                    }
-                    case "endGame" -> {
-                        this.endGame();
-                    }
-                    case "setNumPlayers" -> {
-                        int numPlayers = ((InputCommand) msg.getObject()).getIndexChosen();
-                        this.controller.setNumPlayers(numPlayers);
-                    }
-                    case "quit" -> {
-                        this.controller.quit(msg.getPayload());
-                        heartbeatManager.unregisterClient(msg.getPayload());
-                    }
-                    case "godMode" -> {
-                        this.godMode(msg.getPayload(), (String) msg.getObject());
-                    }
-                    case "placeBrownAlien" -> {
-                        this.placeBrownAlien(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getRow(),
-                                ((InputCommand) msg.getObject()).getCol());
-                    }
-                    case "placePurpleAlien" -> {
-                        this.placePurpleAlien(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getRow(),
-                                ((InputCommand) msg.getObject()).getCol());
-                    }
-                    case "heartbeat" -> {
-                        this.heartbeat(msg.getPayload());
-                    }
-                    case "placeAstronauts" -> {
-                        this.placeAstronauts(msg.getPayload(),
-                                ((InputCommand) msg.getObject()).getRow(),
-                                ((InputCommand) msg.getObject()).getCol());
-                    }
-                    case "disconnect" -> {
-                        this.controller.disconnect();
-                    }
-                    case "connectionTester" -> {
-                        System.out.println(msg.getPayload());
-                        System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
-                        showUpdateTest();
-                    }
-                }
+    public void runVirtualView(Thread thread) {
+        SocketMessage msg;
+        thisThread = thread;
+        try {
+            while ((msg = (SocketMessage) objectInput.readObject()) != null) {
+                commandMap.getOrDefault(msg.getCommand(), m -> System.out.println("Unknown command: " + m.getCommand())).accept(msg);
             }
         } catch (Exception e) {
             System.out.println("Connection closed on ServerClientHandler: " + this);
-            System.out.flush();
         } finally {
             try {
-                if(objectInput != null) {
-                    objectInput.close();
-                }
-                if(objectOutput!= null) {
-                    objectOutput.close();
-                }
+                if (objectInput != null) objectInput.close();
+                if (objectOutput != null) objectOutput.close();
             } catch (IOException e) {
                 System.err.println("Error closing connection: " + e.getMessage());
             }
@@ -455,7 +358,7 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
-    public void terminate() throws RemoteException {
+    public void terminate(){
         showWaitResult();
     }
 
@@ -469,35 +372,24 @@ public class SocketClientHandler implements VirtualView {
         }
     }
 
-    public void shutdown() {
-        SocketMessage message = new SocketMessage("shutdown", null, null);
-        try {
-            objectOutput.writeObject(message);
-            objectOutput.flush();
-        } catch (IOException e) {
-            System.out.println("Error sending shutdown from server: " + e.getMessage());
-        }
-    }
-
-
-    private void godMode(String playerName, String conf) throws IOException {
+    private void godMode(String playerName, String conf){
         this.controller.godMode(playerName, conf);
     }
 
 
-    private void setPlayerReady(String playerName) throws IOException {
+    private void setPlayerReady(String playerName) {
         this.controller.setPlayerReady(playerName);
         this.controller.updateAllLobbies();
     }
 
 
-    private void setPlayerNotReady(String playerName) throws IOException {
+    private void setPlayerNotReady(String playerName){
         this.controller.setPlayerNotReady(playerName);
         this.controller.updateAllLobbies();
     }
 
 
-    public void startGameByHost(String playerName) throws IOException {
+    public void startGameByHost(String playerName) {
         if(!playerName.equals(this.controller.getLobbyCreator())) {
             showConnectionResult(false, false, "Only the host can start the game");
         }
@@ -529,24 +421,24 @@ public class SocketClientHandler implements VirtualView {
     }
 
 
-    public void setGameType(String gameType) throws IOException {
+    public void setGameType(String gameType) {
         this.controller.setGameType(gameType);
         this.controller.updateAllLobbies();
         this.controller.setStarted(true);
     }
 
 
-    public void pickCoveredTile(String playerName) throws IOException {
+    public void pickCoveredTile(String playerName){
         this.controller.pickCoveredTile(playerName);
     }
 
 
-    public void pickUncoveredTile(String playerName, String pngName) throws IOException {
+    public void pickUncoveredTile(String playerName, String pngName)  {
         this.controller.pickUncoveredTile(playerName, pngName);
     }
 
 
-    public void weldComponentTile(String playerName, int i, int j, int numOfRotation) throws IOException {
+    public void weldComponentTile(String playerName, int i, int j, int numOfRotation) {
         if(numOfRotation > 0){
             this.controller.rotateClockwise(playerName, numOfRotation);
         }
@@ -637,15 +529,15 @@ public class SocketClientHandler implements VirtualView {
         this.controller.placePurpleAlien(playerName, i, j);
     }
 
-    public void showMessageToEveryone(String mess) {
-        SocketMessage message = new SocketMessage("MessageToEveryone", null, mess);
-        try {
-            objectOutput.writeObject(message);
-            objectOutput.flush();
-        } catch (IOException e) {
-            System.out.println("Error updating message to everyone for client: " + e.getMessage());
-        }
-    }
+    //public void showMessageToEveryone(String mess) {
+    //    SocketMessage message = new SocketMessage("MessageToEveryone", null, mess);
+    //    try {
+    //        objectOutput.writeObject(message);
+    //        objectOutput.flush();
+    //    } catch (IOException e) {
+    //        System.out.println("Error updating message to everyone for client: " + e.getMessage());
+    //    }
+    //}
 
     public ObjectInputStream getObjectInput() {
         return objectInput;
@@ -657,5 +549,83 @@ public class SocketClientHandler implements VirtualView {
 
     public HeartbeatManager getHeartbeatManager() {
         return heartbeatManager;
+    }
+    private void handleWeldComponentTile(SocketMessage msg) {
+        InputCommand cmd = (InputCommand) msg.getObject();
+        weldComponentTile(msg.getPayload(), cmd.getRow(), cmd.getCol(), cmd.getIndexChosen());
+    }
+
+    private void handlePickStandbyComponentTile(SocketMessage msg) {
+        int indexChosen = ((InputCommand) msg.getObject()).getIndexChosen();
+        pickStandbyComponentTile(msg.getPayload(), indexChosen);
+    }
+
+    private void handleFinishBuilding2(SocketMessage msg) {
+        int indexChosen = ((InputCommand) msg.getObject()).getIndexChosen();
+        finishBuilding(msg.getPayload(), indexChosen);
+    }
+
+    private void handleDestroyTile(SocketMessage msg) {
+        InputCommand cmd = (InputCommand) msg.getObject();
+        destroyComponentTile(msg.getPayload(), cmd.getRow(), cmd.getCol());
+    }
+
+    private void handleSetNumPlayers(SocketMessage msg) {
+        int numPlayers = ((InputCommand) msg.getObject()).getIndexChosen();
+        controller.setNumPlayers(numPlayers);
+    }
+
+    private void handleQuit(SocketMessage msg) {
+        controller.quit(msg.getPayload());
+        heartbeatManager.unregisterClient(msg.getPayload());
+    }
+
+    private void handleGodMode(SocketMessage msg) {
+        godMode(msg.getPayload(), (String) msg.getObject());
+    }
+
+    private void handlePlaceBrownAlien(SocketMessage msg) {
+        InputCommand cmd = (InputCommand) msg.getObject();
+        placeBrownAlien(msg.getPayload(), cmd.getRow(), cmd.getCol());
+    }
+
+    private void handlePlacePurpleAlien(SocketMessage msg) {
+        InputCommand cmd = (InputCommand) msg.getObject();
+        placePurpleAlien(msg.getPayload(), cmd.getRow(), cmd.getCol());
+    }
+
+    private void handlePlaceAstronauts(SocketMessage msg) {
+        InputCommand cmd = (InputCommand) msg.getObject();
+        placeAstronauts(msg.getPayload(), cmd.getRow(), cmd.getCol());
+    }
+
+    private void handleConnectionTester(SocketMessage msg) {
+        System.out.println(msg.getPayload());
+        System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
+        showUpdateTest();
+    }
+
+    private void handleCheckAvailability(SocketMessage msg) {
+        if (controller.isStarted() || controller.getPlayers().isEmpty()) {
+            int res = controller.addPlayer(msg.getPayload());
+            if (res == 1) {
+                heartbeatManager.registerClient(msg.getPayload());
+                server.addHandlerToClients(this, thisThread);
+                showNicknameResult(true, "PlayerAdded");
+
+                boolean isHost = controller.getPlayers().size() == 1;
+                showConnectionResult(isHost, true, isHost ? "You are the host of the lobby" : "You joined an existing lobby");
+
+                if (!isHost) controller.updateAllPlayerJoined(msg.getPayload());
+                controller.updateAllLobbies();
+            } else if (res == -2) {
+                showNicknameResult(false, "PlayerAlreadyInLobby");
+            } else if (res == -1) {
+                showNicknameResult(false, "LobbyFullOrOutsideLobbyState");
+            }
+            System.out.println("List of players updated: " + controller.getPlayers());
+        } else {
+            terminate();
+        }
     }
 }
