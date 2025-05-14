@@ -74,6 +74,24 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
+    public void updateShipboardList(Map<String, Shipboard> shipboards) {
+        for (VirtualView client : connectedClients) {
+            try {
+                for(Map.Entry<String, Shipboard> entry : shipboards.entrySet()) {
+                    String player = entry.getKey();
+                    Shipboard shipboard = entry.getValue();
+                    client.showUpdateShipboard(player, shipboard);
+                }
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with shipboard list: " + e.getMessage());
+                handleClientError(client, e);
+            } catch (Exception e) {
+                //handle showShipboardList exception
+            }
+        }
+    }
+
+    @Override
     public void heartbeat(String nickname) {
         System.out.println("Received heartbeat from: " + nickname);
         heartbeatManager.heartbeat(nickname);
