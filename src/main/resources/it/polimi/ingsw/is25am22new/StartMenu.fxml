@@ -15,7 +15,7 @@
                   <Image url="@Graphics/StartMenu.png" />
                </image>
             </ImageView>
-            <Button layoutX="625.0" layoutY="448.0" mnemonicParsing="false" scaleX="3.0" scaleY="3.0" text="PLAY" AnchorPane.bottomAnchor="246.39999999999998" />
+F            <Button fx:id="StartMenu" layoutX="625.0" layoutY="448.0" mnemonicParsing="false" scaleX="3.0" scaleY="3.0" text="PLAY" AnchorPane.bottomAnchor="246.39999999999998" />
          </children>
       </AnchorPane>
    </children>

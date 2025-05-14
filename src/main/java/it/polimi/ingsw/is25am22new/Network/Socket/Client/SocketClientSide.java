@@ -125,7 +125,7 @@ public class SocketClientSide implements VirtualView {
             }
 
             SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel);
-            newSocket.run();
+            newSocket.run(scanner);
             return newSocket.getServerHandler();
         } catch (IOException e) {
             System.out.println("Error connecting to server: " + e.getMessage());
@@ -133,7 +133,7 @@ public class SocketClientSide implements VirtualView {
         return null;
     }
 
-    private void run() throws IOException, InterruptedException {
+    private void run(Scanner scanner) throws IOException, InterruptedException {
         new Thread(() -> {
             try {
                 runVirtualServer();
@@ -145,6 +145,7 @@ public class SocketClientSide implements VirtualView {
         Thread.sleep(150);
         startHeartbeat(thisPlayerName, output);
         clientModel.setPlayerName(thisPlayerName);
+        view.startCommandLoopSocket(this.output, thisPlayerName, scanner);
     }
 
     public void runVirtualServer() {
@@ -415,7 +416,9 @@ public class SocketClientSide implements VirtualView {
         System.out.flush();
     }
 
-
+    public String getThisPlayerName() {
+        return thisPlayerName;
+    }
 
     private void handleInvalidMessage(SocketMessage msg) {
         System.err.println("[INVALID MESSAGE]: " + msg.getCommand());
