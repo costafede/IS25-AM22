@@ -20,8 +20,8 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,8 +59,14 @@ public class GameInitializer {
     }
 
     private static void initAbandonedShipCard(Game game, ObjectMapper objectMapper) {
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/AbandonedShipCard.json"));
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/AbandonedShipCard.json");
+            if (is == null) {
+                System.out.println("Error: AbandonedShipCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for (JsonNode node : rootNode) {
                 AbandonedShipCard asc = new AbandonedShipCard(
                         node.get("pngName").asText(),
@@ -81,9 +87,15 @@ public class GameInitializer {
     }
 
     private static void initAbandonedStationCard(Game game, ObjectMapper objectMapper) {
-        try{
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/AbandonedStationCard.json"));
-            for(JsonNode node : jsonNode){
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/AbandonedStationCard.json");
+            if (is == null) {
+                System.out.println("Error: AbandonedStationCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
+            for(JsonNode node : rootNode){
                 Map<GoodBlock, Integer> theoreticalGoodBlocks = new HashMap<>();
                 JsonNode goodBlocksNode = node.get("goodBlocks");
                 for(JsonNode goodBlockNode: goodBlocksNode){
@@ -116,8 +128,12 @@ public class GameInitializer {
 
     private static void initCombatZoneCard1(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/CombatZoneCard1.json"));
-            for (JsonNode node : jsonNode) {
+            InputStream is1 = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/CombatZoneCard1.json");
+            if (is1 == null) {
+                System.out.println("Error: CombatZoneCard1.json resource not found");
+            }
+            JsonNode rootNode = objectMapper.readTree(is1);
+            for (JsonNode node : rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
                 int level = node.get("level").asInt();
@@ -148,8 +164,12 @@ public class GameInitializer {
 
     private static void initCombatZoneCard2(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/CombatZoneCard2.json"));
-            for (JsonNode node : jsonNode) {
+            InputStream is2 = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/CombatZoneCard2.json");
+            if (is2 == null) {
+                throw new IOException("Resource not found: CombatZoneCard2.json");
+            }
+            JsonNode rootNode = objectMapper.readTree(is2);
+            for (JsonNode node : rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
                 int level = node.get("level").asInt();
@@ -180,8 +200,14 @@ public class GameInitializer {
 
     private static void initEpidemicCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/EpidemicCard.json"));
-            for (JsonNode node : jsonNode) {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/EpidemicCard.json");
+            if (is == null) {
+                System.out.println("Error: EpidemicCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
+            for (JsonNode node : rootNode) {
                 EpidemicCard ec = new EpidemicCard(
                         node.get("pngName").asText(),
                         node.get("name").asText(),
@@ -198,7 +224,13 @@ public class GameInitializer {
 
     private static void initMeteorSwarmCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/MeteorSwarmCard.json"));
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/MeteorSwarmCard.json");
+            if (is == null) {
+                System.out.println("Error: MeteorSwarmCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -229,8 +261,14 @@ public class GameInitializer {
 
     private static void initOpenSpaceCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/OpenSpaceCard.json"));
-            for (JsonNode node : jsonNode) {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/OpenSpaceCard.json");
+            if (is == null) {
+                System.out.println("Error: OpenSpaceCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
+            for (JsonNode node : rootNode) {
                 OpenSpaceCard ec = new OpenSpaceCard(
                         node.get("pngName").asText(),
                         node.get("name").asText(),
@@ -247,8 +285,14 @@ public class GameInitializer {
 
     private static void initPiratesCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/PiratesCard.json"));
-            for (JsonNode node : jsonNode) {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/PiratesCard.json");
+            if (is == null) {
+                System.out.println("Error: PiratesCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
+            for (JsonNode node : rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
                 int level = node.get("level").asInt();
@@ -276,7 +320,13 @@ public class GameInitializer {
 
     private static void initPlanetsCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/PlanetsCard.json"));
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/PlanetsCard.json");
+            if (is == null) {
+                System.out.println("Error: PlanetsCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for (JsonNode node : rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -314,8 +364,14 @@ public class GameInitializer {
 
     private static void initSlaversCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/SlaversCard.json"));
-            for (JsonNode node : jsonNode) {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/SlaversCard.json");
+            if (is == null) {
+                System.out.println("Error: SlaversCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
+            for (JsonNode node : rootNode) {
                 SlaversCard sc = new SlaversCard(
                         node.get("pngName").asText(),
                         node.get("name").asText(),
@@ -335,8 +391,14 @@ public class GameInitializer {
     }
 
     private static void initSmugglersCard(Game game, ObjectMapper objectMapper) {
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/SmugglersCard.json"));
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/SmugglersCard.json");
+            if (is == null) {
+                System.out.println("Error: SmugglersCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode) {
                 String pngName = node.get("pngName").asText();
                 String name = node.get("name").asText();
@@ -362,8 +424,14 @@ public class GameInitializer {
 
     private static void initStardustCard(Game game, ObjectMapper objectMapper) {
         try {
-            JsonNode jsonNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/AdventureCards/StardustCard.json"));
-            for (JsonNode node : jsonNode) {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/StardustCard.json");
+            if (is == null) {
+                System.out.println("Error: StardustCard.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
+            for (JsonNode node : rootNode) {
                 StardustCard ec = new StardustCard(
                         node.get("pngName").asText(),
                         node.get("name").asText(),
@@ -378,9 +446,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initBatteryComponent(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/BatteryComponent.json"));
+    private static void initBatteryComponent(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/BatteryComponent.json");
+            if (is == null) {
+                System.out.println("Error: BatteryComponent.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -393,12 +467,17 @@ public class GameInitializer {
             }
         }catch (IOException e){
             System.out.println("Error in reading BatteryComponent.json");
+            e.printStackTrace();
         }
     }
 
     private static void initStartingCabin(Game game, ObjectMapper objectMapper){
         try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StartingCabin.json"));
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/StartingCabin.json");
+            if (is == null) {
+                throw new IOException("Resource not found: StartingCabin.json");
+            }
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -414,9 +493,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initRegularCabin(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/RegularCabin.json"));
+    private static void initRegularCabin(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/RegularCabin.json");
+            if (is == null) {
+                System.out.println("Error: RegularCabin.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -431,9 +516,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initAlienAddon(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/AlienAddon.json"));
+    private static void initAlienAddon(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/AlienAddon.json");
+            if (is == null) {
+                System.out.println("Error: AlienAddon.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -449,9 +540,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initStorageCompartments(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StorageCompartment.json"));
+    private static void initStorageCompartments(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/StorageCompartment.json");
+            if (is == null) {
+                System.out.println("Error: StorageCompartment.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -467,9 +564,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initEngine(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Engine.json"));
+    private static void initEngine(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/Engine.json");
+            if (is == null) {
+                System.out.println("Error: Engine.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -484,9 +587,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initDoubleEngine(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleEngine.json"));
+    private static void initDoubleEngine(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/DoubleEngine.json");
+            if (is == null) {
+                System.out.println("Error: DoubleEngine.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -501,9 +610,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initDoubleCannon(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleCannon.json"));
+    private static void initDoubleCannon(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/DoubleCannon.json");
+            if (is == null) {
+                System.out.println("Error: DoubleCannon.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -518,9 +633,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initCannon(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Cannon.json"));
+    private static void initCannon(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/Cannon.json");
+            if (is == null) {
+                System.out.println("Error: Cannon.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -535,9 +656,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initStructuralModule(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StructuralModule.json"));
+    private static void initStructuralModule(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/StructuralModule.json");
+            if (is == null) {
+                System.out.println("Error: StructuralModule.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -552,9 +679,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initShieldGenerator(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/ShieldGenerator.json"));
+    private static void initShieldGenerator(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/ShieldGenerator.json");
+            if (is == null) {
+                System.out.println("Error: ShieldGenerator.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();
@@ -569,9 +702,15 @@ public class GameInitializer {
         }
     }
 
-    private static void initSpecialStorageCompartment(Game game, ObjectMapper objectMapper){
-        try{
-            JsonNode rootNode = objectMapper.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/SpecialStorageCompartment.json"));
+    private static void initSpecialStorageCompartment(Game game, ObjectMapper objectMapper) {
+        try {
+            InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/SpecialStorageCompartment.json");
+            if (is == null) {
+                System.out.println("Error: SpecialStorageCompartment.json resource not found");
+                return;
+            }
+
+            JsonNode rootNode = objectMapper.readTree(is);
             for(JsonNode node: rootNode){
                 String pngName = node.get("pngName").asText();
                 String topSide = node.get("topSide").asText();

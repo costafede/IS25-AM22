@@ -103,6 +103,7 @@ public class PiratesState_4 extends PiratesState implements Serializable {
                     piratesCard.setNextIndexOfShot();
                     piratesCard.setCurrDefeatedPlayerToFirst();
                     game.setCurrPlayer(piratesCard.getCurrDefeatedPlayer());
+                    piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                     if(piratesCard.thereAreStillShots()) {
                         transition(new PiratesState_4(piratesCard));
                     }

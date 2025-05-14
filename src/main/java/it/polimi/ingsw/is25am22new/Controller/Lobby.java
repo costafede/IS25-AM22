@@ -1,7 +1,5 @@
 package it.polimi.ingsw.is25am22new.Controller;
 
-import it.polimi.ingsw.is25am22new.Model.Games.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -68,6 +68,34 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 
 ---
 
+## How to Generate and Run JAR Files
+
+### Generating JAR Files
+
+To generate the executable JAR files:
+
+1. Open the project in your IDE
+2. Navigate to Maven panel
+3. Execute the following Maven goal:
+    ```bash
+    mvn clean package -DskipTests
+    ```
+After successful execution, the JAR files will be available in the `target/` directory:
+- `GalaxyTruckerServer.jar` - Server application
+- `GalaxyTruckerClient.jar` - Client application
+
+### Running the Application
+
+#### Starting the Server
+```bash
+java -jar GalaxyTruckerClient.jar localhost 1234 rmi tui   
+```
+
+#### Starting the Client
+```bash
+java -jar GalaxyTruckerClient.jar localhost 1234 rmi tui   
+```
+Note: you can use `localhost` or the server's IP address, `rmi` or `socket` for the communication method, and `tui` or `gui` for the interface type.
 ## Authors and License
 
 © 2025 Politecnico di Milano.  

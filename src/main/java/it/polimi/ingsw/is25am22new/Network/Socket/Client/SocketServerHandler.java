@@ -368,7 +368,7 @@ public class SocketServerHandler implements VirtualServer {
             objectOutput.writeObject(msg);
             objectOutput.flush();
         } catch (IOException e) {
-            System.out.println("Error in quit: " + e.getMessage());
+            System.out.println("Connection closed");
         }
     }
 }

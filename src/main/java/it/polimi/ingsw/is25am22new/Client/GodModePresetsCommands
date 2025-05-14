@@ -25,33 +25,33 @@ ABANDONEDSTATION:                CHECK
 GT-cards_I_IT_0120.jpg
 
 COMBATZONE: CHECK
-entergodmode(2GT-cards_I_IT_0116.jpg)
+entergodmode(2,GT-cards_I_IT_0116.jpg)
 
 COMBATZONE2: CHECK
-entergodmode(2GT-cards_II_IT_0116.jpg)
+entergodmode(2,GT-cards_II_IT_0116.jpg)
 
 EPIDEMIC: CHECK
-entergodmode(2GT-cards_II_IT_015.jpg)
+entergodmode(2,GT-cards_II_IT_015.jpg)
 
 METEORSWARM: CHECK
-entergodmode(2GT-cards_II_IT_0110.jpg)
-entergodmode(2GT-cards_I_IT_0111.jpg)
+entergodmode(2,GT-cards_II_IT_0110.jpg)
+entergodmode(2,GT-cards_I_IT_0111.jpg)
 
 OPENSPACE: CHECK
-entergodmode(2GT-cards_I_IT_018.jpg)
+entergodmode(2,GT-cards_I_IT_018.jpg)
 
-PIRATES: CHECK
-entergodmode(2GT-cards_II_IT_013.jpg)
-entergodmode(6GT-cards_II_IT_013.jpg)
+PIRATES:
+entergodmode(2,GT-cards_II_IT_013.jpg)
+entergodmode(6,GT-cards_II_IT_013.jpg)
 
 SLAVERS: CHECK
-entergodmode(2GT-cards_I_IT_01.jpg)
+entergodmode(2,GT-cards_I_IT_01.jpg)
 
 SMUGGLERS:  CHECK
 GT-cards_I_IT_012.jpg
 
 STARDUST: CHECK
-entergodmode(2GT-cards_II_IT_014.jpg)
+entergodmode(2,GT-cards_II_IT_014.jpg)
 
 PLANETS:            CHECK
 GT-cards_I_IT_0112.jpg
