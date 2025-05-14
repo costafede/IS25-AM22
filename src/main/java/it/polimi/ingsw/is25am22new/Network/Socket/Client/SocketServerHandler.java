@@ -8,11 +8,9 @@ import it.polimi.ingsw.is25am22new.Network.VirtualView;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.rmi.RemoteException;
 
 public class SocketServerHandler implements VirtualServer {
     final ObjectOutputStream objectOutput;
-
     public SocketServerHandler(OutputStream os) throws IOException {
         this.objectOutput = new ObjectOutputStream(os);
     }
@@ -328,7 +326,7 @@ public class SocketServerHandler implements VirtualServer {
     }
 
     @Override
-    public void disconnect() throws RemoteException {
+    public void disconnect() {
         SocketMessage msg = new SocketMessage("disconnect", null, null);
         try {
             objectOutput.writeObject(msg);
