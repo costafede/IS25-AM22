@@ -19,6 +19,7 @@ public class SmugglersState_3 extends SmugglersState implements Serializable {
         }
         else{
             smugglersCard.unloadSmugglers();
+            smugglersCard.getObservableModel().updateAllBanks(game.getBank());
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null); //card effect has ended

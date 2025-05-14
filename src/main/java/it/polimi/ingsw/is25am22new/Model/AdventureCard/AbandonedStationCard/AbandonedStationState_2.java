@@ -48,9 +48,6 @@ public class AbandonedStationState_2 extends AbandonedStationState implements Se
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null); //card effect has ended
-            game.manageInvalidPlayers();
-            game.setCurrPlayerToLeader();
-            game.setCurrCard(null);
             abandonedStationCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
             abandonedStationCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
             abandonedStationCard.getObservableModel().updateAllShipboardList(game.getShipboards());

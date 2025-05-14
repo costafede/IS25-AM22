@@ -16,6 +16,7 @@ public class SmugglersState_1 extends SmugglersState implements Serializable {
         if(inputCommand.getChoice()){   //curr player has decided to activate a double cannon so he entered the coordinates of the battery component where we wants to remove the battery token
             ComponentTile batteryComponent = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
             batteryComponent.removeBatteryToken();
+            smugglersCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
             transition(new SmugglersState_2(smugglersCard)); //go to state where player has to enter the input to activate cannon
         }
         else{ //curr player has decided not to activate any cannon or he didn't have any battery token left -> resolve the card effect

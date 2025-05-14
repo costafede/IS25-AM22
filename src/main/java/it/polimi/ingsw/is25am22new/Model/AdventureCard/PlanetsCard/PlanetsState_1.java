@@ -33,7 +33,7 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
                 for (int i = planetsCard.getPlayersWhoLanded().size() - 1; i >= 0; i--) {   //all players who have decided to land lose flight days
                     game.getFlightboard().shiftRocket(planetsCard.getPlayersWhoLanded().get(i), planetsCard.getFlightDaysLost());
                 }
-                planetsCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
+                planetsCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                 planetsCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
                 game.setCurrPlayer(planetsCard.getPlayersWhoLanded().getFirst());
                 planetsCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
