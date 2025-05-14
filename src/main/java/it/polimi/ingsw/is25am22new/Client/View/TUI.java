@@ -389,6 +389,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
                 synchronized (this){
                     while(!model.isGameStartMessageReceived()) {
                         try {
+                            System.out.println("Waiting for starting the game...");
                             this.wait();
                         } catch (InterruptedException e) {
                             System.out.println(e.getMessage());
