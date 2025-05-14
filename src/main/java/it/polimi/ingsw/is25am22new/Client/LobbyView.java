@@ -172,23 +172,10 @@ public class LobbyView implements EnhancedClientView {
                 hostSetupCompleted && !inGame) {
 
             try {
-                // Make sure all players are ready
-//                boolean allReady = true;
-//                for (String player : players) {
-//                    if (!readyStatus.getOrDefault(player, false)) {
-//                        allReady = false;
-//                        System.out.println("Setting player " + player + " as ready...");
-//                        if(rmiClient != null) {
-//                            rmiClient.setPlayerReady(player);
-//                        } else {
-//                            socketClient.setPlayerReady(player);
-//                        }
-//                    }
-//                }
                 // If everyone is ready, start the game
                 startIfReady(players, readyStatus);
             } catch (Exception e) {
-                System.err.println("Error starting game: " + e.getMessage());
+                System.err.println("Error starting game 178: " + e.getMessage());
             }
 
             // Reset the flag after a delay to allow for retries if needed
@@ -205,6 +192,7 @@ public class LobbyView implements EnhancedClientView {
 
     private void startIfReady(List<String> players, Map<String, Boolean> readyStatus) {
         boolean allReady = true;
+        System.out.println("readyStatus length: " + readyStatus.size());
         for(String player : readyStatus.keySet()) {
             if(!readyStatus.get(player)) {
                 allReady = false;
@@ -577,7 +565,7 @@ public class LobbyView implements EnhancedClientView {
             // The server handles the validation if all players are ready
             rmiClient.startGameByHost(playerName);
         } catch (IOException e) {
-            System.out.println("Error starting game: " + e.getMessage());
+            System.out.println("Error starting game 580: " + e.getMessage());
         }
     }
 
