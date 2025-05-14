@@ -199,14 +199,14 @@ public class LobbyView implements EnhancedClientView {
             }
 
             // Reset the flag after a delay to allow for retries if needed
-            new Thread(() -> {
-                try {
-                    Thread.sleep(3000);  // 3 second cooldowns
-                    autostart = false;
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }).start();
+//            new Thread(() -> {
+//                try {
+//                    Thread.sleep(3000);  // 3 second cooldowns
+//                    autostart = false;
+//                } catch (InterruptedException e) {
+//                    Thread.currentThread().interrupt();
+//                }
+//            }).start();
         }
     }
 
@@ -328,7 +328,6 @@ public class LobbyView implements EnhancedClientView {
     public void startCommandLoopRMI(RmiClient client, String playerName, Scanner scanner) {
         boolean running = true;
         this.rmiClient = client;
-
         // If this is the host player, handle host setup
         if (isHostPlayer) {
             setupAsHostRMI(client, scanner);
@@ -340,40 +339,28 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Waiting for other players to join...");
             System.out.println("Game will start automatically when all players have joined.");
         }
-//
-//        while (running && !inGame && !gameStarted) {
-//            System.out.println("Waiting for more players to join...");
-//            System.out.println("Current players: " + currentPlayerCount +
-//                    (numPlayers > 0 ? "/" + numPlayers : ""));
-//            System.out.println("Type 'exit' to leave the lobby.");
-//            System.out.print("> ");
-//
-//            // Use scanner with timeout to avoid blocking indefinitely
-//            try {
-//                if (scanner.hasNextLine()) {
-//                    String command = scanner.nextLine().trim();
-//
-//                    if (command.equals("exit")) {
-//                        running = false;
-//                        client.playerAbandons(playerName);
-//                    }
-//                } else {
-//                    // No input available, sleep briefly then check game status
-//
-//                    if (gameStarted || inGame) {
-//                        break;
-//                    }
-//                    Thread.sleep(100);
-//                }
-//            } catch (Exception e) {
-//                System.err.println("Error in command loop: " + e.getMessage());
-//            }
-//
-//            // Break the loop if game started during this iteration
-//            if (gameStarted || inGame) {
-//                break;
-//            }
-//        }
+
+        while (running && !inGame) {
+            System.out.println("Waiting for more players to join...");
+            System.out.println("Current players: " + currentPlayerCount +
+                    (numPlayers > 0 ? "/" + numPlayers : ""));
+            System.out.println("Type 'exit' to leave the lobby.");
+            System.out.print("> ");
+            String command = scanner.nextLine().trim();
+
+            if (command.equals("exit")) {
+                running = false;
+                client.disconnect();
+            } else {
+                // Refresh the lobby status
+                System.out.println("Waiting for more players to join...");
+                System.out.println("Current players: " + currentPlayerCount +
+                        (numPlayers > 0 ? "/" + numPlayers : ""));
+                System.out.println("Type 'exit' to leave the lobby.");
+                System.out.print("> ");
+            }
+        }
+
     }
 
     public void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner) {
