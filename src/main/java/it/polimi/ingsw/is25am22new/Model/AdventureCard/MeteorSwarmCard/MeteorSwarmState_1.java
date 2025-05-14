@@ -28,9 +28,11 @@ public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable
             ctOptional.ifPresent(ct -> numOfBatteries.set(ct.getNumOfBatteries()));
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
+                meteorSwarmCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
                 meteorSwarmCard.setBatteryUsed(true);
             }
             transition(new MeteorSwarmState_2(meteorSwarmCard));
+            meteorSwarmCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
         }
         else {
             Meteor incomingMeteor = meteorSwarmCard.getNumberToMeteor().get(meteorSwarmCard.getIndexOfIncomingMeteor());
@@ -96,27 +98,38 @@ public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable
                     game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                 }
             }
+            meteorSwarmCard.getObservableModel().updateAllShipboardList(game.getShipboards());
 
             if(shipboard.highlightShipWrecks() > 1) {
                 transition(new MeteorSwarmState_3(meteorSwarmCard));
+                meteorSwarmCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             }
             else {
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
                     setNewDices();
                     meteorSwarmCard.setNextIndexOfMeteor();
+                    meteorSwarmCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
                     if(meteorSwarmCard.thereAreStillMeteors()) {
                         game.setCurrPlayerToLeader();
+                        meteorSwarmCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                         transition(new MeteorSwarmState_1(meteorSwarmCard));
+                        meteorSwarmCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
                     }
                     else {
                         game.manageInvalidPlayers();
                         game.setCurrPlayerToLeader();
                         game.setCurrCard(null);
+                        meteorSwarmCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                        meteorSwarmCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
+                        meteorSwarmCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                        meteorSwarmCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                     }
                 }
                 else {
                     game.setCurrPlayerToNext();
+                    meteorSwarmCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                     transition(new MeteorSwarmState_1(meteorSwarmCard));
+                    meteorSwarmCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
                 }
             }
         }

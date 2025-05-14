@@ -26,7 +26,6 @@ public class SmugglersState_1 extends SmugglersState implements Serializable {
                 smugglersCard.loadSmugglers();
                 smugglersCard.getObservableModel().updateAllBanks(game.getBank());
                 transition(new SmugglersState_3(smugglersCard));    //player goes to the state in which he decides if he wants to accept the reward
-                smugglersCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             }
             else{   //player doesn't defeat the smugglers
                 if(smugglersCard.getCannonStrength() > playerCannonStrength) { //player gets defeated
@@ -44,7 +43,6 @@ public class SmugglersState_1 extends SmugglersState implements Serializable {
                     game.setCurrPlayerToLeader();   //smuggler card effect has ended because the enemy has defeated all players
                     game.setCurrCard(null);
                     smugglersCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
-                    smugglersCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
                     smugglersCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
                     smugglersCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                 }

@@ -33,8 +33,10 @@ public class CombatZoneState2_7 extends CombatZoneState2 implements Serializable
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 combatZoneCard2.setBatteryUsed(true);
+                combatZoneCard2.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
             }
             transition(new CombatZoneState2_8(combatZoneCard2));
+
         } else {
             Shot incomingShot = combatZoneCard2.getNumberToShot().get(combatZoneCard2.getIndexOfIncomingShot());
             int col = combatZoneCard2.getDice1() + combatZoneCard2.getDice2() - 4;
@@ -93,6 +95,7 @@ public class CombatZoneState2_7 extends CombatZoneState2 implements Serializable
                     game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                 }
             }
+            combatZoneCard2.getObservableModel().updateAllShipboardList(game.getShipboards());
 
             combatZoneCard2.setNewDices();
 
@@ -103,11 +106,15 @@ public class CombatZoneState2_7 extends CombatZoneState2 implements Serializable
                 combatZoneCard2.setNextIndexOfShot();
                 if(combatZoneCard2.thereAreStillShots()) {
                     transition(new CombatZoneState2_7(combatZoneCard2));
+
                 }
                 else {
                     game.manageInvalidPlayers();
                     game.setCurrPlayerToLeader();
                     game.setCurrCard(null);
+                    combatZoneCard2.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                    combatZoneCard2.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                    combatZoneCard2.getObservableModel().updateAllShipboardList(game.getShipboards());
                 }
             }
         }

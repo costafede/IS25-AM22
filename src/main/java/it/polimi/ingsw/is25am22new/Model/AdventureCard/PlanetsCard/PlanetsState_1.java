@@ -15,7 +15,6 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
                 throw new IllegalArgumentException("Player has already landed on a planet");
             planetsCard.getPlanets().get(inputCommand.getIndexChosen()).setPlayer(game.getCurrPlayer());
             planetsCard.getPlayersWhoLanded().add(game.getCurrPlayer());
-            planetsCard.getObservableModel().updateAllCurrCard(planetsCard);
         }
         if(!planetsCard.planetsFull() && !game.getCurrPlayer().equals(game.getLastPlayer())) {
             game.setCurrPlayerToNext();
@@ -27,7 +26,6 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
                 game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
                 planetsCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
-                planetsCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
                 planetsCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
                 planetsCard.getObservableModel().updateAllShipboardList(game.getShipboards());
             }
@@ -42,7 +40,6 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
                 planetsCard.loadPlanet(game.getCurrPlayer());
                 planetsCard.getObservableModel().updateAllBanks(game.getBank());
                 transition(new PlanetsState_2(planetsCard));
-                planetsCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             }
         }
     }

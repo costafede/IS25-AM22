@@ -18,7 +18,6 @@ public class SmugglersState_2 extends SmugglersState implements Serializable {
         if(doubleCannon.getCannonStrength() == 0)
             throw new IllegalArgumentException("You didn't select a cannon");
         transition(new SmugglersState_1(smugglersCard));
-        smugglersCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
     }
 
     @Override

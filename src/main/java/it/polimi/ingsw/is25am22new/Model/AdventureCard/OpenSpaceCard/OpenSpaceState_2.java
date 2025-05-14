@@ -24,6 +24,5 @@ public class OpenSpaceState_2 extends OpenSpaceState implements Serializable {
         }
         transition(new OpenSpaceState_1(openSpaceCard));
         openSpaceCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
-        openSpaceCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
     }
 }

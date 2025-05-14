@@ -19,6 +19,7 @@ public class CombatZoneState_8 extends CombatZoneState implements Serializable {
         int y = inputCommand.getCol();
 
         shipboard.chooseShipWreck(x, y);
+        combatZoneCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
 
         combatZoneCard.setNextIndexOfShot();
         if(combatZoneCard.thereAreStillShots()) {
@@ -28,6 +29,9 @@ public class CombatZoneState_8 extends CombatZoneState implements Serializable {
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
+            combatZoneCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+            combatZoneCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            combatZoneCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }
     }
 

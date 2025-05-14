@@ -25,6 +25,7 @@ public class CombatZoneState2_6 extends CombatZoneState2 implements Serializable
             }
         }
         game.setCurrPlayer(playerFewestMembers);
+        combatZoneCard2.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
         transition(new CombatZoneState2_7(combatZoneCard2));
     }
 

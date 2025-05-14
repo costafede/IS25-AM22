@@ -29,6 +29,7 @@ public class SlaversState_1 extends SlaversState implements Serializable {
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 slaversCard.setBatteryUsed(true);
+                slaversCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
             }
             transition(new SlaversState_2(slaversCard));
         }
@@ -47,13 +48,18 @@ public class SlaversState_1 extends SlaversState implements Serializable {
                         game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                     }
                 }
+                slaversCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
                     game.manageInvalidPlayers();
                     game.setCurrPlayerToLeader();
                     game.setCurrCard(null);
+                    slaversCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                    slaversCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                    slaversCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                 }
                 else {
                     game.setCurrPlayerToNext();
+                    slaversCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                     transition(new SlaversState_1(slaversCard));
                 }
             }

@@ -32,7 +32,6 @@ public class AbandonedShipState_2 extends AbandonedShipState implements Serializ
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
             abandonedShipCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
-            abandonedShipCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             abandonedShipCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
             abandonedShipCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }

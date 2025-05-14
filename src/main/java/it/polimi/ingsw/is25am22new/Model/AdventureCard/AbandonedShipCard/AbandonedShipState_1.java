@@ -16,7 +16,6 @@ public class AbandonedShipState_1 extends AbandonedShipState implements Serializ
                 throw new IllegalStateException("Not Enough Astronauts");
             game.getFlightboard().shiftRocket(game.getCurrPlayer(), abandonedShipCard.getFlightDaysLost());
             transition(new AbandonedShipState_2(abandonedShipCard));
-            abandonedShipCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             abandonedShipCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
             abandonedShipCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
         }
@@ -29,7 +28,6 @@ public class AbandonedShipState_1 extends AbandonedShipState implements Serializ
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
             abandonedShipCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
-            abandonedShipCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             abandonedShipCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
             abandonedShipCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }

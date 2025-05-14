@@ -23,6 +23,7 @@ public class SlaversState_2 extends SlaversState implements Serializable {
         if(slaversCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
+            slaversCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
         }
         slaversCard.setBatteryUsed(false);
         transition(new SlaversState_1(slaversCard));

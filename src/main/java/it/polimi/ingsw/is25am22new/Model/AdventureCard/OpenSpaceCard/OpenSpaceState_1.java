@@ -22,7 +22,6 @@ public class OpenSpaceState_1 extends OpenSpaceState implements Serializable {
             ComponentTile batteryComponent = game.getShipboards().get(game.getCurrPlayer()).getComponentTileFromGrid(inputCommand.getRow(), inputCommand.getCol()).get();
             batteryComponent.removeBatteryToken();
             transition(new OpenSpaceState_2(openSpaceCard)); //go to state where player has to enter the input to activate the engine
-            openSpaceCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             openSpaceCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
         }
         else{   //player declares his engine power and resolves the card's effect(so choice must be set to false)
@@ -50,7 +49,6 @@ public class OpenSpaceState_1 extends OpenSpaceState implements Serializable {
                 game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
                 openSpaceCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
-                openSpaceCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
                 openSpaceCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
                 openSpaceCard.getObservableModel().updateAllShipboardList(game.getShipboards());
             }

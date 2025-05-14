@@ -23,6 +23,7 @@ public class CombatZoneState_5 extends CombatZoneState implements Serializable {
         if(ctOptional.isPresent() && ctOptional.get().isCabin()) {
             if(ctOptional.get().getCrewNumber() > 0) {
                 ctOptional.get().removeCrewMember();
+                combatZoneCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
                 combatZoneCard.increaseRemovedMembers();
             }
         }
@@ -30,6 +31,7 @@ public class CombatZoneState_5 extends CombatZoneState implements Serializable {
         if (combatZoneCard.getRemovedMembers() == combatZoneCard.getAstronautsToLose() ||
                 !shipboard.thereIsStillCrew()) {
             game.setCurrPlayerToLeader();
+            combatZoneCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
             transition(new CombatZoneState_6(combatZoneCard));
         }
         else if(combatZoneCard.getRemovedMembers() < combatZoneCard.getAstronautsToLose()) {

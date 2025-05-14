@@ -24,6 +24,7 @@ public class CombatZoneState_7 extends CombatZoneState implements Serializable {
         if(combatZoneCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
+            combatZoneCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
         }
 
         combatZoneCard.setBatteryUsed(false);

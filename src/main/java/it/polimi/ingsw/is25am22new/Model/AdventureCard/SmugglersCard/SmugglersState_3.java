@@ -14,7 +14,6 @@ public class SmugglersState_3 extends SmugglersState implements Serializable {
         if(inputCommand.getChoice()){   //player decides to accept the reward
             game.getFlightboard().shiftRocket(game.getCurrPlayer(), smugglersCard.getFlightDaysLost());
             transition(new SmugglersState_4(smugglersCard));
-            smugglersCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             smugglersCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
             smugglersCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
         }
@@ -24,7 +23,6 @@ public class SmugglersState_3 extends SmugglersState implements Serializable {
             game.setCurrPlayerToLeader();
             game.setCurrCard(null); //card effect has ended
             smugglersCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
-            smugglersCard.getObservableModel().updateAllCurrCard(game.getCurrCard());
             smugglersCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
             smugglersCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }

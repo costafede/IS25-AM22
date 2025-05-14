@@ -25,6 +25,7 @@ public class PiratesState_2 extends PiratesState implements Serializable {
         if(piratesCard.isBatteryUsed() && ctOptional.isPresent() && ctOptional.get().isDoubleCannon()) {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
+            piratesCard.getObservableModel().updateAllShipboard(currentPlayer,shipboard);
         }
         piratesCard.setBatteryUsed(false);
 

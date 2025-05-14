@@ -24,6 +24,7 @@ public class SlaversState_4 extends SlaversState implements Serializable {
             if(ctOptional.get().getCrewNumber() > 0) {
                 ctOptional.get().removeCrewMember();
                 slaversCard.increaseSelectedMembers();
+                slaversCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
             }
         }
 
@@ -33,6 +34,7 @@ public class SlaversState_4 extends SlaversState implements Serializable {
                 game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
             }
         }
+        slaversCard.getObservableModel().updateAllShipboardList(game.getShipboards());
 
         if (slaversCard.getSelectedMembers() == slaversCard.getAstronautsToLose() ||
                  !shipboard.thereIsStillCrew()) {
@@ -42,9 +44,13 @@ public class SlaversState_4 extends SlaversState implements Serializable {
                 game.manageInvalidPlayers();
                 game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
+                slaversCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                slaversCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                slaversCard.getObservableModel().updateAllShipboardList(game.getShipboards());
             }
             else {
                 game.setCurrPlayerToNext();
+                slaversCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                 transition(new SlaversState_1(slaversCard));
             }
         }

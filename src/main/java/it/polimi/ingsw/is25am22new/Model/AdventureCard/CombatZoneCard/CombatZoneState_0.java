@@ -28,11 +28,17 @@ public class CombatZoneState_0 extends CombatZoneState implements Serializable {
             }
             game.getFlightboard().shiftRocket(playerFewestMembers, combatZoneCard.getFlightDaysLost());
             game.setCurrPlayerToLeader();
+            combatZoneCard.getObservableModel().updateAllShipboard(playerFewestMembers, game.getShipboards().get(playerFewestMembers));
+            combatZoneCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            combatZoneCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
             transition(new CombatZoneState_1(combatZoneCard));
         } else {
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
+            combatZoneCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+            combatZoneCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            combatZoneCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }
     }
 

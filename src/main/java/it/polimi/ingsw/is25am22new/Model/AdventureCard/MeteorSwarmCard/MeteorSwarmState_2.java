@@ -24,6 +24,7 @@ public class MeteorSwarmState_2 extends MeteorSwarmState implements Serializable
                 (ctOptional.get().isShieldGenerator() || ctOptional.get().isDoubleCannon())) {
             // activates the component
             ctOptional.ifPresent(ComponentTile::activateComponent);
+            meteorSwarmCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
         }
 
         meteorSwarmCard.setBatteryUsed(false);

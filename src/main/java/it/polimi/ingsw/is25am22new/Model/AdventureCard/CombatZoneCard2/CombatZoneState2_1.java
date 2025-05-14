@@ -30,6 +30,7 @@ public class CombatZoneState2_1 extends CombatZoneState2{
                 if (numOfBatteries.get() > 0) {
                     ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                     combatZoneCard2.setBatteryUsed(true);
+                    combatZoneCard2.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
                 }
                 transition(new CombatZoneState2_2(combatZoneCard2));
             } else {
@@ -58,21 +59,31 @@ public class CombatZoneState2_1 extends CombatZoneState2{
                             }
                         }
                     }
+                    combatZoneCard2.getObservableModel().updateAllShipboardList(game.getShipboards());
 
                     game.getFlightboard().shiftRocket(playerLowestCannon, combatZoneCard2.getFlightDaysLost());
+                    combatZoneCard2.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                    combatZoneCard2.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
                     game.setCurrPlayerToLeader();
+                    combatZoneCard2.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
 
                     transition(new CombatZoneState2_3(combatZoneCard2));
+
                 } else { // if not last player
                     combatZoneCard2.getPlayerToStrength().put(currentPlayer, shipboard.getCannonStrength());
                     game.setCurrPlayerToNext();
+                    combatZoneCard2.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                     transition(new CombatZoneState2_1(combatZoneCard2));
+
                 }
             }
         } else {
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
+            combatZoneCard2.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+            combatZoneCard2.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            combatZoneCard2.getObservableModel().updateAllShipboardList(game.getShipboards());
         }
     }
 

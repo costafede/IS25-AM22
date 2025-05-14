@@ -36,7 +36,6 @@ public class EpidemicCard extends AdventureCard implements Serializable, Viewabl
         game.setCurrPlayerToLeader();
         game.setCurrCard(null);
         observableModel.updateAllCurrPlayer(game.getCurrPlayer());
-        observableModel.updateAllCurrCard(game.getCurrCard());
         observableModel.updateAllFlightboard(game.getFlightboard());
         observableModel.updateAllShipboardList(game.getShipboards());
     }

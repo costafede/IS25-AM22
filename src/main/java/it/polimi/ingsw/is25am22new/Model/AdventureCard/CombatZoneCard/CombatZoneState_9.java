@@ -31,6 +31,7 @@ public class CombatZoneState_9 extends CombatZoneState implements Serializable {
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 combatZoneCard.setBatteryUsed(true);
+                combatZoneCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
             }
             transition(new CombatZoneState_10(combatZoneCard));
         }
@@ -92,6 +93,7 @@ public class CombatZoneState_9 extends CombatZoneState implements Serializable {
                     game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                 }
             }
+            combatZoneCard.getObservableModel().updateAllShipboardList(game.getShipboards());
 
             combatZoneCard.setNewDices();
 
@@ -107,6 +109,9 @@ public class CombatZoneState_9 extends CombatZoneState implements Serializable {
                     game.manageInvalidPlayers();
                     game.setCurrPlayerToLeader();
                     game.setCurrCard(null);
+                    combatZoneCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                    combatZoneCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                    combatZoneCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                 }
             }
         }

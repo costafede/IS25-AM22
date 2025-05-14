@@ -20,6 +20,7 @@ public class SlaversState_3 extends SlaversState implements Serializable {
         if(inputCommand.getChoice()) {
             game.getFlightboard().shiftRocket(currentPlayer, slaversCard.getFlightDaysLost());
             shipboard.addCosmicCredits(slaversCard.getCredits());
+            slaversCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
         }
 
         // deactivates all components
@@ -28,11 +29,15 @@ public class SlaversState_3 extends SlaversState implements Serializable {
                 game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
             }
         }
+        slaversCard.getObservableModel().updateAllShipboardList(game.getShipboards());
 
         // ends the card effect
         game.manageInvalidPlayers();
         game.setCurrPlayerToLeader();
         game.setCurrCard(null);
+        slaversCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+        slaversCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+        slaversCard.getObservableModel().updateAllShipboardList(game.getShipboards());
     }
 
     @Override

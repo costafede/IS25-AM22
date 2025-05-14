@@ -30,6 +30,7 @@ public class PiratesState_1 extends PiratesState implements Serializable {
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 piratesCard.setBatteryUsed(true);
+                piratesCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
             }
             transition(new PiratesState_2(piratesCard));
         }
@@ -47,6 +48,7 @@ public class PiratesState_1 extends PiratesState implements Serializable {
                         game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                     }
                 }
+                piratesCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
                     if(!piratesCard.getDefeatedPlayers().isEmpty()){
                         piratesCard.setCurrDefeatedPlayerToFirst();
@@ -56,10 +58,14 @@ public class PiratesState_1 extends PiratesState implements Serializable {
                         game.manageInvalidPlayers();
                         game.setCurrPlayerToLeader();
                         game.setCurrCard(null);
+                        piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                        piratesCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                        piratesCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                     }
                 }
                 else {
                     game.setCurrPlayerToNext();
+                    piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                     transition(new PiratesState_1(piratesCard));
                 }
             }

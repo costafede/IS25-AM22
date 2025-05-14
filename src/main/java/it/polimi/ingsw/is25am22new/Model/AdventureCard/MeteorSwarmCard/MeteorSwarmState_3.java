@@ -19,21 +19,27 @@ public class MeteorSwarmState_3 extends MeteorSwarmState implements Serializable
         int y = inputCommand.getCol();
 
         shipboard.chooseShipWreck(x, y);
+        meteorSwarmCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
 
         if(game.getCurrPlayer().equals(game.getLastPlayer())) {
             meteorSwarmCard.setNextIndexOfMeteor();
             if(meteorSwarmCard.thereAreStillMeteors()) {
                 game.setCurrPlayerToLeader();
+                meteorSwarmCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                 transition(new MeteorSwarmState_1(meteorSwarmCard));
             }
             else {
                 game.manageInvalidPlayers();
                 game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
+                meteorSwarmCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                meteorSwarmCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                meteorSwarmCard.getObservableModel().updateAllShipboardList(game.getShipboards());
             }
         }
         else {
             game.setCurrPlayerToNext();
+            meteorSwarmCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
             transition(new MeteorSwarmState_1(meteorSwarmCard));
         }
     }

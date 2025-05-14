@@ -20,7 +20,9 @@ public class PiratesState_3 extends PiratesState implements Serializable {
         // choose to keep credits and lose flight days or not
         if(inputCommand.getChoice()) {
             game.getFlightboard().shiftRocket(currentPlayer, piratesCard.getFlightDaysLost());
+            piratesCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
             shipboard.addCosmicCredits(piratesCard.getCredits());
+            piratesCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
         }
 
         // deactivates all components
@@ -29,17 +31,22 @@ public class PiratesState_3 extends PiratesState implements Serializable {
                 game.getShipboards().get(currentPlayer).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
             }
         }
+        piratesCard.getObservableModel().updateAllShipboardList(game.getShipboards());
 
         if(!piratesCard.getDefeatedPlayers().isEmpty()){
             piratesCard.setCurrDefeatedPlayerToFirst();
             String defeatedPlayer = piratesCard.getCurrDefeatedPlayer();
             game.setCurrPlayer(defeatedPlayer);
+            piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
             transition(new PiratesState_4(piratesCard));
         }
         else {
             game.manageInvalidPlayers();
             game.setCurrPlayerToLeader();
             game.setCurrCard(null);
+            piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+            piratesCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+            piratesCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }
     }
 

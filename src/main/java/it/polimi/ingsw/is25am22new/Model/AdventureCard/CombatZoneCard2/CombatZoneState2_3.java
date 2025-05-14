@@ -29,6 +29,7 @@ public class CombatZoneState2_3 extends CombatZoneState2 implements Serializable
             if(numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 combatZoneCard2.setBatteryUsed(true);
+                combatZoneCard2.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
             }
             transition(new CombatZoneState2_4(combatZoneCard2));
         }
@@ -58,14 +59,19 @@ public class CombatZoneState2_3 extends CombatZoneState2 implements Serializable
                         }
                     }
                 }
+                combatZoneCard2.getObservableModel().updateAllShipboardList(game.getShipboards());
 
                 game.getShipboards().get(playerLowestEngine).removeMostValuableGoodBlocks(2);
+                combatZoneCard2.getObservableModel().updateAllBanks(game.getBank());
+                combatZoneCard2.getObservableModel().updateAllShipboard(playerLowestEngine, game.getShipboards().get(playerLowestEngine));
                 game.setCurrPlayerToLeader();
+                combatZoneCard2.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                 transition(new CombatZoneState2_6(combatZoneCard2));
             }
             else { // if not last player
                 combatZoneCard2.getPlayerToStrength().put(currentPlayer, (double)shipboard.getEngineStrength());
                 game.setCurrPlayerToNext();
+                combatZoneCard2.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                 transition(new CombatZoneState2_3(combatZoneCard2));
             }
         }

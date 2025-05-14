@@ -19,11 +19,13 @@ public class PiratesState_6 extends PiratesState implements Serializable {
         int y = inputCommand.getCol();
 
         shipboard.chooseShipWreck(x, y);
+        piratesCard.getObservableModel().updateAllShipboard(currentPlayer, shipboard);
 
         if(piratesCard.getCurrDefeatedPlayer().equals(piratesCard.getLastDefeatedPlayer())) {
             piratesCard.setNextIndexOfShot();
             piratesCard.setCurrDefeatedPlayerToFirst();
             game.setCurrPlayer(piratesCard.getCurrDefeatedPlayer());
+            piratesCard.getObservableModel().updateAllCurrPlayer(piratesCard.getCurrDefeatedPlayer());
             if(piratesCard.thereAreStillShots()) {
                 transition(new PiratesState_4(piratesCard));
             }
@@ -31,6 +33,9 @@ public class PiratesState_6 extends PiratesState implements Serializable {
                 game.manageInvalidPlayers();
                 game.setCurrPlayerToLeader();
                 game.setCurrCard(null);
+                piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                piratesCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                piratesCard.getObservableModel().updateAllShipboardList(game.getShipboards());
             }
         }
         else {

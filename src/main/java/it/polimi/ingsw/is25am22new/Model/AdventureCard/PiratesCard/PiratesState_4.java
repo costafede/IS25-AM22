@@ -33,6 +33,7 @@ public class PiratesState_4 extends PiratesState implements Serializable {
             if (numOfBatteries.get() > 0) {
                 ctOptional.ifPresent(ComponentTile::removeBatteryToken);
                 piratesCard.setBatteryUsed(true);
+                piratesCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));
             }
             transition(new PiratesState_5(piratesCard));
         }
@@ -91,6 +92,7 @@ public class PiratesState_4 extends PiratesState implements Serializable {
                     game.getShipboards().get(piratesCard.getCurrDefeatedPlayer()).getComponentTileFromGrid(i ,j).ifPresent(ComponentTile::deactivateComponent);
                 }
             }
+            piratesCard.getObservableModel().updateAllShipboardList(game.getShipboards());
 
             if(shipboard.highlightShipWrecks() > 1) {
                 transition(new PiratesState_6(piratesCard));
@@ -108,11 +110,15 @@ public class PiratesState_4 extends PiratesState implements Serializable {
                         game.manageInvalidPlayers();
                         game.setCurrPlayerToLeader();
                         game.setCurrCard(null);
+                        piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
+                        piratesCard.getObservableModel().updateAllFlightboard(game.getFlightboard());
+                        piratesCard.getObservableModel().updateAllShipboardList(game.getShipboards());
                     }
                 }
                 else {
                     piratesCard.setCurrDefeatedPlayerToNext();
                     game.setCurrPlayer(piratesCard.getCurrDefeatedPlayer());
+                    piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                     transition(new PiratesState_4(piratesCard));
                 }
             }

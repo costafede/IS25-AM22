@@ -346,8 +346,9 @@ public abstract class Game extends ObservableModel implements Serializable {
 
     public void activateCard(InputCommand inputCommand) {
         currCard.activateEffect(inputCommand);
+        updateAllCurrCard(currCard);
         gamePhase.trySwitchToNextPhase();
-        updateAllGame(this);
+        updateAllGamePhase(gamePhase);
     }
 
     public void setGamePhase(GamePhase gamePhase){
