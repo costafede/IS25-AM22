@@ -145,7 +145,6 @@ public class SocketClientSide implements VirtualView {
         Thread.sleep(150);
         startHeartbeat(thisPlayerName, output);
         clientModel.setPlayerName(thisPlayerName);
-        this.view.startCommandLoopSocket(this.output, thisPlayerName, new Scanner(System.in));
     }
 
     public void runVirtualServer() {
