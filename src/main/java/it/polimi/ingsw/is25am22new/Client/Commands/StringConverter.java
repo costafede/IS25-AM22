@@ -16,7 +16,9 @@ public class StringConverter {
             return null;
     }
 
-    //translates the coordinates of the shipboard into the ones of the component tiles grid
+    /**
+     * translates the coordinates of the shipboard into the ones of the component tiles grid
+     */
     public static int stringToGridRow(String row) throws NumberFormatException {
         int i;
         i = switch (row) {

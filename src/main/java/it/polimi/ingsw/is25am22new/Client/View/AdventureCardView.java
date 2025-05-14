@@ -21,9 +21,11 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.util.Map;
 
-//Methods used to show the cards in the TUI
-//the simple show method displays the info of the card as it is
-//the InGame version displays the information necessary for the player to play the card
+/**
+ * Methods used to show the cards in the TUI
+ * the simple show method displays the info of the card as it is
+ * the InGame version displays the information necessary for the player to play the card
+ */
 
 public class AdventureCardView {
 
@@ -46,7 +48,9 @@ public class AdventureCardView {
         }
     }
 
-    //shows the planets and if they're free, and also the respective goodBlocks available on the planet
+    /**
+     * shows the planets and if they're free, and also the respective goodBlocks available on the planet
+     */
     public static void showPlanetsCardInGame(PlanetsCard card) {
         System.out.println("=== PLANETS ===");
         for (int i = 0; i < card.getPlanets().size(); i++) {

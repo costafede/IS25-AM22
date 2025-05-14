@@ -49,7 +49,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     }
 
 
-    //return true if the format is valid
+    /**
+     * return true if the format is valid
+     */
+
     public boolean askCommand(Scanner scanner) {
         String inputLine = null;
         inputLine = scanner.nextLine();
@@ -101,7 +104,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         return null;
     }
 
-    //the player can look at the cards in the deck during the building phase
+    /**
+     * the player can look at the cards in the deck during the building phase
+     */
+
     @Override
     public void showCardPile(int idx, ClientModel model) {
         List<AdventureCard> deck = model.getCardPiles().get(idx).getCards();
@@ -136,7 +142,9 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         }
         System.out.println();
 
-        //the actual grid with the components inside
+        /**
+         * the actual grid with the components inside
+         */
         for (int line = 0; line < 5; line++) {
 
             System.out.print("    ");
@@ -179,7 +187,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         System.out.println("+");
     }
 
-    //it shows the components put on stand by
+    /**
+     * it shows the components put on stand by
+     */
+
     @Override
     public void showShipboardStandByComponents(String player, ClientModel clientModel) {
         Map<String, Shipboard> shipboards = clientModel.getShipboards();
@@ -220,7 +231,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         System.out.println("+");
     }
 
-    //prints the positions of each player in the flightboard
+    /**
+     * prints the positions of each player in the flightboard
+     */
+
     @Override
     public void showFlightboard(ClientModel clientModel) {
         Flightboard flightboard = clientModel.getFlightboard();
@@ -231,7 +245,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         }
     }
 
-    //shows the information of the card
+    /**
+     * shows the information of the card
+     */
+
     @Override
     public void showCard(AdventureCard card, ClientModel clientModel) {
         if(card == null)
@@ -279,7 +296,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         }
     }
 
-    //shows the information during the CardPhase needed for the player to play the game
+    /**
+     * shows the information during the CardPhase needed for the player to play the game
+     */
+
     @Override
     public void showCardInGame(AdventureCard card, ClientModel clientModel) {
         if(card == null)
@@ -341,14 +361,20 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         Map<String, Shipboard> shipboards = clientModel.getShipboards();
         List <String> players = new ArrayList<>();
 
-        //Creating the list of players and map for scores of the players
+        /**
+         * Creating the list of players and map for scores of the players
+         */
+
         for (Map.Entry<String, Shipboard> entry : shipboards.entrySet()){
             players.add(entry.getKey());
         }
 
         Map<String, Integer> scores = new HashMap<>();
 
-        //calculates the base score of each player
+        /**
+         * calculates the base score of each player
+         */
+
         for (int i = 0; i < players.size(); i++){
             scores.put(players.get(i), shipboards.get(players.get(i)).getScore());
         }
@@ -356,7 +382,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         Flightboard flightboard = clientModel.getFlightboard();
         List<String> orderedRockets = flightboard.getOrderedRockets();
 
-        //adds points for the better ship
+        /**
+         * adds points for the better ship
+         */
+
         if (clientModel.getGametype().equals(GameType.TUTORIAL)){
             for(int i = 0; i < orderedRockets.size(); i++) {
                 scores.put(orderedRockets.get(i), scores.get(orderedRockets.get(i)) + (4 - orderedRockets.indexOf(orderedRockets.get(i))));
@@ -370,7 +399,11 @@ public class TUI implements ClientModelObserver, ViewAdapter{
             scores.put(betterShipboard(players, shipboards), scores.get(betterShipboard(players, shipboards)) + 4);
         }
 
-        //sorts the scores in descending order and puts them in a map with the nickname as key and the score as value
+        /**
+         * sorts the scores in descending order and puts them in a map with
+         * the nickname as key and the score as value
+         */
+
         scores = scores.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -380,7 +413,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
                         LinkedHashMap::putAll
                 );
 
-        //prints the leaderboard
+        /**
+         * prints the leaderboard
+         */
+
         System.out.println("=== LEADERBOARD ===");
         int x = 1;
         for (Map.Entry<String, Integer> entry : scores.entrySet()){
@@ -404,7 +440,10 @@ public class TUI implements ClientModelObserver, ViewAdapter{
         }
     }
 
-    //prints the single component that you have picked
+    /**
+     * prints the single component that you have picked
+     */
+
     @Override
     public void showTileInHand(String player, ClientModel clientModel) {
         ComponentTile ct = clientModel.getShipboard(player).getTileInHand();
