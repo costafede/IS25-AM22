@@ -21,9 +21,10 @@ public class LobbyView implements EnhancedClientView {
     private String gameType = null;
     private RmiClient rmiClient;
     private SocketServerHandler socketClient;
-    private boolean autostart = false;
     private boolean gameStarted = false;
     private ClientModel clientModel;
+    private Map<String, Boolean> readyStatus;
+    private List<String> playersList;
 
     public LobbyView(ClientModel clientModel) {
         this.clientModel = clientModel;
@@ -112,6 +113,8 @@ public class LobbyView implements EnhancedClientView {
 
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
+        this.playersList = players;
+        this.readyStatus = readyStatus;
         if (gameStarted || inGame) {
             return; // Evita stampe duplicate o successive
         }
@@ -159,41 +162,31 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("║                 >>> YOU ARE THE HOST OF THIS LOBBY <<<               ║");
             System.out.println("╚══════════════════════════════════════════════════════════════════════╝\n");
         }
-
+        if(players.size() > 1){
+            System.out.print("> ");
+        }
 
 
         // Auto-start when minimum player count (2) is reached
         if (numPlayers > 0 && currentPlayerCount == numPlayers && isHostPlayer &&
-                hostSetupCompleted && !autostart && !inGame) {
-
-            System.out.println("Sufficient players joined. Starting game automatically...");
-            autostart = true; // Prevent multiple auto-start attempts
+                hostSetupCompleted && !inGame) {
 
             try {
                 // Make sure all players are ready
-                boolean allReady = true;
-                for (String player : players) {
-                    if (!readyStatus.getOrDefault(player, false)) {
-                        allReady = false;
-                        System.out.println("Setting player " + player + " as ready...");
-                        if(rmiClient != null) {
-                            rmiClient.setPlayerReady(player);
-                        } else {
-                            socketClient.setPlayerReady(player);
-                        }
-                    }
-                }
-
+//                boolean allReady = true;
+//                for (String player : players) {
+//                    if (!readyStatus.getOrDefault(player, false)) {
+//                        allReady = false;
+//                        System.out.println("Setting player " + player + " as ready...");
+//                        if(rmiClient != null) {
+//                            rmiClient.setPlayerReady(player);
+//                        } else {
+//                            socketClient.setPlayerReady(player);
+//                        }
+//                    }
+//                }
                 // If everyone is ready, start the game
-                if (allReady || players.size() >= 2) {
-                    System.out.println("All players ready. Starting game...");
-                    String hostName = players.getFirst();
-                    if(rmiClient != null) {
-                        rmiClient.startGameByHost(hostName);
-                    } else {
-                        socketClient.startGameByHost(hostName);
-                    }
-                }
+                startIfReady(players, readyStatus);
             } catch (Exception e) {
                 System.err.println("Error starting game: " + e.getMessage());
             }
@@ -207,6 +200,29 @@ public class LobbyView implements EnhancedClientView {
 //                    Thread.currentThread().interrupt();
 //                }
 //            }).start();
+        }
+    }
+
+    private void startIfReady(List<String> players, Map<String, Boolean> readyStatus) {
+        boolean allReady = true;
+        for(String player : readyStatus.keySet()) {
+            if(!readyStatus.get(player)) {
+                allReady = false;
+                break;
+            }
+        }
+        if (allReady && players.size() >= 2) {
+            System.out.println("All players ready. Starting game...");
+            String hostName = players.getFirst();
+            if(rmiClient != null) {
+                try {
+                    rmiClient.startGameByHost(hostName);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                socketClient.startGameByHost(hostName);
+            }
         }
     }
 
@@ -302,27 +318,24 @@ public class LobbyView implements EnhancedClientView {
         System.out.println("\n>>> " + playerName + " has joined the lobby! <<<\n");
         currentPlayerCount++;
 
-        // Auto-start if max player count reached
-        if (numPlayers > 0 && currentPlayerCount >= numPlayers && isHostPlayer) {
-            System.out.println("Maximum number of players reached. Starting game automatically...");
-        }
+
 
         //displayCurrentCommands();
     }
 
-    private void displayCurrentCommands() {
-        if(!inGame){
-            if (isHostPlayer) {
-                System.out.println("Host Commands: setmax [number], gametype tut, gametype lvl2, ready, unready, start, exit");
-            } else {
-                System.out.println("Commands: ready, unready, exit");
-            }
-        } else {
-            System.out.println("Game commands: [Enter number for commands]");
-            System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 8: Weld component tile | 9: Standby component tile | 10: Pick standby component tile | 11: Discard component tile \n12: Finish building | 13: Finish building with index | 14: Finished all shipboards | 15: Flip hourglass \n16: Pick card | 17: Activate card | 18: Remove player | 19: Destroy component tile \n20: Abandon game | 21: End game");
-        }
-        System.out.print("> ");
-    }
+    //private void displayCurrentCommands() {
+    //    if(!inGame){
+    //        if (isHostPlayer) {
+    //            System.out.println("Host Commands: setmax [number], gametype tut, gametype lvl2, ready, unready, start, exit");
+    //        } else {
+    //            System.out.println("Commands: ready, unready, exit");
+    //        }
+    //    } else {
+    //        System.out.println("Game commands: [Enter number for commands]");
+    //        System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 8: Weld component tile | 9: Standby component tile | 10: Pick standby component tile | 11: Discard component tile \n12: Finish building | 13: Finish building with index | 14: Finished all shipboards | 15: Flip hourglass \n16: Pick card | 17: Activate card | 18: Remove player | 19: Destroy component tile \n20: Abandon game | 21: End game");
+    //    }
+    //    System.out.print("> ");
+    //}
 
     @Override
     public void startCommandLoopRMI(RmiClient client, String playerName, Scanner scanner) {
@@ -337,66 +350,82 @@ public class LobbyView implements EnhancedClientView {
                 return;
             }
             System.out.println("Waiting for other players to join...");
-            System.out.println("Game will start automatically when all players have joined.");
         }
 
         while (running && !inGame) {
             System.out.println("Waiting for more players to join...");
             System.out.println("Current players: " + currentPlayerCount +
                     (numPlayers > 0 ? "/" + numPlayers : ""));
+            System.out.println("Type 'ready' to indicate you're ready.");
             System.out.println("Type 'exit' to leave the lobby.");
             System.out.print("> ");
             String command = scanner.nextLine().trim();
 
-            if (command.equals("exit")) {
-                running = false;
-                client.disconnect();
-            } else {
-                // Refresh the lobby status
-                System.out.println("Waiting for more players to join...");
-                System.out.println("Current players: " + currentPlayerCount +
-                        (numPlayers > 0 ? "/" + numPlayers : ""));
-                System.out.println("Type 'exit' to leave the lobby.");
-                System.out.print("> ");
-            }
+            running = processLobbyInput(client, command, running);
+
         }
 
     }
 
-    public void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner) {
-        this.socketClient = client;
-        boolean running = true;
+    private boolean processLobbyInput(RmiClient client, String command, boolean running) {
+        if (command.equalsIgnoreCase("exit")) {
+            running = false;
+            client.disconnect();
+        } else if (command.equals("ready")) {
+            try {
+                running = false;
+                rmiClient.setPlayerReady(client.getPlayerName());
+            } catch (IOException e) {
+                System.out.println("Error setting ready status: " + e.getMessage());
+            }
+        } else if (command.equals("start")) {
+            handleStartGame(client.getPlayerName(), rmiClient);
+        }
+        else {
+            System.out.println("Invalid command.");
+        }
+        return running;
+    }
+    private boolean processLobbyInput(SocketServerHandler client, String command, boolean running) {
+        if (command.equalsIgnoreCase("exit")) {
+            running = false;
+            client.disconnect();
+        } else if (command.equals("ready")) {
+            running = false;
+            socketClient.setPlayerReady(clientModel.getPlayerName());
+        } else if (command.equals("start")) {
+            handleStartGame(clientModel.getPlayerName(), rmiClient);
+        }
+        else {
+            System.out.println("Invalid command.");
+        }
+        return running;
+    }
 
+    public void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner) {
+        boolean running = true;
+        this.socketClient = client;
         // If this is the host player, handle host setup
         if (isHostPlayer) {
             setupAsHostSocket(client, scanner);
         } else {
             // Non-host players just wait
-            if(gameStarted){
+            if(gameStarted || inGame){
                 return;
             }
             System.out.println("Waiting for other players to join...");
-            System.out.println("Game will start automatically when all players have joined.");
         }
 
         while (running && !inGame) {
+            System.out.println("Waiting for more players to join...");
+            System.out.println("Current players: " + currentPlayerCount +
+                    (numPlayers > 0 ? "/" + numPlayers : ""));
+            System.out.println("Type 'ready' to indicate you're ready.");
+            System.out.println("Type 'exit' to leave the lobby.");
+            System.out.print("> ");
             String command = scanner.nextLine().trim();
 
-            try {
-                if (command.equals("exit")) {
-                    running = false;
-                    socketClient.disconnect();
-                } else {
-                    // Refresh the lobby status
-                    System.out.println("Waiting for more players to join...");
-                    System.out.println("Current players: " + currentPlayerCount +
-                            (numPlayers > 0 ? "/" + numPlayers : ""));
-                    System.out.println("Type 'exit' to leave the lobby.");
-                    System.out.print("> ");
-                }
-            } catch (IOException e) {
-                System.err.println("Error executing command: " + e.getMessage());
-            }
+            running = processLobbyInput(client, command, running);
         }
     }
 
@@ -534,6 +563,21 @@ public class LobbyView implements EnhancedClientView {
 
         } catch (IOException e) {
             System.err.println("Error setting up lobby: " + e.getMessage());
+        }
+    }
+
+    public void handleStartGame(String playerName, RmiClient rmiClient) {
+        try {
+            // Only the host should be able to start the game
+            if (isHostPlayer) {
+                System.out.println("Only the host can start the game");
+                return;
+            }
+
+            // The server handles the validation if all players are ready
+            rmiClient.startGameByHost(playerName);
+        } catch (IOException e) {
+            System.out.println("Error starting game: " + e.getMessage());
         }
     }
 

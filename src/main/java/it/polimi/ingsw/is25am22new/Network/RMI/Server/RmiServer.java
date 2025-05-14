@@ -457,7 +457,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void setPlayerReady(String nickname) {
         gameController.setPlayerReady(nickname);
-        //gameController.updateAllLobbies();
+        gameController.updateAllLobbies();
     }
 
     @Override

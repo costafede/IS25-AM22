@@ -37,4 +37,6 @@ module it.polimi.ingsw.is25am22new {
         opens it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
         exports it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
         opens it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
+    exports it.polimi.ingsw.is25am22new.FXMLControllers;
+    opens it.polimi.ingsw.is25am22new.FXMLControllers to javafx.fxml;
 }

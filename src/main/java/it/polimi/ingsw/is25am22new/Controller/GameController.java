@@ -68,8 +68,8 @@ public class GameController {
         // Starts Rmi Server
         new Thread(() -> {
             try {
-                //System.setProperty("java.rmi.server.hostname", "172.20.10.2");
-                int port = Integer.parseInt(args[0]);
+                System.setProperty("java.rmi.server.hostname", args[0]);
+                int port = Integer.parseInt(args[1]);
                 RmiServer rmiServer = new RmiServer(gameController, port);
                 gameController.getObservers().add(rmiServer);
                 System.out.println("RMI Server is running... waiting for clients to connect.");
@@ -81,7 +81,7 @@ public class GameController {
         // Starts Socket Server
         new Thread(() -> {
             try {
-                int port = Integer.parseInt(args[0]);
+                int port = Integer.parseInt(args[1]);
                 ServerSocket listenSocket = new ServerSocket(++port);
                 System.out.println("Socket Server is running... waiting for clients to connect.");
                 System.out.println("Socket server on listen - it is running on port " + port + "...");

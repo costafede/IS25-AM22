@@ -26,53 +26,75 @@ public class GalaxyTruckerClient {
 
         // Choose connection type
         int connectionChoice = 0;
-        while (connectionChoice != 1 && connectionChoice != 2) {
-            System.out.println("\n╔══════════════════════════════╗");
-            System.out.println("║    Choose Connection Type    ║");
-            System.out.println("╠══════════════════════════════╣");
-            System.out.println("║           1. RMI             ║");
-            System.out.println("║          2. Socket           ║");
-            System.out.println("╚══════════════════════════════╝");
-            System.out.print("➤ ");
-
-            if (scanner.hasNextInt()) {
-                connectionChoice = scanner.nextInt();
-            } else {
-                scanner.next(); // consume invalid input
-            }
-            if (connectionChoice != 1 && connectionChoice != 2) {
+        if (args.length <= 2) {
+            while (connectionChoice != 1 && connectionChoice != 2) {
                 System.out.println("\n╔══════════════════════════════╗");
-                System.out.println("║       ⚠Invalid Choice⚠       ║");
-                System.out.println("║     Please enter 1 or 2.     ║");
-                System.out.println("╚══════════════════════════════╝\n");
+                System.out.println("║    Choose Connection Type    ║");
+                System.out.println("╠══════════════════════════════╣");
+                System.out.println("║           1. RMI             ║");
+                System.out.println("║          2. Socket           ║");
+                System.out.println("╚══════════════════════════════╝");
+                System.out.print("➤ ");
+
+                if (scanner.hasNextInt()) {
+                    connectionChoice = scanner.nextInt();
+                } else {
+                    scanner.next(); // consume invalid input
+                }
+                if (connectionChoice != 1 && connectionChoice != 2) {
+                    System.out.println("\n╔══════════════════════════════╗");
+                    System.out.println("║       ⚠Invalid Choice⚠       ║");
+                    System.out.println("║     Please enter 1 or 2.     ║");
+                    System.out.println("╚══════════════════════════════╝\n");
+                }
             }
+            scanner.nextLine(); // consume newline
+        }else{
+            if(args[2].equalsIgnoreCase("RMI"))
+                connectionChoice = 1;
+            else if(args[2].equalsIgnoreCase("SOCKET"));
+            else {
+                System.out.println("choose a valid connection type");
+                System.exit(0);
+            }
+
         }
-        scanner.nextLine(); // consume newline
 
         // Choose UI type
         int uiChoice = 0;
-        while (uiChoice != 1 && uiChoice != 2) {
-            System.out.println("\n╔══════════════════════════════╗");
-            System.out.println("║        Choose UI Type        ║");
-            System.out.println("╠══════════════════════════════╣");
-            System.out.println("║       1. Text-based UI       ║");
-            System.out.println("║       2. Graphical UI        ║");
-            System.out.println("╚══════════════════════════════╝");
-            System.out.print("➤ ");
-
-            if (scanner.hasNextInt()) {
-                uiChoice = scanner.nextInt();
-            } else {
-                scanner.next(); // consume invalid input
-            }
-            if (uiChoice != 1 && uiChoice != 2) {
+        if (args.length <= 3) {
+            while (uiChoice != 1 && uiChoice != 2) {
                 System.out.println("\n╔══════════════════════════════╗");
-                System.out.println("║       ⚠Invalid Choice⚠       ║");
-                System.out.println("║     Please enter 1 or 2.     ║");
-                System.out.println("╚══════════════════════════════╝\n");
+                System.out.println("║        Choose UI Type        ║");
+                System.out.println("╠══════════════════════════════╣");
+                System.out.println("║       1. Text-based UI       ║");
+                System.out.println("║       2. Graphical UI        ║");
+                System.out.println("╚══════════════════════════════╝");
+                System.out.print("➤ ");
+
+                if (scanner.hasNextInt()) {
+                    uiChoice = scanner.nextInt();
+                } else {
+                    scanner.next(); // consume invalid input
+                }
+                if (uiChoice != 1 && uiChoice != 2) {
+                    System.out.println("\n╔══════════════════════════════╗");
+                    System.out.println("║       ⚠Invalid Choice⚠       ║");
+                    System.out.println("║     Please enter 1 or 2.     ║");
+                    System.out.println("╚══════════════════════════════╝\n");
+                }
+            }
+            scanner.nextLine(); // consume newline
+        } else {
+            if(args[3].equalsIgnoreCase("TUI"))
+                uiChoice = 1;
+            else if(args[3].equalsIgnoreCase("GUI"))
+                uiChoice = 2;
+            else {
+                System.out.println("choose a valid UI type");
+                System.exit(0);
             }
         }
-        scanner.nextLine(); // consume newline
 
         // Process server connection details
         String host = "localhost";
