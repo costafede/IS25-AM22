@@ -113,6 +113,10 @@ public class LobbyView implements EnhancedClientView {
 
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
+        if(players.size() == 1){
+            return;
+        }
+
         this.playersList = players;
         this.readyStatus = readyStatus;
         if (gameStarted || inGame) {
@@ -162,9 +166,7 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("║                 >>> YOU ARE THE HOST OF THIS LOBBY <<<               ║");
             System.out.println("╚══════════════════════════════════════════════════════════════════════╝\n");
         }
-        if(players.size() > 1){
-            System.out.print("> ");
-        }
+
 
 
         // Auto-start when minimum player count (2) is reached
