@@ -1,0 +1,109 @@
+/* Base styles */
+.root {
+    -fx-background-color: #000a1f;
+}
+
+/* Background image container with enhanced transparency control */
+.image-view-container {
+    -fx-opacity: 0.65; /* Slightly more transparent */
+}
+
+/* More distinct overlay */
+.overlay-pane {
+    -fx-background-color: rgba(0, 10, 40, 0.4);
+    -fx-background-radius: 15;
+}
+
+/* More vibrant title and section headers */
+.title-label {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e0f7ff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 200, 255, 0.9), 18, 0.8, 0, 0);
+}
+
+.section-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e0f7ff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 200, 255, 0.8), 10, 0.6, 0, 0);
+}
+
+/* More vibrant buttons */
+.lobby-button {
+    -fx-background-color: rgba(15, 50, 120, 0.85);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-border-color: #00d0ff;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-min-width: 130px;
+    -fx-min-height: 45px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 180, 255, 0.9), 15, 0.7, 0, 0);
+}
+
+.lobby-button:hover {
+    -fx-background-color: rgba(30, 140, 255, 0.9);
+    -fx-border-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(100, 220, 255, 1.0), 20, 0.9, 0, 0);
+    -fx-cursor: hand;
+}
+
+/* Enhanced ready button styling */
+.ready-button {
+    -fx-background-color: rgba(0, 120, 60, 0.85);
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-border-color: #00ff80;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-min-width: 130px;
+    -fx-min-height: 45px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 255, 150, 0.9), 15, 0.7, 0, 0);
+}
+
+/* More vibrant list and text areas */
+.list-view {
+    -fx-background-color: rgba(5, 20, 50, 0.8);
+    -fx-border-color: #00d0ff;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e0f7ff;
+    -fx-font-size: 14px;
+    -fx-padding: 8;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: rgba(0, 120, 200, 0.7);
+}
+
+.text-area {
+    -fx-background-color: rgba(5, 20, 50, 0.8);
+    -fx-text-fill: #e0f7ff;
+    -fx-border-color: #00d0ff;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-font-size: 14px;
+}
+
+.text-area .content {
+    -fx-background-color: rgba(5, 20, 50, 0.6);
+}
+
+/* Progress bar styling */
+.progress-bar {
+    -fx-accent: rgba(0, 180, 255, 0.9);
+}
+
+.progress-bar .track {
+    -fx-background-color: rgba(5, 20, 50, 0.8);
+    -fx-border-color: #00d0ff;
+}

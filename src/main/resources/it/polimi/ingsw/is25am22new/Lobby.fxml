@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.LobbyController">
+
+    <!-- Static Background Image -->
+    <ImageView fitHeight="480.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true" opacity="0.7">
+        <image>
+            <Image url="@Graphics/AstronautInSpace.jpg" />
+        </image>
+    </ImageView>
+
+    <!-- Semi-transparent overlay for better text readability -->
+    <Pane style="-fx-background-color: rgba(0, 10, 40, 0.4); -fx-background-radius: 15;"/>
+
+    <!-- Content Pane -->
+    <VBox alignment="CENTER" spacing="20" maxWidth="600" maxHeight="400">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Game Lobby" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #e0f7ff;"/>
+
+        <HBox spacing="20" alignment="CENTER">
+            <!-- Players List -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Connected Players" style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #e0f7ff;" alignment="CENTER" maxWidth="Infinity"/>
+                <ListView fx:id="playerListView" VBox.vgrow="ALWAYS" prefHeight="200"/>
+            </VBox>
+
+            <!-- Status Section -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Game Status" style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #e0f7ff;" alignment="CENTER" maxWidth="Infinity"/>
+                <TextArea fx:id="statusTextArea" VBox.vgrow="ALWAYS" prefHeight="200" editable="false" wrapText="true"/>
+            </VBox>
+        </HBox>
+
+        <!-- Buttons -->
+        <HBox spacing="50" alignment="CENTER">
+            <Button fx:id="readyButton" text="READY" onAction="#toggleReady"/>
+            <Button fx:id="exitButton" text="EXIT" onAction="#exitLobby"/>
+        </HBox>
+    </VBox>
+</StackPane>
