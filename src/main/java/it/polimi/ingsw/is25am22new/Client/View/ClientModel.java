@@ -43,7 +43,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setGameStartMessageReceived(boolean gameStartMessageReceived) {
         this.gameStartMessageReceived = gameStartMessageReceived;
-        notifyObservers(this);
+        
+        notifyGameStartMessageReceived(gameStartMessageReceived);
     }
 
     public ClientModel() {
@@ -60,7 +61,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setDices(Dices dices) {
         this.dices = dices;
-        notifyObservers(this);
+        
+        notifyDices(dices);
     }
 
     public AdventureCard getCurrCard() {
@@ -69,7 +71,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setCurrCard(AdventureCard currCard) {
         this.currCard = currCard;
-        notifyObservers(this);
+        
+        notifyCurrCard(currCard);
     }
 
     public String getCurrPlayer() {
@@ -78,7 +81,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setCurrPlayer(String currPlayer) {
         this.currPlayer = currPlayer;
-        notifyObservers(this);
+        
+        notifyCurrPlayer(currPlayer);
     }
 
     public List<AdventureCard> getDeck() {
@@ -87,20 +91,12 @@ public class ClientModel extends ObservableModelView {
 
     public void setDeck(List<AdventureCard> deck) {
         this.deck = deck;
-        notifyObservers(this);
+        
+        notifyDeck(deck);
     }
 
     public Hourglass getHourglass() {
         return hourglass;
-    }
-
-    public List<AdventureCard> getCardArchive() {
-        return cardArchive;
-    }
-
-    public void setCardArchive(List<AdventureCard> cardArchive) {
-        this.cardArchive = cardArchive;
-        notifyObservers(this);
     }
 
     public Flightboard getFlightboard() {
@@ -109,7 +105,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setFlightboard(Flightboard flightboard) {
         this.flightboard = flightboard;
-        notifyObservers(this);
+        
+        notifyFlightboard(flightboard);
     }
 
     public Map<String, Shipboard> getShipboards() {
@@ -119,13 +116,15 @@ public class ClientModel extends ObservableModelView {
     public void setShipboard(String player, Shipboard shipboard){
         this.shipboards.put(player, shipboard);
         fixShipboards(this.shipboards);
-        notifyObservers(this);
+        
+        notifyShipboard(shipboard);
     }
 
     public void setShipboards(Map<String, Shipboard> shipboards) {
         this.shipboards = shipboards;
         fixShipboards(this.shipboards);
-        notifyObservers(this);
+        
+        notifyShipboards(shipboards);
     }
 
     public List<ComponentTile> getUncoveredComponentTiles() {
@@ -134,7 +133,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
         this.uncoveredComponentTiles = uncoveredComponentTiles;
-        notifyObservers(this);
+        
+        notifyUncoveredComponentTiles(uncoveredComponentTiles);
     }
 
     public List<ComponentTile> getCoveredComponentTiles() {
@@ -143,12 +143,14 @@ public class ClientModel extends ObservableModelView {
 
     public void setCoveredComponentTiles(List<ComponentTile> coveredComponentTiles) {
         this.coveredComponentTiles = coveredComponentTiles;
-        notifyObservers(this);
+        
+        notifyCoveredComponentTiles(coveredComponentTiles);
     }
 
     public void setBank(Bank bank) {
         this.bank = bank;
-        notifyObservers(this);
+        
+        notifyBank(bank);
     }
 
     public Bank getBank() {
@@ -165,7 +167,8 @@ public class ClientModel extends ObservableModelView {
 
     public void setGamePhase(GamePhase gamePhase) {
         this.gamePhase = gamePhase;
-        notifyObservers(this);
+        
+        notifyGamePhase(gamePhase);
     }
 
     public String getPlayerName() {
@@ -180,13 +183,15 @@ public class ClientModel extends ObservableModelView {
         this.hourglassSpot = hourglassSpot;
         this.hourglass.startTimer(() -> {});
         this.hourglassActive = true;
-        notifyObservers(this);
+        
+        notifyStartHourglass(hourglassSpot);
     }
 
     public void stopHourglass() {
         this.hourglassActive = false;
         this.hourglass.stopTimer();
-        notifyObservers(this);
+        
+        notifyStopHourglass();
     }
 
     public boolean isHourglassActive() {
@@ -224,7 +229,8 @@ public class ClientModel extends ObservableModelView {
             hourglassSpot = game.getHourglassSpot();
             hourglassActive = game.isHourglassActive();
         }
-        notifyObservers(this);
+        
+        notifyGame(this);
     }
 
     public void fixShipboards(Map<String, Shipboard> shipboards) {
