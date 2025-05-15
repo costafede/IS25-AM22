@@ -6,14 +6,16 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.util.*;
 
 
-public class TUI implements ClientModelObserver, ViewAdapter{
+public class TUI implements ClientModelObserver,ViewAdapter{
 
     private final CommandManager commandManager;
     private boolean cliRunning;
@@ -23,19 +25,13 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     private final List<Command> allCommands;
 
     public TUI(CommandManager commandManager, ClientModel model) {
+        super();
         this.commandManager = commandManager;
         this.cliRunning = true;
         this.model = model;
         this.input = new ArrayList<>();
         this.allCommands = commandManager.getAllCommandTypes();
     }
-
-    @Override
-    public synchronized void modelChanged(ClientModel model) {
-        this.model = model;
-        this.notifyAll();
-    }
-
 
     /**
      * return true if the format is valid
@@ -337,7 +333,7 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     @Override
     public synchronized void showAvailableCommands(ClientModel clientModel) {
         List<Command> availableCommands = commandManager.getAvailableCommandTypes(model);
-        for(Command command : availableCommands) {
+        for (Command command : availableCommands) {
             System.out.println(command.getName());
         }
     }
@@ -478,6 +474,88 @@ public class TUI implements ClientModelObserver, ViewAdapter{
     @Override
     public void quit() {
         this.cliRunning = false;
+    }
+
+
+
+
+    private synchronized void modelChanged() {
+        this.notifyAll();
+    }
+
+    @Override
+    public void updateGame(ClientModel model) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateStopHourglass() {
+        modelChanged();
+    }
+
+    @Override
+    public void updateStartHourglass(int hourglassSpot) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateGamePhase(GamePhase gamePhase) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateBank(Bank bank) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateCoveredComponentTiles(List<ComponentTile> coveredComponentTiles) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateShipboards(Map<String, Shipboard> shipboards) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateFlightboard(Flightboard flightboard) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateShipboard(Shipboard shipboard) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateDeck(List<AdventureCard> deck) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateCurrPlayer(String player) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateCurrCard(AdventureCard currCard) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateDices(Dices dices) {
+        modelChanged();
+    }
+
+    @Override
+    public void updateGameStartMessageReceived(boolean gameStartMessageReceived) {
+        modelChanged();
     }
 
 }
