@@ -40,12 +40,12 @@ public class SocketClientSide implements VirtualView {
     String gameType = "ERROR";
     String message = "ERROR";
 
-    protected SocketClientSide(Socket socket, ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel) throws IOException {
+    protected SocketClientSide(Socket socket, ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel, LobbyView view) throws IOException {
         this.socket = socket;
         this.output = output;
         this.objectInput = objectInput;
         this.thisPlayerName = thisPlayerName;
-        this.view = new LobbyView(clientModel);
+        this.view = view;
         this.clientModel = clientModel;
         commandMap = new HashMap<>();
         initializeCommandMap();
@@ -123,8 +123,15 @@ public class SocketClientSide implements VirtualView {
 
                 if(!joined) System.out.println("Try again!");
             }
-
-            SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel);
+            LobbyView view;
+            if(Integer.parseInt(args[2]) == 1) {
+                 view = new LobbyView(clientModel);
+            }  else {
+                // GUI would be implemented here
+                System.out.println("GUI not yet implemented. Defaulting to TUI.");
+                view = new LobbyView(clientModel);
+            }
+            SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel, view);
             newSocket.run(scanner);
             return newSocket.getServerHandler();
         } catch (IOException e) {
