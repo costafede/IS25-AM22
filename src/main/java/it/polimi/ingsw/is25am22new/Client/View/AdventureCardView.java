@@ -28,7 +28,10 @@ import java.util.Map;
  */
 
 public class AdventureCardView {
-
+    /**
+     * shows the information of the planets card
+     * @param card
+     */
     public void showPlanetsCard(PlanetsCard card) {
         System.out.println("=== PLANETS ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -45,6 +48,7 @@ public class AdventureCardView {
 
     /**
      * shows the planets and if they're free, and also the respective goodBlocks available on the planet
+     * @param card
      */
     public void showPlanetsCardInGame(PlanetsCard card) {
         System.out.println("=== PLANETS ===");
@@ -71,6 +75,10 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the information of the abandoned ship card
+     * @param card
+     */
     public void showAbandonedShipCard(AbandonedShipCard card) {
         System.out.println("=== ABANDONED SHIP ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -78,6 +86,10 @@ public class AdventureCardView {
         System.out.println("Astronauts lost: " + card.getLostAstronauts());
     }
 
+    /**
+     * shows the information of the abandoned ship card in the game, where the player can choose to take the ship or not
+     * @param card
+     */
     public void showAbandonedShipCardInGame(AbandonedShipCard card) {
         System.out.println("=== ABANDONED SHIP ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -86,6 +98,12 @@ public class AdventureCardView {
         System.out.println("Is it a good idea to take the ship?");
     }
 
+    /**
+     * shows the information of the abandoned station card,
+     * where the player can choose to land on the station or not,
+     * and the theoretical goodblocks available on the station, and the actual ones available on the ship.
+     * @param card
+     */
     public void showAbandonedStationCard(AbandonedStationCard card) {
         System.out.println("=== ABANDONED STATION ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -97,6 +115,11 @@ public class AdventureCardView {
         );
     }
 
+    /**
+     * shows the information of the abandoned station card in the game,
+     * where the player can choose to land on the station or not,
+     * @param card
+     */
     public void showAbandonedStationCardInGame(AbandonedStationCard card) {
         System.out.println("=== ABANDONED STATION ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -115,6 +138,10 @@ public class AdventureCardView {
         System.out.println("Is it a good idea to land on the station?");
     }
 
+    /**
+     * shows the information of the combat zone card
+     * @param card
+     */
     public void showCombatZoneCard(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
         System.out.println("The player with the least crewmembers loses " + card.getFlightDaysLost() + " days on flight");
@@ -125,6 +152,10 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the combat zone card info in game, with the specific shot incoming
+     * @param card
+     */
     public void showCombatZoneCardInGame(CombatZoneCard card) {
         System.out.println("=== COMBAT ZONE ===");
         String state = card.getStateName();
@@ -153,6 +184,10 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the information of the combat zone card2
+     * @param card
+     */
     public void showCombatZoneCard2(CombatZoneCard2 card) {
         System.out.println("=== COMBAT ZONE ===");
         System.out.println("The player with the least cannon strength loses " + card.getFlightDaysLost() + " days on flight");
@@ -163,6 +198,10 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the combat zone card2 info in game, with the specific shot incoming
+     * @param card
+     */
     public void showCombatZoneCard2InGame(CombatZoneCard2 card) {
         System.out.println("=== COMBAT ZONE ===");
         String state = card.getStateName();
@@ -191,16 +230,28 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the information of the epidemic card
+     * @param card
+     */
     public void showEpidemicCard(EpidemicCard card) {
         System.out.println("=== EPIDEMIC ===");
         //Self-explanatory
     }
 
+    /**
+     * shows the information of the epidemic card in game
+     * @param card
+     */
     public void showEpidemicCardInGame(EpidemicCard card) {
         System.out.println("=== EPIDEMIC ===");
         System.out.println("Oh no, a virus broke out in the ship. Wash carefully your hands and put on a mask");
     }
 
+    /**
+     * shows the information of the meteor swarm card
+     * @param card
+     */
     public void showMeteorSwarmCard(MeteorSwarmCard card) {
         System.out.println("=== METEOR SWARM ===");
         Map<Integer, Meteor> numberToMeteor = card.getNumberToMeteor();
@@ -209,6 +260,10 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the information of the meteor swarm card in game, with the specific meteor incoming
+     * @param card
+     */
     public void showMeteorSwarmCardInGame(MeteorSwarmCard card) {
         System.out.println("=== METEOR SWARM ===");
         int meteorIndex = card.getIndexOfIncomingMeteor();
@@ -231,16 +286,28 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the information of the open space card
+     * @param card
+     */
     public void showOpenSpaceCard(OpenSpaceCard card) {
         System.out.println("=== OPEN SPACE ===");
         //Self-explanatory
     }
 
+    /**
+     * shows the information of the open space card in game
+     * @param card
+     */
     public void showOpenSpaceCardInGame(OpenSpaceCard card) {
         System.out.println("=== OPEN SPACE ===");
         System.out.println("Who's the quickest? Go full throttle and overtake the competition!");
     }
 
+    /**
+     * shows the information of the pirates card
+     * @param card
+     */
     public void showPiratesCard(PiratesCard card) {
         System.out.println("=== PIRATES ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -252,6 +319,10 @@ public class AdventureCardView {
         }
     }
 
+    /**
+     * shows the information of the pirates card in game, with the specific shot incoming
+     * @param card
+     */
     public void showPiratesCardInGame(PiratesCard card) {
         System.out.println("=== PIRATES ===");
         System.out.println("ARRRR! Hide the bottles of Rum and load the cannons!");
@@ -273,6 +344,10 @@ public class AdventureCardView {
 
     }
 
+    /**
+     * shows the information of the slavers card
+     * @param card
+     */
     public void showSlaversCard(SlaversCard card) {
         System.out.println("=== SLAVERS ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -281,6 +356,10 @@ public class AdventureCardView {
         System.out.println("Cannon's strength: " + card.getCannonStrength());
     }
 
+    /**
+     * shows the information of the slavers card in game
+     * @param card
+     */
     public void showSlaversCardInGame(SlaversCard card) {
         System.out.println("=== SLAVERS ===");
         System.out.println("We're back in colonialism... Prepare the cannons and watch out for the slavers!");
@@ -289,6 +368,10 @@ public class AdventureCardView {
         System.out.println("If you're weak you will lose " + card.getAstronautsToLose() + " crewmembers");
     }
 
+    /**
+     * shows the information of the smugglers card
+     * @param card
+     */
     public void showSmugglersCard(SmugglersCard card) {
         System.out.println("=== SMUGGLERS ===");
         System.out.println("Days on flight lost: " + card.getFlightDaysLost());
@@ -300,6 +383,10 @@ public class AdventureCardView {
         );
     }
 
+    /**
+     * shows the information of the smugglers card in game
+     * @param card
+     */
     public void showSmugglersCardInGame(SmugglersCard card) {
         System.out.println("=== SMUGGLERS ===");
         System.out.println("Better watch out! If you're weak you will lose valuable stuff");
@@ -318,11 +405,19 @@ public class AdventureCardView {
         System.out.println("If you're weak you will lose " + card.getLostGoods() + " goods");
     }
 
+    /**
+     * shows the information of the stardust card
+     * @param card
+     */
     public void showStardustCard(StardustCard card) {
         System.out.println("=== STARDUST ===");
         //Self-explanatory
     }
 
+    /**
+     * shows the information of the stardust card in game
+     * @param card
+     */
     public void showStardustCardInGame(StardustCard card) {
         System.out.println("=== STARDUST ===");
         System.out.println("Oh no, the exposed connectors of the ship will slow you down");
