@@ -11,4 +11,11 @@
             fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.ConnectToServerController"
             prefHeight="400.0" prefWidth="600.0">
 
+    <VBox alignment="CENTER">
+        <Label text="Connect to Server" styleClass="lobby-label"/>
+        <TextField fx:id="ipAddressField" promptText="Enter IP Address" />
+        <TextField fx:id="portField" promptText="Enter Port" />
+        <Button fx:id="connectButton" text="Connect"/>
+        <Label fx:id="errorLabel" textFill="RED"/>
+    </VBox>
 </AnchorPane>
