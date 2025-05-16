@@ -1,4 +1,4 @@
-package it.polimi.ingsw.is25am22new.FXMLControllers;
+package it.polimi.ingsw.is25am22new.Client.View.GUI;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;

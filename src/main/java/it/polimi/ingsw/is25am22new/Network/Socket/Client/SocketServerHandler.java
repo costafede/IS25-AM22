@@ -1,13 +1,19 @@
 package it.polimi.ingsw.is25am22new.Network.Socket.Client;
 
+import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class SocketServerHandler implements VirtualServer {
     final ObjectOutputStream objectOutput;
@@ -370,5 +376,107 @@ public class SocketServerHandler implements VirtualServer {
         } catch (IOException e) {
             System.out.println("Connection closed");
         }
+    }
+
+    public String getVirtualServerType() {
+        return "socket";
+    }
+
+    public static SocketServerHandler connectToServerTUI(String[] args, ClientModel clientModel, Scanner scanner, EnhancedClientView enhancedClientView) throws InterruptedException, ClassNotFoundException {
+        String host = args[0];
+        int port = Integer.parseInt(args[1]);
+        try {
+            Socket socket = new Socket(host, port);
+            SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
+            ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
+            boolean joined = false;
+            String thisPlayerName = "Player";
+
+            while(!joined) {
+                System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                System.out.println("║                     ENTER YOUR COOL TRUCKER NAME                     ║");
+                System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                System.out.print("➤ ");
+                System.out.flush();
+                thisPlayerName = scanner.nextLine().trim();
+
+                while(thisPlayerName == null || thisPlayerName.isEmpty()) {
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║                      PLEASE ENTER A VALID NAME                       ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
+                    thisPlayerName = scanner.nextLine();
+                }
+
+                output.checkAvailability(thisPlayerName);
+                SocketMessage msg = null;
+                if((msg = (SocketMessage) objectInput.readObject()) != null) {
+                    switch (msg.getCommand()) {
+                        case "LobbyFullOrOutsideLobbyState" -> {
+                            System.out.println("Lobby is full or you are outside the lobby state");
+                        }
+                        case "PlayerAlreadyInLobby" -> {
+                            System.out.println("Player already in lobby");
+                        }
+                        case "PlayerAdded" -> {
+                            System.out.println("You've successfully joined the lobby!");
+                            joined = true;
+                        }
+                        default -> {
+                            System.out.println("Host is configuring the lobby...please retry");
+                        }
+                    }
+                }
+
+                if(!joined) System.out.println("Try again!");
+            }
+            SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel, enhancedClientView);
+            newSocket.run(scanner);
+            return newSocket.getServerHandler();
+        } catch (IOException e) {
+            System.out.println("Error connecting to server: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static SocketServerHandler connectToServerGUI(String host, int port, String name, ClientModel clientModel, GalaxyTruckerGUI view) throws InterruptedException {
+        try {
+            Socket socket = new Socket(host, port);
+            SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
+            ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
+            boolean joined = false;
+            String thisPlayerName = "Player";
+
+            while(!joined) {
+                thisPlayerName = name;
+                output.checkAvailability(thisPlayerName);
+                SocketMessage msg = null;
+                if((msg = (SocketMessage) objectInput.readObject()) != null) {
+                    switch (msg.getCommand()) {
+                        case "LobbyFullOrOutsideLobbyState" -> {
+                            view.displayNicknameResult(false, "Lobby is full or game is already started");
+                        }
+                        case "PlayerAlreadyInLobby" -> {
+                            view.displayNicknameResult(false, "Player already in lobby");
+                        }
+                        case "PlayerAdded" -> {
+                            view.displayNicknameResult(true, "You've successfully joined the lobby!");
+                            joined = true;
+                        }
+                        default -> {
+                            view.displayNicknameResult(false, "Host is configuring the lobby...please retry");
+                        }
+                    }
+                }
+
+                if(!joined) System.out.println("Try again!");
+            }
+            SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel, view);
+            newSocket.run();
+            return newSocket.getServerHandler();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error connecting to server: " + e.getMessage());
+        }
+        return null;
     }
 }

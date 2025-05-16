@@ -14,8 +14,6 @@ public interface EnhancedClientView {
     void displayGameStarted();
     void displayGame(Game game);
     void displayPlayerJoined(String playerName);
-    void startCommandLoopRMI(RmiClient client, String playerName, Scanner scanner);
-    void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner);
     boolean isNicknameValid();
     void resetNicknameStatus();
 }

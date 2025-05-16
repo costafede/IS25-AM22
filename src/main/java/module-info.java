@@ -11,9 +11,7 @@ module it.polimi.ingsw.is25am22new {
         requires java.logging;
     requires java.sql;
 
-    opens it.polimi.ingsw.is25am22new to javafx.fxml;
-
-        exports it.polimi.ingsw.is25am22new.Model.Games;
+    exports it.polimi.ingsw.is25am22new.Model.Games;
         exports it.polimi.ingsw.is25am22new.Controller;
         exports it.polimi.ingsw.is25am22new.Network to java.rmi;
         exports it.polimi.ingsw.is25am22new.Network.Socket.Client;
@@ -33,11 +31,12 @@ module it.polimi.ingsw.is25am22new {
         opens it.polimi.ingsw.is25am22new.Model.AdventureCard to java.rmi;
 
         exports it.polimi.ingsw.is25am22new.Client.View;
-        exports it.polimi.ingsw.is25am22new;
-        exports it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
+    exports it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
         opens it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;
         exports it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
         opens it.polimi.ingsw.is25am22new.Network.RMI.Server to java.rmi;
     exports it.polimi.ingsw.is25am22new.FXMLControllers;
     opens it.polimi.ingsw.is25am22new.FXMLControllers to javafx.fxml;
+    exports it.polimi.ingsw.is25am22new.Client.View.GUI;
+    opens it.polimi.ingsw.is25am22new.Client.View.GUI to javafx.fxml;
 }

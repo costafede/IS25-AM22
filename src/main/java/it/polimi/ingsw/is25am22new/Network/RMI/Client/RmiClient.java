@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
+import it.polimi.ingsw.is25am22new.Client.LobbyView;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -82,7 +83,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
             }
             this.playerName = playerName;
             clientModel.setPlayerName(playerName);
-            clientView.startCommandLoopRMI(this, playerName, scanner);
+            ((LobbyView) clientView).startCommandLoopRMI(this, playerName, scanner);
         } catch (Exception e) {
             System.err.println("Client exception: " + e);
         }
@@ -484,5 +485,9 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                 shutdown();
             }
         }, 0, 3, TimeUnit.SECONDS);
+    }
+
+    public String getVirtualServerType() {
+        return "rmi";
     }
 }

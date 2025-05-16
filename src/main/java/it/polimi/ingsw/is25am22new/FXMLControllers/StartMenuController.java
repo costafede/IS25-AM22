@@ -1,5 +1,7 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StartMenuController implements Initializable {
-
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+public class StartMenuController extends FXMLController implements Initializable {
 
     @FXML
     private Button playButton;
@@ -38,11 +36,7 @@ public class StartMenuController implements Initializable {
 
     @FXML
     public void switchToConnectToServerScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 1280, 720);  // Set fixed dimensions
-        stage.setScene(scene);
-        stage.show();
+        galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
     }
 
     public void setGalaxyBackground(GalaxyBackground galaxyBackground) {

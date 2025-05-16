@@ -1,4 +1,4 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
-public class EndController {
+public class EndController extends FXMLController{
 }

@@ -40,4 +40,6 @@ public interface VirtualServer extends Remote {
 
     void heartbeat(String playerName) throws IOException;
     void quit(String playerName) throws IOException;
+
+    String getVirtualServerType() throws RemoteException;
 }

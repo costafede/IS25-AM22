@@ -403,7 +403,7 @@ public class LobbyView implements EnhancedClientView {
      * @param playerName  the name of the player entering the lobby
      * @param scanner     the scanner object for reading user input in the command loop
      */
-    @Override
+
     public void startCommandLoopRMI(RmiClient client, String playerName, Scanner scanner) {
         boolean running = true;
         this.rmiClient = client;

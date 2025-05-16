@@ -11,6 +11,7 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.Socket.SocketMessage;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import it.polimi.ingsw.is25am22new.Network.VirtualView;
@@ -30,7 +31,7 @@ public class SocketClientSide implements VirtualView {
     final ObjectInputStream objectInput;
     final SocketServerHandler output;
     String thisPlayerName;
-    LobbyView view;
+    EnhancedClientView view;
     boolean isHost;
     private ScheduledExecutorService heartbeatScheduler;
     Socket socket;
@@ -40,7 +41,7 @@ public class SocketClientSide implements VirtualView {
     String gameType = "ERROR";
     String message = "ERROR";
 
-    protected SocketClientSide(Socket socket, ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel, LobbyView view) throws IOException {
+    protected SocketClientSide(Socket socket, ObjectInputStream objectInput, SocketServerHandler output, String thisPlayerName, ClientModel clientModel, EnhancedClientView view) throws IOException {
         this.socket = socket;
         this.output = output;
         this.objectInput = objectInput;
@@ -75,72 +76,8 @@ public class SocketClientSide implements VirtualView {
         commandMap.put("StartHourglass", this::handleStartHourglass);
         commandMap.put("updateTest", this::handleUpdateTest);
     }
-    public static SocketServerHandler connectToServer(String[] args, ClientModel clientModel, Scanner scanner) throws InterruptedException, ClassNotFoundException {
-        String host = args[0];
-        int port = Integer.parseInt(args[1]);
-        try {
-            Socket socket = new Socket(host, port);
-            SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
-            ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
-            boolean joined = false;
-            String thisPlayerName = "Player";
 
-            while(!joined) {
-                System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                System.out.println("║                     ENTER YOUR COOL TRUCKER NAME                     ║");
-                System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                System.out.print("➤ ");
-                System.out.flush();
-                thisPlayerName = scanner.nextLine().trim();
-
-                while(thisPlayerName == null || thisPlayerName.isEmpty()) {
-                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                    System.out.println("║                      PLEASE ENTER A VALID NAME                       ║");
-                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                    System.out.print("➤ ");
-                    thisPlayerName = scanner.nextLine();
-                }
-
-                output.checkAvailability(thisPlayerName);
-                SocketMessage msg = null;
-                if((msg = (SocketMessage) objectInput.readObject()) != null) {
-                    switch (msg.getCommand()) {
-                        case "LobbyFullOrOutsideLobbyState" -> {
-                            System.out.println("Lobby is full or you are outside the lobby state");
-                        }
-                        case "PlayerAlreadyInLobby" -> {
-                            System.out.println("Player already in lobby");
-                        }
-                        case "PlayerAdded" -> {
-                            System.out.println("You've successfully joined the lobby!");
-                            joined = true;
-                        }
-                        default -> {
-                            System.out.println("Host is configuring the lobby...please retry");
-                        }
-                    }
-                }
-
-                if(!joined) System.out.println("Try again!");
-            }
-            LobbyView view;
-            if(Integer.parseInt(args[2]) == 1) {
-                 view = new LobbyView(clientModel);
-            }  else {
-                // GUI would be implemented here
-                System.out.println("GUI not yet implemented. Defaulting to TUI.");
-                view = new LobbyView(clientModel);
-            }
-            SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel, view);
-            newSocket.run(scanner);
-            return newSocket.getServerHandler();
-        } catch (IOException e) {
-            System.out.println("Error connecting to server: " + e.getMessage());
-        }
-        return null;
-    }
-
-    private void run(Scanner scanner) throws IOException, InterruptedException {
+    public void run(Scanner scanner) throws IOException, InterruptedException {
         new Thread(() -> {
             try {
                 runVirtualServer();
@@ -152,7 +89,21 @@ public class SocketClientSide implements VirtualView {
         Thread.sleep(150);
         startHeartbeat(thisPlayerName, output);
         clientModel.setPlayerName(thisPlayerName);
-        view.startCommandLoopSocket(this.output, thisPlayerName, scanner);
+        ((LobbyView) view).startCommandLoopSocket(this.output, thisPlayerName, scanner);
+    }
+
+    public void run() throws InterruptedException {
+        new Thread(() -> {
+            try {
+                runVirtualServer();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
+        Thread.sleep(150);
+        startHeartbeat(thisPlayerName, output);
+        clientModel.setPlayerName(thisPlayerName);
     }
 
     public void runVirtualServer() {

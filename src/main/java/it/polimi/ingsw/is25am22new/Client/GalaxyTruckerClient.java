@@ -3,18 +3,15 @@ package it.polimi.ingsw.is25am22new.Client;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.TUI;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
-import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketClientSide;
+import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The GalaxyTruckerClient class serves as the main entry point for the Galaxy Trucker client application.
@@ -191,23 +188,21 @@ public class GalaxyTruckerClient {
 
         if (uiChoice == 1) {
             view = new LobbyView(clientModel);
+            // Create and run RMI client
+            RmiClient client = new RmiClient(view, clientModel);
+            client.connectToServer(host, port);
+
+            // Connect to server
+            virtualServer = client;
+
+            client.run(null, scanner); // null means it will prompt for a name
+
+            this.playerName = client.getPlayerName();
         } else {
-            // GUI would be implemented here
-            System.out.println("GUI not yet implemented. Defaulting to TUI.");
-            view = new LobbyView(clientModel);
+            // GUI implementation
         }
 
 
-        // Create and run RMI client
-        RmiClient client = new RmiClient(view, clientModel);
-        client.connectToServer(host, port);
-
-        // Connect to server
-        virtualServer = client;
-
-        client.run(null, scanner); // null means it will prompt for a name
-
-        this.playerName = client.getPlayerName();
     }
 
     /**
@@ -226,13 +221,20 @@ public class GalaxyTruckerClient {
      *                    state and game data.
      */
     private void startSocketClient(String host, int port, int uiChoice, Scanner scanner, ClientModel clientModel) {
-        // For now, just use the original implementation
-        String[] socketArgs = {host, String.valueOf(port), String.valueOf(uiChoice)};
-        try {
-            virtualServer = SocketClientSide.connectToServer(socketArgs, clientModel, scanner);
-        } catch (Exception e) {
-            System.err.println("Socket client error: " + e.getMessage());
+        EnhancedClientView view;
+        if (uiChoice == 1) {
+            view = new LobbyView(clientModel);
+            String[] socketArgs = {host, String.valueOf(port)};
+            try {
+                virtualServer = SocketServerHandler.connectToServerTUI(socketArgs, clientModel, scanner, view);
+            } catch (Exception e) {
+                System.err.println("Socket client error: " + e.getMessage());
+            }
+        } else {
+            GalaxyTruckerGUI.setClientModel(clientModel);
+            GalaxyTruckerGUI.main(new String[]{"socket"});
         }
+
     }
 }
 

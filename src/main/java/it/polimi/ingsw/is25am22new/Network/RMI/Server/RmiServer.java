@@ -103,6 +103,11 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         heartbeatManager.unregisterClient(playerName);
     }
 
+    @Override
+    public String getVirtualServerType() throws RemoteException{
+        return "rmi";
+    }
+
     private void handleHeartbeatDisconnect(String nickname) {
         try {
             System.out.println("Heartbeat timeout for client: " + nickname);

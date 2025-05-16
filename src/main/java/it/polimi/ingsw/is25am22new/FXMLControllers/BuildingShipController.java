@@ -1,24 +1,19 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
-import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,10 +35,6 @@ public class BuildingShipController extends FXMLController implements Initializa
     private GridPane gridPane;
 
     private int numOfRotations; //set it to zero each time a weld is succesfully done
-
-    public BuildingShipController(VirtualServer virtualServer, ClientModel model, Stage primaryStage) {
-        super(virtualServer, model, primaryStage);
-    }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Inizializzazione dello sfondo animato

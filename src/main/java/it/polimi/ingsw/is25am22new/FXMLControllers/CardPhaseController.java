@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
-public class CardPhaseController {
+public class CardPhaseController extends FXMLController {
     public void drawShip() {
     }
 

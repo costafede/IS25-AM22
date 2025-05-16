@@ -9,7 +9,7 @@
            fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.LobbyController">
 
     <!-- Static Background Image -->
-    <ImageView fitHeight="480.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true" opacity="0.7">
+    <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true" opacity="0.7">
         <image>
             <Image url="@Graphics/AstronautInSpace.jpg" />
         </image>

@@ -1,43 +1,33 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
+import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ConnectToServerController implements Initializable {
+public class ConnectToServerController extends FXMLController implements Initializable {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     @FXML
     private Canvas galaxyBackground;
-
     @FXML
     private TextField usernameField;
-
     @FXML
     private TextField ipAddressField;
-
     @FXML
     private TextField portField;
-
     @FXML
     private Label errorLabel;
-
     @FXML
     private Button connectButton;
 
@@ -89,7 +79,7 @@ public class ConnectToServerController implements Initializable {
     }
 
     @FXML
-    public void connectToServer(ActionEvent event) {
+    public void connectToServer(ActionEvent event){
         // Validate inputs
         if (usernameField.getText().trim().isEmpty()) {
             errorLabel.setText("Username cannot be empty");
@@ -122,21 +112,26 @@ public class ConnectToServerController implements Initializable {
         String ipAddress = ipAddressField.getText().trim();
         int port = Integer.parseInt(portField.getText().trim());
 
-        // For now, just simulate success and navigate to Lobby
-        try {
-            // Stop the animation before switching scenes
-            if (animatedBackground != null) {
-                animatedBackground.stopAnimation();
-            }
+        // IS IT NECESSARY TO STOP ANIMATION?
+        //if (animatedBackground != null) {
+        //    animatedBackground.stopAnimation();
+        //}
 
-            // Navigate to Lobby scene
-            Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/is25am22new/Lobby.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root, 1280, 720);  // Set fixed dimensions
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            errorLabel.setText("Error loading lobby: " + e.getMessage());
+        if(galaxyTruckerGUI.getParameters().getRaw().getFirst().equals("socket")) {
+            try {
+                VirtualServer s = SocketServerHandler.connectToServerGUI(ipAddress, port+1, username, GalaxyTruckerGUI.getClientModel(), galaxyTruckerGUI);
+                galaxyTruckerGUI.setVirtualServer(s);
+            } catch (InterruptedException e) {
+                System.out.println("Error in ConnectToServer: " + e.getMessage());
+            }
+        } else {
+            errorLabel.setText("Missing RMI");
         }
+
+    }
+
+    @FXML
+    public void showError(String message) {
+        errorLabel.setText(message);
     }
 }

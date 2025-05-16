@@ -42,7 +42,6 @@ package it.polimi.ingsw.is25am22new.Network;
         void showPlayerJoined(String player) throws RemoteException;
 
         void terminate() throws RemoteException;
-
         //Methods for game management
         //void godMode(String playerName, String conf) throws IOException;
         //void setPlayerReady(String playerName) throws IOException;
