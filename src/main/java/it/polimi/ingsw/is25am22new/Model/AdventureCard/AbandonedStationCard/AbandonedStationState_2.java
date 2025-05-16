@@ -6,12 +6,33 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.io.Serializable;
 
+/**
+ * Represents the second state of an Abandoned Station card in the game.
+ * This state handles the management of good blocks between the station and player's shipboard.
+ * Implements Serializable to support game state persistence.
+ */
 public class AbandonedStationState_2 extends AbandonedStationState implements Serializable {
 
+    /**
+     * Constructs a new AbandonedStationState_2 instance.
+     *
+     * @param abandonedStationCard The abandoned station card this state belongs to
+     */
     public AbandonedStationState_2(AbandonedStationCard abandonedStationCard){
         super(abandonedStationCard);
     }
 
+    /**
+     * Activates the effect of this state based on the provided input command.
+     * Handles various operations with good blocks including:
+     * - Adding good blocks from the station to player's storage
+     * - Removing good blocks from player's storage to bank
+     * - Switching good blocks between different storage compartments
+     * - Ending the card effect when player chooses to
+     *
+     * @param inputCommand Contains all necessary parameters for the action (good blocks, coordinates, player choices)
+     * @throws IllegalArgumentException if attempting to retrieve a good block type that is no longer available at the station
+     */
     public void activateEffect(InputCommand inputCommand) {
         GoodBlock gb = inputCommand.getGoodBlock();
         if(inputCommand.getChoice()){   //choice must be set true if the player wants to keep managing his good blocks
@@ -54,6 +75,11 @@ public class AbandonedStationState_2 extends AbandonedStationState implements Se
         }   //as the card is implemented, even if there are no more moves available for the curr player, he still has to send the message with choice set on false to end the card effect or pass the turn to the next one
     }
 
+    /**
+     * Returns the name of this state.
+     *
+     * @return The string "AbandonedStationState_2"
+     */
     @Override
     public String getStateName() {
         return "AbandonedStationState_2";
