@@ -4,6 +4,19 @@ import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The Hourglass class represents a countdown timer that decrements every second and allows
+ * actions to be executed upon completion using a callback method. The timer can be started,
+ * stopped, or reset as needed.
+ *
+ * This class is designed to support a simple timer mechanism with the following features:
+ * - Start a countdown timer for a predefined duration.
+ * - Perform a specific action (callback) when the countdown reaches zero.
+ * - Stop and reset the timer.
+ *
+ * Note: The class implements Serializable to support serialization, but the Timer instance
+ * is marked as transient since it cannot be serialized.
+ */
 public class Hourglass implements Serializable {
     private transient Timer timer;
     private final int timerDuration;

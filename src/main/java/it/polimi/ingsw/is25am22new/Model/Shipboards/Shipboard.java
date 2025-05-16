@@ -11,6 +11,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ * The Shipboard class represents a ship's components and functionality that allow it to function
+ * within the game. It defines the state and behavior of the ship including maintenance of
+ * its component grid, handling of standby components, and operations involving components, aliens, and credits.
+ */
 public class Shipboard implements Serializable {
 
     //all the info related to the shipboard and the owner of the ship
@@ -52,6 +57,14 @@ public class Shipboard implements Serializable {
         return color;
     }
 
+    /**
+     * Calculates the score for the shipboard based on specific game rules.
+     * The score is determined by evaluating the storage compartments of the component tiles
+     * and the type and quantity of good blocks contained within them. Additional adjustments
+     * are made based on the abandoned state of the ship and the number of discarded tiles.
+     *
+     * @return the calculated score for the shipboard as an integer
+     */
     public int getScore(){
         int score = 0;
         //"selling the goods" inside the component tiles
@@ -147,14 +160,28 @@ public class Shipboard implements Serializable {
         this.standbyComponent[1] = Optional.empty();
     }
 
-    //attaches the component to the ship, with a specific orientation
+    /**
+     * Welds a specified component tile to the shipboard at the given grid coordinates.
+     * If a component tile is already present at the specified coordinates, an exception is thrown.
+     *
+     * @param ct the component tile to be placed on the grid
+     * @param i the row index of the grid where the component tile will be placed
+     * @param j the column index of the grid where the component tile will be placed
+     * @throws IllegalStateException if there is already a component tile present at the specified grid position
+     */
     public void weldComponentTile (ComponentTile ct, int i, int j){
         if (componentTilesGrid.get(i, j).isPresent())
             throw new IllegalStateException("Cannot weld tile on an already existing one");
         componentTilesGrid.set(i, j, ct);
     }
 
-    //put the tile in the hand in stand by
+    /**
+     * Places a component tile in one of the standby positions, which allows storing up to two component tiles temporarily.
+     * If both standby positions are already occupied, an exception is thrown.
+     *
+     * @param ct the component tile to be placed in the standby position
+     * @throws IllegalStateException if both standby positions are already occupied
+     */
     public void standbyComponentTile (ComponentTile ct){
         if(standbyComponent[0].isEmpty())
             standbyComponent[0] = Optional.of(ct);
@@ -164,7 +191,15 @@ public class Shipboard implements Serializable {
             throw new IllegalStateException("Cannot standby other tiles");
     }
 
-    //picks the selected tile from standby, removing it from the standby list
+    /**
+     * Picks a component tile from the standby position at the specified index.
+     * If the standby position at the given index is empty, an exception will be thrown.
+     * Once the tile is picked, the standby position is set to empty.
+     *
+     * @param index the index of the standby position to pick the component tile from
+     * @return the component tile picked from the standby position
+     * @throws IllegalStateException if the standby position at the specified index is empty
+     */
     public ComponentTile pickStandByComponentTile (int index) {
         if(standbyComponent[index].isEmpty())
             throw new IllegalStateException("Cannot pick standby component tile");
@@ -173,7 +208,16 @@ public class Shipboard implements Serializable {
         return ct;
     }
 
-    //destroys the selected tile, removing it from the ship and adding the count of the 'garbage'
+    /**
+     * Destroys a tile located at the specified grid coordinates.
+     * If the tile does not exist at the given position, an exception is thrown.
+     * In addition to removing the tile, updates adjacent tiles to account for
+     * potential changes caused by the removal (e.g., alien addon management).
+     *
+     * @param i the row index of the tile to be destroyed
+     * @param j the column index of the tile to be destroyed
+     * @throws IllegalStateException if the specified grid position is empty and there is no tile to destroy
+     */
     public void destroyTile (int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty())
             throw new IllegalStateException("Cannot destroy a non existing tile");
@@ -185,7 +229,14 @@ public class Shipboard implements Serializable {
         manageAlienAddonRemoval(i, j+1);
     }
 
-    //manages the removal of the aliens present in a cabin after the adjacent alienAddon has been destroyed
+    /**
+     * Manages the removal and potential re-placement of alien addons on a component tile at the specified grid coordinates.
+     * If an alien of a specific color ("purple" or "brown") is present on the component tile, it removes the alien crew member.
+     * If the position is valid for placing an alien of that color, the alien is re-added to the tile.
+     *
+     * @param i the row index in the component grid to manage the alien addon
+     * @param j the column index in the component grid to manage the alien addon
+     */
     private void manageAlienAddonRemoval(int i, int j) {
         String color = null;
         if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isAlienPresent("purple")){
@@ -210,7 +261,19 @@ public class Shipboard implements Serializable {
         return true;
     }
 
-    //checks if the ship is constructed following the rules
+    /**
+     * Checks the validity of the shipboard configuration based on the placement of components.
+     * This method ensures that the components such as engines and cannons meet placement rules,
+     * verifies connections between tiles, and ensures all tiles are validated.
+     *
+     * The validation process includes:
+     * - Ensuring engines and cannons are correctly placed without conflicts.
+     * - Checking the connectivity of tiles using a recursive validation method.
+     * - Ensuring all tiles are assigned a valid color during the validation process.
+     *
+     * @return true if the shipboard is valid according to the placement and connection rules;
+     *         false if any validation rule is violated.
+     */
     public boolean checkShipboard (){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 7; j++) {
@@ -259,7 +322,14 @@ public class Shipboard implements Serializable {
         return true;
     }
 
-    //support method used in the checkShipboard method
+    /**
+     * Checks if the tile at the specified position in the grid is properly connected
+     * to its adjacent tiles based on predefined conditions and matching sides.
+     *
+     * @param i the row index of the tile in the grid
+     * @param j the column index of the tile in the grid
+     * @return true if the tile at position (i, j) is properly connected to its adjacent tiles, false otherwise
+     */
     private boolean tileConnectedProperly(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == 1)
             return true;
@@ -273,7 +343,15 @@ public class Shipboard implements Serializable {
         return tileConnectedProperly(i-1, j) && tileConnectedProperly(i+1, j) && tileConnectedProperly(i, j-1) && tileConnectedProperly(i, j+1);
     }
 
-    //support method used in the checkShipboard method
+    /**
+     * Determines if two sides of a component tile match based on the given rules.
+     * This method evaluates compatibility between two sides to ensure a valid connection,
+     * taking into account specific characteristics of each side type.
+     *
+     * @param s1 the first side of the component tile to be compared
+     * @param s2 the second side of the component tile to be compared
+     * @return true if the sides are compatible and match; false otherwise
+     */
     private boolean sidesMatch(Side s1, Side s2){
         if(s1.equals(Side.SMOOTH) && !s2.equals(Side.SMOOTH) || !s1.equals(Side.SMOOTH) && s2.equals(Side.SMOOTH)) //connector adjacent to smooth side
             return false;
@@ -290,7 +368,13 @@ public class Shipboard implements Serializable {
         return abandoned;
     }
 
-    //counts the exposed connectors used for assigning points for the better looking shipboard
+    /**
+     * Counts the number of exposed connectors in a grid of component tiles.
+     * Connectors are considered exposed if they are not adjacent to another component tile
+     * and are not smooth on the respective side.
+     *
+     * @return the total number of exposed connectors in the grid
+     */
     public int countExposedConnectors (){
         int exposedConnectors = 0;
         for(int i = 0; i < 5; i++){
@@ -310,7 +394,9 @@ public class Shipboard implements Serializable {
         return exposedConnectors;
     }
 
-    // these next four methods check if there is an active cannon (normal cannons and activated double cannons) facing in a direction at the row/column i/j
+    // these next four methods check if there is an active cannon
+    // (normal cannons and activated double cannons)
+    // facing in a direction at the row/column i/j
     public boolean isRightSideCannon (int i){
         for(int j = 6; j >= 0; j--){
             if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isRightSideCannon() && componentTilesGrid.get(i, j).get().getCannonStrength() > 0)
@@ -485,7 +571,16 @@ public class Shipboard implements Serializable {
         return false;
     }
 
-    //used to evaluate if a component is connected to a cabin
+    /**
+     * Checks if the specified tile, identified by its row and column coordinates,
+     * is connected to a cabin in the componentTilesGrid. A tile is considered connected
+     * to a cabin if one of its adjacent tiles is a cabin and their matching sides align.
+     *
+     * @param row the row index of the tile to check
+     * @param col the column index of the tile to check
+     * @return true if the tile is connected to a cabin, false otherwise
+     * @throws RuntimeException if no tile is found at the specified location
+     */
     public boolean isConnectedToCabin(int row, int col) throws RuntimeException{
         Optional<ComponentTile> ct = componentTilesGrid.get(row, col);
         if(ct.isPresent()) {
@@ -505,7 +600,14 @@ public class Shipboard implements Serializable {
         return false;
     }
 
-    //remove most valuable good blocks, removing the batteries if there are not enough blocks
+    /**
+     * Removes the most valuable good blocks up to the specified number.
+     * The method attempts to remove red blocks first, followed by yellow, green, and blue blocks,
+     * in that order of priority. If the specified number is still not reached, it attempts to
+     * remove batteries from component tiles until the desired number or all available resources are removed.
+     *
+     * @param num the maximum number of good blocks to be removed, starting from the most valuable ones.
+     */
     public void removeMostValuableGoodBlocks(int num){
         int stillToRemove = num;
         if(stillToRemove > 0)
@@ -526,7 +628,13 @@ public class Shipboard implements Serializable {
         }
     }
 
-    //tries to remove num Goodblocks of the same type of block and returns the number of GoodBlocks actually removed
+    /**
+     * Removes at most the specified number of good blocks of the given type from the component tiles grid.
+     *
+     * @param num the maximum number of good blocks to remove
+     * @param block the type of good block to be removed
+     * @return the actual number of good blocks removed
+     */
     private int removeAtMostNumGoodBlocks(int num, GoodBlock block){
         int removed = 0;
         for(Optional<ComponentTile> ct : componentTilesGrid){
@@ -549,6 +657,16 @@ public class Shipboard implements Serializable {
         CosmicCredits += credit;
     }
 
+    /**
+     * Determines if an alien can be placed on the specified tile based on its position
+     * and the given color. This checks the current tile conditions, the presence of
+     * an alien with the same color, and adjacency rules.
+     *
+     * @param i the row index of the tile in the grid
+     * @param j the column index of the tile in the grid
+     * @param color the color associated with the alien to be placed
+     * @return true if the alien can be placed on the specified tile, false otherwise
+     */
     public boolean isAlienPlaceable (int i, int j, String color){
         if(componentTilesGrid.get(i, j).isPresent() && componentTilesGrid.get(i, j).get().isStartingCabin())
             return false;
@@ -561,6 +679,14 @@ public class Shipboard implements Serializable {
         return false;
     }
 
+    /**
+     * Determines if any adjacent tiles to the specified coordinates contain an addon of the specified color.
+     *
+     * @param i the row index of the tile to check adjacency from
+     * @param j the column index of the tile to check adjacency from
+     * @param color the color of the addon to match against adjacent tiles
+     * @return true if any adjacent tiles contain an addon of the specified color, false otherwise
+     */
     private boolean areAdjacentTilesAddons(int i, int j, String color){
         return componentTilesGrid.get(i, j+1).isPresent() && componentTilesGrid.get(i, j+1).get().getAddonColor() != null && componentTilesGrid.get(i, j+1).get().getAddonColor().equals(color) ||
                componentTilesGrid.get(i, j-1).isPresent() && componentTilesGrid.get(i, j-1).get().getAddonColor() != null && componentTilesGrid.get(i, j-1).get().getAddonColor().equals(color) ||
@@ -585,7 +711,13 @@ public class Shipboard implements Serializable {
         return finishedShipboard;
     }
 
-    //colors all the tiles belonging to the same wreck with the same color
+    /**
+     * Highlights shipwrecks on the grid by grouping connected tiles and assigning different colors to each group.
+     * The method iterates over all the tiles in the grid, colors uncolored tiles, and propagates the color to
+     * connected tiles forming distinct groups.
+     *
+     * @return the total number of distinct colors used to highlight the shipwreck groups.
+     */
     public int highlightShipWrecks(){
         for(Optional<ComponentTile> ct : componentTilesGrid){
             ct.ifPresent(c -> c.setColor(-1));
@@ -605,7 +737,14 @@ public class Shipboard implements Serializable {
         return color; //returns the number of colors used
     }
 
-    //method needed for the previous one to work
+    /**
+     * Recursively sets the color of a tile and propagates the color change
+     * to adjacent tiles based on their side properties.
+     *
+     * @param i     The row index of the tile in the grid.
+     * @param j     The column index of the tile in the grid.
+     * @param color The color to be set on the tile.
+     */
     private void spreadColor(int i, int j, int color){
         if(componentTilesGrid.get(i, j).isEmpty() || componentTilesGrid.get(i, j).get().getColor() == color)
             return;
@@ -624,7 +763,14 @@ public class Shipboard implements Serializable {
         }
     }
 
-    // keeps the ship wreck of the chosen color and eliminates the others
+    /**
+     * Selects a shipwreck based on the specified coordinates and removes all
+     * shipwrecks of a different color from the grid.
+     *
+     * @param i the row index of the grid where the shipwreck is to be chosen
+     * @param j the column index of the grid where the shipwreck is to be chosen
+     * @throws IllegalArgumentException if no shipwreck is present at the specified coordinates
+     */
     public void chooseShipWreck(int i, int j){
         if(componentTilesGrid.get(i, j).isEmpty())
             throw new IllegalArgumentException("There is no ship wreck in such coordinates");
@@ -680,6 +826,19 @@ public class Shipboard implements Serializable {
     }
 }
 
+/**
+ * This class represents a grid of tiles, where each tile is an instance of ComponentTile
+ * wrapped in an Optional. The grid is initialized with a fixed default size of 5 rows and 7 columns.
+ * It provides methods to set and retrieve tiles and allows iteration over the grid.
+ *
+ * The class is designed to manage and manipulate a 2D grid of tiles, with several key functionalities:
+ * - Retrieve a tile at a specific grid position.
+ * - Set a tile at a specific grid position.
+ * - Iterate over all tiles in the grid sequentially using an iterator.
+ *
+ * The grid is initialized with all positions set to Optional.empty(). Each grid position
+ * can store either a ComponentTile object or remain empty, ensuring safe handling of null values.
+ */
 class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
     private transient Optional<ComponentTile>[][] componentTilesGrid;
     private final int rows, columns;
@@ -695,6 +854,14 @@ class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
 
     }
 
+    /**
+     * Provides an iterator over the grid of tiles, allowing sequential traversal of all elements
+     * in the {@code ComponentTilesGrid}. Each element in the grid is wrapped in an {@code Optional},
+     * ensuring safe handling of empty spaces.
+     *
+     * @return an iterator that iterates through all {@code Optional<ComponentTile>} elements
+     * in the grid, row by row from left to right.
+     */
     @Override
     public Iterator<Optional<ComponentTile>> iterator() {
         return new ComponentTilesGridIterator();
@@ -714,6 +881,15 @@ class ComponentTilesGrid implements Iterable<Optional<ComponentTile>>{
         return componentTilesGrid[i][j];
     }
 
+    /**
+     * Iterator implementation for the {@code ComponentTilesGrid} class, allowing sequential traversal over
+     * all tiles within the grid. Each tile is represented as an {@code Optional<ComponentTile>} to ensure
+     * safe handling of empty grid positions.
+     *
+     * This iterator traverses the grid row by row, starting from the top-left corner (0,0) and moving
+     * left to right across each row. When the end of a row is reached, the iterator moves to the start of
+     * the next row. Iteration continues until all grid elements have been visited.
+     */
     private class ComponentTilesGridIterator implements Iterator<Optional<ComponentTile>>{
         private int i = 0;
         private int j = 0;

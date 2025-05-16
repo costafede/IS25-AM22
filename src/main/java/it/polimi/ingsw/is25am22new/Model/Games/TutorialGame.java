@@ -7,6 +7,19 @@ import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * The TutorialGame class represents a specialized game implementation
+ * that extends the generic functionality of the Game class and includes
+ * tutorial-specific features and logic. This class is used to handle a
+ * tutorial mode for guiding players with specific game mechanics.
+ *
+ * TutorialGame introduces a custom flight board and modifies the deck
+ * initialization and scoring methods to support tutorial-specific
+ * objectives and gameplay.
+ *
+ * This class implements the Serializable interface to allow instances of
+ * TutorialGame to be serialized and deserialized.
+ */
 public class TutorialGame extends Game implements Serializable {
     public TutorialGame(List<String> nicknames, List<ObserverModel> observers) {
         super(nicknames, observers);
@@ -20,6 +33,23 @@ public class TutorialGame extends Game implements Serializable {
         updateAllGame(this);
     }
 
+    /**
+     * Ends the game and calculates the final scores for each player.
+     *
+     * The method performs the following steps to calculate the scores:
+     * 1. Calculates the partial scores for each player, where the score is
+     *    determined by subtracting points for discarded tiles from the points
+     *    earned by selling goods.
+     * 2. Adds bonus points based on the players' positions on the flight board
+     *    (positions are ranked from first to fourth).
+     * 3. Awards bonus points to the player with the best shipboard, determined
+     *    by the least number of exposed connectors.
+     * 4. Sorts the scores in descending order for ranking purposes.
+     *
+     * @return A map containing the nicknames of players as keys and their
+     *         corresponding final scores as values, ordered in descending
+     *         score order.
+     */
     public Map<String, Integer> endGame() {
         Map<String, Integer> scores = new HashMap<>();
 
@@ -42,6 +72,14 @@ public class TutorialGame extends Game implements Serializable {
         return scores;
     }
 
+    /**
+     * Sorts the provided map in descending order based on the values.
+     *
+     * The resulting map will maintain the sorted order of the entries.
+     *
+     * @param scores A map containing keys and their associated integer values to be sorted.
+     * @return A new map containing entries sorted in descending order by value.
+     */
     protected Map<String, Integer> sortDesc(Map<String, Integer> scores) {
         scores = scores.entrySet()
                 .stream()
@@ -54,6 +92,14 @@ public class TutorialGame extends Game implements Serializable {
         return scores;
     }
 
+    /**
+     * Initializes the deck for the tutorial game mode by loading the tutorial cards.
+     *
+     * This method performs the following steps:
+     * 1. Filters the adventure cards from the card archive to retrieve only those marked as tutorial cards.
+     * 2. Shuffles the filtered list of tutorial cards to ensure randomization.
+     * 3. Adds the shuffled tutorial cards to the game deck.
+     */
     @Override
     public void initDeck() {
         // Reads 8 cards from json file and adds them to the deck

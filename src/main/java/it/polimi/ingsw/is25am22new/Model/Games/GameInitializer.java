@@ -27,6 +27,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The GameInitializer class is responsible for initializing and setting up the necessary components and cards for a game.
+ * This class serves as a central hub for all initialization-related methods.
+ *
+ * The class includes methods to initialize different types of game cards, components, and modules, ensuring that the game
+ * is properly configured and ready to play. These methods are statically defined and are intended to be used internally
+ * within the application.
+ */
 public class GameInitializer {
 
     protected static void initComponent(Game game, ObjectMapper objectMapper) {

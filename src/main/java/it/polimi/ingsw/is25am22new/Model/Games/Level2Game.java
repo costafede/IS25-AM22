@@ -11,6 +11,14 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a level 2 game, extending the functionality of the base {@link Game} class.
+ * Implements advanced game mechanisms including specialized card piles, scoring,
+ * and time-based gameplay.
+ * This class handles initialization, game progression, and scoring logic in
+ * accordance with Level 2 gameplay rules.
+ * Implements {@link Serializable} to facilitate game state persistence.
+ */
 public class Level2Game extends Game implements Serializable {
     private final List<CardPile> cardPiles;
 
@@ -20,6 +28,16 @@ public class Level2Game extends Game implements Serializable {
         this.flightboard = new Level2FlightBoard(this);
     }
 
+    /**
+     * Ends the game and calculates the final scores for all players by:
+     * 1. Computing partial scores based on sold goods and discarded tiles for each player's shipboard.
+     * 2. Adding bonus scores depending on the ranks of players' rockets in the flightboard.
+     * 3. Awarding additional points for the player with the best shipboard configuration.
+     * The scores are then sorted in descending order before being returned.
+     *
+     * @return A map where each key represents a player's nickname and the corresponding value is their final score,
+     * sorted in descending order of scores.
+     */
     public Map<String, Integer> endGame() {
         Map<String, Integer> scores = new HashMap<>();
 
@@ -42,6 +60,13 @@ public class Level2Game extends Game implements Serializable {
         return scores;
     }
 
+    /**
+     * Sorts the given map of scores in descending order of their values.
+     *
+     * @param scores a map where each key represents a player's nickname, and the corresponding value
+     *               is their score.
+     * @return a new map sorted in descending order based on the values (scores).
+     */
     protected Map<String, Integer> sortDesc(Map<String, Integer> scores) {
         //sorting the map
         scores = scores.entrySet()
@@ -64,6 +89,19 @@ public class Level2Game extends Game implements Serializable {
         updateAllGame(this);
     }
 
+    /**
+     * Initializes the game's adventure card deck and card piles. This process involves the following steps:
+     *
+     * 1. Retrieves the card archive, which contains all available adventure cards.
+     * 2. Filters the cards into two separate lists based on their level (level 1 and level 2).
+     * 3. Randomizes the order of cards in each list to ensure variety in gameplay.
+     * 4. Selects a predefined number of cards:
+     *      - 4 cards from level 1
+     *      - 8 cards from level 2
+     * 5. Initializes the card piles using selected level 1 and level 2 cards.
+     *      - Each card pile consists of 3 cards: 1 card from level 1 and 2 cards from level 2.
+     * 6. Adds the selected cards to the deck, which will be used during the game.
+     */
     @Override
     public void initDeck() {
         List<AdventureCard> cardArchive = getCardArchive();
@@ -92,7 +130,14 @@ public class Level2Game extends Game implements Serializable {
         deck.addAll(selectedCards);
     }
 
-    //cardPiles are 4 made of 2 level 2 cards and 1 level 1 card
+    /**
+     * Initializes the card piles for the game by shuffling the given adventure cards and organizing them into piles.
+     * Each pile consists of one card from the level 1 list and two cards from the level 2 list.
+     * The card piles are then stored in the game's internal data structure.
+     *
+     * @param level1 a list of level 1 adventure cards to be used in the game.
+     * @param level2 a list of level 2 adventure cards to be used in the game.
+     */
     private void initCardPiles(List<AdventureCard> level1, List<AdventureCard> level2) {
         Collections.shuffle(level1);
         Collections.shuffle(level2);

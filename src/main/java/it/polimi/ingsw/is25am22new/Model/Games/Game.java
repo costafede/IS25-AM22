@@ -16,6 +16,11 @@ import it.polimi.ingsw.is25am22new.Network.ObservableModel;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
 
+/**
+ * The Game class represents the core structure and functionalities of the game.
+ * It manages all necessary game components, player actions, and game progression.
+ * This class provides functionalities for setting up, playing, and ending the game.
+ */
 public abstract class Game extends ObservableModel implements Serializable {
     protected final List<String> playerList;
     protected Bank bank;
@@ -33,6 +38,13 @@ public abstract class Game extends ObservableModel implements Serializable {
     protected int hourglassSpot = 0;
     boolean godMode = false;
 
+    /**
+     * Constructs a new Game instance and initializes the game components, including player shipboards,
+     * a bank, dice, hourglass, and the game setup phase. Observers, if provided, are registered to the model.
+     *
+     * @param playerList a list of nicknames of players participating in the game
+     * @param observers a list of observers to be registered to the game model, or null if no observers are to be added
+     */
     public Game(List<String> playerList, List<ObserverModel> observers) {
         this.playerList = playerList;
         bank = new Bank();
@@ -57,6 +69,20 @@ public abstract class Game extends ObservableModel implements Serializable {
         }
     }
 
+    /**
+     * Constructs a new Game instance with the provided parameters. This constructor
+     * is primarily intended for testing purposes, allowing initialization of the game
+     * with specific components and data.
+     *
+     * @param playerList a list of nicknames of players participating in the game
+     * @param bank the bank instance managing resources and transactions during the game
+     * @param coveredComponentTiles a list of component tiles that are currently covered and not available for selection
+     * @param uncoveredComponentTiles a list of component tiles that are uncovered and available for selection
+     * @param shipboards a map that associates each player's nickname with their respective shipboard
+     * @param flightboard the flightboard instance used to manage in-game space travel mechanics
+     * @param cardArchive a list of adventure cards that have been used and archived during the game
+     * @param hourglass the hourglass instance managing the timing mechanics and phases of the game
+     */
     public Game(List<String> playerList, Bank bank, List<ComponentTile> coveredComponentTiles,
                 List<ComponentTile> uncoveredComponentTiles, Map<String, Shipboard> shipboards,
                 Flightboard flightboard, List<AdventureCard> cardArchive, Hourglass hourglass) { // for testing
@@ -71,6 +97,18 @@ public abstract class Game extends ObservableModel implements Serializable {
         this.deck = new ArrayList<>();
     }
 
+    /**
+     * Initializes the game by setting up necessary components such as the game board
+     * and adventure card archive, and transitions the game to the next phase if applicable.
+     *
+     * This method uses an ObjectMapper to deserialize and load data into the game components,
+     * ensuring that the game's initial state is properly configured. It relies on helper
+     * methods from the GameInitializer class to perform these operations.
+     *
+     * Once the components are initialized, the game automatically attempts to
+     * switch to the next phase of gameplay using the {@code gamePhase.trySwitchToNextPhase()}
+     * method, which manages the progression of the game phases.
+     */
     public void initGame(){
         ObjectMapper objectMapper = new ObjectMapper();
         GameInitializer.initComponent(this, objectMapper);
@@ -78,6 +116,15 @@ public abstract class Game extends ObservableModel implements Serializable {
         gamePhase.trySwitchToNextPhase();
     }
 
+    /**
+     * Places astronauts on a specified tile of the shipboard belonging to the specified player.
+     *
+     * @param nickname the nickname of the player whose shipboard will be updated
+     * @param i the row index of the target tile on the shipboard
+     * @param j the column index of the target tile on the shipboard
+     * @throws IllegalArgumentException if the tile is not a cabin, is already occupied,
+     *                                  or does not exist
+     */
     public void placeAstronauts(String nickname, int i, int j) {
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
@@ -89,6 +136,15 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
+    /**
+     * Places a brown alien on a specified tile of the shipboard belonging to the specified player.
+     *
+     * @param nickname the nickname of the player whose shipboard will be updated
+     * @param i the row index of the target tile on the shipboard
+     * @param j the column index of the target tile on the shipboard
+     * @throws IllegalArgumentException if the tile is not a cabin, is already occupied,
+     *                                  does not exist, or if a brown alien cannot be placed at the given coordinates
+     */
     public void placeBrownAlien(String nickname, int i, int j) {
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
@@ -100,6 +156,15 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
+    /**
+     * Places a purple alien on a specified tile of the shipboard belonging to the specified player.
+     *
+     * @param nickname the nickname of the player whose shipboard will be updated
+     * @param i the row index of the target tile on the shipboard
+     * @param j the column index of the target tile on the shipboard
+     * @throws IllegalArgumentException if the tile is not a cabin, is already occupied, does not exist,
+     *                                  or if a purple alien cannot be placed at the given coordinates
+     */
     public void placePurpleAlien(String nickname, int i, int j) {
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
@@ -111,6 +176,13 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
+    /**
+     * Allows the specified player to pick a covered component tile and sets it as their current tile in hand.
+     * Updates the list of remaining covered component tiles and notifies observers about the changes.
+     *
+     * @param nickname the nickname of the player who is picking the covered tile
+     * @throws IllegalStateException if there are no covered component tiles available to pick
+     */
     public void pickCoveredTile(String nickname) {
         if(coveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no covered components in this game");
@@ -119,6 +191,16 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllCoveredComponentTiles(coveredComponentTiles);
     }
 
+    /**
+     * Allows a player to pick an uncovered component tile identified by its PNG name
+     * and sets it as their current tile in hand. Updates the list of uncovered
+     * component tiles and notifies observers of the changes.
+     *
+     * @param nickname the nickname of the player who is picking the uncovered tile
+     * @param tilePngName the PNG name of the component tile to be picked
+     * @throws IllegalStateException if there are no uncovered component tiles available
+     *                                or if the specified tile does not exist
+     */
     public void pickUncoveredTile(String nickname, String tilePngName) {
         if(uncoveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no uncovered components in this game");
@@ -136,14 +218,34 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllUncoveredComponentTiles(uncoveredComponentTiles);
     }
 
+    /**
+     * Rotates the component tile currently in hand of the specified player clockwise.
+     *
+     * @param nickname the nickname of the player whose component tile in hand will be rotated
+     */
     public void rotateClockwise(String nickname) {
         shipboards.get(nickname).getTileInHand().rotateClockwise();
     }
 
+    /**
+     * Rotates the component tile currently in hand of the specified player counterclockwise.
+     *
+     * @param nickname the nickname of the player whose component tile in hand will be rotated
+     */
     public void rotateCounterClockwise(String nickname) {
         shipboards.get(nickname).getTileInHand().rotateCounterClockwise();
     }
 
+    /**
+     * Welds the component tile currently in hand of the specified player to the specified coordinates
+     * on their shipboard. If a component tile is already present in the targeted coordinates, an
+     * exception is thrown.
+     *
+     * @param nickname the nickname of the player whose shipboard will be updated
+     * @param i the row index of the target tile on the shipboard
+     * @param j the column index of the target tile on the shipboard
+     * @throws IllegalStateException if a component tile is already present in the specified location
+     */
     public void weldComponentTile(String nickname, int i, int j) {
         ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
         if(shipboards.get(nickname).getComponentTileFromGrid(i, j).isPresent())
@@ -154,6 +256,14 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
+    /**
+     * Places the component tile currently being held by the specified player
+     * into standby mode, updates the shipboard state, and notifies all
+     * relevant components of the changes.
+     *
+     * @param nickname the identifier for the player whose component tile
+     *                 is being placed in standby mode
+     */
     public void standbyComponentTile(String nickname) {
         ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
         shipboards.get(nickname).standbyComponentTile(tileInHand);
@@ -162,6 +272,14 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
+    /**
+     * Picks a standby component tile for a given shipboard based on the provided nickname
+     * and index. The selected tile is set as the tile in hand for the specified shipboard
+     * and relevant updates are triggered.
+     *
+     * @param nickname the identifier for the shipboard from which the standby component tile is being picked
+     * @param index the index of the standby component tile to pick
+     */
     public void pickStandByComponentTile(String nickname, int index) {
         ComponentTile ct = shipboards.get(nickname).pickStandByComponentTile(index);
         shipboards.get(nickname).setTileInHand(ct);
@@ -169,6 +287,11 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
+    /**
+     * Discards the current tile in hand of the specified component and updates the relevant state.
+     *
+     * @param nickname the identifier of the component whose tile is being discarded
+     */
     public void discardComponentTile(String nickname) {
         uncoveredComponentTiles.add(shipboards.get(nickname).getTileInHand());
         shipboards.get(nickname).setTileInHand(null);
@@ -176,6 +299,12 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllUncoveredComponentTiles(uncoveredComponentTiles);
     }
 
+    /**
+     * Marks the completion of a building phase for a player's shipboard and updates the game state.
+     *
+     * @param nickname The nickname of the player finishing their building phase.
+     * @param pos The position identifier where the rocket is placed (valid values are 0, 1, 2, 3).
+     */
     public void finishBuilding(String nickname, int pos) {
         // pos is 0, 1, 2, 3
         flightboard.placeRocket(nickname, pos);
@@ -205,6 +334,12 @@ public abstract class Game extends ObservableModel implements Serializable {
         return;
     }
 
+    /**
+     * Selects a card from the deck and sets it as the current card.
+     * If the system is in god mode, the first card from the deck is selected.
+     * Otherwise, a random card from the deck is selected.
+     * Updates the deck and the current card to reflect the changes.
+     */
     public void pickCard() {
         if(godMode) {
             setCurrCard(deck.removeFirst());
@@ -215,6 +350,14 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllCurrCard(currCard);
     }
 
+    /**
+     * Handles the scenario where a player abandons their participation.
+     * This includes updating the player's shipboard status, removing their rockets
+     * and positions from the flightboard, and notifying all relevant components
+     * about the updates.
+     *
+     * @param nickname the unique identifier of the player who is abandoning
+     */
     public void playerAbandons(String nickname) {
         shipboards.get(nickname).abandons();
         flightboard.getOrderedRockets().remove(nickname);
@@ -223,6 +366,13 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
+    /**
+     * Destroys a tile on the shipboard for the specified player and updates the game state accordingly.
+     *
+     * @param nickname the nickname of the player whose shipboard tile is to be destroyed
+     * @param i the row index of the tile to be destroyed
+     * @param j the column index of the tile to be destroyed
+     */
     public void destroyTile(String nickname, int i, int j) {
         shipboards.get(nickname).destroyTile(i, j);
         gamePhase.trySwitchToNextPhase();
@@ -236,7 +386,16 @@ public abstract class Game extends ObservableModel implements Serializable {
 
     public abstract Map<String, Integer> endGame();
 
-    //Return the nickname of the player with less exposed connectors
+    /**
+     * Determines the player with the least number of exposed connectors on their shipboard.
+     *
+     * This method evaluates all players in the playerList and selects the one
+     * with the minimum count of exposed connectors on their corresponding shipboard.
+     * If no players are available, the method returns null.
+     *
+     * @return The nickname of the player with the fewest exposed connectors on their shipboard,
+     * or null if the playerList is empty or no players are found.
+     */
     protected String betterShipboard() {
         return playerList.stream()
                 .min(Comparator.comparingInt(nickname -> shipboards.get(nickname).countExposedConnectors()))
@@ -321,6 +480,13 @@ public abstract class Game extends ObservableModel implements Serializable {
         return hourglass.getRemainingSeconds() < 60;
     }
 
+    /**
+     * Determines whether a player is still able to play the game based on their current status
+     * and state on the flightboard.
+     *
+     * @param player the identifier for the player whose playability is to be checked.
+     * @return true if the player is still able to play, false otherwise.
+     */
     public boolean isPlayerStillAbleToPlay(String player){
         Shipboard shipboard = shipboards.get(player);
         String leader = flightboard.getOrderedRockets().getFirst();
@@ -331,7 +497,19 @@ public abstract class Game extends ObservableModel implements Serializable {
         return shipboards.get(leader).getDaysOnFlight() - shipboard.getDaysOnFlight() <= flightboard.getFlightBoardLength();
     }
 
-    // check if active players still fulfill the conditions to play and eliminates the ones who don't (usually called at the end of the cards effects)
+    /**
+     * Manages players who are no longer able to continue playing.
+     *
+     * This method iterates through the list of players in the flightboard and
+     * checks if they are still eligible to play. Players who are deemed invalid
+     * are removed from the flightboard's ordered rockets list and their positions
+     * are removed from the associated positions data. Additionally, it triggers
+     * any necessary actions when a player abandons the game.
+     *
+     * The eligibility of a player is determined by the method isPlayerStillAbleToPlay.
+     * Once a player is identified as invalid, their data is cleaned up to maintain
+     * consistency and to ensure that only active players remain in the game.
+     */
     public void manageInvalidPlayers() {
         Iterator<String> iterator = flightboard.getOrderedRockets().iterator();
         while(iterator.hasNext()){
@@ -344,6 +522,11 @@ public abstract class Game extends ObservableModel implements Serializable {
         }
     }
 
+    /**
+     * Activates the effect of the current card, updates its state, and performs necessary updates to the game phase.
+     *
+     * @param inputCommand the command that carries information or parameters required to activate the card's effect
+     */
     public void activateCard(InputCommand inputCommand) {
         currCard.activateEffect(inputCommand);
         updateAllCurrCard(currCard);
@@ -376,6 +559,14 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllGame(this);
     }
 
+    /**
+     * Sets up the shipboard configuration for a given player based on the specified shipboard number.
+     *
+     * @param player           The unique identifier of the player whose shipboard is being configured.
+     * @param shipboardNumber  The identifier of the shipboard configuration to be set up.
+     *                          Valid values range from "1" to "g", each corresponding to a specific shipboard setup.
+     *                          An {@link IllegalArgumentException} is thrown for invalid identifiers.
+     */
     private void setUpShipboardConfig(String player, String shipboardNumber) {
         Shipboard oldShipboard = shipboards.get(player);
 
@@ -394,7 +585,7 @@ public abstract class Game extends ObservableModel implements Serializable {
             case "a" -> setUpShipboardA(newShipboard); //tile_behind_engine
             case "b" -> setUpShipboardB(newShipboard); //engine not facing down
             case "c" -> setUpShipboardC(newShipboard); //tiles connected wrongly
-            case "d" -> setUpShipboardD(newShipboard); //nave vuota
+            case "d" -> setUpShipboardD(newShipboard); //empty ship
             case "e" -> setUpShipboardE(newShipboard);
             case "f" -> setUpShipboardF(newShipboard);
             case "g" -> setUpShipboardG(newShipboard);
@@ -409,6 +600,14 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
 
+    /**
+     * Configures the deck by processing a configuration string of card identifiers
+     * and populating the deck with matching cards from the card archive.
+     *
+     * @param deckConfig A comma-separated string of card identifiers (e.g., image file names)
+     *                   used to specify which cards should be included in the deck.
+     *                   If the string is empty, the deck remains unchanged.
+     */
     private void setUpDeckConfig(String deckConfig) {
 
         if(!deckConfig.isEmpty()){

@@ -9,7 +9,13 @@ import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.YELLOWBL
 import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.GREENBLOCK;
 import static it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock.BLUEBLOCK;
 
-
+/**
+ * The Bank class represents a repository that manages different types of GoodBlocks
+ * available in a game. Each GoodBlock type in the bank has an associated count,
+ * which can be incremented (deposit) or decremented (withdraw) based on specific operations.
+ * The bank ensures proper handling of these blocks by implementing logical constraints
+ * on their deposit and withdrawal.
+ */
 public class Bank implements Serializable {
 
     private final Map<GoodBlock, Integer> goodblockToNum;
