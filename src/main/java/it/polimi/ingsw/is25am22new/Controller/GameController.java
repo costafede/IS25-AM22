@@ -20,6 +20,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The GameController class is responsible for managing and controlling the flow of the game.
+ * It facilitates operations within the lobby, starts the game, manages players' actions,
+ * and executes core game functionality.
+ */
 public class GameController {
     private Lobby lobby;
     private Game game;
@@ -63,6 +68,16 @@ public class GameController {
         this.gameType = lobby.getGameType();
     }
 
+    /**
+     * The main method responsible for initializing and starting the server components
+     * including the RMI server and Socket server. This method sets up the necessary
+     * configurations and begins execution of both servers in separate threads.
+     *
+     * @param args an array of command-line arguments where:
+     *             args[0] specifies the hostname for the RMI server.
+     *             args[1] specifies the port number to be used for the servers.
+     * @throws IOException if an I/O error occurs during the server initialization or execution.
+     */
     public static void main(String[] args) throws IOException {
         GameController gameController = new GameController();
         // Starts Rmi Server

@@ -14,6 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The ObservableModelView class provides an implementation for managing a list of observers
+ * and notifying them about updates in the application state. It follows the observable design
+ * pattern and acts as a base class for models that require observer notification functionality.
+ *
+ * This class maintains a list of ClientModelObserver instances and provides methods to add
+ * or remove observers. Various notification methods are available to inform all registered
+ * observers of specific updates or changes in the game state.
+ *
+ * Subclasses of ObservableModelView can utilize these notification methods to invoke the
+ * corresponding update methods in ClientModelObserver to propagate state changes.
+ */
 public abstract class ObservableModelView {
     List<ClientModelObserver> listeners = new ArrayList<>();
     //remember to add listeners to the list

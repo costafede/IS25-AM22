@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The Lobby class manages a game lobby where players can join, set their ready status,
+ * and configure game settings. The lobby ensures that the number of players conforms
+ * to specific limits and tracks the readiness of all players before a game can be initiated.
+ */
 public class Lobby {
     private final List<String> players;
     private final Map<String, Boolean> readyStatus;

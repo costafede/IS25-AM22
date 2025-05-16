@@ -14,7 +14,11 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.util.*;
 
-
+/**
+ * The TUI class represents the Text User Interface for interacting with the game.
+ * It serves as an implementation of both the ClientModelObserver and ViewAdapter interfaces,
+ * allowing it to respond to game model updates and provide a text-based interface for the user.
+ */
 public class TUI implements ClientModelObserver,ViewAdapter{
 
     private final CommandManager commandManager;
@@ -34,9 +38,14 @@ public class TUI implements ClientModelObserver,ViewAdapter{
     }
 
     /**
-     * return true if the format is valid
+     * Parses a command input from the user and processes it by extracting the command name
+     * and parameters, if valid. The method ensures the input follows the expected syntax,
+     * which includes a command name followed by optional parameters enclosed within parentheses.
+     *
+     * @param scanner the Scanner object used to read user input from the console
+     * @return true if the input adheres to the expected command format and is successfully processed,
+     *         false otherwise
      */
-
     public boolean askCommand(Scanner scanner) {
         String inputLine = null;
         inputLine = scanner.nextLine();
@@ -79,6 +88,12 @@ public class TUI implements ClientModelObserver,ViewAdapter{
         return true;
     }
 
+    /**
+     * Searches for a command in the list of all available commands by its name.
+     *
+     * @param CommandName the name of the command to search for; it is case-insensitive
+     * @return the Command object if found, or null if no command with the specified name exists
+     */
     private Command findCommand(String CommandName) {
         for(Command command : allCommands) {
             if(commandName.equalsIgnoreCase(command.getName())) {
@@ -89,9 +104,12 @@ public class TUI implements ClientModelObserver,ViewAdapter{
     }
 
     /**
-     * the player can look at the cards in the deck during the building phase
+     * Displays the cards from a specified pile of the card deck.
+     * Only the first three cards from the pile are shown.
+     *
+     * @param idx the index of the card pile to display
+     * @param model the client model containing the game state and card piles
      */
-
     @Override
     public void showCardPile(int idx, ClientModel model) {
         List<AdventureCard> deck = model.getCardPiles().get(idx).getCards();
@@ -101,6 +119,13 @@ public class TUI implements ClientModelObserver,ViewAdapter{
         }
     }
 
+    /**
+     * Displays the shipboard grid for a specific player, including detailed ship information and the grid
+     * representation that shows the components positioned on the shipboard.
+     *
+     * @param player the name of the player whose shipboard grid is to be displayed
+     * @param clientModel the client model containing the player's shipboard and associated game state
+     */
     @Override
     public void showShipboardGrid(String player, ClientModel clientModel) {
         Map<String, Shipboard> shipboards = clientModel.getShipboards();
@@ -172,9 +197,13 @@ public class TUI implements ClientModelObserver,ViewAdapter{
     }
 
     /**
-     * it shows the components put on stand by
+     * Displays the shipboard standby component area for a specified player.
+     * The method retrieves the player's shipboard from the client model and
+     * prints a visual representation of the standby components section.
+     *
+     * @param player the name of the player whose standby components are to be displayed
+     * @param clientModel the client model containing the player's shipboard and game state
      */
-
     @Override
     public void showShipboardStandByComponents(String player, ClientModel clientModel) {
         Map<String, Shipboard> shipboards = clientModel.getShipboards();
@@ -216,9 +245,12 @@ public class TUI implements ClientModelObserver,ViewAdapter{
     }
 
     /**
-     * prints the positions of each player in the flightboard
+     * Displays the flightboard by printing the contents of the flightboard positions
+     * retrieved from the given client model. The flightboard shows the names of items
+     * and their corresponding positions.
+     *
+     * @param clientModel the client model containing the flightboard and game state
      */
-
     @Override
     public void showFlightboard(ClientModel clientModel) {
         Flightboard flightboard = clientModel.getFlightboard();
@@ -230,9 +262,14 @@ public class TUI implements ClientModelObserver,ViewAdapter{
     }
 
     /**
-     * shows the information of the card
+     * Displays the provided adventure card in a suitable format using the given client model.
+     * If the card is null, a message indicating the absence of a card is displayed.
+     * If the card is a type that can be viewed, it will invoke its specific visualization logic.
+     * Unsupported card types will result in an error message.
+     *
+     * @param card the adventure card to be displayed; can be null or an instance of a supported card type
+     * @param model the client model containing the game state and other necessary data for card display
      */
-
     @Override
     public void showCard(AdventureCard card, ClientModel model) {
         AdventureCardView adventureCardView = new AdventureCardView();
@@ -254,6 +291,13 @@ public class TUI implements ClientModelObserver,ViewAdapter{
         }
     }
 
+    /**
+     * Displays the leaderboard for the game by calculating and ranking players' scores based on their shipboard
+     * scores and additional bonuses. The leaderboard is printed in descending order of scores.
+     *
+     * @param clientModel the client model containing the game state, including shipboards and flightboard data,
+     *                    used to calculate and display the leaderboard
+     */
     @Override
     public void showLeaderboard(ClientModel clientModel) {
         Map<String, Shipboard> shipboards = clientModel.getShipboards();
@@ -330,6 +374,13 @@ public class TUI implements ClientModelObserver,ViewAdapter{
                 .orElse(null);
     }
 
+    /**
+     * Displays a list of all available commands to the user by printing their names.
+     * The commands are determined based on the current client model's state.
+     *
+     * @param clientModel the client model containing the state of the game,
+     *                    which is used to determine the list of available commands
+     */
     @Override
     public synchronized void showAvailableCommands(ClientModel clientModel) {
         List<Command> availableCommands = commandManager.getAvailableCommandTypes(model);
@@ -339,9 +390,13 @@ public class TUI implements ClientModelObserver,ViewAdapter{
     }
 
     /**
-     * prints the single component that you have picked
+     * Displays the tile currently in hand for a specified player.
+     * If no tile is in hand, a message indicating the absence of a tile is shown.
+     * Otherwise, the tile is visually represented using ASCII characters.
+     *
+     * @param player the name of the player whose tile in hand is to be displayed
+     * @param clientModel the client model containing the player's shipboard and game state
      */
-
     @Override
     public void showTileInHand(String player, ClientModel clientModel) {
         ComponentTile ct = clientModel.getShipboard(player).getTileInHand();
@@ -377,6 +432,23 @@ public class TUI implements ClientModelObserver,ViewAdapter{
         }
     }
 
+    /**
+     * Continuously runs the Text-based User Interface (TUI) for interacting with the game.
+     * This method handles user input via a scanner to identify and execute commands from
+     * the available command list based on the current game state.
+     *
+     * While the TUI is active, it ensures the following:
+     * - Waits for the game start message before accepting inputs.
+     * - Validates the format and existence of commands entered by the user.
+     * - Ensures the command is applicable in the current game state and that its inputs are valid.
+     * - Executes the command if all validations pass.
+     * - Prompts the user with appropriate messages for invalid commands or inputs.
+     *
+     * Synchronization is used to ensure proper handling of game state changes
+     * and communication with the ClientModel during execution.
+     *
+     * @param scanner the Scanner object for reading user input from the console
+     */
     public void run(Scanner scanner) {
         Command chosen = null;
         boolean commandNotValid;

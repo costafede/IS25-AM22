@@ -17,6 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The ClientModel class is responsible for maintaining the state of the game
+ * client, including player-related data, game phase, and game components.
+ * It extends the ObservableModelView to provide notify methods for observers.
+ */
 public class ClientModel extends ObservableModelView {
     protected Bank bank;
     protected List<ComponentTile> coveredComponentTiles;
