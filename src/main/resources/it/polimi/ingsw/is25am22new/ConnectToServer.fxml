@@ -1,21 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.ConnectToServerController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.canvas.Canvas?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.ConnectToServerController">
 
-    <VBox alignment="CENTER">
-        <Label text="Connect to Server" styleClass="lobby-label"/>
-        <TextField fx:id="ipAddressField" promptText="Enter IP Address" />
-        <TextField fx:id="portField" promptText="Enter Port" />
-        <Button fx:id="connectButton" text="Connect"/>
-        <Label fx:id="errorLabel" textFill="RED"/>
+    <Canvas fx:id="galaxyBackground" width="1280" height="720"/>
+
+    <!-- Semi-transparent overlay for better text readability -->
+    <Pane styleClass="overlay-pane"/>
+
+    <!-- Title at the top -->
+    <VBox alignment="TOP_CENTER">
+        <padding>
+            <Insets top="50" />
+        </padding>
+        <ImageView fitWidth="600" preserveRatio="true">
+            <image>
+                <Image url="@Graphics/BetterHorizontalLogo_copy-removebg-preview.png"/>
+            </image>
+        </ImageView>
     </VBox>
-</AnchorPane>
+
+    <!-- Form in the center -->
+    <VBox alignment="CENTER" spacing="15" maxWidth="400">
+        <padding>
+            <Insets top="150" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Enter Username, ip address and port" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e0f7ff;"/>
+
+        <TextField fx:id="usernameField" promptText="Enter Username" styleClass="form-field"/>
+        <TextField fx:id="ipAddressField" promptText="Enter IP Address" styleClass="form-field"/>
+        <TextField fx:id="portField" promptText="Enter Port" styleClass="form-field"/>
+
+        <Label fx:id="errorLabel" textFill="RED" alignment="CENTER"/>
+
+        <!-- Connect button at the bottom -->
+        <Button fx:id="connectButton" text="CONNECT"
+                styleClass="lobby-button"
+                scaleX="2.0" scaleY="2.0"/>
+                <!--onAction="#connectToServer"/> -->
+    </VBox>
+</StackPane>

@@ -39,8 +39,8 @@ public class GalaxyBackground extends Canvas {
             stars[i] = new Star(
                     random.nextDouble() * width,
                     random.nextDouble() * height,
-                    0.5 + random.nextDouble() * 1.5,
-                    random.nextDouble() * 0.02 + 0.01
+                    3.5 + random.nextDouble() * 1.5,
+                    random.nextDouble() * 0.10 + 0.01
             );
         }
         return stars;

@@ -98,4 +98,15 @@ public class LobbyController implements Initializable {
     public void updatePlayerStatus(String playerName, boolean isReady) {
         statusTextArea.appendText("\n" + playerName + " is " + (isReady ? "ready" : "not ready") + ".");
     }
+
+    @FXML
+    public void testBuildingShip(ActionEvent event) throws IOException {
+        // Navigazione alla schermata BuildingShip per test
+        Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/is25am22new/BuildingShip.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/it/polimi/ingsw/is25am22new/styles.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
 }

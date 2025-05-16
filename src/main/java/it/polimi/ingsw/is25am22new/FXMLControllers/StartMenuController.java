@@ -38,14 +38,9 @@ public class StartMenuController implements Initializable {
 
     @FXML
     public void switchToConnectToServerScene(ActionEvent event) throws IOException {
-        // Stop the galaxy animation before switching scenes
-        if (galaxyBackground != null) {
-            galaxyBackground.stopAnimation();
-        }
-
         Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        scene = new Scene(root, 1280, 720);  // Set fixed dimensions
         stage.setScene(scene);
         stage.show();
     }

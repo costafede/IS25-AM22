@@ -29,6 +29,13 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 200, 255, 0.8), 10, 0.6, 0, 0);
 }
 
+.lobby-label{
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e0f7ff;
+    -fx-effect: dropshadow(gaussian, rgba(0, 200, 255, 0.8), 10, 0.6, 0, 0);
+}
+
 /* More vibrant buttons */
 .lobby-button {
     -fx-background-color: rgba(15, 50, 120, 0.85);

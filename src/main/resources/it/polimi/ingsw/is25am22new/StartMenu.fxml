@@ -4,20 +4,29 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.StartMenuController">
 
-   <!-- Main Content -->
-   <VBox alignment="CENTER">
-<!--      <ImageView fitHeight="300.0" fitWidth="700.0" preserveRatio="true">-->
-<!--         <image>-->
-<!--            <Image url="@Graphics/StartMenu.png" />-->
-<!--         </image>-->
-<!--      </ImageView>-->
-
-      <Button fx:id="playButton" alignment="CENTER" mnemonicParsing="false"
-              onAction="#switchToConnectToServerScene"
-              scaleX="3.0" scaleY="3.0" text="PLAY"
-              styleClass="lobby-button" />
-   </VBox>
+    <VBox alignment="TOP_CENTER">
+        <padding>
+            <Insets top="50" />
+        </padding>
+        <!-- TITLE -->
+        <ImageView fitWidth="800" preserveRatio="true">
+            <image>
+                <Image url="@Graphics/BetterHorizontalLogo_copy-removebg-preview.png"/>
+            </image>
+        </ImageView>
+    </VBox>
+    <VBox alignment="CENTER">
+        <padding>
+            <Insets top="400" />
+        </padding>
+        <Button fx:id="playButton" alignment="CENTER" mnemonicParsing="false"
+                onAction="#switchToConnectToServerScene"
+                scaleX="3.0" scaleY="3.0" text="PLAY"
+                styleClass="lobby-button"/>
+    </VBox>
 </StackPane>
