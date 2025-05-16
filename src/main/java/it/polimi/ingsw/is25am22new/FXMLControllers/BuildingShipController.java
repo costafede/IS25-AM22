@@ -18,6 +18,10 @@ public class BuildingShipController implements Initializable {
     private ImageView coveredTilesHeap;
 
     private GalaxyBackground animatedBackground;
+    @FXML
+    private ImageView tileInHand;
+
+    private int numOfRotations; //set it to zero each time a weld is succesfully done
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Inizializzazione dello sfondo animato
@@ -44,6 +48,14 @@ public class BuildingShipController implements Initializable {
     }
 
     public void drawShipInBuildingPhase(Shipboard shipboard) {
+        /*
+        * scorro i tile in client model
+        * se è vuoto metto un drag dropped che chiama la weld component tile con num of rotation pari all'attributo in questo controller, che viene settato a zero dopo
+        * se non è vuoto disegno il tile lì presente con il giusto numero di rotazioni
+        * */
+
+
+
     }
 
     public void drawShipInPlaceMembersPhase(Shipboard shipboard) {
