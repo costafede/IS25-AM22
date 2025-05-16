@@ -606,17 +606,17 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
-    public void placeBrownAlien(String playerName, int i, int j) throws IOException {
+    public void placeBrownAlien(String playerName, int i, int j) {
         gameController.placeBrownAlien(playerName, i, j);
     }
 
     @Override
-    public void placeAstronauts(String playerName, int i, int j) throws IOException {
+    public void placeAstronauts(String playerName, int i, int j) {
         gameController.placeAstronauts(playerName, i, j);
     }
 
     @Override
-    public void placePurpleAlien(String playerName, int i, int j) throws IOException {
+    public void placePurpleAlien(String playerName, int i, int j) {
         gameController.placePurpleAlien(playerName, i, j);
     }
 }

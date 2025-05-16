@@ -129,7 +129,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         server.setGameType(gameType);
     }
 
-    public void godMode(String playerName, String conf) throws IOException {
+    public void godMode(String playerName, String conf) {
         executor.submit(() -> {
             try {
                 server.godMode(playerName, conf);
@@ -179,7 +179,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         });
     }
 
-    public void pickStandbyComponentTile(String playerName, int index) throws IOException {
+    public void pickStandbyComponentTile(String playerName, int index) {
         executor.submit(() -> {
             try {
                 server.pickStandbyComponentTile(playerName, index);
@@ -279,7 +279,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         });
     }
 
-    public void destroyComponentTile(String playerName, int i, int j) throws IOException {
+    public void destroyComponentTile(String playerName, int i, int j) {
         executor.submit(() -> {
             try {
                 server.destroyComponentTile(playerName, i, j);
@@ -300,7 +300,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
-    public void placeBrownAlien(String playerName, int i, int j) throws IOException {
+    public void placeBrownAlien(String playerName, int i, int j) {
         executor.submit(() -> {
             try {
                 server.placeBrownAlien(playerName, i, j);
@@ -311,7 +311,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
-    public void placeAstronauts(String playerName, int i, int j) throws IOException {
+    public void placeAstronauts(String playerName, int i, int j) {
         executor.submit(() -> {
             try {
                 server.placeAstronauts(playerName, i, j);
@@ -322,7 +322,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
-    public void placePurpleAlien(String playerName, int i, int j) throws IOException {
+    public void placePurpleAlien(String playerName, int i, int j) {
         executor.submit(() -> {
             try {
                 server.placePurpleAlien(playerName, i, j);
@@ -333,7 +333,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
-    public void heartbeat(String playerName) throws IOException {
+    public void heartbeat(String playerName) {
 
     }
 
