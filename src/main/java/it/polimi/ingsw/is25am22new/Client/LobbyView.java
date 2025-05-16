@@ -11,6 +11,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * The LobbyView class represents the view component of a game's multiplayer lobby.
+ * It handles the display of events and updates related to the lobby,
+ * such as player connections, readiness status, and game startup.
+ * It also manages commands and interactions between the user and
+ * the underlying client model for both RMI and socket-based connections.
+ *
+ * Fields:
+ * - inGame: Indicates whether the game is currently in progress.
+ * - nicknameValid: Tracks the validity of the current nickname.
+ * - isHostPlayer: Identifies if the player is the host.
+ * - hostSetupCompleted: Indicates if the host's setup process is finished.
+ * - currentPlayerCount: Tracks the current count of players in the lobby.
+ * - numPlayers: Represents the total number of players allowed.
+ * - gameType: Specifies the type of game being played.
+ * - rmiClient: The RMI client instance used for communication.
+ * - socketClient: The socket client instance used for communication.
+ * - gameStarted: Tracks whether the game has started.
+ * - clientModel: The client model associated with this view.
+ * - readyStatus: A map indicating each player's readiness state.
+ * - playersList: A list of players currently in the lobby.
+ */
 public class LobbyView implements EnhancedClientView {
     private boolean inGame = false;
     private boolean nicknameValid = false;
@@ -111,6 +133,16 @@ public class LobbyView implements EnhancedClientView {
     //    displayCurrentCommands();
     //}
 
+    /**
+     * Displays the current lobby update, including the list of players,
+     * their readiness status, and the game type. The method will also
+     * handle auto-starting the game if the required conditions are met.
+     *
+     * @param players      a list of player names currently in the lobby
+     * @param readyStatus  a map containing each player's readiness status, where the key is the player name and the value is a Boolean indicating if they are ready
+     * @param gameType     the type of game selected for the lobby, or null if not set
+     * @param isHost       a boolean indicating if the current player is the host of the lobby
+     */
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
         if(players.size() == 1){
@@ -192,6 +224,13 @@ public class LobbyView implements EnhancedClientView {
         }
     }
 
+    /**
+     * Attempts to start the game if all players are ready and there are at least two players in the lobby.
+     * If the conditions are met, the host player initiates the game start process using the appropriate client (RMI or socket).
+     *
+     * @param players      a list of player names in the lobby
+     * @param readyStatus  a map where the keys are player names and the values are booleans indicating whether each player is ready
+     */
     private void startIfReady(List<String> players, Map<String, Boolean> readyStatus) {
         boolean allReady = true;
         System.out.println("readyStatus length: " + readyStatus.size());
@@ -216,6 +255,14 @@ public class LobbyView implements EnhancedClientView {
         }
     }
 
+    /**
+     * Displays the result of a connection attempt, formatting the output
+     * based on the success and whether the user is the host.
+     *
+     * @param isHost  a boolean indicating if the current player is the host
+     * @param success a boolean indicating if the connection attempt was successful
+     * @param message a string containing a message to display about the connection result
+     */
     @Override
     public void displayConnectionResult(boolean isHost, boolean success, String message) {
         isHostPlayer = isHost;
@@ -249,6 +296,14 @@ public class LobbyView implements EnhancedClientView {
 
     }
 
+    /**
+     * Displays the result of a nickname validation process.
+     * If the nickname is valid, it displays a formatted success message.
+     * If invalid, it shows a formatted error message with the provided details.
+     *
+     * @param valid        a boolean indicating whether the nickname is valid
+     * @param errorMessage a string containing the error message to display if the nickname is invalid
+     */
     @Override
     public void displayNicknameResult(boolean valid, String errorMessage){
         if(valid){
@@ -272,6 +327,18 @@ public class LobbyView implements EnhancedClientView {
         }
     }
 
+    /**
+     * Displays the "Game Started" message and updates the game state to indicate
+     * that the game has begun. This method outputs a formatted visual banner
+     * for the start of the game and sets the internal client state to reflect
+     * the game has started.
+     *
+     * If the `clientModel` is not null, it updates the client model to mark
+     * the game start message as received, enabling further game-related
+     * interactions. If `clientModel` is null, a warning message is logged.
+     *
+     * Updates the `inGame` field to true, signaling the active game state.
+     */
     @Override
     public void displayGameStarted() {
         if (clientModel != null) {
@@ -327,6 +394,15 @@ public class LobbyView implements EnhancedClientView {
     //    System.out.print("> ");
     //}
 
+    /**
+     * Starts the command loop for interacting with the game lobby using RMI (Remote Method Invocation).
+     * The method handles both host and non-host player behaviors within the lobby, including handling setup
+     * for host players, waiting for players to join, and responding to user commands.
+     *
+     * @param client      the RMI client used to interact with the server
+     * @param playerName  the name of the player entering the lobby
+     * @param scanner     the scanner object for reading user input in the command loop
+     */
     @Override
     public void startCommandLoopRMI(RmiClient client, String playerName, Scanner scanner) {
         boolean running = true;
@@ -357,6 +433,15 @@ public class LobbyView implements EnhancedClientView {
 
     }
 
+    /**
+     * Processes the input provided by a player in the lobby and performs the appropriate actions based on the command.
+     * Commands supported are "exit", "ready", and "start". Invalid commands are handled with a warning message.
+     *
+     * @param client the RMI client used to interact with the server
+     * @param command the command provided by the player in the lobby
+     * @param running a boolean indicating whether the lobby command loop should continue running
+     * @return a boolean specifying the updated running status of the lobby command loop
+     */
     private boolean processLobbyInput(RmiClient client, String command, boolean running) {
         if (command.equalsIgnoreCase("exit")) {
             running = false;
@@ -376,6 +461,17 @@ public class LobbyView implements EnhancedClientView {
         }
         return running;
     }
+
+    /**
+     * Processes the input provided by a player in the lobby and executes the appropriate actions
+     * based on the command. Supported commands are "exit", "ready", and "start".
+     * Invalid commands result in an error message.
+     *
+     * @param client the socket server handler used to interact with the server
+     * @param command the command input provided by the player in the lobby
+     * @param running a boolean indicating whether the lobby command loop should continue running
+     * @return a boolean specifying the updated running status of the lobby command loop
+     */
     private boolean processLobbyInput(SocketServerHandler client, String command, boolean running) {
         if (command.equalsIgnoreCase("exit")) {
             running = false;
@@ -392,6 +488,15 @@ public class LobbyView implements EnhancedClientView {
         return running;
     }
 
+    /**
+     * Starts the command loop for interacting with the game lobby using a socket connection.
+     * The method handles both host and non-host player behaviors within the lobby, including handling setup
+     * for host players, waiting for players to join, and responding to user commands.
+     *
+     * @param client      the socket server handler used to interact with the server
+     * @param playerName  the name of the player entering the lobby
+     * @param scanner     the scanner object for reading user input in the command loop
+     */
     public void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner) {
         boolean running = true;
         this.socketClient = client;
@@ -419,6 +524,13 @@ public class LobbyView implements EnhancedClientView {
         }
     }
 
+    /**
+     * Sets up the socket server as a host by configuring the number of players
+     * and selecting the game type. Once completed, the host setup process is marked as complete.
+     *
+     * @param client the SocketServerHandler object that manages the server-side socket functionality
+     * @param scanner the Scanner object used to read user input for the setup configuration
+     */
     private void setupAsHostSocket(SocketServerHandler client, Scanner scanner) {
         // Get max players
         System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
@@ -486,6 +598,15 @@ public class LobbyView implements EnhancedClientView {
 
     }
 
+    /**
+     * Sets up the current instance as an RMI host by allowing the user to configure
+     * the number of players and game type through console inputs. The method
+     * interacts with the provided RmiClient and uses the Scanner for user input.
+     *
+     * @param client the RmiClient instance used to configure the game settings
+     *               such as the number of players and game type
+     * @param scanner the Scanner used to read user input for configuring the lobby
+     */
     private void setupAsHostRMI(RmiClient client, Scanner scanner) {
         try {
             // Get max players
@@ -556,6 +677,14 @@ public class LobbyView implements EnhancedClientView {
         }
     }
 
+    /**
+     * Handles the logic for starting the game from the lobby.
+     * This method ensures that only the host player can initiate the game start process.
+     * If the conditions allow, the request to start the game is sent to the server using the provided RmiClient instance.
+     *
+     * @param playerName the name of the player attempting to start the game
+     * @param rmiClient  the RMI client used to communicate with the server for starting the game
+     */
     public void handleStartGame(String playerName, RmiClient rmiClient) {
         try {
             // Only the host should be able to start the game

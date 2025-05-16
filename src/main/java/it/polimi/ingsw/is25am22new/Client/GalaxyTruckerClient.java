@@ -16,10 +16,26 @@ import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The GalaxyTruckerClient class serves as the main entry point for the Galaxy Trucker client application.
+ * It handles user interactions to configure the connection type and UI type, as well as initializing
+ * the appropriate client (RMI or Socket) and user interface.
+ */
 public class GalaxyTruckerClient {
     private VirtualServer virtualServer;
     private String playerName;
 
+    /**
+     * The main entry point for the application. It initializes the required configurations,
+     * allows the user to select the connection type and UI type, and starts the application
+     * with the specified settings.
+     *
+     * @param args Command-line arguments where:
+     *             args[0] (optional): The server host address (default is "localhost").
+     *             args[1] (optional): The server port as an integer (default is 1234).
+     *             args[2] (optional): The connection type as a case-insensitive string ("RMI" or "SOCKET").
+     *             args[3] (optional): The UI type as a case-insensitive string ("TUI" or "GUI").
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ClientModel clientModel = new ClientModel();
@@ -151,7 +167,23 @@ public class GalaxyTruckerClient {
     }
 
     /**
-     * Start an RMI client connection
+     * Initializes and starts an RMI (Remote Method Invocation) client to connect
+     * to the specified server. This method sets up the user interface based on
+     * the provided choice and establishes the connection to the server using RMI.
+     * It also initializes the player's name after a successful connection.
+     *
+     * @param host The hostname of the remote server to connect to.
+     * @param port The port number the server is listening to.
+     * @param uiChoice An integer representing the user's choice for UI type
+     *                 (e.g., 1 for TUI, other options for GUI).
+     * @param scanner A Scanner instance for handling user input, typically from
+     *                the command line in TUI mode.
+     * @param clientModel The ClientModel instance representing the client's
+     *                    state and game data.
+     * @throws RemoteException If a communication error occurs during the RMI
+     *                         process.
+     * @throws NotBoundException If the requested RMI server object is not found
+     *                           in the registry at the given host and port.
      */
     private void startRmiClient(String host, int port, int uiChoice, Scanner scanner, ClientModel clientModel) throws RemoteException, NotBoundException {
         // Create UI based on choice
@@ -179,7 +211,19 @@ public class GalaxyTruckerClient {
     }
 
     /**
-     * Start a Socket client connection
+     * Initializes and starts a socket-based client to connect to the specified server.
+     * This method sets up the user interface based on the provided choice and establishes
+     * the connection to the server using sockets. It also uses the client model to represent
+     * the client's state and game data.
+     *
+     * @param host The hostname of the remote server to connect to.
+     * @param port The port number the server is listening to.
+     * @param uiChoice An integer representing the user's choice for UI type
+     *                 (e.g., 1 for TUI, other options for GUI).
+     * @param scanner A Scanner instance for handling user input, typically from
+     *                the command line in TUI mode.
+     * @param clientModel The ClientModel instance representing the client's
+     *                    state and game data.
      */
     private void startSocketClient(String host, int port, int uiChoice, Scanner scanner, ClientModel clientModel) {
         // For now, just use the original implementation
