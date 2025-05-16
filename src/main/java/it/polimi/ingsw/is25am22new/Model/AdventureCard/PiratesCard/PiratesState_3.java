@@ -6,12 +6,30 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.io.Serializable;
 
+/**
+ * The PiratesState_3 class represents a specific state in the PiratesCard state machine.
+ * It extends the abstract PiratesState class and implements behavior unique to the
+ * corresponding game phase where pirates' effects are resolved.
+ *
+ * The class contains game logic to handle subsequent actions such as the player's choice
+ * of keeping cosmic credits at the cost of losing flight days, deactivating ship
+ * components, and managing defeated player transitions or end-of-effect conditions.
+ */
 public class PiratesState_3 extends PiratesState implements Serializable {
 
     public PiratesState_3(PiratesCard piratesCard){
         super(piratesCard);
     }
 
+    /**
+     * Activates the effect of the PiratesState_3. Handles the player's decision to either
+     * retain cosmic credits at the cost of losing flight days or avoid loss. It also
+     * manages the deactivation of ship components and transitions to the next game state
+     * depending on the current player's status or any defeated players.
+     *
+     * @param inputCommand an InputCommand object that contains the player's choices and
+     *                      actions, such as opting whether to keep cosmic credits or not.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();

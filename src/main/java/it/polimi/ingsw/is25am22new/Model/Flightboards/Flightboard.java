@@ -9,6 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The Flightboard class represents a base abstraction for the game flightboard that tracks the
+ * positions of rockets and their ordered placement during the game.
+ * It provides core functionality for managing the rockets' movement, placement, and ordering.
+ * This class is intended to be extended by specific implementations of flightboards.
+ */
 public abstract class Flightboard implements Serializable {
     protected List<String> orderedRockets;
     protected Map<String, Integer> positions; // positions are relative to the flightboard
@@ -37,6 +43,21 @@ public abstract class Flightboard implements Serializable {
         return positions;
     }
 
+    /**
+     * Shifts the rocket identified by its nickname a specified number of steps
+     * either backward or forward on the flightboard.
+     *
+     * The method adjusts the position of a rocket on the flightboard,
+     * updating both the shipboard's "days on flight" and the positions map.
+     * It ensures no overlap of positions, resolving conflicts based on the
+     * provided number of steps. Positive steps move the rocket backward,
+     * while negative steps move it forward.
+     *
+     * @param nickname The unique nickname of the rocket to be shifted.
+     * @param stepsBackPositive The number of steps to move the rocket.
+     *                          Positive values indicate movement backward,
+     *                          and negative values indicate movement forward.
+     */
     public void shiftRocket(String nickname, int stepsBackPositive) {
         // Does not manage who should shift first (usually the last one in a sequence)
         // Steps are positive if backward, negative if forward

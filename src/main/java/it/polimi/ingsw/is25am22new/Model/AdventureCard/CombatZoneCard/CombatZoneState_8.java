@@ -5,6 +5,15 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.io.Serializable;
 
+/**
+ * Represents the state "CombatZoneState_8" during a combat encounter in the game.
+ * This state enables the current player to select a shipwreck on their shipboard
+ * and updates the relevant game and combat zone card properties accordingly.
+ * Upon completing the necessary action, the state transitions either to the next combat state
+ * or concludes the combat, managing invalid players and updating game observers.
+ *
+ * Inherits from the abstract class {@link CombatZoneState}, which defines the common behavior of all combat zone states.
+ */
 public class CombatZoneState_8 extends CombatZoneState implements Serializable {
     public CombatZoneState_8(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);

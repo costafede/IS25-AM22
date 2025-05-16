@@ -8,11 +8,39 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * SlaversState_1 represents the initial state of a SlaversCard interaction.
+ * It handles the decision-making process for using battery tokens or taking other
+ * actions to counter the effects of the SlaversCard. This state implements specific
+ * game logic based on the player's choices and the current state of the game.
+ *
+ * Responsibilities:
+ * - Determines if the player wishes to use a battery token to enhance their cannon strength.
+ * - Transitions to appropriate states depending on whether the player wins, loses, or ties
+ *   the cannon strength comparison against the slavers.
+ * - Updates the game state, including shipboard components and player turns, as needed.
+ *
+ * State Transitions:
+ * - Moves to SlaversState_2 if the player uses a battery token.
+ * - Moves to SlaversState_3 if the player wins the cannon strength comparison.
+ * - Moves to SlaversState_4 if the player loses the cannon strength comparison.
+ * - Retains SlaversState_1 or performs a game reset if the current turn ties or additional
+ *   game conditions are met.
+ */
 public class SlaversState_1 extends SlaversState implements Serializable {
     public SlaversState_1(SlaversCard slaversCard) {
         super(slaversCard);
     }
 
+    /**
+     * Executes the effect of the SlaversState_1 card based on the player's decision
+     * and the current game state. Manages the activation of batteries, evaluates
+     * the outcome of the confrontation with the slavers, and transitions to the appropriate state.
+     *
+     * @param inputCommand the input command containing the player's choice and related parameters.
+     *                     The command is used to determine whether the player chooses to use a battery
+     *                     or stop using batteries, and provides grid coordinates for specific actions.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();

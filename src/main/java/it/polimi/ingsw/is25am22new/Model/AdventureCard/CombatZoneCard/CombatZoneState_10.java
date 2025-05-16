@@ -10,6 +10,13 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * Represents the state of a Combat Zone card at a specific point, identified as "CombatZoneState_10".
+ * This state involves interaction with the shipboard and managing the activation of shield generator components.
+ * Upon processing the input command and the activation (if applicable), the state transitions to "CombatZoneState_9".
+ *
+ * This class extends the abstract CombatZoneState and implements behavior unique to this state.
+ */
 public class CombatZoneState_10 extends CombatZoneState implements Serializable {
     public CombatZoneState_10(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);

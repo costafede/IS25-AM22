@@ -3,6 +3,12 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * The Cannon class represents a specific type of ComponentTile that includes cannon functionality.
+ * A Cannon can have active cannon barrels on any of its four sides (top, bottom, left, right).
+ * Each side of the cannon can be individually toggled as a cannon barrel.
+ * The class provides functionality for rotating the cannon and determining its strength.
+ */
 public class Cannon extends ComponentTile {
     protected boolean topSideCannon;
     protected boolean bottomSideCannon;

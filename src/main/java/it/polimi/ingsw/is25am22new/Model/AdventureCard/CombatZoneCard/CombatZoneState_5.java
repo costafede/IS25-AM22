@@ -7,6 +7,17 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * Represents the fifth state in a sequence of combat zone states during the game.
+ * This state is responsible for handling specific mechanics related to crew member removal
+ * from the shipboard and transitions to subsequent combat states based on game logic.
+ *
+ * The responsibilities of this state include:
+ * - Removing crew members from cabin tiles on the shipboard, if applicable.
+ * - Updating the observable model to reflect changes to the shipboard or current player.
+ * - Transitioning to new combat zone states based on the number of removed crew members
+ *   or the state of the crew on the shipboard.
+ */
 public class CombatZoneState_5 extends CombatZoneState implements Serializable {
     public CombatZoneState_5(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);

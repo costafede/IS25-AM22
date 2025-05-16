@@ -2,6 +2,11 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 
+/**
+ * AlienAddon represents a specific type of component tile that includes additional functionality
+ * for alien presence and specific coloring. It extends the {@code ComponentTile} class.
+ * This class visually represents alien add-ons with specific styles based on predefined sides and color attributes.
+ */
 public class AlienAddon extends ComponentTile {
     private final String color;
 

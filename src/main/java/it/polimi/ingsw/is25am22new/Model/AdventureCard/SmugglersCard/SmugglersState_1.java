@@ -6,11 +6,27 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * Represents the first state of a smuggler-related scenario in the game. This class extends
+ * the abstract SmugglersState and includes logic for activating the effect of the smuggler's card.
+ * The current player has the option to activate a double cannon or resolve the card effect based
+ * on their decision and associated game mechanics. State transitions are handled based on the outcome
+ * of these actions.
+ */
 public class SmugglersState_1 extends SmugglersState implements Serializable {
     public SmugglersState_1(SmugglersCard smugglersCard) {
         super(smugglersCard);
     }
 
+    /**
+     * Activates the effect of the smugglers' card based on the player's decision.
+     * If the player chooses to activate the double cannon, a battery token is removed,
+     * and the state transitions to allow the player to activate the cannon.
+     * If not, the effect of the smugglers' card is resolved based on the player's cannon strength
+     * compared to the smugglers' cannon strength.
+     *
+     * @param inputCommand an instance of InputCommand that contains the player's decision and additional input data such as the row and column of the component tile.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(inputCommand.getChoice()){   //curr player has decided to activate a double cannon so he entered the coordinates of the battery component where we wants to remove the battery token

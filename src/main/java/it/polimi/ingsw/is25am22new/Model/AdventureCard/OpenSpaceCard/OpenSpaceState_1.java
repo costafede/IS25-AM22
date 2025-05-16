@@ -6,6 +6,12 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Represents the first state of the OpenSpace card during gameplay.
+ * In this state, players decide how to activate their engine or manage
+ * their component tiles depending on the card's effect and the player's choices.
+ * This is a concrete implementation of the abstract OpenSpaceState class.
+ */
 public class OpenSpaceState_1 extends OpenSpaceState implements Serializable {
     public OpenSpaceState_1(OpenSpaceCard openSpaceCard) {
         super(openSpaceCard);
@@ -16,6 +22,15 @@ public class OpenSpaceState_1 extends OpenSpaceState implements Serializable {
         return "OpenSpaceState_1";
     }
 
+    /**
+     * Activates the effect associated with the current OpenSpaceCard based on the player's input.
+     * It handles two scenarios: activating an engine by removing a battery token
+     * or resolving the card's effect by declaring engine strength.
+     *
+     * @param inputCommand the input command containing the player's choice and relevant
+     *                     information such as the coordinates of a component tile
+     *                     or other necessary details.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(inputCommand.getChoice()){   //player wants to activate a double engine, so he removes a battery token from the component tile with the coordinates given

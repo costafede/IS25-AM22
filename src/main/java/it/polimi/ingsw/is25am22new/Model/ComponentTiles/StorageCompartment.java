@@ -8,6 +8,11 @@ import java.util.Map;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * Represents a storage compartment component within a tile that can hold different types
+ * of good blocks up to a specified capacity. This class extends the ComponentTile class
+ * and includes functionality for managing the storage of good blocks.
+ */
 public class StorageCompartment extends ComponentTile{
     protected int capacity;
     protected Map<GoodBlock, Integer> goodBlocks;

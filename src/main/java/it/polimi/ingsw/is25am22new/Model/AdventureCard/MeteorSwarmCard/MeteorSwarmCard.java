@@ -12,6 +12,11 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Represents a meteor swarm card in the game, extending the functionalities of an AdventureCard.
+ * This card manages the state and behavior associated with a swarm of meteors during gameplay.
+ * It interacts with the game's dice mechanics and maintains state data related to meteors.
+ */
 public class MeteorSwarmCard extends AdventureCard implements Serializable, ViewableCard {
 
     private Map<Integer, Meteor> numberToMeteor;

@@ -8,6 +8,22 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents the state CombatZoneState_6 in the CombatZoneState context.
+ * This state is responsible for handling specific actions associated with the Combat Zone
+ * during this phase of the game, including activating battery components and transitioning
+ * to other states based on game conditions.
+ *
+ * Key responsibilities of this state:
+ * - Handles the activation of battery effects for components on the shipboard.
+ * - Manages player decisions related to battery usage.
+ * - Updates the strength of players based on their cannon strength.
+ * - Determines and transitions to the next game states based on game rules and conditions:
+ *   - If the player's turn ends, and it is not the last player, transitions back to CombatZoneState_6 for the next player.
+ *   - If the current player is the last in turn order, calculates the player with the lowest cannon strength and transitions to CombatZoneState_9.
+ *
+ * Deactivates all components for all players upon completion of the phase if applicable.
+ */
 public class CombatZoneState_6 extends CombatZoneState implements Serializable {
     public CombatZoneState_6(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);

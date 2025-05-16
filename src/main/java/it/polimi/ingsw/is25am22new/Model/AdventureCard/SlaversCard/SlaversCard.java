@@ -9,6 +9,17 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.io.Serializable;
 
+/**
+ * The SlaversCard class represents an AdventureCard specifically modeled for
+ * interactions involving slavers in the game. This class implements the
+ * ViewableCard interface, which includes the ability to render the card using
+ * a graphical view.
+ *
+ * A SlaversCard includes attributes to define its specific effects such as
+ * the number of flight days lost, cannon strength needed to overcome the event,
+ * astronauts to lose, and credits gained. It also manages its internal state
+ * via the SlaversState pattern to handle the progression of its functionality.
+ */
 public class SlaversCard extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightDaysLost;

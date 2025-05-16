@@ -7,6 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The TutorialFlightBoard class represents a specific implementation of a flightboard
+ * used in a tutorial game setting. It extends the base Flightboard class and provides
+ * customized logic for placing rockets at predefined starting positions and determining
+ * the order of rockets based on their positions.
+ *
+ * This class is designed to manage tutorial-specific rocket placement and ordering
+ * logic while leveraging the core functionality provided by the Flightboard base class.
+ */
 public class TutorialFlightBoard extends Flightboard{
 
     public TutorialFlightBoard(Game game) {
@@ -17,6 +26,16 @@ public class TutorialFlightBoard extends Flightboard{
         super(orderedRockets, positions, flightBoardLength);
     }
 
+    /**
+     * Places a rocket on the flightboard at the specified position based on the
+     * tutorial-specific starting position logic. This method maps the given position
+     * to a predefined flightboard index and updates the positions map and ordered rockets list.
+     *
+     * @param nickname The unique nickname of the rocket being placed on the flightboard.
+     * @param pos The position on the flightboard where the rocket is to be placed.
+     *            Valid positions range from 0 to 3, corresponding to predefined starting positions.
+     *            Throws an IllegalArgumentException if the position is invalid.
+     */
     @Override
     public void placeRocket(String nickname, int pos) {
         // positions go from 0 to numberOfPlayers - 1
@@ -34,6 +53,14 @@ public class TutorialFlightBoard extends Flightboard{
         setOrderedRocketsAndDaysOnFlight(game.getShipboards());
     }
 
+    /**
+     * Updates the ordered list of rockets based on their positions and sets the number
+     * of days in flight for each rocket on their respective shipboards. The rockets are
+     * ordered in descending order of their positions on the flightboard.
+     *
+     * @param shipboards A map of rocket nicknames to their corresponding Shipboard objects,
+     *                   used to update each rocket's days on flight based on its position.
+     */
     private void setOrderedRocketsAndDaysOnFlight(Map<String, Shipboard> shipboards) {
         // called after all rockets have been placed
         orderedRockets =

@@ -3,6 +3,11 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * The DoubleCannon class represents a specific type of cannon that extends the functionality
+ * of the Cannon base class. The DoubleCannon can have an active double-barrel cannon on one of
+ * its sides, while the other parts of the cannon may vary in configuration.
+ */
 public class DoubleCannon extends Cannon {
     private boolean topSideActive;
     private boolean bottomSideActive;

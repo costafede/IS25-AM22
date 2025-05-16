@@ -9,11 +9,35 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger ;
 
+/**
+ * Represents the first state of the {@link PiratesCard} during its activation in the game.
+ *
+ * This state, part of the state pattern implementation for the PiratesCard, handles effects
+ * and transitions based on the player's choices and the state of their shipboard. Upon
+ * activation, the player is prompted to use their ship's battery or opt-out of using it.
+ * The outcome depends on the strength of the ship's cannon relative to the PiratesCard.
+ *
+ * Key functionalities include:
+ * - Evaluating player decisions regarding the battery's usage.
+ * - Updating the shipboard and game state based on interactions.
+ * - Transitioning to the appropriate next state depending on the outcome (e.g., PiratesState_2,
+ * PiratesState_3, or PiratesState_4).
+ * - Managing the activation and deactivation of shipboard components.
+ *
+ * This state ensures gameplay progression by coordinating player inputs, shipboard updates,
+ * and handling victory, defeat, or ties between the player and the PiratesCard.
+ */
 public class PiratesState_1 extends PiratesState implements Serializable {
     public PiratesState_1(PiratesCard piratesCard) {
         super(piratesCard);
     }
 
+    /**
+     * Activates the effect of the PiratesCard, based on the input command and the current game state.
+     * This method processes player decisions, updates the shipboard and game state, and transitions to the next game state accordingly.
+     *
+     * @param inputCommand the InputCommand object containing the player's choices and coordinates related to the activation effect.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();

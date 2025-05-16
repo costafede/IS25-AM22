@@ -11,6 +11,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an OpenSpaceCard, a type of adventure card with specific behaviors and states in the game.
+ * Extends the functionality of AdventureCard and implements the ViewableCard interface.
+ * The card includes logic for managing its state and interacting with players and the game.
+ */
 public class OpenSpaceCard extends AdventureCard implements Serializable, ViewableCard {
 
     private OpenSpaceState openSpaceState;

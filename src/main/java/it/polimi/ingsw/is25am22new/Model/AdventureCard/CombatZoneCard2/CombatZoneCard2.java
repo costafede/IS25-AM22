@@ -13,6 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Represents a Combat Zone Card in the game, extending the AdventureCard class.
+ * This card introduces specific effects and states during gameplay and tracks
+ * properties such as flight days lost, goods lost, shots, and battery usage.
+ * The card operates within a specific state determined by the CombatZoneState2
+ * instance and provides functionality for handling dice rolls, player strengths,
+ * and shot-related operations.
+ *
+ * Basically it's the same as the CombatZoneCard, but with different outcomes in the conditions to verify in the states
+ */
 public class CombatZoneCard2 extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightDaysLost;

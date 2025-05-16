@@ -10,6 +10,11 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents the ninth state in the combat zone sequence during gameplay.
+ * This state handles the activation of battery usage and incoming shot logic,
+ * updating the state of the game based on the player's choices and the results of the incoming attack.
+ */
 public class CombatZoneState_9 extends CombatZoneState implements Serializable {
     public CombatZoneState_9(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);

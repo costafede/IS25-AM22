@@ -8,6 +8,21 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents the first state in the combat zone sequence of the game.
+ * This class is responsible for managing the logic and transitions associated with the first phase of combat zone mechanics.
+ *
+ * The state involves the following behaviors:
+ * - Checks if the player wants to activate a battery component and deducts it if chosen and available.
+ * - Updates the shipboard state for the current player and transitions to subsequent states based on game logic.
+ * - Handles the logic for determining the player with the weakest engine strength when all players have taken their turn.
+ * - Deactivates all components for all players once the weakest engine player is identified.
+ *
+ * Transitions to:
+ * - `CombatZoneState_3` if the battery is used by the player.
+ * - `CombatZoneState_5` if all players have finished their turns and the weakest engine player is identified.
+ * - `CombatZoneState_1` for the next player's turn in the sequence.
+ */
 public class CombatZoneState_1 extends CombatZoneState implements Serializable {
     public CombatZoneState_1(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);

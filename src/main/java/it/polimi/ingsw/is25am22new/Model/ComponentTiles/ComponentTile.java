@@ -5,6 +5,26 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import java.io.Serializable;
 import java.util.Map;
 
+/**
+ * Represents a general component tile in a game, which can have various sides with specific functionalities.
+ * A tile has four sides (top, bottom, left, right), each represented by a {@link Side} and can be interacted with
+ * through its various properties and behaviors. This class serves as a base for more specialized component tiles.
+ *
+ * A component tile includes methods to rotate the tile, retrieve and modify its properties, and determine
+ * specific characteristics about its sides, such as whether they are smooth, shielded, or equipped with other
+ * functionalities like cannons or engines.
+ *
+ * Subclasses extending this class can provide specific implementations for behaviors and properties, such as
+ * holding good blocks, managing crew members, or enabling specific game mechanics.
+ *
+ * Key functionalities include:
+ * - Retrieving or setting side properties.
+ * - Rotating the tile clockwise or counter-clockwise.
+ * - Identifying the presence of special features on the tile sides such as cannons, engines, or shields.
+ * - Managing good blocks and astronauts if applicable in the subclass.
+ *
+ * A tile also holds information about its associated image name, which is helpful for visualization or rendering.
+ */
 public abstract class ComponentTile implements Serializable {
     protected Side topSide;
     protected Side bottomSide;

@@ -10,6 +10,21 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents the first state in the Meteor Swarm sequence. This state handles the interaction
+ * where the current player decides how to respond to the meteor swarm event using battery
+ * components or letting meteors impact their shipboard. This state transitions to the next
+ * appropriate state based on the player's actions and game conditions.
+ *
+ * This class extends the abstract {@link MeteorSwarmState} to implement specific behaviors
+ * for MeteorSwarmState_1. It manages the logic for meteor impact resolution and transitions
+ * to subsequent states (e.g., MeteorSwarmState_2 or MeteorSwarmState_3) depending on game outcomes.
+ *
+ * Key responsibilities include:
+ * - Processing player input and deciding whether to use battery components.
+ * - Resolving meteor impact effects based on meteor orientation and shipboard state.
+ * - Transitioning to the appropriate next state in the meteor swarm sequence.
+ */
 public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable {
     public MeteorSwarmState_1(MeteorSwarmCard meteorSwarmCard) { super(meteorSwarmCard); }
 

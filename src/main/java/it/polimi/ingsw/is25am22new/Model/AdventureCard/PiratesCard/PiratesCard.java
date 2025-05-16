@@ -12,6 +12,16 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Represents the PiratesCard which extends the AdventureCard class and implements
+ * Serializable and ViewableCard. This card includes functionality specific to pirates'
+ * interactions and effects in the game.
+ *
+ * A PiratesCard has attributes related to shots, flight days lost, cannon strength,
+ * credits, state, dice values, and tracking defeated players. Additionally, it works
+ * within game logic by transitioning between different states and handling game-related
+ * effects.
+ */
 public class PiratesCard extends AdventureCard implements Serializable, ViewableCard {
 
     private Map<Integer, Shot> numberToShot;

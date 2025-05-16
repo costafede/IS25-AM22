@@ -7,11 +7,27 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * Represents the PiratesState_2 state in the pirate's card state machine.
+ * Inherits behavior from the PiratesState class, implementing specific effects and transitions
+ * associated with this state.
+ *
+ * This state allows the activation of double cannon component tiles on the player's shipboard,
+ * given certain conditions, utilizing the associated PiratesCard instance and game context.
+ */
 public class PiratesState_2 extends PiratesState implements Serializable {
     public PiratesState_2(PiratesCard piratesCard) {
         super(piratesCard);
     }
 
+    /**
+     * Activates an effect based on the state of the game and the input command provided.
+     * Specifically checks conditions on the player's shipboard and transitions to a new state
+     * after applying the effect.
+     *
+     * @param inputCommand the command containing the input parameters such as row and column,
+     *                     which determine the target tile to activate.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();

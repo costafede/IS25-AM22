@@ -10,11 +10,26 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents the fourth state in the Pirates game state machine.
+ * This state handles specific game logic such as processing incoming shots,
+ * handling player decisions regarding battery usage, tile destruction,
+ * and transitioning to subsequent game states.
+ */
 public class PiratesState_4 extends PiratesState implements Serializable {
     public PiratesState_4(PiratesCard piratesCard){
         super(piratesCard);
     }
 
+    /**
+     * Activates the effect of a specific game state during the "Pirates" phase in the game. The method
+     * handles various game scenarios such as using batteries, processing an incoming shot, deactivating
+     * components, and transitioning to the next game state.
+     *
+     * @param inputCommand an object containing user input data. It may include the player's choice
+     *                      to continue using batteries, the coordinates of the selected grid position,
+     *                      or any other input to control the effect's activation.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         Shot incomingShot = piratesCard.getNumberToShot().get(piratesCard.getIndexOfIncomingShot());

@@ -2,6 +2,11 @@ package it.polimi.ingsw.is25am22new.Model.GamePhase;
 
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 
+/**
+ * Represents the building phase of the game. During this phase,
+ * players construct their shipboards and prepare for subsequent game phases.
+ * The phase transitions are determined based on the state of each player's shipboard.
+ */
 public class BuildingPhase extends GamePhase {
     public BuildingPhase(Game game) {
         super(game);

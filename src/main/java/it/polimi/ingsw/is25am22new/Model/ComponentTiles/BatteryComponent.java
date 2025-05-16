@@ -3,6 +3,11 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * Represents a specialized component tile in the form of a battery compartment.
+ * A BatteryComponent can hold battery tokens, which are used to power certain actions or mechanisms.
+ * This class extends the base functionality provided by ComponentTile, adding battery-specific behavior.
+ */
 public class BatteryComponent extends ComponentTile {
     private int numOfBatteries;
 

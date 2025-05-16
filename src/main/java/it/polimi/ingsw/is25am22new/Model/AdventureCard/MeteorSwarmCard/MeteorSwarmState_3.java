@@ -5,6 +5,16 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.io.Serializable;
 
+/**
+ * Represents the third state in the meteor swarm card's state management within the game.
+ * This state is responsible for handling the logic and effects when the MeteorSwarmCard is
+ * in its third phase during gameplay.
+ *
+ * In this state, the current player interacts with the game mechanics to choose a position
+ * on their shipboard for handling shipwrecks and updates the game state accordingly.
+ * The state transitions to another state based on the game flow, and it ensures updates
+ * are communicated to all relevant game components.
+ */
 public class MeteorSwarmState_3 extends MeteorSwarmState implements Serializable {
     public MeteorSwarmState_3(MeteorSwarmCard meteorSwarmCard) {
        super(meteorSwarmCard);

@@ -3,6 +3,13 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * The ShieldGenerator class represents a shielding component in a system.
+ * It allows the activation and deactivation of shields on specific sides,
+ * enabling modular control of protection over the component's boundaries.
+ * The class inherits from ComponentTile and introduces additional functionality
+ * specific to shielding capabilities.
+ */
 public class ShieldGenerator extends ComponentTile {
     private boolean topSideShieldable, bottomSideShieldable, leftSideShieldable, rightSideShieldable;   //sono i lati su cui si può attivare lo scudo
     private boolean topSideShielded, bottomSideShielded, leftSideShielded, rightSideShielded; //booleani che servono a capire che lati sono effettivamente attivi

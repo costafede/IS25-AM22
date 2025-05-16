@@ -10,6 +10,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Represents the second state in the Meteor Swarm state machine, which defines specific
+ * behavior when activated during gameplay. This state handles the activation of shield
+ * generators or double cannons on the player's shipboard and manages the transition
+ * to the next state.
+ */
 public class MeteorSwarmState_2 extends MeteorSwarmState implements Serializable {
     public MeteorSwarmState_2(MeteorSwarmCard meteorSwarmCard) { super(meteorSwarmCard); }
 

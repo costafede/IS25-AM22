@@ -13,6 +13,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a SmugglersCard, a type of AdventureCard that interacts with smuggling mechanics
+ * within the game. It is responsible for managing attributes such as flight days lost,
+ * cannon strength, lost goods, and smuggled goods.
+ * This class supports the loading and unloading of smugglers, and state transitions
+ * between different smuggler states.
+ */
 public class SmugglersCard extends AdventureCard implements Serializable, ViewableCard {
 
     private int flightDaysLost;

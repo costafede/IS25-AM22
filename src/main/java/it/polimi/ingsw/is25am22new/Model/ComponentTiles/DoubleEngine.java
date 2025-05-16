@@ -3,6 +3,13 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * Represents a specialized type of engine that focuses specifically on the bottom side
+ * for activation. This engine extends the base functionality of the Engine class by
+ * offering a doubled strength when the bottom side is activated. It is designed to
+ * handle additional functionality such as determining its double-engine capability
+ * and providing unique rendering and string representation.
+ */
 public class DoubleEngine extends Engine {
     private boolean bottomSideActive;
 

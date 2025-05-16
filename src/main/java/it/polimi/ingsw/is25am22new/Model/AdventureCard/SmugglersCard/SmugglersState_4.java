@@ -6,11 +6,29 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.io.Serializable;
 
+/**
+ * Represents the fourth state in the SmugglersCard state machine. This state manages
+ * advanced interactions with the smugglers' mechanics, allowing players to retrieve,
+ * discard, or move good blocks across their shipboard's storage compartments. It also
+ * governs the ending of the card's effect when players finalize their operations.
+ *
+ * This class extends the SmugglersState abstract class and implements additional
+ * functionalities tailored to this specific phase in the smuggling operations, while handling
+ * state transitions and game updates accordingly.
+ */
 public class SmugglersState_4 extends SmugglersState implements Serializable {
     public SmugglersState_4(SmugglersCard smugglersCard) {
         super(smugglersCard);
     }
 
+    /**
+     * Activates the effect of the smugglers card, allowing the current player to manage good blocks
+     * or complete the card's effect based on the specified player input command.
+     *
+     * @param inputCommand the command containing all necessary details to process the activation,
+     *                     including the choice to continue, type of operation (adding, removing,
+     *                     or switching good blocks), and relevant coordinates and good block information.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         GoodBlock gb = inputCommand.getGoodBlock();

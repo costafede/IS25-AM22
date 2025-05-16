@@ -4,11 +4,24 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.io.Serializable;
 
+/**
+ * Represents the first state in the PlanetsState sequence, managing the interactions
+ * for exploring planets in the game. This state ensures proper sequencing of player
+ * actions, validations, and transitions to subsequent states based on game logic.
+ */
 public class PlanetsState_1 extends PlanetsState implements Serializable {
     public PlanetsState_1(PlanetsCard planetsCard) {
         super(planetsCard);
     }
 
+    /**
+     * Activates the effect of the current state, managing player actions, game state updates,
+     * and transition logic based on the player's input and the current game conditions.
+     *
+     * @param inputCommand the command object containing player choices and parameters
+     *                      necessary for performing the action. It includes the player's
+     *                      decision to participate and the index of the chosen planet.
+     */
     public void activateEffect(InputCommand inputCommand){
         if(inputCommand.getChoice()) {
             if(planetsCard.getPlayersWhoLanded().contains(game.getCurrPlayer()))

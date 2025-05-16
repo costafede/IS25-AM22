@@ -3,6 +3,12 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * The StructuralModule class represents a specialized component tile in the game.
+ * It extends the ComponentTile class and provides additional functionality specific
+ * to structural modules in the game mechanics. StructuralModule does not implement
+ * storage-related or active functionalities but focuses on structural connectivity.
+ */
 public class StructuralModule extends ComponentTile {
     public StructuralModule(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide){
         super(pngName, topSide, bottomSide, leftSide, rightSide);

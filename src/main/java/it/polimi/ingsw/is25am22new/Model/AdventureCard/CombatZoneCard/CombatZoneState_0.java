@@ -4,6 +4,24 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.io.Serializable;
 
+/**
+ * Represents the initial state of a combat zone in the game, responsible for managing the
+ * specific mechanics and transitions when the combat zone is first activated.
+ * This state extends the abstract CombatZoneState class and implements Serializable.
+ *
+ * In CombatZoneState_0, the effect tied to the card is executed, which includes:
+ * - Determining the player with the fewest crew members to apply a penalty if certain conditions are met.
+ * - Adjusting the game state by shifting the rocket of the affected player backward based on flight days lost.
+ * - Setting the current player to the leader.
+ * - Updating the observable model for relevant game boards and players.
+ * - Managing invalid players if conditions are not satisfied.
+ * - Transitioning to the next state if necessary.
+ *
+ * Key behaviors include:
+ * - Resolving the penalty for players with fewer crew members or tied conditions.
+ * - Coordinating updates to the game components according to the state.
+ * - Transitioning to a new state for subsequent combat zone mechanics.
+ */
 public class CombatZoneState_0 extends CombatZoneState implements Serializable {
     public CombatZoneState_0(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);

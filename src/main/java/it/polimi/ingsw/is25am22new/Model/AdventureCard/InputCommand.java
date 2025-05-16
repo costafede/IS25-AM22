@@ -4,6 +4,13 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.io.Serializable;
 
+/**
+ * Represents a command input structure used to manage various game actions.
+ * It is used within game operations to capture user inputs and flags for
+ * specific actions, such as manipulating good blocks or making selections.
+ * This class encapsulates the data related to these inputs and ensures
+ * it can be serializable for persistence or network transmission.
+ */
 public class InputCommand implements Serializable {
     private boolean choiceCommand; // used for yes or no choices commands
     private int indexChosen; //used to choose an element in a list or map depending on the current card

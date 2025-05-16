@@ -3,6 +3,14 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * The RegularCabin class is a specific type of cabin that extends the functionality
+ * of the Cabin superclass to include support for alien presence management. It allows
+ * tracking and handling of different types of aliens (purple and brown) alongside the
+ * existing astronaut crew members. This class implements methods for adding, removing,
+ * and querying the presence of aliens, as well as managing and rendering the cabin's
+ * state.
+ */
 public class RegularCabin extends Cabin {
 
     private boolean purpleAlienPresent;

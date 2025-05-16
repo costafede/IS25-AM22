@@ -3,6 +3,12 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * Represents a specialized type of cabin in the game that serves as the starting point.
+ * The StartingCabin sets predefined characteristics, including a default number of astronauts
+ * and a color attribute that differentiates it from other cabins.
+ * It inherits the base functionalities of the Cabin class.
+ */
 public class StartingCabin extends Cabin {
 
     private String color;

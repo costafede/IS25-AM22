@@ -12,6 +12,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a specialized type of adventure card involving multiple planets.
+ * The card supports interactions related to planetary exploration, resources, and player activities.
+ * It maintains details about the planets, their states, and actions related to them.
+ */
 public class PlanetsCard extends AdventureCard implements Serializable, ViewableCard {
     private List<Planet> planets;
     private int flightDaysLost;

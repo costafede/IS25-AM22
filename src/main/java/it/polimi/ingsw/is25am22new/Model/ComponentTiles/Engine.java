@@ -3,6 +3,12 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * Represents a specific type of component tile called Engine, which can rotate and have an
+ * activated engine on one or more sides.
+ * The Engine class extends the {@code ComponentTile} class and defines specialized behaviors
+ * such as engine activation and rotation of the engine sides.
+ */
 public class Engine extends ComponentTile {
     protected boolean topSideEngine;
     protected boolean bottomSideEngine;

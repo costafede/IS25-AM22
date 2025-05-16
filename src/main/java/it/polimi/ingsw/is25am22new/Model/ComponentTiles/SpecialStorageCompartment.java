@@ -7,6 +7,11 @@ import java.util.Map;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * Represents a special type of storage compartment within a component tile.
+ * This class extends the functionality of the StorageCompartment class and provides
+ * additional implementations for handling the storage and representation of good blocks.
+ */
 public class SpecialStorageCompartment extends StorageCompartment {
 
     public SpecialStorageCompartment(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide, int capacity) {

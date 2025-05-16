@@ -5,6 +5,14 @@ import it.polimi.ingsw.is25am22new.Network.ObservableModel;
 
 import java.io.Serializable;
 
+/**
+ * Represents an abstract Adventure Card in the game.
+ * This class serves as a base for specific types of adventure cards
+ * that can be used during gameplay. Each card is associated with an image,
+ * a name, a game instance, a difficulty level, and its tutorial mode status.
+ * Adventure cards have customizable behavior to define their effects and state.
+ * Concrete subclasses must implement specific behavior by overriding abstract methods.
+ */
 public abstract class AdventureCard implements Serializable {
 
     protected String pngName;

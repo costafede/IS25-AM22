@@ -9,6 +9,15 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a planet within the game, which holds information about resource blocks and player interactions.
+ *
+ * The planet is associated with theoretical (expected) and actual quantities of specific resources (GoodBlock).
+ * Each planet can be occupied by a single player, which signifies a player landing on the planet.
+ *
+ * This class manages operations related to setting and retrieving the resource allocations and
+ * the player who has landed on the planet.
+ */
 public class Planet implements Serializable {
     private Map<GoodBlock, Integer> theoreticalGoodblocks;
 

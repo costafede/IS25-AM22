@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a Level 2 specific implementation of the Flightboard,
+ * designed with predefined starting positions and unique rocket placement
+ * logic for a more complex game configuration.
+ */
 public class Level2FlightBoard extends Flightboard {
 
     public Level2FlightBoard(Game game) {
@@ -17,6 +22,19 @@ public class Level2FlightBoard extends Flightboard {
         super(orderedRockets, positions, flightBoardLength);
     }
 
+    /**
+     * Places a rocket with the specified nickname at the designated position
+     * on the flightboard, based on predefined starting positions for rockets.
+     * Updates the internal positions map and recalculates the ordered list
+     * of rockets and their days on flight.
+     *
+     * @param nickname The unique identifier of the rocket to be placed.
+     * @param pos The placement index, representing the rocket's starting
+     *            position. Valid values are in the range 0 to 3
+     *            (inclusive), corresponding to predefined game positions.
+     * @throws IllegalArgumentException If the provided position is outside
+     *                                  the valid range (0 to 3).
+     */
     @Override
     public void placeRocket(String nickname, int pos) {
         // positions go from 0 to numberOfPlayers - 1
@@ -34,6 +52,13 @@ public class Level2FlightBoard extends Flightboard {
         setOrderedRocketsAndDaysOnFlight(game.getShipboards());
     }
 
+    /**
+     * Updates the current ordered list of rockets based on their positions in descending order
+     * and sets the number of days on flight for each rocket using the provided shipboards data.
+     *
+     * @param shipboards A map of rocket nicknames to their corresponding Shipboard objects,
+     *                   used to update the days on flight for each rocket.
+     */
     private void setOrderedRocketsAndDaysOnFlight(Map<String, Shipboard> shipboards) {
         // called after all rockets have been placed
         orderedRockets =

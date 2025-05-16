@@ -6,11 +6,26 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.io.Serializable;
 
+/**
+ * Represents a specific state of the PlanetsCard game mechanic, enabling various actions related
+ * to managing good blocks and player turns during interactions with planets.
+ * This state extends PlanetsState and implements Serializable for persistence.
+ */
 public class PlanetsState_2 extends PlanetsState implements Serializable {
     public PlanetsState_2(PlanetsCard planetsCard) {
         super(planetsCard);
     }
 
+    /**
+     * Activates the effect of the current PlanetsState_2 card. Handles various actions related to
+     * managing good blocks, including adding, removing, or switching good blocks on the player's
+     * shipboard, and manages turn-ending behavior when the choice indicates the player is finished.
+     *
+     * @param inputCommand the input command containing the player's choices, including whether the
+     *                      player wants to add, remove, or switch good blocks, or end their turn.
+     *                      The command also specifies the good blocks to be acted upon and which
+     *                      storage compartments or grid positions are involved.
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         GoodBlock gb = inputCommand.getGoodBlock();
