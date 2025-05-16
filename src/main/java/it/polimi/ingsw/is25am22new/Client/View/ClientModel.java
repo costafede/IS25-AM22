@@ -42,6 +42,20 @@ public class ClientModel extends ObservableModelView {
     protected List<CardPile> cardPiles;
     private boolean gameStartMessageReceived = false;
 
+    /* LOCKS */
+    private final Object bankLock = new Object();
+    private final Object coveredComponentTilesLock = new Object();
+    private final Object uncoveredComponentTilesLock = new Object();
+    private final Object shipboardLock = new Object();
+    private final Object flightboardLock = new Object();
+    private final Object hourglassLock = new Object();
+    private final Object deckLock = new Object();
+    private final Object currPlayerLock = new Object();
+    private final Object currCardLock = new Object();
+    private final Object dicesLock = new Object();
+    private final Object gamePhaseLock = new Object();
+
+
     public boolean isGameStartMessageReceived() {
         return gameStartMessageReceived;
     }
@@ -61,118 +75,153 @@ public class ClientModel extends ObservableModelView {
     }
 
     public Dices getDices() {
-        return dices;
+        synchronized (dicesLock) {
+            return dices;
+        }
     }
 
     public void setDices(Dices dices) {
-        this.dices = dices;
-        
+        synchronized (dicesLock) {
+            this.dices = dices;
+        }
         notifyDices(dices);
     }
 
     public AdventureCard getCurrCard() {
-        return currCard;
+        synchronized (currCardLock) {
+            return currCard;
+        }
     }
 
     public void setCurrCard(AdventureCard currCard) {
-        this.currCard = currCard;
-        
+        synchronized (currCardLock) {
+            this.currCard = currCard;
+        }
         notifyCurrCard(currCard);
     }
 
     public String getCurrPlayer() {
-        return currPlayer;
+        synchronized (currPlayerLock) {
+            return currPlayer;
+        }
     }
 
     public void setCurrPlayer(String currPlayer) {
+        synchronized (currPlayerLock) {
         this.currPlayer = currPlayer;
-        
+        }
         notifyCurrPlayer(currPlayer);
     }
 
     public List<AdventureCard> getDeck() {
-        return deck;
+        synchronized (deckLock) {
+            return deck;
+        }
     }
 
     public void setDeck(List<AdventureCard> deck) {
-        this.deck = deck;
-        
+        synchronized (deckLock) {
+            this.deck = deck;
+        }
         notifyDeck(deck);
     }
 
     public Hourglass getHourglass() {
-        return hourglass;
+        synchronized (hourglassLock) {
+            return hourglass;
+        }
     }
 
     public Flightboard getFlightboard() {
-        return flightboard;
+        synchronized (flightboardLock) {
+            return flightboard;
+        }
     }
 
     public void setFlightboard(Flightboard flightboard) {
-        this.flightboard = flightboard;
-        
+        synchronized (flightboardLock) {
+            this.flightboard = flightboard;
+        }
         notifyFlightboard(flightboard);
     }
 
     public Map<String, Shipboard> getShipboards() {
-        return shipboards;
+        synchronized (shipboardLock) {
+            return shipboards;
+        }
     }
 
     public void setShipboard(String player, Shipboard shipboard){
-        this.shipboards.put(player, shipboard);
-        fixShipboards(this.shipboards);
-        
+        synchronized (shipboardLock) {
+            this.shipboards.put(player, shipboard);
+            fixShipboards(this.shipboards);
+        }
         notifyShipboard(shipboard);
     }
 
     public void setShipboards(Map<String, Shipboard> shipboards) {
-        this.shipboards = shipboards;
-        fixShipboards(this.shipboards);
-        
+        synchronized (shipboardLock) {
+            this.shipboards = shipboards;
+            fixShipboards(this.shipboards);
+        }
         notifyShipboards(shipboards);
     }
 
     public List<ComponentTile> getUncoveredComponentTiles() {
-        return uncoveredComponentTiles;
+        synchronized (uncoveredComponentTilesLock) {
+            return uncoveredComponentTiles;
+        }
     }
 
     public void setUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
-        this.uncoveredComponentTiles = uncoveredComponentTiles;
-        
+        synchronized (uncoveredComponentTilesLock) {
+            this.uncoveredComponentTiles = uncoveredComponentTiles;
+        }
         notifyUncoveredComponentTiles(uncoveredComponentTiles);
     }
 
     public List<ComponentTile> getCoveredComponentTiles() {
-        return coveredComponentTiles;
+        synchronized (coveredComponentTilesLock) {
+            return coveredComponentTiles;
+        }
     }
 
     public void setCoveredComponentTiles(List<ComponentTile> coveredComponentTiles) {
-        this.coveredComponentTiles = coveredComponentTiles;
-        
+        synchronized (coveredComponentTilesLock) {
+            this.coveredComponentTiles = coveredComponentTiles;
+        }
         notifyCoveredComponentTiles(coveredComponentTiles);
     }
 
     public void setBank(Bank bank) {
-        this.bank = bank;
-        
+        synchronized (bankLock) {
+            this.bank = bank;
+        }
         notifyBank(bank);
     }
 
     public Bank getBank() {
-        return bank;
+        synchronized (bankLock) {
+            return bank;
+        }
     }
 
     public Shipboard getShipboard(String player) {
-        return this.shipboards.get(player);
+        synchronized (shipboardLock) {
+            return this.shipboards.get(player);
+        }
     }
 
     public GamePhase getGamePhase() {
-        return gamePhase;
+        synchronized (gamePhaseLock) {
+            return gamePhase;
+        }
     }
 
     public void setGamePhase(GamePhase gamePhase) {
-        this.gamePhase = gamePhase;
-        
+        synchronized (gamePhaseLock) {
+            this.gamePhase = gamePhase;
+        }
         notifyGamePhase(gamePhase);
     }
 
@@ -185,34 +234,39 @@ public class ClientModel extends ObservableModelView {
     }
 
     public void startHourglass(int hourglassSpot) {
-        this.hourglassSpot = hourglassSpot;
-        this.hourglass.startTimer(() -> {});
-        this.hourglassActive = true;
+        synchronized (hourglassLock) {
+            this.hourglassSpot = hourglassSpot;
+            this.hourglass.startTimer(() -> {
+            });
+            this.hourglassActive = true;
+        }
         
         notifyStartHourglass(hourglassSpot);
     }
 
     public void stopHourglass() {
-        this.hourglassActive = false;
-        this.hourglass.stopTimer();
+        synchronized (hourglassLock) {
+            this.hourglassActive = false;
+            this.hourglass.stopTimer();
+        }
         
         notifyStopHourglass();
     }
 
     public boolean isHourglassActive() {
-        return hourglassActive;
+        synchronized (hourglassLock) {
+            return hourglassActive;
+        }
     }
 
     public int getHourglassSpot() {
-        return hourglassSpot;
+        synchronized (hourglassLock) {
+            return hourglassSpot;
+        }
     }
 
     public List<CardPile> getCardPiles() {
         return cardPiles;
-    }
-
-    public void setCardPiles(List<CardPile> cardPiles) {
-        this.cardPiles = cardPiles;
     }
 
     public void setGame(Game game) {

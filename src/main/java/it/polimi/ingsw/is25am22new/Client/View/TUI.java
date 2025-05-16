@@ -482,26 +482,16 @@ public class TUI implements ClientModelObserver,ViewAdapter{
                 commandNotValid = false;
 
                 chosen.setInput(this.input);
-                synchronized(this) {
-                    while(model.getBank() == null) {
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-
-                    if(!chosen.isApplicable(model)) {
-                        System.out.println("Command is not available, try again");
-                        commandNotValid = true;
-                    }
-                    else {
-                        commandNotValid = !chosen.isInputValid(model);
-                        if (commandNotValid)
-                            System.out.println("Invalid input, try again");
-                        else
-                            chosen.execute(model);
-                    }
+                if(!chosen.isApplicable(model)) {
+                    System.out.println("Command is not available, try again");
+                    commandNotValid = true;
+                }
+                else {
+                    commandNotValid = !chosen.isInputValid(model);
+                    if (commandNotValid)
+                        System.out.println("Invalid input, try again");
+                    else
+                        chosen.execute(model);
                 }
             } while (commandNotValid);
         }
