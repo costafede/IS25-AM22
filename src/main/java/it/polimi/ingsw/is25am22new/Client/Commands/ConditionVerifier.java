@@ -26,6 +26,26 @@ public class ConditionVerifier {
         }
     }
 
+    public static boolean gridCoordinatesAreNotOutOfBound(int i, int j, ClientModel model) {
+        GameType gameType = model.getGametype();
+        switch (gameType) {
+            case TUTORIAL:
+                return List.of(                     List.of(0,3),
+                                      List.of(1,2), List.of(1,3), List.of(1,4),
+                        List.of(2,1), List.of(2,2), List.of(2,3), List.of(2,4), List.of(2,5),
+                        List.of(3,1), List.of(3,2), List.of(3,3), List.of(3,4), List.of(3,5),
+                        List.of(4,1), List.of(4,2),               List.of(4,4), List.of(4,5)).contains(List.of(i,j));
+            case LEVEL2:
+                return List.of(                       List.of(0, 2),                List.of(0, 4),
+                                       List.of(1, 1), List.of(1, 2), List.of(1, 3), List.of(1, 4), List.of(1, 5),
+                        List.of(2, 0), List.of(2, 1), List.of(2, 2), List.of(2, 3), List.of(2, 4), List.of(2, 5), List.of(2,6),
+                        List.of(3, 0), List.of(3, 1), List.of(3, 2), List.of(3, 3), List.of(3, 4), List.of(3, 5), List.of(3,6),
+                        List.of(4, 0), List.of(4, 1), List.of(4, 2),                List.of(4, 4), List.of(4, 5), List.of(4,6)).contains(List.of(i,j));
+            default:
+                throw new IllegalStateException("Model has no GameType (LEVEL2 or TUTORIAL)");
+        }
+    }
+
     public static boolean stringIsGoodBlock(String block) {
         return block.equalsIgnoreCase("redblock") ||
                 block.equalsIgnoreCase("blueblock") ||

@@ -32,6 +32,7 @@ public abstract class ComponentTile implements Serializable {
     protected Side rightSide;
     private final String pngName;
     private int color; //needed for the algorithm of checkShipboard
+    private int numOfRotations = 0;  //number of 90 degrees rotations, clockwise if positive, counterclockwise if negative
 
     public ComponentTile(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
         this.topSide = topSide;
@@ -56,6 +57,7 @@ public abstract class ComponentTile implements Serializable {
         leftSide = bottomSide;
         bottomSide = rightSide;
         rightSide = tmp;
+        numOfRotations++;
     }
 
     public void rotateCounterClockwise() {
@@ -64,6 +66,7 @@ public abstract class ComponentTile implements Serializable {
         rightSide = bottomSide;
         bottomSide = leftSide;
         leftSide = tmp;
+        numOfRotations--;
     }
 
     public String getPngName() {
@@ -253,4 +256,8 @@ public abstract class ComponentTile implements Serializable {
     }
 
     public String[] draw() {return null;};
+
+    public int getNumOfRotations() {
+        return numOfRotations;
+    }
 }
