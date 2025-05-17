@@ -4,7 +4,6 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-
 <?import javafx.scene.canvas.Canvas?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.ConnectToServerController">
@@ -38,12 +37,12 @@
         <TextField fx:id="ipAddressField" promptText="Enter IP Address" styleClass="form-field"/>
         <TextField fx:id="portField" promptText="Enter Port" styleClass="form-field"/>
 
-        <Label fx:id="errorLabel" textFill="RED" alignment="CENTER"/>
+        <!-- Enlarged and styled error label -->
+        <Label fx:id="errorLabel" textFill="RED" alignment="CENTER" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
 
-        <!-- Connect button at the bottom -->
+        <!-- Connect button moved slightly lower -->
         <Button fx:id="connectButton" text="CONNECT"
                 styleClass="lobby-button"
-                scaleX="2.0" scaleY="2.0"/>
-                <!--onAction="#connectToServer"/> -->
+                scaleX="2.0" scaleY="2.0" style="-fx-translate-y: 30px;"/>
     </VBox>
 </StackPane>

@@ -444,36 +444,24 @@ public class SocketServerHandler implements VirtualServer {
             Socket socket = new Socket(host, port);
             SocketServerHandler output = new SocketServerHandler(socket.getOutputStream());
             ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
-            boolean joined = false;
             String thisPlayerName = "Player";
 
-            while(!joined) {
-                thisPlayerName = name;
-                output.checkAvailability(thisPlayerName);
-                SocketMessage msg = null;
-                if((msg = (SocketMessage) objectInput.readObject()) != null) {
-                    switch (msg.getCommand()) {
-                        case "LobbyFullOrOutsideLobbyState" -> {
-                            view.displayNicknameResult(false, "Lobby is full or game is already started");
-                        }
-                        case "PlayerAlreadyInLobby" -> {
-                            view.displayNicknameResult(false, "Player already in lobby");
-                        }
-                        case "PlayerAdded" -> {
-                            view.displayNicknameResult(true, "You've successfully joined the lobby!");
-                            joined = true;
-                        }
-                        default -> {
-                            view.displayNicknameResult(false, "Host is configuring the lobby...please retry");
-                        }
+            thisPlayerName = name;
+            output.checkAvailability(thisPlayerName);
+            SocketMessage msg = null;
+            if((msg = (SocketMessage) objectInput.readObject()) != null) {
+                switch (msg.getCommand()) {
+                    case "LobbyFullOrOutsideLobbyState" -> view.displayNicknameResult(false, "Lobby is full or game is already started");
+                    case "PlayerAlreadyInLobby" -> view.displayNicknameResult(false, "Player already in lobby");
+                    case "PlayerAdded" -> {
+                        view.displayNicknameResult(true, "You've successfully joined the lobby!");
+                        SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel, view);
+                        newSocket.run();
+                        return newSocket.getServerHandler();
                     }
+                    default -> view.displayNicknameResult(false, "Host is configuring the lobby...please retry");
                 }
-
-                if(!joined) System.out.println("Try again!");
             }
-            SocketClientSide newSocket = new SocketClientSide(socket, objectInput, output, thisPlayerName, clientModel, view);
-            newSocket.run();
-            return newSocket.getServerHandler();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error connecting to server: " + e.getMessage());
         }

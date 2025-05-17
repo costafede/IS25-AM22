@@ -14,6 +14,7 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -181,13 +182,18 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void displayConnectionResult(boolean isHost, boolean success, String message) {
+        if(success) {
+            Platform.runLater(() -> lobbyController.displayConnectionResult(isHost));
+        } else {
+
+        }
 
     }
 
     @Override
     public void displayNicknameResult(boolean valid, String message) {
         if (!valid) {
-            connectToServerController.showError(message);
+            Platform.runLater(() -> connectToServerController.showError(message));
         } else {
             switchToScene("/it/polimi/ingsw/is25am22new/Lobby.fxml");
         }
@@ -272,5 +278,9 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     public void setVirtualServer(VirtualServer server) {
         GalaxyTruckerGUI.virtualServer = server;
+    }
+
+    public VirtualServer getVirtualServer() {
+        return virtualServer;
     }
 }
