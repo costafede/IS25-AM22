@@ -11,6 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,14 +21,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LobbyController extends FXMLController implements Initializable {
 
     private Stage stage;
     private Scene scene;
-    private Parent root;
-    private boolean isReady = false;
     private boolean isHost = false;
     private int currentPlayerCount = 1;
     private int maxPlayers = 4; // Default value, can be changed based on game settings
@@ -58,11 +59,12 @@ public class LobbyController extends FXMLController implements Initializable {
 
     @FXML
     public void toggleReady(ActionEvent event) {
-        isReady = !isReady;
-        if (isReady) {
-
-        } else {
-
+        if(readyButton.getParent() instanceof HBox parent) {
+            Image readyImage = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/ReadyText.png")).toString());
+            ImageView readyImageView = new ImageView(readyImage);
+            parent.getChildren().remove(readyButton);
+            parent.getChildren().remove(exitButton);
+            parent.getChildren().add(0, readyImageView);
         }
     }
 
