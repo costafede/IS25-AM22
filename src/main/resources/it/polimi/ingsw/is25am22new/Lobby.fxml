@@ -62,7 +62,7 @@
         <HBox spacing="50" alignment="CENTER">
             <Button fx:id="readyButton" text="READY" onAction="#toggleReady"/>
             <Button fx:id="exitButton" text="EXIT" onAction="#exitLobby"/>
-            <Button fx:id="startGameButton" text="START GAME" onAction="#testBuildingShip"/>
+            <Button fx:id="startGameButton" text="START GAME" onAction="#startGame"/>
         </HBox>
     </VBox>
 </StackPane>

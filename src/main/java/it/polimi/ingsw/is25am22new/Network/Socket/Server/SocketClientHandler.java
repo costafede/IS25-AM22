@@ -85,6 +85,7 @@ public class SocketClientHandler implements VirtualView {
             }
         } catch (Exception e) {
             System.out.println("Connection closed on ServerClientHandler: " + this);
+            System.out.println("Error: " + e.getMessage());
         } finally {
             try {
                 if (objectInput != null) objectInput.close();
