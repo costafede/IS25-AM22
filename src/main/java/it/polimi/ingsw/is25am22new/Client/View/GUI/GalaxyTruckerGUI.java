@@ -195,14 +195,17 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         if (!valid) {
             Platform.runLater(() -> connectToServerController.showError(message));
         } else {
-            switchToScene("/it/polimi/ingsw/is25am22new/Lobby.fxml");
+            Platform.runLater(() -> {
+                switchToScene("/it/polimi/ingsw/is25am22new/Lobby.fxml");
+            });
         }
     }
 
     @Override
     public void displayGameStarted() {
-        // Something is wrong doesnt Load the scene
-        switchToScene("/it/polimi/ingsw/is25am22new/BuildingShip.fxml");
+        Platform.runLater(() -> {
+            switchToScene("/it/polimi/ingsw/is25am22new/BuildingShip.fxml");
+        });
     }
 
     @Override
