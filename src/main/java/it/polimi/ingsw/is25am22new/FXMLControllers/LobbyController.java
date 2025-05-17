@@ -52,6 +52,10 @@ public class LobbyController extends FXMLController implements Initializable {
                 newScene.getStylesheets().add(getClass().getResource("/it/polimi/ingsw/is25am22new/styles.css").toExternalForm());
             }
         });
+
+        startGameButton.setDisable(true);
+        readyButton.setDisable(true);
+        exitButton.setDisable(true);
     }
 
     @FXML
@@ -99,12 +103,17 @@ public class LobbyController extends FXMLController implements Initializable {
     //}
 
     @FXML
-    public void testBuildingShip(ActionEvent event) throws IOException {
+    public void startGame(ActionEvent event) throws IOException {
+        galaxyTruckerGUI.getVirtualServer().startGameByHost(galaxyTruckerGUI.getPlayerName());
+    }
+
+    @FXML
+    public void switchToBuildingShip(ActionEvent event) throws IOException {
         // Navigazione alla schermata BuildingShip per test
-        Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/is25am22new/BuildingShip.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/BuildingShip.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/it/polimi/ingsw/is25am22new/styles.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/styles.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
@@ -125,11 +134,15 @@ public class LobbyController extends FXMLController implements Initializable {
             galaxyTruckerGUI.getVirtualServer().setNumPlayers(maxPlayers);
             if (settingsHBox.getParent() instanceof VBox parent) {
                 parent.getChildren().remove(settingsHBox);
-                parent.getChildren().remove(errorLabel);
+                errorLabel.setVisible(false);
             }
         } catch (Exception e) {
             System.out.println("Error setting game type or max players: " + e.getMessage());
         }
+
+        startGameButton.setDisable(false);
+        readyButton.setDisable(false);
+        exitButton.setDisable(false);
     }
 
     public void displayConnectionResult(boolean isHost) {
@@ -146,10 +159,13 @@ public class LobbyController extends FXMLController implements Initializable {
             if (settingsHBox.getParent() instanceof VBox parent) {
                 parent.getChildren().remove(settingsHBox);
             }
+            readyButton.setDisable(false);
+            exitButton.setDisable(false);
         }
     }
 
     public void showError(String message) {
+        errorLabel.setVisible(true);
         errorLabel.setText(message);
     }
 

@@ -185,6 +185,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     public void displayConnectionResult(boolean isHost, boolean success, String message) {
         if(success) {
             Platform.runLater(() -> lobbyController.displayConnectionResult(isHost));
+        } else {
+            Platform.runLater(() -> lobbyController.showError(message));
         }
     }
 
@@ -199,7 +201,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void displayGameStarted() {
-
+        // Something is wrong doesnt Load the scene
+        switchToScene("/it/polimi/ingsw/is25am22new/BuildingShip.fxml");
     }
 
     @Override
