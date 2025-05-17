@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class LobbyController extends FXMLController implements Initializable {
@@ -24,6 +27,9 @@ public class LobbyController extends FXMLController implements Initializable {
     private Scene scene;
     private Parent root;
     private boolean isReady = false;
+    private boolean isHost = false;
+    private int currentPlayerCount = 1;
+    private int maxPlayers = 4; // Default value, can be changed based on game settings
 
     @FXML private ListView<String> playerListView;
     @FXML private Button startGameButton;
@@ -34,14 +40,12 @@ public class LobbyController extends FXMLController implements Initializable {
     @FXML private TextArea statusTextArea;
     @FXML private Label errorLabel;
     @FXML private HBox settingsHBox;
-
-    // Sample data for testing
-    private final ObservableList<String> players = FXCollections.observableArrayList();
+    @FXML private Label gameTypeLabel;
+    @FXML private Label playersLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize UI components
-        playerListView.setItems(players);
         gameTypeComboBox.setItems(FXCollections.observableArrayList("Tutorial", "Level2"));
         maxPlayersComboBox.setItems(FXCollections.observableArrayList("2", "3", "4"));
         // Apply CSS styles for the scene
@@ -73,19 +77,19 @@ public class LobbyController extends FXMLController implements Initializable {
     }
 
     // Methods to be called from networking code
-    public void addPlayer(String playerName) {
-        players.add(playerName);
-        statusTextArea.appendText("\n" + playerName + " has joined the lobby.");
-    }
-
-    public void removePlayer(String playerName) {
-        players.remove(playerName);
-        statusTextArea.appendText("\n" + playerName + " has left the lobby.");
-    }
-
-    public void updatePlayerStatus(String playerName, boolean isReady) {
-        statusTextArea.appendText("\n" + playerName + " is " + (isReady ? "ready" : "not ready") + ".");
-    }
+    //public void addPlayer(String playerName) {
+    //    players.add(playerName);
+    //    statusTextArea.appendText("\n" + playerName + " has joined the lobby.");
+    //}
+    //
+    //public void removePlayer(String playerName) {
+    //    players.remove(playerName);
+    //    statusTextArea.appendText("\n" + playerName + " has left the lobby.");
+    //}
+    //
+    //public void updatePlayerStatus(String playerName, boolean isReady) {
+    //    statusTextArea.appendText("\n" + playerName + " is " + (isReady ? "ready" : "not ready") + ".");
+    //}
 
     @FXML
     public void testBuildingShip(ActionEvent event) throws IOException {
@@ -108,7 +112,7 @@ public class LobbyController extends FXMLController implements Initializable {
             return;
         }
         String gameType = selectedGameType.toLowerCase();
-        int maxPlayers = Integer.parseInt(selectedMaxPlayers);
+        maxPlayers = Integer.parseInt(selectedMaxPlayers);
         try {
             galaxyTruckerGUI.getVirtualServer().setGameType(gameType);
             galaxyTruckerGUI.getVirtualServer().setNumPlayers(maxPlayers);
@@ -122,10 +126,13 @@ public class LobbyController extends FXMLController implements Initializable {
     }
 
     public void displayConnectionResult(boolean isHost) {
+        this.isHost = isHost;
         if(isHost) {
             errorLabel.setText("You are the host! Setup parameters for the game!");
+            setPlayersLabel();
         } else {
             errorLabel.setText("You've successfully joined the lobby!");
+            setPlayersLabel();
             if (startGameButton.getParent() instanceof HBox parent) {
                 parent.getChildren().remove(startGameButton);
             }
@@ -133,5 +140,37 @@ public class LobbyController extends FXMLController implements Initializable {
                 parent.getChildren().remove(settingsHBox);
             }
         }
+    }
+
+    public void showError(String message) {
+        errorLabel.setText(message);
+    }
+
+    public void displayLobbyUpdate(List<String> playerList, Map<String, Boolean> readyStatus, String gameType, boolean isHost){
+        for(String player : playerList) {
+            if(player.equals(GalaxyTruckerGUI.getClientModel().getPlayerName())) {
+                playerList.remove(player);
+                playerList.add(0, player + " (You)");
+            }
+        }
+        ObservableList<String> observableList = FXCollections.observableArrayList(playerList);
+        playerListView.setItems(observableList);
+        gameTypeLabel.setText("Game Type: " + gameType.toUpperCase());
+        currentPlayerCount = playerList.size();
+        setPlayersLabel();
+    }
+
+    private void setPlayersLabel() {
+        if(isHost) {
+            playersLabel.setText("Current Players: " + "(" + currentPlayerCount + "/" + maxPlayers + ")");
+        } else {
+            playersLabel.setText("Current Players: " + "(" + currentPlayerCount + ")");
+        }
+    }
+
+    public void displayPlayerJoined(String playerName) {
+        currentPlayerCount++;
+        playerListView.getItems().add(playerName);
+        setPlayersLabel();
     }
 }

@@ -177,17 +177,14 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
-
+        Platform.runLater(() -> lobbyController.displayLobbyUpdate(players, readyStatus, gameType, isHost));
     }
 
     @Override
     public void displayConnectionResult(boolean isHost, boolean success, String message) {
         if(success) {
             Platform.runLater(() -> lobbyController.displayConnectionResult(isHost));
-        } else {
-
         }
-
     }
 
     @Override
@@ -211,7 +208,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void displayPlayerJoined(String playerName) {
-
+        Platform.runLater(() -> lobbyController.displayPlayerJoined(playerName));
     }
 
     @Override

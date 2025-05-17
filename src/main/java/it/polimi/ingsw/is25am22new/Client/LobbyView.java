@@ -38,7 +38,7 @@ public class LobbyView implements EnhancedClientView {
     private boolean nicknameValid = false;
     private boolean isHostPlayer = false;
     private boolean hostSetupCompleted = false;
-    private int currentPlayerCount = 0;
+    private int currentPlayerCount = 1;
     private int numPlayers = 0;
     private String gameType = null;
     private RmiClient rmiClient;
@@ -233,7 +233,7 @@ public class LobbyView implements EnhancedClientView {
      */
     private void startIfReady(List<String> players, Map<String, Boolean> readyStatus) {
         boolean allReady = true;
-        System.out.println("readyStatus length: " + readyStatus.size());
+        //System.out.println("readyStatus length: " + readyStatus.size());
         for(String player : readyStatus.keySet()) {
             if(!readyStatus.get(player)) {
                 allReady = false;
