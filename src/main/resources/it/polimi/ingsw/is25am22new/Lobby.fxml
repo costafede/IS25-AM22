@@ -10,9 +10,7 @@
 
     <!-- Static Background Image -->
     <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true" opacity="0.7">
-        <image>
-            <Image url="@Graphics/AstronautInSpace.jpg" />
-        </image>
+        <Image url="@Graphics/AstronautInSpace.jpg"/>
     </ImageView>
 
     <!-- Semi-transparent overlay for better text readability -->
@@ -39,7 +37,7 @@
                 <ComboBox fx:id="maxPlayersComboBox" promptText="Enter number" prefWidth="120" />
             </HBox>
 
-            <Button fx:id="confirmSettingsButton" text="CONFIRM" onAction="#confirmSettings"/>
+            <Button text="CONFIRM" onAction="#confirmSettings"/>
         </HBox>
         <Label fx:id="errorLabel" textFill="RED" alignment="CENTER" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
         <HBox alignment="CENTER" spacing="10" maxWidth="600">

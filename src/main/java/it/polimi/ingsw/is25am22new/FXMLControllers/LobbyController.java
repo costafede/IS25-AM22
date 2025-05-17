@@ -19,10 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class LobbyController extends FXMLController implements Initializable {
 
@@ -66,10 +63,18 @@ public class LobbyController extends FXMLController implements Initializable {
             parent.getChildren().remove(exitButton);
             parent.getChildren().add(0, readyImageView);
         }
+        try {
+            galaxyTruckerGUI.getVirtualServer().setPlayerReady(galaxyTruckerGUI.getPlayerName());
+        } catch (Exception e) {
+            System.out.println("Error setting player ready status: " + e.getMessage());
+        }
     }
 
     @FXML
     public void exitLobby(ActionEvent event) throws IOException {
+
+        galaxyTruckerGUI.getVirtualServer().quit(galaxyTruckerGUI.getPlayerName());
+
         // Navigate back to the start menu
         Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -149,16 +154,26 @@ public class LobbyController extends FXMLController implements Initializable {
     }
 
     public void displayLobbyUpdate(List<String> playerList, Map<String, Boolean> readyStatus, String gameType, boolean isHost){
+        List<String> newList = new ArrayList<>();
+        Boolean allReady = true;
         for(String player : playerList) {
             if(player.equals(GalaxyTruckerGUI.getClientModel().getPlayerName())) {
-                playerList.remove(player);
-                playerList.add(0, player + " (You)");
+                newList.add(0, player + " (You)");
+            } else {
+                String readyStatusText = readyStatus.get(player) ? "READY" : "NOT READY";
+                newList.add(player + " (" + readyStatusText + ")");
             }
+            if(!readyStatus.get(player))
+                allReady = false;
         }
-        ObservableList<String> observableList = FXCollections.observableArrayList(playerList);
+
+        if(allReady)
+            statusTextArea.appendText("ALL PLAYERS ARE READY! PREPARE TO START!\n");
+
+        ObservableList<String> observableList = FXCollections.observableArrayList(newList);
         playerListView.setItems(observableList);
         gameTypeLabel.setText("Game Type: " + gameType.toUpperCase());
-        currentPlayerCount = playerList.size();
+        currentPlayerCount = newList.size();
         setPlayersLabel();
     }
 
@@ -174,5 +189,6 @@ public class LobbyController extends FXMLController implements Initializable {
         currentPlayerCount++;
         playerListView.getItems().add(playerName);
         setPlayersLabel();
+        statusTextArea.appendText(playerName + " has joined the lobby!\n");
     }
 }
