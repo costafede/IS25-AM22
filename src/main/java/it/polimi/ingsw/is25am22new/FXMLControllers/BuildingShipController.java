@@ -13,7 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -67,10 +67,11 @@ public class BuildingShipController extends FXMLController implements Initializa
             shipboardImage.setImage(new Image(getClass().getResource("GraficheGioco/cardboard/cardboard-1b.jpg").toExternalForm()));
             // TODO: devo mostrare la clessidra e la flightboard rendendole interagibili
         }
+        drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
     }
 
     @FXML
-    public void pickCoveredTile(ActionEvent event) {
+    public void pickCoveredTile(MouseEvent event) {
         // Qui implementerai la logica per selezionare una tessera coperta
         try {
             virtualServer.pickCoveredTile(model.getPlayerName());
@@ -80,9 +81,22 @@ public class BuildingShipController extends FXMLController implements Initializa
         }
     }
 
-    public void rotateTileInHand(ActionEvent event) {
+    @FXML
+    public void rotateTileInHand(MouseEvent event) {
         numOfRotations++;
+        ((ImageView) event.getSource()).setRotate(90 * numOfRotations);
+    }
 
+    @FXML
+    public void discardComponentTile(MouseEvent event) {
+        numOfRotations = 0;
+        tileInHand.setImage(null);
+        try {
+            virtualServer.discardComponentTile(model.getPlayerName());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -91,20 +105,34 @@ public class BuildingShipController extends FXMLController implements Initializa
      * se non è vuoto disegno il tile lì presente con il giusto numero di rotazioni
      * */
     public void drawShipInBuildingPhase(Shipboard shipboard) {
-        componentTilesGrid.getChildren().clear();
-        for(int i = 0; i < 5; i++){
-            for(int j = 0; j < 7; j++){
-                Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i,j);
-                if(ct.isEmpty() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)){
-                    setDropZone(i, j);
-                    numOfRotations = 0;
-                }
-                else {
-                    StackPane wrapper = getComponentTileImage(ct.get().getPngName(), ct.get().getNumOfRotations());
-                    componentTilesGrid.add(wrapper, j, i);
+        if(shipboard.getNickname().equals(model.getPlayerName())) {
+            //draw grid
+            componentTilesGrid.getChildren().clear();
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 7; j++) {
+                    Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
+                    if (ct.isEmpty() || !ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
+                        setDropZone(i, j);
+                    } else {
+                        StackPane wrapper = getComponentTileImageForGrid(ct.get().getPngName(), ct.get().getNumOfRotations());
+                        componentTilesGrid.add(wrapper, j, i);
+                    }
                 }
             }
+            //draw tile in hand
+            if(shipboard.getTileInHand() == null) {
+                tileInHand.setImage(null);
+                numOfRotations = 0;
+            }
+            else {
+                tileInHand.setImage(new Image(getClass().getResource("GraficheGioco/tiles/" + shipboard.getTileInHand().getPngName()).toExternalForm()));
+                tileInHand.setRotate(90 * numOfRotations);
+            }
         }
+        else {
+            //draw ship without buttons
+        }
+
     }
 
     public void drawShipInPlaceMembersPhase(Shipboard shipboard) {
@@ -121,19 +149,25 @@ public class BuildingShipController extends FXMLController implements Initializa
         * TUTTI I METODI CHE RIMUOVONO IL TILE IN HAND DI MANO DEVONO SETTARE NUM OF ROTATIONS A ZERO
         * */
 
-    private Node getNodeAtPosition(GridPane gridPane, int row, int column) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                return node;
-            }
-        }
-        return null; // Return null if no node is found at the specified position
+    @FXML
+    private void handleDragDetectedTileInHand(MouseEvent event) {
+        if (tileInHand.getImage() == null) return;
+
+        Dragboard db = tileInHand.startDragAndDrop(TransferMode.MOVE);
+        ClipboardContent content = new ClipboardContent();
+        content.putImage(tileInHand.getImage());
+        db.setContent(content);
+
+        event.consume();
     }
 
-    //debug method
-    public void debug(){
-        Shipboard shipboard = new Shipboard("red", "io", null);
-        drawShipInBuildingPhase(shipboard);
+    @FXML
+    private void handleDragDoneTileInHand(DragEvent event) {
+        if (event.getTransferMode() == TransferMode.MOVE) {
+            tileInHand.setImage(null); // Rimuove l'immagine dalla sorgente
+            numOfRotations = 0;
+        }
+        event.consume();
     }
 
     /**
@@ -147,16 +181,25 @@ public class BuildingShipController extends FXMLController implements Initializa
         GridPane.setVgrow(dropZone, Priority.ALWAYS);
         componentTilesGrid.add(dropZone, j, i);
         dropZone.setOnDragOver(event -> {
-            event.acceptTransferModes(TransferMode.ANY);
+            if (event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
             event.consume();
         });
         dropZone.setOnDragDropped(event -> {
-            try {
-                virtualServer.weldComponentTile(model.getPlayerName(), i, j, numOfRotations);
-            } catch (IOException e) {
-                e.printStackTrace();
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+
+            if (db.hasImage()) {
+                try {
+                    virtualServer.weldComponentTile(model.getPlayerName(), i, j, numOfRotations);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                success = true;
             }
-            event.setDropCompleted(true);
+
+            event.setDropCompleted(success);
             event.consume();
         });
     }
@@ -164,7 +207,7 @@ public class BuildingShipController extends FXMLController implements Initializa
     /**
      * Returns a StackPane wrapping the image with the given name
      */
-    private StackPane getComponentTileImage(String pngName, int numOfRotations) {
+    private StackPane getComponentTileImageForGrid(String pngName, int numOfRotations) {
         Image image = new Image(getClass().getResource("GraficheGioco/tiles/" + pngName).toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);

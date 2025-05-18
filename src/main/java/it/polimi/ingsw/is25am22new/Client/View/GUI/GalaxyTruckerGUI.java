@@ -99,7 +99,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
         switch(gamePhase.getPhaseType()){
-            case BUILDING -> buildingShipController.drawScene();
+            case BUILDING -> Platform.runLater(() -> buildingShipController.drawScene());
             case CARD -> cardPhaseController.drawScene();
         }
     }
@@ -121,7 +121,9 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateShipboards(Map<String, Shipboard> shipboards) {
-
+        for(Shipboard shipboard : shipboards.values()){
+            updateShipboard(shipboard);
+        }
     }
 
     @Override
@@ -132,7 +134,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     @Override
     public void updateShipboard(Shipboard shipboard) {
         switch (clientModel.getGamePhase().getPhaseType()) {
-            case BUILDING -> buildingShipController.drawShipInBuildingPhase(shipboard);
+            case BUILDING -> Platform.runLater(() -> buildingShipController.drawShipInBuildingPhase(shipboard));
             case PLACECREWMEMBERS -> buildingShipController.drawShipInPlaceMembersPhase(shipboard);
             case CORRECTINGSHIP -> buildingShipController.drawShipInCorrectingShipPhase(shipboard);
             case CARD -> cardPhaseController.drawShip();

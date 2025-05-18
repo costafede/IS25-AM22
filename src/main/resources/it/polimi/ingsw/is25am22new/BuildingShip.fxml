@@ -36,7 +36,7 @@
       </GridPane>
       <Pane layoutX="1060.0" layoutY="500.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #5dade2; -fx-background-radius: 15;">
          <children>
-            <ImageView fx:id="tileInHand" fitHeight="139.0" fitWidth="99.0" layoutX="54.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="tileInHand" fitHeight="139.0" fitWidth="121.0" layoutX="42.0" layoutY="62.0" onDragDetected="#handleDragDetectedTileInHand" onDragDone="#handleDragDoneTileInHand" onMouseClicked="#rotateTileInHand" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Graphics/Icon.png" />
                </image>
@@ -59,7 +59,7 @@
       </GridPane>
       <Pane layoutX="1060.0" layoutY="280.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FF0000; -fx-background-radius: 15;">
          <children>
-            <ImageView fx:id="tileInHand1" fitHeight="112.0" fitWidth="180.0" layoutX="12.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="112.0" fitWidth="180.0" layoutX="12.0" layoutY="55.0" onMouseClicked="#discardComponentTile" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Misc/bin.png" />
                </image>
@@ -71,9 +71,9 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="1059.0" layoutY="59.0" onMouseClicked="#pickCoveredTile" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00AA00; -fx-background-radius: 15;">
+      <Pane layoutX="1059.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #00AA00; -fx-background-radius: 15;">
          <children>
-            <ImageView fx:id="tileInHand11" fitHeight="112.0" fitWidth="180.0" layoutX="40.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="112.0" fitWidth="180.0" layoutX="40.0" layoutY="61.0" onMouseClicked="#pickCoveredTile" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Misc/palm-of-hand.png" />
                </image>
