@@ -269,7 +269,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         });
     }
 
-    public void finishedAllShipboards() throws IOException {
+    public void finishedAllShipboards() {
         executor.submit(() -> {
             try {
                 server.finishedAllShipboards();

@@ -30,7 +30,6 @@ import java.util.Map;
  * The RmiServer class is responsible for managing the server-side implementation of the virtual server
  * in a distributed RMI-based system. It extends UnicastRemoteObject and functions as both an ObserverModel
  * and a VirtualServer, handling communication between client-side views and the server-side game logic.
- *
  * The class maintains the connection state of clients, handles updates to the game state, and implements
  * various functionalities required to manage a multiplayer game. It supports client connection and
  * disconnection, game setup, in-game operations, and real-time state updates. Additionally, the server
@@ -67,14 +66,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         registry.rebind(SERVER_NAME, this);
         System.out.println("RMI Server bound to registry - it is running on port " + port + "...");
 
-//        //Close server when the game is over
-//        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-//            try {
-//                UnicastRemoteObject.unexportObject(this, true);
-//            } catch (NoSuchObjectException e) {
-//                System.err.println("Error unexporting RMI object: " + e.getMessage());
-//            }
-//        }));
     }
 
     @Override

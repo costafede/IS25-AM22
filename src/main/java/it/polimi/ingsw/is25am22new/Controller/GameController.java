@@ -265,22 +265,6 @@ public class GameController {
         }
     }
 
-    //public void rotateClockwise(String player) {
-    //    if(currentState == GameState.GAME) {
-    //        game.rotateClockwise(player);
-    //    } else {
-    //        System.out.println("Player " + player + " cannot rotate clockwise outside game state.");
-    //    }
-    //}
-    //
-    //public void rotateCounterClockwise(String player) {
-    //    if(currentState == GameState.GAME) {
-    //        game.rotateCounterClockwise(player);
-    //    } else {
-    //        System.out.println("Player " + player + " cannot rotate counterclockwise outside game state.");
-    //    }
-    //}
-
     public void rotateClockwise(String player, int rotationNum) {
         if(currentState == GameState.GAME) {
             for(int i = 0; i < rotationNum; i++) {
