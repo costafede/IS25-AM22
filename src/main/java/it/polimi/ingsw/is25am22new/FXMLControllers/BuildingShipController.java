@@ -51,7 +51,7 @@ public class BuildingShipController extends FXMLController implements Initializa
             }
         }
 
-        if(GalaxyTruckerGUI.getClientModel().getGametype().equals("tutorial")) {
+        if(GalaxyTruckerGUI.getClientModel().getGametype() == GameType.TUTORIAL) {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground.png")).toString()));
         } else {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
