@@ -13,12 +13,7 @@
    <children>
       <ImageView id="backGround" fx:id="backGround" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
          <image>
-            <Image url="@Graphics/GalaxyBackground.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="shipboardImage" fitHeight="460.0" fitWidth="640.0" layoutX="70.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true" scaleX="1.2" scaleY="1.2">
-         <image>
-            <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
+            <Image url="@Graphics/BuildingShipSceneBackground.png" />
          </image>
       </ImageView>
       <GridPane fx:id="componentTilesGrid" layoutX="34.0" layoutY="181.0" prefHeight="510.0" prefWidth="706.0">

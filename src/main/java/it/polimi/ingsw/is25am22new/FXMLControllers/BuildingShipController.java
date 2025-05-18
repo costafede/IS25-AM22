@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -20,25 +21,20 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class BuildingShipController extends FXMLController implements Initializable {
-    @FXML
-    private Canvas galaxyBackground;
-
-    @FXML
-    private ImageView coveredTilesHeap;
+    @FXML private Canvas galaxyBackground;
+    @FXML private ImageView coveredTilesHeap;
+    @FXML private ImageView tileInHand;
+    @FXML private GridPane componentTilesGrid;
+    @FXML private GridPane standByComponentsGrid;
+    @FXML private ImageView shipboardImage;
+    @FXML private ImageView backGround;
 
     private GalaxyBackground animatedBackground;
-    @FXML
-    private ImageView tileInHand;
-    @FXML
-    private GridPane componentTilesGrid;
-    @FXML
-    private GridPane standByComponentsGrid;
-    @FXML
-    private ImageView shipboardImage;
 
     private int numOfRotations; //set it to zero each time a weld is succesfully done
 
@@ -53,6 +49,12 @@ public class BuildingShipController extends FXMLController implements Initializa
                 int index = galaxyBackground.getParent().getChildrenUnmodifiable().indexOf(galaxyBackground);
                 ((javafx.scene.layout.StackPane) galaxyBackground.getParent()).getChildren().set(index, animatedBackground);
             }
+        }
+
+        if(GalaxyTruckerGUI.getClientModel().getGametype().equals("tutorial")) {
+            backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground.png")).toString()));
+        } else {
+            backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
         }
     }
 
