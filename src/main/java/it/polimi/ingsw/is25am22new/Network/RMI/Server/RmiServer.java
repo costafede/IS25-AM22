@@ -26,6 +26,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The RmiServer class is responsible for managing the server-side implementation of the virtual server
+ * in a distributed RMI-based system. It extends UnicastRemoteObject and functions as both an ObserverModel
+ * and a VirtualServer, handling communication between client-side views and the server-side game logic.
+ *
+ * The class maintains the connection state of clients, handles updates to the game state, and implements
+ * various functionalities required to manage a multiplayer game. It supports client connection and
+ * disconnection, game setup, in-game operations, and real-time state updates. Additionally, the server
+ * can monitor client heartbeats to manage client disconnections.
+ */
 public class RmiServer extends UnicastRemoteObject implements ObserverModel, VirtualServer {
 
     private final GameController gameController;
@@ -35,6 +45,15 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     private final HeartbeatManager heartbeatManager;
     private final Registry registry;
 
+    /**
+     * Initializes the RMI server and binds it to the registry on the specified port.
+     * The server manages client connections, communication, and disconnections, as well as
+     * provides game-related updates through remote method invocation.
+     *
+     * @param gameController the GameController instance that manages the game logic and state
+     * @param port the port number on which the RMI server will listen for incoming connections
+     * @throws RemoteException if a networking-related issue occurs during initialization
+     */
     public RmiServer(GameController gameController, int port) throws RemoteException {
         super();
         this.gameController = gameController;
@@ -108,6 +127,13 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         return "rmi";
     }
 
+    /**
+     * Handles the disconnection of a client due to a heartbeat timeout.
+     * Removes the client from the connectedClients list and clientMap.
+     * Shuts down the server if an error occurs during the process.
+     *
+     * @param nickname the nickname of the client that has disconnected due to a heartbeat timeout
+     */
     private void handleHeartbeatDisconnect(String nickname) {
         try {
             System.out.println("Heartbeat timeout for client: " + nickname);
@@ -125,6 +151,15 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
     }
 
+    /**
+     * Connects a client to the game server. Validates the provided nickname and manages
+     * the client's addition to the game lobby, ensuring the lobby's constraints are met.
+     * Provides feedback to the client regarding the success of the connection attempt.
+     *
+     * @param client the VirtualView instance representing the client attempting to connect
+     * @param nickname the nickname selected by the client for the connection
+     * @throws RemoteException if a networking-related error occurs during interaction with the client
+     */
     public void connect(VirtualView client, String nickname) throws RemoteException {
         if (client == null) {
             System.err.println("Client reference is null.");
@@ -434,6 +469,14 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         }
     }
 
+    /**
+     * Handles the disconnection of a client due to a RemoteException.
+     * Removes the client from the connected clients list, cleans up the client-to-nickname mapping,
+     * and updates the game controller to reflect the removal of the player.
+     *
+     * @param client the VirtualView instance representing the disconnected client
+     * @param e the RemoteException that caused the disconnection
+     */
     private void handleClientError(VirtualView client, RemoteException e) {
         System.err.println("Client " + client.getClass() + " disconnected: " + e.getMessage());
         synchronized (connectedClients) {

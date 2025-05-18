@@ -14,6 +14,11 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ObserverModel defines an interface for observing and updating the state of various game-related components
+ * in a distributed or interactive gaming environment. Implementations of this interface will be notified
+ * and provided with updated information whenever relevant changes occur in the game.
+ */
 public interface ObserverModel {
     void updateBank(Bank bank);
     void updateTileInHand(String player, ComponentTile ct);

@@ -6,6 +6,12 @@ import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * The VirtualServer interface defines the contract for a remote server in the
+ * multiplayer game environment. It provides methods for player connectivity,
+ * game management, and game mechanics, enabling interaction between clients
+ * and the server.
+ */
 public interface VirtualServer extends Remote {
 
     void connect(VirtualView client, String nickname) throws RemoteException;

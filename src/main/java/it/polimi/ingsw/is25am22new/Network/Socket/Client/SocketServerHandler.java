@@ -15,6 +15,17 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * SocketServerHandler is a class responsible for handling socket-based server communication
+ * in a multiplayer game environment. It serves as an implementation of the VirtualServer
+ * interface, facilitating client-server interactions by managing player states, game actions,
+ * and client connections.
+ *
+ * This class handles various game-related operations such as setting player readiness,
+ * starting a game, picking and discarding components, manipulating tiles on the game board,
+ * flipping hourglasses, activating cards, and more. It also manages the connection state of
+ * players and the communication between the client and server via sockets.
+ */
 public class SocketServerHandler implements VirtualServer {
     final ObjectOutputStream objectOutput;
     public SocketServerHandler(OutputStream os) throws IOException {
@@ -382,6 +393,19 @@ public class SocketServerHandler implements VirtualServer {
         return "socket";
     }
 
+    /**
+     * Establishes a connection to the server using a Text-Based User Interface (TUI).
+     * This method handles user input for selecting a nickname and interacts with the server
+     * to join the lobby, ensuring the connection is properly initiated.
+     *
+     * @param args an array of strings containing the host address and port number as the first and second elements respectively
+     * @param clientModel the client-side representation of the game model
+     * @param scanner a Scanner object for reading user input
+     * @param enhancedClientView the enhanced view object used for display purposes
+     * @return a SocketServerHandler object that facilitates communication with the server, or null if the connection fails
+     * @throws InterruptedException if the thread is interrupted while waiting
+     * @throws ClassNotFoundException if the class of a serialized object cannot be found
+     */
     public static SocketServerHandler connectToServerTUI(String[] args, ClientModel clientModel, Scanner scanner, EnhancedClientView enhancedClientView) throws InterruptedException, ClassNotFoundException {
         String host = args[0];
         int port = Integer.parseInt(args[1]);
@@ -439,6 +463,20 @@ public class SocketServerHandler implements VirtualServer {
         return null;
     }
 
+    /**
+     * Establishes a connection to the server using a Graphical User Interface (GUI) and performs
+     * the necessary interactions to join the lobby or handle connection issues.
+     * This method ensures proper communication setup between the client and server.
+     *
+     * @param host the server's hostname or IP address
+     * @param port the port number on which the server is listening
+     * @param name the player's chosen nickname
+     * @param clientModel the client-side representation of the game model
+     * @param view the GUI object used for display and user interaction
+     * @return a SocketServerHandler object that facilitates communication with the server,
+     *         or null if the connection fails
+     * @throws InterruptedException if the thread is interrupted while waiting
+     */
     public static SocketServerHandler connectToServerGUI(String host, int port, String name, ClientModel clientModel, GalaxyTruckerGUI view) throws InterruptedException {
         try {
             Socket socket = new Socket(host, port);

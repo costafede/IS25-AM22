@@ -16,6 +16,15 @@ package it.polimi.ingsw.is25am22new.Network;
     import java.util.List;
     import java.util.Map;
 
+    /**
+     * The VirtualView interface represents an abstraction for updating the game state
+     * on the client-side through remote procedure calls. It is intended to be implemented
+     * by classes that act as views for a remote client in a client-server architecture.
+     *
+     * It provides methods to update various components of the game's state and lobby details,
+     * ensuring the client remains synchronized with the server. Additionally, it supports
+     * displaying messages, game phase updates, player readiness states, and other game-related data.
+     */
     public interface VirtualView extends Remote {
 
         void showUpdateBank(Bank bank) throws RemoteException;

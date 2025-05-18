@@ -28,6 +28,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The RmiClient class serves as a Remote Method Invocation (RMI) client for connecting
+ * and interacting with a remote VirtualServer. It provides a variety of methods to manage
+ * the client's interaction with the game, including connecting to the server, managing
+ * players, and executing game-related actions asynchronously. The class also handles
+ * communication between the EnhancedClientView and the server.
+ */
 public class RmiClient extends UnicastRemoteObject implements VirtualView, VirtualServer {
 
     ClientModel clientModel;
@@ -46,8 +53,15 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         this.clientModel = clientModel;
     }
 
-    /*
-     * Creates a VirtualServer connection through RMI
+    /**
+     * Establishes a connection to a remote server using Java RMI. This method locates
+     * the registry running on the provided host and port, and retrieves a reference
+     * to the remote server object.
+     *
+     * @param host the hostname or IP address of the RMI registry
+     * @param port the port number on which the RMI registry is running
+     * @throws RemoteException if an error occurs during communication with the registry
+     * @throws NotBoundException if the specified name is not bound in the registry
      */
     public void connectToServer(String host, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(host, port);
@@ -56,8 +70,13 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         this.server = server;
     }
 
-    /*
-     * Run the RMI client
+    /**
+     * Executes the main client logic for connecting to the server and initializing the game.
+     * This method handles user input for the player's nickname, validates it with the server,
+     * and starts the client's command loop upon successful connection.
+     *
+     * @param playerName the initial nickname of the player; can be null or empty to prompt for input
+     * @param scanner a {@code Scanner} object used to read input from the console
      */
     public void run(String playerName, Scanner scanner) {
         try {
@@ -348,6 +367,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         }
     }
 
+    /**
+     * Terminates the client's operations by performing the following actions:
+     * 1. Stops the heartbeat scheduler if it is running to cease ongoing periodic tasks.
+     * 2. Attempts to shut down the thread executor gracefully, allowing tasks to finish within a specified timeout.
+     * 3. If tasks do not complete within the timeout period, forces an immediate shutdown of the executor.
+     * 4. Handles any interruptions during the shutdown process by forcing an immediate shutdown.
+     * 5. Exits the application with a status code of zero, indicating a normal termination.
+     */
     public void shutdown() {
         if (heartbeatScheduler != null) {
             heartbeatScheduler.shutdown();
@@ -471,6 +498,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         this.playerName = testPlayer;
     }
 
+    /**
+     * Starts a periodic heartbeat task for the specified player to maintain communication with the virtual server.
+     * The task sends a heartbeat signal to the server at regular intervals of 3 seconds. If the server fails to
+     * acknowledge the heartbeat, the scheduler is shut down and the client is terminated.
+     *
+     * @param playerName the name of the player whose heartbeat is being monitored
+     * @param server the virtual server to which the heartbeat signal is sent
+     */
     private void startHeartbeat(String playerName, VirtualServer server) {
         //System.out.println("Starting heartbeat for: " + playerName);
         heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();
