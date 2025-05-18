@@ -23,8 +23,6 @@ import java.util.*;
 
 public class LobbyController extends FXMLController implements Initializable {
 
-    private Stage stage;
-    private Scene scene;
     private boolean isHost = false;
     private int currentPlayerCount = 1;
     private int maxPlayers = 4; // Default value, can be changed based on game settings
@@ -49,7 +47,7 @@ public class LobbyController extends FXMLController implements Initializable {
         // Apply CSS styles for the scene
         readyButton.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
-                newScene.getStylesheets().add(getClass().getResource("/it/polimi/ingsw/is25am22new/styles.css").toExternalForm());
+                newScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/styles.css")).toExternalForm());
             }
         });
 
@@ -65,7 +63,7 @@ public class LobbyController extends FXMLController implements Initializable {
             ImageView readyImageView = new ImageView(readyImage);
             parent.getChildren().remove(readyButton);
             parent.getChildren().remove(exitButton);
-            parent.getChildren().add(0, readyImageView);
+            parent.getChildren().addFirst(readyImageView);
         }
         try {
             galaxyTruckerGUI.getVirtualServer().setPlayerReady(galaxyTruckerGUI.getPlayerName());
@@ -80,27 +78,12 @@ public class LobbyController extends FXMLController implements Initializable {
         galaxyTruckerGUI.getVirtualServer().quit(galaxyTruckerGUI.getPlayerName());
 
         // Navigate back to the start menu
-        Parent root = FXMLLoader.load(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-
-    // Methods to be called from networking code
-    //public void addPlayer(String playerName) {
-    //    players.add(playerName);
-    //    statusTextArea.appendText("\n" + playerName + " has joined the lobby.");
-    //}
-    //
-    //public void removePlayer(String playerName) {
-    //    players.remove(playerName);
-    //    statusTextArea.appendText("\n" + playerName + " has left the lobby.");
-    //}
-    //
-    //public void updatePlayerStatus(String playerName, boolean isReady) {
-    //    statusTextArea.appendText("\n" + playerName + " is " + (isReady ? "ready" : "not ready") + ".");
-    //}
 
     @FXML
     public void startGame(ActionEvent event) throws IOException {
@@ -129,7 +112,6 @@ public class LobbyController extends FXMLController implements Initializable {
             System.out.println("Error setting game type or max players: " + e.getMessage());
         }
 
-        startGameButton.setDisable(false);
         readyButton.setDisable(false);
         exitButton.setDisable(false);
     }
@@ -160,20 +142,22 @@ public class LobbyController extends FXMLController implements Initializable {
 
     public void displayLobbyUpdate(List<String> playerList, Map<String, Boolean> readyStatus, String gameType, boolean isHost){
         List<String> newList = new ArrayList<>();
-        Boolean allReady = true;
+        boolean allReady = true;
         for(String player : playerList) {
             if(player.equals(GalaxyTruckerGUI.getClientModel().getPlayerName())) {
-                newList.add(0, player + " (You)");
+                newList.addFirst(player + " (You)");
             } else {
                 String readyStatusText = readyStatus.get(player) ? "READY" : "NOT READY";
                 newList.add(player + " (" + readyStatusText + ")");
             }
-            if(!readyStatus.get(player))
+            if(!readyStatus.get(player) || playerList.size() != maxPlayers)
                 allReady = false;
         }
 
-        if(allReady)
+        if(allReady && playerList.size() != 1) {
             statusTextArea.appendText("ALL PLAYERS ARE READY! PREPARE TO START!\n");
+            startGameButton.setDisable(false);
+        }
 
         ObservableList<String> observableList = FXCollections.observableArrayList(newList);
         playerListView.setItems(observableList);
