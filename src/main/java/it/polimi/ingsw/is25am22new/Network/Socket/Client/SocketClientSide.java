@@ -25,6 +25,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+/**
+ * The SocketClientSide class serves as a client-side representation for handling socket-based communication
+ * between the client and server in a multiplayer game. It implements the VirtualView interface
+ * to update and display client-side data, and manages incoming and outgoing socket messages.
+ * This class provides mechanisms for handling real-time updates, managing player interactions,
+ * and keeping the state in sync with the server.
+ */
 public class SocketClientSide implements VirtualView {
 
     ClientModel clientModel;
@@ -51,6 +58,14 @@ public class SocketClientSide implements VirtualView {
         commandMap = new HashMap<>();
         initializeCommandMap();
     }
+
+    /**
+     * Initializes the command map with key-value pairs, where the key represents a specific message
+     * type and the value is the corresponding method reference or lambda function to handle that message type.
+     * These handler methods are invoked dynamically based on the message type received during execution.
+     * The message handling logic ranges from processing game states, player actions, or system events
+     * to updating the client-side view with new game information.
+     */
     private void initializeCommandMap() {
         commandMap.put("Bank", this::handleBank);
         commandMap.put("TileInHand", this::handleTileInHand);
@@ -77,6 +92,15 @@ public class SocketClientSide implements VirtualView {
         commandMap.put("updateTest", this::handleUpdateTest);
     }
 
+    /**
+     * Executes the main sequence of client-side operations, including running a virtual server,
+     * starting a heartbeat mechanism, setting the player's nickname in the model,
+     * and initiating the socket-based command loop for the lobby view.
+     *
+     * @param scanner the {@code Scanner} instance used to read input, typically for parsing commands or user input
+     * @throws IOException if an I/O error occurs during communication or file access
+     * @throws InterruptedException if the thread is interrupted during a sleep or execution process
+     */
     public void run(Scanner scanner) throws IOException, InterruptedException {
         new Thread(() -> {
             try {
@@ -92,6 +116,18 @@ public class SocketClientSide implements VirtualView {
         ((LobbyView) view).startCommandLoopSocket(this.output, thisPlayerName, scanner);
     }
 
+    /**
+     * Executes a sequence of actions for the client-side component of the networked game.
+     * It starts by launching a new thread to execute the virtual server loop, which handles
+     * incoming socket messages and dispatches them to corresponding handlers. Afterward, it
+     * introduces a short delay before triggering essential client-side operations.
+     *
+     * Specifically, it initiates a heartbeat mechanism that periodically sends signals to indicate
+     * that the client is active. It also sets the player's nickname in the client model, allowing
+     * synchronization between the server and client regarding the player's identity.
+     *
+     * @throws InterruptedException if the thread sleep operation is interrupted during execution
+     */
     public void run() throws InterruptedException {
         new Thread(() -> {
             try {
@@ -106,6 +142,20 @@ public class SocketClientSide implements VirtualView {
         clientModel.setPlayerName(thisPlayerName);
     }
 
+    /**
+     * Executes the virtual server loop, which listens for incoming socket messages
+     * and processes them dynamically based on their associated commands.
+     *
+     * An incoming message is deserialized from the input stream and matched against
+     * a pre-initialized command map. The map defines handlers for recognized commands.
+     * If a command is unrecognized, a default handler is invoked to manage invalid messages.
+     *
+     * The loop continues until all messages are processed or an exception occurs, such as
+     * when the connection is closed or an error interrupts the reading process.
+     *
+     * On termination of the loop, a cleanup procedure is executed to release resources
+     * and close the connection gracefully.
+     */
     public void runVirtualServer() {
         SocketMessage msg;
 
@@ -235,6 +285,15 @@ public class SocketClientSide implements VirtualView {
         return output;
     }
 
+    /**
+     * Starts a periodic heartbeat mechanism for the specified player. The heartbeat sends
+     * regular signals to the provided VirtualServer to indicate that the client is active.
+     * If a failure occurs during heartbeat transmission, the scheduler is shut down to
+     * stop further attempts.
+     *
+     * @param playerName the name of the player for whom the heartbeat is being initiated
+     * @param output the VirtualServer instance used to send the heartbeat signals
+     */
     private void startHeartbeat(String playerName, VirtualServer output) {
         //System.out.println("Starting heartbeat for: " + playerName);
         heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();

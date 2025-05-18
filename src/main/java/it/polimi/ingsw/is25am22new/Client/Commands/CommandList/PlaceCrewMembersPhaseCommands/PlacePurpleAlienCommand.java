@@ -11,6 +11,12 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.util.Optional;
 
+/**
+ * PlacePurpleAlienCommand handles the placement of a purple alien on the shipboard
+ * during the game phase that involves placing crew members. It extends AbstractCommand
+ * and defines the specific behavior for validating input, checking applicability, and
+ * executing the placement action via the VirtualServer.
+ */
 public class PlacePurpleAlienCommand extends AbstractCommand {
     public PlacePurpleAlienCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

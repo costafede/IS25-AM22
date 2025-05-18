@@ -6,6 +6,24 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The FinishBuildingCommand class represents a command issued by a player to indicate
+ * that they have completed their shipboard construction during the BUILDING or
+ * CORRECTINGSHIP phases of the game. This command ensures the player follows the
+ * rules for finalizing their construction.
+ *
+ * The command is applicable only under specific conditions where:
+ * - The game phase is either BUILDING or CORRECTINGSHIP.
+ * - The player's shipboard is not already finalized.
+ *
+ * The input for this command is validated to ensure:
+ * - The input consists of a single valid index (1 to 4).
+ * - The position associated with the input index is free on the flightboard.
+ *
+ * Upon execution, the command communicates with the VirtualServer to inform
+ * that the player has finished building their shipboard. It handles any exceptions
+ * during server communication gracefully by logging the error message.
+ */
 public class FinishBuildingCommand extends AbstractCommand {
     public FinishBuildingCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

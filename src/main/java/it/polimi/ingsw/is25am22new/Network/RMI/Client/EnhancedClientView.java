@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * This interface defines the contract for a user interface component
+ * responsible for providing an enhanced view for the client in a game.
+ * It includes methods for updating the UI based on game and connection state,
+ * as well as managing player-related information.
+ */
 public interface EnhancedClientView {
     void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost);
     void displayConnectionResult(boolean isHost, boolean success, String message);

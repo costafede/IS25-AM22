@@ -2,6 +2,11 @@ package it.polimi.ingsw.is25am22new.Network.Socket;
 
 import java.io.Serializable;
 
+/**
+ * Represents a message that can be sent or received via a socket connection.
+ * This class is used to encapsulate the necessary data for socket-based communication,
+ * including a command, an object, and an optional payload.
+ */
 public class SocketMessage implements Serializable {
     private String command;
     private Object object;

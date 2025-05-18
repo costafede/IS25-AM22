@@ -2,6 +2,10 @@ package it.polimi.ingsw.is25am22new.Client.Commands;
 
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
+/**
+ * The StringConverter class provides utility methods to convert string representations
+ * into specific objects or values used within the application.
+ */
 public class StringConverter {
     public static GoodBlock stringToGoodBlock(String block) {
         if(block.equalsIgnoreCase("redblock"))

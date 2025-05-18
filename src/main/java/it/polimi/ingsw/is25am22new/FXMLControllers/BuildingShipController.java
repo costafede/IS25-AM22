@@ -1,7 +1,7 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
-import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -26,7 +25,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class BuildingShipController extends FXMLController implements Initializable {
-    @FXML private Canvas galaxyBackground;
     @FXML private ImageView coveredTilesHeap;
     @FXML private ImageView tileInHand;
     @FXML private GridPane componentTilesGrid;
@@ -34,27 +32,26 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML private ImageView shipboardImage;
     @FXML private ImageView backGround;
 
-    private GalaxyBackground animatedBackground;
+    private GalaxyStarsEffect animatedBackground;
 
     private int numOfRotations; //set it to zero each time a weld is succesfully done
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Inizializzazione dello sfondo animato
-        if (galaxyBackground != null) {
-            galaxyBackground.setWidth(1280);
-            galaxyBackground.setHeight(720);
-            animatedBackground = new GalaxyBackground(1280, 720);
-
-            if (galaxyBackground.getParent() != null) {
-                int index = galaxyBackground.getParent().getChildrenUnmodifiable().indexOf(galaxyBackground);
-                ((javafx.scene.layout.StackPane) galaxyBackground.getParent()).getChildren().set(index, animatedBackground);
-            }
-        }
-
-        if(GalaxyTruckerGUI.getClientModel().getGametype() == GameType.TUTORIAL) {
+        if (GalaxyTruckerGUI.getClientModel().getGametype() == GameType.TUTORIAL) {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground.png")).toString()));
         } else {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
+        }
+
+        animatedBackground = new GalaxyStarsEffect(1280, 720);
+
+        if (backGround.getParent() instanceof Pane pane) {
+            animatedBackground.setWidth(backGround.getFitWidth());
+            animatedBackground.setHeight(backGround.getFitHeight());
+
+            pane.getChildren().add(animatedBackground);
+
+            animatedBackground.toFront();
         }
     }
 

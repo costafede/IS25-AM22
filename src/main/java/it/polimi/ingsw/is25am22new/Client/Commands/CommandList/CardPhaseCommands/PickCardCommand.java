@@ -6,6 +6,13 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The PickCardCommand class represents a command that allows the current player
+ * to pick a card during the appropriate game phase. This command is specifically
+ * applicable when the game is in the card selection phase, the current player
+ * has no card picked, and the deck is not empty. The command interfaces with
+ * the server to perform the card-picking action on behalf of the player.
+ */
 public class PickCardCommand extends AbstractCommand {
 
     public PickCardCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {

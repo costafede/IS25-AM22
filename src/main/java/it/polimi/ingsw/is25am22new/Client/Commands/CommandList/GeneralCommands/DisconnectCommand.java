@@ -6,6 +6,10 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * DisconnectCommand is responsible for disconnecting a client from the virtual server.
+ * It extends the AbstractCommand class and provides the implementation for the disconnect operation.
+ */
 public class DisconnectCommand extends AbstractCommand {
     public DisconnectCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

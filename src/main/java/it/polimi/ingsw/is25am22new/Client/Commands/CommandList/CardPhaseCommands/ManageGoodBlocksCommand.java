@@ -8,6 +8,19 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * ManageGoodBlocksCommand is a command implementation that facilitates handling
+ * specific card states within the game when the player interacts with "SmugglersState_3"
+ * or "AbandonedStationState_2". It extends the AbstractCommand to inherit shared
+ * behaviors and encapsulates functionality specific to managing these card scenarios.
+ *
+ * The command is applicable during the CARD phase of the game and only if the
+ * current card is one of the specified states and the conditions related to the card's
+ * astronauts or the player's crew are satisfied.
+ *
+ * The command execution triggers the activation of the current card using the
+ * VirtualServer's `activateCard` method after setting up a valid InputCommand instance.
+ */
 public class ManageGoodBlocksCommand extends AbstractCommand {
     public ManageGoodBlocksCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

@@ -7,6 +7,15 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * StandByComponentTileCommand is responsible for invoking the action of placing a component tile
+ * into the standby area of the shipboard during the BUILDING phase of the game.
+ * This command facilitates interaction with the VirtualServer to execute the standby action.
+ *
+ * This command will only be applicable if the game is in the BUILDING phase, the player's
+ * shipboard is not complete, there is a tile in hand, and there is at least one empty slot
+ * in the standby area of the shipboard.
+ */
 public class StandByComponentTileCommand extends AbstractCommand {
     public StandByComponentTileCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

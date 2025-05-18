@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
 import it.polimi.ingsw.is25am22new.Client.LobbyView;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -28,6 +29,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The RmiClient class serves as a Remote Method Invocation (RMI) client for connecting
+ * and interacting with a remote VirtualServer. It provides a variety of methods to manage
+ * the client's interaction with the game, including connecting to the server, managing
+ * players, and executing game-related actions asynchronously. The class also handles
+ * communication between the EnhancedClientView and the server.
+ */
 public class RmiClient extends UnicastRemoteObject implements VirtualView, VirtualServer {
 
     ClientModel clientModel;
@@ -46,8 +54,15 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         this.clientModel = clientModel;
     }
 
-    /*
-     * Creates a VirtualServer connection through RMI
+    /**
+     * Establishes a connection to a remote server using Java RMI. This method locates
+     * the registry running on the provided host and port, and retrieves a reference
+     * to the remote server object.
+     *
+     * @param host the hostname or IP address of the RMI registry
+     * @param port the port number on which the RMI registry is running
+     * @throws RemoteException if an error occurs during communication with the registry
+     * @throws NotBoundException if the specified name is not bound in the registry
      */
     public void connectToServer(String host, int port) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(host, port);
@@ -56,8 +71,42 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         this.server = server;
     }
 
-    /*
-     * Run the RMI client
+    /**
+     * Establishes a connection to the server using a Graphical User Interface (GUI).
+     * This method handles connecting to the RMI server, registering the client, and
+     * initiating the heartbeat mechanism.
+     *
+     * @param host the server's hostname or IP address
+     * @param port the port number on which the server is listening
+     * @param name the player's chosen nickname
+     * @param clientModel the client-side representation of the game model
+     * @param view the GUI object used for display and user interaction
+     * @return an RmiClient instance that facilitates communication with the server,
+     *         or null if the connection fails
+     * @throws InterruptedException if the thread is interrupted while waiting
+     */
+    public static RmiClient connectToServerRMI_GUI(String host, int port, String name, ClientModel clientModel, GalaxyTruckerGUI view) throws InterruptedException {
+        try {
+            RmiClient client = new RmiClient(view, clientModel);
+            client.connectToServer(host, port);
+            client.setPlayerName(name);
+            client.connectWithNickname(name);
+            client.startHeartbeat(name, client);
+            return client;
+        } catch (Exception e) {
+            System.out.println("Error connecting to RMI server: " + e.getMessage());
+            view.displayNicknameResult(false, "Connection failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Executes the main client logic for connecting to the server and initializing the game.
+     * This method handles user input for the player's nickname, validates it with the server,
+     * and starts the client's command loop upon successful connection.
+     *
+     * @param playerName the initial nickname of the player; can be null or empty to prompt for input
+     * @param scanner a {@code Scanner} object used to read input from the console
      */
     public void run(String playerName, Scanner scanner) {
         try {
@@ -220,7 +269,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         });
     }
 
-    public void finishedAllShipboards() throws IOException {
+    public void finishedAllShipboards() {
         executor.submit(() -> {
             try {
                 server.finishedAllShipboards();
@@ -348,6 +397,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         }
     }
 
+    /**
+     * Terminates the client's operations by performing the following actions:
+     * 1. Stops the heartbeat scheduler if it is running to cease ongoing periodic tasks.
+     * 2. Attempts to shut down the thread executor gracefully, allowing tasks to finish within a specified timeout.
+     * 3. If tasks do not complete within the timeout period, forces an immediate shutdown of the executor.
+     * 4. Handles any interruptions during the shutdown process by forcing an immediate shutdown.
+     * 5. Exits the application with a status code of zero, indicating a normal termination.
+     */
     public void shutdown() {
         if (heartbeatScheduler != null) {
             heartbeatScheduler.shutdown();
@@ -472,6 +529,14 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         this.playerName = testPlayer;
     }
 
+    /**
+     * Starts a periodic heartbeat task for the specified player to maintain communication with the virtual server.
+     * The task sends a heartbeat signal to the server at regular intervals of 3 seconds. If the server fails to
+     * acknowledge the heartbeat, the scheduler is shut down and the client is terminated.
+     *
+     * @param playerName the name of the player whose heartbeat is being monitored
+     * @param server the virtual server to which the heartbeat signal is sent
+     */
     private void startHeartbeat(String playerName, VirtualServer server) {
         //System.out.println("Starting heartbeat for: " + playerName);
         heartbeatScheduler = Executors.newSingleThreadScheduledExecutor();

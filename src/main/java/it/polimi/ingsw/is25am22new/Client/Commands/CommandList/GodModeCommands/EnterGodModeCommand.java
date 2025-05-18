@@ -7,6 +7,15 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.io.IOException;
 
+/**
+ * The EnterGodModeCommand class extends the AbstractCommand abstract class
+ * and represents a command that allows a player to activate "God Mode"
+ * in the game. This mode may provide specific privileges or configurations
+ * to the player.
+ *
+ * The command interacts with the VirtualServer to execute the God Mode feature
+ * on behalf of the player, passing the necessary configuration as input.
+ */
 public class EnterGodModeCommand extends AbstractCommand {
 
     public EnterGodModeCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {

@@ -7,6 +7,17 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The PickStandByComponentTileCommand class represents a specific command
+ * that allows a player to pick a standby component tile during the game. It
+ * extends the AbstractCommand class to provide a concrete implementation for
+ * handling this specific action in the game's workflow.
+ *
+ * This command enables the player to select one of the component tiles stored
+ * in the standby position on their shipboard, provided certain game conditions
+ * are satisfied. The index of the tile to be picked is supplied as input during
+ * the execution of this command.
+ */
 public class PickStandByComponentTileCommand extends AbstractCommand {
     public PickStandByComponentTileCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

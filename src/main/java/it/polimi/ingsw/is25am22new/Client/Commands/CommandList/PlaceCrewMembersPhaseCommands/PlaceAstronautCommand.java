@@ -12,6 +12,11 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Represents a command for placing an astronaut on a shipboard grid within the game.
+ * This class extends the AbstractCommand base class and provides specific implementation
+ * for validating input, determining applicability, and executing the placement logic.
+ */
 public class PlaceAstronautCommand extends AbstractCommand {
     public PlaceAstronautCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

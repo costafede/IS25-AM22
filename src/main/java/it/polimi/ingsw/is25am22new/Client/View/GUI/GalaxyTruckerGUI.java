@@ -240,8 +240,18 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
             FXMLLoader loader = new FXMLLoader(getClass().getResource(resourcePath));
             Parent root = loader.load();
 
-            ((FXMLController) loader.getController()).setup(this, clientModel, primaryStage, virtualServer);
-            controllerMap.get(resourcePath).accept(loader.getController());
+            // First store the controller reference in our controller maps
+            // This ensures our controller references exist before any RMI callbacks can happen
+            Object controller = loader.getController();
+            Consumer<Object> controllerSetter = controllerMap.get(resourcePath);
+            if (controllerSetter != null) {
+                controllerSetter.accept(controller);
+            } else {
+                System.err.println("No controller setter found for: " + resourcePath);
+            }
+
+            // Now set up the controller with required references
+            ((FXMLController) controller).setup(this, clientModel, primaryStage, virtualServer);
 
             Scene scene = new Scene(root, 1280, 720);
             primaryStage.setScene(scene);

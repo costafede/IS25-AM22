@@ -11,6 +11,12 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 
 import java.util.*;
 
+/**
+ * The ObservableModel serves as a core component in the observer design pattern, enabling the
+ * functionality to register, remove, and notify observers about changes in the state of the game.
+ * It maintains a list of ObserverModel instances and ensures they are notified when relevant
+ * updates occur in the game's components.
+ */
 public class ObservableModel {
     List<ObserverModel> observers = new ArrayList<>();
     //remember to add listeners to the list

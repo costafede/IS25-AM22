@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
+import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import javafx.event.ActionEvent;
@@ -117,17 +118,36 @@ public class ConnectToServerController extends FXMLController implements Initial
         //    animatedBackground.stopAnimation();
         //}
 
+        // First, switch to the Lobby scene to ensure controllers are initialized
+        // before RMI callbacks can happen
+        galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/Lobby.fxml");
+
+        // Now establish the connection after controller is initialized
         if(galaxyTruckerGUI.getParameters().getRaw().getFirst().equals("socket")) {
             try {
-                VirtualServer s = SocketServerHandler.connectToServerGUI(ipAddress, port+1, username, GalaxyTruckerGUI.getClientModel(), galaxyTruckerGUI);
+                VirtualServer s = SocketServerHandler.connectToServerGUI(ipAddress, port + 1, username, GalaxyTruckerGUI.getClientModel(), galaxyTruckerGUI);
                 galaxyTruckerGUI.setVirtualServer(s);
             } catch (InterruptedException e) {
                 System.out.println("Error in ConnectToServer: " + e.getMessage());
+                errorLabel.setText("Error connecting to server: " + e.getMessage());
+            }
+        } else if(galaxyTruckerGUI.getParameters().getRaw().getFirst().equals("rmi")) {
+            try {
+                VirtualServer s = RmiClient.connectToServerRMI_GUI(ipAddress, port, username, GalaxyTruckerGUI.getClientModel(), galaxyTruckerGUI);
+                if (s != null) {
+                    galaxyTruckerGUI.setVirtualServer(s);
+                } else {
+                    // If connection fails, go back to connection screen
+                    galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
+                    errorLabel.setText("Failed to connect to server");
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Error in ConnectToServer: " + e.getMessage());
+                errorLabel.setText("Error connecting to server: " + e.getMessage());
             }
         } else {
-            errorLabel.setText("Missing RMI");
+            errorLabel.setText("Missing connection type parameter");
         }
-
     }
 
     @FXML
@@ -135,3 +155,5 @@ public class ConnectToServerController extends FXMLController implements Initial
         errorLabel.setText(message);
     }
 }
+
+

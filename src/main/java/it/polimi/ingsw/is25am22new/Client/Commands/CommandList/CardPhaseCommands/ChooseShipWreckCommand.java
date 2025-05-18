@@ -8,6 +8,12 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * ChooseShipWreckCommand represents a specific command that allows a player to
+ * interact with shipwreck components during certain game phases. This class
+ * extends the AbstractCommand to implement behaviors specific to the
+ * ChooseShipWreck action, including input validation and execution logic.
+ */
 public class ChooseShipWreckCommand extends AbstractCommand {
     public ChooseShipWreckCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

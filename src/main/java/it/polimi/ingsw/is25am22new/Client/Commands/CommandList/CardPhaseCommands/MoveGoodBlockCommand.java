@@ -11,6 +11,12 @@ import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The MoveGoodBlockCommand class is responsible for handling the game command that moves
+ * a good block from one location on the shipboard to another. It extends the AbstractCommand
+ * and encapsulates logic for validating the input, checking applicability, and executing
+ * the movement of a good block during the gameplay.
+ */
 public class MoveGoodBlockCommand extends AbstractCommand {
     public MoveGoodBlockCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

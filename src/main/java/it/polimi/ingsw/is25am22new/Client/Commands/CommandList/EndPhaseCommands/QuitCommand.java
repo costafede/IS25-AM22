@@ -6,6 +6,12 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * QuitCommand is a concrete implementation of AbstractCommand that allows a player
+ * to quit the game. This command is applicable only during the END phase of the game.
+ * Once executed, it contacts the VirtualServer to handle the quitting logic for the
+ * player and notifies the ViewAdapter to update the user interface accordingly.
+ */
 public class QuitCommand extends AbstractCommand {
     public QuitCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);
