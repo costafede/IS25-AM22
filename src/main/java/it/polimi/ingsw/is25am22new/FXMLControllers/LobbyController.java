@@ -108,17 +108,6 @@ public class LobbyController extends FXMLController implements Initializable {
     }
 
     @FXML
-    public void switchToBuildingShip(ActionEvent event) throws IOException {
-        // Navigazione alla schermata BuildingShip per test
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/BuildingShip.fxml")));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/styles.css")).toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
     public void confirmSettings(ActionEvent actionEvent) {
         String selectedGameType = gameTypeComboBox.getValue();  // Gets the selected item (or null if none)
         String selectedMaxPlayers = maxPlayersComboBox.getValue();  // Gets the selected item (or null if none)
