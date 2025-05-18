@@ -5,6 +5,10 @@ import it.polimi.ingsw.is25am22new.Client.View.GameType;
 
 import java.util.List;
 
+/**
+ * Utility class used for verifying conditions related to game models,
+ * grid coordinates, and specific string values related to game blocks.
+ */
 public class ConditionVerifier {
     public static boolean coordinatesAreNotOutOfBound(int i, int j, ClientModel model) {
         GameType gameType = model.getGametype();

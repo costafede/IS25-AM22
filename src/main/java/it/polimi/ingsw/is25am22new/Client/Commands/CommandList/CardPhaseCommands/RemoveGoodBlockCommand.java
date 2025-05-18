@@ -10,6 +10,12 @@ import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The RemoveGoodBlockCommand is a specific implementation of AbstractCommand
+ * that facilitates the removal of a good block from a particular location on
+ * the player's shipboard. This command is applicable during the CARD phase of
+ * the game under specific conditions.
+ */
 public class RemoveGoodBlockCommand extends AbstractCommand {
     public RemoveGoodBlockCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

@@ -8,6 +8,17 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * ActivateDoubleCannonCommand is a command object that allows a player to activate a
+ * double cannon on their shipboard. This requires the player to use a battery on the
+ * specified position, and the cannon must meet certain conditions to be activated.
+ *
+ * This command checks the applicability based on the game phase, the current card, and
+ * the player's turn. It validates input positions for compatibility with the command's
+ * requirements and performs the necessary actions to activate the double cannon.
+ *
+ * The command is part of the Command design pattern and extends the AbstractCommand class.
+ */
 public class ActivateDoubleCannonCommand extends AbstractCommand {
     public ActivateDoubleCannonCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

@@ -5,6 +5,14 @@ import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * ShowCurrCardCommand is responsible for displaying the current card associated with the
+ * client's game model. It extends AbstractCommand to utilize shared command functionalities
+ * and overrides specific behaviors for this operation.
+ *
+ * This command interacts with the ViewAdapter to trigger the display of the current card
+ * and makes use of the data associated with the ClientModel passed to it during execution.
+ */
 public class ShowCurrCardCommand extends AbstractCommand {
 
     public ShowCurrCardCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {

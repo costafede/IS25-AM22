@@ -6,6 +6,16 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * Represents a command to allow a player to abandon the game.
+ * This command handles the server-side logic and ensures that
+ * abandoning is only permitted under specific conditions.
+ *
+ * The command is applicable if:
+ * - The current game phase is of type CARD.
+ * - The current card being processed is null.
+ * - The player has not been kicked out.
+ */
 public class AbandonGameCommand extends AbstractCommand {
 
     public AbandonGameCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {

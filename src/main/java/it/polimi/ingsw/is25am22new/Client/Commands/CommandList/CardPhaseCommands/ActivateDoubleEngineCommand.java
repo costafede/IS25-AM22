@@ -8,6 +8,11 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * Represents a concrete command that activates a double-engine component on the player's shipboard.
+ * This command is applicable during the CARD phase of the game when the current card and player meet
+ * specific conditions. It consumes batteries from the shipboard and activates the double-engine.
+ */
 public class ActivateDoubleEngineCommand extends AbstractCommand {
     public ActivateDoubleEngineCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

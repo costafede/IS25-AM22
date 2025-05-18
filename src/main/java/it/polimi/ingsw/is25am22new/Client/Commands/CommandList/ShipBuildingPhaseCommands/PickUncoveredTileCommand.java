@@ -6,6 +6,14 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * Represents a command in the game for picking an uncovered tile during the
+ * building phase. This command handles the interaction between the client model
+ * and the virtual server for selecting an uncovered tile.
+ *
+ * This class extends AbstractCommand to inherit the framework for processing
+ * commands, ensuring command validation and execution.
+ */
 public class PickUncoveredTileCommand extends AbstractCommand {
     public PickUncoveredTileCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

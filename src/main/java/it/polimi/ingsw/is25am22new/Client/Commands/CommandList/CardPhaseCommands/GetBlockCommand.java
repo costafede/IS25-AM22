@@ -13,6 +13,21 @@ import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The GetBlockCommand class represents a specific command in the game allowing
+ * the current player to retrieve a GoodBlock from the active card and place it
+ * onto a specified position in their shipboard. The command ensures all necessary
+ * validations for the conditions under which the action can be performed.
+ * This class extends AbstractCommand, inheriting shared functionalities for
+ * command execution and server interaction.
+ *
+ * Responsibilities:
+ * - Validates whether the command is applicable and the input provided is valid.
+ * - Ensures that the current game phase, card state, and player conditions
+ *   align with the rules for placing a GoodBlock.
+ * - Executes the action of retrieving a GoodBlock from the active card and
+ *   placing it into the player's shipboard storage compartment grid.
+ */
 public class GetBlockCommand extends AbstractCommand {
     public GetBlockCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

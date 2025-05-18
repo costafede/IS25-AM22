@@ -7,6 +7,18 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The AcceptCreditsCommand class implements a specific command for accepting credits during
+ * the game's card phase. This command determines if it is applicable based on the current
+ * state of the game and executes the corresponding action to activate the player's card
+ * choice.
+ *
+ * The command is applicable only when the game is in the card phase, a card is currently
+ * active, the current player matches the player executing the command, and the card is in
+ * a specific state (either "SlaversState_3" or "PiratesState_3").
+ *
+ * Upon execution, the command activates the card with the appropriate input.
+ */
 public class AcceptCreditsCommand extends AbstractCommand {
     public AcceptCreditsCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

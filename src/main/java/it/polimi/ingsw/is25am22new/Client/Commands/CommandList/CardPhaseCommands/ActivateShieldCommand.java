@@ -8,6 +8,12 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The ActivateShieldCommand class represents a specific command in the game that allows
+ * a player to activate a shield generator on their shipboard during the appropriate game phase.
+ * It extends the AbstractCommand class and provides implementations for command name retrieval,
+ * checking applicability, input validation, and command execution.
+ */
 public class ActivateShieldCommand extends AbstractCommand {
     public ActivateShieldCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

@@ -11,6 +11,15 @@ import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The SwitchGoodBlocksCommand class implements a command that allows players to switch
+ * `GoodBlock` items between storage compartments on their shipboard. This operation
+ * is only permitted during the CARD phase of the game and under specific conditions
+ * of the card state and player actions.
+ *
+ * The class extends the AbstractCommand, inheriting common functionality for commands
+ * while defining specific behavior for switching good blocks.
+ */
 public class SwitchGoodBlocksCommand extends AbstractCommand {
     public SwitchGoodBlocksCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

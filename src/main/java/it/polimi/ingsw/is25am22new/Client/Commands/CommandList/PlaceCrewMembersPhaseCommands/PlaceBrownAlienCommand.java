@@ -11,6 +11,18 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.util.Optional;
 
+/**
+ * PlaceBrownAlienCommand is a command implementation designed to handle the placement
+ * of a brown alien on a specific grid tile of a player's shipboard during the game.
+ * This command ensures that the placement is governed by game rules and executes
+ * the necessary actions through the virtual server interface.
+ *
+ * Responsibilities:
+ * - Validates the input coordinates and ensures they follow game constraints.
+ * - Checks that the game is currently in the appropriate phase for placing a brown alien.
+ * - Ensures the specified tile on the player's shipboard is within bounds, unoccupied by crew, and valid for placing the alien.
+ * - Executes the placement of the brown alien by invoking the corresponding server-side operation.
+ */
 public class PlaceBrownAlienCommand extends AbstractCommand {
     public PlaceBrownAlienCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

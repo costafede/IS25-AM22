@@ -7,6 +7,16 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The FlipHourglassCommand class represents a command to flip the hourglass
+ * in the game. This command is applicable only during certain game phases
+ * and under specific conditions. It ensures that the hourglass can only be
+ * flipped when it is in a valid state, as defined by the game rules.
+ *
+ * This command interacts with the VirtualServer to perform the action of
+ * flipping the hourglass and updates the game state accordingly.
+ * The applicability of the command is determined by the client model.
+ */
 public class FlipHourglassCommand extends AbstractCommand {
     public FlipHourglassCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

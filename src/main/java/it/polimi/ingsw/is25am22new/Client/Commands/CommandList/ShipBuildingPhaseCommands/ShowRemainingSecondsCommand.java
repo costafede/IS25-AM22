@@ -7,6 +7,16 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The ShowRemainingSecondsCommand class represents a specific command within the game
+ * to display the remaining time for the current phase to the user interface. It extends
+ * the AbstractCommand to inherit common command behaviors and to integrate with the
+ * VirtualServer and ViewAdapter for execution and visualization.
+ *
+ * Responsibilities of this command include:
+ * - Determining applicability based on the current game phase, game type, and hourglass status.
+ * - Triggering the appropriate UI method to display the remaining seconds.
+ */
 public class ShowRemainingSecondsCommand extends AbstractCommand {
     public ShowRemainingSecondsCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

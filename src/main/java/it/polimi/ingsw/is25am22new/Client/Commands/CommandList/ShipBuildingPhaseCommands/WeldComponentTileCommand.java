@@ -8,6 +8,12 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The WeldComponentTileCommand class represents a command responsible for performing
+ * the action of welding a component tile onto the player's shipboard in the game.
+ * It validates the input, checks if the command is applicable, and executes the
+ * welding action on the server.
+ */
 public class WeldComponentTileCommand extends AbstractCommand {
     public WeldComponentTileCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

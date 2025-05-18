@@ -8,6 +8,16 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The DestroyTileCommand class represents a specific command used to destroy a tile
+ * on the player's shipboard during the game. It extends the AbstractCommand class and
+ * provides the functionality to ensure the command is applicable, validate input, and
+ * execute the required tile destruction operation.
+ *
+ * This command is typically executed during the correcting ship phase and modifies the
+ * game state by removing a specific tile from the player's shipboard based on provided
+ * coordinates.
+ */
 public class DestroyTileCommand extends AbstractCommand {
     public DestroyTileCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

@@ -17,6 +17,11 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages all available commands in the game and filters commands based on their applicability
+ * to the current game state. The class provides functionality to initialize and maintain the list
+ * of commands, as well as retrieve commands available for a specific game context.
+ */
 public class CommandManager {
     private final List<Command> allCommands;
 

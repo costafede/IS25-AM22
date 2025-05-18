@@ -5,6 +5,13 @@ import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * Command implementation for displaying all shipboards for players in the game.
+ * This command, when executed, iterates over all players and displays their respective
+ * shipboards using the provided ViewAdapter instance.
+ *
+ * This command is applicable in any game state as defined by the {@code isApplicable} method.
+ */
 public class ShowAllShipsCommand extends AbstractCommand {
 
     public ShowAllShipsCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {

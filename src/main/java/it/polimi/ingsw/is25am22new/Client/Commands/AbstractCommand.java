@@ -8,6 +8,13 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AbstractCommand provides a base implementation for commands in the game.
+ * It serves as an abstract class adhering to the Command interface, encapsulating
+ * common functionalities for command execution, input validation, and interaction
+ * with the VirtualServer and ViewAdapter. Concrete command implementations should
+ * extend this class and provide specific behavior for their defined use case.
+ */
 public abstract class AbstractCommand implements Command {
     protected VirtualServer virtualServer;
     protected List<String> input;

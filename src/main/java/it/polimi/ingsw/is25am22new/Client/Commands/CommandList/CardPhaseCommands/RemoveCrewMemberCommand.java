@@ -8,6 +8,14 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The RemoveCrewMemberCommand class is responsible for handling the removal of a crew member
+ * from a specified location on a player's shipboard during the game. This command is applicable
+ * in specific game phases and card states where player interaction with the crew is permitted.
+ *
+ * This class extends the AbstractCommand, inheriting basic command functionality, and provides
+ * additional behavior specific to the removal of crew members.
+ */
 public class RemoveCrewMemberCommand extends AbstractCommand {
     public RemoveCrewMemberCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

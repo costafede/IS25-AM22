@@ -8,6 +8,13 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The ShowPileCommand class represents a concrete implementation of the AbstractCommand
+ * for displaying a specific card pile in the game interface. It interacts with the client
+ * model and view adapter to retrieve and present the card pile information to the user.
+ * This command is applicable only under specific game conditions in the LEVEL2 game type
+ * during the BUILDING phase.
+ */
 public class ShowPileCommand extends AbstractCommand {
     public ShowPileCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

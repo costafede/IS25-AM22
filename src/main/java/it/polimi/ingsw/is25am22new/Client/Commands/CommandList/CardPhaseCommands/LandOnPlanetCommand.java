@@ -8,6 +8,14 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * The LandOnPlanetCommand class represents the command for a player to land on a planet
+ * during the "CARD" phase of the game. This command is applicable when the player has
+ * a specific card in the "PlanetsState_1" state and it is their turn to act.
+ *
+ * This class extends the AbstractCommand class, inheriting the basic command structure,
+ * such as input validation and interaction with the VirtualServer and ViewAdapter.
+ */
 public class LandOnPlanetCommand extends AbstractCommand {
     public LandOnPlanetCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);

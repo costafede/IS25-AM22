@@ -6,6 +6,11 @@ import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
+/**
+ * Represents a command for a player to pick a covered tile during the building phase
+ * of the game. This command validates whether the action is applicable based on the
+ * current game state and executes the required server interaction to pick a covered tile.
+ */
 public class PickCoveredTileCommand extends AbstractCommand {
     public PickCoveredTileCommand(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         super(virtualServer, viewAdapter);
