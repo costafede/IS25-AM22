@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Network.RMI.Client;
 
 import it.polimi.ingsw.is25am22new.Client.LobbyView;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -68,6 +69,35 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         VirtualServer server = (VirtualServer) registry.lookup(SERVER_NAME);
         System.out.println("Found server: " + host + ":" + port);
         this.server = server;
+    }
+
+    /**
+     * Establishes a connection to the server using a Graphical User Interface (GUI).
+     * This method handles connecting to the RMI server, registering the client, and
+     * initiating the heartbeat mechanism.
+     *
+     * @param host the server's hostname or IP address
+     * @param port the port number on which the server is listening
+     * @param name the player's chosen nickname
+     * @param clientModel the client-side representation of the game model
+     * @param view the GUI object used for display and user interaction
+     * @return an RmiClient instance that facilitates communication with the server,
+     *         or null if the connection fails
+     * @throws InterruptedException if the thread is interrupted while waiting
+     */
+    public static RmiClient connectToServerRMI_GUI(String host, int port, String name, ClientModel clientModel, GalaxyTruckerGUI view) throws InterruptedException {
+        try {
+            RmiClient client = new RmiClient(view, clientModel);
+            client.connectToServer(host, port);
+            client.setPlayerName(name);
+            client.connectWithNickname(name);
+            client.startHeartbeat(name, client);
+            return client;
+        } catch (Exception e) {
+            System.out.println("Error connecting to RMI server: " + e.getMessage());
+            view.displayNicknameResult(false, "Connection failed: " + e.getMessage());
+            return null;
+        }
     }
 
     /**

@@ -35,11 +35,17 @@ public class StartMenuController extends FXMLController implements Initializable
     }
 
     @FXML
-    public void switchToConnectToServerScene(ActionEvent event) throws IOException {
-        galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
+    public void switchToConnectToServerScene(ActionEvent event) {
+        try {
+            galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
+        } catch (Exception e) {
+            System.err.println("Error switching to Connect To Server scene: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void setGalaxyBackground(GalaxyBackground galaxyBackground) {
         this.galaxyBackground = galaxyBackground;
     }
 }
+

@@ -65,7 +65,8 @@ public class GalaxyTruckerClient {
         }else{
             if(args[2].equalsIgnoreCase("RMI"))
                 connectionChoice = 1;
-            else if(args[2].equalsIgnoreCase("SOCKET"));
+            else if(args[2].equalsIgnoreCase("SOCKET"))
+                connectionChoice = 2;
             else {
                 System.out.println("choose a valid connection type");
                 System.exit(0);
@@ -141,15 +142,6 @@ public class GalaxyTruckerClient {
             System.err.println("Error: " + e.getMessage());
         }
 
-        //System.out.println("!!!!! - Game Type: " + client.gameType + ", PlayerName: " + client.playerName);
-//        while(clientModel.getGamePhase().getPhaseType().equals(PhaseType.SETUP)) {
-//            try {
-//                Thread.sleep(100); // Small delay to reduce CPU usage
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//            }
-//        }
-
         CommandManager commandManager = new CommandManager();
         TUI tui = new TUI(commandManager, clientModel);
         clientModel.addListener(tui);
@@ -200,6 +192,8 @@ public class GalaxyTruckerClient {
             this.playerName = client.getPlayerName();
         } else {
             // GUI implementation
+            GalaxyTruckerGUI.setClientModel(clientModel);
+            GalaxyTruckerGUI.main(new String[]{"rmi"});
         }
 
 
@@ -237,34 +231,3 @@ public class GalaxyTruckerClient {
 
     }
 }
-
-
-        /*TO DO
-
-        Chiedi Tipo di Connessione
-
-        Chiedi Tipo di UI
-
-        Istanzia il giusto Virtual Server per connettersi
-
-        Istanzia la TUI o la GUI
-
-        Logica Lobby:
-
-            se sei il primo -> inserisci nome, inserisci n max di giocstori, inserisci tipo di gioco (tutorial, level2)
-
-            se non sei il primo -> attendi finché il primo non ha finito di inserire i dati sopra
-                una volta finita l'attesa inserisci il nome (deve essere validato)
-                entra in lobby solo se non è piena
-                se è piena -> chiudi client o vedi tu che fare
-                se sei l'ultimo ad entrare fai partire il gioco
-
-        Istanzia la copia del model vuota
-
-        Istanzia il Command Manager (con tutta la lista dei comandi)
-
-        Iscrivi tui/gui come observer della copia del model
-
-        Fa lavorare tui/gui
-
-        */
