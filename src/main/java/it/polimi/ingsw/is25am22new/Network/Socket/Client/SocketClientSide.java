@@ -139,7 +139,6 @@ public class SocketClientSide implements VirtualView {
 
         Thread.sleep(150);
         startHeartbeat(thisPlayerName, output);
-        clientModel.setPlayerName(thisPlayerName);
     }
 
     /**
