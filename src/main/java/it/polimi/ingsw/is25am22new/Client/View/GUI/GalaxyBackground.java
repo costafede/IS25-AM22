@@ -7,6 +7,17 @@ import javafx.scene.paint.Color;
 
 import java.util.Random;
 
+/**
+ * Represents an animated galaxy background consisting of twinkling stars,
+ * displayed on a custom canvas. This class manages the generation, rendering,
+ * and animation of stars that comprise the background.
+ *
+ * The galaxy contains a predefined number of stars that shimmer with varying
+ * brightness and are randomly positioned. The animation is continuously
+ * updated using an {@link AnimationTimer}.
+ *
+ * Subclasses {@link Canvas} to provide custom rendering.
+ */
 public class GalaxyBackground extends Canvas {
 
     private static final int STAR_COUNT = 200;
