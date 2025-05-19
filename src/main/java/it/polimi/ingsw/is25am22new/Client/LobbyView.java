@@ -199,6 +199,8 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("╚══════════════════════════════════════════════════════════════════════╝\n");
         }
 
+        System.out.print("> ");
+
 
 
         // Auto-start when minimum player count (2) is reached
