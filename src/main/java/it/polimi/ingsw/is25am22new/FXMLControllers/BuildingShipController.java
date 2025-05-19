@@ -54,7 +54,7 @@ public class BuildingShipController extends FXMLController implements Initializa
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
         }
 
-        /*animatedBackground = new GalaxyStarsEffect(1280, 720);
+        animatedBackground = new GalaxyStarsEffect(1280, 720);
 
         if (backGround.getParent() instanceof Pane pane) {
             animatedBackground.setWidth(backGround.getFitWidth());
@@ -64,11 +64,10 @@ public class BuildingShipController extends FXMLController implements Initializa
             pane.getChildren().add(0, animatedBackground);
 
             // Assicurati che lo sfondo sia dietro tutti gli elementi
-            backGround.toBack();
             animatedBackground.toBack();
+            backGround.toBack();
         }
-            animatedBackground.toFront();
-        }*/
+
 
         drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
 
