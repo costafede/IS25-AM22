@@ -108,30 +108,37 @@ public class ConnectToServerController extends FXMLController implements Initial
             return;
         }
 
-        // Attempt connection (will be implemented with actual networking later)
+        // Attempt connection
         String username = usernameField.getText().trim();
         String ipAddress = ipAddressField.getText().trim();
         int port = Integer.parseInt(portField.getText().trim());
         galaxyTruckerGUI.setPlayerName(username);
-        // IS IT NECESSARY TO STOP ANIMATION?
-        //if (animatedBackground != null) {
-        //    animatedBackground.stopAnimation();
-        //}
 
-        // First, switch to the Lobby scene to ensure controllers are initialized
-        // before RMI callbacks can happen
-        galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/Lobby.fxml");
+        // Show connecting message
+        errorLabel.setText("Connecting to server...");
 
-        // Now establish the connection after controller is initialized
         if(galaxyTruckerGUI.getParameters().getRaw().getFirst().equals("socket")) {
             try {
+                // For Socket clients, try to connect first before switching scenes
+                // This ensures we don't see an empty lobby when the host is configuring
                 VirtualServer s = SocketServerHandler.connectToServerGUI(ipAddress, port + 1, username, GalaxyTruckerGUI.getClientModel(), galaxyTruckerGUI);
-                galaxyTruckerGUI.setVirtualServer(s);
+                if (s != null) {
+                    // Only if connection was successful, set the virtual server
+                    galaxyTruckerGUI.setVirtualServer(s);
+                    // Scene switching is handled by the SocketServerHandler via displayNicknameResult
+                } else {
+                    // Connection failed, but error message is already shown by SocketServerHandler
+                    // No need to switch scenes
+                }
             } catch (InterruptedException e) {
                 System.out.println("Error in ConnectToServer: " + e.getMessage());
                 errorLabel.setText("Error connecting to server: " + e.getMessage());
             }
         } else if(galaxyTruckerGUI.getParameters().getRaw().getFirst().equals("rmi")) {
+            // For RMI, we need to switch to the Lobby scene first to ensure controllers are initialized
+            // before RMI callbacks can happen
+            galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/Lobby.fxml");
+
             try {
                 VirtualServer s = RmiClient.connectToServerRMI_GUI(ipAddress, port, username, GalaxyTruckerGUI.getClientModel(), galaxyTruckerGUI);
                 if (s != null) {
@@ -155,5 +162,4 @@ public class ConnectToServerController extends FXMLController implements Initial
         errorLabel.setText(message);
     }
 }
-
 

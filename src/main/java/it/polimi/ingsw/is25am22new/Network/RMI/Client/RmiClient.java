@@ -47,6 +47,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     private ScheduledExecutorService heartbeatScheduler;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private boolean isConnectionValid = false;
 
     public RmiClient(EnhancedClientView clientView, ClientModel clientModel) throws RemoteException {
         super();
@@ -557,3 +558,4 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         return "rmi";
     }
 }
+
