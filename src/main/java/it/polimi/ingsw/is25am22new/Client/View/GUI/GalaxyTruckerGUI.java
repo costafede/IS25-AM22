@@ -2,6 +2,7 @@ package it.polimi.ingsw.is25am22new.Client.View.GUI;
 
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModelObserver;
+import it.polimi.ingsw.is25am22new.Client.View.ObservableModelView;
 import it.polimi.ingsw.is25am22new.FXMLControllers.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
@@ -44,6 +45,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        clientModel.addListener(this);
         setPrimaryStage(primaryStage);
         // Create a modified version of the FXML loader that doesn't try to use custom components
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
@@ -105,7 +107,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
-        new Thread(() -> Platform.runLater(() -> buildingShipController.drawScene())).start();
+        //new Thread(() -> Platform.runLater(() -> buildingShipController.drawScene())).start();
     }
 
     @Override
@@ -213,9 +215,9 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void displayGameStarted() {
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             switchToScene("/it/polimi/ingsw/is25am22new/BuildingShip.fxml");
-        });
+        });*/
     }
 
     @Override

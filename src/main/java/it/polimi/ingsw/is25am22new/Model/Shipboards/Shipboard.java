@@ -98,10 +98,10 @@ public class Shipboard implements Serializable {
 
     private String colorToPngName(String color){
         return switch (color) {
-            case "red" -> "GT-new_tiles_16_for web52.png";
-            case "blue" -> "GT-new_tiles_16_for web33.png";
-            case "green" -> "GT-new_tiles_16_for web34.png";
-            case "yellow" -> "GT-new_tiles_16_for web61.png";
+            case "red" -> "GT-new_tiles_16_for web52.jpg";
+            case "blue" -> "GT-new_tiles_16_for web33.jpg";
+            case "green" -> "GT-new_tiles_16_for web34.jpg";
+            case "yellow" -> "GT-new_tiles_16_for web61.jpg";
             default -> null;
         };
     }
