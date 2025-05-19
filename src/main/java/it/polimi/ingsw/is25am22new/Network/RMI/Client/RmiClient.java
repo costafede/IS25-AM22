@@ -96,7 +96,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
             return client;
         } catch (Exception e) {
             System.out.println("Error connecting to RMI server: " + e.getMessage());
-            view.displayNicknameResult(false, "Connection failed: " + e.getMessage());
+            // Usa Platform.runLater per aggiornare l'interfaccia utente dal thread JavaFX
             return null;
         }
     }
@@ -121,23 +121,57 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
                 try {
                     clientView.resetNicknameStatus();
-                    connectWithNickname(playerName);
-                    //Thread.sleep(1000);
-                    nickAccepted = clientView.isNicknameValid();
-                    if (!nickAccepted) {
-                        playerName = null; // Reset to prompt again
+                    try {
+                        connectWithNickname(playerName);
+                        // Wait a moment for any asynchronous responses
+                        Thread.sleep(500);
+                        nickAccepted = clientView.isNicknameValid();
+                        if (!nickAccepted) {
+                            playerName = null; // Reset to prompt again
+                        }
+                    } catch (RemoteException e) {
+                        // Handle specific error messages for better user experience
+                        if (e.getMessage() != null && e.getMessage().contains("Host is configuring")) {
+                            System.out.println("\n╔═══════════════════════════════���══════════════════════════════════════╗");
+                            System.out.println("║                Host is configuring the lobby...                       ║");
+                            System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                            // Don't wait, just shut down
+                            shutdown();
+                            return;
+                        } else if (e.getMessage() != null && e.getMessage().contains("Nickname already taken")) {
+                            System.err.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                            System.err.println("║               Nickname already taken. Please try again.              ║");
+                            System.err.println("╚══════════════════════════════════════════════════════════════════════╝");
+                            playerName = null; // Reset to prompt again
+                        } else {
+                            // Handle the "count is negative" error (which happens when host is configuring)
+                            // as well as any other connection errors
+                            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                            System.out.println("║          Cannot connect to server. Host may be configuring.          ║");
+                            System.out.println("║                      Please try again later.                         ║");
+                            System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                            // Don't show the detailed error message to the user, just shut down gracefully
+                            shutdown();
+                            return;
+                        }
                     }
                 } catch (Exception e) {
-                    System.err.println("Error connecting with nickname: " + e.getMessage());
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║          Cannot connect to server. Please try again later.           ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    shutdown();
+                    return;
                 }
             }
             this.playerName = playerName;
             clientModel.setPlayerName(playerName);
             ((LobbyView) clientView).startCommandLoopRMI(this, playerName, scanner);
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+            System.out.println("║                         Connection error.                            ║");
+            System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+            shutdown();
         }
-
     }
 
     public String getPlayerName() {
@@ -450,8 +484,22 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     @Override
     public void terminate() throws RemoteException {
-        System.out.println("Game is not started yet, try again");
-        System.exit(0);
+        System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                Host is configuring the lobby...please retry           ║");
+        System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+
+        // Mostra un messaggio di errore
+        if (clientView != null) {
+            clientView.displayNicknameResult(false, "Host is configuring the lobby...please retry");
+
+            // Torna alla schermata di login se si sta usando la GUI
+            if (clientView instanceof it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI) {
+                ((it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI) clientView).switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
+            } else {
+                // Termina l'applicazione se si sta usando la TUI
+                System.exit(0);
+            }
+        }
     }
 
     @Override
