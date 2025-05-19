@@ -6,10 +6,8 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -37,7 +35,8 @@ public class BuildingShipController extends FXMLController implements Initializa
     private int numOfRotations; //set it to zero each time a weld is succesfully done
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (GalaxyTruckerGUI.getClientModel().getGametype() == GameType.TUTORIAL) {
+        setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
+        if (model.getGametype() == GameType.TUTORIAL) {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground.png")).toString()));
         } else {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
@@ -53,6 +52,9 @@ public class BuildingShipController extends FXMLController implements Initializa
 
             animatedBackground.toFront();
         }
+
+        drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
+
     }
 
     /**
@@ -61,7 +63,7 @@ public class BuildingShipController extends FXMLController implements Initializa
      */
     public void drawScene() {
         if(model.getGametype().equals(GameType.LEVEL2)) {
-            shipboardImage.setImage(new Image(getClass().getResource("GraficheGioco/cardboard/cardboard-1b.jpg").toExternalForm()));
+            shipboardImage.setImage(new Image(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg").toExternalForm()));
             // TODO: devo mostrare la clessidra e la flightboard rendendole interagibili
         }
         drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
@@ -122,7 +124,7 @@ public class BuildingShipController extends FXMLController implements Initializa
                 numOfRotations = 0;
             }
             else {
-                tileInHand.setImage(new Image(getClass().getResource("GraficheGioco/tiles/" + shipboard.getTileInHand().getPngName()).toExternalForm()));
+                tileInHand.setImage(new Image(getClass().getResource("/GraficheGioco/tiles/" + shipboard.getTileInHand().getPngName()).toExternalForm()));
                 tileInHand.setRotate(90 * numOfRotations);
             }
         }
@@ -205,7 +207,7 @@ public class BuildingShipController extends FXMLController implements Initializa
      * Returns a StackPane wrapping the image with the given name
      */
     private StackPane getComponentTileImageForGrid(String pngName, int numOfRotations) {
-        Image image = new Image(getClass().getResource("GraficheGioco/tiles/" + pngName).toExternalForm());
+        Image image = new Image(getClass().getResource("/GraficheGioco/tiles/" + pngName).toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
