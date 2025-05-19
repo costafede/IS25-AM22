@@ -14,6 +14,36 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for the SlaversCard functionality within the game.
+ * This class contains unit tests to validate various scenarios involving the behavior,
+ * effects, and interactions of the SlaversCard in a Level 2 game setup.
+ *
+ * The tests ensure that the SlaversCard operates correctly in different game states and
+ * verifies the expected results such as cannon strength updates, astronaut removals,
+ * and player interactions.
+ *
+ * Key game components tested include:
+ * - Player interactions and turn progressions.
+ * - SlaversCard activation effects and choices.
+ * - Shipboard updates such as cannon strength adjustments and astronaut removals.
+ * - Flightboard progress and player positioning.
+ * - Validation of game state transitions and dynamics.
+ *
+ * Includes the following test methods:
+ * - Setup method for initializing and simulating a game with shipboards, flightboard,
+ *   and necessary components.
+ * - A test method to evaluate a specific scenario where:
+ *   - The first player loses a fight and removes crew members.
+ *   - The second player ties a fight and progresses.
+ *   - The third player wins a fight and chooses whether to take a prize or not.
+ *
+ * Assertions within this class confirm:
+ * - Correct cannon strength for ships after various actions.
+ * - Proper astronaut removal based on input commands.
+ * - Accurate changes to current player, card state, and player positions.
+ * - Maintained integrity of ship attributes (e.g., cosmic credits) after events.
+ */
 class SlaversCardTest {
     List<String> players;
     Game game;

@@ -11,6 +11,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The ShipboardTest class is a test suite designed to verify the functionality, validity, and behavior
+ * of the Shipboard and associated components. This class uses unit tests to ensure that specific scenarios
+ * within the shipboard mechanics operate correctly. The test cases assess various aspects, such as connectivity,
+ * configuration validity, scoring calculations, and whether the Shipboard behaves as expected under certain conditions.
+ *
+ * Key functionalities tested include:
+ * - Checking if cabins are properly connected.
+ * - Determining the validity of a shipboard based on correct configuration and placement of components.
+ * - Ensuring that rules related to ship parts like cannons, engines, and their orientation are properly adhered to.
+ * - Evaluating the removal of aliens from components under specific scenarios.
+ * - Calculating strengths of engines and cannons along with exposed connector counts.
+ * - Verifying shipwreck recognition and selection logic.
+ * - Proper management of valuable blocks within the Shipboard.
+ *
+ * The class applies annotations like @Test to designate test methods and uses helper methods for initialization
+ * and grid clearing tasks.
+ */
 class ShipboardTest {
 
     private List<ComponentTile> initializeTiles(){

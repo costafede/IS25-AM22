@@ -10,6 +10,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The GameTest class contains a set of test methods and utility methods for testing different scenarios
+ * in the gameplay of various game types (e.g. Level 2 game, Tutorial game).
+ * This class primarily focuses on verifying player management, gameplay transitions,
+ * and score calculation functionality.
+ */
 class GameTest {
 
     List<String> playerList = List.of("Anatoly", "Tommaso", "Federico", "Emanuele");

@@ -9,6 +9,25 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This test class, TUITest, is designed to verify the functionality of a Text-based User Interface (TUI) system.
+ * It includes unit tests that assess the ability of the TUI to correctly parse commands and their inputs from
+ * an input stream, while also performing validations on invalid commands.
+ *
+ * Tests a variety of cases including:
+ * - Correct parsing of commands and their input arguments.
+ * - Handling of empty or invalid commands.
+ * - Verification of command name and extracted inputs against expected results.
+ *
+ * The test leverages:
+ * - Predefined test cases with various command formats.
+ * - A Scanner to simulate user input via a ByteArrayInputStream.
+ *
+ * Assertions validate:
+ * - Whether the command name matches expectations.
+ * - Whether the input arguments are parsed and stored correctly.
+ * - The ability to reject improperly formatted or invalid commands.
+ */
 class TUITest {
     @Test
     void should_parse_strings_correctly() {

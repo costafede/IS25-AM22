@@ -8,6 +8,14 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The GameControllerTest class provides a suite of unit tests for the GameController class.
+ * It tests various functionalities of GameController, including game state management,
+ * player management, lobby control, game start conditions, and game-specific operations.
+ *
+ * Each test method is designed to validate specific behaviors or edge cases to ensure
+ * the correctness and robustness of the GameController implementation.
+ */
 class GameControllerTest {
 
     private GameController gameController;

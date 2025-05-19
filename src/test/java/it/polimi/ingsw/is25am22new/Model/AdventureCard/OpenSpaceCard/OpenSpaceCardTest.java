@@ -13,6 +13,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class contains unit tests for the {@code OpenSpaceCard} functionality in the context of a game.
+ * It ensures that the game mechanics related to the 'Open Space' adventure card are functioning as expected.
+ *
+ * The tests validate interactions between the OpenSpaceCard, the Game, and the players' shipboards and flightboards.
+ * Various scenarios are tested to confirm the correct behavior of engine activation, player movement,
+ * overlapping players, and handling of players with 0 engine strength.
+ *
+ * Key features tested include:
+ * 1. Proper execution of the generic 'Open Space' scenario with multiple players and card effects.
+ * 2. Verification that players are moved correctly based on engine strength activation.
+ * 3. Accurate handling of battery and engine consumption when activating engines.
+ * 4. Ensuring players with zero engine strength are correctly kicked out of the game at the end of the scenario.
+ * 5. Handling of overlapping players and confirmation that the correct players are removed or retained.
+ * 6. Ensuring that kicked-out players are no longer active on the flightboard but remain in the overall player list.
+ * 7. Confirmation that the current player updates appropriately and the card is cleared once the effect ends.
+ */
 class OpenSpaceCardTest {
     public Game initializeGame(){
         List<String> players = new ArrayList<>();

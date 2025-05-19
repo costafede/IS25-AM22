@@ -8,6 +8,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the initialization of the tutorial deck in a tutorial game.
+ *
+ * This class contains a test to ensure that the tutorial deck is correctly initialized
+ * with the expected number of adventure cards and that each card in the deck belongs
+ * to the tutorial mode.
+ */
 class inittutorialdecktest {
 
     @Test

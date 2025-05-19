@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for the Lobby class to validate the functionality of adding players,
+ * removing players, updating player readiness status, and setting game types in the lobby.
+ */
 class LobbyTest {
 
     @Test

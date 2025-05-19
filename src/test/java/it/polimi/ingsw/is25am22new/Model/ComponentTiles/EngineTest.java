@@ -4,6 +4,30 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The EngineTest class is a set of unit tests to validate the functionality of
+ * engine-related behaviors in the system. It ensures correctness in the
+ * rotation mechanics and engine strength calculations for different component tiles.
+ *
+ * The functionality being tested includes:
+ *
+ * 1. Rotation Behavior:
+ *    - Verifies that the engine rotates correctly in both clockwise and
+ *      counter-clockwise directions.
+ *    - Confirms that the sides of the engine adjust appropriately with each
+ *      rotation.
+ *    - Checks specific side properties post-rotation, such as whether an
+ *      engine is present on a given side.
+ *
+ * 2. Engine Strength:
+ *    - Ensures that engine strength calculations are accurate for both
+ *      single-engine and double-engine component tiles.
+ *    - Covers scenarios where the engine is activated and deactivated to ensure
+ *      proper strength updates.
+ *
+ * These tests validate the correct interaction between rotation mechanisms, side
+ * properties, and engine-specific functionalities across different component implementations.
+ */
 class EngineTest {
     @Test
     void test_engine_should_rotate_correctly(){
