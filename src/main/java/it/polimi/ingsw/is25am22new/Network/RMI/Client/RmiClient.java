@@ -124,7 +124,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                     try {
                         connectWithNickname(playerName);
                         // Wait a moment for any asynchronous responses
-                        Thread.sleep(500);
+                        //Thread.sleep(500);
                         nickAccepted = clientView.isNicknameValid();
                         if (!nickAccepted) {
                             playerName = null; // Reset to prompt again
@@ -132,35 +132,32 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                     } catch (RemoteException e) {
                         // Handle specific error messages for better user experience
                         if (e.getMessage() != null && e.getMessage().contains("Host is configuring")) {
-                            System.out.println("\n╔═══════════════════════════════���══════════════════════════════════════╗");
+                            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
                             System.out.println("║                Host is configuring the lobby...                       ║");
                             System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                            // Don't wait, just shut down
-                            shutdown();
-                            return;
+                            // Reset playerName to prompt again, don't shut down
+                            playerName = null;
                         } else if (e.getMessage() != null && e.getMessage().contains("Nickname already taken")) {
                             System.err.println("\n╔══════════════════════════════════════════════════════════════════════╗");
                             System.err.println("║               Nickname already taken. Please try again.              ║");
                             System.err.println("╚══════════════════════════════════════════════════════════════════════╝");
                             playerName = null; // Reset to prompt again
                         } else {
-                            // Handle the "count is negative" error (which happens when host is configuring)
-                            // as well as any other connection errors
+                            // Cattura anche il caso in cui l'host sta configurando ma l'errore non contiene il messaggio specifico
+                            // Come nel caso dell'errore "count is negative" che può verificarsi quando l'host sta configurando
                             System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                            System.out.println("║          Cannot connect to server. Host may be configuring.          ║");
-                            System.out.println("║                      Please try again later.                         ║");
+                            System.out.println("║                Host is configuring the lobby...please retry           ║");
                             System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                            // Don't show the detailed error message to the user, just shut down gracefully
-                            shutdown();
-                            return;
+                            // Reset playerName to prompt again, don't shut down
+                            playerName = null;
                         }
                     }
                 } catch (Exception e) {
                     System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                    System.out.println("║          Cannot connect to server. Please try again later.           ║");
+                    System.out.println("║                Host is configuring the lobby...please retry           ║");
                     System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                    shutdown();
-                    return;
+                    // Reset playerName to prompt again, don't shut down
+                    playerName = null;
                 }
             }
             this.playerName = playerName;
@@ -485,20 +482,18 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     @Override
     public void terminate() throws RemoteException {
         System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║                Host is configuring the lobby...please retry           ║");
+        System.out.println("║                Host is configuring the lobby...please retry          ║");
         System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
 
         // Mostra un messaggio di errore
         if (clientView != null) {
-            clientView.displayNicknameResult(false, "Host is configuring the lobby...please retry");
+            //clientView.displayNicknameResult(false, "Host is configuring the lobby...please retry");
 
             // Torna alla schermata di login se si sta usando la GUI
             if (clientView instanceof it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI) {
                 ((it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI) clientView).switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
-            } else {
-                // Termina l'applicazione se si sta usando la TUI
-                System.exit(0);
             }
+            // Non terminiamo l'applicazione anche per la TUI, permettendo all'utente di riprovare
         }
     }
 
