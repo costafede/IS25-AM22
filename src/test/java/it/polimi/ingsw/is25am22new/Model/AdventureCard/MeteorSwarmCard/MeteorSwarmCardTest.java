@@ -13,6 +13,24 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Provides test cases for verifying the functionality and behavior of the MeteorSwarmCard class
+ * and its interaction with the Game and Shipboard components.
+ *
+ * Test scenarios include:
+ * - Correct initialization and activation of MeteorSwarmCard effects.
+ * - Player-specific scenarios for activating components like batteries, cannons, and shields.
+ * - Maintaining integrity of shipboards during gameplay.
+ * - Proper handling of the meteor effects, including component destruction.
+ * - Ensures accurate player transitions and appropriate resource management.
+ *
+ * The test validates:
+ * - Consistency of game rules when actions are performed.
+ * - Correct usage and depletion of resources (e.g., battery consumption).
+ * - Activation and deactivation behaviors of components.
+ * - Destruction mechanics of components based on meteor effects and dice outcomes.
+ * - Handling of edge cases such as smooth sides or invalid component activations.
+ */
 class MeteorSwarmCardTest {
 
     @Test

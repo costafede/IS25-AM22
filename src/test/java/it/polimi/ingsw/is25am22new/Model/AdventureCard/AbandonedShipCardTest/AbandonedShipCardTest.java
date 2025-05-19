@@ -13,6 +13,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This test class is designed to validate the behavior and functionality of the AbandonedShipCard class.
+ * The tests simulate different scenarios involving player interactions with the card, verifying that
+ * the game state and relevant mechanics are updated correctly based on the interactions.
+ */
 class AbandonedShipCardTest {
 
     private Game initializeGame(){

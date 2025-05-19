@@ -14,6 +14,42 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the behavior and effects of the {@link CombatZoneCard} in a game scenario.
+ * This test ensures that various cases such as player actions, component activations, and game state changes
+ * occur correctly during game simulations involving the Combat Zone card.
+ *
+ * Responsibility:
+ * - Sets up a simulated game environment with multiple players and their respective ships.
+ * - Configures necessary game components and initial state required for testing the Combat Zone card.
+ * - Tests activation and effects of the Combat Zone card under various scenarios, including engine strength,
+ *   cannon strength, battery usage, penalties, crew removal, and damage simulation.
+ * - Verifies the results and consistency of game state after each card activation or player action.
+ *
+ * Key Components Involved:
+ * - {@link CombatZoneCard}: The primary game card being tested.
+ * - {@link Game}: The main game context simulated for testing.
+ * - {@link Shipboard}: Represents individual player ships and their components.
+ * - {@link Flightboard}: Tracks player positions and movement on the flightboard.
+ * - {@link InputCommand}: Used to simulate player inputs during card activations.
+ *
+ * Tests:
+ * - Simulates a multi-step game with different player decisions and interactions.
+ * - Checks correctness of crew counts, engine and cannon strengths, and battery activation.
+ * - Validates the effects of penalties and ensures game rules are followed.
+ * - Confirms proper state changes and accuracy of shipboard damage after attacks.
+ *
+ * Dependencies:
+ * - Relies on game components like {@link BatteryComponent}, {@link Engine}, {@link DoubleEngine},
+ *   {@link Cannon}, {@link DoubleCannon}, {@link ShieldGenerator}, {@link StructuralModule},
+ *   {@link RegularCabin}, and {@link AlienAddon}.
+ * - Utilizes helper methods such as {@code copyShipboard()} and {@code checkShipboardIntegrity()}
+ *   to assist in validating state changes during tests.
+ *
+ * Prerequisites for Use:
+ * - The {@link Game#getCardArchive} should provide a list of available cards including the Combat Zone card.
+ * - The flightboard and ships should be initialized using {@link Level2Game} or similar implementations.
+ */
 class CombatZoneCardTest {
     List<String> players;
     Game game;

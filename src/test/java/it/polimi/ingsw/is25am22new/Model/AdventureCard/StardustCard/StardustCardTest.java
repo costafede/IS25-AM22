@@ -16,6 +16,20 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for validating the behavior and functionality of the StardustCard
+ * within different game scenarios. The class contains test cases that verify
+ * the effect of the StardustCard on ship positions on the flightboard in both
+ * Level2 and Tutorial game modes.
+ *
+ * The tests check functionality such as:
+ * - Correct adjustments of rocket positions on the flightboard after activating
+ *   the StardustCard effects.
+ * - Handling of ships with varying numbers of exposed connectors.
+ *
+ * This class uses test data and mocked game configurations to simulate real
+ * gameplay scenarios.
+ */
 class StardustCardTest {
 
     static Map<String, Shipboard> shipboards = new HashMap<>();

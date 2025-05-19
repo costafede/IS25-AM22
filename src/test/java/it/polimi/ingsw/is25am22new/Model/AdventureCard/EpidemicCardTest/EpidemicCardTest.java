@@ -13,6 +13,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the functionality of handling an EpidemicCard in the game.
+ * This class contains test cases to validate the behavior of EpidemicCard effects
+ * and its interactions with the game state, including Shipboards, ComponentTiles,
+ * and their properties.
+ */
 class EpidemicCardTest {
 
     private List<ComponentTile> initializeTiles(){

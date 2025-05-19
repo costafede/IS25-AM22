@@ -17,18 +17,15 @@ import java.util.Random;
  * Represents a Combat Zone card in the game, which is a type of Adventure Card that handles combat encounters.
  * This class manages combat-related mechanics including dice rolls, shots, flight days lost, and astronaut losses.
  *
- * <p>The card maintains various states during combat and tracks:
- * <ul>
- *     <li>Flight days that will be lost due to combat</li>
- *     <li>Number of astronauts that can be lost in combat</li>
- *     <li>Combat shots and their mapping to dice roll numbers</li>
- *     <li>Current combat zone state</li>
- *     <li>Battery usage status</li>
- *     <li>Player strength values</li>
- *     <li>Number of removed crew members</li>
- *     <li>Combat dice rolls</li>
- * </ul>
- * </p>
+ * The card maintains various states during combat and tracks:
+ * - Flight days that will be lost due to combat
+ * - Number of astronauts that can be lost in combat
+ * - Combat shots and their mapping to dice roll numbers
+ * - Current combat zone state
+ * - Battery usage status
+ * - Player strength values
+ * - Number of removed crew members
+ * - Combat dice rolls
  *
  * @see AdventureCard
  * @see CombatZoneState

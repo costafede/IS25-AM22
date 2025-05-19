@@ -7,6 +7,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The initlevel2deckandpilestest class contains unit tests designed to verify the proper
+ * initialization of the Level 2 game's deck and card piles. The tests ensure compliance
+ * with game rules and constraints during the setup phase of the game.
+ */
 class initlevel2deckandpilestest {
 
     @Test

@@ -9,6 +9,17 @@ import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The StartMenuController class is a JavaFX controller designed to manage the behavior
+ * and transition logic for the start menu scene in the Galaxy Trucker application.
+ * It extends the FXMLController to inherit shared GUI and application state management functionality
+ * and implements the Initializable interface for initializing scene-specific configurations.
+ *
+ * This controller is responsible for handling user interactions on the start menu,
+ * such as initiating a transition to the "Connect to Server" scene and applying
+ * specific graphical styles. It also manages the dynamic background rendering
+ * through the GalaxyBackground component.
+ */
 public class StartMenuController extends FXMLController implements Initializable {
 
     @FXML

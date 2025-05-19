@@ -30,6 +30,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the proper initialization of game cards from JSON.
+ * This class contains methods to validate the accuracy of card initialization
+ * for various card types in the game using JSON parsing.
+ */
 class InitializingFromJsonCardsTest {
 
     @Test

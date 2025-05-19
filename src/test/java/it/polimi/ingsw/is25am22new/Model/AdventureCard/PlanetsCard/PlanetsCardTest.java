@@ -16,6 +16,33 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The PlanetsCardTest class is a test suite designed to verify functionality related to the Planets Card
+ * in the game. This class ensures that planets are loaded correctly with the appropriate resources and
+ * that various game scenarios involving players and goods are handled as expected.
+ *
+ * It includes tests to validate proper placement of players, correct handling of resources, and the
+ * management of situations such as lack of goods. The class uses unit testing techniques to confirm
+ * the integrity of the game's behavior.
+ *
+ * Methods in this class include setup methods to initialize the game and adventure cards, as well as
+ * specific test cases annotated with @Test to validate core game logic and scenarios.
+ *
+ * Superclass:
+ * - java.lang.Object
+ *
+ * Methods:
+ * - Game initializeGame(): Initializes and returns a new instance of the Game object.
+ * - PlanetsCard initializeAdventureCard(Game game): Configures and returns a PlanetsCard object
+ *   customized to the provided game instance.
+ *
+ * Test Cases:
+ * - test_should_load_planets_with_resources_and_players_should_be_placed_correctly(): Verifies that
+ *   planets are correctly loaded with resources and that players are placed appropriately on the flight board.
+ * - goods_should_be_carried_properly(): Ensures that goods in the game are being transported as intended.
+ * - test_lack_of_goods_should_be_managed_properly(): Confirms that the game can handle scenarios where goods
+ *   are insufficient and that such situations are dealt with correctly.
+ */
 class PlanetsCardTest {
     public Game initializeGame(){
         List<String> players = new ArrayList<>();

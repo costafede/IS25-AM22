@@ -14,6 +14,39 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The PiratesCardTest class is a test suite that validates the behavior and functionality
+ * of the PiratesCard feature. It contains test cases to simulate gameplay scenarios and
+ * ensure the expected outcomes under different conditions.
+ *
+ * Class fields:
+ * - players: Represents the list of players participating in the game.
+ * - game: Represents the game instance being tested.
+ * - piratesCard: Represents the PiratesCard instance used in the game.
+ * - level2FlightBoard: Represents the level 2 flight board used in the game.
+ * - shipA, shipB, shipC: Represents different ships within the game.
+ *
+ * Class methods:
+ *
+ * - @BeforeEach
+ *   Simulates a game with a variety of cases to test the PiratesCard gameplay and interactions.
+ *
+ * - @Test
+ *   - test_scenario_1_last_player_wins_one_ties: Tests a specific scenario in which the last
+ *     player wins and one other player ties.
+ *   - test_scenario_2_all_players_lose: Tests a scenario where all participating players lose.
+ *   - test_first_player_wins: Tests a scenario where the first player wins.
+ *
+ * - private Shipboard CopyShipboard(Shipboard shipboard)
+ *   Creates a copy of a given Shipboard object. Used exclusively for validating ship integrity,
+ *   not for inspecting or manipulating the internal state of components.
+ *
+ * - private boolean CheckShipboardIntegrity(Shipboard oldS, Shipboard newS)
+ *   Compares two Shipboard instances to ensure that the integrity of the ships is maintained.
+ *
+ * Superclass:
+ * - java.lang.Object
+ */
 class PiratesCardTest {
     List<String> players;
     Game game;

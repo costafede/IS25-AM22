@@ -16,6 +16,16 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class handles the functionality and UI interactions for connecting to a server in the Galaxy Trucker GUI.
+ * It extends FXMLController and implements the Initializable interface to manage the interaction lifecycle
+ * and initialization of components declared in an FXML file.
+ *
+ * The ConnectToServerController provides functionalities such as:
+ * - Managing user inputs for server connection parameters (username, server IP address, and port).
+ * - Handling UI changes, including setting up an animated galaxy background.
+ * - Connecting to a server using socket or RMI configurations, as determined by application parameters.
+ */
 public class ConnectToServerController extends FXMLController implements Initializable {
 
 
