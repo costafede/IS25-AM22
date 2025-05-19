@@ -150,7 +150,7 @@ public class LobbyController extends FXMLController implements Initializable {
                 String readyStatusText = readyStatus.get(player) ? "READY" : "NOT READY";
                 newList.add(player + " (" + readyStatusText + ")");
             }
-            if(!readyStatus.get(player) || playerList.size() != maxPlayers)
+            if(!readyStatus.get(player) || playerList.size() != maxPlayers) // seen only by host because players don receive maxPlayers info
                 allReady = false;
         }
 

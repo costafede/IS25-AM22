@@ -42,7 +42,7 @@ public class GalaxyStarsEffect extends Canvas {
                     random.nextDouble() * width,
                     random.nextDouble() * height,
                     2.5 + random.nextDouble() * 3,
-                    random.nextDouble() * 0.01 + 0.01
+                    random.nextDouble() * 0.05 + 0.02
             );
         }
         return stars;
