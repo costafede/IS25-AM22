@@ -15,6 +15,26 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The SmugglersCardTest class contains unit tests to verify the behavior of the Smugglers
+ * card functionality within the game simulation. It is designed to test specific outcomes
+ * and interactions related to the Smugglers card when invoked in a game scenario.
+ *
+ * This test suite ensures that the game logic applied to the Smugglers card performs as
+ * expected in various situations, including generic execution, scenarios where smugglers
+ * manage to defeat every player, and edge cases when specific draws or victories occur.
+ *
+ * Inherits basic functionality from the java.lang.Object class.
+ *
+ * Methods:
+ * - initializeGame: Creates and initializes a game instance for testing purposes.
+ * - test_should_simulate_a_generic_execution: Verifies that a generic game execution
+ *   with the Smugglers card is simulated correctly.
+ * - test_smugglers_defeat_every_player: Validates the behavior of the game when smugglers
+ *   achieve a victory condition over all other players.
+ * - test_B_draws_C_wins: Examines a particular scenario where a specific player draws,
+ *   followed by another player's victory.
+ */
 class SmugglersCardTest {
     public Game initializeGame(){
         List<String> players = new ArrayList<>();

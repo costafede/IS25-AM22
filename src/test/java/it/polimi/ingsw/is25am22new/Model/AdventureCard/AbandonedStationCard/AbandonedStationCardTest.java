@@ -16,6 +16,22 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class contains unit tests for the functionality of the AbandonedStationCard class within the context of a game.
+ * Specifically, it focuses on simulating different scenarios related to the interaction of players with an abandoned station.
+ *
+ * The tests include:
+ * 1. Initializing a game environment with players, their shipboards, flightboard positions, and necessary components.
+ * 2. Simulating scenarios where players either choose to interact with or bypass the abandoned station card during gameplay.
+ * 3. Verifying the expected game state and associated side effects in terms of flightboard positions, card handling, and resource management.
+ *
+ * The test cases ensure correctness of:
+ * - Setting up the initial game state.
+ * - Handling the activation of the AbandonedStationCard effect with respect to player decisions.
+ * - Resource allocation, movement, and storage functionalities when players interact with available good blocks.
+ * - Proper positional updates for players who land at or bypass the abandoned station.
+ * - State transitions for the currently active card and player.
+ */
 class AbandonedStationCardTest {
     public Game initializeGame(){
         List<String> players = new ArrayList<>();

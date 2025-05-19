@@ -4,6 +4,26 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the behavior of the {@link ComponentTile} class and its subclasses.
+ * Specifically, this test focuses on the rotation functionality provided by the component tile.
+ *
+ * This test ensures that:
+ * - ComponentTile instances correctly rotate clockwise and counterclockwise.
+ * - Side properties (top, bottom, left, right) are updated correctly after rotations.
+ *
+ * The {@code test_tile_should_rotate_correctly} method validates the integrity of the rotation logic
+ * by checking the side configurations against expected results after each rotation step.
+ *
+ * Key functionalities tested:
+ * - Proper clockwise rotation of sides.
+ * - Proper counterclockwise rotation of sides.
+ * - Consistency of rotations when alternating between clockwise and counterclockwise methods.
+ *
+ * Dependencies under test:
+ * - {@link ComponentTile#rotateClockwise()}
+ * - {@link ComponentTile#rotateCounterClockwise()}
+ */
 class ComponentTileTest {
 
     @Test

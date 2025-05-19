@@ -12,6 +12,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for verifying the initialization of components from JSON within the game.
+ *
+ * This class ensures that the process of parsing and setting up game components from
+ * JSON is working as intended. It contains unit tests and validation checks for different
+ * game components, ensuring correct deserialization and initialization behaviors.
+ */
 public class InitializingFromJsonComponentTest {
     private Game game;
 

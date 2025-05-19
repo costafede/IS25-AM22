@@ -12,6 +12,11 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for validating the functionality of flight boards in the game.
+ * This class contains unit tests for different functionalities of the
+ * Level2FlightBoard and TutorialFlightBoard.
+ */
 class FlightboardTest {
     static List<String> playerList = new ArrayList<>(List.of("Cristina", "Alex", "Bianca", "Davide"));
 

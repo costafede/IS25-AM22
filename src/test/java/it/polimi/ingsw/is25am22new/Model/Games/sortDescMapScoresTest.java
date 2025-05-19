@@ -7,7 +7,10 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Test class for validating the `sortDesc` method functionality in different game levels.
+ * Contains unit tests to ensure maps of scores are correctly sorted in descending order.
+ */
 class sortDescMapScoresTest {
 
     @Test
