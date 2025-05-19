@@ -47,4 +47,6 @@ public interface ClientModelObserver {
     void updateDices(Dices dices);
 
     void updateGameStartMessageReceived(boolean gameStartMessageReceived);
+
+    void updateTileInHand(String player, ComponentTile ct);
 }

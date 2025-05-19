@@ -504,8 +504,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
     @Override
     public void showUpdateTileInHand(String player, ComponentTile tile)  {
-        clientModel.getShipboard(player).setTileInHand(tile);
-        clientModel.setShipboard(player, clientModel.getShipboard(player));
+        clientModel.setTileInHand(player, tile);
     }
 
     @Override

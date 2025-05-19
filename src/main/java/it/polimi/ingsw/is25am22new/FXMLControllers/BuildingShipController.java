@@ -6,6 +6,7 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -47,7 +48,7 @@ public class BuildingShipController extends FXMLController implements Initializa
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
         }
 
-        animatedBackground = new GalaxyStarsEffect(1280, 720);
+        /*animatedBackground = new GalaxyStarsEffect(1280, 720);
 
         if (backGround.getParent() instanceof Pane pane) {
             animatedBackground.setWidth(backGround.getFitWidth());
@@ -56,7 +57,7 @@ public class BuildingShipController extends FXMLController implements Initializa
             pane.getChildren().add(animatedBackground);
 
             animatedBackground.toFront();
-        }
+        }*/
 
         drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
 
@@ -77,12 +78,13 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML
     public void pickCoveredTile(MouseEvent event) {
         // Qui implementerai la logica per selezionare una tessera coperta
-        try {
-            virtualServer.pickCoveredTile(model.getPlayerName());
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> Platform.runLater(() -> {
+                try {
+                    virtualServer.pickCoveredTile(model.getPlayerName());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            })).start();
     }
 
     @FXML
@@ -123,15 +125,7 @@ public class BuildingShipController extends FXMLController implements Initializa
                     }
                 }
             }
-            //draw tile in hand
-            if(shipboard.getTileInHand() == null) {
-                tileInHand.setImage(null);
-                numOfRotations = 0;
-            }
-            else {
-                tileInHand.setImage(new Image(getClass().getResource("/GraficheGioco/tiles/" + shipboard.getTileInHand().getPngName()).toExternalForm()));
-                tileInHand.setRotate(90 * numOfRotations);
-            }
+
         }
         else {
             //draw ship without buttons
@@ -209,7 +203,7 @@ public class BuildingShipController extends FXMLController implements Initializa
     }
 
     /**
-     * Returns a StackPane wrapping the image with the given name
+     * Returns a StackPane wrapping the image with the given name to put on the grid pane
      */
     private StackPane getComponentTileImageForGrid(String pngName, int numOfRotations) {
         Image image = new Image(getClass().getResource("/GraficheGioco/tiles/" + pngName).toExternalForm());
@@ -228,5 +222,16 @@ public class BuildingShipController extends FXMLController implements Initializa
         imageView.fitHeightProperty().bind(wrapper.heightProperty());
 
         return wrapper;
+    }
+
+    public void drawTileInHand(ComponentTile ct) {
+        if(ct == null) {
+            tileInHand.setImage(null);
+            numOfRotations = 0;
+        }
+        else {
+            tileInHand.setImage(new Image(getClass().getResource("/GraficheGioco/tiles/" + ct.getPngName()).toExternalForm()));
+            tileInHand.setRotate(90 * numOfRotations);
+        }
     }
 }
