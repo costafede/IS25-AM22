@@ -81,9 +81,16 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         launch(args);
     }
 
+    /**
+     * Called only when the model is initialized server side
+     */
+
+
     @Override
     public void updateGame(ClientModel model) {
-
+        Platform.runLater(() -> {
+            switchToScene("/it/polimi/ingsw/is25am22new/BuildingShip.fxml");
+        });
     }
 
     @Override
@@ -98,10 +105,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
-        switch(gamePhase.getPhaseType()){
-            case BUILDING -> Platform.runLater(() -> buildingShipController.drawScene());
-            case CARD -> cardPhaseController.drawScene();
-        }
+        new Thread(() -> Platform.runLater(() -> buildingShipController.drawScene())).start();
     }
 
     @Override
@@ -168,6 +172,10 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     public static ClientModel getClientModel() {
         return clientModel;
+    }
+
+    public static VirtualServer getVirtualServer() {
+        return virtualServer;
     }
 
     public static Stage getPrimaryStage() {
@@ -294,10 +302,6 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     public void setVirtualServer(VirtualServer server) {
         GalaxyTruckerGUI.virtualServer = server;
-    }
-
-    public VirtualServer getVirtualServer() {
-        return virtualServer;
     }
 
     public void setPlayerName(String playerName) {

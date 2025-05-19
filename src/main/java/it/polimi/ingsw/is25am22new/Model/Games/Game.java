@@ -114,6 +114,7 @@ public abstract class Game extends ObservableModel implements Serializable {
         GameInitializer.initComponent(this, objectMapper);
         GameInitializer.initCardArchive(this, objectMapper);
         gamePhase.trySwitchToNextPhase();
+        updateAllGame(this);
     }
 
     /**
