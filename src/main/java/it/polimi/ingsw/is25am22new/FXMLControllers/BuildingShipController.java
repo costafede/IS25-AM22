@@ -6,9 +6,14 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import javafx.event.ActionEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -16,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,8 +60,13 @@ public class BuildingShipController extends FXMLController implements Initializa
             animatedBackground.setWidth(backGround.getFitWidth());
             animatedBackground.setHeight(backGround.getFitHeight());
 
-            pane.getChildren().add(animatedBackground);
+            // Inserisce l'animazione come primo elemento del pane (dietro a tutti gli altri elementi)
+            pane.getChildren().add(0, animatedBackground);
 
+            // Assicurati che lo sfondo sia dietro tutti gli elementi
+            backGround.toBack();
+            animatedBackground.toBack();
+        }
             animatedBackground.toFront();
         }*/
 
@@ -234,4 +245,34 @@ public class BuildingShipController extends FXMLController implements Initializa
             tileInHand.setRotate(90 * numOfRotations);
         }
     }
+
+    /**
+     * Metodo temporaneo per switchare alla scena CardPhase per testing
+     * @param event evento del click sul bottone
+     */
+    @FXML
+    public void switchToCardPhase(ActionEvent event) {
+        try {
+            // Caricamento della scena CardPhase.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/CardPhase.fxml"));
+            Parent root = loader.load();
+
+            // Ottenimento della stage corrente
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Creazione di una nuova scene e impostazione nella stage
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            // Ferma l'animazione dello sfondo quando si cambia scena
+            if (animatedBackground != null) {
+                animatedBackground.stopAnimation();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Errore durante il caricamento della scena CardPhase.fxml");
+        }
+    }
 }
+
