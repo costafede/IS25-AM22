@@ -22,6 +22,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * The BuildingShipController class is responsible for managing the logic and UI interactions
+ * during the ship-building phase of the game. It extends from FXMLController and implements
+ * the Initializable interface to initialize the user interface and its behaviors.
+ */
 public class BuildingShipController extends FXMLController implements Initializable {
     @FXML private ImageView coveredTilesHeap;
     @FXML private ImageView tileInHand;

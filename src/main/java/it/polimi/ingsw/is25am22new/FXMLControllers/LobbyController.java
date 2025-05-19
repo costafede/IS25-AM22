@@ -21,6 +21,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * The LobbyController class serves as the controller for the game lobby interface in the Galaxy Trucker
+ * application. It manages the interaction between the user and the lobby scene, including game setup,
+ * player readiness, joining, and other lobby-related activities. The class extends FXMLController, inheriting
+ * shared functionality for managing GUI and server communication, and implements Initializable to initialize
+ * JavaFX components.
+ *
+ * Responsibilities include:
+ * - Managing the state of the lobby, such as player count, player readiness, and game settings.
+ * - Handling actions for buttons and other interactive UI elements, such as starting the game, toggling readiness,
+ *   confirming settings, and exiting the lobby.
+ * - Updating the UI dynamically based on changes in the lobby, including player updates and game type settings.
+ * - Communicating with the server to send or receive updates about the lobby state, game type, and other players.
+ */
 public class LobbyController extends FXMLController implements Initializable {
 
     private boolean isHost = false;
