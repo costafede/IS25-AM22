@@ -199,6 +199,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
             }
         }else{
             //client.showConnectionResult(false, false, "Host is configuring the game. Please try again.");
+            client.showNicknameResult(false, "Host is configuring the lobby... please retry");
             client.terminate();
         }
     }
