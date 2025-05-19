@@ -620,4 +620,9 @@ public class TUI implements ClientModelObserver,ViewAdapter{
         modelChanged();
     }
 
+    @Override
+    public void updateTileInHand(String player, ComponentTile ct) {
+        modelChanged();
+    }
+
 }

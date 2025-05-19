@@ -212,6 +212,19 @@ public class ClientModel extends ObservableModelView {
         }
     }
 
+    public ComponentTile getTileInHand(String player) {
+        synchronized (shipboardLock) {
+            return this.shipboards.get(player).getTileInHand();
+        }
+    }
+
+    public void setTileInHand(String player, ComponentTile ct) {
+        synchronized (shipboardLock) {
+            this.shipboards.get(player).setTileInHand(ct);
+        }
+        notifyTileInHand(player, ct);
+    }
+
     public GamePhase getGamePhase() {
         synchronized (gamePhaseLock) {
             return gamePhase;

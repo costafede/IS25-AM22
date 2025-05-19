@@ -43,6 +43,12 @@ public abstract class ObservableModelView {
         }
     }
 
+    protected void notifyTileInHand(String player, ComponentTile ct) {
+        for (ClientModelObserver ld : listeners) {
+            ld.updateTileInHand(player, ct);
+        }
+    }
+
     protected void notifyStopHourglass() {
         for (ClientModelObserver ld : listeners) {
             ld.updateStopHourglass();

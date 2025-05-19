@@ -172,6 +172,12 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     }
 
+    @Override
+    public void updateTileInHand(String player, ComponentTile ct) {
+        if(player.equals(clientModel.getPlayerName()))
+            Platform.runLater(() -> buildingShipController.drawTileInHand(ct));
+    }
+
     public static ClientModel getClientModel() {
         return clientModel;
     }
