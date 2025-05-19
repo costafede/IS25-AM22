@@ -113,6 +113,7 @@ public class ConnectToServerController extends FXMLController implements Initial
         String ipAddress = ipAddressField.getText().trim();
         int port = Integer.parseInt(portField.getText().trim());
         galaxyTruckerGUI.setPlayerName(username);
+        model.setPlayerName(username);
 
         // Show connecting message
         errorLabel.setText("Connecting to server...");
