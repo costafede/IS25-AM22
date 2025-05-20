@@ -42,7 +42,6 @@ import java.util.function.Consumer;
  */
 public class GalaxyTruckerGUI extends Application implements ClientModelObserver, EnhancedClientView {
 
-    private String playerName;
     private StartMenuController startMenuController;
     private ConnectToServerController connectToServerController;
     private LobbyController lobbyController;
@@ -321,13 +320,5 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     public void setVirtualServer(VirtualServer server) {
         GalaxyTruckerGUI.virtualServer = server;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public String getPlayerName() {
-        return playerName;
     }
 }

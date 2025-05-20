@@ -77,13 +77,9 @@ public class BuildingShipController extends FXMLController implements Initializa
      * This method draws the scene in the corresponding fxml file by showing different elements depending on the game type (level 2 or tutorial).
      * It Must be called after having initialized the attributes through the setup method.
      */
-    public void drawScene() {
-        if(model.getGametype().equals(GameType.LEVEL2)) {
-            shipboardImage.setImage(new Image(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg").toExternalForm()));
-            // TODO: devo mostrare la clessidra e la flightboard rendendole interagibili
-        }
-        drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
-    }
+    //public void drawScene() {
+    //    drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
+    //}
 
     @FXML
     public void pickCoveredTile(MouseEvent event) {
@@ -223,7 +219,6 @@ public class BuildingShipController extends FXMLController implements Initializa
         imageView.setRotate(90 * numOfRotations);
 
         StackPane wrapper = new StackPane(imageView);
-        wrapper.setStyle("-fx-padding: 5;");
 
         GridPane.setHgrow(wrapper, Priority.ALWAYS);
         GridPane.setVgrow(wrapper, Priority.ALWAYS);
