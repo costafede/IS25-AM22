@@ -5,10 +5,69 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.EndController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="720.0" prefWidth="1280.0">
 
-</AnchorPane>
+    <!-- Game over content -->
+    <VBox alignment="CENTER" spacing="20">
+        <Label text="Game Over" textFill="#FFD700" style="-fx-font-size: 56px; -fx-font-weight: bold; -fx-font-family: 'Impact';">
+            <VBox.margin>
+                <Insets bottom="30" top="30"/>
+            </VBox.margin>
+            <effect>
+                <javafx.scene.effect.DropShadow color="#0099FF" radius="15" spread="0.5" />
+            </effect>
+        </Label>
+
+        <VBox alignment="CENTER" style="-fx-background-color: rgba(0, 20, 40, 0.8); -fx-border-color: #0099FF; -fx-border-width: 3; -fx-border-radius: 15; -fx-background-radius: 15;">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <VBox.margin>
+                <Insets left="100" right="100"/>
+            </VBox.margin>
+            <Label text="FINAL SCORES" textFill="#0099FF" style="-fx-font-size: 22px; -fx-font-weight: bold;">
+                <VBox.margin>
+                    <Insets bottom="10"/>
+                </VBox.margin>
+                <effect>
+                    <javafx.scene.effect.Bloom threshold="0.8"/>
+                </effect>
+            </Label>
+
+            <TableView fx:id="leaderboardTable" prefHeight="200.0" prefWidth="400.0"
+                      style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-background-radius: 10; -fx-border-color: #0099FF; -fx-border-width: 1; -fx-border-radius: 10;">
+                <columns>
+                    <TableColumn fx:id="playerColumn" text="PILOT NAME" prefWidth="250.0"
+                                style="-fx-alignment: center; -fx-font-weight: bold;"/>
+                    <TableColumn fx:id="scoreColumn" text="COSMIC CREDITS" prefWidth="150.0"
+                                style="-fx-alignment: center; -fx-font-weight: bold;"/>
+                </columns>
+                <effect>
+                    <javafx.scene.effect.DropShadow color="#00CCFF" radius="10" spread="0.2"/>
+                </effect>
+            </TableView>
+        </VBox>
+
+        <Button fx:id="quitButton" text="QUIT" prefWidth="200.0" prefHeight="50.0"
+                onAction="#handleQuitButton"
+                style="-fx-background-color: linear-gradient(#FF6B00, #FF0000); -fx-text-fill: white; -fx-background-radius: 20; -fx-border-color: #FFD700; -fx-border-width: 2; -fx-border-radius: 20;">
+            <font>
+                <Font name="System Bold" size="18.0"/>
+            </font>
+            <VBox.margin>
+                <Insets top="30"/>
+            </VBox.margin>
+            <effect>
+                <javafx.scene.effect.DropShadow color="WHITE" radius="10" spread="0.1"/>
+            </effect>
+        </Button>
+
+    </VBox>
+</StackPane>

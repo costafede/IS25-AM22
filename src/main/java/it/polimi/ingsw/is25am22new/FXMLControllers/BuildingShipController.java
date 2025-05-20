@@ -328,6 +328,41 @@ public class BuildingShipController extends FXMLController implements Initializa
         }
     }
 
+    /**
+     * Metodo di test per la schermata finale.
+     * Permette di visualizzare la pagina End.fxml con dati di test per la leaderboard.
+     */
+    @FXML
+    private void testEndScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/End.fxml"));
+            Parent endRoot = loader.load();
+
+            // Otteniamo il controller e impostiamo dei dati di test
+            EndController endController = loader.getController();
+
+            // Creiamo una mappa di test con alcuni punteggi
+            Map<String, Integer> testScores = new HashMap<>();
+            testScores.put("Player 1", 120);
+            testScores.put("Player 2", 85);
+            testScores.put("Player 3", 150);
+            testScores.put("Player 4", 65);
+
+            // Impostiamo i punteggi nel controller
+            endController.setClientAndScores(null, testScores);
+
+            // Cambiamo la scena
+            Scene scene = new Scene(endRoot);
+            Stage stage = (Stage) componentTilesGrid.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Errore nel caricamento della pagina End.fxml: " + e.getMessage());
+        }
+    }
+
     /*@FXML
     public void handleDragDoneRocket(DragEvent event) {
         if (event.getTransferMode() == TransferMode.MOVE) {

@@ -23,6 +23,14 @@
             <Font name="Verdana Bold" size="16.0" />
          </font>
       </Button>
+
+      <!-- Bottone per testare la schermata End -->
+      <Button layoutX="830.0" layoutY="170.0" mnemonicParsing="false" onAction="#testEndScreen" prefHeight="50.0" prefWidth="200.0" text="Test End Screen" style="-fx-background-color: #E74C3C; -fx-text-fill: white;" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="170.0">
+         <font>
+            <Font name="Verdana Bold" size="16.0" />
+         </font>
+      </Button>
+
       <GridPane fx:id="componentTilesGrid" layoutX="34.0" layoutY="181.0" prefHeight="510.0" prefWidth="706.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="181.0">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
