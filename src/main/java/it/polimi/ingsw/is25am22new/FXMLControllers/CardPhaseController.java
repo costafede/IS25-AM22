@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,9 +33,9 @@ import java.util.Objects;
  */
 public class CardPhaseController extends FXMLController {
     @FXML private GridPane myShip;
-    @FXML private GridPane player1Grid;
-    @FXML private GridPane player2Grid;
-    @FXML private GridPane player3Grid;
+    @FXML private GridPane player1Ship; // Changed from player1Grid
+    @FXML private GridPane player2Ship; // Changed from player2Grid
+    @FXML private GridPane player3Ship; // Changed from player3Grid
     @FXML private ImageView myShipImage;
     @FXML private ImageView player1ShipImage;
     @FXML private ImageView player2ShipImage;
@@ -44,24 +46,32 @@ public class CardPhaseController extends FXMLController {
     @FXML private AnchorPane tutorialFlightboardPane; // Layout x = 375 Layout y = 15 positions fx:id t[num]
     @FXML private AnchorPane level2FlightboardPane; // positions fx:id l[num]
     @FXML private ImageView background;
+    @FXML private ImageView cardImage;
+    @FXML private Button pickCardButton;
+    @FXML private Button resolveEffectButton;
 
     private GalaxyStarsEffect animatedBackground;
+    private List<String> players;
+    private List<ImageView> playersShipImages;
 
     @FXML
     private void initialize() {
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
+        players = model.getShipboards().keySet().stream().toList();
+        playersShipImages = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
-            setShipboardImagesTutorial();
+            setShipboardImagesTutorial(players.size());
             tutorialFlightboardPane.setVisible(true);
             level2FlightboardPane.setVisible(false);
 
         } else {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleBackground.png")).toString()));
-            setShipboardImagesLevel2();
+            setShipboardImagesLevel2(players.size());
             tutorialFlightboardPane.setVisible(false);
             level2FlightboardPane.setVisible(true);
         }
+
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -81,18 +91,101 @@ public class CardPhaseController extends FXMLController {
         drawScene();
     }
 
-    private void setShipboardImagesLevel2() {
-        myShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
-        player1ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
-        player2ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
-        player3ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
+    private void setShipboardImagesLevel2(int playersNumber) {
+        // Prima imposta la visibilità delle navi in base al numero di giocatori
+        setShipboardsVisibility(playersNumber);
+
+        // Assegna le immagini solo alle navi che saranno visibili
+        int count = 0;
+        for (int i = 0; i < playersNumber && i < playersShipImages.size(); i++) {
+            ImageView shipImage = playersShipImages.get(i);
+            if (shipImage.isVisible()) {
+                shipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
+                count++;
+            }
+        }
+        System.out.println("Impostato " + count + " navi per la modalità Level2");
     }
 
-    private void setShipboardImagesTutorial() {
-        myShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
-        player1ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
-        player2ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
-        player3ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
+    private void setShipboardImagesTutorial(int playersNumber) {
+        // Prima imposta la visibilità delle navi in base al numero di giocatori
+        setShipboardsVisibility(playersNumber);
+
+        // Assegna le immagini solo alle navi che saranno visibili
+        int count = 0;
+        for (int i = 0; i < playersNumber && i < playersShipImages.size(); i++) {
+            ImageView shipImage = playersShipImages.get(i);
+            if (shipImage.isVisible()) {
+                shipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
+                count++;
+            }
+        }
+        System.out.println("Impostato " + count + " navi per la modalità Tutorial");
+    }
+
+    /**
+     * Sets the visibility of player shipboards based on number of players
+     *
+     * @param numberOfPlayers the number of players in the game
+     */
+    private void setShipboardsVisibility(int numberOfPlayers) {
+        // First hide all player boards
+        player1ShipImage.setVisible(false);
+        player2ShipImage.setVisible(false);
+        player3ShipImage.setVisible(false);
+        player1Name.setVisible(false);
+        player2Name.setVisible(false);
+        player3Name.setVisible(false);
+        player1Ship.setVisible(false);
+        player2Ship.setVisible(false);
+        player3Ship.setVisible(false);
+
+        // Now show only what we need based on player count
+        switch(numberOfPlayers) {
+            case 4:
+                player3ShipImage.setVisible(true);
+                player3Name.setVisible(true);
+                player3Ship.setVisible(true);
+                // Fall through to show other boards
+            case 3:
+                player2ShipImage.setVisible(true);
+                player2Name.setVisible(true);
+                player2Ship.setVisible(true);
+                // Fall through to show other boards
+            case 2:
+                player1ShipImage.setVisible(true);
+                player1Name.setVisible(true);
+                player1Ship.setVisible(true);
+                break;
+            default:
+                // Per il caso con un solo giocatore o errore, non visualizziamo navi aggiuntive
+                break;
+        }
+
+        // Imposta i nomi dei giocatori in base all'elenco effettivo
+        updatePlayerNames();
+    }
+
+    /**
+     * Updates the player name labels based on the current players in the game
+     */
+    private void updatePlayerNames() {
+        // Ottiene i nomi dei giocatori dall'elenco dei giocatori escluso il giocatore corrente
+        List<String> otherPlayers = players.stream()
+                .filter(name -> !name.equals(model.getPlayerName()))
+                .toList();
+
+        if (!otherPlayers.isEmpty() && otherPlayers.size() >= 1) {
+            player1Name.setText(otherPlayers.get(0));
+        }
+
+        if (otherPlayers.size() >= 2) {
+            player2Name.setText(otherPlayers.get(1));
+        }
+
+        if (otherPlayers.size() >= 3) {
+            player3Name.setText(otherPlayers.get(2));
+        }
     }
 
     /**
@@ -125,10 +218,27 @@ public class CardPhaseController extends FXMLController {
 
             // Aggiorna le informazioni dei giocatori
             updatePlayerInfo();
+
+            // Aggiorna lo stato dei pulsanti in base al turno corrente
+            updateButtonsState();
         } catch(Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Aggiorna lo stato dei pulsanti in base al turno corrente
+     * Disabilita i pulsanti quando non è il turno del giocatore
+     */
+    private void updateButtonsState() {
+        boolean isPlayerTurn = model.getPlayerName().equals(model.getCurrPlayer());
+
+        // Il pulsante pickCard è attivo solo se è il turno del giocatore
+        pickCardButton.setDisable(!isPlayerTurn);
+
+        // Si potrebbe fare lo stesso con gli altri pulsanti di azione che richiedono il turno del giocatore
+        resolveEffectButton.setDisable(!isPlayerTurn);
     }
 
     /**
@@ -170,10 +280,39 @@ public class CardPhaseController extends FXMLController {
             System.out.println("Tentativo di pescare una carta");
             virtualServer.pickCard();
 
-            // Aggiorna la scena dopo aver pescato la carta
-            drawScene();
+            // Aggiorna la carta dopo averla pescata
+            drawCard();
         } catch (IOException e) {
             showErrorAlert("Errore Pesca Carta", "Impossibile pescare la carta: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Disegna la carta corrente nell'ImageView designato
+     * Viene chiamato dopo aver pescato una carta per aggiornare l'interfaccia
+     */
+    public void drawCard() {
+        try {
+            if (model.getCurrCard() != null) {
+                // Ottieni il nome del file dell'immagine dalla carta
+                String pngName = model.getCurrCard().getPngName();
+                // Costruisci il percorso dell'immagine
+                String imagePath = "/GraficheGioco/cards/" + pngName;/* + ".jpg";*/
+
+                // Carica e visualizza l'immagine della carta
+                Image cardImg = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toString());
+                cardImage.setImage(cardImg);
+
+                System.out.println("Visualizzazione carta: " + model.getCurrCard().getName());
+            } else {
+                // Se non c'è una carta corrente, visualizza un messaggio o un'immagine predefinita
+                System.out.println("Nessuna carta corrente da visualizzare");
+                // Opzionale: impostare un'immagine predefinita per il dorso della carta
+                // cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/back.jpg")).toString()));
+            }
+        } catch (Exception e) {
+            System.err.println("Errore durante la visualizzazione della carta: " + e.getMessage());
             e.printStackTrace();
         }
     }
