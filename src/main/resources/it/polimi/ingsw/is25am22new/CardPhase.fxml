@@ -125,11 +125,44 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <AnchorPane layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="level2FlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../GraficheGioco/cardboard/cardboard-5.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="l0" fitHeight="25.0" fitWidth="25.0" layoutX="123.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l1" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l2" fitHeight="25.0" fitWidth="25.0" layoutX="206.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l3" fitHeight="25.0" fitWidth="25.0" layoutX="247.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l4" fitHeight="25.0" fitWidth="25.0" layoutX="291.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l5" fitHeight="25.0" fitWidth="25.0" layoutX="332.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l6" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l7" fitHeight="25.0" fitWidth="25.0" layoutX="413.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l8" fitHeight="25.0" fitWidth="25.0" layoutX="449.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l9" fitHeight="25.0" fitWidth="25.0" layoutX="474.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l10" fitHeight="25.0" fitWidth="25.0" layoutX="473.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l11" fitHeight="25.0" fitWidth="25.0" layoutX="443.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l12" fitHeight="25.0" fitWidth="25.0" layoutX="407.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l13" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l14" fitHeight="25.0" fitWidth="25.0" layoutX="324.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l15" fitHeight="25.0" fitWidth="25.0" layoutX="282.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l16" fitHeight="25.0" fitWidth="25.0" layoutX="240.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l17" fitHeight="25.0" fitWidth="25.0" layoutX="196.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l18" fitHeight="25.0" fitWidth="25.0" layoutX="156.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l19" fitHeight="25.0" fitWidth="25.0" layoutX="117.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l20" fitHeight="25.0" fitWidth="25.0" layoutX="80.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l21" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l22" fitHeight="25.0" fitWidth="25.0" layoutX="58.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="l23" fitHeight="25.0" fitWidth="25.0" layoutX="86.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="tutorialFlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
       
             <!-- Immagine centrale -->
-            <ImageView fx:id="tutorialFlightBoardImage" fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../GraficheGioco/cardboard/cardboard-3.png" />
                </image>
@@ -154,6 +187,11 @@
             <ImageView fx:id="t17" fitHeight="25.0" fitWidth="25.0" layoutX="96.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
+      <ImageView fx:id="rocketImage" fitHeight="60.0" fitWidth="60.0" layoutX="725.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../GraficheGioco/rockets/blueRocket.png" />
+         </image>
+      </ImageView>
       <GridPane fx:id="player1Ship" layoutX="53.0" layoutY="37.0" prefHeight="192.0" prefWidth="266.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
