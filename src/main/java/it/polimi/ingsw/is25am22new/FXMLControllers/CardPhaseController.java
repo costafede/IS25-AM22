@@ -231,7 +231,7 @@ public class CardPhaseController extends FXMLController {
      * Aggiorna lo stato dei pulsanti in base al turno corrente
      * Disabilita i pulsanti quando non è il turno del giocatore
      */
-    private void updateButtonsState() {
+    public void updateButtonsState() {
         boolean isPlayerTurn = model.getPlayerName().equals(model.getCurrPlayer());
 
         // Il pulsante pickCard è attivo solo se è il turno del giocatore
@@ -266,24 +266,6 @@ public class CardPhaseController extends FXMLController {
             // Implementazione per aggiornare le informazioni dei giocatori
         } catch (Exception e) {
             System.err.println("Errore durante l'aggiornamento delle informazioni del giocatore: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Gestisce l'evento quando il giocatore pesca una carta
-     */
-    @FXML
-    public void pickCard(ActionEvent event) {
-        try {
-            // Implementazione della logica per pescare una carta
-            System.out.println("Tentativo di pescare una carta");
-            virtualServer.pickCard();
-
-            // Aggiorna la carta dopo averla pescata
-            drawCard();
-        } catch (IOException e) {
-            showErrorAlert("Errore Pesca Carta", "Impossibile pescare la carta: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -331,7 +313,6 @@ public class CardPhaseController extends FXMLController {
             alert.setContentText("Qui puoi gestire i tuoi Goodblocks");
             alert.showAndWait();
         } catch (Exception e) {
-            showErrorAlert("Errore Banca", "Impossibile aprire la banca: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -340,167 +321,164 @@ public class CardPhaseController extends FXMLController {
      * Gestisce l'evento quando il giocatore lancia i dadi
      */
     @FXML
-    public void rollDices(ActionEvent event) {
-        try {
-            System.out.println("Lancio dei dadi");
+    public void pickCard(ActionEvent event) {
+        System.out.println("Tentativo di pescare una carta");
 
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Dices");
-            alert.setHeaderText("Lancio dei dadi");
-            alert.setContentText("Hai lanciato i dadi!");
-            alert.showAndWait();
-        } catch (Exception e) {
-            showErrorAlert("Errore Dadi", "Impossibile lanciare i dadi: " + e.getMessage());
+        // Verifica che sia il turno del giocatore
+        if (!model.getPlayerName().equals(model.getCurrPlayer())) {
+            System.out.println("Non è il tuo turno!");
+            return;
+        }
+
+        try {
+            // Chiama il server per pescare una carta
+            virtualServer.pickCard();
+            System.out.println("Richiesta di pesca carta inviata al server per il giocatore: " + model.getPlayerName());
+
+            // Il server dovrebbe rispondere chiamando updateCurrCard in GalaxyTruckerGUI
+            // che a sua volta chiamerà drawCard in questa classe
+        } catch (IOException e) {
+            System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     /**
-     * Gestisce l'evento quando il giocatore abbandona la partita
-     */
-    @FXML
-    public void abandonGame(ActionEvent event) {
-        try {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Abbandona Partita");
-            alert.setHeaderText("Sei sicuro di voler abbandonare la partita?");
-            alert.setContentText("Questa azione non può essere annullata.");
-
-            alert.showAndWait().ifPresent(response -> {
-                if (response == javafx.scene.control.ButtonType.OK) {
-                    try {
-                        System.out.println("Abbandono della partita da parte del giocatore: " + model.getPlayerName());
-                        virtualServer.playerAbandons(model.getPlayerName());
-
-                        // Torna al menu principale
-                        goToMainMenu(event);
-                    } catch (IOException e) {
-                        showErrorAlert("Errore Abbandono", "Impossibile abbandonare la partita: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            showErrorAlert("Errore", "Si è verificato un errore: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Gestisce l'evento quando il giocatore si disconnette
-     */
-    @FXML
-    public void disconnect(ActionEvent event) {
-        try {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Disconnessione");
-            alert.setHeaderText("Sei sicuro di volerti disconnettere?");
-            alert.setContentText("La connessione con il server verrà chiusa.");
-
-            alert.showAndWait().ifPresent(response -> {
-                if (response == javafx.scene.control.ButtonType.OK) {
-                    try {
-                        System.out.println("Disconnessione del giocatore: " + model.getPlayerName());
-                        virtualServer.disconnect();
-
-                        // Esci dall'applicazione
-                        System.exit(0);
-                    } catch (IOException e) {
-                        showErrorAlert("Errore Disconnessione", "Impossibile disconnettersi: " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            showErrorAlert("Errore", "Si è verificato un errore: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Gestisce l'evento quando il giocatore risolve l'effetto di una carta
+     * Gestisce la risoluzione dell'effetto della carta corrente
+     * @param event l'evento di click sul bottone resolveEffect
      */
     @FXML
     public void resolveEffect(ActionEvent event) {
-        try {
-            System.out.println("Risoluzione dell'effetto della carta");
-            InputCommand command = new InputCommand();
-            command.setChoice(false);
-            virtualServer.activateCard(command);
-            ///  TODO
+        System.out.println("Tentativo di risolvere l'effetto della carta");
 
-            // Aggiorna la scena dopo aver risolto l'effetto
-            drawScene();
+        // Verifica che sia il turno del giocatore
+        if (!model.getPlayerName().equals(model.getCurrPlayer())) {
+            System.out.println("Non è il tuo turno!");
+            return;
+        }
+
+        // Verifica che ci sia una carta da risolvere
+        if (model.getCurrCard() == null) {
+            System.out.println("Nessuna carta corrente da risolvere!");
+            return;
+        }
+
+        try {
+            // Chiama il server per risolvere l'effetto della carta
+            InputCommand inputCommand = new InputCommand();
+            inputCommand.setChoice(false);
+            virtualServer.activateCard(inputCommand);
+            System.out.println("Richiesta di risoluzione carta inviata al server");
         } catch (IOException e) {
-            showErrorAlert("Errore Effetto", "Impossibile risolvere l'effetto: " + e.getMessage());
+            System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     /**
-     * Gestisce l'evento quando il giocatore vuole vedere le tessere disponibili
+     * Gestisce l'abbandono della partita
+     * @param event l'evento di click sul bottone abandonGameButton
+     */
+    @FXML
+    public void abandonGame(ActionEvent event) {
+        System.out.println("Tentativo di abbandonare la partita");
+
+        // Chiedi conferma all'utente
+        Alert confirmDialog = new Alert(AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Abbandonare la partita?");
+        confirmDialog.setHeaderText("Sei sicuro di voler abbandonare la partita?");
+        confirmDialog.setContentText("Questa azione non può essere annullata.");
+
+        confirmDialog.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                try {
+                    virtualServer.playerAbandons(model.getPlayerName());
+                    System.out.println("Richiesta di abbandono partita inviata al server");
+
+                    // Torna alla schermata principale
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+
+                    // Ferma l'animazione dello sfondo
+                    if (animatedBackground != null) {
+                        animatedBackground.stopAnimation();
+                    }
+                } catch (IOException e) {
+                    System.err.println("Errore durante l'abbandono della partita: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Gestisce la disconnessione dal server
+     * @param event l'evento di click sul bottone disconnectButton
+     */
+    @FXML
+    public void disconnect(ActionEvent event) {
+        System.out.println("Tentativo di disconnessione dal server");
+
+        // Chiedi conferma all'utente
+        Alert confirmDialog = new Alert(AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Disconnettersi dal server?");
+        confirmDialog.setHeaderText("Sei sicuro di volerti disconnettere dal server?");
+        confirmDialog.setContentText("Questa azione causerà l'abbandono della partita corrente.");
+
+        confirmDialog.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                try {
+                    virtualServer.disconnect();
+                    System.out.println("Richiesta di disconnessione inviata al server");
+
+                    // Torna alla schermata principale
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+
+                    // Ferma l'animazione dello sfondo
+                    if (animatedBackground != null) {
+                        animatedBackground.stopAnimation();
+                    }
+                } catch (IOException e) {
+                    System.err.println("Errore durante la disconnessione: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Mostra i tiles disponibili
+     * @param event l'evento di click sul bottone showTilesButton
      */
     @FXML
     public void showTiles(ActionEvent event) {
-        try {
-            System.out.println("Visualizzazione delle tessere disponibili");
+        System.out.println("Mostra tessere disponibili");
 
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Tessere Disponibili");
-            alert.setHeaderText("Visualizzazione Tessere");
-            alert.setContentText("Qui puoi vedere le tessere disponibili");
-            alert.showAndWait();
-        } catch (Exception e) {
-            showErrorAlert("Errore Visualizzazione", "Impossibile visualizzare le tessere: " + e.getMessage());
-            e.printStackTrace();
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Tessere disponibili");
+        alert.setHeaderText("Elenco delle tessere disponibili");
+
+        if (model.getCoveredComponentTiles() != null && !model.getCoveredComponentTiles().isEmpty()) {
+            alert.setContentText("Numero di tessere coperte: " + model.getCoveredComponentTiles().size());
+        } else {
+            alert.setContentText("Nessuna tessera disponibile.");
         }
-    }
 
-    /**
-     * Gestisce l'evento quando il giocatore capovolge la clessidra
-     */
-    @FXML
-    public void flipHourglass(ActionEvent event) {
-        try {
-            System.out.println("Clessidra capovolta");
-
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Clessidra");
-            alert.setHeaderText("Clessidra Capovolta");
-            alert.setContentText("Il tempo è iniziato!");
-            alert.showAndWait();
-        } catch (Exception e) {
-            showErrorAlert("Errore Clessidra", "Impossibile capovolgere la clessidra: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Torna al menu principale
-     */
-    private void goToMainMenu(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/MainMenu.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Ferma l'animazione dello sfondo prima di cambiare scena
-            if (animatedBackground != null) {
-                animatedBackground.stopAnimation();
-            }
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            showErrorAlert("Errore Menu", "Impossibile tornare al menu principale: " + e.getMessage());
-            e.printStackTrace();
-        }
+        alert.showAndWait();
     }
 
     /**
      * Torna alla fase di costruzione della nave
+     * @param event l'evento di click sul bottone buildingShipButton
      */
     @FXML
     public void switchToBuildingShip(ActionEvent event) {
@@ -508,41 +486,18 @@ public class CardPhaseController extends FXMLController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/BuildingShip.fxml"));
             Parent root = loader.load();
 
+            Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
 
-            // Ferma l'animazione dello sfondo prima di cambiare scena
+            // Ferma l'animazione dello sfondo quando si cambia scena
             if (animatedBackground != null) {
                 animatedBackground.stopAnimation();
             }
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
         } catch (IOException e) {
-            showErrorAlert("Errore Cambio Fase", "Impossibile tornare alla fase di costruzione: " + e.getMessage());
+            System.err.println("Errore durante il caricamento della scena BuildingShip.fxml: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Mostra un messaggio di errore all'utente
-     */
-    private void showErrorAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText("Errore");
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    /**
-     * Pulisce le risorse utilizzate dal controller
-     */
-    public void cleanup() {
-        if (animatedBackground != null) {
-            animatedBackground.stopAnimation();
-            animatedBackground = null;
-        }
-        System.out.println("Pulizia delle risorse del CardPhaseController");
     }
 }

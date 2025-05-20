@@ -2,12 +2,12 @@ package it.polimi.ingsw.is25am22new.Client.View.GUI;
 
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModelObserver;
-import it.polimi.ingsw.is25am22new.Client.View.ObservableModelView;
 import it.polimi.ingsw.is25am22new.FXMLControllers.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
@@ -164,12 +164,33 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateCurrPlayer(String player) {
+        // Update the current player in the client model
+        clientModel.setCurrPlayer(player);
+        ///  TODO da sistemare
 
+        // Update UI elements based on game phase
+        Platform.runLater(() -> {
+            // If we're in card phase, update the button states
+            if(clientModel.getGamePhase() != null &&
+               clientModel.getGamePhase().getPhaseType() == PhaseType.CARD &&
+               cardPhaseController != null) {
+                cardPhaseController.updateButtonsState();
+                cardPhaseController.drawScene();
+            }
+        });
     }
 
     @Override
     public void updateCurrCard(AdventureCard currCard) {
+        // Update the current card in the client model
+        clientModel.setCurrCard(currCard);
 
+        // If we're in the card phase, update the card display
+        if(clientModel.getGamePhase() != null &&
+           clientModel.getGamePhase().getPhaseType() == PhaseType.CARD &&
+           cardPhaseController != null) {
+            Platform.runLater(() -> cardPhaseController.drawCard());
+        }
     }
 
     @Override
