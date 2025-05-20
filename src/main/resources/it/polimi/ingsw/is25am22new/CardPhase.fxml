@@ -10,318 +10,252 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.2"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.CardPhaseController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.CardPhaseController">
     <children>
         <!-- Background Image (posto per primo per essere dietro a tutto) -->
         <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
         </ImageView>
 
         <!-- Immagine in alto-->
-        <ImageView fx:id="player1ShipImage" fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="28.0"
-                   pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="player1ShipImage" fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg"/>
+                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
             </image>
         </ImageView>
 
         <!-- Immagine a sinistra-->
-        <ImageView fx:id="player2ShipImage" fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="265.0"
-                   pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="player2ShipImage" fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg"/>
+                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
             </image>
         </ImageView>
 
         <!-- Immagine in basso -->
-        <ImageView fx:id="player3ShipImage" fitHeight="290.0" fitWidth="290.0" layoutX="41.0" layoutY="500.0"
-                   pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="player3ShipImage" fitHeight="290.0" fitWidth="290.0" layoutX="41.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg"/>
+                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
             </image>
         </ImageView>
 
         <!-- Immagine a destra -->
-        <ImageView fx:id="myShipImage" fitHeight="348.0" fitWidth="480.0" layoutX="790.0" layoutY="362.0"
-                   pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="myShipImage" fitHeight="348.0" fitWidth="480.0" layoutX="790.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg"/>
+                <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
             </image>
         </ImageView>
 
         <!-- Nomi dei giocatori -->
-        <Label fx:id="player1Name" layoutX="157.0" layoutY="3.0" text="Player 1" style = "-fx-text-fill: #ffffff;">
+        <Label fx:id="player1Name" layoutX="157.0" layoutY="3.0" style="-fx-text-fill: #ffffff;" text="Player 1">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Label>
 
-        <Label fx:id="player2Name" layoutX="159.0" layoutY="240.0" text="Player 2" style = "-fx-text-fill: #ffffff;">
+        <Label fx:id="player2Name" layoutX="159.0" layoutY="240.0" style="-fx-text-fill: #ffffff;" text="Player 2">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Label>
 
-        <Label fx:id="player3Name" layoutX="158.0" layoutY="477.0" text="Player 3" style = "-fx-text-fill: #ffffff;">
+        <Label fx:id="player3Name" layoutX="158.0" layoutY="477.0" style="-fx-text-fill: #ffffff;" text="Player 3">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Label>
 
         <!-- Carta in basso a sinistra -->
-        <ImageView fx:id="cardImage" fitHeight="221.0" fitWidth="260.0" layoutX="391.0" layoutY="495.0"
-                   pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="cardImage" fitHeight="221.0" fitWidth="260.0" layoutX="391.0" layoutY="495.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../GraficheGioco/cards/GT-cards_I_IT_0121.jpg"/>
+                <Image url="@../../../../GraficheGioco/cards/GT-cards_I_IT_0121.jpg" />
             </image>
         </ImageView>
 
         <!-- Bottoni con eventi collegati al controller -->
-        <Button fx:id="pickCardButton" layoutX="560.0" layoutY="570.0" mnemonicParsing="false" onAction="#pickCard"
-                text="Pick Card">
+        <Button fx:id="pickCardButton" layoutX="560.0" layoutY="570.0" mnemonicParsing="false" onAction="#pickCard" text="Pick Card">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="resolveEffectButton" layoutX="543.0" layoutY="613.0" mnemonicParsing="false"
-                onAction="#resolveEffect" text="Resolve Effect">
+        <Button fx:id="resolveEffectButton" layoutX="543.0" layoutY="613.0" mnemonicParsing="false" onAction="#resolveEffect" text="Resolve Effect">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="goodblocksButton" layoutX="385.0" layoutY="445.0" mnemonicParsing="false"
-                onAction="#openGoodBlocksBank" text="Goodblocks Bank">
+        <Button fx:id="goodblocksButton" layoutX="385.0" layoutY="445.0" mnemonicParsing="false" onAction="#openGoodBlocksBank" text="Goodblocks Bank">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="dicesButton" layoutX="429.0" layoutY="401.0" mnemonicParsing="false" onAction="#rollDices"
-                text="Dices">
+        <Button fx:id="dicesButton" layoutX="429.0" layoutY="401.0" mnemonicParsing="false" onAction="#rollDices" text="Dices">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="abandonGameButton" layoutX="1076.0" layoutY="78.0" mnemonicParsing="false"
-                onAction="#abandonGame" text="Abandon Game">
+        <Button fx:id="abandonGameButton" layoutX="1076.0" layoutY="78.0" mnemonicParsing="false" onAction="#abandonGame" text="Abandon Game">
             <font>
-                <Font size="20.0"/>
+                <Font size="20.0" />
             </font>
         </Button>
 
-        <Button fx:id="disconnectButton" layoutX="1095.0" layoutY="122.0" mnemonicParsing="false" onAction="#disconnect"
-                text="Disconnect">
+        <Button fx:id="disconnectButton" layoutX="1095.0" layoutY="122.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect">
             <font>
-                <Font size="20.0"/>
+                <Font size="20.0" />
             </font>
         </Button>
 
-        <Button fx:id="showTilesButton" layoutX="637.0" layoutY="366.0" mnemonicParsing="false" onAction="#showTiles"
-                text="Show Tiles">
+        <Button fx:id="showTilesButton" layoutX="637.0" layoutY="366.0" mnemonicParsing="false" onAction="#showTiles" text="Show Tiles">
             <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-
-        <Button fx:id="flipHourglassButton" layoutX="890.0" layoutY="8.0" mnemonicParsing="false"
-                onAction="#flipHourglass" text="Flip Hourglass">
-            <font>
-                <Font size="20.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
 
         <!-- Bottone per tornare alla fase di costruzione della nave -->
-        <Button fx:id="buildingShipButton" layoutX="1000.0" layoutY="300.0" mnemonicParsing="false"
-                onAction="#switchToBuildingShip" text="Building Ship">
+        <Button fx:id="buildingShipButton" layoutX="1000.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToBuildingShip" text="Building Ship">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Button>
         <AnchorPane fx:id="level2FlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0">
             <children>
                 <ImageView fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../GraficheGioco/cardboard/cardboard-5.png"/>
+                        <Image url="@../../../../GraficheGioco/cardboard/cardboard-5.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="l0" fitHeight="25.0" fitWidth="25.0" layoutX="123.0" layoutY="70.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l1" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="54.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l2" fitHeight="25.0" fitWidth="25.0" layoutX="206.0" layoutY="44.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l3" fitHeight="25.0" fitWidth="25.0" layoutX="247.0" layoutY="39.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l4" fitHeight="25.0" fitWidth="25.0" layoutX="291.0" layoutY="40.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l5" fitHeight="25.0" fitWidth="25.0" layoutX="332.0" layoutY="44.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l6" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="53.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l7" fitHeight="25.0" fitWidth="25.0" layoutX="413.0" layoutY="69.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l8" fitHeight="25.0" fitWidth="25.0" layoutX="449.0" layoutY="95.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l9" fitHeight="25.0" fitWidth="25.0" layoutX="474.0" layoutY="137.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l10" fitHeight="25.0" fitWidth="25.0" layoutX="473.0" layoutY="185.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l11" fitHeight="25.0" fitWidth="25.0" layoutX="443.0" layoutY="221.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l12" fitHeight="25.0" fitWidth="25.0" layoutX="407.0" layoutY="245.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l13" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="260.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l14" fitHeight="25.0" fitWidth="25.0" layoutX="324.0" layoutY="270.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l15" fitHeight="25.0" fitWidth="25.0" layoutX="282.0" layoutY="275.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l16" fitHeight="25.0" fitWidth="25.0" layoutX="240.0" layoutY="275.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l17" fitHeight="25.0" fitWidth="25.0" layoutX="196.0" layoutY="271.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l18" fitHeight="25.0" fitWidth="25.0" layoutX="156.0" layoutY="260.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l19" fitHeight="25.0" fitWidth="25.0" layoutX="117.0" layoutY="244.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l20" fitHeight="25.0" fitWidth="25.0" layoutX="80.0" layoutY="217.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l21" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="175.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l22" fitHeight="25.0" fitWidth="25.0" layoutX="58.0" layoutY="127.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="l23" fitHeight="25.0" fitWidth="25.0" layoutX="86.0" layoutY="93.0"
-                           pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="l0" fitHeight="25.0" fitWidth="25.0" layoutX="123.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l1" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l2" fitHeight="25.0" fitWidth="25.0" layoutX="206.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l3" fitHeight="25.0" fitWidth="25.0" layoutX="247.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l4" fitHeight="25.0" fitWidth="25.0" layoutX="291.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l5" fitHeight="25.0" fitWidth="25.0" layoutX="332.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l6" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l7" fitHeight="25.0" fitWidth="25.0" layoutX="413.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l8" fitHeight="25.0" fitWidth="25.0" layoutX="449.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l9" fitHeight="25.0" fitWidth="25.0" layoutX="474.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l10" fitHeight="25.0" fitWidth="25.0" layoutX="473.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l11" fitHeight="25.0" fitWidth="25.0" layoutX="443.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l12" fitHeight="25.0" fitWidth="25.0" layoutX="407.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l13" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l14" fitHeight="25.0" fitWidth="25.0" layoutX="324.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l15" fitHeight="25.0" fitWidth="25.0" layoutX="282.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l16" fitHeight="25.0" fitWidth="25.0" layoutX="240.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l17" fitHeight="25.0" fitWidth="25.0" layoutX="196.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l18" fitHeight="25.0" fitWidth="25.0" layoutX="156.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l19" fitHeight="25.0" fitWidth="25.0" layoutX="117.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l20" fitHeight="25.0" fitWidth="25.0" layoutX="80.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l21" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l22" fitHeight="25.0" fitWidth="25.0" layoutX="58.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="l23" fitHeight="25.0" fitWidth="25.0" layoutX="86.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="tutorialFlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0"
-                    visible="false">
+        <AnchorPane fx:id="tutorialFlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0" visible="false">
             <children>
 
                 <!-- Immagine centrale -->
                 <ImageView fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../GraficheGioco/cardboard/cardboard-3.png"/>
+                        <Image url="@../../../../GraficheGioco/cardboard/cardboard-3.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="t0" fitHeight="25.0" fitWidth="25.0" layoutX="145.0" layoutY="64.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t1" fitHeight="25.0" fitWidth="25.0" layoutX="200.0" layoutY="45.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t2" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="37.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t3" fitHeight="25.0" fitWidth="25.0" layoutX="315.0" layoutY="37.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t4" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="44.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t5" fitHeight="25.0" fitWidth="25.0" layoutX="427.0" layoutY="62.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t6" fitHeight="25.0" fitWidth="25.0" layoutX="477.0" layoutY="96.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t7" fitHeight="25.0" fitWidth="25.0" layoutX="503.0" layoutY="160.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t8" fitHeight="25.0" fitWidth="25.0" layoutX="472.0" layoutY="214.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t9" fitHeight="25.0" fitWidth="25.0" layoutX="423.0" layoutY="246.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t10" fitHeight="25.0" fitWidth="25.0" layoutX="367.0" layoutY="262.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t11" fitHeight="25.0" fitWidth="25.0" layoutX="309.0" layoutY="271.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t12" fitHeight="25.0" fitWidth="25.0" layoutX="253.0" layoutY="273.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t13" fitHeight="25.0" fitWidth="25.0" layoutX="197.0" layoutY="265.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t14" fitHeight="25.0" fitWidth="25.0" layoutX="142.0" layoutY="247.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t15" fitHeight="25.0" fitWidth="25.0" layoutX="92.0" layoutY="211.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t16" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" layoutY="148.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="t17" fitHeight="25.0" fitWidth="25.0" layoutX="96.0" layoutY="94.0"
-                           pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="t0" fitHeight="25.0" fitWidth="25.0" layoutX="145.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t1" fitHeight="25.0" fitWidth="25.0" layoutX="200.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t2" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t3" fitHeight="25.0" fitWidth="25.0" layoutX="315.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t4" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t5" fitHeight="25.0" fitWidth="25.0" layoutX="427.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t6" fitHeight="25.0" fitWidth="25.0" layoutX="477.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t7" fitHeight="25.0" fitWidth="25.0" layoutX="503.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t8" fitHeight="25.0" fitWidth="25.0" layoutX="472.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t9" fitHeight="25.0" fitWidth="25.0" layoutX="423.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t10" fitHeight="25.0" fitWidth="25.0" layoutX="367.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t11" fitHeight="25.0" fitWidth="25.0" layoutX="309.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t12" fitHeight="25.0" fitWidth="25.0" layoutX="253.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t13" fitHeight="25.0" fitWidth="25.0" layoutX="197.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t14" fitHeight="25.0" fitWidth="25.0" layoutX="142.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t15" fitHeight="25.0" fitWidth="25.0" layoutX="92.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t16" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="t17" fitHeight="25.0" fitWidth="25.0" layoutX="96.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
             </children>
         </AnchorPane>
-        <ImageView fx:id="rocketImage" fitHeight="60.0" fitWidth="60.0" layoutX="725.0" layoutY="600.0"
-                   pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="rocketImage" fitHeight="60.0" fitWidth="60.0" layoutX="725.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../GraficheGioco/rockets/blueRocket.png"/>
+                <Image url="@../../../../GraficheGioco/rockets/blueRocket.png" />
             </image>
         </ImageView>
         <GridPane fx:id="player1Ship" layoutX="53.0" layoutY="37.0" prefHeight="192.0" prefWidth="266.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
         <GridPane fx:id="player2Ship" layoutX="54.0" layoutY="274.0" prefHeight="192.0" prefWidth="266.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
         <GridPane fx:id="player3Ship" layoutX="53.0" layoutY="509.0" prefHeight="192.0" prefWidth="266.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
         <GridPane fx:id="myShip" layoutX="809.0" layoutY="374.0" prefHeight="322.0" prefWidth="435.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
     </children>
