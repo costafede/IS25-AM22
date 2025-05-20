@@ -108,7 +108,7 @@ public class ClientModel extends ObservableModelView {
 
     public void setCurrPlayer(String currPlayer) {
         synchronized (currPlayerLock) {
-        this.currPlayer = currPlayer;
+            this.currPlayer = currPlayer;
         }
         notifyCurrPlayer(currPlayer);
     }

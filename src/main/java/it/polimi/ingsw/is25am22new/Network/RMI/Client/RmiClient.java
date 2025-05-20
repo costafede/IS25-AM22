@@ -133,7 +133,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                         // Handle specific error messages for better user experience
                         if (e.getMessage() != null && e.getMessage().contains("Host is configuring")) {
                             System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                            System.out.println("║                Host is configuring the lobby...                       ║");
+                            System.out.println("║                Host is configuring the lobby...                      ║");
                             System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
                             // Reset playerName to prompt again, don't shut down
                             playerName = null;
@@ -146,7 +146,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                             // Cattura anche il caso in cui l'host sta configurando ma l'errore non contiene il messaggio specifico
                             // Come nel caso dell'errore "count is negative" che può verificarsi quando l'host sta configurando
                             System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                            System.out.println("║                Host is configuring the lobby...please retry           ║");
+                            System.out.println("║                Host is configuring the lobby...please retry          ║");
                             System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
                             // Reset playerName to prompt again, don't shut down
                             playerName = null;
@@ -154,7 +154,7 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                     }
                 } catch (Exception e) {
                     System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                    System.out.println("║                Host is configuring the lobby...please retry           ║");
+                    System.out.println("║               Host is configuring the lobby...please retry           ║");
                     System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
                     // Reset playerName to prompt again, don't shut down
                     playerName = null;
