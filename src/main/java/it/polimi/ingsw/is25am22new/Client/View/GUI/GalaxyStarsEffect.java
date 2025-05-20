@@ -6,6 +6,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.Random;
 
+/**
+ * Represents an animated effect of twinkling stars rendered on a transparent canvas.
+ * This class manages the creation, rendering, and animation of stars to simulate
+ * a galaxy-like background. It uses a custom {@link AnimationTimer} to ensure that the
+ * animation updates continuously in real-time.
+ *
+ * The stars are randomly generated with differing sizes, positions, and brightness
+ * oscillations. The animation is rendered on a {@link Canvas},
+ * with a fully transparent background to allow customization or inclusion
+ * over other graphical elements.
+ *
+ * This class extends {@link Canvas} to provide custom rendering functionality.
+ */
 public class GalaxyStarsEffect extends Canvas {
 
     private static final int STAR_COUNT = 200;

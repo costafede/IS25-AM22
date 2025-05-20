@@ -9,91 +9,131 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.CardPhaseController">
    <children>
-      <ImageView fitHeight="341.0" fitWidth="601.0" layoutX="412.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+      <!-- Background Image (posto per primo per essere dietro a tutto) -->
+      <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      </ImageView>
+
+      <!-- Immagine centrale -->
+      <ImageView fx:id="centralCardboard" fitHeight="341.0" fitWidth="601.0" layoutX="412.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../GraficheGioco/cardboard/cardboard-5.png" />
+            <Image url="@../../../../GraficheGioco/cardboard/cardboard-3.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="290.0" fitWidth="290.0" layoutX="41.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
+
+      <!-- Immagine in alto-->
+      <ImageView fx:id="topCardboard" fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="348.0" fitWidth="480.0" layoutX="790.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+
+      <!-- Immagine a sinistra-->
+      <ImageView fx:id="leftCardboard" fitHeight="290.0" fitWidth="290.0" layoutX="42.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="157.0" layoutY="3.0" text="Player 1">
+
+      <!-- Immagine in basso -->
+      <ImageView fx:id="bottomCardboard" fitHeight="290.0" fitWidth="290.0" layoutX="41.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
+         </image>
+      </ImageView>
+
+      <!-- Immagine a destra -->
+      <ImageView fx:id="rightCardboard" fitHeight="348.0" fitWidth="480.0" layoutX="790.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../GraficheGioco/cardboard/cardboard-1.jpg" />
+         </image>
+      </ImageView>
+
+      <!-- Nomi dei giocatori -->
+      <Label fx:id="player1Label" layoutX="157.0" layoutY="3.0" text="Player 1">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="159.0" layoutY="240.0" text="Player2">
+
+      <Label fx:id="player2Label" layoutX="159.0" layoutY="240.0" text="Player 2">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="158.0" layoutY="477.0" text="Player 3">
+
+      <Label fx:id="player3Label" layoutX="158.0" layoutY="477.0" text="Player 3">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ImageView fitHeight="221.0" fitWidth="260.0" layoutX="391.0" layoutY="495.0" pickOnBounds="true" preserveRatio="true">
+
+      <!-- Carta in basso a sinistra -->
+      <ImageView fx:id="cardImage" fitHeight="221.0" fitWidth="260.0" layoutX="391.0" layoutY="495.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../GraficheGioco/cards/GT-cards_I_IT_0121.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="560.0" layoutY="570.0" mnemonicParsing="false" text="Pick Card">
+
+      <!-- Bottoni con eventi collegati al controller -->
+      <Button fx:id="pickCardButton" layoutX="560.0" layoutY="570.0" mnemonicParsing="false" onAction="#pickCard" text="Pick Card">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="543.0" layoutY="613.0" mnemonicParsing="false" text="Resolve Effect">
+
+      <Button fx:id="resolveEffectButton" layoutX="543.0" layoutY="613.0" mnemonicParsing="false" onAction="#resolveEffect" text="Resolve Effect">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="385.0" layoutY="445.0" mnemonicParsing="false" text="Goodblocks Bank">
+
+      <Button fx:id="goodblocksButton" layoutX="385.0" layoutY="445.0" mnemonicParsing="false" onAction="#openGoodBlocksBank" text="Goodblocks Bank">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="429.0" layoutY="401.0" mnemonicParsing="false" text="Dices">
+
+      <Button fx:id="dicesButton" layoutX="429.0" layoutY="401.0" mnemonicParsing="false" onAction="#rollDices" text="Dices">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="1076.0" layoutY="78.0" mnemonicParsing="false" text="Abandon Game">
+
+      <Button fx:id="abandonGameButton" layoutX="1076.0" layoutY="78.0" mnemonicParsing="false" onAction="#abandonGame" text="Abandon Game">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="1095.0" layoutY="122.0" mnemonicParsing="false" text="Disconnect">
+
+      <Button fx:id="disconnectButton" layoutX="1095.0" layoutY="122.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="637.0" layoutY="366.0" mnemonicParsing="false" text="Show Tiles">
+
+      <Button fx:id="showTilesButton" layoutX="637.0" layoutY="366.0" mnemonicParsing="false" onAction="#showTiles" text="Show Tiles">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="890.0" layoutY="8.0" mnemonicParsing="false" text="Flip Hourglass">
+
+      <Button fx:id="flipHourglassButton" layoutX="890.0" layoutY="8.0" mnemonicParsing="false" onAction="#flipHourglass" text="Flip Hourglass">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" />
+
+      <!-- Bottone per tornare alla fase di costruzione della nave -->
+      <Button fx:id="buildingShipButton" layoutX="1090.0" layoutY="650.0" mnemonicParsing="false" onAction="#switchToBuildingShip" text="Building Ship">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+
+      <!-- Contenitori per le navi dei giocatori -->
+      <ImageView fx:id="ship" fitHeight="100.0" fitWidth="200.0" layoutX="140.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ship2" fitHeight="100.0" fitWidth="200.0" layoutX="140.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ship3" fitHeight="100.0" fitWidth="200.0" layoutX="140.0" layoutY="560.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ship4" fitHeight="100.0" fitWidth="200.0" layoutX="900.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

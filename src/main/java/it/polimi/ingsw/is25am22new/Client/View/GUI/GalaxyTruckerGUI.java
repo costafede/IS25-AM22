@@ -29,9 +29,19 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * The GalaxyTruckerGUI class serves as the main graphical user interface for the Galaxy Trucker game.
+ * It extends the JavaFX Application class and implements the ClientModelObserver and EnhancedClientView interfaces
+ * to handle updates and interactions with the game model and view components.
+ *
+ * Responsibilities:
+ * - Initializes the game client, controllers, and GUI components.
+ * - Manages the transition between game scenes and stages.
+ * - Observes the model to update the GUI in response to game state changes.
+ * - Handles client-server communication feedback for multiplayer capabilities.
+ */
 public class GalaxyTruckerGUI extends Application implements ClientModelObserver, EnhancedClientView {
 
-    private String playerName;
     private StartMenuController startMenuController;
     private ConnectToServerController connectToServerController;
     private LobbyController lobbyController;
@@ -310,13 +320,5 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     public void setVirtualServer(VirtualServer server) {
         GalaxyTruckerGUI.virtualServer = server;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public String getPlayerName() {
-        return playerName;
     }
 }

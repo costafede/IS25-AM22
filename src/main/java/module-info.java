@@ -9,6 +9,8 @@ module it.polimi.ingsw.is25am22new {
         requires javafx.graphics;
         requires java.base;
         requires java.logging;
+    requires org.junit.jupiter.api;
+    requires org.apiguardian.api;
     requires java.sql;
 
     exports it.polimi.ingsw.is25am22new.Model.Games;

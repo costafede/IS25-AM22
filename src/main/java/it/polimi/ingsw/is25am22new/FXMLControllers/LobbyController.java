@@ -80,7 +80,7 @@ public class LobbyController extends FXMLController implements Initializable {
             parent.getChildren().addFirst(readyImageView);
         }
         try {
-            galaxyTruckerGUI.getVirtualServer().setPlayerReady(galaxyTruckerGUI.getPlayerName());
+            galaxyTruckerGUI.getVirtualServer().setPlayerReady(GalaxyTruckerGUI.getClientModel().getPlayerName());
         } catch (Exception e) {
             System.out.println("Error setting player ready status: " + e.getMessage());
         }
@@ -89,7 +89,7 @@ public class LobbyController extends FXMLController implements Initializable {
     @FXML
     public void exitLobby(ActionEvent event) throws IOException {
 
-        galaxyTruckerGUI.getVirtualServer().quit(galaxyTruckerGUI.getPlayerName());
+        galaxyTruckerGUI.getVirtualServer().quit(GalaxyTruckerGUI.getClientModel().getPlayerName());
 
         // Navigate back to the start menu
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml")));
@@ -101,7 +101,7 @@ public class LobbyController extends FXMLController implements Initializable {
 
     @FXML
     public void startGame(ActionEvent event) throws IOException {
-        galaxyTruckerGUI.getVirtualServer().startGameByHost(galaxyTruckerGUI.getPlayerName());
+        galaxyTruckerGUI.getVirtualServer().startGameByHost(GalaxyTruckerGUI.getClientModel().getPlayerName());
     }
 
     @FXML

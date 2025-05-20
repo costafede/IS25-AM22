@@ -57,7 +57,7 @@ public class BuildingShipController extends FXMLController implements Initializa
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
         }
 
-        /*animatedBackground = new GalaxyStarsEffect(1280, 720);
+        animatedBackground = new GalaxyStarsEffect(1280, 720);
 
         if (backGround.getParent() instanceof Pane pane) {
             animatedBackground.setWidth(backGround.getFitWidth());
@@ -67,11 +67,10 @@ public class BuildingShipController extends FXMLController implements Initializa
             pane.getChildren().add(0, animatedBackground);
 
             // Assicurati che lo sfondo sia dietro tutti gli elementi
-            backGround.toBack();
             animatedBackground.toBack();
+            backGround.toBack();
         }
-            animatedBackground.toFront();
-        }*/
+
 
         drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
 
@@ -81,13 +80,9 @@ public class BuildingShipController extends FXMLController implements Initializa
      * This method draws the scene in the corresponding fxml file by showing different elements depending on the game type (level 2 or tutorial).
      * It Must be called after having initialized the attributes through the setup method.
      */
-    public void drawScene() {
-        if(model.getGametype().equals(GameType.LEVEL2)) {
-            shipboardImage.setImage(new Image(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg").toExternalForm()));
-            // TODO: devo mostrare la clessidra e la flightboard rendendole interagibili
-        }
-        drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
-    }
+    //public void drawScene() {
+    //    drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
+    //}
 
     @FXML
     public void pickCoveredTile(MouseEvent event) {
