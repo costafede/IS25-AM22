@@ -280,7 +280,7 @@ public class LobbyView implements EnhancedClientView {
             System.out.printf("║ %s%s║\n", message, " ".repeat(33 - message.length()));
 
             if (isHost) {
-                System.out.println("║ 🛠️  As host, set up the game.    ║");
+                System.out.println("║ 🛠️  As host, set up the game.   ║");
             } else {
                 System.out.println("║ ⏳ Waiting for host setup...     ║");
             }

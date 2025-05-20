@@ -88,7 +88,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         rocketColorMap.put("red", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/redRocket.png")).toString()))));
     }*/
 
-    /**
+    /*
      * This method draws the scene in the corresponding fxml file by showing different elements depending on the game type (level 2 or tutorial).
      * It Must be called after having initialized the attributes through the setup method.
      */
