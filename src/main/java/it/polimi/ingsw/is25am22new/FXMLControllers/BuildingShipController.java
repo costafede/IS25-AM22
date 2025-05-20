@@ -295,6 +295,17 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML
     public void switchToCardPhase(ActionEvent event) {
         try {
+            // Notify the server that this player has finished building
+            // This should trigger a change in the current player on the server side
+            new Thread(() -> {
+                try {
+                    virtualServer.finishBuilding(model.getPlayerName(), new Random().nextInt(4) % 4);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.println("Errore durante la comunicazione con il server per finishBuilding");
+                }
+            }).start();
+
             // Caricamento della scena CardPhase.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/CardPhase.fxml"));
             Parent root = loader.load();
