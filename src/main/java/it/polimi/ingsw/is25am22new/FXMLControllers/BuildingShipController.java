@@ -25,10 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * The BuildingShipController class is responsible for managing the logic and UI interactions
@@ -45,7 +42,7 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML private ImageView backGround;
 
     private GalaxyStarsEffect animatedBackground;
-    private Map<String, Runnable> rocketColorMap;
+    private Map<String, Runnable> rocketColorMap = new HashMap<>();
     /**
      * num of rotations of the tile in hand
      */
@@ -58,7 +55,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         } else {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
         }
-        setRocketImage();
+        //setRocketImage();
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -77,10 +74,10 @@ public class BuildingShipController extends FXMLController implements Initializa
 
         drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
 
-        initializeRocketColorMap();
+        //initializeRocketColorMap();
     }
 
-    private void setRocketImage() {
+    /*private void setRocketImage() {
         rocketColorMap.get(model.getShipboard(model.getPlayerName()).getColor()).run();
     }
 
@@ -89,7 +86,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         rocketColorMap.put("blue", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/blueRocket.png")).toString()))));
         rocketColorMap.put("green", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/greenRocket.png")).toString()))));
         rocketColorMap.put("red", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/redRocket.png")).toString()))));
-    }
+    }*/
 
     /**
      * This method draws the scene in the corresponding fxml file by showing different elements depending on the game type (level 2 or tutorial).
@@ -101,14 +98,13 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     @FXML
     public void pickCoveredTile(MouseEvent event) {
-        // Qui implementerai la logica per selezionare una tessera coperta
         new Thread(() -> Platform.runLater(() -> {
-                try {
-                    virtualServer.pickCoveredTile(model.getPlayerName());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            })).start();
+            try {
+                virtualServer.pickCoveredTile(model.getPlayerName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        })).start();
     }
 
     @FXML
@@ -173,14 +169,14 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     public void drawShipInCorrectingShipPhase(Shipboard shipboard) {
     }
-        /*
-        * NOTE PER I METODI DELLE ALTRE UPDATE
-        * per il tile in hand se è presente lo disegno e metto un bottone che mi aumenta il numero di rotazioni e lo rendo draggable, altrimenti nulla
-        * il bottone per la pick covered tile è statico, c'è sempre
-        * per gli stand by se il tile c'è lo disegno e abilito la pick standby on click, se non c'è abilito la standby on drag dropped
-        * per gli uncovered creo un bottone che mi apre una lista di tile. Per i tile che ci sono abilito una pickuncovered on mouse click
-        * TUTTI I METODI CHE RIMUOVONO IL TILE IN HAND DI MANO DEVONO SETTARE NUM OF ROTATIONS A ZERO
-        * */
+    /*
+     * NOTE PER I METODI DELLE ALTRE UPDATE
+     * per il tile in hand se è presente lo disegno e metto un bottone che mi aumenta il numero di rotazioni e lo rendo draggable, altrimenti nulla
+     * il bottone per la pick covered tile è statico, c'è sempre
+     * per gli stand by se il tile c'è lo disegno e abilito la pick standby on click, se non c'è abilito la standby on drag dropped
+     * per gli uncovered creo un bottone che mi apre una lista di tile. Per i tile che ci sono abilito una pickuncovered on mouse click
+     * TUTTI I METODI CHE RIMUOVONO IL TILE IN HAND DI MANO DEVONO SETTARE NUM OF ROTATIONS A ZERO
+     * */
 
     @FXML
     private void handleDragDetectedTileInHand(MouseEvent event) {
@@ -260,7 +256,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         if(tileInHand.getImage() != null) return;
 
         ImageView standByCell = (ImageView) event.getTarget();
-        int idx = GridPane.getColumnIndex(standByCell);
+        int idx = GridPane.getColumnIndex(standByCell)!= null ? GridPane.getColumnIndex(standByCell) : 0;
         new Thread(() -> Platform.runLater(() -> {
             try {
                 virtualServer.pickStandbyComponentTile(model.getPlayerName(), idx);
@@ -321,7 +317,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         }
     }
 
-    @FXML
+    /*@FXML
     public void handleDragDoneRocket(DragEvent event) {
         if (event.getTransferMode() == TransferMode.MOVE) {
             rocketImage.setImage(null); // Rimuove l'immagine dalla sorgente
@@ -360,6 +356,6 @@ public class BuildingShipController extends FXMLController implements Initializa
 
         event.setDropCompleted(success);
         event.consume();
-    }
+    }*/
 }
 
