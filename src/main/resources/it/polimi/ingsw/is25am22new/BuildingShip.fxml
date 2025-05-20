@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.BuildingShipController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.BuildingShipController">
    <children>
       <ImageView id="backGround" fx:id="backGround" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -25,29 +25,60 @@
       </Button>
       <GridPane fx:id="componentTilesGrid" layoutX="34.0" layoutY="181.0" prefHeight="510.0" prefWidth="706.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="181.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
         </rowConstraints>
+         <children>
+            <ImageView fitHeight="104.0" fitWidth="102.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="414.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="110.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="111.0" layoutY="110.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="212.0" layoutY="110.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="313.0" layoutY="110.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="414.0" layoutY="110.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="515.0" layoutY="110.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="8.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="212.0" layoutY="212.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="313.0" layoutY="212.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="414.0" layoutY="212.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="515.0" layoutY="212.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="616.0" layoutY="212.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="313.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="111.0" layoutY="313.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="212.0" layoutY="313.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="313.0" layoutY="313.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="414.0" layoutY="313.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="515.0" layoutY="313.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="616.0" layoutY="313.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="10.0" layoutY="414.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="111.0" layoutY="414.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="111.0" layoutY="414.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="313.0" layoutY="414.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="414.0" layoutY="414.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <ImageView fitHeight="104.0" fitWidth="102.0" layoutX="515.0" layoutY="414.0" onDragDropped="#handleDragDroppedGrid" onDragOver="#handleDragOverGrid" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+         </children>
       </GridPane>
       <AnchorPane layoutX="1060.0" layoutY="500.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #5dade2; -fx-background-radius: 15;" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
-            <ImageView fx:id="tileInHand" fitHeight="139.0" fitWidth="121.0" layoutX="42.0" layoutY="62.0" onDragDetected="#handleDragDetectedTileInHand" onDragDone="#handleDragDoneTileInHand" onMouseClicked="#rotateTileInHand" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="37.0">
-               <image>
-                  <Image url="@Graphics/Icon.png" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="tileInHand" fitHeight="139.0" fitWidth="121.0" layoutX="42.0" layoutY="62.0" onDragDetected="#handleDragDetectedTileInHand" onDragDone="#handleDragDoneTileInHand" onMouseClicked="#rotateTileInHand" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="37.0" />
             <Label layoutX="27.0" layoutY="20.0" prefHeight="35.0" prefWidth="161.0" text="TILE IN HAND" textAlignment="CENTER" textFill="#010159" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="20.0">
                <font>
                   <Font name="Verdana Bold" size="19.0" />
@@ -55,15 +86,6 @@
             </Label>
          </children>
       </AnchorPane>
-      <GridPane fx:id="standByComponentsGrid" layoutX="562.0" layoutY="188.0" prefHeight="81.0" prefWidth="180.0" AnchorPane.leftAnchor="562.0" AnchorPane.topAnchor="188.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
       <AnchorPane layoutX="1060.0" layoutY="280.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FF0000; -fx-background-radius: 15;" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="280.0">
          <children>
             <ImageView fitHeight="112.0" fitWidth="180.0" layoutX="12.0" layoutY="55.0" onMouseClicked="#discardComponentTile" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="8.0">
@@ -92,5 +114,18 @@
             </Label>
          </children>
       </AnchorPane>
+      <GridPane fx:id="standByComponentsGrid" layoutX="577.0" layoutY="183.0" onDragDropped="#handleDragDroppedStandByArea" onDragOver="#handleDragOverGrid" prefHeight="81.0" prefWidth="180.0" AnchorPane.leftAnchor="577.0" AnchorPane.topAnchor="183.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fitHeight="84.0" fitWidth="90.0" onMouseClicked="#pickStandByTile" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="84.0" fitWidth="90.0" layoutX="10.0" layoutY="8.0" onMouseClicked="#pickStandByTile" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>

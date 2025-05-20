@@ -44,6 +44,9 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     private GalaxyStarsEffect animatedBackground;
 
+    /**
+     * num of rotations of the tile in hand
+     */
     private int numOfRotations; //set it to zero each time a weld is succesfully done
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -108,12 +111,13 @@ public class BuildingShipController extends FXMLController implements Initializa
     public void discardComponentTile(MouseEvent event) {
         numOfRotations = 0;
         tileInHand.setImage(null);
-        try {
-            virtualServer.discardComponentTile(model.getPlayerName());
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> Platform.runLater(() -> {
+            try {
+                virtualServer.discardComponentTile(model.getPlayerName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        })).start();
     }
 
     /*
@@ -124,23 +128,33 @@ public class BuildingShipController extends FXMLController implements Initializa
     public void drawShipInBuildingPhase(Shipboard shipboard) {
         if(shipboard.getNickname().equals(model.getPlayerName())) {
             //draw grid
-            componentTilesGrid.getChildren().clear();
-            for (int i = 0; i < 5; i++) {
-                for (int j = 0; j < 7; j++) {
-                    Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
-                    if (ct.isEmpty() || !ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
-                        setDropZone(i, j);
-                    } else {
-                        StackPane wrapper = getComponentTileImageForGrid(ct.get().getPngName(), ct.get().getNumOfRotations());
-                        componentTilesGrid.add(wrapper, j, i);
-                    }
+            for(Node child : componentTilesGrid.getChildren()) {
+                int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
+                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+                Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
+                if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
+                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
+                }
+                else {
+                    ((ImageView) child).setImage(null);
                 }
             }
-
+            // draw standbytiles
+            for(Node child : standByComponentsGrid.getChildren()) {
+                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+                Optional<ComponentTile> ct = shipboard.getStandbyComponent()[j];
+                if (ct.isPresent()) {
+                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
+                }
+                else {
+                    ((ImageView) child).setImage(null);
+                }
+            }
         }
         else {
-            //draw ship without buttons
+            //draw ship without buttons (copy the things done above)
         }
+
 
     }
 
@@ -160,12 +174,14 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     @FXML
     private void handleDragDetectedTileInHand(MouseEvent event) {
+        Image image = tileInHand.getImage();
         if (tileInHand.getImage() == null) return;
 
         Dragboard db = tileInHand.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
         content.putImage(tileInHand.getImage());
         db.setContent(content);
+        db.setDragView(image, image.getWidth() / 6, image.getHeight() /6 );
 
         event.consume();
     }
@@ -179,60 +195,80 @@ public class BuildingShipController extends FXMLController implements Initializa
         event.consume();
     }
 
-    /**
-     * Set the cell of the grid pane at the given coordinates as a drop zone to weld a tile
-     */
-    private void setDropZone(int i, int j) {
-        Pane dropZone = new Pane();
-        dropZone.setStyle("-fx-background-color: transparent;");
-        dropZone.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        GridPane.setHgrow(dropZone, Priority.ALWAYS);
-        GridPane.setVgrow(dropZone, Priority.ALWAYS);
-        componentTilesGrid.add(dropZone, j, i);
-        dropZone.setOnDragOver(event -> {
-            if (event.getDragboard().hasImage()) {
-                event.acceptTransferModes(TransferMode.MOVE);
-            }
-            event.consume();
-        });
-        dropZone.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-
-            if (db.hasImage()) {
+    @FXML
+    private void handleDragDroppedGrid(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        Node gridCell = (Node) event.getSource();
+        int i = GridPane.getRowIndex(gridCell) != null ? GridPane.getRowIndex(gridCell) : 0;
+        int j = GridPane.getColumnIndex(gridCell) != null ? GridPane.getColumnIndex(gridCell) : 0;
+        if (db.hasImage() && ((ImageView) gridCell).getImage() == null && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i,j,model)) { //se non c'è l'immagine nella griglia o se non è out of bound
+            new Thread(() -> Platform.runLater(() -> {
                 try {
                     virtualServer.weldComponentTile(model.getPlayerName(), i, j, numOfRotations);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                success = true;
-            }
+            })).start();
+            success = true;
+        }
 
-            event.setDropCompleted(success);
-            event.consume();
-        });
+        event.setDropCompleted(success);
+        event.consume();
+    }
+
+    @FXML
+    private void handleDragDroppedStandByArea(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasImage() && (((ImageView) standByComponentsGrid.getChildren().get(0)).getImage() == null ||
+                ((ImageView) standByComponentsGrid.getChildren().get(1)).getImage() == null)) { //se c'è uno spazio vuoto
+            new Thread(() -> Platform.runLater(() -> {
+                try {
+                    virtualServer.standbyComponentTile(model.getPlayerName());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            })).start();
+            success = true;
+        }
+
+        event.setDropCompleted(success);
+        event.consume();
+    }
+
+    @FXML
+    private void handleDragOverGrid(DragEvent event) {
+        if (event.getDragboard().hasImage()) {
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
+        event.consume();
+    }
+
+    @FXML
+    private void pickStandByTile(MouseEvent event) {
+        if(tileInHand.getImage() != null) return;
+
+        ImageView standByCell = (ImageView) event.getTarget();
+        int idx = GridPane.getColumnIndex(standByCell);
+        new Thread(() -> Platform.runLater(() -> {
+            try {
+                virtualServer.pickStandbyComponentTile(model.getPlayerName(), idx);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        })).start();
     }
 
     /**
      * Returns a StackPane wrapping the image with the given name to put on the grid pane
      */
-    private StackPane getComponentTileImageForGrid(String pngName, int numOfRotations) {
+    private void drawComponentTileImageForGrid(ImageView imageView, String pngName, int numOfRotations) {
         Image image = new Image(getClass().getResource("/GraficheGioco/tiles/" + pngName).toExternalForm());
-        ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
         imageView.setRotate(90 * numOfRotations);
-
-        StackPane wrapper = new StackPane(imageView);
-        wrapper.setStyle("-fx-padding: 5;");
-
-        GridPane.setHgrow(wrapper, Priority.ALWAYS);
-        GridPane.setVgrow(wrapper, Priority.ALWAYS);
-
-        imageView.fitWidthProperty().bind(wrapper.widthProperty());
-        imageView.fitHeightProperty().bind(wrapper.heightProperty());
-
-        return wrapper;
+        imageView.setImage(image);
     }
 
     public void drawTileInHand(ComponentTile ct) {
