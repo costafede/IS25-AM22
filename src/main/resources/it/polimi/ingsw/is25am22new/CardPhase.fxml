@@ -99,7 +99,7 @@
             </font>
         </Button>
 
-        <Button fx:id="dicesButton" layoutX="429.0" layoutY="401.0" mnemonicParsing="false" onAction="#rollDices"
+        <Button fx:id="dicesButton" layoutX="429.0" layoutY="401.0" mnemonicParsing="false"
                 text="Dices">
             <font>
                 <Font size="18.0"/>
@@ -124,13 +124,6 @@
                 text="Show Tiles">
             <font>
                 <Font size="18.0"/>
-            </font>
-        </Button>
-
-        <Button fx:id="flipHourglassButton" layoutX="890.0" layoutY="8.0" mnemonicParsing="false"
-                onAction="#flipHourglass" text="Flip Hourglass">
-            <font>
-                <Font size="20.0"/>
             </font>
         </Button>
 
