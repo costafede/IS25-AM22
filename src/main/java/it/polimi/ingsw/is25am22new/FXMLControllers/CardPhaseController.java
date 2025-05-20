@@ -11,10 +11,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -28,20 +30,37 @@ import java.util.Objects;
  * related to visual and logical game state.
  */
 public class CardPhaseController extends FXMLController {
-    @FXML private ImageView ship;
-    @FXML private ImageView ship2;
-    @FXML private ImageView ship3;
-    @FXML private ImageView ship4;
-    private GalaxyStarsEffect animatedBackground;
+    @FXML private GridPane myShip;
+    @FXML private GridPane player1Grid;
+    @FXML private GridPane player2Grid;
+    @FXML private GridPane player3Grid;
+    @FXML private ImageView myShipImage;
+    @FXML private ImageView player1ShipImage;
+    @FXML private ImageView player2ShipImage;
+    @FXML private ImageView player3ShipImage;
+    @FXML private Label player1Name;
+    @FXML private Label player2Name;
+    @FXML private Label player3Name;
+    @FXML private AnchorPane tutorialFlightboardPane; // Layout x = 375 Layout y = 15 positions fx:id t[num]
+    @FXML private AnchorPane level2FlightboardPane; // positions fx:id l[num]
     @FXML private ImageView background;
+
+    private GalaxyStarsEffect animatedBackground;
 
     @FXML
     private void initialize() {
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
+            setShipboardImagesTutorial();
+            tutorialFlightboardPane.setVisible(true);
+            level2FlightboardPane.setVisible(false);
+
         } else {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleBackground.png")).toString()));
+            setShipboardImagesLevel2();
+            tutorialFlightboardPane.setVisible(false);
+            level2FlightboardPane.setVisible(true);
         }
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
@@ -60,6 +79,20 @@ public class CardPhaseController extends FXMLController {
 
         // Carica lo stato iniziale della scena
         drawScene();
+    }
+
+    private void setShipboardImagesLevel2() {
+        myShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
+        player1ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
+        player2ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
+        player3ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
+    }
+
+    private void setShipboardImagesTutorial() {
+        myShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
+        player1ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
+        player2ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
+        player3ShipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
     }
 
     /**

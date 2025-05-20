@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -40,10 +41,11 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML private GridPane componentTilesGrid;
     @FXML private GridPane standByComponentsGrid;
     @FXML private ImageView shipboardImage;
+    @FXML private ImageView rocketImage;
     @FXML private ImageView backGround;
 
     private GalaxyStarsEffect animatedBackground;
-
+    private Map<String, Runnable> rocketColorMap;
     /**
      * num of rotations of the tile in hand
      */
@@ -56,6 +58,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         } else {
             backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
         }
+        setRocketImage();
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -74,6 +77,18 @@ public class BuildingShipController extends FXMLController implements Initializa
 
         drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
 
+        initializeRocketColorMap();
+    }
+
+    private void setRocketImage() {
+        rocketColorMap.get(model.getShipboard(model.getPlayerName()).getColor()).run();
+    }
+
+    private void initializeRocketColorMap() {
+        rocketColorMap.put("yellow", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/yellowRocket.png")).toString()))));
+        rocketColorMap.put("blue", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/blueRocket.png")).toString()))));
+        rocketColorMap.put("green", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/greenRocket.png")).toString()))));
+        rocketColorMap.put("red", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/redRocket.png")).toString()))));
     }
 
     /**
@@ -304,6 +319,47 @@ public class BuildingShipController extends FXMLController implements Initializa
             e.printStackTrace();
             System.err.println("Errore durante il caricamento della scena CardPhase.fxml");
         }
+    }
+
+    @FXML
+    public void handleDragDoneRocket(DragEvent event) {
+        if (event.getTransferMode() == TransferMode.MOVE) {
+            rocketImage.setImage(null); // Rimuove l'immagine dalla sorgente
+        }
+        event.consume();
+    }
+
+    @FXML
+    public void handleDragDetectedRocket(MouseEvent event) {
+        if (rocketImage.getImage() == null) return;
+
+        Dragboard db = rocketImage.startDragAndDrop(TransferMode.MOVE);
+        ClipboardContent content = new ClipboardContent();
+        content.putImage(rocketImage.getImage());
+        db.setContent(content);
+
+        event.consume();
+    }
+
+    @FXML
+    public void handleDragDroppedLevel2(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        ImageView position = (ImageView) event.getSource();
+
+        boolean success = false;
+        if (db.hasImage() && position.getImage() == null) {
+            new Thread(() -> Platform.runLater(() -> {
+                try {
+                    virtualServer.finishBuilding(model.getPlayerName(), 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            })).start();
+            success = true;
+        }
+
+        event.setDropCompleted(success);
+        event.consume();
     }
 }
 
