@@ -144,7 +144,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateFlightboard(Flightboard flightboard) {
-
+        Platform.runLater(() -> buildingShipController.updateFlightBoard(flightboard));
     }
 
     @Override
@@ -164,6 +164,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateCurrPlayer(String player) {
+        if(!clientModel.getGamePhase().getPhaseType().equals(PhaseType.CARD)) return;
         // Update the current player in the client model
         clientModel.setCurrPlayer(player);
         ///  TODO da sistemare

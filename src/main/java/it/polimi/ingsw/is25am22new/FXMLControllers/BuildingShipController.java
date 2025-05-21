@@ -5,6 +5,7 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.event.ActionEvent;
 import javafx.application.Platform;
@@ -60,6 +61,7 @@ public class BuildingShipController extends FXMLController implements Initializa
     //Maps other players to their grid and stand by tiles
     private Map<String, GridPane> playerToShipGrid = new HashMap<>();
     private Map<String, GridPane> playerToShipStandByTiles = new HashMap<>();
+    private AnchorPane flightboardPane;
     /**
      * num of rotations of the tile in hand
      */
@@ -71,9 +73,17 @@ public class BuildingShipController extends FXMLController implements Initializa
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
             shipImage = new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString());
+            tutorialFlightboardPane.setVisible(true);
+            level2FlightboardPane.setVisible(false);
+            tutorialFlightboardPane.toFront();
+            flightboardPane = tutorialFlightboardPane;
         } else {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleBackground.png")).toString()));
             shipImage = new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString());
+            level2FlightboardPane.setVisible(true);
+            tutorialFlightboardPane.setVisible(false);
+            level2FlightboardPane.toFront();
+            flightboardPane = level2FlightboardPane;
         }
 
         List<ImageView> shipImages = new ArrayList<>(List.of(player1ShipImage, player2ShipImage, player3ShipImage));
@@ -100,7 +110,9 @@ public class BuildingShipController extends FXMLController implements Initializa
             drawShipInBuildingPhase(ship);
         }
 
-        // TODO: disegna la flightboard giusta, gestisci la clessidra, gestisci le pile le level2 game, gestisci gli uncovered tiles e la finish building
+        // TODO: gestisci la clessidra, gestisci le pile le level2 game, gestisci gli uncovered tiles
+
+
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -216,8 +228,9 @@ public class BuildingShipController extends FXMLController implements Initializa
         Dragboard db = tileInHand.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
         content.putImage(tileInHand.getImage());
+        content.putString(tileInHand.getId());
         db.setContent(content);
-        db.setDragView(image, image.getWidth() / 6, image.getHeight() /6 );
+        db.setDragView(image, image.getWidth() / 100, image.getHeight() / 100 );
 
         event.consume();
     }
@@ -236,10 +249,11 @@ public class BuildingShipController extends FXMLController implements Initializa
         Dragboard db = event.getDragboard();
         int rotations = numOfRotations;
         boolean success = false;
+        String sourceId = db.getString();
         Node gridCell = (Node) event.getSource();
         int i = GridPane.getRowIndex(gridCell) != null ? GridPane.getRowIndex(gridCell) : 0;
         int j = GridPane.getColumnIndex(gridCell) != null ? GridPane.getColumnIndex(gridCell) : 0;
-        if (db.hasImage() && ((ImageView) gridCell).getImage() == null && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i,j,model)) { //se non c'è l'immagine nella griglia o se non è out of bound
+        if (db.hasImage() && db.hasString() && sourceId.equals("tile") && ((ImageView) gridCell).getImage() == null && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i,j,model)) { //se non c'è l'immagine nella griglia o se non è out of bound
             new Thread(() -> Platform.runLater(() -> {
                 try {
                     virtualServer.weldComponentTile(model.getPlayerName(), i, j, rotations);
@@ -258,7 +272,8 @@ public class BuildingShipController extends FXMLController implements Initializa
     private void handleDragDroppedStandByArea(DragEvent event) {
         Dragboard db = event.getDragboard();
         boolean success = false;
-        if (db.hasImage() && (((ImageView) standByComponentsGrid.getChildren().get(0)).getImage() == null ||
+        String sourceId = db.getString();
+        if (db.hasImage() && db.hasString() && sourceId.equals("tile") && (((ImageView) standByComponentsGrid.getChildren().get(0)).getImage() == null ||
                 ((ImageView) standByComponentsGrid.getChildren().get(1)).getImage() == null)) { //se c'è uno spazio vuoto
             new Thread(() -> Platform.runLater(() -> {
                 try {
@@ -394,7 +409,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         }
     }
 
-    /*@FXML
+    @FXML
     public void handleDragDoneRocket(DragEvent event) {
         if (event.getTransferMode() == TransferMode.MOVE) {
             rocketImage.setImage(null); // Rimuove l'immagine dalla sorgente
@@ -409,21 +424,23 @@ public class BuildingShipController extends FXMLController implements Initializa
         Dragboard db = rocketImage.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
         content.putImage(rocketImage.getImage());
+        content.putString(rocketImage.getId());
         db.setContent(content);
 
         event.consume();
     }
 
     @FXML
-    public void handleDragDroppedLevel2(DragEvent event) {
+    public void handleDragDroppedRocket(DragEvent event) {
         Dragboard db = event.getDragboard();
         ImageView position = (ImageView) event.getSource();
-
+        int idx = Integer.parseInt(position.getId());
+        String sourceId = db.getString();
         boolean success = false;
-        if (db.hasImage() && position.getImage() == null) {
+        if (db.hasImage() && db.hasString() && position.getImage() == null && sourceId.equals("rocket")) {
             new Thread(() -> Platform.runLater(() -> {
                 try {
-                    virtualServer.finishBuilding(model.getPlayerName(), 1);
+                    virtualServer.finishBuilding(model.getPlayerName(), idx);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -433,6 +450,26 @@ public class BuildingShipController extends FXMLController implements Initializa
 
         event.setDropCompleted(success);
         event.consume();
-    }*/
+    }
+
+    public void handleDragOverRocket(DragEvent event) {
+        if (event.getDragboard().hasImage()) {
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
+        event.consume();
+    }
+
+    public void updateFlightBoard(Flightboard flightboard) {
+        for(String player : flightboard.getPositions().keySet()) {
+            Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
+            int position = flightboard.getStartingPositions().indexOf(flightboard.getPositions().get(player)); //converts absolute positions (6, 3, 1, 0) to starting positions (1, 2, 3, 4)
+            for(Node child : flightboardPane.getChildren()) {
+                if(Integer.parseInt(child.getId()) == position) {
+                    ((ImageView) child).setImage(rocket);
+                }
+            }
+        }
+    }
+
 }
 

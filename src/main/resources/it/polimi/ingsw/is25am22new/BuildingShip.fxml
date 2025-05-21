@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.BuildingShipController">
+<AnchorPane prefHeight="723.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.BuildingShipController">
     <children>
         <!-- Background Image (posto per primo per essere dietro a tutto) -->
         <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
@@ -49,69 +49,35 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <AnchorPane fx:id="level2FlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0">
-            <children>
-                <ImageView fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../../GraficheGioco/cardboard/cardboard-5.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="l0" fitHeight="25.0" fitWidth="25.0" layoutX="123.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l1" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l2" fitHeight="25.0" fitWidth="25.0" layoutX="206.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l3" fitHeight="25.0" fitWidth="25.0" layoutX="247.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l4" fitHeight="25.0" fitWidth="25.0" layoutX="291.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l5" fitHeight="25.0" fitWidth="25.0" layoutX="332.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l6" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l7" fitHeight="25.0" fitWidth="25.0" layoutX="413.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l8" fitHeight="25.0" fitWidth="25.0" layoutX="449.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l9" fitHeight="25.0" fitWidth="25.0" layoutX="474.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l10" fitHeight="25.0" fitWidth="25.0" layoutX="473.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l11" fitHeight="25.0" fitWidth="25.0" layoutX="443.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l12" fitHeight="25.0" fitWidth="25.0" layoutX="407.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l13" fitHeight="25.0" fitWidth="25.0" layoutX="366.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l14" fitHeight="25.0" fitWidth="25.0" layoutX="324.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l15" fitHeight="25.0" fitWidth="25.0" layoutX="282.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l16" fitHeight="25.0" fitWidth="25.0" layoutX="240.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l17" fitHeight="25.0" fitWidth="25.0" layoutX="196.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l18" fitHeight="25.0" fitWidth="25.0" layoutX="156.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l19" fitHeight="25.0" fitWidth="25.0" layoutX="117.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l20" fitHeight="25.0" fitWidth="25.0" layoutX="80.0" layoutY="217.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l21" fitHeight="25.0" fitWidth="25.0" layoutX="55.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l22" fitHeight="25.0" fitWidth="25.0" layoutX="58.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="l23" fitHeight="25.0" fitWidth="25.0" layoutX="86.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
-            </children>
-        </AnchorPane>
-        <AnchorPane fx:id="tutorialFlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+        <AnchorPane fx:id="tutorialFlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0">
             <children>
 
                 <!-- Immagine centrale -->
-                <ImageView fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView id="100" fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../../GraficheGioco/cardboard/cardboard-3.png" />
                     </image>
                 </ImageView>
-                <ImageView fx:id="t0" fitHeight="25.0" fitWidth="25.0" layoutX="145.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t1" fitHeight="25.0" fitWidth="25.0" layoutX="200.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t2" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t3" fitHeight="25.0" fitWidth="25.0" layoutX="315.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t4" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t5" fitHeight="25.0" fitWidth="25.0" layoutX="427.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t6" fitHeight="25.0" fitWidth="25.0" layoutX="477.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t7" fitHeight="25.0" fitWidth="25.0" layoutX="503.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t8" fitHeight="25.0" fitWidth="25.0" layoutX="472.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t9" fitHeight="25.0" fitWidth="25.0" layoutX="423.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t10" fitHeight="25.0" fitWidth="25.0" layoutX="367.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t11" fitHeight="25.0" fitWidth="25.0" layoutX="309.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t12" fitHeight="25.0" fitWidth="25.0" layoutX="253.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t13" fitHeight="25.0" fitWidth="25.0" layoutX="197.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t14" fitHeight="25.0" fitWidth="25.0" layoutX="142.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t15" fitHeight="25.0" fitWidth="25.0" layoutX="92.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t16" fitHeight="25.0" fitWidth="25.0" layoutX="65.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="t17" fitHeight="25.0" fitWidth="25.0" layoutX="96.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="4" fx:id="t0" fitHeight="25.0" fitWidth="25.0" layoutX="145.0" layoutY="64.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="3" fx:id="t1" fitHeight="25.0" fitWidth="25.0" layoutX="200.0" layoutY="45.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="2" fx:id="t2" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="37.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="1" fx:id="t4" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="44.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
             </children>
         </AnchorPane>
-        <ImageView fx:id="rocketImage" fitHeight="60.0" fitWidth="60.0" layoutX="725.0" layoutY="600.0" pickOnBounds="true" preserveRatio="true">
+        <AnchorPane fx:id="level2FlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <ImageView id="100" fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../GraficheGioco/cardboard/cardboard-5.png" />
+                    </image>
+                </ImageView>
+                <ImageView id="4" fx:id="l0" fitHeight="25.0" fitWidth="25.0" layoutX="123.0" layoutY="70.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="3" fx:id="l1" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="54.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="2" fx:id="l3" fitHeight="25.0" fitWidth="25.0" layoutX="247.0" layoutY="39.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
+                <ImageView id="1" fx:id="l6" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="53.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
+            </children>
+        </AnchorPane>
+        <ImageView id="rocket" fx:id="rocketImage" fitHeight="60.0" fitWidth="60.0" layoutX="725.0" layoutY="600.0" onDragDetected="#handleDragDetectedRocket" onDragDone="#handleDragDoneRocket" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../../../GraficheGioco/rockets/blueRocket.png" />
             </image>
@@ -238,7 +204,7 @@
       </GridPane>
       <AnchorPane layoutX="1161.0" layoutY="245.0" prefHeight="111.0" prefWidth="108.0" style="-fx-background-color: #4682B4; -fx-background-radius: 15;">
          <children>
-            <ImageView fx:id="tileInHand" fitHeight="93.0" fitWidth="92.0" layoutX="8.0" layoutY="9.0" onDragDetected="#handleDragDetectedTileInHand" onDragDone="#handleDragDoneTileInHand" onMouseClicked="#rotateTileInHand" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="tile" fx:id="tileInHand" fitHeight="93.0" fitWidth="92.0" layoutX="8.0" layoutY="9.0" onDragDetected="#handleDragDetectedTileInHand" onDragDone="#handleDragDoneTileInHand" onMouseClicked="#rotateTileInHand" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="1043.0" layoutY="245.0" prefHeight="111.0" prefWidth="108.0" style="-fx-background-color: #FF0000; -fx-background-radius: 15;">
