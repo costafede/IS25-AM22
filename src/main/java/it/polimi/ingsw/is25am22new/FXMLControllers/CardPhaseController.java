@@ -83,13 +83,13 @@ public class CardPhaseController extends FXMLController {
         playersImage = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
-            setShipboardImagesTutorial(playerToShip.size()+1);
+            setShipboardImagesTutorial(playerToShip.size());
             tutorialFlightboardPane.setVisible(true);
             level2FlightboardPane.setVisible(false);
 
         } else {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleBackground.png")).toString()));
-            setShipboardImagesLevel2(playerToShip.size()+1);
+            setShipboardImagesLevel2(playerToShip.size());
             tutorialFlightboardPane.setVisible(false);
             level2FlightboardPane.setVisible(true);
         }
