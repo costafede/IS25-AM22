@@ -181,7 +181,9 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateDices(Dices dices) {
-        // does nothing?
+        switch (clientModel.getGamePhase().getPhaseType()) {
+            case CARD -> Platform.runLater(() -> cardPhaseController.drawDices());
+        }
     }
 
     @Override

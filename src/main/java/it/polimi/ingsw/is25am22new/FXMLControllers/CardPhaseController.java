@@ -6,7 +6,6 @@ import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
@@ -61,11 +60,14 @@ public class CardPhaseController extends FXMLController {
     @FXML private ImageView background;
     @FXML private ImageView cardImage;
     @FXML private Button pickCardButton;
+    @FXML private ImageView dice1;
+    @FXML private ImageView dice2;
 
     private GalaxyStarsEffect animatedBackground;
     private Map<String, GridPane> playerToShip;
     private List<ImageView> playersImage;
     private final Map<String, Image> colorToRocketImage = new HashMap<>();
+    private final Map<Integer, Image> diceToImage = new HashMap<>();
 
     private CommandManager commandManager;
 
@@ -97,6 +99,7 @@ public class CardPhaseController extends FXMLController {
         fillGridPane(player2Ship, 38);
         fillGridPane(player3Ship, 38);
         initializeRocketColorMap();
+        initializeDiceToImage();
         // Aggiungi gestore eventi per clic sulla carta per mostrare comandi applicabili
         cardImage.setOnMouseClicked(this::showApplicableCommands);
 
@@ -251,6 +254,7 @@ public class CardPhaseController extends FXMLController {
             drawShips();
             // Aggiorna la flightboard
             drawFlightboardInCardPhase(model.getFlightboard());
+            drawDices();
         } catch(Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
             e.printStackTrace();
@@ -656,7 +660,19 @@ public class CardPhaseController extends FXMLController {
         colorToRocketImage.put("red", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/redRocket.png")).toString()));
     }
 
-    public void showDices() {
+    public void drawDices() {
+        if (model.getDices() != null) {
+            dice1.setImage(diceToImage.get(model.getDices().getDice1()));
+            dice2.setImage(diceToImage.get(model.getDices().getDice2()));
+        }
+    }
 
+    private void initializeDiceToImage() {
+        diceToImage.put(1, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/1.png")).toString()));
+        diceToImage.put(2, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/2.png")).toString()));
+        diceToImage.put(3, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/3.png")).toString()));
+        diceToImage.put(4, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/4.png")).toString()));
+        diceToImage.put(5, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/5.png")).toString()));
+        diceToImage.put(6, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/6.png")).toString()));
     }
 }
