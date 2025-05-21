@@ -6,11 +6,8 @@ import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
-import it.polimi.ingsw.is25am22new.Model.ComponentTiles.BatteryComponent;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
-import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -69,6 +66,7 @@ public class CardPhaseController extends FXMLController {
     private GalaxyStarsEffect animatedBackground;
     private Map<String, GridPane> playerToShip;
     private List<ImageView> playersImage;
+    private final Map<String, Image> colorToRocketImage = new HashMap<>();
 
     private CommandManager commandManager;
 
@@ -96,7 +94,7 @@ public class CardPhaseController extends FXMLController {
         fillGridPane(player1Ship, 38);
         fillGridPane(player2Ship, 38);
         fillGridPane(player3Ship, 38);
-
+        initializeRocketColorMap();
         // Aggiungi gestore eventi per clic sulla carta per mostrare comandi applicabili
         cardImage.setOnMouseClicked(this::showApplicableCommands);
 
@@ -220,8 +218,8 @@ public class CardPhaseController extends FXMLController {
                 .filter(name -> !name.equals(model.getPlayerName()))
                 .toList();
 
-        if (!otherPlayers.isEmpty() && otherPlayers.size() >= 1) {
-            player1Name.setText(otherPlayers.get(0));
+        if (!otherPlayers.isEmpty()) {
+            player1Name.setText(otherPlayers.getFirst());
         }
 
         if (otherPlayers.size() >= 2) {
@@ -655,7 +653,7 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void drawComponentTileImageForGrid(ImageView imageView, String pngName, int numOfRotations) {
-        Image image = new Image(getClass().getResource("/GraficheGioco/tiles/" + pngName).toExternalForm());
+        Image image = new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/tiles/" + pngName)).toExternalForm());
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
         imageView.setRotate(90 * numOfRotations);
@@ -663,7 +661,27 @@ public class CardPhaseController extends FXMLController {
     }
 
     public void drawFlightboardInCardPhase(Flightboard flightboard) {
-
+        if(model.getGametype().equals(GameType.TUTORIAL)) {
+            for(String player : flightboard.getPositions().keySet()) {
+                Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
+                for(Node child : tutorialFlightboardPane.getChildren()) {
+                    String position = "t" + flightboard.getPositions().get(player);
+                    if(child.getId().equals(position)) {
+                        ((ImageView) child).setImage(rocket);
+                    }
+                }
+            }
+        } else {
+            for(String player : flightboard.getPositions().keySet()) {
+                Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
+                for(Node child : level2FlightboardPane.getChildren()) {
+                    String position = "l" + flightboard.getPositions().get(player);
+                    if(child.getId().equals(position)) {
+                        ((ImageView) child).setImage(rocket);
+                    }
+                }
+            }
+        }
     }
 
     public void drawBankInCardPhase(Bank bank) {
@@ -683,5 +701,16 @@ public class CardPhaseController extends FXMLController {
                 gridPane.add(imageView, j, i);
             }
         }
+    }
+
+    private void initializeRocketColorMap() {
+        colorToRocketImage.put("yellow", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/yellowRocket.png")).toString()));
+        colorToRocketImage.put("blue", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/blueRocket.png")).toString()));
+        colorToRocketImage.put("green", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/greenRocket.png")).toString()));
+        colorToRocketImage.put("red", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/redRocket.png")).toString()));
+    }
+
+    public void showDices() {
+
     }
 }
