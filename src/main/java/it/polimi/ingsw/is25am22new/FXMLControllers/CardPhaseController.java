@@ -238,6 +238,8 @@ public class CardPhaseController extends FXMLController {
         try {
             // Aggiorna le visualizzazioni delle navi
             drawShips();
+            // Aggiorna la flightboard
+            drawFlightboardInCardPhase(model.getFlightboard());
         } catch(Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
             e.printStackTrace();
