@@ -120,13 +120,6 @@
             </font>
         </Button>
 
-        <Button fx:id="showTilesButton" layoutX="637.0" layoutY="366.0" mnemonicParsing="false" onAction="#showTiles"
-                text="Show Tiles">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-
         <!-- Bottone per tornare alla fase di costruzione della nave -->
         <Button fx:id="buildingShipButton" layoutX="1000.0" layoutY="300.0" mnemonicParsing="false"
                 onAction="#switchToBuildingShip" text="Building Ship">

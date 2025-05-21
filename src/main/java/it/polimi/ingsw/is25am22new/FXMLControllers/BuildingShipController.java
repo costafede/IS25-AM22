@@ -469,7 +469,38 @@ public class BuildingShipController extends FXMLController implements Initializa
                 }
             }
         }
+
+        // Verifica se tutti i razzi sono stati posizionati
+        if (areAllRocketsPlaced(flightboard)) {
+            // Utilizza Platform.runLater per eseguire la transizione di scena nel thread JavaFX
+            Platform.runLater(() -> {
+                try {
+                    // Passa alla CardPhase
+                    galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/CardPhase.fxml");
+
+                    // Ferma l'animazione dello sfondo quando si cambia scena
+                    if (animatedBackground != null) {
+                        animatedBackground.stopAnimation();
+                    }
+                } catch (Exception e) {
+                    System.err.println("Errore durante il passaggio alla CardPhase: " + e.getMessage());
+                }
+            });
+        }
+    }
+
+    /**
+     * Verifica se tutti i razzi dei giocatori sono stati posizionati sulla flightboard
+     * @param flightboard la flightboard corrente
+     * @return true se tutti i giocatori hanno posizionato il loro razzo, false altrimenti
+     */
+    private boolean areAllRocketsPlaced(Flightboard flightboard) {
+        // Controlla se tutti i giocatori hanno una posizione nella flightboard
+        int totalPlayers = model.getShipboards().size();
+        int playersWithPosition = flightboard.getPositions().size();
+
+        // Se il numero di posizioni è uguale al numero di giocatori, allora tutti i razzi sono stati posizionati
+        return playersWithPosition == totalPlayers;
     }
 
 }
-
