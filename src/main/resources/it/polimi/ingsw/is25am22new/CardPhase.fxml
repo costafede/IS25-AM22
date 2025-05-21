@@ -77,33 +77,26 @@
             </font>
         </Button>
 
-        <Button fx:id="goodblocksButton" layoutX="385.0" layoutY="445.0" mnemonicParsing="false"
-                onAction="#openGoodBlocksBank" text="Goodblocks Bank">
+        <Button fx:id="goodblocksButton" layoutX="1080.0" layoutY="143.0" mnemonicParsing="false" onAction="#openGoodBlocksBank" text="Goodblocks Bank">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="dicesButton" layoutX="429.0" layoutY="401.0" mnemonicParsing="false" onAction="#showDices" text="Dices">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Button>
-
-        <Button fx:id="abandonGameButton" layoutX="1076.0" layoutY="78.0" mnemonicParsing="false" onAction="#abandonGame" text="Abandon Game">
+        <Button fx:id="abandonGameButton" layoutX="1078.0" layoutY="37.0" mnemonicParsing="false" onAction="#abandonGame" text="Abandon Game">
             <font>
                 <Font size="20.0" />
             </font>
         </Button>
 
-        <Button fx:id="disconnectButton" layoutX="1095.0" layoutY="122.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect">
+        <Button fx:id="disconnectButton" layoutX="1098.0" layoutY="89.0" mnemonicParsing="false" onAction="#disconnect" text="Disconnect">
             <font>
                 <Font size="20.0" />
             </font>
         </Button>
 
         <!-- Bottone per tornare alla fase di costruzione della nave -->
-        <Button fx:id="buildingShipButton" layoutX="1000.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToBuildingShip" text="Building Ship">
+        <Button fx:id="buildingShipButton" layoutX="657.0" layoutY="657.0" mnemonicParsing="false" onAction="#switchToBuildingShip" text="Building Ship">
             <font>
                 <Font size="18.0" />
             </font>
@@ -242,5 +235,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
+      <ImageView fx:id="dice1" fitHeight="75.0" fitWidth="75.0" layoutX="1086.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="dice2" fitHeight="75.0" fitWidth="75.0" layoutX="1185.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true" />
     </children>
 </AnchorPane>
