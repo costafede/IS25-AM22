@@ -121,6 +121,7 @@ public class CardPhaseController extends FXMLController {
         }
         // Carica lo stato iniziale della scena
         drawScene();
+        updateButtonsState();
     }
 
     private void initializePlayerToShip() {
@@ -268,7 +269,7 @@ public class CardPhaseController extends FXMLController {
     public void updateButtonsState() {
         boolean isPlayerTurn = model.getPlayerName().equals(model.getCurrPlayer());
 
-        // Il pulsante pickCard è attivo solo se è il turno del giocatore
+        // Il pulsante pickCard è attivo solo se è il turno del giocatore e lo metto disabilitato e grigio
         pickCardButton.setDisable(!isPlayerTurn);
     }
 
@@ -377,19 +378,6 @@ public class CardPhaseController extends FXMLController {
                 try {
                     virtualServer.playerAbandons(model.getPlayerName());
                     System.out.println("Richiesta di abbandono partita inviata al server");
-
-                    // Torna alla schermata principale
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-
-                    // Ferma l'animazione dello sfondo
-                    if (animatedBackground != null) {
-                        animatedBackground.stopAnimation();
-                    }
                 } catch (IOException e) {
                     System.err.println("Errore durante l'abbandono della partita: " + e.getMessage());
                     e.printStackTrace();
