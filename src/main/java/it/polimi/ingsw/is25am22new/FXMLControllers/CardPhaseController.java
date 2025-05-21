@@ -374,19 +374,6 @@ public class CardPhaseController extends FXMLController {
                 try {
                     virtualServer.playerAbandons(model.getPlayerName());
                     System.out.println("Richiesta di abbandono partita inviata al server");
-
-                    // Torna alla schermata principale
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-
-                    // Ferma l'animazione dello sfondo
-                    if (animatedBackground != null) {
-                        animatedBackground.stopAnimation();
-                    }
                 } catch (IOException e) {
                     System.err.println("Errore durante l'abbandono della partita: " + e.getMessage());
                     e.printStackTrace();
