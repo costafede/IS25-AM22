@@ -1,12 +1,22 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
+import it.polimi.ingsw.is25am22new.Client.Commands.Command;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
+import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,16 +24,24 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Controls the logic and rendering operations during a specific card-based phase
@@ -51,27 +69,36 @@ public class CardPhaseController extends FXMLController {
     @FXML private Button resolveEffectButton;
 
     private GalaxyStarsEffect animatedBackground;
-    private List<String> players;
-    private List<ImageView> playersShipImages;
+    private Map<String, GridPane> playerToShip;
+    private List<ImageView> playersImage;
+
+    private CommandManager commandManager;
 
     @FXML
     private void initialize() {
+        commandManager = new CommandManager();
+        commandManager.initializeCommandManagerGUI(GalaxyTruckerGUI.getVirtualServer());
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
-        players = model.getShipboards().keySet().stream().toList();
-        playersShipImages = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
+        initializePlayerToShip();
+        playersImage = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
-            setShipboardImagesTutorial(players.size());
+            setShipboardImagesTutorial(playerToShip.size());
             tutorialFlightboardPane.setVisible(true);
             level2FlightboardPane.setVisible(false);
 
         } else {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleBackground.png")).toString()));
-            setShipboardImagesLevel2(players.size());
+            setShipboardImagesLevel2(playerToShip.size());
             tutorialFlightboardPane.setVisible(false);
             level2FlightboardPane.setVisible(true);
         }
 
+        // Aggiungi gestore eventi per clic sulla carta per mostrare comandi applicabili
+        cardImage.setOnMouseClicked(this::showApplicableCommands);
+
+        // Aggiungi un cursore mano per indicare che la carta è cliccabile
+        cardImage.setStyle("-fx-cursor: hand;");
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -86,9 +113,16 @@ public class CardPhaseController extends FXMLController {
             animatedBackground.toBack();
             background.toBack();
         }
-
         // Carica lo stato iniziale della scena
         drawScene();
+    }
+
+    private void initializePlayerToShip() {
+        playerToShip = new HashMap<>();
+        List<GridPane> shipViews = List.of(myShip, player1Ship, player2Ship, player3Ship);
+        for (int i = 0; i < model.getShipboards().size(); i++) {
+            playerToShip.put(model.getShipboards().keySet().stream().toList().get(i), shipViews.get(i));
+        }
     }
 
     private void setShipboardImagesLevel2(int playersNumber) {
@@ -97,8 +131,8 @@ public class CardPhaseController extends FXMLController {
 
         // Assegna le immagini solo alle navi che saranno visibili
         int count = 0;
-        for (int i = 0; i < playersNumber && i < playersShipImages.size(); i++) {
-            ImageView shipImage = playersShipImages.get(i);
+        for (int i = 0; i < playersNumber && i < model.getShipboards().size(); i++) {
+            ImageView shipImage = playersImage.get(i);
             if (shipImage.isVisible()) {
                 shipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString()));
                 count++;
@@ -113,8 +147,8 @@ public class CardPhaseController extends FXMLController {
 
         // Assegna le immagini solo alle navi che saranno visibili
         int count = 0;
-        for (int i = 0; i < playersNumber && i < playersShipImages.size(); i++) {
-            ImageView shipImage = playersShipImages.get(i);
+        for (int i = 0; i < playersNumber && i < model.getShipboards().size(); i++) {
+            ImageView shipImage = playersImage.get(i);
             if (shipImage.isVisible()) {
                 shipImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString()));
                 count++;
@@ -171,7 +205,7 @@ public class CardPhaseController extends FXMLController {
      */
     private void updatePlayerNames() {
         // Ottiene i nomi dei giocatori dall'elenco dei giocatori escluso il giocatore corrente
-        List<String> otherPlayers = players.stream()
+        List<String> otherPlayers = playerToShip.keySet().stream()
                 .filter(name -> !name.equals(model.getPlayerName()))
                 .toList();
 
@@ -191,14 +225,9 @@ public class CardPhaseController extends FXMLController {
     /**
      * Disegna la nave del giocatore
      */
-    public void drawShip() {
-        // Implementazione per disegnare la nave del giocatore
-        try {
-            // Aggiorna la visualizzazione della nave in base al modello
-            System.out.println("Disegno della nave per il giocatore: " + model.getPlayerName());
-        } catch (Exception e) {
-            System.err.println("Errore durante il disegno della nave: " + e.getMessage());
-            e.printStackTrace();
+    public void drawShips() {
+        for(Shipboard s : model.getShipboards().values()) {
+            drawShipInCardPhase(s);
         }
     }
 
@@ -208,19 +237,7 @@ public class CardPhaseController extends FXMLController {
     public void drawScene() {
         try {
             // Aggiorna le visualizzazioni delle navi
-            drawShip();
-
-            // Aggiorna la carta visualizzata
-            updateCardDisplay();
-
-            // Aggiorna i tabelloni
-            updateCardboards();
-
-            // Aggiorna le informazioni dei giocatori
-            updatePlayerInfo();
-
-            // Aggiorna lo stato dei pulsanti in base al turno corrente
-            updateButtonsState();
+            drawShips();
         } catch(Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
             e.printStackTrace();
@@ -239,22 +256,6 @@ public class CardPhaseController extends FXMLController {
 
         // Si potrebbe fare lo stesso con gli altri pulsanti di azione che richiedono il turno del giocatore
         resolveEffectButton.setDisable(!isPlayerTurn);
-    }
-
-    /**
-     * Aggiorna la carta visualizzata
-     */
-    private void updateCardDisplay() {
-        // Implementazione per aggiornare la carta visualizzata in base al modello
-        System.out.println("Aggiornamento della carta visualizzata");
-    }
-
-    /**
-     * Aggiorna i tabelloni visualizzati
-     */
-    private void updateCardboards() {
-        // Implementazione per aggiornare i tabelloni in base allo stato del gioco
-        System.out.println("Aggiornamento dei tabelloni di gioco");
     }
 
     /**
@@ -499,5 +500,159 @@ public class CardPhaseController extends FXMLController {
             System.err.println("Errore durante il caricamento della scena BuildingShip.fxml: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Shows a popup window with buttons for applicable commands when the card is clicked
+     */
+    @FXML
+    public void showApplicableCommands(MouseEvent event) {
+        System.out.println("Mostra comandi applicabili per la carta corrente");
+
+        // Verifica che ci sia una carta da visualizzare
+        if (model.getCurrCard() == null) {
+            System.out.println("Nessuna carta corrente disponibile");
+            return;
+        }
+
+        // Verifica che sia il turno del giocatore
+        if (!model.getPlayerName().equals(model.getCurrPlayer())) {
+            System.out.println("Non è il tuo turno, non puoi eseguire comandi");
+            return;
+        }
+
+        try {
+
+            // Ottiene i comandi applicabili in base al modello corrente
+            List<Command> applicableCommands = commandManager.getAvailableCommandTypes(model);
+            if (applicableCommands.isEmpty()) {
+                System.out.println("Nessun comando applicabile disponibile");
+                return;
+            }
+
+            // Crea una finestra pop-up per mostrare i comandi applicabili
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initStyle(StageStyle.UTILITY);
+            popupStage.setTitle("Comandi Applicabili - " + model.getCurrCard().getName());
+
+            // Contenitore verticale per i pulsanti dei comandi
+            VBox commandsBox = new VBox(10);
+            commandsBox.setAlignment(Pos.CENTER);
+            commandsBox.setPadding(new Insets(20));
+
+            // Aggiungi un'etichetta di intestazione
+            Label titleLabel = new Label("Seleziona un comando da eseguire:");
+            titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+            commandsBox.getChildren().add(titleLabel);
+
+            // Crea un pulsante per ogni comando applicabile
+            for (Command command : applicableCommands) {
+                Button cmdButton = new Button(command.getName());
+                cmdButton.setPrefWidth(250);
+                cmdButton.setOnAction(e -> {
+                    try {
+                        command.execute(model);
+                        System.out.println("Comando eseguito: " + command.getName());
+                        popupStage.close();
+                    } catch (Exception ex) {
+                        System.err.println("Errore durante l'esecuzione del comando: " + ex.getMessage());
+                        ex.printStackTrace();
+                    }
+                });
+                commandsBox.getChildren().add(cmdButton);
+            }
+
+            // Aggiungi un pulsante Annulla
+            Button cancelButton = new Button("Annulla");
+            cancelButton.setOnAction(e -> popupStage.close());
+            commandsBox.getChildren().add(cancelButton);
+
+            // Crea uno ScrollPane nel caso ci siano molti comandi
+            ScrollPane scrollPane = new ScrollPane(commandsBox);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefViewportHeight(400);
+
+            Scene popupScene = new Scene(scrollPane, 300, 400);
+            popupStage.setScene(popupScene);
+
+            // Posiziona la finestra vicino al punto di click
+            popupStage.setX(event.getScreenX());
+            popupStage.setY(event.getScreenY());
+
+            popupStage.show();
+
+        } catch (Exception e) {
+            System.err.println("Errore durante la visualizzazione dei comandi applicabili: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Mostra un messaggio di errore all'utente
+     */
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("Errore");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    /**
+     * Pulisce le risorse utilizzate dal controller
+     */
+    public void cleanup() {
+        if (animatedBackground != null) {
+            animatedBackground.stopAnimation();
+            animatedBackground = null;
+        }
+        System.out.println("Pulizia delle risorse del CardPhaseController");
+    }
+
+    public void drawShipInCardPhase(Shipboard shipboard) {
+        if(shipboard.getNickname().equals(model.getPlayerName())) {
+            //draw grid
+            for(Node child : myShip.getChildren()) {
+                int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
+                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+                Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
+                if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
+                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
+                }
+                else {
+                    ((ImageView) child).setImage(null);
+                }
+            }
+        }
+        else {
+            GridPane playerGrid = playerToShip.get(shipboard.getNickname());
+            for(Node child : playerGrid.getChildren()) {
+                int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
+                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+                Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
+                if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
+                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
+                }
+                else {
+                    ((ImageView) child).setImage(null);
+                }
+            }
+        }
+    }
+
+    private void drawComponentTileImageForGrid(ImageView imageView, String pngName, int numOfRotations) {
+        Image image = new Image(getClass().getResource("/GraficheGioco/tiles/" + pngName).toExternalForm());
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setRotate(90 * numOfRotations);
+        imageView.setImage(image);
+    }
+
+    public void drawFlightboardInCardPhase(Flightboard flightboard) {
+
+    }
+
+    public void drawBankInCardPhase(Bank bank) {
     }
 }

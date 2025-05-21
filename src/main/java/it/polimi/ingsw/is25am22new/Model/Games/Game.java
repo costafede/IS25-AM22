@@ -560,7 +560,11 @@ public abstract class Game extends ObservableModel implements Serializable {
 
         setUpDeckConfig(deckConfig);
 
-        updateAllGame(this);
+        //updateAllShipboardList(shipboards);
+        updateAllShipboard(player, shipboards.get(player));
+        updateAllDeck(deck);
+        gamePhase.trySwitchToNextPhase();
+        updateAllGamePhase(gamePhase);
     }
 
     /**
@@ -1000,7 +1004,12 @@ public abstract class Game extends ObservableModel implements Serializable {
         shipboard.weldComponentTile(new StructuralModule("6", Side.SMOOTH, Side.TWOPIPES, Side.ONEPIPE, Side.UNIVERSALPIPE),3, 4);
     }
 
-    private void setUpShipboardD(Shipboard newShipboard) {
+    private void setUpShipboardD(Shipboard shipboard) {
+        shipboard.weldComponentTile(new BatteryComponent("GT-new_tiles_16_for web2.jpg", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 50), 2, 2);
+        shipboard.weldComponentTile(new DoubleEngine("GT-new_tiles_16_for web27.jpg", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 1);
+        shipboard.weldComponentTile(new DoubleEngine("GT-new_tiles_16_for web20.jpg", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 2);
+        shipboard.weldComponentTile(new DoubleEngine("GT-new_tiles_16_for web24.jpg", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 3);
+        shipboard.weldComponentTile(new DoubleEngine("GT-new_tiles_16_for web36.jpg", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE), 3, 4);
         return;
     }
 
