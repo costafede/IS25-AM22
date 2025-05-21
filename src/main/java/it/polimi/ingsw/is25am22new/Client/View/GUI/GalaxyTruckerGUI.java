@@ -135,7 +135,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
-
+        Platform.runLater(() -> buildingShipController.updateUncoveredComponentTiles(uncoveredComponentTiles));
     }
 
     @Override
