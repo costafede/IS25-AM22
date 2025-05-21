@@ -8,7 +8,9 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.BatteryComponent;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
@@ -37,11 +39,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Controls the logic and rendering operations during a specific card-based phase
@@ -94,6 +92,11 @@ public class CardPhaseController extends FXMLController {
             level2FlightboardPane.setVisible(true);
         }
 
+        fillGridPane(myShip, 63);
+        fillGridPane(player1Ship, 38);
+        fillGridPane(player2Ship, 38);
+        fillGridPane(player3Ship, 38);
+
         // Aggiungi gestore eventi per clic sulla carta per mostrare comandi applicabili
         cardImage.setOnMouseClicked(this::showApplicableCommands);
 
@@ -119,9 +122,17 @@ public class CardPhaseController extends FXMLController {
 
     private void initializePlayerToShip() {
         playerToShip = new HashMap<>();
-        List<GridPane> shipViews = List.of(myShip, player1Ship, player2Ship, player3Ship);
+        List<GridPane> shipViews = new ArrayList<>();
+        shipViews.addFirst(player3Ship);
+        shipViews.addFirst(player2Ship);
+        shipViews.addFirst(player1Ship);
         for (int i = 0; i < model.getShipboards().size(); i++) {
-            playerToShip.put(model.getShipboards().keySet().stream().toList().get(i), shipViews.get(i));
+            if(model.getShipboards().keySet().stream().toList().get(i).equals(model.getPlayerName())) {
+                playerToShip.put(model.getPlayerName(), myShip);
+            } else {
+                playerToShip.put(model.getShipboards().keySet().stream().toList().get(i), shipViews.getFirst());
+                shipViews.removeFirst();
+            }
         }
     }
 
@@ -656,5 +667,21 @@ public class CardPhaseController extends FXMLController {
     }
 
     public void drawBankInCardPhase(Bank bank) {
+    }
+
+    public void fillGridPane(GridPane gridPane, int dimension) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 7; j++) {
+                ImageView imageView = new ImageView();
+
+                // Set the preferred size
+                imageView.setFitWidth(dimension);
+                imageView.setFitHeight(dimension);
+                imageView.setPreserveRatio(true);
+                imageView.setSmooth(true);
+
+                gridPane.add(imageView, j, i);
+            }
+        }
     }
 }
