@@ -61,7 +61,6 @@ public class CardPhaseController extends FXMLController {
     @FXML private ImageView background;
     @FXML private ImageView cardImage;
     @FXML private Button pickCardButton;
-    @FXML private Button resolveEffectButton;
 
     private GalaxyStarsEffect animatedBackground;
     private Map<String, GridPane> playerToShip;
@@ -82,12 +81,15 @@ public class CardPhaseController extends FXMLController {
             setShipboardImagesTutorial(playerToShip.size());
             tutorialFlightboardPane.setVisible(true);
             level2FlightboardPane.setVisible(false);
-
+            // Set default card image for tutorial mode
+            cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/GT-cards_I_IT_0121.jpg")).toString()));
         } else {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleBackground.png")).toString()));
             setShipboardImagesLevel2(playerToShip.size());
             tutorialFlightboardPane.setVisible(false);
             level2FlightboardPane.setVisible(true);
+            // Set default card image for level 2 mode
+            cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/RetroCartaDefault.png")).toString()));
         }
 
         fillGridPane(myShip, 63);
@@ -264,9 +266,6 @@ public class CardPhaseController extends FXMLController {
 
         // Il pulsante pickCard è attivo solo se è il turno del giocatore
         pickCardButton.setDisable(!isPlayerTurn);
-
-        // Si potrebbe fare lo stesso con gli altri pulsanti di azione che richiedono il turno del giocatore
-        resolveEffectButton.setDisable(!isPlayerTurn);
     }
 
     /**
@@ -356,38 +355,6 @@ public class CardPhaseController extends FXMLController {
     }
 
     /**
-     * Gestisce la risoluzione dell'effetto della carta corrente
-     * @param event l'evento di click sul bottone resolveEffect
-     */
-    @FXML
-    public void resolveEffect(ActionEvent event) {
-        System.out.println("Tentativo di risolvere l'effetto della carta");
-
-        // Verifica che sia il turno del giocatore
-        if (!model.getPlayerName().equals(model.getCurrPlayer())) {
-            System.out.println("Non è il tuo turno!");
-            return;
-        }
-
-        // Verifica che ci sia una carta da risolvere
-        if (model.getCurrCard() == null) {
-            System.out.println("Nessuna carta corrente da risolvere!");
-            return;
-        }
-
-        try {
-            // Chiama il server per risolvere l'effetto della carta
-            InputCommand inputCommand = new InputCommand();
-            inputCommand.setChoice(false);
-            virtualServer.activateCard(inputCommand);
-            System.out.println("Richiesta di risoluzione carta inviata al server");
-        } catch (IOException e) {
-            System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Gestisce l'abbandono della partita
      * @param event l'evento di click sul bottone abandonGameButton
      */
@@ -465,27 +432,6 @@ public class CardPhaseController extends FXMLController {
                 }
             }
         });
-    }
-
-    /**
-     * Mostra i tiles disponibili
-     * @param event l'evento di click sul bottone showTilesButton
-     */
-    @FXML
-    public void showTiles(ActionEvent event) {
-        System.out.println("Mostra tessere disponibili");
-
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Tessere disponibili");
-        alert.setHeaderText("Elenco delle tessere disponibili");
-
-        if (model.getCoveredComponentTiles() != null && !model.getCoveredComponentTiles().isEmpty()) {
-            alert.setContentText("Numero di tessere coperte: " + model.getCoveredComponentTiles().size());
-        } else {
-            alert.setContentText("Nessuna tessera disponibile.");
-        }
-
-        alert.showAndWait();
     }
 
     /**

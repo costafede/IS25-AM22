@@ -22,6 +22,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -55,6 +56,8 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML private GridPane player1ShipStandByTiles;
     @FXML private GridPane player2ShipStandByTiles;
     @FXML private GridPane player3ShipStandByTiles;
+    @FXML private GridPane uncoveredTilesGrid;
+    @FXML private VBox uncoveredTilesPopUp;
 
     private GalaxyStarsEffect animatedBackground;
     private Map<String, Image> colorToRocketImage = new HashMap<>();
@@ -110,9 +113,7 @@ public class BuildingShipController extends FXMLController implements Initializa
             drawShipInBuildingPhase(ship);
         }
 
-        // TODO: gestisci la clessidra, gestisci le pile le level2 game, gestisci gli uncovered tiles
-
-
+        // TODO: gestisci la clessidra, gestisci le pile le level2 game, gestisci gli uncovered tiles, gestisci le azioni non possibili(weldare e fare le varie pick una volta che si è piazzato il proprio razzo per esempio)
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -140,6 +141,8 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     @FXML
     public void pickCoveredTile(MouseEvent event) {
+        if(tileInHand.getImage() != null || model.getShipboard(model.getPlayerName()).isFinishedShipboard()) return;
+
         new Thread(() -> Platform.runLater(() -> {
             try {
                 virtualServer.pickCoveredTile(model.getPlayerName());
@@ -157,6 +160,7 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     @FXML
     public void discardComponentTile(MouseEvent event) {
+        if(tileInHand.getImage() == null) return;
         numOfRotations = 0;
         tileInHand.setImage(null);
         new Thread(() -> Platform.runLater(() -> {
@@ -223,7 +227,7 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML
     private void handleDragDetectedTileInHand(MouseEvent event) {
         Image image = tileInHand.getImage();
-        if (tileInHand.getImage() == null) return;
+        if(tileInHand.getImage() == null || model.getShipboard(model.getPlayerName()).isFinishedShipboard()) return;
 
         Dragboard db = tileInHand.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();
@@ -299,7 +303,7 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     @FXML
     private void pickStandByTile(MouseEvent event) {
-        if(tileInHand.getImage() != null) return;
+        if(tileInHand.getImage() != null || model.getShipboard(model.getPlayerName()).isFinishedShipboard()) return;
 
         ImageView standByCell = (ImageView) event.getTarget();
         int idx = GridPane.getColumnIndex(standByCell)!= null ? GridPane.getColumnIndex(standByCell) : 0;
@@ -312,9 +316,6 @@ public class BuildingShipController extends FXMLController implements Initializa
         })).start();
     }
 
-    /**
-     * Returns a StackPane wrapping the image with the given name to put on the grid pane
-     */
     private void drawComponentTileImageForGrid(ImageView imageView, String pngName, int numOfRotations) {
         Image image = new Image(getClass().getResource("/GraficheGioco/tiles/" + pngName).toExternalForm());
         imageView.setPreserveRatio(true);
@@ -434,7 +435,7 @@ public class BuildingShipController extends FXMLController implements Initializa
     public void handleDragDroppedRocket(DragEvent event) {
         Dragboard db = event.getDragboard();
         ImageView position = (ImageView) event.getSource();
-        int idx = Integer.parseInt(position.getId());
+        int idx = Integer.parseInt(position.getId()) - 1;
         String sourceId = db.getString();
         boolean success = false;
         if (db.hasImage() && db.hasString() && position.getImage() == null && sourceId.equals("rocket")) {
@@ -462,14 +463,87 @@ public class BuildingShipController extends FXMLController implements Initializa
     public void updateFlightBoard(Flightboard flightboard) {
         for(String player : flightboard.getPositions().keySet()) {
             Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
-            int position = flightboard.getStartingPositions().indexOf(flightboard.getPositions().get(player)); //converts absolute positions (6, 3, 1, 0) to starting positions (1, 2, 3, 4)
+            int position = flightboard.getStartingPositions().indexOf(flightboard.getPositions().get(player)) + 1; //converts absolute positions (6, 3, 1, 0) to starting positions (1, 2, 3, 4)
             for(Node child : flightboardPane.getChildren()) {
                 if(Integer.parseInt(child.getId()) == position) {
                     ((ImageView) child).setImage(rocket);
                 }
             }
         }
+
+        // Verifica se tutti i razzi sono stati posizionati
+        if (areAllRocketsPlaced(flightboard)) {
+            // Utilizza Platform.runLater per eseguire la transizione di scena nel thread JavaFX
+            Platform.runLater(() -> {
+                try {
+                    // Passa alla CardPhase
+                    galaxyTruckerGUI.switchToScene("/it/polimi/ingsw/is25am22new/CardPhase.fxml");
+
+                    // Ferma l'animazione dello sfondo quando si cambia scena
+                    if (animatedBackground != null) {
+                        animatedBackground.stopAnimation();
+                    }
+                } catch (Exception e) {
+                    System.err.println("Errore durante il passaggio alla CardPhase: " + e.getMessage());
+                }
+            });
+        }
+    }
+
+    /**
+     * Verifica se tutti i razzi dei giocatori sono stati posizionati sulla flightboard
+     * @param flightboard la flightboard corrente
+     * @return true se tutti i giocatori hanno posizionato il loro razzo, false altrimenti
+     */
+    private boolean areAllRocketsPlaced(Flightboard flightboard) {
+        // Controlla se tutti i giocatori hanno una posizione nella flightboard
+        int totalPlayers = model.getShipboards().size();
+        int playersWithPosition = flightboard.getPositions().size();
+
+        // Se il numero di posizioni è uguale al numero di giocatori, allora tutti i razzi sono stati posizionati
+        return playersWithPosition == totalPlayers;
+    }
+
+    public void updateUncoveredComponentTiles(List<ComponentTile> tiles) {
+        uncoveredTilesGrid.getChildren().clear();
+        uncoveredTilesGrid.getColumnConstraints().clear();
+
+        for(int i = 0; i < tiles.size(); i++) {
+            ComponentTile tile = tiles.get(i);
+            ImageView tileImage = new ImageView(new Image(getClass().getResource("/GraficheGioco/tiles/" + tile.getPngName()).toExternalForm()));
+            tileImage.setFitWidth(100);
+            tileImage.setFitHeight(100);
+            tileImage.setPreserveRatio(true);
+            tileImage.setSmooth(true);
+            tileImage.setCache(true);
+            tileImage.setOnMouseClicked(this::pickUncoveredTile);
+            uncoveredTilesGrid.add(tileImage, i,0);
+        }
+    }
+
+    public void openUncoveredTilesPopUp(MouseEvent event) {
+        uncoveredTilesPopUp.setLayoutY(400);
+    }
+
+    public void closePopUp(ActionEvent event) {
+        Node source = ((Node) event.getSource()).getParent().getParent(); //I get the Vbox (the pop up)
+        source.setLayoutY(2000);
+    }
+
+    public void pickUncoveredTile(MouseEvent event) {
+        if(tileInHand.getImage() != null || model.getShipboard(model.getPlayerName()).isFinishedShipboard()) return;
+
+        ImageView standByCell = (ImageView) event.getTarget();
+        int idx = GridPane.getColumnIndex(standByCell)!= null ? GridPane.getColumnIndex(standByCell) : 0;
+        String pngName = model.getUncoveredComponentTiles().get(idx).getPngName();
+        new Thread(() -> Platform.runLater(() -> {
+            try {
+                virtualServer.pickUncoveredTile(model.getPlayerName(), pngName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        })).start();
+
     }
 
 }
-

@@ -124,7 +124,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     @Override
     public void updateBank(Bank bank) {
         switch (clientModel.getGamePhase().getPhaseType()) {
-            case CARD -> Platform.runLater(() -> cardPhaseController.drawBankInCardPhase(bank));
+            /// TODO case CARD -> Platform.runLater(() -> cardPhaseController.drawBankInCardPhase(bank));
         }
     }
 
@@ -135,7 +135,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
-
+        Platform.runLater(() -> buildingShipController.updateUncoveredComponentTiles(uncoveredComponentTiles));
     }
 
     @Override
@@ -228,7 +228,11 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     @Override
     public void displayNicknameResult(boolean valid, String message) {
         if (!valid) {
-            Platform.runLater(() -> connectToServerController.showError(message));
+            Platform.runLater(() ->{
+                connectToServerController.showError(message);
+                switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
+                connectToServerController.showError(message);
+            });
         } else {
             Platform.runLater(() -> {
                 switchToScene("/it/polimi/ingsw/is25am22new/Lobby.fxml");
