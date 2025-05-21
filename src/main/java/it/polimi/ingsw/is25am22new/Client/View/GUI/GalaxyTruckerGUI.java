@@ -153,7 +153,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
             case BUILDING -> Platform.runLater(() -> buildingShipController.drawShipInBuildingPhase(shipboard));
             case PLACECREWMEMBERS -> buildingShipController.drawShipInPlaceMembersPhase(shipboard);
             case CORRECTINGSHIP -> buildingShipController.drawShipInCorrectingShipPhase(shipboard);
-            case CARD -> cardPhaseController.drawShip();
+            case CARD -> cardPhaseController.drawShips();
         }
     }
 
