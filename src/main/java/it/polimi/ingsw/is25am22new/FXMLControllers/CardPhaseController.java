@@ -4,8 +4,11 @@ import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -216,9 +219,6 @@ public class CardPhaseController extends FXMLController {
         try {
             // Aggiorna le visualizzazioni delle navi
             drawShips();
-
-            // Aggiorna la carta visualizzata
-            updateCardDisplay();
         } catch(Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
             e.printStackTrace();
@@ -237,22 +237,6 @@ public class CardPhaseController extends FXMLController {
 
         // Si potrebbe fare lo stesso con gli altri pulsanti di azione che richiedono il turno del giocatore
         resolveEffectButton.setDisable(!isPlayerTurn);
-    }
-
-    /**
-     * Aggiorna la carta visualizzata
-     */
-    private void updateCardDisplay() {
-        // Implementazione per aggiornare la carta visualizzata in base al modello
-        System.out.println("Aggiornamento della carta visualizzata");
-    }
-
-    /**
-     * Aggiorna i tabelloni visualizzati
-     */
-    private void updateCardboards() {
-        // Implementazione per aggiornare i tabelloni in base allo stato del gioco
-        System.out.println("Aggiornamento dei tabelloni di gioco");
     }
 
     /**
@@ -558,5 +542,12 @@ public class CardPhaseController extends FXMLController {
         imageView.setSmooth(true);
         imageView.setRotate(90 * numOfRotations);
         imageView.setImage(image);
+    }
+
+    public void drawFlightboardInCardPhase(Flightboard flightboard) {
+
+    }
+
+    public void drawBankInCardPhase(Bank bank) {
     }
 }
