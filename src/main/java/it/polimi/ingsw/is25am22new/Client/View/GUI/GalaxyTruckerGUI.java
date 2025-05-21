@@ -106,12 +106,12 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateStopHourglass() {
-
+        Platform.runLater(() -> buildingShipController.updateStopHourglass());
     }
 
     @Override
     public void updateStartHourglass(int hourglassSpot) {
-
+        Platform.runLater(() -> buildingShipController.updateStartHourglass(hourglassSpot));
     }
 
     @Override
