@@ -1,5 +1,7 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
+import it.polimi.ingsw.is25am22new.Client.Commands.Command;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
@@ -13,6 +15,8 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,12 +24,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
@@ -63,8 +72,12 @@ public class CardPhaseController extends FXMLController {
     private Map<String, GridPane> playerToShip;
     private List<ImageView> playersImage;
 
+    private CommandManager commandManager;
+
     @FXML
     private void initialize() {
+        commandManager = new CommandManager();
+        commandManager.initializeCommandManagerGUI(GalaxyTruckerGUI.getVirtualServer());
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
         initializePlayerToShip();
         playersImage = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
@@ -80,6 +93,12 @@ public class CardPhaseController extends FXMLController {
             tutorialFlightboardPane.setVisible(false);
             level2FlightboardPane.setVisible(true);
         }
+
+        // Aggiungi gestore eventi per clic sulla carta per mostrare comandi applicabili
+        cardImage.setOnMouseClicked(this::showApplicableCommands);
+
+        // Aggiungi un cursore mano per indicare che la carta è cliccabile
+        cardImage.setStyle("-fx-cursor: hand;");
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -479,6 +498,92 @@ public class CardPhaseController extends FXMLController {
             }
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento della scena BuildingShip.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Shows a popup window with buttons for applicable commands when the card is clicked
+     */
+    @FXML
+    public void showApplicableCommands(MouseEvent event) {
+        System.out.println("Mostra comandi applicabili per la carta corrente");
+
+        // Verifica che ci sia una carta da visualizzare
+        if (model.getCurrCard() == null) {
+            System.out.println("Nessuna carta corrente disponibile");
+            return;
+        }
+
+        // Verifica che sia il turno del giocatore
+        if (!model.getPlayerName().equals(model.getCurrPlayer())) {
+            System.out.println("Non è il tuo turno, non puoi eseguire comandi");
+            return;
+        }
+
+        try {
+
+            // Ottiene i comandi applicabili in base al modello corrente
+            List<Command> applicableCommands = commandManager.getAvailableCommandTypes(model);
+            if (applicableCommands.isEmpty()) {
+                System.out.println("Nessun comando applicabile disponibile");
+                return;
+            }
+
+            // Crea una finestra pop-up per mostrare i comandi applicabili
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initStyle(StageStyle.UTILITY);
+            popupStage.setTitle("Comandi Applicabili - " + model.getCurrCard().getName());
+
+            // Contenitore verticale per i pulsanti dei comandi
+            VBox commandsBox = new VBox(10);
+            commandsBox.setAlignment(Pos.CENTER);
+            commandsBox.setPadding(new Insets(20));
+
+            // Aggiungi un'etichetta di intestazione
+            Label titleLabel = new Label("Seleziona un comando da eseguire:");
+            titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+            commandsBox.getChildren().add(titleLabel);
+
+            // Crea un pulsante per ogni comando applicabile
+            for (Command command : applicableCommands) {
+                Button cmdButton = new Button(command.getName());
+                cmdButton.setPrefWidth(250);
+                cmdButton.setOnAction(e -> {
+                    try {
+                        command.execute(model);
+                        System.out.println("Comando eseguito: " + command.getName());
+                        popupStage.close();
+                    } catch (Exception ex) {
+                        System.err.println("Errore durante l'esecuzione del comando: " + ex.getMessage());
+                        ex.printStackTrace();
+                    }
+                });
+                commandsBox.getChildren().add(cmdButton);
+            }
+
+            // Aggiungi un pulsante Annulla
+            Button cancelButton = new Button("Annulla");
+            cancelButton.setOnAction(e -> popupStage.close());
+            commandsBox.getChildren().add(cancelButton);
+
+            // Crea uno ScrollPane nel caso ci siano molti comandi
+            ScrollPane scrollPane = new ScrollPane(commandsBox);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefViewportHeight(400);
+
+            Scene popupScene = new Scene(scrollPane, 300, 400);
+            popupStage.setScene(popupScene);
+
+            // Posiziona la finestra vicino al punto di click
+            popupStage.setX(event.getScreenX());
+            popupStage.setY(event.getScreenY());
+
+            popupStage.show();
+
+        } catch (Exception e) {
+            System.err.println("Errore durante la visualizzazione dei comandi applicabili: " + e.getMessage());
             e.printStackTrace();
         }
     }

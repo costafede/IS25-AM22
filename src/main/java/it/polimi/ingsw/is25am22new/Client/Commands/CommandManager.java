@@ -13,6 +13,7 @@ import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhase
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
+import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,24 @@ public class CommandManager {
 
     public CommandManager() {
         this.allCommands = new ArrayList<>();
+    }
+
+    public void initializeCommandManagerGUI(VirtualServer virtualServer) {
+        this.allCommands.add(new AcceptCreditsCommand(virtualServer, null));
+        this.allCommands.add(new ActivateDoubleCannonCommand(virtualServer, null));
+        this.allCommands.add(new ActivateDoubleEngineCommand(virtualServer, null));
+        this.allCommands.add(new ActivateShieldCommand(virtualServer, null));
+        this.allCommands.add(new ChooseShipWreckCommand(virtualServer, null));
+        this.allCommands.add(new DecideToRemoveCrewMembersCommand(virtualServer, null));
+        this.allCommands.add(new GetBlockCommand(virtualServer, null));
+        this.allCommands.add(new LandOnAbandonedStationCommand(virtualServer, null));
+        this.allCommands.add(new LandOnPlanetCommand(virtualServer, null));
+        this.allCommands.add(new MoveGoodBlockCommand(virtualServer, null));
+        this.allCommands.add(new PickCardCommand(virtualServer, null));
+        this.allCommands.add(new RemoveCrewMemberCommand(virtualServer, null));
+        this.allCommands.add(new RemoveGoodBlockCommand(virtualServer, null));
+        this.allCommands.add(new ResolveEffectCommand(virtualServer, null));
+        this.allCommands.add(new SwitchGoodBlocksCommand(virtualServer, null));
     }
 
     public void initializeCommandManager(VirtualServer virtualServer, ViewAdapter viewAdapter) {
