@@ -64,7 +64,6 @@ public class CardPhaseController extends FXMLController {
     @FXML private ImageView background;
     @FXML private ImageView cardImage;
     @FXML private Button pickCardButton;
-    @FXML private Button resolveEffectButton;
 
     private GalaxyStarsEffect animatedBackground;
     private Map<String, GridPane> playerToShip;
@@ -269,9 +268,6 @@ public class CardPhaseController extends FXMLController {
 
         // Il pulsante pickCard è attivo solo se è il turno del giocatore
         pickCardButton.setDisable(!isPlayerTurn);
-
-        // Si potrebbe fare lo stesso con gli altri pulsanti di azione che richiedono il turno del giocatore
-        resolveEffectButton.setDisable(!isPlayerTurn);
     }
 
     /**
@@ -354,38 +350,6 @@ public class CardPhaseController extends FXMLController {
 
             // Il server dovrebbe rispondere chiamando updateCurrCard in GalaxyTruckerGUI
             // che a sua volta chiamerà drawCard in questa classe
-        } catch (IOException e) {
-            System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Gestisce la risoluzione dell'effetto della carta corrente
-     * @param event l'evento di click sul bottone resolveEffect
-     */
-    @FXML
-    public void resolveEffect(ActionEvent event) {
-        System.out.println("Tentativo di risolvere l'effetto della carta");
-
-        // Verifica che sia il turno del giocatore
-        if (!model.getPlayerName().equals(model.getCurrPlayer())) {
-            System.out.println("Non è il tuo turno!");
-            return;
-        }
-
-        // Verifica che ci sia una carta da risolvere
-        if (model.getCurrCard() == null) {
-            System.out.println("Nessuna carta corrente da risolvere!");
-            return;
-        }
-
-        try {
-            // Chiama il server per risolvere l'effetto della carta
-            InputCommand inputCommand = new InputCommand();
-            inputCommand.setChoice(false);
-            virtualServer.activateCard(inputCommand);
-            System.out.println("Richiesta di risoluzione carta inviata al server");
         } catch (IOException e) {
             System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
             e.printStackTrace();
