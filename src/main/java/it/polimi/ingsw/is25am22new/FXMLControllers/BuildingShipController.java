@@ -14,13 +14,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,16 +33,33 @@ import java.util.*;
  * the Initializable interface to initialize the user interface and its behaviors.
  */
 public class BuildingShipController extends FXMLController implements Initializable {
-    @FXML private ImageView coveredTilesHeap;
+
     @FXML private ImageView tileInHand;
     @FXML private GridPane componentTilesGrid;
     @FXML private GridPane standByComponentsGrid;
-    @FXML private ImageView shipboardImage;
     @FXML private ImageView rocketImage;
-    @FXML private ImageView backGround;
+    @FXML private ImageView background;
+    @FXML private ImageView player1ShipImage;
+    @FXML private ImageView player2ShipImage;
+    @FXML private ImageView player3ShipImage;
+    @FXML private ImageView myShipImage;
+    @FXML private Label player1Name;
+    @FXML private Label player2Name;
+    @FXML private Label player3Name;
+    @FXML private AnchorPane level2FlightboardPane;
+    @FXML private AnchorPane tutorialFlightboardPane;
+    @FXML private GridPane player1ShipGrid;
+    @FXML private GridPane player2ShipGrid;
+    @FXML private GridPane player3ShipGrid;
+    @FXML private GridPane player1ShipStandByTiles;
+    @FXML private GridPane player2ShipStandByTiles;
+    @FXML private GridPane player3ShipStandByTiles;
 
     private GalaxyStarsEffect animatedBackground;
-    private Map<String, Runnable> rocketColorMap = new HashMap<>();
+    private Map<String, Image> colorToRocketImage = new HashMap<>();
+    //Maps other players to their grid and stand by tiles
+    private Map<String, GridPane> playerToShipGrid = new HashMap<>();
+    private Map<String, GridPane> playerToShipStandByTiles = new HashMap<>();
     /**
      * num of rotations of the tile in hand
      */
@@ -50,51 +67,64 @@ public class BuildingShipController extends FXMLController implements Initializa
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
+        Image shipImage;
         if (model.getGametype() == GameType.TUTORIAL) {
-            backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground.png")).toString()));
+            background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
+            shipImage = new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1.jpg")).toString());
         } else {
-            backGround.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BuildingShipSceneBackground2.png")).toString()));
+            background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleBackground.png")).toString()));
+            shipImage = new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cardboard/cardboard-1b.jpg")).toString());
         }
-        //setRocketImage();
+
+        List<ImageView> shipImages = new ArrayList<>(List.of(player1ShipImage, player2ShipImage, player3ShipImage));
+        List<Label> shipLabels = new ArrayList<>(List.of(player1Name, player2Name, player3Name));
+        List<GridPane> shipGrids = new ArrayList<>(List.of(player1ShipGrid, player2ShipGrid, player3ShipGrid));
+        List<GridPane> shipStandByTiles = new ArrayList<>(List.of(player1ShipStandByTiles, player2ShipStandByTiles, player3ShipStandByTiles));
+        initializeRocketColorMap();
+        for(Shipboard ship : model.getShipboards().values()) {
+            if(!ship.getNickname().equals(model.getPlayerName())) {
+                ImageView imageView = shipImages.removeFirst();
+                Label label = shipLabels.removeFirst();
+                imageView.setImage(shipImage);
+                label.setText(ship.getNickname());
+                GridPane gridPane = shipGrids.removeFirst();
+                GridPane gridPane1 = shipStandByTiles.removeFirst();
+                playerToShipGrid.put(ship.getNickname(), gridPane);
+                playerToShipStandByTiles.put(ship.getNickname(), gridPane1);
+            }
+            else {
+                myShipImage.setImage(shipImage);
+                rocketImage.setImage(colorToRocketImage.get(ship.getColor()));
+            }
+
+            drawShipInBuildingPhase(ship);
+        }
+
+        // TODO: disegna la flightboard giusta, gestisci la clessidra, gestisci le pile le level2 game, gestisci gli uncovered tiles e la finish building
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
-        if (backGround.getParent() instanceof Pane pane) {
-            animatedBackground.setWidth(backGround.getFitWidth());
-            animatedBackground.setHeight(backGround.getFitHeight());
+        if (background.getParent() instanceof Pane pane) {
+            animatedBackground.setWidth(background.getFitWidth());
+            animatedBackground.setHeight(background.getFitHeight());
 
             // Inserisce l'animazione come primo elemento del pane (dietro a tutti gli altri elementi)
             pane.getChildren().add(0, animatedBackground);
 
             // Assicurati che lo sfondo sia dietro tutti gli elementi
             animatedBackground.toBack();
-            backGround.toBack();
+            background.toBack();
         }
-
-
-        drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
-
-        //initializeRocketColorMap();
     }
 
-    /*private void setRocketImage() {
-        rocketColorMap.get(model.getShipboard(model.getPlayerName()).getColor()).run();
-    }
+
 
     private void initializeRocketColorMap() {
-        rocketColorMap.put("yellow", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/yellowRocket.png")).toString()))));
-        rocketColorMap.put("blue", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/blueRocket.png")).toString()))));
-        rocketColorMap.put("green", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/greenRocket.png")).toString()))));
-        rocketColorMap.put("red", () -> rocketImage.setImage((new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/GraficheGioco/rockets/redRocket.png")).toString()))));
-    }*/
-
-    /*
-     * This method draws the scene in the corresponding fxml file by showing different elements depending on the game type (level 2 or tutorial).
-     * It Must be called after having initialized the attributes through the setup method.
-     */
-    //public void drawScene() {
-    //    drawShipInBuildingPhase(model.getShipboard(model.getPlayerName()));
-    //}
+        colorToRocketImage.put("yellow", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/yellowRocket.png")).toString()));
+        colorToRocketImage.put("blue", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/blueRocket.png")).toString()));
+        colorToRocketImage.put("green", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/greenRocket.png")).toString()));
+        colorToRocketImage.put("red", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/redRocket.png")).toString()));
+    }
 
     @FXML
     public void pickCoveredTile(MouseEvent event) {
@@ -145,7 +175,7 @@ public class BuildingShipController extends FXMLController implements Initializa
                     ((ImageView) child).setImage(null);
                 }
             }
-            // draw standbytiles
+            // draw standby tiles
             for(Node child : standByComponentsGrid.getChildren()) {
                 int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
                 Optional<ComponentTile> ct = shipboard.getStandbyComponent()[j];
@@ -158,7 +188,7 @@ public class BuildingShipController extends FXMLController implements Initializa
             }
         }
         else {
-            //draw ship without buttons (copy the things done above)
+            // TODO: draw others' ship without buttons (copy the things done above)
         }
 
 
@@ -204,6 +234,7 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML
     private void handleDragDroppedGrid(DragEvent event) {
         Dragboard db = event.getDragboard();
+        int rotations = numOfRotations;
         boolean success = false;
         Node gridCell = (Node) event.getSource();
         int i = GridPane.getRowIndex(gridCell) != null ? GridPane.getRowIndex(gridCell) : 0;
@@ -211,7 +242,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         if (db.hasImage() && ((ImageView) gridCell).getImage() == null && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i,j,model)) { //se non c'è l'immagine nella griglia o se non è out of bound
             new Thread(() -> Platform.runLater(() -> {
                 try {
-                    virtualServer.weldComponentTile(model.getPlayerName(), i, j, numOfRotations);
+                    virtualServer.weldComponentTile(model.getPlayerName(), i, j, rotations);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
