@@ -43,25 +43,10 @@ import java.util.*;
  * during the ship-building phase of the game. It extends from FXMLController and implements
  * the Initializable interface to initialize the user interface and its behaviors.
  */
-public class BuildingShipController extends FXMLController implements Initializable {
+public class BuildingShipController extends ShipPhasesController implements Initializable {
 
-    @FXML private ImageView tileInHand;
-    @FXML private GridPane componentTilesGrid;
     @FXML private GridPane standByComponentsGrid;
-    @FXML private ImageView rocketImage;
-    @FXML private ImageView background;
-    @FXML private ImageView player1ShipImage;
-    @FXML private ImageView player2ShipImage;
-    @FXML private ImageView player3ShipImage;
-    @FXML private ImageView myShipImage;
-    @FXML private Label player1Name;
-    @FXML private Label player2Name;
-    @FXML private Label player3Name;
-    @FXML private AnchorPane level2FlightboardPane;
-    @FXML private AnchorPane tutorialFlightboardPane;
-    @FXML private GridPane player1ShipGrid;
-    @FXML private GridPane player2ShipGrid;
-    @FXML private GridPane player3ShipGrid;
+    @FXML private ImageView tileInHand;
     @FXML private GridPane player1ShipStandByTiles;
     @FXML private GridPane player2ShipStandByTiles;
     @FXML private GridPane player3ShipStandByTiles;
@@ -79,12 +64,8 @@ public class BuildingShipController extends FXMLController implements Initializa
     @FXML private ImageView pileImage1;
     @FXML private ImageView pileImage2;
 
-    private GalaxyStarsEffect animatedBackground;
-    private Map<String, Image> colorToRocketImage = new HashMap<>();
-    //Maps other players to their grid and stand by tiles
-    private Map<String, GridPane> playerToShipGrid = new HashMap<>();
+
     private Map<String, GridPane> playerToShipStandByTiles = new HashMap<>();
-    private AnchorPane flightboardPane;
     /**
      * num of rotations of the tile in hand
      */
@@ -139,12 +120,12 @@ public class BuildingShipController extends FXMLController implements Initializa
             else {
                 myShipImage.setImage(shipImage);
                 rocketImage.setImage(colorToRocketImage.get(ship.getColor()));
+                playerToShipGrid.put(ship.getNickname(), componentTilesGrid);
+                playerToShipStandByTiles.put(ship.getNickname(), standByComponentsGrid);
             }
 
-            drawShipInBuildingPhase(ship);
+            drawPlayerShip(ship, playerToShipGrid.get(ship.getNickname()), playerToShipStandByTiles.get(ship.getNickname()));
         }
-
-        // TODO: gestisci le pile nel level2 game
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
 
@@ -161,21 +142,12 @@ public class BuildingShipController extends FXMLController implements Initializa
         }
     }
 
-
-
-    private void initializeRocketColorMap() {
-        colorToRocketImage.put("yellow", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/yellowRocket.png")).toString()));
-        colorToRocketImage.put("blue", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/blueRocket.png")).toString()));
-        colorToRocketImage.put("green", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/greenRocket.png")).toString()));
-        colorToRocketImage.put("red", new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/rockets/redRocket.png")).toString()));
-    }
-
     @FXML
     public void pickCoveredTile(MouseEvent event) {
         if(tileInHand.getImage() != null) return;
         Command cmd = new PickCoveredTileCommand(virtualServer, null);
         if(cmd.isApplicable(model))
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
+            new Thread(() -> cmd.execute(model)).start();
     }
 
     @FXML
@@ -191,61 +163,16 @@ public class BuildingShipController extends FXMLController implements Initializa
         if(cmd.isApplicable(model)) {
             numOfRotations = 0;
             tileInHand.setImage(null);
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
+            new Thread(() -> cmd.execute(model)).start();
         }
     }
 
-    /*
-     * scorro i tile in client model
-     * se è vuoto metto un drag dropped che chiama la weld component tile con num of rotation pari all'attributo in questo controller, che viene settato a zero dopo
-     * se non è vuoto disegno il tile lì presente con il giusto numero di rotazioni
-     * */
     public void drawShipInBuildingPhase(Shipboard shipboard) {
-        if(shipboard.getNickname().equals(model.getPlayerName())) {
-            //draw grid
-            for(Node child : componentTilesGrid.getChildren()) {
-                int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
-                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
-                Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
-                if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
-                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
-                }
-                else {
-                    ((ImageView) child).setImage(null);
-                }
-            }
-            // draw standby tiles
-            for(Node child : standByComponentsGrid.getChildren()) {
-                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
-                Optional<ComponentTile> ct = shipboard.getStandbyComponent()[j];
-                if (ct.isPresent()) {
-                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
-                }
-                else {
-                    ((ImageView) child).setImage(null);
-                }
-            }
-        }
-        else {
-            // TODO: draw others' ship without buttons (copy the things done above)
-            drawOtherPlayersShip(shipboard, playerToShipGrid.get(shipboard.getNickname()), playerToShipStandByTiles.get(shipboard.getNickname()));
-        }
-
-
+        drawPlayerShip(shipboard, playerToShipGrid.get(shipboard.getNickname()), playerToShipStandByTiles.get(shipboard.getNickname()));
     }
 
-    private void drawOtherPlayersShip(Shipboard ship, GridPane tilesGrid, GridPane standByGrid) {
-        for(Node child : tilesGrid.getChildren()) {
-            int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
-            int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
-            Optional<ComponentTile> ct = ship.getComponentTileFromGrid(i, j);
-            if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
-                drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
-            }
-            else {
-                ((ImageView) child).setImage(null);
-            }
-        }
+    protected void drawPlayerShip(Shipboard ship, GridPane tilesGrid, GridPane standByGrid) {
+        super.drawPlayerShip(ship, tilesGrid, standByGrid);
         for(Node child : standByGrid.getChildren()) {
             int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
             Optional<ComponentTile> ct = ship.getStandbyComponent()[j];
@@ -257,20 +184,6 @@ public class BuildingShipController extends FXMLController implements Initializa
             }
         }
     }
-
-    public void drawShipInPlaceMembersPhase(Shipboard shipboard) {
-    }
-
-    public void drawShipInCorrectingShipPhase(Shipboard shipboard) {
-    }
-    /*
-     * NOTE PER I METODI DELLE ALTRE UPDATE
-     * per il tile in hand se è presente lo disegno e metto un bottone che mi aumenta il numero di rotazioni e lo rendo draggable, altrimenti nulla
-     * il bottone per la pick covered tile è statico, c'è sempre
-     * per gli stand by se il tile c'è lo disegno e abilito la pick standby on click, se non c'è abilito la standby on drag dropped
-     * per gli uncovered creo un bottone che mi apre una lista di tile. Per i tile che ci sono abilito una pickuncovered on mouse click
-     * TUTTI I METODI CHE RIMUOVONO IL TILE IN HAND DI MANO DEVONO SETTARE NUM OF ROTATIONS A ZERO
-     * */
 
     @FXML
     private void handleDragDetectedTileInHand(MouseEvent event) {
@@ -311,7 +224,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         List<String> input = new ArrayList<>(List.of(String.valueOf(i),String.valueOf(j),String.valueOf(rotations)));
         cmd.setInput(input);
         if (db.hasImage() && db.hasString() && sourceId.equals("tile") && cmd.isApplicable(model) && cmd.isInputValid(model)) { //se non c'è l'immagine nella griglia o se non è out of bound
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
+            new Thread(() -> cmd.execute(model)).start();
             success = true;
         }
 
@@ -326,7 +239,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         String sourceId = db.getString();
         Command cmd = new StandByComponentTileCommand(virtualServer,null);
         if (db.hasImage() && db.hasString() && sourceId.equals("tile") && cmd.isApplicable(model)) {
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
+            new Thread(() -> cmd.execute(model)).start();
             success = true;
         }
 
@@ -351,15 +264,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         Command cmd = new PickStandByComponentTileCommand(virtualServer,null);
         cmd.setInput(new ArrayList<>(List.of(String.valueOf(idx))));
         if(cmd.isApplicable(model) && cmd.isInputValid(model))
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
-    }
-
-    private void drawComponentTileImageForGrid(ImageView imageView, String pngName, int numOfRotations) {
-        Image image = new Image(getClass().getResource("/GraficheGioco/tiles/" + pngName).toExternalForm());
-        imageView.setPreserveRatio(true);
-        imageView.setSmooth(true);
-        imageView.setRotate(90 * numOfRotations);
-        imageView.setImage(image);
+            new Thread(() -> cmd.execute(model)).start();
     }
 
     public void drawTileInHand(ComponentTile ct) {
@@ -371,127 +276,6 @@ public class BuildingShipController extends FXMLController implements Initializa
             tileInHand.setImage(new Image(getClass().getResource("/GraficheGioco/tiles/" + ct.getPngName()).toExternalForm()));
             tileInHand.setRotate(90 * numOfRotations);
         }
-    }
-
-    /**
-     * Metodo temporaneo per switchare alla scena CardPhase per testing
-     * @param event evento del click sul bottone
-     */
-    @FXML
-    public void switchToCardPhase(ActionEvent event) {
-        try {
-            // Notify the server that this player has finished building
-            // This should trigger a change in the current player on the server side
-            new Thread(() -> {
-                try {
-                    virtualServer.finishBuilding(model.getPlayerName(), new Random().nextInt(4) % 4);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.err.println("Errore durante la comunicazione con il server per finishBuilding");
-                }
-            }).start();
-
-            // Caricamento della scena CardPhase.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/CardPhase.fxml"));
-            Parent root = loader.load();
-
-            // Ottenimento della stage corrente
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Creazione di una nuova scene e impostazione nella stage
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-            // Ferma l'animazione dello sfondo quando si cambia scena
-            if (animatedBackground != null) {
-                animatedBackground.stopAnimation();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Errore durante il caricamento della scena CardPhase.fxml");
-        }
-    }
-
-    /**
-     * Metodo di test per la schermata finale.
-     * Permette di visualizzare la pagina End.fxml con dati di test per la leaderboard.
-     */
-    @FXML
-    private void testEndScreen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/End.fxml"));
-            Parent endRoot = loader.load();
-
-            // Otteniamo il controller e impostiamo dei dati di test
-            EndController endController = loader.getController();
-
-            // Creiamo una mappa di test con alcuni punteggi
-            Map<String, Integer> testScores = new HashMap<>();
-            testScores.put("Player 1", 120);
-            testScores.put("Player 2", 85);
-            testScores.put("Player 3", 150);
-            testScores.put("Player 4", 65);
-
-            // Impostiamo i punteggi nel controller
-            endController.setClientAndScores(null, testScores);
-
-            // Cambiamo la scena
-            Scene scene = new Scene(endRoot);
-            Stage stage = (Stage) componentTilesGrid.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Errore nel caricamento della pagina End.fxml: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    public void handleDragDoneRocket(DragEvent event) {
-        if (event.getTransferMode() == TransferMode.MOVE) {
-            rocketImage.setImage(null); // Rimuove l'immagine dalla sorgente
-        }
-        event.consume();
-    }
-
-    @FXML
-    public void handleDragDetectedRocket(MouseEvent event) {
-        if (rocketImage.getImage() == null) return;
-
-        Dragboard db = rocketImage.startDragAndDrop(TransferMode.MOVE);
-        ClipboardContent content = new ClipboardContent();
-        content.putImage(rocketImage.getImage());
-        content.putString(rocketImage.getId());
-        db.setContent(content);
-
-        event.consume();
-    }
-
-    @FXML
-    public void handleDragDroppedRocket(DragEvent event) {
-        Dragboard db = event.getDragboard();
-        ImageView position = (ImageView) event.getSource();
-        int idx = Integer.parseInt(position.getId());
-        String sourceId = db.getString();
-        boolean success = false;
-        Command cmd = new FinishBuildingCommand(virtualServer,null);
-        cmd.setInput(new ArrayList<>(List.of(String.valueOf(idx))));
-        if(cmd.isApplicable(model) && cmd.isInputValid(model) && db.hasImage() && db.hasString() && position.getImage() == null && sourceId.equals("rocket")) {
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
-            success = true;
-        }
-
-        event.setDropCompleted(success);
-        event.consume();
-    }
-
-    public void handleDragOverRocket(DragEvent event) {
-        if (event.getDragboard().hasImage()) {
-            event.acceptTransferModes(TransferMode.MOVE);
-        }
-        event.consume();
     }
 
     public void updateFlightBoard(Flightboard flightboard) {
@@ -547,7 +331,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         Command cmd = new PickUncoveredTileCommand(virtualServer,null);
         cmd.setInput(new ArrayList<>(List.of(String.valueOf(idx))));
         if(cmd.isApplicable(model) && cmd.isInputValid(model))
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
+            new Thread(() -> cmd.execute(model)).start();
 
     }
 
@@ -555,7 +339,7 @@ public class BuildingShipController extends FXMLController implements Initializa
         Command cmd = new FlipHourglassCommand(virtualServer, null);
         if(cmd.isApplicable(model)) {
             ((Button) event.getSource()).setDisable(true);
-            new Thread(() -> Platform.runLater(() -> cmd.execute(model))).start();
+            new Thread(() -> cmd.execute(model)).start();
         }
     }
 

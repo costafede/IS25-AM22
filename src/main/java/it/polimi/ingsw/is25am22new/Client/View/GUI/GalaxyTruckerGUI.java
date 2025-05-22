@@ -160,8 +160,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     public void updateShipboard(Shipboard shipboard) {
         switch (clientModel.getGamePhase().getPhaseType()) {
             case BUILDING -> Platform.runLater(() -> buildingShipController.drawShipInBuildingPhase(shipboard));
-            case PLACECREWMEMBERS ->  Platform.runLater(() -> buildingShipController.drawShipInPlaceMembersPhase(shipboard));
-            case CORRECTINGSHIP ->  Platform.runLater(() -> buildingShipController.drawShipInCorrectingShipPhase(shipboard));
+            //case PLACECREWMEMBERS ->  Platform.runLater(() -> buildingShipController.drawShipInPlaceMembersPhase(shipboard));
+            //case CORRECTINGSHIP ->  Platform.runLater(() -> buildingShipController.drawShipInCorrectingShipPhase(shipboard));
             case CARD ->  Platform.runLater(() -> cardPhaseController.drawShips());
         }
     }
