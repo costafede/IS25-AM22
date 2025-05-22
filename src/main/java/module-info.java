@@ -41,4 +41,6 @@ module it.polimi.ingsw.is25am22new {
     opens it.polimi.ingsw.is25am22new.FXMLControllers to javafx.fxml;
     exports it.polimi.ingsw.is25am22new.Client.View.GUI;
     opens it.polimi.ingsw.is25am22new.Client.View.GUI to javafx.fxml;
+    exports it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable to java.rmi;
+    opens it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable to java.rmi;
 }

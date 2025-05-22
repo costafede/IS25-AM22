@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableBatteryComponent;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
@@ -69,5 +72,9 @@ public class BatteryComponent extends ComponentTile {
                 "   " + numOfBatteries + "   ",
                 "   " + bottom + "   ",
         };
+    }
+
+    public DrawableComponentTile getDrawable() {
+        return new DrawableBatteryComponent(this);
     }
 }

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableDoubleCannon;
+
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
@@ -100,5 +103,9 @@ public class DoubleCannon extends Cannon {
                 "   " + active + "   ",
                 "   " + bottom + "   ",
         };
+    }
+
+    public DrawableComponentTile getDrawable(){
+        return new DrawableDoubleCannon();
     }
 }

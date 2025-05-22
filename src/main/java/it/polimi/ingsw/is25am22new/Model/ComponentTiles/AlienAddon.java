@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableAlienAddon;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 
 /**
@@ -64,6 +67,11 @@ public class AlienAddon extends ComponentTile {
                 "       ",
                 "   " + bottom + "   ",
         };
+    }
+
+    @Override
+    public DrawableComponentTile getDrawable() {
+        return new DrawableAlienAddon();
     }
 
 }
