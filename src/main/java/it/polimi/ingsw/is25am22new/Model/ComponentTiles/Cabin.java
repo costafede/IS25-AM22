@@ -16,7 +16,7 @@ package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
  * a functionality to render the cabin in string format for representation.
  * Additional features may be implemented in subclasses to enhance cabin behavior.
  */
-abstract class Cabin extends ComponentTile {
+public abstract class Cabin extends ComponentTile {
 
     public int getNumOfAstronauts() {
         return numOfAstronauts;

@@ -6,9 +6,10 @@ import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
-import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,11 +19,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -44,24 +42,42 @@ import java.util.*;
  * related to visual and logical game state.
  */
 public class CardPhaseController extends FXMLController {
-    @FXML private GridPane myShip;
-    @FXML private GridPane player1Ship; // Changed from player1Grid
-    @FXML private GridPane player2Ship; // Changed from player2Grid
-    @FXML private GridPane player3Ship; // Changed from player3Grid
-    @FXML private ImageView myShipImage;
-    @FXML private ImageView player1ShipImage;
-    @FXML private ImageView player2ShipImage;
-    @FXML private ImageView player3ShipImage;
-    @FXML private Label player1Name;
-    @FXML private Label player2Name;
-    @FXML private Label player3Name;
-    @FXML private AnchorPane tutorialFlightboardPane; // Layout x = 375 Layout y = 15 positions fx:id t[num]
-    @FXML private AnchorPane level2FlightboardPane; // positions fx:id l[num]
-    @FXML private ImageView background;
-    @FXML private ImageView cardImage;
-    @FXML private Button pickCardButton;
-    @FXML private ImageView dice1;
-    @FXML private ImageView dice2;
+    @FXML
+    private GridPane myShip;
+    @FXML
+    private GridPane player1Ship;
+    @FXML
+    private GridPane player2Ship;
+    @FXML
+    private GridPane player3Ship;
+    @FXML
+    private ImageView myShipImage;
+    @FXML
+    private ImageView player1ShipImage;
+    @FXML
+    private ImageView player2ShipImage;
+    @FXML
+    private ImageView player3ShipImage;
+    @FXML
+    private Label player1Name;
+    @FXML
+    private Label player2Name;
+    @FXML
+    private Label player3Name;
+    @FXML
+    private AnchorPane tutorialFlightboardPane; // Layout x = 375 Layout y = 15 positions fx:id t[num]
+    @FXML
+    private AnchorPane level2FlightboardPane; // positions fx:id l[num]
+    @FXML
+    private ImageView background;
+    @FXML
+    private ImageView cardImage;
+    @FXML
+    private Button pickCardButton;
+    @FXML
+    private ImageView dice1;
+    @FXML
+    private ImageView dice2;
 
     private GalaxyStarsEffect animatedBackground;
     private Map<String, GridPane> playerToShip;
@@ -75,7 +91,7 @@ public class CardPhaseController extends FXMLController {
     private void initialize() {
         commandManager = new CommandManager();
         commandManager.initializeCommandManagerGUI(GalaxyTruckerGUI.getVirtualServer());
-        setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
+        setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage(), GalaxyTruckerGUI.getVirtualServer());
         initializePlayerToShip();
         playersImage = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
         if (model.getGametype() == GameType.TUTORIAL) {
@@ -100,7 +116,8 @@ public class CardPhaseController extends FXMLController {
         fillGridPane(player3Ship, 38);
         initializeRocketColorMap();
         initializeDiceToImage();
-        // Aggiungi gestore eventi per clic sulla carta per mostrare comandi applicabili
+
+
         cardImage.setOnMouseClicked(this::showApplicableCommands);
 
         // Aggiungi un cursore mano per indicare che la carta è cliccabile
@@ -115,7 +132,7 @@ public class CardPhaseController extends FXMLController {
             // Inserisce l'animazione come primo elemento del pane (dietro a tutti gli altri elementi)
             pane.getChildren().add(0, animatedBackground);
 
-            // Assicurati che lo sfondo sia dietro tutti gli elementi
+            // Assicura che lo sfondo sia dietro tutti gli elementi
             animatedBackground.toBack();
             background.toBack();
         }
@@ -131,7 +148,7 @@ public class CardPhaseController extends FXMLController {
         shipViews.addFirst(player2Ship);
         shipViews.addFirst(player1Ship);
         for (int i = 0; i < model.getShipboards().size(); i++) {
-            if(model.getShipboards().keySet().stream().toList().get(i).equals(model.getPlayerName())) {
+            if (model.getShipboards().keySet().stream().toList().get(i).equals(model.getPlayerName())) {
                 playerToShip.put(model.getPlayerName(), myShip);
             } else {
                 playerToShip.put(model.getShipboards().keySet().stream().toList().get(i), shipViews.getFirst());
@@ -141,10 +158,10 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void setShipboardImagesLevel2(int playersNumber) {
-        // Prima imposta la visibilità delle navi in base al numero di giocatori
+        // Impostata la visibilità delle navi in base al numero di giocatori
         setShipboardsVisibility(playersNumber);
 
-        // Assegna le immagini solo alle navi che saranno visibili
+        // Assegnate le immagini solo alle navi che saranno visibili
         int count = 0;
         for (int i = 0; i < playersNumber && i < model.getShipboards().size(); i++) {
             ImageView shipImage = playersImage.get(i);
@@ -157,10 +174,10 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void setShipboardImagesTutorial(int playersNumber) {
-        // Prima imposta la visibilità delle navi in base al numero di giocatori
+        // impostata la visibilità delle navi in base al numero di giocatori
         setShipboardsVisibility(playersNumber);
 
-        // Assegna le immagini solo alle navi che saranno visibili
+        // Assegnate le immagini solo alle navi che saranno visibili
         int count = 0;
         for (int i = 0; i < playersNumber && i < model.getShipboards().size(); i++) {
             ImageView shipImage = playersImage.get(i);
@@ -189,8 +206,7 @@ public class CardPhaseController extends FXMLController {
         player2Ship.setVisible(false);
         player3Ship.setVisible(false);
 
-        // Now show only what we need based on player count
-        switch(numberOfPlayers) {
+        switch (numberOfPlayers) {
             case 4:
                 player3ShipImage.setVisible(true);
                 player3Name.setVisible(true);
@@ -241,7 +257,7 @@ public class CardPhaseController extends FXMLController {
      * Disegna la nave del giocatore
      */
     public void drawShips() {
-        for(Shipboard s : model.getShipboards().values()) {
+        for (Shipboard s : model.getShipboards().values()) {
             drawShipInCardPhase(s);
         }
     }
@@ -256,7 +272,7 @@ public class CardPhaseController extends FXMLController {
             // Aggiorna la flightboard
             drawFlightboardInCardPhase(model.getFlightboard());
             drawDices();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
             e.printStackTrace();
         }
@@ -304,10 +320,12 @@ public class CardPhaseController extends FXMLController {
 
                 System.out.println("Visualizzazione carta: " + model.getCurrCard().getName());
             } else {
-                // Se non c'è una carta corrente, visualizza un messaggio o un'immagine predefinita
+                // Se non c'è una carta corrente, visualizza un'immagine predefinita
                 System.out.println("Nessuna carta corrente da visualizzare");
-                // Opzionale: impostare un'immagine predefinita per il dorso della carta
-                // cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/back.jpg")).toString()));
+                if (model.getFlightboard().getFlightBoardLength() == 24)
+                    cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/RetroCartaDefault.png")).toString()));
+                else
+                    cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/GT-cards_I_IT_0121.jpg")).toString()));
             }
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione della carta: " + e.getMessage());
@@ -323,10 +341,60 @@ public class CardPhaseController extends FXMLController {
         try {
             System.out.println("Apertura della banca dei goodblocks");
 
+            Bank bank = model.getBank();
+            if (bank == null) {
+                System.err.println("La banca non è disponibile");
+                return;
+            }
+
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Goodblocks Bank");
-            alert.setHeaderText("Gestione dei Goodblocks");
-            alert.setContentText("Qui puoi gestire i tuoi Goodblocks");
+            alert.setTitle("Banca dei Goodblocks");
+            alert.setHeaderText("Disponibilità dei blocchi nella banca");
+
+            GridPane gridPane = new GridPane();
+            gridPane.setHgap(15);
+            gridPane.setVgap(10);
+            gridPane.setPadding(new Insets(20, 20, 20, 20));
+
+            Label typeLabel = new Label("Tipo");
+            Label countLabel = new Label("Quantità");
+            typeLabel.setStyle("-fx-font-weight: bold;");
+            countLabel.setStyle("-fx-font-weight: bold;");
+            gridPane.add(typeLabel, 0, 0);
+            gridPane.add(countLabel, 2, 0);
+
+            String redStyle = "-fx-background-color: #FF5555; -fx-padding: 5px 10px; -fx-border-radius: 3;";
+            String yellowStyle = "-fx-background-color: #FFFF55; -fx-padding: 5px 10px; -fx-border-radius: 3;";
+            String greenStyle = "-fx-background-color: #55FF55; -fx-padding: 5px 10px; -fx-border-radius: 3;";
+            String blueStyle = "-fx-background-color: #5555FF; -fx-padding: 5px 10px; -fx-border-radius: 3; -fx-text-fill: white;";
+
+            Label redBlock = new Label("Rossi");
+            redBlock.setStyle(redStyle);
+            Label redCount = new Label(String.valueOf(bank.getNumGoodBlock(GoodBlock.REDBLOCK)));
+            gridPane.add(redBlock, 0, 1);
+            gridPane.add(redCount, 2, 1);
+
+            Label yellowBlock = new Label("Gialli");
+            yellowBlock.setStyle(yellowStyle);
+            Label yellowCount = new Label(String.valueOf(bank.getNumGoodBlock(GoodBlock.YELLOWBLOCK)));
+            gridPane.add(yellowBlock, 0, 2);
+            gridPane.add(yellowCount, 2, 2);
+
+            Label greenBlock = new Label("Verdi");
+            greenBlock.setStyle(greenStyle);
+            Label greenCount = new Label(String.valueOf(bank.getNumGoodBlock(GoodBlock.GREENBLOCK)));
+            gridPane.add(greenBlock, 0, 3);
+            gridPane.add(greenCount, 2, 3);
+
+            Label blueBlock = new Label("Blu");
+            blueBlock.setStyle(blueStyle);
+            Label blueCount = new Label(String.valueOf(bank.getNumGoodBlock(GoodBlock.BLUEBLOCK)));
+            gridPane.add(blueBlock, 0, 4);
+            gridPane.add(blueCount, 2, 4);
+
+            alert.getDialogPane().setContent(gridPane);
+
+            // Mostra l'alert
             alert.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
@@ -347,12 +415,14 @@ public class CardPhaseController extends FXMLController {
         }
 
         try {
-            // Chiama il server per pescare una carta
             virtualServer.pickCard();
             System.out.println("Richiesta di pesca carta inviata al server per il giocatore: " + model.getPlayerName());
 
+            //Dopo aver pescato la carta, il giocatore non può fare la pickCard di nuovo. Ritornerà disponibile solo quando la currCard sarà nuovamente null
+            pickCardButton.setDisable(true);
+
             // Il server dovrebbe rispondere chiamando updateCurrCard in GalaxyTruckerGUI
-            // che a sua volta chiamerà drawCard in questa classe
+            // che a sua volta chiamerà drawCard
         } catch (IOException e) {
             System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
             e.printStackTrace();
@@ -361,6 +431,7 @@ public class CardPhaseController extends FXMLController {
 
     /**
      * Gestisce l'abbandono della partita
+     *
      * @param event l'evento di click sul bottone abandonGameButton
      */
     @FXML
@@ -388,6 +459,7 @@ public class CardPhaseController extends FXMLController {
 
     /**
      * Gestisce la disconnessione dal server
+     *
      * @param event l'evento di click sul bottone disconnectButton
      */
     @FXML
@@ -414,7 +486,6 @@ public class CardPhaseController extends FXMLController {
                     stage.setScene(scene);
                     stage.show();
 
-                    // Ferma l'animazione dello sfondo
                     if (animatedBackground != null) {
                         animatedBackground.stopAnimation();
                     }
@@ -428,6 +499,7 @@ public class CardPhaseController extends FXMLController {
 
     /**
      * Torna alla fase di costruzione della nave
+     *
      * @param event l'evento di click sul bottone buildingShipButton
      */
     @FXML
@@ -512,7 +584,7 @@ public class CardPhaseController extends FXMLController {
                 commandsBox.getChildren().add(cmdButton);
             }
 
-            // Aggiungi un pulsante Annulla
+            // Aggiunge un pulsante Annulla
             Button cancelButton = new Button("Annulla");
             cancelButton.setOnAction(e -> popupStage.close());
             commandsBox.getChildren().add(cancelButton);
@@ -560,30 +632,29 @@ public class CardPhaseController extends FXMLController {
     }
 
     public void drawShipInCardPhase(Shipboard shipboard) {
-        if(shipboard.getNickname().equals(model.getPlayerName())) {
+        if (shipboard.getNickname().equals(model.getPlayerName())) {
             //draw grid
-            for(Node child : myShip.getChildren()) {
+            for (Node child : myShip.getChildren()) {
                 int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
                 int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
                 Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
                 if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
                     drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
-                }
-                else {
+                    setupTileTooltip((ImageView) child, ct.get());
+                } else {
                     ((ImageView) child).setImage(null);
                 }
             }
-        }
-        else {
+        } else {
             GridPane playerGrid = playerToShip.get(shipboard.getNickname());
-            for(Node child : playerGrid.getChildren()) {
+            for (Node child : playerGrid.getChildren()) {
                 int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
                 int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
                 Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
                 if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
                     drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
-                }
-                else {
+                    setupTileTooltip((ImageView) child, ct.get());
+                } else {
                     ((ImageView) child).setImage(null);
                 }
             }
@@ -599,22 +670,22 @@ public class CardPhaseController extends FXMLController {
     }
 
     public void drawFlightboardInCardPhase(Flightboard flightboard) {
-        if(model.getGametype().equals(GameType.TUTORIAL)) {
-            for(String player : flightboard.getPositions().keySet()) {
+        if (model.getGametype().equals(GameType.TUTORIAL)) {
+            for (String player : flightboard.getPositions().keySet()) {
                 Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
-                for(Node child : tutorialFlightboardPane.getChildren()) {
+                for (Node child : tutorialFlightboardPane.getChildren()) {
                     String position = "t" + flightboard.getPositions().get(player);
-                    if(child.getId().equals(position)) {
+                    if (child.getId().equals(position)) {
                         ((ImageView) child).setImage(rocket);
                     }
                 }
             }
         } else {
-            for(String player : flightboard.getPositions().keySet()) {
+            for (String player : flightboard.getPositions().keySet()) {
                 Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
-                for(Node child : level2FlightboardPane.getChildren()) {
+                for (Node child : level2FlightboardPane.getChildren()) {
                     String position = "l" + flightboard.getPositions().get(player);
-                    if(child.getId().equals(position)) {
+                    if (child.getId().equals(position)) {
                         ((ImageView) child).setImage(rocket);
                     }
                 }
@@ -630,7 +701,7 @@ public class CardPhaseController extends FXMLController {
             for (int j = 0; j < 7; j++) {
                 ImageView imageView = new ImageView();
 
-                // Set the preferred size
+                //Set the size
                 imageView.setFitWidth(dimension);
                 imageView.setFitHeight(dimension);
                 imageView.setPreserveRatio(true);
@@ -663,4 +734,135 @@ public class CardPhaseController extends FXMLController {
         diceToImage.put(5, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/5.png")).toString()));
         diceToImage.put(6, new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/dices/6.png")).toString()));
     }
+
+    private void setupTileTooltip(ImageView imageView, ComponentTile tile) {
+        // Create a tooltip to display information about the tile
+        Tooltip tooltip = new Tooltip();
+        StringBuilder tooltipText = new StringBuilder();
+
+        // Based on the tile type, show different information
+        if (tile instanceof BatteryComponent) {
+            BatteryComponent battery = (BatteryComponent) tile;
+            tooltipText.append("Battery: ").append(battery.getNumOfBatteries()).append(" remaining");
+
+        } else if (tile instanceof DoubleCannon) {
+            DoubleCannon cannon = (DoubleCannon) tile;
+            tooltipText.append("Double Cannon");
+
+            // Add visual indicator if active (border)
+            if (cannon.getCannonStrength() > 0) {
+                imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 2;");
+            } else {
+                imageView.setStyle("");
+            }
+
+        } else if (tile instanceof DoubleEngine) {
+            DoubleEngine engine = (DoubleEngine) tile;
+            tooltipText.append("Double Engine");
+
+            // Add visual indicator if active (border)
+            if (engine.getEngineStrength() > 0) {
+                imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 2;");
+            } else {
+                imageView.setStyle("");
+            }
+
+        } else if (tile instanceof RegularCabin || tile instanceof StartingCabin) {
+            Cabin cabin = (Cabin) tile;
+
+            if (cabin.isBrownAlienPresent()) {
+                tooltipText.append("Cabin with Brown alien");
+            } else if(cabin.isPurpleAlienPresent()){
+                tooltipText.append("Cabin with Purple alien");
+            } else {
+                tooltipText.append("Cabin with ").append(cabin.getNumOfAstronauts()).append(" astronauts");
+            }
+
+        } else if (tile instanceof ShieldGenerator) {
+            ShieldGenerator shield = (ShieldGenerator) tile;
+            tooltipText.append("Shield Generator");
+
+            // Add visual indicator if active ///TODO : capire se è attivo e allora colorarlo
+            imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2;");
+
+        } else if (tile instanceof SpecialStorageCompartment) {
+            SpecialStorageCompartment storage = (SpecialStorageCompartment) tile;
+            tooltipText.append("Special Storage: ");
+
+            int totalBlocks = 0;
+            for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
+                totalBlocks += storage.getGoodBlocks().get(gb);
+            }
+
+            if (totalBlocks == 0) {
+                tooltipText.append("Empty");
+            } else {
+                tooltipText.append(totalBlocks).append(" blocks (");
+                // Add details about block types
+                boolean first = true;
+                for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
+                    int count = storage.getGoodBlocks().get(gb);
+                    if (count > 0) {
+                        if (!first) {
+                            tooltipText.append(", ");
+                        }
+                        tooltipText.append(count).append(" ").append(gb.name());
+                        first = false;
+                    }
+                }
+                tooltipText.append(")");
+            }
+
+        } else if (tile instanceof StorageCompartment) {
+            StorageCompartment storage = (StorageCompartment) tile;
+            tooltipText.append("Storage: ");
+
+            int totalBlocks = 0;
+            for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
+                totalBlocks += storage.getGoodBlocks().get(gb);
+            }
+
+            if (totalBlocks == 0) {
+                tooltipText.append("Empty");
+            } else {
+                tooltipText.append(totalBlocks).append(" blocks (");
+                // Add details about block types
+                boolean first = true;
+                for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
+                    int count = storage.getGoodBlocks().get(gb);
+                    if (count > 0) {
+                        if (!first) {
+                            tooltipText.append(", ");
+                        }
+                        tooltipText.append(count).append(" ").append(gb.name());
+                        first = false;
+                    }
+                }
+                tooltipText.append(")");
+            }
+
+        } else {
+            // Generic tooltip for other component types
+            tooltipText.append(tile.getClass().getSimpleName());
+        }
+
+        // Set the tooltip text and install it on the image view
+        tooltip.setText(tooltipText.toString());
+
+        // Make sure the tooltip appears faster and stays visible longer
+        tooltip.setShowDelay(new javafx.util.Duration(200));
+        tooltip.setHideDelay(new javafx.util.Duration(5000));
+
+        // Set the tooltip directly on the imageView
+        imageView.setOnMouseEntered(event -> {
+            Tooltip.install(imageView, tooltip);
+            tooltip.show(imageView, event.getScreenX() + 15, event.getScreenY() + 15);
+        });
+
+        imageView.setOnMouseExited(event -> {
+            tooltip.hide();
+            Tooltip.uninstall(imageView, tooltip);
+        });
+    }
 }
+
