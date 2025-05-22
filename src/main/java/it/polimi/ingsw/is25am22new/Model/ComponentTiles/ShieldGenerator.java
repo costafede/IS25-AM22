@@ -134,7 +134,7 @@ public class ShieldGenerator extends ComponentTile {
         else if (rightSide.equals(TWOPIPES) && rightSideShieldable){right = "%2";}
         else if (rightSide.equals(UNIVERSALPIPE) && rightSideShieldable){right = "%3";}
 
-        if(isActive())
+        if(isActivated())
             active = "A";
         else
             active = " ";
@@ -153,9 +153,7 @@ public class ShieldGenerator extends ComponentTile {
         return new DrawableShieldGenerator();
     }
 
-    public boolean isActive(){
+    public boolean isActivated(){
         return topSideShielded || bottomSideShielded || leftSideShielded || rightSideShielded;
     }
-
-
 }

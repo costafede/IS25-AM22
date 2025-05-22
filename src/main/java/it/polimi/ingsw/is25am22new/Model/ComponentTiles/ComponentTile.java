@@ -262,5 +262,9 @@ public abstract class ComponentTile implements Serializable {
         return numOfRotations;
     }
 
+    public boolean isActivated() {
+        return false;
+    }
+
     public abstract DrawableComponentTile getDrawable();
 }

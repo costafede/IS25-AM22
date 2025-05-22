@@ -1,11 +1,13 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
@@ -13,6 +15,7 @@ import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -44,48 +47,40 @@ import java.util.*;
  * related to visual and logical game state.
  */
 public class CardPhaseController extends FXMLController {
-    @FXML
-    private GridPane myShip;
-    @FXML
-    private GridPane player1Ship;
-    @FXML
-    private GridPane player2Ship;
-    @FXML
-    private GridPane player3Ship;
-    @FXML
-    private ImageView myShipImage;
-    @FXML
-    private ImageView player1ShipImage;
-    @FXML
-    private ImageView player2ShipImage;
-    @FXML
-    private ImageView player3ShipImage;
-    @FXML
-    private Label player1Name;
-    @FXML
-    private Label player2Name;
-    @FXML
-    private Label player3Name;
-    @FXML
-    private AnchorPane tutorialFlightboardPane; // Layout x = 375 Layout y = 15 positions fx:id t[num]
-    @FXML
-    private AnchorPane level2FlightboardPane; // positions fx:id l[num]
-    @FXML
-    private ImageView background;
-    @FXML
-    private ImageView cardImage;
-    @FXML
-    private Button pickCardButton;
-    @FXML
-    private ImageView dice1;
-    @FXML
-    private ImageView dice2;
+    @FXML private GridPane myShip;
+    @FXML private GridPane player1Ship;
+    @FXML private GridPane player2Ship;
+    @FXML private GridPane player3Ship;
+    @FXML private ImageView myShipImage;
+    @FXML private ImageView player1ShipImage;
+    @FXML private ImageView player2ShipImage;
+    @FXML private ImageView player3ShipImage;
+    @FXML private Label player1Name;
+    @FXML private Label player2Name;
+    @FXML private Label player3Name;
+    @FXML private AnchorPane tutorialFlightboardPane; // Layout x = 375 Layout y = 15 positions fx:id t[num]
+    @FXML private AnchorPane level2FlightboardPane; // positions fx:id l[num]
+    @FXML private ImageView background;
+    @FXML private ImageView cardImage;
+    @FXML private Button pickCardButton;
+    @FXML private ImageView dice1;
+    @FXML private ImageView dice2;
 
     private GalaxyStarsEffect animatedBackground;
     private Map<String, GridPane> playerToShip;
     private List<ImageView> playersImage;
     private final Map<String, Image> colorToRocketImage = new HashMap<>();
     private final Map<Integer, Image> diceToImage = new HashMap<>();
+    private final Map<String, EventHandler<ActionEvent>> buttonToMethod = new HashMap<>();
+
+    private int batteryXcoord = -1;
+    private int batteryYcoord = -1;
+    private int doubleCannonXcoord = -1;
+    private int doubleCannonYcoord = -1;
+    private int doubleEngineXcoord = -1;
+    private int doubleEngineYcoord = -1;
+    private int shieldXCoord = -1;
+    private int shieldYCoord = -1;
 
     private CommandManager commandManager;
 
@@ -95,6 +90,7 @@ public class CardPhaseController extends FXMLController {
         commandManager.initializeCommandManagerGUI(GalaxyTruckerGUI.getVirtualServer());
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage(), GalaxyTruckerGUI.getVirtualServer());
         initializePlayerToShip();
+        initializeButtonToMethod();
         playersImage = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
@@ -285,10 +281,9 @@ public class CardPhaseController extends FXMLController {
      * Disabilita i pulsanti quando non è il turno del giocatore
      */
     public void updateButtonsState() {
-        boolean isPlayerTurn = model.getPlayerName().equals(model.getCurrPlayer());
-
-        // Il pulsante pickCard è attivo solo se è il turno del giocatore e lo metto disabilitato e grigio
-        pickCardButton.setDisable(!isPlayerTurn);
+        // Il pulsante pickCard è attivo solo se è il turno del giocatore e non è presente una carta
+        // e lo metto disabilitato e grigio
+        pickCardButton.setDisable(!model.getPlayerName().equals(model.getCurrPlayer()) || model.getCurrCard() != null);
     }
 
     /**
@@ -329,6 +324,7 @@ public class CardPhaseController extends FXMLController {
                 else
                     cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/GT-cards_I_IT_0121.jpg")).toString()));
             }
+            updateButtonsState();
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione della carta: " + e.getMessage());
             e.printStackTrace();
@@ -574,14 +570,9 @@ public class CardPhaseController extends FXMLController {
                 Button cmdButton = new Button(command.getName());
                 cmdButton.setPrefWidth(250);
                 cmdButton.setOnAction(e -> {
-                    try {
-                        command.execute(model);
-                        System.out.println("Comando eseguito: " + command.getName());
-                        popupStage.close();
-                    } catch (Exception ex) {
-                        System.err.println("Errore durante l'esecuzione del comando: " + ex.getMessage());
-                        ex.printStackTrace();
-                    }
+                    resetShip();
+                    buttonToMethod.get(command.getName()).handle(e);
+                    popupStage.close();
                 });
                 commandsBox.getChildren().add(cmdButton);
             }
@@ -611,6 +602,22 @@ public class CardPhaseController extends FXMLController {
         }
     }
 
+    private void resetShip() {
+        for (Node node : myShip.getChildren()) {
+            if (node instanceof ImageView imageView) {
+                imageView.setOnMouseClicked(null);
+            }
+        }
+        batteryXcoord = -1;
+        batteryYcoord = -1;
+        doubleCannonXcoord = -1;
+        doubleCannonYcoord = -1;
+        doubleEngineXcoord = -1;
+        doubleEngineYcoord = -1;
+        shieldXCoord = -1;
+        shieldYCoord = -1;
+    }
+
     /**
      * Mostra un messaggio di errore all'utente
      */
@@ -635,7 +642,6 @@ public class CardPhaseController extends FXMLController {
 
     public void drawShipInCardPhase(Shipboard shipboard) {
         if (shipboard.getNickname().equals(model.getPlayerName())) {
-            //draw grid
             for (Node child : myShip.getChildren()) {
                 int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
                 int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
@@ -772,7 +778,7 @@ public class CardPhaseController extends FXMLController {
                 }
             }
             else if(tile.isShieldGenerator()){
-                if(((ShieldGenerator)tile).isActive()) {
+                if(((ShieldGenerator)tile).isActivated()) {
                     innerShadow.setColor(javafx.scene.paint.Color.GREEN);
                     innerShadow.setRadius(10);
                     innerShadow.setChoke(0.5);
@@ -816,6 +822,354 @@ public class CardPhaseController extends FXMLController {
             Tooltip.uninstall(imageView, tooltip);
             // Mantengo l'effetto anche quando il mouse esce
         });
+    }
+
+    public void initializeButtonToMethod() {
+        buttonToMethod.put("AcceptCredits", this::acceptCreditsCommand);
+        buttonToMethod.put("ActivateDoubleCannon", this::activateDoubleCannonCommand);
+        buttonToMethod.put("ActivateDoubleEngine", this::activateDoubleEngineCommand);
+        buttonToMethod.put("ActivateShield", this::activateShieldCommand);
+        buttonToMethod.put("ChooseShipWreck", this::chooseShipWreckCommand);
+        buttonToMethod.put("DecideToRemoveCrewMembers", this::decideToRemoveCrewMembersCommand);
+        buttonToMethod.put("GetBlock", this::getBlockCommand);
+        buttonToMethod.put("LandOnAbandonedStation", this::landOnAbandonedStationCommand);
+        buttonToMethod.put("LandOnPlanet", this::landOnPlanetCommand);
+        buttonToMethod.put("MoveGoodBlock", this::moveGoodBlockCommand);
+        buttonToMethod.put("RemoveCrewMember", this::removeCrewMemberCommand);
+        buttonToMethod.put("RemoveGoodBlock", this::removeGoodBlockCommand);
+        buttonToMethod.put("ResolveEffect", this::resolveEffectCommand);
+        buttonToMethod.put("SwitchGoodBlocks", this::switchGoodBlocksCommand);
+    }
+
+    private void acceptCreditsCommand(ActionEvent event) {
+        Command cmd = new AcceptCreditsCommand(virtualServer, null);
+        if(cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
+        else
+            showErrorAlert("WARNING", "You can't execute this command");
+    }
+
+    private void activateDoubleCannonCommand(ActionEvent event) {
+        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
+        for(int i = 0; i < 5 ; i++) {
+            for(int j = 0; j < 7 ; j++) {
+                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
+                    if(thisPlayerShip.getComponentTileFromGrid(i, j).get().isBattery()){
+                        for (Node node : myShip.getChildren()) {
+                            Integer columnIndex = GridPane.getColumnIndex(node);
+                            Integer rowIndex = GridPane.getRowIndex(node);
+
+                            int nodeCol = columnIndex == null ? 0 : columnIndex;
+                            int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                            if (nodeCol == j && nodeRow == i) {
+                                node.setOnMouseClicked(this::handleBatteryCoordinates);
+                            }
+                        }
+                    } else if (thisPlayerShip.getComponentTileFromGrid(i, j).get().isDoubleCannon()) {
+                        for (Node node : myShip.getChildren()) {
+                            Integer columnIndex = GridPane.getColumnIndex(node);
+                            Integer rowIndex = GridPane.getRowIndex(node);
+
+                            int nodeCol = columnIndex == null ? 0 : columnIndex;
+                            int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                            if (nodeCol == j && nodeRow == i) {
+                                node.setOnMouseClicked(this::handleDoubleCannonCoordinates);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleBatteryCoordinates(MouseEvent event) {
+        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+        batteryXcoord = rowIndex;
+        batteryYcoord = columnIndex;
+        System.out.println(batteryXcoord);
+        System.out.println(batteryYcoord);
+    }
+
+    private void handleDoubleCannonCoordinates(MouseEvent event) {
+        if(batteryXcoord == -1 || batteryYcoord == -1){
+            showErrorAlert("WARNING", "Activate batteries first!");
+            return;
+        }
+        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+        doubleCannonXcoord = rowIndex;
+        doubleCannonYcoord = columnIndex;
+
+        Command cmd = new ActivateDoubleCannonCommand(virtualServer, null);
+        sendActivateComponentCommand(cmd, doubleCannonXcoord, doubleCannonYcoord);
+    }
+
+    private void activateDoubleEngineCommand(ActionEvent event) {
+        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
+        for(int i = 0; i < 5 ; i++) {
+            for(int j = 0; j < 7 ; j++) {
+                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
+                    if(thisPlayerShip.getComponentTileFromGrid(i, j).get().isBattery()){
+                        for (Node node : myShip.getChildren()) {
+                            Integer columnIndex = GridPane.getColumnIndex(node);
+                            Integer rowIndex = GridPane.getRowIndex(node);
+
+                            int nodeCol = columnIndex == null ? 0 : columnIndex;
+                            int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                            if (nodeCol == j && nodeRow == i) {
+                                node.setOnMouseClicked(this::handleBatteryCoordinates);
+                            }
+                        }
+                    } else if (thisPlayerShip.getComponentTileFromGrid(i, j).get().isDoubleEngine()) {
+                        for (Node node : myShip.getChildren()) {
+                            Integer columnIndex = GridPane.getColumnIndex(node);
+                            Integer rowIndex = GridPane.getRowIndex(node);
+
+                            int nodeCol = columnIndex == null ? 0 : columnIndex;
+                            int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                            if (nodeCol == j && nodeRow == i) {
+                                node.setOnMouseClicked(this::handleDoubleEngineCoordinates);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleDoubleEngineCoordinates(MouseEvent event) {
+        if(batteryXcoord == -1 || batteryYcoord == -1){
+            showErrorAlert("WARNING", "Activate batteries first!");
+            return;
+        }
+        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+        doubleEngineXcoord = rowIndex;
+        doubleEngineYcoord = columnIndex;
+
+        Command cmd = new ActivateDoubleEngineCommand(virtualServer, null);
+        sendActivateComponentCommand(cmd, doubleEngineXcoord, doubleEngineYcoord);
+    }
+
+    private void sendActivateComponentCommand(Command cmd, int xCoord, int yCoord) {
+        List<String> input = new ArrayList<>();
+        input.addLast(String.valueOf(batteryXcoord+5));
+        input.addLast(String.valueOf(batteryYcoord+4));
+        input.addLast(String.valueOf(xCoord+5));
+        input.addLast(String.valueOf(yCoord+4));
+        cmd.setInput(input);
+        if(cmd.isInputValid(model)) {
+            new Thread(() -> cmd.execute(model)).start();
+            System.out.println(batteryXcoord);
+            System.out.println(batteryYcoord);
+            System.out.println(xCoord);
+            System.out.println(yCoord);
+        }
+        else
+            showErrorAlert("WARNING", "You can't execute this command");
+    }
+
+    private void activateShieldCommand(ActionEvent event) {
+        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
+        for(int i = 0; i < 5 ; i++) {
+            for(int j = 0; j < 7 ; j++) {
+                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
+                    if(thisPlayerShip.getComponentTileFromGrid(i, j).get().isBattery()){
+                        for (Node node : myShip.getChildren()) {
+                            Integer columnIndex = GridPane.getColumnIndex(node);
+                            Integer rowIndex = GridPane.getRowIndex(node);
+
+                            int nodeCol = columnIndex == null ? 0 : columnIndex;
+                            int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                            if (nodeCol == j && nodeRow == i) {
+                                node.setOnMouseClicked(this::handleBatteryCoordinates);
+                            }
+                        }
+                    } else if (thisPlayerShip.getComponentTileFromGrid(i, j).get().isShieldGenerator()) {
+                        for (Node node : myShip.getChildren()) {
+                            Integer columnIndex = GridPane.getColumnIndex(node);
+                            Integer rowIndex = GridPane.getRowIndex(node);
+
+                            int nodeCol = columnIndex == null ? 0 : columnIndex;
+                            int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                            if (nodeCol == j && nodeRow == i) {
+                                node.setOnMouseClicked(this::handleShieldGeneratorCoordinates);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleShieldGeneratorCoordinates(MouseEvent event) {
+        if(batteryXcoord == -1 || batteryYcoord == -1){
+            showErrorAlert("WARNING", "Activate batteries first!");
+            return;
+        }
+        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+        doubleEngineXcoord = rowIndex;
+        doubleEngineYcoord = columnIndex;
+        Command cmd = new ActivateShieldCommand(virtualServer, null);
+        sendActivateComponentCommand(cmd, shieldXCoord, shieldYCoord);
+    }
+
+    private void chooseShipWreckCommand(ActionEvent event) {
+        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
+        for(int i = 0; i < 5 ; i++) {
+            for(int j = 0; j < 7 ; j++) {
+                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
+                    for (Node node : myShip.getChildren()) {
+                        Integer columnIndex = GridPane.getColumnIndex(node);
+                        Integer rowIndex = GridPane.getRowIndex(node);
+
+                        int nodeCol = columnIndex == null ? 0 : columnIndex;
+                        int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                        if (nodeCol == j && nodeRow == i) {
+                            node.setOnMouseClicked(this::handleChooseShipWreckCoordinates);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleChooseShipWreckCoordinates(MouseEvent mouseEvent) {
+        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+        Command cmd = new ChooseShipWreckCommand(virtualServer, null);
+        List<String> input = new ArrayList<>();
+        input.addLast(String.valueOf(rowIndex));
+        input.addLast(String.valueOf(columnIndex));
+        cmd.setInput(input);
+        if(cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
+        else
+            showErrorAlert("WARNING", "You can't execute this command");
+    }
+
+    private void decideToRemoveCrewMembersCommand(ActionEvent event) {
+        Command cmd = new DecideToRemoveCrewMembersCommand(virtualServer, null);
+        new Thread(() -> cmd.execute(model)).start();
+    }
+
+    private void getBlockCommand(ActionEvent event) {
+
+    }
+
+    private void landOnAbandonedStationCommand(ActionEvent event) {
+        Command cmd = new LandOnAbandonedStationCommand(virtualServer, null);
+        new Thread(() -> cmd.execute(model)).start();
+    }
+
+    private void landOnPlanetCommand(ActionEvent event) {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.initStyle(StageStyle.UTILITY);
+        popupStage.setTitle("Choose the planet");
+
+        VBox commandsBox = new VBox(10);
+        commandsBox.setAlignment(Pos.CENTER);
+        commandsBox.setPadding(new Insets(20));
+
+        Label titleLabel = new Label("Choose the planet");
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        commandsBox.getChildren().add(titleLabel);
+
+        for (int i = 0; i < ((PlanetsCard) (model.getCurrCard())).getPlanets().size(); i++) {
+            Button cmdButton = setLandingButtons(i, popupStage);
+            commandsBox.getChildren().add(cmdButton);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(commandsBox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefViewportHeight(400);
+
+        Scene popupScene = new Scene(scrollPane, 300, 400);
+        popupStage.setScene(popupScene);
+
+        popupStage.setX(primaryStage.getX());
+        popupStage.setY(primaryStage.getY());
+
+        popupStage.show();
+    }
+
+    private Button setLandingButtons(int i, Stage popupStage) {
+        Button cmdButton = new Button("Land on planet " + i);
+        cmdButton.setPrefWidth(250);
+        int landingPlanet = i;
+        cmdButton.setOnAction(e -> {
+            Command cmd = new LandOnPlanetCommand(virtualServer, null);
+            cmd.setInput(Collections.singletonList(String.valueOf(landingPlanet)));
+            if(cmd.isInputValid(model))
+                new Thread(() -> cmd.execute(model)).start();
+            else
+                showErrorAlert("WARNING", "You can't execute this command");
+            popupStage.close();
+        });
+        return cmdButton;
+    }
+
+    private void moveGoodBlockCommand(ActionEvent event) {
+
+    }
+
+    private void removeCrewMemberCommand(ActionEvent event) {
+        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
+        for(int i = 0; i < 5 ; i++) {
+            for(int j = 0; j < 7 ; j++) {
+                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent() &&
+                        thisPlayerShip.getComponentTileFromGrid(i, j).get().isCabin()) {
+                    for (Node node : myShip.getChildren()) {
+                        Integer columnIndex = GridPane.getColumnIndex(node);
+                        Integer rowIndex = GridPane.getRowIndex(node);
+
+                        int nodeCol = columnIndex == null ? 0 : columnIndex;
+                        int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                        if (nodeCol == j && nodeRow == i) {
+                            node.setOnMouseClicked(this::handleRemoveCrewCoordinates);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleRemoveCrewCoordinates(MouseEvent mouseEvent) {
+        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+        Command cmd = new RemoveCrewMemberCommand(virtualServer, null);
+        List<String> input = new ArrayList<>();
+        input.addLast(String.valueOf(rowIndex+5));
+        input.addLast(String.valueOf(columnIndex+4));
+        cmd.setInput(input);
+        if(cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
+        else
+            showErrorAlert("WARNING", "You can't execute this command");
+    }
+
+    private void removeGoodBlockCommand(ActionEvent event) {
+
+    }
+
+    private void resolveEffectCommand(ActionEvent event) {
+        Command cmd = new ResolveEffectCommand(virtualServer, null);
+        new Thread(() -> cmd.execute(model)).start();
+    }
+
+    private void switchGoodBlocksCommand(ActionEvent event) {
+
     }
 }
 

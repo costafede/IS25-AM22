@@ -108,4 +108,9 @@ public class DoubleCannon extends Cannon {
     public DrawableComponentTile getDrawable(){
         return new DrawableDoubleCannon();
     }
+
+    @Override
+    public boolean isActivated() {
+        return topSideActive || bottomSideActive || leftSideActive || rightSideActive;
+    }
 }
