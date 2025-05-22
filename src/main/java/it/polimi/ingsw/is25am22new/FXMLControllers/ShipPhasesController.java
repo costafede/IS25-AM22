@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -39,11 +40,20 @@ public abstract class ShipPhasesController extends FXMLController{
     @FXML protected GridPane player1ShipGrid;
     @FXML protected GridPane player2ShipGrid;
     @FXML protected GridPane player3ShipGrid;
+    @FXML protected Label metalScrapCounter;
+    @FXML protected Label metalScrapCounter1;
+    @FXML protected Label metalScrapCounter2;
+    @FXML protected Label metalScrapCounter3;
+    @FXML protected ImageView scrapImage;
+    @FXML protected ImageView scrapImage1;
+    @FXML protected ImageView scrapImage2;
+    @FXML protected ImageView scrapImage3;
 
     protected GalaxyStarsEffect animatedBackground;
     protected Map<String, Image> colorToRocketImage = new HashMap<>();
-    //Maps other players to their grid and stand by tiles
+    //Maps other players to their grid
     protected Map<String, GridPane> playerToShipGrid = new HashMap<>();
+    protected Map<String, Label> playerToScrap = new HashMap<>();
     protected AnchorPane flightboardPane;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -175,5 +185,23 @@ public abstract class ShipPhasesController extends FXMLController{
             event.acceptTransferModes(TransferMode.MOVE);
         }
         event.consume();
+    }
+
+    public void updateFlightBoard(Flightboard flightboard) {
+        for(String player : flightboard.getPositions().keySet()) {
+            Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
+            int position = flightboard.getStartingPositions().indexOf(flightboard.getPositions().get(player)) + 1; //converts absolute positions (6, 3, 1, 0) to starting positions (1, 2, 3, 4)
+            for(Node child : flightboardPane.getChildren()) {
+                int childId;
+                try {
+                    childId = Integer.parseInt(child.getId());
+                } catch (NumberFormatException e) {
+                    childId = -1;
+                }
+                if(child.getId() != null && childId == position) {
+                    ((ImageView) child).setImage(rocket);
+                }
+            }
+        }
     }
 }

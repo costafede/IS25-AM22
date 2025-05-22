@@ -278,24 +278,6 @@ public class BuildingShipController extends ShipPhasesController implements Init
         }
     }
 
-    public void updateFlightBoard(Flightboard flightboard) {
-        for(String player : flightboard.getPositions().keySet()) {
-            Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
-            int position = flightboard.getStartingPositions().indexOf(flightboard.getPositions().get(player)) + 1; //converts absolute positions (6, 3, 1, 0) to starting positions (1, 2, 3, 4)
-            for(Node child : flightboardPane.getChildren()) {
-                int childId;
-                try {
-                    childId = Integer.parseInt(child.getId());
-                } catch (NumberFormatException e) {
-                    childId = -1;
-                }
-                if(child.getId() != null && childId == position) {
-                    ((ImageView) child).setImage(rocket);
-                }
-            }
-        }
-    }
-
     public void updateUncoveredComponentTiles(List<ComponentTile> tiles) {
         uncoveredTilesGrid.getChildren().clear();
         uncoveredTilesGrid.getColumnConstraints().clear();

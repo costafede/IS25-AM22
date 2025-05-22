@@ -824,6 +824,10 @@ public class Shipboard implements Serializable {
         }
         return true;
     }
+
+    public int getDiscardedTiles() {
+        return discardedTiles;
+    }
 }
 
 /**

@@ -46,6 +46,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     private LobbyController lobbyController;
     private BuildingShipController buildingShipController;
     private CardPhaseController cardPhaseController;
+    private CorrectingShipController correctingShipController;
+    private PlaceCrewMemberController placeCrewMemberController;
     private EndController endController;
 
     private static ClientModel clientModel;
@@ -163,6 +165,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     public void updateFlightboard(Flightboard flightboard) {
         switch (clientModel.getGamePhase().getPhaseType()) {
             case BUILDING -> Platform.runLater(() -> buildingShipController.updateFlightBoard(flightboard));
+            case CORRECTINGSHIP -> Platform.runLater(() -> correctingShipController.updateFlightBoard(flightboard));
+            case PLACECREWMEMBERS -> Platform.runLater(() -> placeCrewMemberController.updateFlightBoard(flightboard));
             case CARD ->  Platform.runLater(() -> cardPhaseController.drawFlightboardInCardPhase(flightboard));
         }
     }
@@ -171,8 +175,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     public void updateShipboard(Shipboard shipboard) {
         switch (clientModel.getGamePhase().getPhaseType()) {
             case BUILDING -> Platform.runLater(() -> buildingShipController.drawShipInBuildingPhase(shipboard));
-            //case PLACECREWMEMBERS ->  Platform.runLater(() -> buildingShipController.drawShipInPlaceMembersPhase(shipboard));
-            //case CORRECTINGSHIP ->  Platform.runLater(() -> buildingShipController.drawShipInCorrectingShipPhase(shipboard));
+            case PLACECREWMEMBERS ->  Platform.runLater(() -> placeCrewMemberController.drawShipInPlaceMembersPhase(shipboard));
+            case CORRECTINGSHIP ->  Platform.runLater(() -> correctingShipController.drawShipInCorrectingShipPhase(shipboard));
             case CARD ->  Platform.runLater(() -> cardPhaseController.drawShips());
         }
     }
@@ -321,9 +325,15 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
             "/it/polimi/ingsw/is25am22new/ConnectToServer.fxml", this::castConnectToServerController,
             "/it/polimi/ingsw/is25am22new/Lobby.fxml", this::castLobbyController,
             "/it/polimi/ingsw/is25am22new/BuildingShip.fxml",this::castBuildingShipController,
+            "/it/polimi/ingsw/is25am22new/CorrectingShipPhase.fxml",this::castCorrectingShipController,
+            "/it/polimi/ingsw/is25am22new/PlaceCrewMembersPhase.fxml",this::castPlaceCrewMembersController,
             "/it/polimi/ingsw/is25am22new/CardPhase.fxml", this::castCardPhaseController,
             "/it/polimi/ingsw/is25am22new/End.fxml", this::castEndController
     );
+
+    private void castPlaceCrewMembersController(Object controller) {
+        placeCrewMemberController = (PlaceCrewMemberController) controller;
+    }
 
     private void castStartMenuController(Object controller) {
         startMenuController = (StartMenuController) controller;
@@ -342,6 +352,9 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     }
     private void castEndController(Object controller) {
         endController = (EndController) controller;
+    }
+    private void castCorrectingShipController(Object controller) {
+        correctingShipController = (CorrectingShipController) controller;
     }
 
     public static void setClientModel(ClientModel model) {
