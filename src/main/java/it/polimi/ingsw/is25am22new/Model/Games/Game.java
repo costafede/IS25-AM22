@@ -133,7 +133,8 @@ public abstract class Game extends ObservableModel implements Serializable {
             throw new IllegalArgumentException("Cannot place Astronaut at the given coordinates");
         tile.get().putAstronauts();
         gamePhase.trySwitchToNextPhase();
-        updateAllGamePhase(gamePhase);
+        if(!gamePhase.getPhaseType().equals(PhaseType.PLACECREWMEMBERS))
+            updateAllGamePhase(gamePhase);
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
@@ -153,7 +154,8 @@ public abstract class Game extends ObservableModel implements Serializable {
             throw new IllegalArgumentException("Cannot place Brown Alien at the given coordinates");
         tile.get().putAlien("brown");
         gamePhase.trySwitchToNextPhase();
-        updateAllGamePhase(gamePhase);
+        if(!gamePhase.getPhaseType().equals(PhaseType.PLACECREWMEMBERS))
+            updateAllGamePhase(gamePhase);
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
@@ -173,7 +175,8 @@ public abstract class Game extends ObservableModel implements Serializable {
             throw new IllegalArgumentException("Cannot place Purple Alien at the given coordinates");
         tile.get().putAlien("purple");
         gamePhase.trySwitchToNextPhase();
-        updateAllGamePhase(gamePhase);
+        if(!gamePhase.getPhaseType().equals(PhaseType.PLACECREWMEMBERS))
+            updateAllGamePhase(gamePhase);
         updateAllShipboard(nickname, shipboards.get(nickname));
     }
 
@@ -314,8 +317,11 @@ public abstract class Game extends ObservableModel implements Serializable {
         updateAllShipboard(nickname, shipboards.get(nickname));
         setCurrPlayerToLeader();
         updateAllCurrPlayer(flightboard.getOrderedRockets().getFirst());
+        PhaseType prevPhase = gamePhase.getPhaseType();
         gamePhase.trySwitchToNextPhase();
-        updateAllGamePhase(gamePhase);
+        PhaseType currPhase = gamePhase.getPhaseType();
+        if(prevPhase != currPhase)
+            updateAllGamePhase(gamePhase);
     }
 
 
@@ -381,7 +387,8 @@ public abstract class Game extends ObservableModel implements Serializable {
         shipboards.get(nickname).destroyTile(i, j);
         gamePhase.trySwitchToNextPhase();
         updateAllShipboard(nickname, shipboards.get(nickname));
-        updateAllGamePhase(gamePhase);
+        if(!gamePhase.getPhaseType().equals(PhaseType.CORRECTINGSHIP))
+            updateAllGamePhase(gamePhase);
     }
 
     public List<CardPile> getCardPiles(){
@@ -535,7 +542,8 @@ public abstract class Game extends ObservableModel implements Serializable {
         currCard.activateEffect(inputCommand);
         updateAllCurrCard(currCard);
         gamePhase.trySwitchToNextPhase();
-        updateAllGamePhase(gamePhase);
+        if(!gamePhase.getPhaseType().equals(PhaseType.CARD))
+            updateAllGamePhase(gamePhase);
     }
 
     public void setGamePhase(GamePhase gamePhase){

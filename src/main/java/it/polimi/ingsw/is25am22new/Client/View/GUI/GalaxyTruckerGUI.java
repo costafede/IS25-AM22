@@ -117,7 +117,10 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
         switch (clientModel.getGamePhase().getPhaseType()) {
-            case CARD -> System.out.println(); // switch scene?
+            case CORRECTINGSHIP -> switchToScene("/it/polimi/ingsw/is25am22new/CorrectingShipPhase.fxml");
+            case PLACECREWMEMBERS -> switchToScene("/it/polimi/ingsw/is25am22new/PlaceCrewMembersPhase.fxml");
+            case CARD -> switchToScene("/it/polimi/ingsw/is25am22new/CardPhase.fxml");
+            case END -> switchToScene("/it/polimi/ingsw/is25am22new/End.fxml");
         }
     }
 

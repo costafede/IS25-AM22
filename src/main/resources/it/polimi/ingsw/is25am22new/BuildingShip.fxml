@@ -79,7 +79,6 @@
                 <ImageView id="4" fx:id="l0" fitHeight="25.0" fitWidth="25.0" layoutX="123.0" layoutY="70.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
                 <ImageView id="3" fx:id="l1" fitHeight="25.0" fitWidth="25.0" layoutX="165.0" layoutY="54.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
                 <ImageView id="2" fx:id="l3" fitHeight="25.0" fitWidth="25.0" layoutX="247.0" layoutY="39.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
-                <ImageView id="1" fx:id="l6" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="53.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="hourglassImage1" fitHeight="138.0" fitWidth="135.0" layoutX="433.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../../../../Misc/whiteHourglass.png" />
@@ -95,6 +94,7 @@
                   <Image url="@../../../../Misc/whiteHourglass.png" />
                </image>
             </ImageView>
+                <ImageView id="1" fx:id="l6" fitHeight="25.0" fitWidth="25.0" layoutX="372.0" layoutY="53.0" onDragDropped="#handleDragDroppedRocket" onDragOver="#handleDragOverRocket" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="timerLabel1" alignment="CENTER" layoutX="405.0" layoutY="40.0" prefHeight="54.0" prefWidth="184.0" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font name="System Bold" size="36.0" />
