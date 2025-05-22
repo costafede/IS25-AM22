@@ -101,4 +101,9 @@ public class DoubleEngine extends Engine {
     public DrawableComponentTile getDrawable() {
         return new DrawableDoubleEngine();
     }
+
+    @Override
+    public boolean isActivated() {
+        return bottomSideActive;
+    }
 }
