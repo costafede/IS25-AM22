@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
@@ -740,111 +741,30 @@ public class CardPhaseController extends FXMLController {
         Tooltip tooltip = new Tooltip();
         StringBuilder tooltipText = new StringBuilder();
 
-        // Based on the tile type, show different information
-        if (tile instanceof BatteryComponent) {
-            BatteryComponent battery = (BatteryComponent) tile;
-            tooltipText.append("Battery: ").append(battery.getNumOfBatteries()).append(" remaining");
-
-        } else if (tile instanceof DoubleCannon) {
-            DoubleCannon cannon = (DoubleCannon) tile;
-            tooltipText.append("Double Cannon");
-
-            // Add visual indicator if active (border)
-            if (cannon.getCannonStrength() > 0) {
-                imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 2;");
-            } else {
-                imageView.setStyle("");
-            }
-
-        } else if (tile instanceof DoubleEngine) {
-            DoubleEngine engine = (DoubleEngine) tile;
-            tooltipText.append("Double Engine");
-
-            // Add visual indicator if active (border)
-            if (engine.getEngineStrength() > 0) {
-                imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 2;");
-            } else {
-                imageView.setStyle("");
-            }
-
-        } else if (tile instanceof RegularCabin || tile instanceof StartingCabin) {
-            Cabin cabin = (Cabin) tile;
-
-            if (cabin.isBrownAlienPresent()) {
-                tooltipText.append("Cabin with Brown alien");
-            } else if(cabin.isPurpleAlienPresent()){
-                tooltipText.append("Cabin with Purple alien");
-            } else {
-                tooltipText.append("Cabin with ").append(cabin.getNumOfAstronauts()).append(" astronauts");
-            }
-
-        } else if (tile instanceof ShieldGenerator) {
-            ShieldGenerator shield = (ShieldGenerator) tile;
-            tooltipText.append("Shield Generator");
-
-            // Add visual indicator if active ///TODO : capire se è attivo e allora colorarlo
-            imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2;");
-
-        } else if (tile instanceof SpecialStorageCompartment) {
-            SpecialStorageCompartment storage = (SpecialStorageCompartment) tile;
-            tooltipText.append("Special Storage: ");
-
-            int totalBlocks = 0;
-            for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                totalBlocks += storage.getGoodBlocks().get(gb);
-            }
-
-            if (totalBlocks == 0) {
-                tooltipText.append("Empty");
-            } else {
-                tooltipText.append(totalBlocks).append(" blocks (");
-                // Add details about block types
-                boolean first = true;
-                for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                    int count = storage.getGoodBlocks().get(gb);
-                    if (count > 0) {
-                        if (!first) {
-                            tooltipText.append(", ");
-                        }
-                        tooltipText.append(count).append(" ").append(gb.name());
-                        first = false;
-                    }
+        DrawableComponentTile drawableComponentTile = tile.getDrawable();
+        if(drawableComponentTile.isActivable()){
+            if(tile.isDoubleCannon()){
+                if (tile.getCannonStrength() == 0) { /// TODO SISTEMARE CON >
+                    imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 2;");
+                } else {
+                    imageView.setStyle("");
                 }
-                tooltipText.append(")");
             }
-
-        } else if (tile instanceof StorageCompartment) {
-            StorageCompartment storage = (StorageCompartment) tile;
-            tooltipText.append("Storage: ");
-
-            int totalBlocks = 0;
-            for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                totalBlocks += storage.getGoodBlocks().get(gb);
-            }
-
-            if (totalBlocks == 0) {
-                tooltipText.append("Empty");
-            } else {
-                tooltipText.append(totalBlocks).append(" blocks (");
-                // Add details about block types
-                boolean first = true;
-                for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                    int count = storage.getGoodBlocks().get(gb);
-                    if (count > 0) {
-                        if (!first) {
-                            tooltipText.append(", ");
-                        }
-                        tooltipText.append(count).append(" ").append(gb.name());
-                        first = false;
-                    }
+            if(tile.isDoubleEngine()){
+                if (tile.getEngineStrength() == 0) {/// TODO SISTEMARE CON >
+                    imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 2;");
+                } else {
+                    imageView.setStyle("");
                 }
-                tooltipText.append(")");
             }
-
-        } else {
-            // Generic tooltip for other component types
-            tooltipText.append(tile.getClass().getSimpleName());
+            if(tile.isShieldGenerator()){
+                //if(((ShieldGenerator)tile).isActive()) /// TODO SISTEMARE
+                imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2;");
+            }
         }
+
+        if(!drawableComponentTile.draw().equals("null"))
+            tooltipText.append(drawableComponentTile.draw());
 
         // Set the tooltip text and install it on the image view
         tooltip.setText(tooltipText.toString());

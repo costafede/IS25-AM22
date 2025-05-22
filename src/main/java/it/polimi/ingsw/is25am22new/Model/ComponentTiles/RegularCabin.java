@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableRegularCabin;
+
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
@@ -118,5 +121,10 @@ public class RegularCabin extends Cabin {
                 "   " + numOfAstronauts + "   ",
                 "   " + bottom + "   ",
         };
+    }
+
+    @Override
+    public DrawableComponentTile getDrawable() {
+        return new DrawableRegularCabin(this);
     }
 }

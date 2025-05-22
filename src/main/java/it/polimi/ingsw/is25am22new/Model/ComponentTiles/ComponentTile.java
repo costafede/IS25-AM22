@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.io.Serializable;
@@ -260,4 +261,6 @@ public abstract class ComponentTile implements Serializable {
     public int getNumOfRotations() {
         return numOfRotations;
     }
+
+    public abstract DrawableComponentTile getDrawable();
 }
