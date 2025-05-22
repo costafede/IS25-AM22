@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -743,23 +744,42 @@ public class CardPhaseController extends FXMLController {
 
         DrawableComponentTile drawableComponentTile = tile.getDrawable();
         if(drawableComponentTile.isActivable()){
+            // Resetta qualsiasi stile precedente
+            imageView.setStyle("");
+
+            // Creo un effetto di evidenziazione
+            InnerShadow innerShadow = new javafx.scene.effect.InnerShadow();
+
             if(tile.isDoubleCannon()){
-                if (tile.getCannonStrength() == 0) { /// TODO SISTEMARE CON >
-                    imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 2;");
-                } else {
-                    imageView.setStyle("");
+                if (tile.getCannonStrength() > 0) {
+                    // Applico sia lo stile del bordo che un effetto visivo
+                    innerShadow.setColor(javafx.scene.paint.Color.MAGENTA);
+                    innerShadow.setRadius(10);
+                    innerShadow.setChoke(0.5);
+                    imageView.setEffect(innerShadow);
+                    imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 4; -fx-border-style: solid;");
+                    System.out.println("Setting magenta border for cannon at strength: " + tile.getCannonStrength());
                 }
             }
-            if(tile.isDoubleEngine()){
-                if (tile.getEngineStrength() == 0) {/// TODO SISTEMARE CON >
-                    imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 2;");
-                } else {
-                    imageView.setStyle("");
+            else if(tile.isDoubleEngine()){
+                if (tile.getEngineStrength() > 0) {
+                    innerShadow.setColor(javafx.scene.paint.Color.SADDLEBROWN);
+                    innerShadow.setRadius(10);
+                    innerShadow.setChoke(0.5);
+                    imageView.setEffect(innerShadow);
+                    imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 4; -fx-border-style: solid;");
+                    System.out.println("Setting brown border for engine at strength: " + tile.getEngineStrength());
                 }
             }
-            if(tile.isShieldGenerator()){
-                //if(((ShieldGenerator)tile).isActive()) /// TODO SISTEMARE
-                imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2;");
+            else if(tile.isShieldGenerator()){
+                if(((ShieldGenerator)tile).isActive()) {
+                    innerShadow.setColor(javafx.scene.paint.Color.GREEN);
+                    innerShadow.setRadius(10);
+                    innerShadow.setChoke(0.5);
+                    imageView.setEffect(innerShadow);
+                    imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 4; -fx-border-style: solid;");
+                    System.out.println("Setting green border for shield generator");
+                }
             }
         }
 
@@ -777,12 +797,26 @@ public class CardPhaseController extends FXMLController {
         imageView.setOnMouseEntered(event -> {
             Tooltip.install(imageView, tooltip);
             tooltip.show(imageView, event.getScreenX() + 15, event.getScreenY() + 15);
+            // Riapplico lo stile quando il mouse entra
+            if(drawableComponentTile.isActivable()) {
+                if(tile.isDoubleCannon() && tile.getCannonStrength() == 0) {
+                    imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 4; -fx-border-style: solid;");
+                }
+                else if(tile.isDoubleEngine() && tile.getEngineStrength() == 0) {
+                    imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 4; -fx-border-style: solid;");
+                }
+                else if(tile.isShieldGenerator()) {
+                    imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 4; -fx-border-style: solid;");
+                }
+            }
         });
 
         imageView.setOnMouseExited(event -> {
             tooltip.hide();
             Tooltip.uninstall(imageView, tooltip);
+            // Mantengo l'effetto anche quando il mouse esce
         });
     }
 }
+
 
