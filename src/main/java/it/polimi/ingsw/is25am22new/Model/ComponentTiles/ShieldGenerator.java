@@ -1,5 +1,8 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableShieldGenerator;
+
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
@@ -131,8 +134,10 @@ public class ShieldGenerator extends ComponentTile {
         else if (rightSide.equals(TWOPIPES) && rightSideShieldable){right = "%2";}
         else if (rightSide.equals(UNIVERSALPIPE) && rightSideShieldable){right = "%3";}
 
-        if (topSideShielded || bottomSideShielded || leftSideShielded || rightSideShielded) {active = "A";}
-        else {active = " ";}
+        if(isActive())
+            active = "A";
+        else
+            active = " ";
 
         return new String[]{
                 top,
@@ -142,4 +147,15 @@ public class ShieldGenerator extends ComponentTile {
                 bottom,
         };
     }
+
+    @Override
+    public DrawableComponentTile getDrawable() {
+        return new DrawableShieldGenerator();
+    }
+
+    public boolean isActive(){
+        return topSideShielded || bottomSideShielded || leftSideShielded || rightSideShielded;
+    }
+
+
 }

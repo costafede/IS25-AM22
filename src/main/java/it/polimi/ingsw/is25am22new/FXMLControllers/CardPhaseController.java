@@ -9,6 +9,7 @@ import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
@@ -24,6 +25,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -747,111 +749,49 @@ public class CardPhaseController extends FXMLController {
         Tooltip tooltip = new Tooltip();
         StringBuilder tooltipText = new StringBuilder();
 
-        // Based on the tile type, show different information
-        if (tile instanceof BatteryComponent) {
-            BatteryComponent battery = (BatteryComponent) tile;
-            tooltipText.append("Battery: ").append(battery.getNumOfBatteries()).append(" remaining");
+        DrawableComponentTile drawableComponentTile = tile.getDrawable();
+        if(drawableComponentTile.isActivable()){
+            // Resetta qualsiasi stile precedente
+            imageView.setStyle("");
 
-        } else if (tile instanceof DoubleCannon) {
-            DoubleCannon cannon = (DoubleCannon) tile;
-            tooltipText.append("Double Cannon");
+            // Creo un effetto di evidenziazione
+            InnerShadow innerShadow = new javafx.scene.effect.InnerShadow();
 
-            // Add visual indicator if active (border)
-            if (cannon.getCannonStrength() > 0) {
-                imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 2;");
-            } else {
-                imageView.setStyle("");
-            }
-
-        } else if (tile instanceof DoubleEngine) {
-            DoubleEngine engine = (DoubleEngine) tile;
-            tooltipText.append("Double Engine");
-
-            // Add visual indicator if active (border)
-            if (engine.getEngineStrength() > 0) {
-                imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 2;");
-            } else {
-                imageView.setStyle("");
-            }
-
-        } else if (tile instanceof RegularCabin || tile instanceof StartingCabin) {
-            Cabin cabin = (Cabin) tile;
-
-            if (cabin.isBrownAlienPresent()) {
-                tooltipText.append("Cabin with Brown alien");
-            } else if(cabin.isPurpleAlienPresent()){
-                tooltipText.append("Cabin with Purple alien");
-            } else {
-                tooltipText.append("Cabin with ").append(cabin.getNumOfAstronauts()).append(" astronauts");
-            }
-
-        } else if (tile instanceof ShieldGenerator) {
-            ShieldGenerator shield = (ShieldGenerator) tile;
-            tooltipText.append("Shield Generator");
-
-            // Add visual indicator if active ///TODO : capire se è attivo e allora colorarlo
-            imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 2;");
-
-        } else if (tile instanceof SpecialStorageCompartment) {
-            SpecialStorageCompartment storage = (SpecialStorageCompartment) tile;
-            tooltipText.append("Special Storage: ");
-
-            int totalBlocks = 0;
-            for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                totalBlocks += storage.getGoodBlocks().get(gb);
-            }
-
-            if (totalBlocks == 0) {
-                tooltipText.append("Empty");
-            } else {
-                tooltipText.append(totalBlocks).append(" blocks (");
-                // Add details about block types
-                boolean first = true;
-                for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                    int count = storage.getGoodBlocks().get(gb);
-                    if (count > 0) {
-                        if (!first) {
-                            tooltipText.append(", ");
-                        }
-                        tooltipText.append(count).append(" ").append(gb.name());
-                        first = false;
-                    }
+            if(tile.isDoubleCannon()){
+                if (tile.getCannonStrength() > 0) {
+                    // Applico sia lo stile del bordo che un effetto visivo
+                    innerShadow.setColor(javafx.scene.paint.Color.MAGENTA);
+                    innerShadow.setRadius(10);
+                    innerShadow.setChoke(0.5);
+                    imageView.setEffect(innerShadow);
+                    imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 4; -fx-border-style: solid;");
+                    System.out.println("Setting magenta border for cannon at strength: " + tile.getCannonStrength());
                 }
-                tooltipText.append(")");
             }
-
-        } else if (tile instanceof StorageCompartment) {
-            StorageCompartment storage = (StorageCompartment) tile;
-            tooltipText.append("Storage: ");
-
-            int totalBlocks = 0;
-            for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                totalBlocks += storage.getGoodBlocks().get(gb);
-            }
-
-            if (totalBlocks == 0) {
-                tooltipText.append("Empty");
-            } else {
-                tooltipText.append(totalBlocks).append(" blocks (");
-                // Add details about block types
-                boolean first = true;
-                for (GoodBlock gb : storage.getGoodBlocks().keySet()) {
-                    int count = storage.getGoodBlocks().get(gb);
-                    if (count > 0) {
-                        if (!first) {
-                            tooltipText.append(", ");
-                        }
-                        tooltipText.append(count).append(" ").append(gb.name());
-                        first = false;
-                    }
+            else if(tile.isDoubleEngine()){
+                if (tile.getEngineStrength() > 0) {
+                    innerShadow.setColor(javafx.scene.paint.Color.SADDLEBROWN);
+                    innerShadow.setRadius(10);
+                    innerShadow.setChoke(0.5);
+                    imageView.setEffect(innerShadow);
+                    imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 4; -fx-border-style: solid;");
+                    System.out.println("Setting brown border for engine at strength: " + tile.getEngineStrength());
                 }
-                tooltipText.append(")");
             }
-
-        } else {
-            // Generic tooltip for other component types
-            tooltipText.append(tile.getClass().getSimpleName());
+            else if(tile.isShieldGenerator()){
+                if(((ShieldGenerator)tile).isActive()) {
+                    innerShadow.setColor(javafx.scene.paint.Color.GREEN);
+                    innerShadow.setRadius(10);
+                    innerShadow.setChoke(0.5);
+                    imageView.setEffect(innerShadow);
+                    imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 4; -fx-border-style: solid;");
+                    System.out.println("Setting green border for shield generator");
+                }
+            }
         }
+
+        if(!drawableComponentTile.draw().equals("null"))
+            tooltipText.append(drawableComponentTile.draw());
 
         // Set the tooltip text and install it on the image view
         tooltip.setText(tooltipText.toString());
@@ -864,11 +804,24 @@ public class CardPhaseController extends FXMLController {
         imageView.setOnMouseEntered(event -> {
             Tooltip.install(imageView, tooltip);
             tooltip.show(imageView, event.getScreenX() + 15, event.getScreenY() + 15);
+            // Riapplico lo stile quando il mouse entra
+            if(drawableComponentTile.isActivable()) {
+                if(tile.isDoubleCannon() && tile.getCannonStrength() == 0) {
+                    imageView.setStyle("-fx-border-color: #FF00FF; -fx-border-width: 4; -fx-border-style: solid;");
+                }
+                else if(tile.isDoubleEngine() && tile.getEngineStrength() == 0) {
+                    imageView.setStyle("-fx-border-color: #8B4513; -fx-border-width: 4; -fx-border-style: solid;");
+                }
+                else if(tile.isShieldGenerator()) {
+                    imageView.setStyle("-fx-border-color: #00FF00; -fx-border-width: 4; -fx-border-style: solid;");
+                }
+            }
         });
 
         imageView.setOnMouseExited(event -> {
             tooltip.hide();
             Tooltip.uninstall(imageView, tooltip);
+            // Mantengo l'effetto anche quando il mouse esce
         });
     }
 
@@ -1113,4 +1066,5 @@ public class CardPhaseController extends FXMLController {
 
     }
 }
+
 

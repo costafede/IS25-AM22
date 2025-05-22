@@ -1,5 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableSpecialStorageCompartment;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.util.Map;
@@ -81,5 +83,9 @@ public class SpecialStorageCompartment extends StorageCompartment {
                 " G" + greenBlock + " B" + blueBlock + " ",
                 "   " + bottom + "   ",
         };
+    }
+
+    public DrawableComponentTile getDrawable(){
+        return new DrawableSpecialStorageCompartment(this);
     }
 }
