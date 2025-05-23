@@ -1017,8 +1017,8 @@ public class CardPhaseController extends FXMLController {
         } else {
             Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
             Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
-            doubleEngineXcoord = rowIndex;
-            doubleEngineYcoord = columnIndex;
+            shieldXCoord = rowIndex;
+            shieldYCoord = columnIndex;
             Command cmd = new ActivateShieldCommand(virtualServer, null);
             sendActivateComponentCommand(cmd, shieldXCoord, shieldYCoord);
         }
