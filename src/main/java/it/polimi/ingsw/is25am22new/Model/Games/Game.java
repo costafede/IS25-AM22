@@ -1,5 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.Games;
 
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesCard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.*;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.*;
@@ -355,6 +359,7 @@ public abstract class Game extends ObservableModel implements Serializable {
             setCurrCard(deck.removeFirst());
         }else {
             setCurrCard(deck.remove(new Random().nextInt(deck.size())));
+            setCorrectDices();
         }
         updateAllDeck(deck);
         updateAllCurrCard(currCard);
@@ -1086,6 +1091,28 @@ public abstract class Game extends ObservableModel implements Serializable {
         shipboard.getComponentTileFromGrid(4, 5).get().rotateClockwise();
         shipboard.weldComponentTile(new Engine("31", Side.TWOPIPES, Side.SMOOTH, Side.TWOPIPES, Side.SMOOTH), 4, 6);
 
+    }
+
+    private void setCorrectDices() {
+        if(currCard.getName().equals("MeteorSwarm")){
+            dices.setDice1(((MeteorSwarmCard) currCard).getDice1());
+            dices.setDice2(((MeteorSwarmCard) currCard).getDice2());
+        }
+        if(currCard.getName().equals("Pirates")){
+            dices.setDice1(((PiratesCard) currCard).getDice1());
+            dices.setDice2(((PiratesCard) currCard).getDice2());
+        }
+        if(currCard.getName().equals("CombatZone")){
+            if(currCard.getLevel() == 1) {
+                dices.setDice1(((CombatZoneCard) currCard).getDice1());
+                dices.setDice2(((CombatZoneCard) currCard).getDice2());
+            }
+            if(currCard.getLevel() == 2) {
+                dices.setDice1(((CombatZoneCard2) currCard).getDice1());
+                dices.setDice2(((CombatZoneCard2) currCard).getDice2());
+            }
+        }
+        updateAllDices(dices);
     }
 
 }
