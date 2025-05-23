@@ -862,10 +862,19 @@ public class CardPhaseController extends FXMLController {
         tooltip.setShowDelay(new javafx.util.Duration(200));
         tooltip.setHideDelay(new javafx.util.Duration(5000));
 
+        // Rimuovi eventuali eventi precedenti per evitare duplicazioni
+        imageView.setOnMouseEntered(null);
+        imageView.setOnMouseExited(null);
+
         // Set the tooltip directly on the imageView
         imageView.setOnMouseEntered(event -> {
+            // Disinstallo eventuali tooltip precedenti
+            Tooltip.uninstall(imageView, tooltip);
+            // Installo il nuovo tooltip
             Tooltip.install(imageView, tooltip);
+            // Mostro il tooltip con un offset rispetto al cursore
             tooltip.show(imageView, event.getScreenX() + 15, event.getScreenY() + 15);
+
             // Riapplico lo stile quando il mouse entra
             if(drawableComponentTile.isActivable()) {
                 if(tile.isDoubleCannon() && tile.getCannonStrength() == 0) {
@@ -881,9 +890,21 @@ public class CardPhaseController extends FXMLController {
         });
 
         imageView.setOnMouseExited(event -> {
+            // Prima nascondo il tooltip
             tooltip.hide();
+            // Poi lo disinstallo
             Tooltip.uninstall(imageView, tooltip);
-            // Mantengo l'effetto anche quando il mouse esce
+
+            // Mantengo l'effetto anche quando il mouse esce, ma solo se necessario
+            // Altrimenti, se non è un componente attivabile o non ha uno stato attivo,
+            // rimuovo lo stile applicato sull'hover
+            if (!drawableComponentTile.isActivable() ||
+                (tile.isDoubleCannon() && tile.getCannonStrength() == 0) ||
+                (tile.isDoubleEngine() && tile.getEngineStrength() == 0) ||
+                (tile.isShieldGenerator() && !tile.isActivated())) {
+                // Rimuovo solo lo stile di hover, mantenendo eventuali altri stili
+                imageView.setStyle("");
+            }
         });
     }
 
@@ -1215,8 +1236,20 @@ public class CardPhaseController extends FXMLController {
         input.addLast(String.valueOf(rowIndex+5));
         input.addLast(String.valueOf(columnIndex+4));
         cmd.setInput(input);
-        if(cmd.isInputValid(model))
-            new Thread(() -> cmd.execute(model)).start();
+        if(cmd.isInputValid(model)) {
+            // Nascondo tutti i tooltip attivi prima di eseguire il comando
+            for (Node node : myShip.getChildren()) {
+                Tooltip.uninstall(node, null);
+            }
+            // Eseguo il comando in un thread separato
+            new Thread(() -> {
+                cmd.execute(model);
+                // Aggiorno la scena dopo l'esecuzione del comando
+                javafx.application.Platform.runLater(() -> {
+                    drawScene();
+                });
+            }).start();
+        }
         else
             showErrorAlert("WARNING", "You can't execute this command");
     }
