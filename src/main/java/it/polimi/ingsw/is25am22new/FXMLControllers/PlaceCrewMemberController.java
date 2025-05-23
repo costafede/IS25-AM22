@@ -77,7 +77,7 @@ public class PlaceCrewMemberController extends ShipPhasesController implements I
                         crewMemberImage = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleAlien.png")).toString());
                     }
                     else
-                        crewMemberImage = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/Astronaut.png")).toString());
+                        crewMemberImage = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/DueAstronauti.png")).toString());
                     memberImageView.setImage(crewMemberImage);
                     memberImageView.toFront();
                 }
