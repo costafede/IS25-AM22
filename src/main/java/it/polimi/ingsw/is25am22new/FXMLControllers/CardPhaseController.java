@@ -136,7 +136,7 @@ public class CardPhaseController extends FXMLController {
             animatedBackground.setHeight(background.getFitHeight());
 
             // Inserisce l'animazione come primo elemento del pane (dietro a tutti gli altri elementi)
-            pane.getChildren().add(0, animatedBackground);
+            pane.getChildren().addFirst(animatedBackground);
 
             // Assicura che lo sfondo sia dietro tutti gli elementi
             animatedBackground.toBack();
@@ -273,6 +273,63 @@ public class CardPhaseController extends FXMLController {
         for (Shipboard s : model.getShipboards().values()) {
             drawShipInCardPhase(s);
         }
+        // Reset visual effects for all tiles that are no longer active
+        resetAllTileEffects();
+    }
+
+    /**
+     * Resets visual effects and borders for all tiles that are no longer active
+     */
+    private void resetAllTileEffects() {
+        // Prima resetta gli effetti sulla nave del giocatore principale
+        resetTileEffectsForShip(model.getPlayerName(), myShip);
+
+        // Poi resetta gli effetti sulle navi degli altri giocatori
+        for (Map.Entry<String, GridPane> entry : playerToShip.entrySet()) {
+            if (!entry.getKey().equals(model.getPlayerName())) {
+                resetTileEffectsForShip(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    /**
+     * Resets visual effects for a specific player's ship
+     *
+     * @param playerName the name of the player whose ship to reset
+     * @param shipGridPane the GridPane containing the ship's tiles
+     */
+    private void resetTileEffectsForShip(String playerName, GridPane shipGridPane) {
+        Shipboard shipboard = model.getShipboard(playerName);
+        if (shipboard == null) return;
+
+        for (Node child : shipGridPane.getChildren()) {
+            if (!(child instanceof ImageView)) continue;
+
+            int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
+            int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+
+            Optional<ComponentTile> tileOpt = shipboard.getComponentTileFromGrid(i, j);
+            if (tileOpt.isEmpty()) continue;
+
+            ComponentTile tile = tileOpt.get();
+
+            // Check if tile should have effects or not
+            boolean shouldHaveEffect = false;
+
+            if (tile.isDoubleCannon() && tile.getCannonStrength() > 0) {
+                shouldHaveEffect = true;
+            } else if (tile.isDoubleEngine() && tile.getEngineStrength() > 0) {
+                shouldHaveEffect = true;
+            } else if (tile.isShieldGenerator() && tile.isActivated()) {
+                shouldHaveEffect = true;
+            }
+
+            // If tile shouldn't have an effect but has one, remove it
+            if (!shouldHaveEffect) {
+                child.setEffect(null);
+                child.setStyle("");
+            }
+        }
     }
 
     /**
@@ -287,7 +344,6 @@ public class CardPhaseController extends FXMLController {
             drawDices();
         } catch (Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -310,7 +366,6 @@ public class CardPhaseController extends FXMLController {
             // Implementazione per aggiornare le informazioni dei giocatori
         } catch (Exception e) {
             System.err.println("Errore durante l'aggiornamento delle informazioni del giocatore: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -342,7 +397,6 @@ public class CardPhaseController extends FXMLController {
             updateButtonsState();
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione della carta: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -410,7 +464,8 @@ public class CardPhaseController extends FXMLController {
             // Mostra l'alert
             alert.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Errore durante l'apertura della banca dei goodblocks: " + e.getMessage());
+            showErrorAlert("Errore", "Impossibile aprire la banca dei goodblocks.");
         }
     }
 
@@ -438,7 +493,6 @@ public class CardPhaseController extends FXMLController {
             // che a sua volta chiamerà drawCard
         } catch (IOException e) {
             System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -464,7 +518,6 @@ public class CardPhaseController extends FXMLController {
                     System.out.println("Richiesta di abbandono partita inviata al server");
                 } catch (IOException e) {
                     System.err.println("Errore durante l'abbandono della partita: " + e.getMessage());
-                    e.printStackTrace();
                 }
             }
         });
@@ -504,7 +557,6 @@ public class CardPhaseController extends FXMLController {
                     }
                 } catch (IOException e) {
                     System.err.println("Errore durante la disconnessione: " + e.getMessage());
-                    e.printStackTrace();
                 }
             }
         });
@@ -532,7 +584,6 @@ public class CardPhaseController extends FXMLController {
             }
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento della scena BuildingShip.fxml: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -613,7 +664,6 @@ public class CardPhaseController extends FXMLController {
 
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione dei comandi applicabili: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -700,29 +750,42 @@ public class CardPhaseController extends FXMLController {
 
     public void drawFlightboardInCardPhase(Flightboard flightboard) {
         if (model.getGametype().equals(GameType.TUTORIAL)) {
+            // Prima pulisci tutte le immagini dei razzi nella flightboard tutorial
+            for (Node child : tutorialFlightboardPane.getChildren()) {
+                if (child instanceof ImageView && child.getId() != null && child.getId().startsWith("t")) {
+                    ((ImageView) child).setImage(null);
+                }
+            }
+
+            // Poi disegna i razzi nelle posizioni correnti
             for (String player : flightboard.getPositions().keySet()) {
                 Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
                 for (Node child : tutorialFlightboardPane.getChildren()) {
                     String position = "t" + flightboard.getPositions().get(player);
-                    if (child.getId().equals(position)) {
+                    if (child.getId() != null && child.getId().equals(position)) {
                         ((ImageView) child).setImage(rocket);
                     }
                 }
             }
         } else {
+            // Prima pulisci tutte le immagini dei razzi nella flightboard level2
+            for (Node child : level2FlightboardPane.getChildren()) {
+                if (child instanceof ImageView && child.getId() != null && child.getId().startsWith("l")) {
+                    ((ImageView) child).setImage(null);
+                }
+            }
+
+            // Poi disegna i razzi nelle posizioni correnti
             for (String player : flightboard.getPositions().keySet()) {
                 Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
                 for (Node child : level2FlightboardPane.getChildren()) {
                     String position = "l" + flightboard.getPositions().get(player);
-                    if (child.getId().equals(position)) {
+                    if (child.getId() != null && child.getId().equals(position)) {
                         ((ImageView) child).setImage(rocket);
                     }
                 }
             }
         }
-    }
-
-    public void drawBankInCardPhase(Bank bank) {
     }
 
     public void fillGridPane(GridPane gridPane, int dimension) {
@@ -799,7 +862,7 @@ public class CardPhaseController extends FXMLController {
                 }
             }
             else if(tile.isShieldGenerator()){
-                if(((ShieldGenerator)tile).isActivated()) {
+                if(tile.isActivated()) {
                     innerShadow.setColor(javafx.scene.paint.Color.GREEN);
                     innerShadow.setRadius(10);
                     innerShadow.setChoke(0.5);
@@ -820,10 +883,19 @@ public class CardPhaseController extends FXMLController {
         tooltip.setShowDelay(new javafx.util.Duration(200));
         tooltip.setHideDelay(new javafx.util.Duration(5000));
 
+        // Rimuovi eventuali eventi precedenti per evitare duplicazioni
+        imageView.setOnMouseEntered(null);
+        imageView.setOnMouseExited(null);
+
         // Set the tooltip directly on the imageView
         imageView.setOnMouseEntered(event -> {
+            // Disinstallo eventuali tooltip precedenti
+            Tooltip.uninstall(imageView, tooltip);
+            // Installo il nuovo tooltip
             Tooltip.install(imageView, tooltip);
+            // Mostro il tooltip con un offset rispetto al cursore
             tooltip.show(imageView, event.getScreenX() + 15, event.getScreenY() + 15);
+
             // Riapplico lo stile quando il mouse entra
             if(drawableComponentTile.isActivable()) {
                 if(tile.isDoubleCannon() && tile.getCannonStrength() == 0) {
@@ -839,9 +911,21 @@ public class CardPhaseController extends FXMLController {
         });
 
         imageView.setOnMouseExited(event -> {
+            // Prima nascondo il tooltip
             tooltip.hide();
+            // Poi lo disinstallo
             Tooltip.uninstall(imageView, tooltip);
-            // Mantengo l'effetto anche quando il mouse esce
+
+            // Mantengo l'effetto anche quando il mouse esce, ma solo se necessario
+            // Altrimenti, se non è un componente attivabile o non ha uno stato attivo,
+            // rimuovo lo stile applicato sull'hover
+            if (!drawableComponentTile.isActivable() ||
+                (tile.isDoubleCannon() && tile.getCannonStrength() == 0) ||
+                (tile.isDoubleEngine() && tile.getEngineStrength() == 0) ||
+                (tile.isShieldGenerator() && !tile.isActivated())) {
+                // Rimuovo solo lo stile di hover, mantenendo eventuali altri stili
+                imageView.setStyle("");
+            }
         });
     }
 
@@ -982,7 +1066,7 @@ public class CardPhaseController extends FXMLController {
         input.addLast(String.valueOf(xCoord+5));
         input.addLast(String.valueOf(yCoord+4));
         cmd.setInput(input);
-        if(cmd.isInputValid(model)) 
+        if(cmd.isInputValid(model))
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
@@ -1153,10 +1237,9 @@ public class CardPhaseController extends FXMLController {
     private Button setLandingButtons(int i, Stage popupStage) {
         Button cmdButton = new Button("Land on planet " + i);
         cmdButton.setPrefWidth(250);
-        int landingPlanet = i;
         cmdButton.setOnAction(e -> {
             Command cmd = new LandOnPlanetCommand(virtualServer, null);
-            cmd.setInput(Collections.singletonList(String.valueOf(landingPlanet)));
+            cmd.setInput(Collections.singletonList(String.valueOf(i)));
             if(cmd.isInputValid(model))
                 new Thread(() -> cmd.execute(model)).start();
             else
@@ -1322,8 +1405,18 @@ public class CardPhaseController extends FXMLController {
         input.addLast(String.valueOf(rowIndex+5));
         input.addLast(String.valueOf(columnIndex+4));
         cmd.setInput(input);
-        if(cmd.isInputValid(model))
-            new Thread(() -> cmd.execute(model)).start();
+        if(cmd.isInputValid(model)) {
+            // Nascondo tutti i tooltip attivi prima di eseguire il comando
+            for (Node node : myShip.getChildren()) {
+                Tooltip.uninstall(node, null);
+            }
+            // Eseguo il comando in un thread separato
+            new Thread(() -> {
+                cmd.execute(model);
+                // Aggiorno la scena dopo l'esecuzione del comando
+                javafx.application.Platform.runLater(this::drawScene);
+            }).start();
+        }
         else
             showErrorAlert("WARNING", "Invalid inputs!");
         popupStage.close();
