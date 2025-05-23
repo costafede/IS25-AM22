@@ -21,22 +21,22 @@ public class DrawableStorageCompartment extends DrawableComponentTile{
         }
 
         if (totalBlocks == 0) {
-            whatsInside.concat("Empty");
+            whatsInside = whatsInside.concat("Empty");
         } else {
-            whatsInside.concat(totalBlocks + " blocks (");
+            whatsInside = whatsInside.concat(totalBlocks + " blocks (");
             // Add details about block types
             boolean first = true;
             for (GoodBlock gb : storageCompartment.getGoodBlocks().keySet()) {
                 int count = storageCompartment.getGoodBlocks().get(gb);
                 if (count > 0) {
                     if (!first) {
-                        whatsInside.concat(", ");
+                        whatsInside = whatsInside.concat(", ");
                     }
-                    whatsInside.concat(count + " " + gb.name());
+                    whatsInside = whatsInside.concat(count + " " + gb.name());
                     first = false;
                 }
             }
-            whatsInside.concat(")");
+            whatsInside = whatsInside.concat(")");
         }
         return "Storage: " + whatsInside;
     }

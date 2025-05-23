@@ -23,20 +23,20 @@ public class DrawableSpecialStorageCompartment extends DrawableComponentTile {
         if (totalBlocks == 0) {
             whatsInside = "empty";
         } else {
-            whatsInside.concat(totalBlocks + " blocks (");
+            whatsInside = whatsInside.concat(totalBlocks + " blocks (");
             // Add details about block types
             boolean first = true;
             for (GoodBlock gb : specialStorageCompartment.getGoodBlocks().keySet()) {
                 int count = specialStorageCompartment.getGoodBlocks().get(gb);
                 if (count > 0) {
                     if (!first) {
-                        whatsInside.concat(", ");
+                        whatsInside = whatsInside.concat(", ");
                     }
-                    whatsInside.concat(count + " " + gb.name());
+                    whatsInside = whatsInside.concat(count + " " + gb.name());
                     first = false;
                 }
             }
-            whatsInside.concat(")");
+            whatsInside = whatsInside.concat(")");
         }
 
         return "Special Storage: " + whatsInside;
