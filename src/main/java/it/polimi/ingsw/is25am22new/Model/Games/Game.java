@@ -1094,25 +1094,27 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
     private void setCorrectDices() {
-        if(currCard.getName().equals("MeteorSwarm")){
-            dices.setDice1(((MeteorSwarmCard) currCard).getDice1());
-            dices.setDice2(((MeteorSwarmCard) currCard).getDice2());
-        }
-        if(currCard.getName().equals("Pirates")){
-            dices.setDice1(((PiratesCard) currCard).getDice1());
-            dices.setDice2(((PiratesCard) currCard).getDice2());
-        }
-        if(currCard.getName().equals("CombatZone")){
-            if(currCard.getLevel() == 1) {
-                dices.setDice1(((CombatZoneCard) currCard).getDice1());
-                dices.setDice2(((CombatZoneCard) currCard).getDice2());
+        if(currCard != null) {
+            if(currCard.getName().equals("MeteorSwarm")){
+                dices.setDice1(((MeteorSwarmCard) currCard).getDice1());
+                dices.setDice2(((MeteorSwarmCard) currCard).getDice2());
             }
-            if(currCard.getLevel() == 2) {
-                dices.setDice1(((CombatZoneCard2) currCard).getDice1());
-                dices.setDice2(((CombatZoneCard2) currCard).getDice2());
+            if(currCard.getName().equals("Pirates")){
+                dices.setDice1(((PiratesCard) currCard).getDice1());
+                dices.setDice2(((PiratesCard) currCard).getDice2());
             }
+            if(currCard.getName().equals("CombatZone")){
+                if(currCard.getLevel() == 1) {
+                    dices.setDice1(((CombatZoneCard) currCard).getDice1());
+                    dices.setDice2(((CombatZoneCard) currCard).getDice2());
+                }
+                if(currCard.getLevel() == 2) {
+                    dices.setDice1(((CombatZoneCard2) currCard).getDice1());
+                    dices.setDice2(((CombatZoneCard2) currCard).getDice2());
+                }
+            }
+            updateAllDices(dices);
         }
-        updateAllDices(dices);
     }
 
 }
