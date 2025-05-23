@@ -128,7 +128,7 @@ public class CardPhaseController extends FXMLController {
             animatedBackground.setHeight(background.getFitHeight());
 
             // Inserisce l'animazione come primo elemento del pane (dietro a tutti gli altri elementi)
-            pane.getChildren().add(0, animatedBackground);
+            pane.getChildren().addFirst(animatedBackground);
 
             // Assicura che lo sfondo sia dietro tutti gli elementi
             animatedBackground.toBack();
@@ -258,6 +258,63 @@ public class CardPhaseController extends FXMLController {
         for (Shipboard s : model.getShipboards().values()) {
             drawShipInCardPhase(s);
         }
+        // Reset visual effects for all tiles that are no longer active
+        resetAllTileEffects();
+    }
+
+    /**
+     * Resets visual effects and borders for all tiles that are no longer active
+     */
+    private void resetAllTileEffects() {
+        // Prima resetta gli effetti sulla nave del giocatore principale
+        resetTileEffectsForShip(model.getPlayerName(), myShip);
+
+        // Poi resetta gli effetti sulle navi degli altri giocatori
+        for (Map.Entry<String, GridPane> entry : playerToShip.entrySet()) {
+            if (!entry.getKey().equals(model.getPlayerName())) {
+                resetTileEffectsForShip(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    /**
+     * Resets visual effects for a specific player's ship
+     *
+     * @param playerName the name of the player whose ship to reset
+     * @param shipGridPane the GridPane containing the ship's tiles
+     */
+    private void resetTileEffectsForShip(String playerName, GridPane shipGridPane) {
+        Shipboard shipboard = model.getShipboard(playerName);
+        if (shipboard == null) return;
+
+        for (Node child : shipGridPane.getChildren()) {
+            if (!(child instanceof ImageView)) continue;
+
+            int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
+            int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+
+            Optional<ComponentTile> tileOpt = shipboard.getComponentTileFromGrid(i, j);
+            if (tileOpt.isEmpty()) continue;
+
+            ComponentTile tile = tileOpt.get();
+
+            // Check if tile should have effects or not
+            boolean shouldHaveEffect = false;
+
+            if (tile.isDoubleCannon() && tile.getCannonStrength() > 0) {
+                shouldHaveEffect = true;
+            } else if (tile.isDoubleEngine() && tile.getEngineStrength() > 0) {
+                shouldHaveEffect = true;
+            } else if (tile.isShieldGenerator() && tile.isActivated()) {
+                shouldHaveEffect = true;
+            }
+
+            // If tile shouldn't have an effect but has one, remove it
+            if (!shouldHaveEffect) {
+                child.setEffect(null);
+                child.setStyle("");
+            }
+        }
     }
 
     /**
@@ -272,7 +329,6 @@ public class CardPhaseController extends FXMLController {
             drawDices();
         } catch (Exception e) {
             System.err.println("Errore durante l'aggiornamento della scena: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -295,7 +351,6 @@ public class CardPhaseController extends FXMLController {
             // Implementazione per aggiornare le informazioni dei giocatori
         } catch (Exception e) {
             System.err.println("Errore durante l'aggiornamento delle informazioni del giocatore: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -327,7 +382,6 @@ public class CardPhaseController extends FXMLController {
             updateButtonsState();
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione della carta: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -395,7 +449,8 @@ public class CardPhaseController extends FXMLController {
             // Mostra l'alert
             alert.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Errore durante l'apertura della banca dei goodblocks: " + e.getMessage());
+            showErrorAlert("Errore", "Impossibile aprire la banca dei goodblocks.");
         }
     }
 
@@ -423,7 +478,6 @@ public class CardPhaseController extends FXMLController {
             // che a sua volta chiamerà drawCard
         } catch (IOException e) {
             System.err.println("Errore durante la comunicazione con il server: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -449,7 +503,6 @@ public class CardPhaseController extends FXMLController {
                     System.out.println("Richiesta di abbandono partita inviata al server");
                 } catch (IOException e) {
                     System.err.println("Errore durante l'abbandono della partita: " + e.getMessage());
-                    e.printStackTrace();
                 }
             }
         });
@@ -489,7 +542,6 @@ public class CardPhaseController extends FXMLController {
                     }
                 } catch (IOException e) {
                     System.err.println("Errore durante la disconnessione: " + e.getMessage());
-                    e.printStackTrace();
                 }
             }
         });
@@ -517,7 +569,6 @@ public class CardPhaseController extends FXMLController {
             }
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento della scena BuildingShip.fxml: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -598,7 +649,6 @@ public class CardPhaseController extends FXMLController {
 
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione dei comandi applicabili: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -701,9 +751,6 @@ public class CardPhaseController extends FXMLController {
         }
     }
 
-    public void drawBankInCardPhase(Bank bank) {
-    }
-
     public void fillGridPane(GridPane gridPane, int dimension) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 7; j++) {
@@ -778,7 +825,7 @@ public class CardPhaseController extends FXMLController {
                 }
             }
             else if(tile.isShieldGenerator()){
-                if(((ShieldGenerator)tile).isActivated()) {
+                if(tile.isActivated()) {
                     innerShadow.setColor(javafx.scene.paint.Color.GREEN);
                     innerShadow.setRadius(10);
                     innerShadow.setChoke(0.5);
@@ -1106,10 +1153,9 @@ public class CardPhaseController extends FXMLController {
     private Button setLandingButtons(int i, Stage popupStage) {
         Button cmdButton = new Button("Land on planet " + i);
         cmdButton.setPrefWidth(250);
-        int landingPlanet = i;
         cmdButton.setOnAction(e -> {
             Command cmd = new LandOnPlanetCommand(virtualServer, null);
-            cmd.setInput(Collections.singletonList(String.valueOf(landingPlanet)));
+            cmd.setInput(Collections.singletonList(String.valueOf(i)));
             if(cmd.isInputValid(model))
                 new Thread(() -> cmd.execute(model)).start();
             else
@@ -1172,5 +1218,4 @@ public class CardPhaseController extends FXMLController {
 
     }
 }
-
 
