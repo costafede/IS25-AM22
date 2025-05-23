@@ -1071,7 +1071,21 @@ public class CardPhaseController extends FXMLController {
             cmdButton.setPrefWidth(250);
             int gbType = i;
             cmdButton.setOnAction(e -> {
-                selectedGoodBlock1 = numToGoodBlock.get(gbType);
+                Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+                Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+
+                Command cmd = new GetBlockCommand(virtualServer, null);
+                List<String> input = new ArrayList<>();
+                input.addLast(numToGoodBlock.get(gbType));
+                input.addLast(String.valueOf(rowIndex+5));
+                input.addLast(String.valueOf(columnIndex+4));
+                cmd.setInput(input);
+
+                if(cmd.isInputValid(model))
+                    new Thread(() -> cmd.execute(model)).start();
+                else
+                    showErrorAlert("WARNING", "Invalid inputs!");
+                resetShip();
                 popupStage.close();
             });
             commandsBox.getChildren().add(cmdButton);
@@ -1087,21 +1101,6 @@ public class CardPhaseController extends FXMLController {
         popupStage.centerOnScreen();
 
         popupStage.show();
-
-        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
-        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
-
-        Command cmd = new GetBlockCommand(virtualServer, null);
-        List<String> input = new ArrayList<>();
-        input.addLast(selectedGoodBlock1);
-        input.addLast(String.valueOf(rowIndex+5));
-        input.addLast(String.valueOf(columnIndex+4));
-        cmd.setInput(input);
-        if(cmd.isInputValid(model))
-            new Thread(() -> cmd.execute(model)).start();
-        else
-            showErrorAlert("WARNING", "Invalid inputs!");
-        resetShip();
     }
 
     private void landOnAbandonedStationCommand(ActionEvent event) {
