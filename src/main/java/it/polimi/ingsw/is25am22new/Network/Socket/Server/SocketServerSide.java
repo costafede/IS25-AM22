@@ -266,11 +266,11 @@ public class SocketServerSide implements ObserverModel {
     }
 
     @Override
-    public void updateAllLeaderboard(Map<String, Integer> leaderCards) {
+    public void updateAllLeaderboard(Map<String, Integer> leaderboard) {
         synchronized (this.clients.keySet()) {
             for (var client : this.clients.keySet()) {
                 try {
-                    client.showUpdateLeaderboard(leaderCards);
+                    client.showUpdateLeaderboard(leaderboard);
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
