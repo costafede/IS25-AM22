@@ -7,7 +7,6 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
@@ -272,11 +271,11 @@ public class TUI implements ClientModelObserver,ViewAdapter{
      */
     @Override
     public void showCard(AdventureCard card, ClientModel model) {
-        AdventureCardView adventureCardView = new AdventureCardView();
+        AdventureCardViewTUI adventureCardViewTUI = new AdventureCardViewTUI();
         if (card == null) {
             System.out.println("There is no card");
         } else if (card instanceof ViewableCard) {
-            ((ViewableCard) card).show(adventureCardView, model);
+            ((ViewableCard) card).show(adventureCardViewTUI, model);
         } else {
             System.out.println("Unsupported card type: " + card.getClass().getSimpleName());
         }

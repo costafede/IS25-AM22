@@ -76,6 +76,8 @@ public class PiratesState_1 extends PiratesState implements Serializable {
                 if(game.getCurrPlayer().equals(game.getLastPlayer())) {
                     if(!piratesCard.getDefeatedPlayers().isEmpty()){
                         piratesCard.setCurrDefeatedPlayerToFirst();
+                        game.setCurrPlayer(piratesCard.getCurrDefeatedPlayer());
+                        piratesCard.getObservableModel().updateAllCurrPlayer(game.getCurrPlayer());
                         transition(new PiratesState_4(piratesCard)); // all defeated players get shot
                     }
                     else {

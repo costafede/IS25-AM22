@@ -57,6 +57,8 @@ public class Level2Game extends Game implements Serializable {
 
         scores = sortDesc(scores);
 
+        updateAllLeaderboard(scores);
+
         return scores;
     }
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard;
 
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardViewTUI;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Meteor;
@@ -10,7 +10,6 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Represents a meteor swarm card in the game, extending the functionalities of an AdventureCard.
@@ -35,6 +34,7 @@ public class MeteorSwarmCard extends AdventureCard implements Serializable, View
         game.getDices().rollDices();
         this.dice1 = game.getDices().getDice1();
         this.dice2 = game.getDices().getDice2();
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MeteorSwarmCard extends AdventureCard implements Serializable, View
     }
 
     @Override
-    public void show(AdventureCardView view, ClientModel model){
+    public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
             view.showMeteorSwarmCardInGame(this);
         }

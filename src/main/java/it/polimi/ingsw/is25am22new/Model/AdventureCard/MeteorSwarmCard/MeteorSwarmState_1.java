@@ -159,5 +159,6 @@ public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable
         game.getDices().rollDices();
         meteorSwarmCard.setDice1(game.getDices().getDice1());
         meteorSwarmCard.setDice2(game.getDices().getDice2());
+        meteorSwarmCard.getObservableModel().updateAllDices(game.getDices());
     }
 }

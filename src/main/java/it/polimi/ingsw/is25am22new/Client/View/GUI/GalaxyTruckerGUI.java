@@ -191,7 +191,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     @Override
     public void updateCurrPlayer(String player) {
         switch (clientModel.getGamePhase().getPhaseType()) {
-            case CARD -> Platform.runLater(() -> cardPhaseController.updateButtonsState());
+            case CARD -> Platform.runLater(() -> cardPhaseController.updateCurrPlayerInfo());
         }
     }
 

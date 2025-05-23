@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard;
 
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardViewTUI;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Shot;
@@ -60,6 +60,7 @@ public class CombatZoneCard extends AdventureCard implements Serializable, Viewa
         game.getDices().rollDices();
         setDice1(game.getDices().getDice1());
         setDice2(game.getDices().getDice2());
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     public int getDice1() {
@@ -137,7 +138,7 @@ public class CombatZoneCard extends AdventureCard implements Serializable, Viewa
     }
 
     @Override
-    public void show(AdventureCardView view, ClientModel model){
+    public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
             view.showCombatZoneCardInGame(this);
         }

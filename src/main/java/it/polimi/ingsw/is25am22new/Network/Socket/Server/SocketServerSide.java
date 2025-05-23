@@ -15,6 +15,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -259,6 +260,19 @@ public class SocketServerSide implements ObserverModel {
                     String player = entry.getKey();
                     Shipboard shipboard = entry.getValue();
                     client.showUpdateShipboard(player, shipboard);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateAllLeaderboard(Map<String, Integer> leaderboard) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
+                try {
+                    client.showUpdateLeaderboard(leaderboard);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }

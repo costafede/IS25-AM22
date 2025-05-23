@@ -359,6 +359,17 @@ public class SocketClientHandler implements VirtualView {
     }
 
     @Override
+    public void showUpdateLeaderboard(Map<String, Integer> leaderboard) throws RemoteException {
+        SocketMessage message = new SocketMessage("leaderboard", leaderboard, null);
+        try {
+            objectOutput.writeObject(message);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error updating leaderboard for client: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void terminate(){
         showWaitResult();
     }

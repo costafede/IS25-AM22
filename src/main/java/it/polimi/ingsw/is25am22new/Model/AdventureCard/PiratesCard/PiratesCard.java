@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard;
 
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardViewTUI;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
@@ -49,6 +49,7 @@ public class PiratesCard extends AdventureCard implements Serializable, Viewable
         game.getDices().rollDices();
         this.dice1 = game.getDices().getDice1();
         this.dice2 = game.getDices().getDice2();
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     public int getDice1() {
@@ -71,6 +72,7 @@ public class PiratesCard extends AdventureCard implements Serializable, Viewable
         game.getDices().rollDices();
         setDice1(game.getDices().getDice1());
         setDice2(game.getDices().getDice2());
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     public int getIndexOfIncomingShot(){
@@ -146,7 +148,7 @@ public class PiratesCard extends AdventureCard implements Serializable, Viewable
     }
 
     @Override
-    public void show(AdventureCardView view, ClientModel model){
+    public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
             view.showPiratesCardInGame(this);
         }

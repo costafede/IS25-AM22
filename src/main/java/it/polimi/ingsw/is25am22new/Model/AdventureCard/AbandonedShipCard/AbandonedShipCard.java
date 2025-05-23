@@ -1,10 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard;
 
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardViewTUI;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
-import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 
@@ -121,7 +120,7 @@ public class AbandonedShipCard extends AdventureCard implements Serializable, Vi
      * @param model the client-side model containing the current game state
      */
     @Override
-    public void show(AdventureCardView view, ClientModel model){
+    public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){
             view.showAbandonedShipCardInGame(this);
         }

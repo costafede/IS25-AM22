@@ -3,8 +3,6 @@ package it.polimi.ingsw.is25am22new.Client.View;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneState;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneState_0;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.Meteor;
@@ -27,7 +25,7 @@ import java.util.Map;
  * the InGame version displays the information necessary for the player to play the card
  */
 
-public class AdventureCardView {
+public class AdventureCardViewTUI {
     /**
      * shows the information of the planets card
      * @param card

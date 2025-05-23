@@ -4,10 +4,22 @@ import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.AdventureCardViewGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Client.View.GameType;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedShipCard.AbandonedShipCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard.AbandonedStationCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard.CombatZoneCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.CombatZoneCard2.CombatZoneCard2;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard.EpidemicCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.MeteorSwarmCard.MeteorSwarmCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.OpenSpaceCard.OpenSpaceCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.PiratesCard.PiratesCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.PlanetsCard.PlanetsCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
+import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
@@ -39,6 +51,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Controls the logic and rendering operations during a specific card-based phase
@@ -47,6 +61,8 @@ import java.util.*;
  * related to visual and logical game state.
  */
 public class CardPhaseController extends FXMLController {
+    @FXML private TextArea infoArea;
+    @FXML private Label CurrPlayerLabel;
     @FXML private GridPane myShip;
     @FXML private GridPane player1Ship;
     @FXML private GridPane player2Ship;
@@ -74,6 +90,8 @@ public class CardPhaseController extends FXMLController {
     private final Map<String, EventHandler<ActionEvent>> buttonToMethod = new HashMap<>();
     private final Map<Integer, String> numToGoodBlock = new HashMap<>();
 
+    private final Map<String, Supplier<String>> cardNameToInfoText = new HashMap<>();
+
     private int batteryXcoord = -1;
     private int batteryYcoord = -1;
     private int doubleCannonXcoord = -1;
@@ -99,6 +117,7 @@ public class CardPhaseController extends FXMLController {
         initializePlayerToShip();
         initializeButtonToMethod();
         initializeNumToGoodBlock();
+        initializeCardNameToInfoText();
         playersImage = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
@@ -144,7 +163,28 @@ public class CardPhaseController extends FXMLController {
         }
         // Carica lo stato iniziale della scena
         drawScene();
-        updateButtonsState();
+        updatePickCardButton();
+        CurrPlayerLabel.setText("It's the turn of " + model.getFlightboard().getOrderedRockets().getFirst());
+    }
+
+    private void initializeCardNameToInfoText() {
+        cardNameToInfoText.put("MeteorSwarm", () -> new AdventureCardViewGUI().showMeteorSwarmCardInGame((MeteorSwarmCard) model.getCurrCard()));
+        cardNameToInfoText.put("Planets", () -> new AdventureCardViewGUI().showPlanetsCard((PlanetsCard) model.getCurrCard()));
+        cardNameToInfoText.put("Slavers", () -> new AdventureCardViewGUI().showSlaversCardInGame((SlaversCard) model.getCurrCard()));
+        cardNameToInfoText.put("Smugglers", () -> new AdventureCardViewGUI().showSmugglersCardInGame((SmugglersCard) model.getCurrCard()));
+        cardNameToInfoText.put("Pirates", () -> new AdventureCardViewGUI().showPiratesCardInGame((PiratesCard) model.getCurrCard()));
+        cardNameToInfoText.put("OpenSpace", () -> new AdventureCardViewGUI().showOpenSpaceCardInGame((OpenSpaceCard) model.getCurrCard()));
+        cardNameToInfoText.put("Epidemic", () -> new AdventureCardViewGUI().showEpidemicCardInGame((EpidemicCard) model.getCurrCard()));
+        cardNameToInfoText.put("AbandonedShip", () -> new AdventureCardViewGUI().showAbandonedShipCard((AbandonedShipCard) model.getCurrCard()));
+        cardNameToInfoText.put("AbandonedStation", () -> new AdventureCardViewGUI().showAbandonedStationCard((AbandonedStationCard) model.getCurrCard()));
+        cardNameToInfoText.put("Stardust", () -> new AdventureCardViewGUI().showStardustCardInGame((StardustCard) model.getCurrCard()));
+        cardNameToInfoText.put("CombatZone", () -> {
+            if(model.getCurrCard().getLevel() == 1) {
+                return new AdventureCardViewGUI().showCombatZoneCard((CombatZoneCard) model.getCurrCard());
+            } else {
+                return new AdventureCardViewGUI().showCombatZoneCard2InGame((CombatZoneCard2) model.getCurrCard());
+            }
+        });
     }
 
     private void initializeNumToGoodBlock() {
@@ -275,6 +315,8 @@ public class CardPhaseController extends FXMLController {
         }
         // Reset visual effects for all tiles that are no longer active
         resetAllTileEffects();
+        if(model.getCurrCard() != null)
+            updateInfoArea();
     }
 
     /**
@@ -347,14 +389,29 @@ public class CardPhaseController extends FXMLController {
         }
     }
 
+    public void updateCurrPlayerInfo(){
+        updatePickCardButton();
+        updateCurrPlayerLabel();
+        if(model.getCurrCard() != null)
+            updateInfoArea();
+    }
+
+    public void updateInfoArea() {
+        infoArea.setText(cardNameToInfoText.get(model.getCurrCard().getName()).get());
+    }
+
     /**
      * Aggiorna lo stato dei pulsanti in base al turno corrente
      * Disabilita i pulsanti quando non è il turno del giocatore
      */
-    public void updateButtonsState() {
+    public void updatePickCardButton() {
         // Il pulsante pickCard è attivo solo se è il turno del giocatore e non è presente una carta
         // e lo metto disabilitato e grigio
         pickCardButton.setDisable(!model.getPlayerName().equals(model.getCurrPlayer()) || model.getCurrCard() != null);
+    }
+
+    public void updateCurrPlayerLabel(){
+        CurrPlayerLabel.setText("It's the turn of " + model.getCurrPlayer());
     }
 
     /**
@@ -394,7 +451,8 @@ public class CardPhaseController extends FXMLController {
                 else
                     cardImage.setImage(new Image(Objects.requireNonNull(getClass().getResource("/GraficheGioco/cards/GT-cards_I_IT_0121.jpg")).toString()));
             }
-            updateButtonsState();
+            updatePickCardButton();
+            updateInfoArea();
         } catch (Exception e) {
             System.err.println("Errore durante la visualizzazione della carta: " + e.getMessage());
         }
@@ -563,31 +621,6 @@ public class CardPhaseController extends FXMLController {
     }
 
     /**
-     * Torna alla fase di costruzione della nave
-     *
-     * @param event l'evento di click sul bottone buildingShipButton
-     */
-    @FXML
-    public void switchToBuildingShip(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/BuildingShip.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-
-            // Ferma l'animazione dello sfondo quando si cambia scena
-            if (animatedBackground != null) {
-                animatedBackground.stopAnimation();
-            }
-        } catch (IOException e) {
-            System.err.println("Errore durante il caricamento della scena BuildingShip.fxml: " + e.getMessage());
-        }
-    }
-
-    /**
      * Shows a popup window with buttons for applicable commands when the card is clicked
      */
     @FXML
@@ -657,8 +690,7 @@ public class CardPhaseController extends FXMLController {
             popupStage.setScene(popupScene);
 
             // Posiziona la finestra vicino al punto di click
-            popupStage.setX(event.getScreenX());
-            popupStage.setY(event.getScreenY());
+            popupStage.centerOnScreen();
 
             popupStage.show();
 
@@ -946,6 +978,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void activateDoubleCannonCommand(ActionEvent event) {
@@ -1001,6 +1034,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void activateShieldCommand(ActionEvent event) {
@@ -1016,8 +1050,8 @@ public class CardPhaseController extends FXMLController {
         } else {
             Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
             Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
-            doubleEngineXcoord = rowIndex;
-            doubleEngineYcoord = columnIndex;
+            shieldXCoord = rowIndex;
+            shieldYCoord = columnIndex;
             Command cmd = new ActivateShieldCommand(virtualServer, null);
             sendActivateComponentCommand(cmd, shieldXCoord, shieldYCoord);
         }
@@ -1039,6 +1073,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void decideToRemoveCrewMembersCommand(ActionEvent event) {
@@ -1069,7 +1104,21 @@ public class CardPhaseController extends FXMLController {
             cmdButton.setPrefWidth(250);
             int gbType = i;
             cmdButton.setOnAction(e -> {
-                selectedGoodBlock1 = numToGoodBlock.get(gbType);
+                Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+                Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+
+                Command cmd = new GetBlockCommand(virtualServer, null);
+                List<String> input = new ArrayList<>();
+                input.addLast(numToGoodBlock.get(gbType));
+                input.addLast(String.valueOf(rowIndex+5));
+                input.addLast(String.valueOf(columnIndex+4));
+                cmd.setInput(input);
+
+                if(cmd.isInputValid(model))
+                    new Thread(() -> cmd.execute(model)).start();
+                else
+                    showErrorAlert("WARNING", "Invalid inputs!");
+                resetShip();
                 popupStage.close();
             });
             commandsBox.getChildren().add(cmdButton);
@@ -1085,20 +1134,6 @@ public class CardPhaseController extends FXMLController {
         popupStage.centerOnScreen();
 
         popupStage.show();
-
-        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
-        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
-
-        Command cmd = new GetBlockCommand(virtualServer, null);
-        List<String> input = new ArrayList<>();
-        input.addLast(selectedGoodBlock1);
-        input.addLast(String.valueOf(rowIndex+5));
-        input.addLast(String.valueOf(columnIndex+4));
-        cmd.setInput(input);
-        if(cmd.isInputValid(model))
-            new Thread(() -> cmd.execute(model)).start();
-        else
-            showErrorAlert("WARNING", "Invalid inputs!");
     }
 
     private void landOnAbandonedStationCommand(ActionEvent event) {
@@ -1121,7 +1156,7 @@ public class CardPhaseController extends FXMLController {
         commandsBox.getChildren().add(titleLabel);
 
         for (int i = 0; i < ((PlanetsCard) (model.getCurrCard())).getPlanets().size(); i++) {
-            Button cmdButton = setLandingButtons(i, popupStage);
+            Button cmdButton = setLandingButtons(i+1, popupStage);
             commandsBox.getChildren().add(cmdButton);
         }
 
@@ -1147,6 +1182,7 @@ public class CardPhaseController extends FXMLController {
                 new Thread(() -> cmd.execute(model)).start();
             else
                 showErrorAlert("WARNING", "Invalid inputs!");
+            resetShip();
             popupStage.close();
         });
         return cmdButton;
@@ -1218,6 +1254,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void removeCrewMemberCommand(ActionEvent event) {
@@ -1236,6 +1273,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void removeGoodBlockCommand(ActionEvent event) {
@@ -1322,6 +1360,7 @@ public class CardPhaseController extends FXMLController {
         }
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
         popupStage.close();
     }
 
@@ -1431,5 +1470,6 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 }
