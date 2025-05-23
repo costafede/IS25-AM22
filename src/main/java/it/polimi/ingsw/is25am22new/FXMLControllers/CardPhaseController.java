@@ -1245,9 +1245,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> {
                 cmd.execute(model);
                 // Aggiorno la scena dopo l'esecuzione del comando
-                javafx.application.Platform.runLater(() -> {
-                    drawScene();
-                });
+                javafx.application.Platform.runLater(this::drawScene);
             }).start();
         }
         else
