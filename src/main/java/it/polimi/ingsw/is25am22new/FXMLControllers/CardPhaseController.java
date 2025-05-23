@@ -563,31 +563,6 @@ public class CardPhaseController extends FXMLController {
     }
 
     /**
-     * Torna alla fase di costruzione della nave
-     *
-     * @param event l'evento di click sul bottone buildingShipButton
-     */
-    @FXML
-    public void switchToBuildingShip(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/BuildingShip.fxml"));
-            Parent root = loader.load();
-
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-
-            // Ferma l'animazione dello sfondo quando si cambia scena
-            if (animatedBackground != null) {
-                animatedBackground.stopAnimation();
-            }
-        } catch (IOException e) {
-            System.err.println("Errore durante il caricamento della scena BuildingShip.fxml: " + e.getMessage());
-        }
-    }
-
-    /**
      * Shows a popup window with buttons for applicable commands when the card is clicked
      */
     @FXML

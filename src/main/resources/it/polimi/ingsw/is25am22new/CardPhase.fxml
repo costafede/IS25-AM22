@@ -95,12 +95,6 @@
             </font>
         </Button>
 
-        <!-- Bottone per tornare alla fase di costruzione della nave -->
-        <Button fx:id="buildingShipButton" layoutX="657.0" layoutY="657.0" mnemonicParsing="false" onAction="#switchToBuildingShip" text="Building Ship">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Button>
         <AnchorPane fx:id="level2FlightboardPane" layoutX="375.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0">
             <children>
                 <ImageView id="bg" fitHeight="341.0" fitWidth="601.0" pickOnBounds="true" preserveRatio="true">
