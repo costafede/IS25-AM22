@@ -1,6 +1,6 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.AbandonedStationCard;
 
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardView;
+import it.polimi.ingsw.is25am22new.Client.View.AdventureCardViewTUI;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
@@ -148,7 +148,7 @@ public class AbandonedStationCard extends AdventureCard implements Serializable,
      * @param model the client-side model of the game
      */
     @Override
-    public void show(AdventureCardView view, ClientModel model) {
+    public void show(AdventureCardViewTUI view, ClientModel model) {
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")) {
             view.showAbandonedStationCardInGame(this);
         } else {
