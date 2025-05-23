@@ -109,6 +109,11 @@ public class ObservableModel {
             ld.updateGame(game);
     }
 
+    public void updateAllLeaderboard(Map<String, Integer> leaderboard) {
+        for(ObserverModel ld : observers)
+            ld.updateAllLeaderboard(leaderboard);
+    }
+
     private void correctShipboard(Shipboard shipboard){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 7; j++){

@@ -42,6 +42,9 @@ public class ClientModel extends ObservableModelView {
     protected List<CardPile> cardPiles;
     private boolean gameStartMessageReceived = false;
 
+
+    private Map<String, Integer> leaderboard;
+
     /* LOCKS */
     private final Object bankLock = new Object();
     private final Object coveredComponentTilesLock = new Object();
@@ -55,6 +58,13 @@ public class ClientModel extends ObservableModelView {
     private final Object dicesLock = new Object();
     private final Object gamePhaseLock = new Object();
 
+    public Map<String, Integer> getLeaderboard() {
+        return leaderboard;
+    }
+
+    public void setLeaderboard(Map<String, Integer> leaderboard) {
+        this.leaderboard = leaderboard;
+    }
 
     public boolean isGameStartMessageReceived() {
         return gameStartMessageReceived;

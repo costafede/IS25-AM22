@@ -90,6 +90,7 @@ public class SocketClientSide implements VirtualView {
         commandMap.put("StopHourglass", msg -> showUpdateStopHourglass());
         commandMap.put("StartHourglass", this::handleStartHourglass);
         commandMap.put("updateTest", this::handleUpdateTest);
+        commandMap.put("leaderboard", this::handleLeaderboard);
     }
 
     /**
@@ -262,6 +263,11 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
+    public void showUpdateLeaderboard(Map<String, Integer> leaderboard) {
+        clientModel.setLeaderboard(leaderboard);
+    }
+
+    @Override
     public void terminate() throws RemoteException {
         /// TODO
     }
@@ -323,6 +329,11 @@ public class SocketClientSide implements VirtualView {
             System.err.println("Error closing connection: " + e.getMessage());
         }
         System.exit(0);
+    }
+
+    private void handleLeaderboard(SocketMessage msg) {
+        Map<String, Integer> leaderboard = (Map<String, Integer>) msg.getObject();
+        showUpdateLeaderboard(leaderboard);
     }
 
     private void handleBank(SocketMessage msg) {

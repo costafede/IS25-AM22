@@ -47,5 +47,7 @@ package it.polimi.ingsw.is25am22new.Network;
         void showGameStarted() throws RemoteException;
         void showPlayerJoined(String player) throws RemoteException;
 
+        void showUpdateLeaderboard(Map<String, Integer> leaderboard) throws RemoteException;
+
         void terminate() throws RemoteException;
     }

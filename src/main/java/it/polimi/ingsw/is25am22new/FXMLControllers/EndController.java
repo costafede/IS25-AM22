@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,13 @@ public class EndController extends FXMLController {
 
         // Add galaxy background programmatically
         Platform.runLater(this::setupGalaxyBackground);
+
+        setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage(), GalaxyTruckerGUI.getVirtualServer());
+
+        // Leaderboard table setup
+        leaderboardTable.setPlaceholder(new javafx.scene.control.Label("No scores available"));
+
+        setClientAndScores();
     }
 
     /**
@@ -70,15 +79,15 @@ public class EndController extends FXMLController {
         }
     }
 
+
     /**
-     * Sets the client and populates the leaderboard with final scores.
-     *
-     * @param client The RMI client used for communication with the server
-     * @param scores Map of players and their scores to display in the leaderboard
+     * Sets the client and scores for the leaderboard.
+     * This method retrieves the leaderboard data from the model and populates the table.
      */
-    public void setClientAndScores(RmiClient client, Map<String, Integer> scores) {
-        this.client = client;
-        this.finalScores = scores;
+
+    public void setClientAndScores() {
+
+        Map<String, Integer> scores = model.getLeaderboard();
 
         // Sort scores in descending order and create observable list for table
         ObservableList<Map.Entry<String, Integer>> leaderboardData = FXCollections.observableArrayList(
