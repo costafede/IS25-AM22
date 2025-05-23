@@ -102,6 +102,20 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
+    public void updateAllLeaderboard(Map<String, Integer> leaderCards) {
+        for (VirtualView client : connectedClients) {
+            try {
+                client.showUpdateLeaderboard(leaderCards);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with leaderboard: " + e.getMessage());
+                handleClientError(client, e);
+            } catch (Exception e) {
+                //handle showUpdateLeaderboard exception
+            }
+        }
+    }
+
+    @Override
     public void heartbeat(String nickname) {
         System.out.println("Received heartbeat from: " + nickname);
         heartbeatManager.heartbeat(nickname);

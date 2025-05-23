@@ -69,6 +69,8 @@ public class TutorialGame extends Game implements Serializable {
 
         scores = sortDesc(scores);
 
+        updateAllLeaderboard(scores);
+
         return scores;
     }
 

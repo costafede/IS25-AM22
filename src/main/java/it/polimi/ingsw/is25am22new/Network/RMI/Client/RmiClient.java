@@ -480,6 +480,12 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
+    public void showUpdateLeaderboard(Map<String, Integer> leaderboard) throws RemoteException {
+        clientModel.setLeaderboard(leaderboard);
+        /// TODO Da implementare?? clientView.displayLeaderboard(leaderboard);
+    }
+
+    @Override
     public void terminate() throws RemoteException {
         System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
         System.out.println("║                Host is configuring the lobby...please retry          ║");

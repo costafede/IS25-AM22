@@ -542,8 +542,10 @@ public abstract class Game extends ObservableModel implements Serializable {
         currCard.activateEffect(inputCommand);
         updateAllCurrCard(currCard);
         gamePhase.trySwitchToNextPhase();
-        if(!gamePhase.getPhaseType().equals(PhaseType.CARD))
+        if(!gamePhase.getPhaseType().equals(PhaseType.CARD)) {
             updateAllGamePhase(gamePhase);
+            endGame();
+        }
     }
 
     public void setGamePhase(GamePhase gamePhase){
