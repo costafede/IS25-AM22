@@ -657,8 +657,7 @@ public class CardPhaseController extends FXMLController {
             popupStage.setScene(popupScene);
 
             // Posiziona la finestra vicino al punto di click
-            popupStage.setX(event.getScreenX());
-            popupStage.setY(event.getScreenY());
+            popupStage.centerOnScreen();
 
             popupStage.show();
 
