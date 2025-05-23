@@ -60,6 +60,7 @@ public class CombatZoneCard extends AdventureCard implements Serializable, Viewa
         game.getDices().rollDices();
         setDice1(game.getDices().getDice1());
         setDice2(game.getDices().getDice2());
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     public int getDice1() {

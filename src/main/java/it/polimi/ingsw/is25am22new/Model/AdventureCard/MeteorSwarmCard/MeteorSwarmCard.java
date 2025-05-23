@@ -35,6 +35,7 @@ public class MeteorSwarmCard extends AdventureCard implements Serializable, View
         game.getDices().rollDices();
         this.dice1 = game.getDices().getDice1();
         this.dice2 = game.getDices().getDice2();
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     @Override

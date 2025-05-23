@@ -49,6 +49,7 @@ public class PiratesCard extends AdventureCard implements Serializable, Viewable
         game.getDices().rollDices();
         this.dice1 = game.getDices().getDice1();
         this.dice2 = game.getDices().getDice2();
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     public int getDice1() {
@@ -71,6 +72,7 @@ public class PiratesCard extends AdventureCard implements Serializable, Viewable
         game.getDices().rollDices();
         setDice1(game.getDices().getDice1());
         setDice2(game.getDices().getDice2());
+        getObservableModel().updateAllDices(game.getDices());
     }
 
     public int getIndexOfIncomingShot(){
