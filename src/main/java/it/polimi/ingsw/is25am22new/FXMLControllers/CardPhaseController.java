@@ -713,29 +713,23 @@ public class CardPhaseController extends FXMLController {
 
     public void drawShipInCardPhase(Shipboard shipboard) {
         if (shipboard.getNickname().equals(model.getPlayerName())) {
-            for (Node child : myShip.getChildren()) {
-                int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
-                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
-                Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
-                if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
-                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
-                    setupTileTooltip((ImageView) child, ct.get());
-                } else {
-                    ((ImageView) child).setImage(null);
-                }
-            }
+            drawShipboardOnGrid(shipboard, myShip);
         } else {
             GridPane playerGrid = playerToShip.get(shipboard.getNickname());
-            for (Node child : playerGrid.getChildren()) {
-                int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
-                int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
-                Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
-                if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
-                    drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
-                    setupTileTooltip((ImageView) child, ct.get());
-                } else {
-                    ((ImageView) child).setImage(null);
-                }
+            drawShipboardOnGrid(shipboard, playerGrid);
+        }
+    }
+
+    private void drawShipboardOnGrid(Shipboard shipboard, GridPane myShip) {
+        for (Node child : myShip.getChildren()) {
+            int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
+            int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+            Optional<ComponentTile> ct = shipboard.getComponentTileFromGrid(i, j);
+            if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
+                drawComponentTileImageForGrid((ImageView) child, ct.get().getPngName(), ct.get().getNumOfRotations());
+                setupTileTooltip((ImageView) child, ct.get());
+            } else {
+                ((ImageView) child).setImage(null);
             }
         }
     }
@@ -955,108 +949,45 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void activateDoubleCannonCommand(ActionEvent event) {
-        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
-        for(int i = 0; i < 5 ; i++) {
-            for(int j = 0; j < 7 ; j++) {
-                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
-                    if(thisPlayerShip.getComponentTileFromGrid(i, j).get().isBattery()){
-                        for (Node node : myShip.getChildren()) {
-                            Integer columnIndex = GridPane.getColumnIndex(node);
-                            Integer rowIndex = GridPane.getRowIndex(node);
-
-                            int nodeCol = columnIndex == null ? 0 : columnIndex;
-                            int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                            if (nodeCol == j && nodeRow == i) {
-                                node.setOnMouseClicked(this::handleBatteryCoordinates);
-                            }
-                        }
-                    } else {
-                        for (Node node : myShip.getChildren()) {
-                            Integer columnIndex = GridPane.getColumnIndex(node);
-                            Integer rowIndex = GridPane.getRowIndex(node);
-
-                            int nodeCol = columnIndex == null ? 0 : columnIndex;
-                            int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                            if (nodeCol == j && nodeRow == i) {
-                                node.setOnMouseClicked(this::handleDoubleCannonCoordinates);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void handleBatteryCoordinates(MouseEvent event) {
-        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
-        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
-        batteryXcoord = rowIndex;
-        batteryYcoord = columnIndex;
+        insertMethodsInTiles(this::handleDoubleCannonCoordinates);
     }
 
     private void handleDoubleCannonCoordinates(MouseEvent event) {
         if(batteryXcoord == -1 || batteryYcoord == -1){
-            showErrorAlert("WARNING", "Activate batteries first!");
-            return;
-        }
-        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
-        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
-        doubleCannonXcoord = rowIndex;
-        doubleCannonYcoord = columnIndex;
+            Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+            Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+            batteryXcoord = rowIndex;
+            batteryYcoord = columnIndex;
+        } else {
+            Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+            Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+            doubleCannonXcoord = rowIndex;
+            doubleCannonYcoord = columnIndex;
 
-        Command cmd = new ActivateDoubleCannonCommand(virtualServer, null);
-        sendActivateComponentCommand(cmd, doubleCannonXcoord, doubleCannonYcoord);
+            Command cmd = new ActivateDoubleCannonCommand(virtualServer, null);
+            sendActivateComponentCommand(cmd, doubleCannonXcoord, doubleCannonYcoord);
+        }
     }
 
     private void activateDoubleEngineCommand(ActionEvent event) {
-        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
-        for(int i = 0; i < 5 ; i++) {
-            for(int j = 0; j < 7 ; j++) {
-                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
-                    if(thisPlayerShip.getComponentTileFromGrid(i, j).get().isBattery()){
-                        for (Node node : myShip.getChildren()) {
-                            Integer columnIndex = GridPane.getColumnIndex(node);
-                            Integer rowIndex = GridPane.getRowIndex(node);
-
-                            int nodeCol = columnIndex == null ? 0 : columnIndex;
-                            int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                            if (nodeCol == j && nodeRow == i) {
-                                node.setOnMouseClicked(this::handleBatteryCoordinates);
-                            }
-                        }
-                    } else {
-                        for (Node node : myShip.getChildren()) {
-                            Integer columnIndex = GridPane.getColumnIndex(node);
-                            Integer rowIndex = GridPane.getRowIndex(node);
-
-                            int nodeCol = columnIndex == null ? 0 : columnIndex;
-                            int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                            if (nodeCol == j && nodeRow == i) {
-                                node.setOnMouseClicked(this::handleDoubleEngineCoordinates);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        insertMethodsInTiles(this::handleDoubleEngineCoordinates);
     }
 
     private void handleDoubleEngineCoordinates(MouseEvent event) {
         if(batteryXcoord == -1 || batteryYcoord == -1){
-            showErrorAlert("WARNING", "Activate batteries first!");
-            return;
-        }
-        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
-        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
-        doubleEngineXcoord = rowIndex;
-        doubleEngineYcoord = columnIndex;
+            Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+            Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+            batteryXcoord = rowIndex;
+            batteryYcoord = columnIndex;
+        } else {
+            Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+            Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+            doubleEngineXcoord = rowIndex;
+            doubleEngineYcoord = columnIndex;
 
-        Command cmd = new ActivateDoubleEngineCommand(virtualServer, null);
-        sendActivateComponentCommand(cmd, doubleEngineXcoord, doubleEngineYcoord);
+            Command cmd = new ActivateDoubleEngineCommand(virtualServer, null);
+            sendActivateComponentCommand(cmd, doubleEngineXcoord, doubleEngineYcoord);
+        }
     }
 
     private void sendActivateComponentCommand(Command cmd, int xCoord, int yCoord) {
@@ -1073,51 +1004,23 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void activateShieldCommand(ActionEvent event) {
-        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
-        for(int i = 0; i < 5 ; i++) {
-            for(int j = 0; j < 7 ; j++) {
-                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
-                    if(thisPlayerShip.getComponentTileFromGrid(i, j).get().isBattery()){
-                        for (Node node : myShip.getChildren()) {
-                            Integer columnIndex = GridPane.getColumnIndex(node);
-                            Integer rowIndex = GridPane.getRowIndex(node);
-
-                            int nodeCol = columnIndex == null ? 0 : columnIndex;
-                            int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                            if (nodeCol == j && nodeRow == i) {
-                                node.setOnMouseClicked(this::handleBatteryCoordinates);
-                            }
-                        }
-                    } else {
-                        for (Node node : myShip.getChildren()) {
-                            Integer columnIndex = GridPane.getColumnIndex(node);
-                            Integer rowIndex = GridPane.getRowIndex(node);
-
-                            int nodeCol = columnIndex == null ? 0 : columnIndex;
-                            int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                            if (nodeCol == j && nodeRow == i) {
-                                node.setOnMouseClicked(this::handleShieldGeneratorCoordinates);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        insertMethodsInTiles(this::handleShieldGeneratorCoordinates);
     }
 
     private void handleShieldGeneratorCoordinates(MouseEvent event) {
         if(batteryXcoord == -1 || batteryYcoord == -1){
-            showErrorAlert("WARNING", "Activate batteries first!");
-            return;
+            Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+            Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+            batteryXcoord = rowIndex;
+            batteryYcoord = columnIndex;
+        } else {
+            Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
+            Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
+            doubleEngineXcoord = rowIndex;
+            doubleEngineYcoord = columnIndex;
+            Command cmd = new ActivateShieldCommand(virtualServer, null);
+            sendActivateComponentCommand(cmd, shieldXCoord, shieldYCoord);
         }
-        Integer rowIndex = GridPane.getRowIndex((Node) event.getSource());
-        Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
-        doubleEngineXcoord = rowIndex;
-        doubleEngineYcoord = columnIndex;
-        Command cmd = new ActivateShieldCommand(virtualServer, null);
-        sendActivateComponentCommand(cmd, shieldXCoord, shieldYCoord);
     }
 
     private void chooseShipWreckCommand(ActionEvent event) {
