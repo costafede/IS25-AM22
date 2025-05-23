@@ -2,7 +2,6 @@ package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
-import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,10 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -38,8 +33,6 @@ public class EndController extends FXMLController {
     private StackPane rootPane;
 
     private GalaxyBackground galaxyBackground;
-    private RmiClient client;
-    private Map<String, Integer> finalScores;
 
     /**
      * Initializes the controller and sets up the leaderboard table.
@@ -110,9 +103,9 @@ public class EndController extends FXMLController {
             galaxyBackground.stopAnimation();
         }
 
-        if (client != null) {
+        if (virtualServer != null) {
             try {
-                client.quit(client.getPlayerName());
+                virtualServer.quit(model.getPlayerName());
             } catch (Exception e) {
                 System.err.println("Error quitting game: " + e.getMessage());
             } finally {
@@ -120,6 +113,7 @@ public class EndController extends FXMLController {
             }
         } else {
             // If client is null, just exit the application
+            System.out.println("Error: galaxy background is null");
             Platform.exit();
         }
     }
