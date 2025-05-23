@@ -729,21 +729,37 @@ public class CardPhaseController extends FXMLController {
 
     public void drawFlightboardInCardPhase(Flightboard flightboard) {
         if (model.getGametype().equals(GameType.TUTORIAL)) {
+            // Prima pulisci tutte le immagini dei razzi nella flightboard tutorial
+            for (Node child : tutorialFlightboardPane.getChildren()) {
+                if (child instanceof ImageView && child.getId() != null && child.getId().startsWith("t")) {
+                    ((ImageView) child).setImage(null);
+                }
+            }
+
+            // Poi disegna i razzi nelle posizioni correnti
             for (String player : flightboard.getPositions().keySet()) {
                 Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
                 for (Node child : tutorialFlightboardPane.getChildren()) {
                     String position = "t" + flightboard.getPositions().get(player);
-                    if (child.getId().equals(position)) {
+                    if (child.getId() != null && child.getId().equals(position)) {
                         ((ImageView) child).setImage(rocket);
                     }
                 }
             }
         } else {
+            // Prima pulisci tutte le immagini dei razzi nella flightboard level2
+            for (Node child : level2FlightboardPane.getChildren()) {
+                if (child instanceof ImageView && child.getId() != null && child.getId().startsWith("l")) {
+                    ((ImageView) child).setImage(null);
+                }
+            }
+
+            // Poi disegna i razzi nelle posizioni correnti
             for (String player : flightboard.getPositions().keySet()) {
                 Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
                 for (Node child : level2FlightboardPane.getChildren()) {
                     String position = "l" + flightboard.getPositions().get(player);
-                    if (child.getId().equals(position)) {
+                    if (child.getId() != null && child.getId().equals(position)) {
                         ((ImageView) child).setImage(rocket);
                     }
                 }
