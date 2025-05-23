@@ -945,6 +945,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void activateDoubleCannonCommand(ActionEvent event) {
@@ -1000,6 +1001,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void activateShieldCommand(ActionEvent event) {
@@ -1038,6 +1040,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void decideToRemoveCrewMembersCommand(ActionEvent event) {
@@ -1098,6 +1101,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void landOnAbandonedStationCommand(ActionEvent event) {
@@ -1146,6 +1150,7 @@ public class CardPhaseController extends FXMLController {
                 new Thread(() -> cmd.execute(model)).start();
             else
                 showErrorAlert("WARNING", "Invalid inputs!");
+            resetShip();
             popupStage.close();
         });
         return cmdButton;
@@ -1217,6 +1222,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void removeCrewMemberCommand(ActionEvent event) {
@@ -1235,6 +1241,7 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 
     private void removeGoodBlockCommand(ActionEvent event) {
@@ -1321,6 +1328,7 @@ public class CardPhaseController extends FXMLController {
         }
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
         popupStage.close();
     }
 
@@ -1430,5 +1438,6 @@ public class CardPhaseController extends FXMLController {
             new Thread(() -> cmd.execute(model)).start();
         else
             showErrorAlert("WARNING", "Invalid inputs!");
+        resetShip();
     }
 }
