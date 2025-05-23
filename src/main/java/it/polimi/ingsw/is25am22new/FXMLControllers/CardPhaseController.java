@@ -72,6 +72,7 @@ public class CardPhaseController extends FXMLController {
     private final Map<String, Image> colorToRocketImage = new HashMap<>();
     private final Map<Integer, Image> diceToImage = new HashMap<>();
     private final Map<String, EventHandler<ActionEvent>> buttonToMethod = new HashMap<>();
+    private final Map<Integer, String> numToGoodBlock = new HashMap<>();
 
     private int batteryXcoord = -1;
     private int batteryYcoord = -1;
@@ -81,6 +82,12 @@ public class CardPhaseController extends FXMLController {
     private int doubleEngineYcoord = -1;
     private int shieldXCoord = -1;
     private int shieldYCoord = -1;
+    private int gbFromXCoord = -1;
+    private int gbFromYCoord = -1;
+    private int gbToXCoord = -1;
+    private int gbToYCoord = -1;
+    private String selectedGoodBlock1 = null;
+    private String selectedGoodBlock2 = null;
 
     private CommandManager commandManager;
 
@@ -91,6 +98,7 @@ public class CardPhaseController extends FXMLController {
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage(), GalaxyTruckerGUI.getVirtualServer());
         initializePlayerToShip();
         initializeButtonToMethod();
+        initializeNumToGoodBlock();
         playersImage = List.of(myShipImage, player1ShipImage, player2ShipImage, player3ShipImage);
         if (model.getGametype() == GameType.TUTORIAL) {
             background.setImage(new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BlueBackground.png")).toString()));
@@ -137,6 +145,13 @@ public class CardPhaseController extends FXMLController {
         // Carica lo stato iniziale della scena
         drawScene();
         updateButtonsState();
+    }
+
+    private void initializeNumToGoodBlock() {
+        numToGoodBlock.put(0, "redblock");
+        numToGoodBlock.put(1, "yellowblock");
+        numToGoodBlock.put(2, "greenblock");
+        numToGoodBlock.put(3, "blueblock");
     }
 
     private void initializePlayerToShip() {
@@ -616,6 +631,12 @@ public class CardPhaseController extends FXMLController {
         doubleEngineYcoord = -1;
         shieldXCoord = -1;
         shieldYCoord = -1;
+        gbFromXCoord = -1;
+        gbFromYCoord = -1;
+        gbToXCoord = -1;
+        gbToYCoord = -1;
+        selectedGoodBlock1 = null;
+        selectedGoodBlock2 = null;
     }
 
     /**
@@ -846,7 +867,7 @@ public class CardPhaseController extends FXMLController {
         if(cmd.isInputValid(model))
             new Thread(() -> cmd.execute(model)).start();
         else
-            showErrorAlert("WARNING", "You can't execute this command");
+            showErrorAlert("WARNING", "Invalid inputs!");
     }
 
     private void activateDoubleCannonCommand(ActionEvent event) {
@@ -866,7 +887,7 @@ public class CardPhaseController extends FXMLController {
                                 node.setOnMouseClicked(this::handleBatteryCoordinates);
                             }
                         }
-                    } else if (thisPlayerShip.getComponentTileFromGrid(i, j).get().isDoubleCannon()) {
+                    } else {
                         for (Node node : myShip.getChildren()) {
                             Integer columnIndex = GridPane.getColumnIndex(node);
                             Integer rowIndex = GridPane.getRowIndex(node);
@@ -889,8 +910,6 @@ public class CardPhaseController extends FXMLController {
         Integer columnIndex = GridPane.getColumnIndex((Node) event.getSource());
         batteryXcoord = rowIndex;
         batteryYcoord = columnIndex;
-        System.out.println(batteryXcoord);
-        System.out.println(batteryYcoord);
     }
 
     private void handleDoubleCannonCoordinates(MouseEvent event) {
@@ -924,7 +943,7 @@ public class CardPhaseController extends FXMLController {
                                 node.setOnMouseClicked(this::handleBatteryCoordinates);
                             }
                         }
-                    } else if (thisPlayerShip.getComponentTileFromGrid(i, j).get().isDoubleEngine()) {
+                    } else {
                         for (Node node : myShip.getChildren()) {
                             Integer columnIndex = GridPane.getColumnIndex(node);
                             Integer rowIndex = GridPane.getRowIndex(node);
@@ -963,15 +982,10 @@ public class CardPhaseController extends FXMLController {
         input.addLast(String.valueOf(xCoord+5));
         input.addLast(String.valueOf(yCoord+4));
         cmd.setInput(input);
-        if(cmd.isInputValid(model)) {
+        if(cmd.isInputValid(model)) 
             new Thread(() -> cmd.execute(model)).start();
-            System.out.println(batteryXcoord);
-            System.out.println(batteryYcoord);
-            System.out.println(xCoord);
-            System.out.println(yCoord);
-        }
         else
-            showErrorAlert("WARNING", "You can't execute this command");
+            showErrorAlert("WARNING", "Invalid inputs!");
     }
 
     private void activateShieldCommand(ActionEvent event) {
@@ -991,7 +1005,7 @@ public class CardPhaseController extends FXMLController {
                                 node.setOnMouseClicked(this::handleBatteryCoordinates);
                             }
                         }
-                    } else if (thisPlayerShip.getComponentTileFromGrid(i, j).get().isShieldGenerator()) {
+                    } else {
                         for (Node node : myShip.getChildren()) {
                             Integer columnIndex = GridPane.getColumnIndex(node);
                             Integer rowIndex = GridPane.getRowIndex(node);
@@ -1023,24 +1037,7 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void chooseShipWreckCommand(ActionEvent event) {
-        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
-        for(int i = 0; i < 5 ; i++) {
-            for(int j = 0; j < 7 ; j++) {
-                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
-                    for (Node node : myShip.getChildren()) {
-                        Integer columnIndex = GridPane.getColumnIndex(node);
-                        Integer rowIndex = GridPane.getRowIndex(node);
-
-                        int nodeCol = columnIndex == null ? 0 : columnIndex;
-                        int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                        if (nodeCol == j && nodeRow == i) {
-                            node.setOnMouseClicked(this::handleChooseShipWreckCoordinates);
-                        }
-                    }
-                }
-            }
-        }
+        insertMethodsInTiles(this::handleChooseShipWreckCoordinates);
     }
 
     private void handleChooseShipWreckCoordinates(MouseEvent mouseEvent) {
@@ -1048,13 +1045,13 @@ public class CardPhaseController extends FXMLController {
         Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
         Command cmd = new ChooseShipWreckCommand(virtualServer, null);
         List<String> input = new ArrayList<>();
-        input.addLast(String.valueOf(rowIndex));
-        input.addLast(String.valueOf(columnIndex));
+        input.addLast(String.valueOf(rowIndex+5));
+        input.addLast(String.valueOf(columnIndex+4));
         cmd.setInput(input);
         if(cmd.isInputValid(model))
             new Thread(() -> cmd.execute(model)).start();
         else
-            showErrorAlert("WARNING", "You can't execute this command");
+            showErrorAlert("WARNING", "Invalid inputs!");
     }
 
     private void decideToRemoveCrewMembersCommand(ActionEvent event) {
@@ -1063,7 +1060,58 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void getBlockCommand(ActionEvent event) {
+        insertMethodsInTiles(this::handleGetBlockCoordinates);
+    }
 
+    private void handleGetBlockCoordinates(MouseEvent mouseEvent) {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.initStyle(StageStyle.UTILITY);
+        popupStage.setTitle("Choose the block to get");
+
+        VBox commandsBox = new VBox(10);
+        commandsBox.setAlignment(Pos.CENTER);
+        commandsBox.setPadding(new Insets(20));
+
+        Label titleLabel = new Label("Choose the block to get");
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        commandsBox.getChildren().add(titleLabel);
+
+        for (int i = 0; i < 4; i++) {
+            Button cmdButton = new Button(numToGoodBlock.get(i));
+            cmdButton.setPrefWidth(250);
+            int gbType = i;
+            cmdButton.setOnAction(e -> {
+                selectedGoodBlock1 = numToGoodBlock.get(gbType);
+                popupStage.close();
+            });
+            commandsBox.getChildren().add(cmdButton);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(commandsBox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefViewportHeight(400);
+
+        Scene popupScene = new Scene(scrollPane, 300, 400);
+        popupStage.setScene(popupScene);
+
+        popupStage.centerOnScreen();
+
+        popupStage.show();
+
+        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+
+        Command cmd = new GetBlockCommand(virtualServer, null);
+        List<String> input = new ArrayList<>();
+        input.addLast(selectedGoodBlock1);
+        input.addLast(String.valueOf(rowIndex+5));
+        input.addLast(String.valueOf(columnIndex+4));
+        cmd.setInput(input);
+        if(cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
+        else
+            showErrorAlert("WARNING", "Invalid inputs!");
     }
 
     private void landOnAbandonedStationCommand(ActionEvent event) {
@@ -1097,8 +1145,7 @@ public class CardPhaseController extends FXMLController {
         Scene popupScene = new Scene(scrollPane, 300, 400);
         popupStage.setScene(popupScene);
 
-        popupStage.setX(primaryStage.getX());
-        popupStage.setY(primaryStage.getY());
+        popupStage.centerOnScreen();
 
         popupStage.show();
     }
@@ -1113,36 +1160,82 @@ public class CardPhaseController extends FXMLController {
             if(cmd.isInputValid(model))
                 new Thread(() -> cmd.execute(model)).start();
             else
-                showErrorAlert("WARNING", "You can't execute this command");
+                showErrorAlert("WARNING", "Invalid inputs!");
             popupStage.close();
         });
         return cmdButton;
     }
 
     private void moveGoodBlockCommand(ActionEvent event) {
+        insertMethodsInTiles(this::handleMoveBlockCoordinates);
+    }
 
+    private void handleMoveBlockCoordinates(MouseEvent mouseEvent) {
+        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+        if(gbFromXCoord == -1 || gbFromYCoord == -1){
+            gbFromXCoord = rowIndex;
+            gbFromYCoord = columnIndex;
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initStyle(StageStyle.UTILITY);
+            popupStage.setTitle("Choose the block");
+
+            VBox commandsBox = new VBox(10);
+            commandsBox.setAlignment(Pos.CENTER);
+            commandsBox.setPadding(new Insets(20));
+
+            Label titleLabel = new Label("Choose the block");
+            titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+            commandsBox.getChildren().add(titleLabel);
+
+            for (int i = 0; i < 4; i++) {
+                Button cmdButton = new Button(numToGoodBlock.get(i));
+                cmdButton.setPrefWidth(250);
+                int gbType = i;
+                cmdButton.setOnAction(e -> {
+                    selectedGoodBlock1 = numToGoodBlock.get(gbType);
+                    popupStage.close();
+                });
+                commandsBox.getChildren().add(cmdButton);
+            }
+
+            ScrollPane scrollPane = new ScrollPane(commandsBox);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefViewportHeight(400);
+
+            Scene popupScene = new Scene(scrollPane, 300, 400);
+            popupStage.setScene(popupScene);
+
+            popupStage.centerOnScreen();
+
+            popupStage.show();
+        } else {
+            gbToXCoord = rowIndex;
+            gbToYCoord = columnIndex;
+
+            sendMoveBlockCommand();
+        }
+    }
+
+    private void sendMoveBlockCommand() {
+        Command cmd = new MoveGoodBlockCommand(virtualServer, null);
+        List<String> input = new ArrayList<>();
+        input.addLast(selectedGoodBlock1);
+        input.addLast(String.valueOf(gbFromXCoord+5));
+        input.addLast(String.valueOf(gbFromYCoord+4));
+        input.addLast(String.valueOf(gbToXCoord+5));
+        input.addLast(String.valueOf(gbToYCoord+4));
+        cmd.setInput(input);
+        if(cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
+        else
+            showErrorAlert("WARNING", "Invalid inputs!");
     }
 
     private void removeCrewMemberCommand(ActionEvent event) {
-        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
-        for(int i = 0; i < 5 ; i++) {
-            for(int j = 0; j < 7 ; j++) {
-                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent() &&
-                        thisPlayerShip.getComponentTileFromGrid(i, j).get().isCabin()) {
-                    for (Node node : myShip.getChildren()) {
-                        Integer columnIndex = GridPane.getColumnIndex(node);
-                        Integer rowIndex = GridPane.getRowIndex(node);
-
-                        int nodeCol = columnIndex == null ? 0 : columnIndex;
-                        int nodeRow = rowIndex == null ? 0 : rowIndex;
-
-                        if (nodeCol == j && nodeRow == i) {
-                            node.setOnMouseClicked(this::handleRemoveCrewCoordinates);
-                        }
-                    }
-                }
-            }
-        }
+        insertMethodsInTiles(this::handleRemoveCrewCoordinates);
     }
 
     private void handleRemoveCrewCoordinates(MouseEvent mouseEvent) {
@@ -1156,11 +1249,84 @@ public class CardPhaseController extends FXMLController {
         if(cmd.isInputValid(model))
             new Thread(() -> cmd.execute(model)).start();
         else
-            showErrorAlert("WARNING", "You can't execute this command");
+            showErrorAlert("WARNING", "Invalid inputs!");
     }
 
     private void removeGoodBlockCommand(ActionEvent event) {
+        insertMethodsInTiles(this::handleRemoveGoodBlockCoordinates);
+    }
 
+    private void insertMethodsInTiles(EventHandler<MouseEvent> event) {
+        Shipboard thisPlayerShip = model.getShipboard(model.getPlayerName());
+        for(int i = 0; i < 5 ; i++) {
+            for(int j = 0; j < 7 ; j++) {
+                if(thisPlayerShip.getComponentTileFromGrid(i, j).isPresent()) {
+                    for (Node node : myShip.getChildren()) {
+                        Integer columnIndex = GridPane.getColumnIndex(node);
+                        Integer rowIndex = GridPane.getRowIndex(node);
+
+                        int nodeCol = columnIndex == null ? 0 : columnIndex;
+                        int nodeRow = rowIndex == null ? 0 : rowIndex;
+
+                        if (nodeCol == j && nodeRow == i) {
+                            node.setOnMouseClicked(event);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleRemoveGoodBlockCoordinates(MouseEvent mouseEvent) {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.initStyle(StageStyle.UTILITY);
+        popupStage.setTitle("Choose the block");
+
+        VBox commandsBox = new VBox(10);
+        commandsBox.setAlignment(Pos.CENTER);
+        commandsBox.setPadding(new Insets(20));
+
+        Label titleLabel = new Label("Choose the block");
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        commandsBox.getChildren().add(titleLabel);
+
+        for (int i = 0; i < 4; i++) {
+            Button cmdButton = new Button(numToGoodBlock.get(i));
+            cmdButton.setPrefWidth(250);
+            int gbType = i;
+            cmdButton.setOnAction(e -> {
+                sendRemoveBlockMessage(mouseEvent, gbType, popupStage);
+            });
+            commandsBox.getChildren().add(cmdButton);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(commandsBox);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefViewportHeight(400);
+
+        Scene popupScene = new Scene(scrollPane, 300, 400);
+        popupStage.setScene(popupScene);
+
+        popupStage.centerOnScreen();
+
+        popupStage.show();
+    }
+
+    private void sendRemoveBlockMessage(MouseEvent mouseEvent, int gbType, Stage popupStage) {
+        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+        Command cmd = new RemoveGoodBlockCommand(virtualServer, null);
+        List<String> input = new ArrayList<>();
+        input.addLast(numToGoodBlock.get(gbType));
+        input.addLast(String.valueOf(rowIndex+5));
+        input.addLast(String.valueOf(columnIndex+4));
+        cmd.setInput(input);
+        if(cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
+        else
+            showErrorAlert("WARNING", "Invalid inputs!");
+        popupStage.close();
     }
 
     private void resolveEffectCommand(ActionEvent event) {
@@ -1169,8 +1335,105 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void switchGoodBlocksCommand(ActionEvent event) {
+        insertMethodsInTiles(this::handleSwitchGoodBlockCoordinates);
+    }
 
+    private void handleSwitchGoodBlockCoordinates(MouseEvent mouseEvent) {
+        Integer rowIndex = GridPane.getRowIndex((Node) mouseEvent.getSource());
+        Integer columnIndex = GridPane.getColumnIndex((Node) mouseEvent.getSource());
+        if(gbFromXCoord == -1 || gbFromYCoord == -1){
+            gbFromXCoord = rowIndex;
+            gbFromYCoord = columnIndex;
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initStyle(StageStyle.UTILITY);
+            popupStage.setTitle("Choose the block");
+
+            VBox commandsBox = new VBox(10);
+            commandsBox.setAlignment(Pos.CENTER);
+            commandsBox.setPadding(new Insets(20));
+
+            Label titleLabel = new Label("Choose the block");
+            titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+            commandsBox.getChildren().add(titleLabel);
+
+            for (int i = 0; i < 4; i++) {
+                Button cmdButton = new Button(numToGoodBlock.get(i));
+                cmdButton.setPrefWidth(250);
+                int gbType = i;
+                cmdButton.setOnAction(e -> {
+                    selectedGoodBlock1 = numToGoodBlock.get(gbType);
+                    popupStage.close();
+                });
+                commandsBox.getChildren().add(cmdButton);
+            }
+
+            ScrollPane scrollPane = new ScrollPane(commandsBox);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefViewportHeight(400);
+
+            Scene popupScene = new Scene(scrollPane, 300, 400);
+            popupStage.setScene(popupScene);
+
+            popupStage.centerOnScreen();
+
+            popupStage.show();
+        } else {
+            gbToXCoord = rowIndex;
+            gbToYCoord = columnIndex;
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initStyle(StageStyle.UTILITY);
+            popupStage.setTitle("Choose the block");
+
+            VBox commandsBox = new VBox(10);
+            commandsBox.setAlignment(Pos.CENTER);
+            commandsBox.setPadding(new Insets(20));
+
+            Label titleLabel = new Label("Choose the block");
+            titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+            commandsBox.getChildren().add(titleLabel);
+
+            for (int i = 0; i < 4; i++) {
+                Button cmdButton = new Button(numToGoodBlock.get(i));
+                cmdButton.setPrefWidth(250);
+                int gbType = i;
+                cmdButton.setOnAction(e -> {
+                    selectedGoodBlock2 = numToGoodBlock.get(gbType);
+                    sendSwitchCommand();
+                    popupStage.close();
+                });
+                commandsBox.getChildren().add(cmdButton);
+            }
+
+            ScrollPane scrollPane = new ScrollPane(commandsBox);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setPrefViewportHeight(400);
+
+            Scene popupScene = new Scene(scrollPane, 300, 400);
+            popupStage.setScene(popupScene);
+
+            popupStage.centerOnScreen();
+
+            popupStage.show();
+        }
+    }
+
+    private void sendSwitchCommand() {
+        Command cmd = new SwitchGoodBlocksCommand(virtualServer, null);
+        List<String> input = new ArrayList<>();
+        input.addLast(selectedGoodBlock1);
+        input.addLast(String.valueOf(gbFromXCoord+5));
+        input.addLast(String.valueOf(gbFromYCoord+4));
+        input.addLast(selectedGoodBlock2);
+        input.addLast(String.valueOf(gbToXCoord+5));
+        input.addLast(String.valueOf(gbToYCoord+4));
+        cmd.setInput(input);
+        if(cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
+        else
+            showErrorAlert("WARNING", "Invalid inputs!");
     }
 }
-
-
