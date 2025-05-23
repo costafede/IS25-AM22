@@ -1123,7 +1123,7 @@ public class CardPhaseController extends FXMLController {
         commandsBox.getChildren().add(titleLabel);
 
         for (int i = 0; i < ((PlanetsCard) (model.getCurrCard())).getPlanets().size(); i++) {
-            Button cmdButton = setLandingButtons(i, popupStage);
+            Button cmdButton = setLandingButtons(i+1, popupStage);
             commandsBox.getChildren().add(cmdButton);
         }
 
