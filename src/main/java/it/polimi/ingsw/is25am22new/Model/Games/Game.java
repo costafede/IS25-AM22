@@ -314,6 +314,7 @@ public abstract class Game extends ObservableModel implements Serializable {
         flightboard.placeRocket(nickname, pos);
         updateAllFlightboard(flightboard);
         shipboards.get(nickname).setFinishedShipboard(true);
+        shipboards.get(nickname).setRocketPlaced(true);
         updateAllShipboard(nickname, shipboards.get(nickname));
         setCurrPlayerToLeader();
         updateAllCurrPlayer(flightboard.getOrderedRockets().getFirst());

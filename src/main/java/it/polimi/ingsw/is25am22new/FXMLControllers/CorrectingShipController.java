@@ -42,8 +42,7 @@ public class CorrectingShipController extends ShipPhasesController implements In
                 playerToScrap.put(ship.getNickname(), metalScrapCounter);
             }
         }
-        if(model.getShipboard(model.getPlayerName()).isFinishedShipboard())
-            rocketImage.setImage(null);
+        rocketImage.setVisible(false);
     }
 
     public void destroyTile(MouseEvent event) {

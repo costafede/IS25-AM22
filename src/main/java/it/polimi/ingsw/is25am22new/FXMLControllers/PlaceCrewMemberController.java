@@ -1,28 +1,32 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
-import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPhaseCommands.DestroyTileCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlaceAstronautCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlaceBrownAlienCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersPhaseCommands.PlacePurpleAlienCommand;
-import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhaseCommands.StandByComponentTileCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
+import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PlaceCrewMemberController extends ShipPhasesController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ClientModel model = GalaxyTruckerGUI.getClientModel();
@@ -51,6 +55,40 @@ public class PlaceCrewMemberController extends ShipPhasesController implements I
         drawPlayerShip(shipboard, playerToShipGrid.get(shipboard.getNickname()), null);
     }
 
+    protected void drawPlayerShip(Shipboard ship, GridPane tilesGrid, GridPane standByGrid) {
+
+        for(Node child : tilesGrid.getChildren()) {
+            StackPane cell = (StackPane) child;
+            int tileIdx = cell.getChildren().getFirst().getId().equals("tile") ? 0 : 1;
+            int memberIdx = tileIdx == 0 ? 1 : 0;
+            ImageView tileImageView = (ImageView) cell.getChildren().get(tileIdx);
+            ImageView memberImageView = (ImageView) cell.getChildren().get(memberIdx);
+            int i = GridPane.getRowIndex(child) != null ? GridPane.getRowIndex(child) : 0;
+            int j = GridPane.getColumnIndex(child) != null ? GridPane.getColumnIndex(child) : 0;
+            Optional<ComponentTile> ct = ship.getComponentTileFromGrid(i, j);
+            if (ct.isPresent() && ConditionVerifier.gridCoordinatesAreNotOutOfBound(i, j, model)) {
+                drawComponentTileImageForGrid(tileImageView, ct.get().getPngName(), ct.get().getNumOfRotations());
+                if(ct.get().getCrewNumber() > 0) {
+                    Image crewMemberImage;
+                    if(ct.get().isBrownAlienPresent()) {
+                        crewMemberImage = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/BrownAlien.png")).toString());
+                    }
+                    else if(ct.get().isPurpleAlienPresent()) {
+                        crewMemberImage = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/PurpleAlien.png")).toString());
+                    }
+                    else
+                        crewMemberImage = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/Astronaut.png")).toString());
+                    memberImageView.setImage(crewMemberImage);
+                    memberImageView.toFront();
+                }
+            }
+            else {
+                memberImageView.setImage(null);
+                tileImageView.setImage(null);
+            }
+        }
+    }
+
     @FXML
     private void handleDragDetectedCrewMember(MouseEvent event) {
         ImageView imageView = ((ImageView) event.getSource());
@@ -66,7 +104,7 @@ public class PlaceCrewMemberController extends ShipPhasesController implements I
     }
 
     public void handleDragDroppedCrewMember(DragEvent event) {
-        ImageView cell = (ImageView) event.getSource();
+        Node cell =  ((Node) event.getSource()).getParent();
         int row = GridPane.getRowIndex(cell)!= null ? GridPane.getRowIndex(cell) : 0;
         int col = GridPane.getColumnIndex(cell)!= null ? GridPane.getColumnIndex(cell) : 0;
         Dragboard db = event.getDragboard();

@@ -36,9 +36,8 @@ public class FinishBuildingCommand extends AbstractCommand {
 
     @Override
     public boolean isApplicable(ClientModel model) {
-        return (model.getGamePhase().getPhaseType().equals(PhaseType.BUILDING) ||
-                model.getGamePhase().getPhaseType().equals(PhaseType.CORRECTINGSHIP)) &&
-                !model.getShipboard(model.getPlayerName()).isFinishedShipboard();
+        return model.getGamePhase().getPhaseType().equals(PhaseType.BUILDING) &&
+                !model.getShipboard(model.getPlayerName()).isRocketPlaced();
     }
 
     @Override

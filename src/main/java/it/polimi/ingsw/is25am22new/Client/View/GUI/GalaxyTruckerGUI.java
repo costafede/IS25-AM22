@@ -7,6 +7,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
+import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
@@ -108,7 +109,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
 
     @Override
     public void updateStopHourglass() {
-        Platform.runLater(() -> buildingShipController.updateStopHourglass());
+        if(clientModel.getGamePhase().getPhaseType().equals(PhaseType.BUILDING))
+            Platform.runLater(() -> buildingShipController.updateStopHourglass());
     }
 
     @Override

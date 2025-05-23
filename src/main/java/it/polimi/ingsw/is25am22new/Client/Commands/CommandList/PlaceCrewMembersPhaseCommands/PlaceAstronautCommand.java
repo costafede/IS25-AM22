@@ -55,6 +55,7 @@ public class PlaceAstronautCommand extends AbstractCommand {
         }
         return ConditionVerifier.coordinatesAreNotOutOfBound(row, col, model) &&
                 ct.isPresent() &&
+                ct.get().isCabin() &&
                 ct.get().getCrewNumber() == 0;
     }
 

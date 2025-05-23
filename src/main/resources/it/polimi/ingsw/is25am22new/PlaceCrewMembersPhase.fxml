@@ -7,9 +7,10 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="723.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.PlaceCrewMemberController">
+<AnchorPane fx:id="rootAnchorPane" prefHeight="723.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.PlaceCrewMemberController">
     <children>
         <!-- Background Image (posto per primo per essere dietro a tutto) -->
         <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
@@ -105,39 +106,204 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="200.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="200.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" />
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
             </children>
         </GridPane>
         <GridPane fx:id="player2ShipGrid" layoutX="54.0" layoutY="274.0" prefHeight="192.0" prefWidth="266.0">
@@ -158,39 +324,205 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="200.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="200.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" />
+                <StackPane prefHeight="150.0" prefWidth="200.0">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
             </children>
         </GridPane>
         <GridPane fx:id="player3ShipGrid" layoutX="53.0" layoutY="509.0" prefHeight="192.0" prefWidth="266.0">
@@ -211,39 +543,204 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="200.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="162.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="238.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="10.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="48.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="86.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="200.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                <ImageView fitHeight="40.0" fitWidth="38.0" layoutX="124.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" />
+                <StackPane prefHeight="150.0" prefWidth="200.0">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
+                <StackPane layoutX="10.0" layoutY="9.0" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                    <children>
+                        <ImageView id="member" fitHeight="39.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView id="tile" fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </StackPane>
             </children>
         </GridPane>
         <ImageView fx:id="scrapImage" fitHeight="106.0" fitWidth="116.0" layoutX="1145.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true">
@@ -269,39 +766,204 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="199.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="75.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="10.0" layoutY="10.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="326.0" layoutY="264.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <StackPane prefHeight="70.0" prefWidth="27.0">
+               <children>
+                   <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="199.0" layoutY="136.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="136.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="136.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="136.0" layoutY="264.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
+            <StackPane layoutX="326.0" layoutY="264.0" prefHeight="70.0" prefWidth="27.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+               <children>
+                  <ImageView id="member" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                   <ImageView id="tile" fitHeight="64.0" fitWidth="64.0" onDragDropped="#handleDragDroppedCrewMember" onDragOver="#handleDragOverCrewMember" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
             </children>
         </GridPane>
         <Label fx:id="metalScrapCounter" alignment="CENTER" layoutX="1152.0" layoutY="368.0" prefHeight="64.0" prefWidth="86.0" text="0" textAlignment="CENTER" textFill="WHITE">
@@ -341,17 +1003,17 @@
         </Label>
       <ImageView id="astronaut" fitHeight="85.0" fitWidth="94.0" layoutX="569.0" layoutY="377.0" onDragDetected="#handleDragDetectedCrewMember" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../GraficheGioco/tiles/GT-new_tiles_16_for web33.jpg" />
+            <Image url="@Graphics/Astronaut.png" />
          </image>
       </ImageView>
       <ImageView id="purple" fitHeight="85.0" fitWidth="94.0" layoutX="569.0" layoutY="470.0" onDragDetected="#handleDragDetectedCrewMember" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../GraficheGioco/tiles/GT-new_tiles_16_for web144.jpg" />
+            <Image url="@Graphics/PurpleAlien.png" />
          </image>
       </ImageView>
       <ImageView id="brown" fitHeight="85.0" fitWidth="94.0" layoutX="569.0" layoutY="563.0" onDragDetected="#handleDragDetectedCrewMember" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../GraficheGioco/tiles/GT-new_tiles_16_for web137.jpg" />
+            <Image url="@Graphics/BrownAlien.png" />
          </image>
       </ImageView>
       <ImageView fx:id="rocketImage" fitHeight="25.0" fitWidth="25.0" layoutX="696.0" layoutY="670.0" pickOnBounds="true" preserveRatio="true" />

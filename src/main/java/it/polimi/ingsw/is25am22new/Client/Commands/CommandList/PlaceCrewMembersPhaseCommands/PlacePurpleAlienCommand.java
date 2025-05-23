@@ -56,6 +56,7 @@ public class PlacePurpleAlienCommand extends AbstractCommand {
         return ConditionVerifier.coordinatesAreNotOutOfBound(row, col, model) &&
                 ct.isPresent() &&
                 ct.get().getCrewNumber() == 0 &&
+                ct.get().isCabin() &&
                 model.getShipboard(model.getPlayerName()).isAlienPlaceable(StringConverter.stringToGridRow(input.getFirst()), StringConverter.stringToGridCol(input.get(1)), "purple");
     }
     @Override

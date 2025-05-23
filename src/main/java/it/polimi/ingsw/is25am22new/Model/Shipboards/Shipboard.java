@@ -27,6 +27,7 @@ public class Shipboard implements Serializable {
     private transient Optional<ComponentTile>[] standbyComponent;
     private int discardedTiles;
     private boolean finishedShipboard;
+    private boolean rocketPlaced;
     private int CosmicCredits;
     private Bank bank;
     private ComponentTile tileInHand;
@@ -45,6 +46,7 @@ public class Shipboard implements Serializable {
         this.standbyComponent[1] = Optional.empty();
         this.discardedTiles = 0;
         this.finishedShipboard = false;
+        this.rocketPlaced = false;
         this.CosmicCredits = 0;
         this.bank = bank;
         this.componentTilesGridCopy = new ComponentTile[5][7];
@@ -827,6 +829,14 @@ public class Shipboard implements Serializable {
 
     public int getDiscardedTiles() {
         return discardedTiles;
+    }
+
+    public void setRocketPlaced(boolean rocketPlaced) {
+        this.rocketPlaced = rocketPlaced;
+    }
+
+    public boolean isRocketPlaced() {
+        return rocketPlaced;
     }
 }
 

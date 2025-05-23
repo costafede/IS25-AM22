@@ -163,10 +163,9 @@ public class Level2Game extends Game implements Serializable {
                 for (String p : playerList) {
                     shipboards.get(p).setFinishedShipboard(true);
                 }
-                gamePhase.trySwitchToNextPhase();
+                updateAllShipboardList(shipboards);
                 if(gamePhase.getPhaseType().equals(PhaseType.BUILDING))
                     updateAllStopHourglass();
-                updateAllGamePhase(gamePhase);
             };
         }
         else{
