@@ -4,13 +4,10 @@ module it.polimi.ingsw.is25am22new {
         requires com.fasterxml.jackson.databind;
         requires java.desktop;
         requires jdk.jdi;
-        requires com.google.gson;
         requires java.rmi;
         requires javafx.graphics;
         requires java.base;
         requires java.logging;
-    requires org.junit.jupiter.api;
-    requires org.apiguardian.api;
     requires java.sql;
 
     exports it.polimi.ingsw.is25am22new.Model.Games;
