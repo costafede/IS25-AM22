@@ -247,20 +247,30 @@ public class GameController {
     // Game methods
     public void pickCoveredTile(String player) {
         synchronized (LOCK_COVEREDTILES){
-            if(currentState == GameState.GAME) {
-                game.pickCoveredTile(player);
-            }else {
-                System.out.println("Player " + player + " cannot pick a covered tile outside game state.");
+            try {
+                if(currentState == GameState.GAME) {
+                    game.pickCoveredTile(player);
+                }else {
+                    System.out.println("Player " + player + " cannot pick a covered tile outside game state.");
+                }
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
     public void pickUncoveredTile(String player, String tilePngName) {
         synchronized (LOCK_UNCOVEREDTILES) {
-            if(currentState == GameState.GAME) {
-                game.pickUncoveredTile(player, tilePngName);
-            } else {
-                System.out.println("Player " + player + " cannot pick an uncovered tile outside game state.");
+            try {
+                if (currentState == GameState.GAME) {
+                    game.pickUncoveredTile(player, tilePngName);
+                } else {
+                    System.out.println("Player " + player + " cannot pick an uncovered tile outside game state.");
+                }
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -286,58 +296,93 @@ public class GameController {
     }
 
     public void placeAstronauts(String nickname, int i, int j) {
-        if(currentState == GameState.GAME) {
-            game.placeAstronauts(nickname, i, j);
-        } else {
-            System.out.println("Player " + nickname + " cannot place astronauts outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.placeAstronauts(nickname, i, j);
+            } else {
+                System.out.println("Player " + nickname + " cannot place astronauts outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void placeBrownAlien(String nickname, int i, int j) {
-        if(currentState == GameState.GAME) {
-            game.placeBrownAlien(nickname, i, j);
-        } else {
-            System.out.println("Player " + nickname + " cannot place brown alien outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.placeBrownAlien(nickname, i, j);
+            } else {
+                System.out.println("Player " + nickname + " cannot place brown alien outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void placePurpleAlien(String nickname, int i, int j) {
-        if(currentState == GameState.GAME) {
-            game.placePurpleAlien(nickname, i, j);
-        } else {
-            System.out.println("Player " + nickname + " cannot place purple alien outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.placePurpleAlien(nickname, i, j);
+            } else {
+                System.out.println("Player " + nickname + " cannot place purple alien outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void weldComponentTile(String player, int i, int j) {
-        if(currentState == GameState.GAME) {
-            game.weldComponentTile(player, i, j);
-        } else {
-            System.out.println("Player " + player + " cannot weld a component tile outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.weldComponentTile(player, i, j);
+            } else {
+                System.out.println("Player " + player + " cannot weld a component tile outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void standbyComponentTile(String player) {
-        if(currentState == GameState.GAME) {
-            game.standbyComponentTile(player);
-        } else {
-            System.out.println("Player " + player + " cannot standby a component tile outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.standbyComponentTile(player);
+            } else {
+                System.out.println("Player " + player + " cannot standby a component tile outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void pickStandByComponentTile(String player, int index) {
-        if(currentState == GameState.GAME) {
-            game.pickStandByComponentTile(player, index);
-        } else {
-            System.out.println("Player " + player + " cannot pick a standby component tile outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.pickStandByComponentTile(player, index);
+            } else {
+                System.out.println("Player " + player + " cannot pick a standby component tile outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public void discardComponentTile(String player) {
-        if(currentState == GameState.GAME) {
-            game.discardComponentTile(player);
-        } else {
-            System.out.println("Player " + player + " cannot discard a component tile outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.discardComponentTile(player);
+            } else {
+                System.out.println("Player " + player + " cannot discard a component tile outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
     // NOT USED BY CLIENT?
@@ -353,10 +398,15 @@ public class GameController {
 
     public void finishBuilding(String player, int pos) {
         synchronized (LOCK_FLIGHTBOARD){
-            if(currentState == GameState.GAME) {
-                game.finishBuilding(player, pos);
-            } else {
-                System.out.println("Player " + player + " cannot finish building outside game state.");
+            try {
+                if (currentState == GameState.GAME) {
+                    game.finishBuilding(player, pos);
+                } else {
+                    System.out.println("Player " + player + " cannot finish building outside game state.");
+                }
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -374,29 +424,45 @@ public class GameController {
 
     public void flipHourglass() {
         synchronized (LOCK_HOURGLASS) {
-            if(currentState == GameState.GAME) {
-                game.flipHourglass(() -> {});
-            } else {
-                System.out.println("Cannot flip hourglass outside game state.");
+            try {
+                if (currentState == GameState.GAME) {
+                    game.flipHourglass(() -> {
+                    });
+                } else {
+                    System.out.println("Cannot flip hourglass outside game state.");
+                }
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
     public void pickCard() {
         synchronized (LOCK_CURRCARDDECK) {
-            if(currentState == GameState.GAME) {
-                game.pickCard();
-            } else {
-                System.out.println("Cannot pick card outside game state.");
+            try {
+                if (currentState == GameState.GAME) {
+                    game.pickCard();
+                } else {
+                    System.out.println("Cannot pick card outside game state.");
+                }
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
     public synchronized void activateCard(InputCommand inputCommand) {
-        if(currentState == GameState.GAME) {
-            game.activateCard(inputCommand);
-        } else {
-            System.out.println("Cannot activate card outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.activateCard(inputCommand);
+            } else {
+                System.out.println("Cannot activate card outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -411,10 +477,15 @@ public class GameController {
     }
 
     public void destroyTile(String player, int i, int j) {
-        if(currentState == GameState.GAME) {
-            game.destroyTile(player, i, j);
-        } else {
-            System.out.println("Player " + player + " cannot destroy a tile outside game state.");
+        try {
+            if (currentState == GameState.GAME) {
+                game.destroyTile(player, i, j);
+            } else {
+                System.out.println("Player " + player + " cannot destroy a tile outside game state.");
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

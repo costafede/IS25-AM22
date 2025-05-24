@@ -156,7 +156,9 @@ public class Level2Game extends Game implements Serializable {
         return cardPiles;
     }
 
-    public void flipHourglass(Runnable callbackMethod) {    //dobbiamo rimuovere il callback method dalla signature, non serve
+    public void flipHourglass(Runnable callbackMethod) {//dobbiamo rimuovere il callback method dalla signature, non serve
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot flip the hourglass now");
         if(hourglassSpot == 2)
             throw new IllegalArgumentException("Cannot flip the hourglass three times");
         hourglassSpot++;
