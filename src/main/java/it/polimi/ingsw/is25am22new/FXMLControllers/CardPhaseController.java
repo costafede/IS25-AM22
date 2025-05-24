@@ -397,7 +397,11 @@ public class CardPhaseController extends FXMLController {
     }
 
     public void updateInfoArea() {
-        infoArea.setText(cardNameToInfoText.get(model.getCurrCard().getName()).get());
+        if (model.getCurrCard() != null) {
+            infoArea.setText(cardNameToInfoText.get(model.getCurrCard().getName()).get());
+        } else {
+            infoArea.setText(""); // Pulisci l'area di testo quando non c'è una carta
+        }
     }
 
     /**
@@ -912,6 +916,7 @@ public class CardPhaseController extends FXMLController {
         // Rimuovi eventuali eventi precedenti per evitare duplicazioni
         imageView.setOnMouseEntered(null);
         imageView.setOnMouseExited(null);
+        imageView.setOnMouseClicked(null);
 
         // Set the tooltip directly on the imageView
         imageView.setOnMouseEntered(event -> {
@@ -952,6 +957,18 @@ public class CardPhaseController extends FXMLController {
                 // Rimuovo solo lo stile di hover, mantenendo eventuali altri stili
                 imageView.setStyle("");
             }
+        });
+
+        // Aggiungi anche un handler per il click che nasconde il tooltip
+        imageView.setOnMouseClicked(event -> {
+            tooltip.hide();
+            Tooltip.uninstall(imageView, tooltip);
+        });
+
+        // Assicurati che il tooltip sia rimosso quando l'immagine viene aggiornata o rimossa
+        imageView.imageProperty().addListener((obs, oldImage, newImage) -> {
+            tooltip.hide();
+            Tooltip.uninstall(imageView, tooltip);
         });
     }
 
@@ -1473,3 +1490,4 @@ public class CardPhaseController extends FXMLController {
         resetShip();
     }
 }
+
