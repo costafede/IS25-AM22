@@ -193,7 +193,7 @@ public abstract class Game extends ObservableModel implements Serializable {
      */
     public void pickCoveredTile(String nickname) {
         if(coveredComponentTiles.isEmpty())
-            throw new IllegalStateException("There are no covered components in this game");
+            throw new IllegalStateException("There are no more covered components to pick");
         shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
         updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
         updateAllCoveredComponentTiles(coveredComponentTiles);
