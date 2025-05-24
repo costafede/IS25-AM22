@@ -40,7 +40,7 @@ public class AbandonedStationState_2 extends AbandonedStationState implements Se
             if(inputCommand.isAddingGoodBlock()){ //player is retrieving good blocks from the station
                 storageCompartment.addGoodBlock(gb);
                 if(abandonedStationCard.getActualGoodBlocks().get(gb) == 0)
-                    throw new IllegalArgumentException("There are no more blocks to pick on the Station");
+                    throw new IllegalArgumentException("There is no such block to pick on the Station");
                 abandonedStationCard.getActualGoodBlocks().put(gb, abandonedStationCard.getActualGoodBlocks().get(gb) - 1); //remove the good block taken from the station (so I take it from the actualGoodblocks)
                 abandonedStationCard.getObservableModel().updateAllBanks(game.getBank());
                 abandonedStationCard.getObservableModel().updateAllShipboard(game.getCurrPlayer(), game.getShipboards().get(game.getCurrPlayer()));

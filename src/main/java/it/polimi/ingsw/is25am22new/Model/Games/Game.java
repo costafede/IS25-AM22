@@ -129,8 +129,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * @param j the column index of the target tile on the shipboard
      * @throws IllegalArgumentException if the tile is not a cabin, is already occupied,
      *                                  or does not exist
+     * @throws IllegalStateException if the method is called in the wrong game phase
      */
     public void placeAstronauts(String nickname, int i, int j) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.PLACECREWMEMBERS))
+            throw new IllegalStateException("Cannot place Crew Members now");
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
         if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin())
@@ -150,8 +153,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * @param j the column index of the target tile on the shipboard
      * @throws IllegalArgumentException if the tile is not a cabin, is already occupied,
      *                                  does not exist, or if a brown alien cannot be placed at the given coordinates
+     * @throws IllegalStateException if the method is called in the wrong game phase
      */
     public void placeBrownAlien(String nickname, int i, int j) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.PLACECREWMEMBERS))
+            throw new IllegalStateException("Cannot place Crew Members now");
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
         if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || !shipboard.isAlienPlaceable(i, j, "brown"))
@@ -171,8 +177,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * @param j the column index of the target tile on the shipboard
      * @throws IllegalArgumentException if the tile is not a cabin, is already occupied, does not exist,
      *                                  or if a purple alien cannot be placed at the given coordinates
+     * @throws IllegalStateException if the method is called in the wrong game phase
      */
     public void placePurpleAlien(String nickname, int i, int j) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.PLACECREWMEMBERS))
+            throw new IllegalStateException("Cannot place Crew Members now");
         Shipboard shipboard = shipboards.get(nickname);
         Optional<ComponentTile> tile = shipboard.getComponentTileFromGrid(i, j);
         if(tile.isEmpty() || tile.get().getCrewNumber() > 0 || !tile.get().isCabin() || !shipboard.isAlienPlaceable(i, j, "purple"))
@@ -189,9 +198,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * Updates the list of remaining covered component tiles and notifies observers about the changes.
      *
      * @param nickname the nickname of the player who is picking the covered tile
-     * @throws IllegalStateException if there are no covered component tiles available to pick
+     * @throws IllegalStateException if there are no covered component tiles available to pick or if the method is called in the wrong game phase
      */
     public void pickCoveredTile(String nickname) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot pick Tiles now");
         if(coveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no more covered components to pick");
         shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
@@ -208,8 +219,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * @param tilePngName the PNG name of the component tile to be picked
      * @throws IllegalStateException if there are no uncovered component tiles available
      *                                or if the specified tile does not exist
+     *                                or if the method is called in the wrong game phase
      */
     public void pickUncoveredTile(String nickname, String tilePngName) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot pick tiles now");
         if(uncoveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no uncovered components in this game");
         int index = -1;
@@ -252,9 +266,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * @param nickname the nickname of the player whose shipboard will be updated
      * @param i the row index of the target tile on the shipboard
      * @param j the column index of the target tile on the shipboard
-     * @throws IllegalStateException if a component tile is already present in the specified location
+     * @throws IllegalStateException if a component tile is already present in the specified location or if the method is called in the wrong game phase
      */
     public void weldComponentTile(String nickname, int i, int j) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot weld a tile now");
         ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
         if(shipboards.get(nickname).getComponentTileFromGrid(i, j).isPresent())
             throw new IllegalStateException("Component tile already present in the chosen slot");
@@ -271,8 +287,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      *
      * @param nickname the identifier for the player whose component tile
      *                 is being placed in standby mode
+     * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void standbyComponentTile(String nickname) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot stand by tiles now");
         ComponentTile tileInHand = shipboards.get(nickname).getTileInHand();
         shipboards.get(nickname).standbyComponentTile(tileInHand);
         shipboards.get(nickname).setTileInHand(null);
@@ -287,8 +306,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      *
      * @param nickname the identifier for the shipboard from which the standby component tile is being picked
      * @param index the index of the standby component tile to pick
+     * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void pickStandByComponentTile(String nickname, int index) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot pick tiles now");
         ComponentTile ct = shipboards.get(nickname).pickStandByComponentTile(index);
         shipboards.get(nickname).setTileInHand(ct);
         updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
@@ -299,8 +321,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * Discards the current tile in hand of the specified component and updates the relevant state.
      *
      * @param nickname the identifier of the component whose tile is being discarded
+     * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void discardComponentTile(String nickname) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot discard tiles now");
         uncoveredComponentTiles.add(shipboards.get(nickname).getTileInHand());
         shipboards.get(nickname).setTileInHand(null);
         updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
@@ -312,9 +337,12 @@ public abstract class Game extends ObservableModel implements Serializable {
      *
      * @param nickname The nickname of the player finishing their building phase.
      * @param pos The position identifier where the rocket is placed (valid values are 0, 1, 2, 3).
+     * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void finishBuilding(String nickname, int pos) {
         // pos is 0, 1, 2, 3
+        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+            throw new IllegalStateException("Cannot place a rocket now");
         flightboard.placeRocket(nickname, pos);
         updateAllFlightboard(flightboard);
         shipboards.get(nickname).setFinishedShipboard(true);
@@ -354,8 +382,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * If the system is in god mode, the first card from the deck is selected.
      * Otherwise, a random card from the deck is selected.
      * Updates the deck and the current card to reflect the changes.
+     * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void pickCard() {
+        if(!gamePhase.getPhaseType().equals(PhaseType.CARD))
+            throw new IllegalStateException("Cannot pick a card now");
         if(godMode) {
             setCurrCard(deck.removeFirst());
         }else {
@@ -388,8 +419,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * @param nickname the nickname of the player whose shipboard tile is to be destroyed
      * @param i the row index of the tile to be destroyed
      * @param j the column index of the tile to be destroyed
+     * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void destroyTile(String nickname, int i, int j) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.CORRECTINGSHIP))
+            throw new IllegalStateException("Cannot destroy tiles now");
         shipboards.get(nickname).destroyTile(i, j);
         gamePhase.trySwitchToNextPhase();
         updateAllShipboard(nickname, shipboards.get(nickname));
@@ -543,8 +577,11 @@ public abstract class Game extends ObservableModel implements Serializable {
      * Activates the effect of the current card, updates its state, and performs necessary updates to the game phase.
      *
      * @param inputCommand the command that carries information or parameters required to activate the card's effect
+     * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void activateCard(InputCommand inputCommand) {
+        if(!gamePhase.getPhaseType().equals(PhaseType.CARD))
+            throw new IllegalStateException("Cannot interact with a card now");
         currCard.activateEffect(inputCommand);
         updateAllCurrCard(currCard);
         gamePhase.trySwitchToNextPhase();
