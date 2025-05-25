@@ -68,7 +68,7 @@ public class AdventureCardViewGUI {
     public String showCombatZoneCard(CombatZoneCard card) {
         String output = "\n";
         if(card.getStateName().equals("CombatZoneState_8") || card.getStateName().equals("CombatZoneState_9") || card.getStateName().equals("CombatZoneState_10")) {
-            output = output.concat("Incoming shot: " + card.getIndexOfIncomingShot()+1) + " - Look at the dices\n";
+            output = output.concat("Incoming shot: " + (card.getIndexOfIncomingShot()+1)) + " - Look at the dices\n";
         } else {
             output = output.concat("No incoming shot");
         }
@@ -85,7 +85,7 @@ public class AdventureCardViewGUI {
         Map<Integer, Shot> numberToShot = card.getNumberToShot();
         if (state.equals("CombatZoneState_6") || state.equals("CombatZoneState_7") || state.equals("CombatZoneState_8") || state.equals("CombatZoneState_9")){
             int shotIndex = card.getIndexOfIncomingShot();
-            output = output.concat("Incoming shot: " + shotIndex+1 + " - Look at the dices\n");
+            output = output.concat("Incoming shot: " + (shotIndex+1) + " - Look at the dices\n");
         } else {
             output = output.concat("No incoming shot");
         }
@@ -108,7 +108,7 @@ public class AdventureCardViewGUI {
         String output = "\n";
 
         int meteorIndex = card.getIndexOfIncomingMeteor();
-        output = output.concat("Number of incoming meteor: " + meteorIndex+1 + " - Look at the dices\n");
+        output = output.concat("Number of incoming meteor: " + (meteorIndex+1) + " - Look at the dices\n");
 
         return "Meteor Swarm Card" + output;
     }
@@ -130,7 +130,7 @@ public class AdventureCardViewGUI {
         String output = "\n";
 
         int shotIndex = card.getIndexOfIncomingShot();
-        output = output.concat("Number of incoming shot: " + shotIndex+1 + " - Look at the dices\n");
+        output = output.concat("Number of incoming shot: " + (shotIndex+1) + " - Look at the dices\n");
 
 
         return "Pirates Card" + output;
@@ -151,6 +151,7 @@ public class AdventureCardViewGUI {
      */
     public String showSmugglersCardInGame(SmugglersCard card) {
         String output = "\n";
+        card.loadSmugglers();
         Map<GoodBlock, Integer> actualGoodBlocks = card.getActualGoodBlocks();
         output = output.concat("Actual good blocks on the planet: \n");
 

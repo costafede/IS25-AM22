@@ -1173,7 +1173,7 @@ public class CardPhaseController extends FXMLController {
         commandsBox.getChildren().add(titleLabel);
 
         for (int i = 0; i < ((PlanetsCard) (model.getCurrCard())).getPlanets().size(); i++) {
-            Button cmdButton = setLandingButtons(i+1, popupStage);
+            Button cmdButton = setLandingButtons(i, popupStage);
             commandsBox.getChildren().add(cmdButton);
         }
 
@@ -1190,7 +1190,7 @@ public class CardPhaseController extends FXMLController {
     }
 
     private Button setLandingButtons(int i, Stage popupStage) {
-        Button cmdButton = new Button("Land on planet " + i);
+        Button cmdButton = new Button("Land on planet " + (i+1));
         cmdButton.setPrefWidth(250);
         cmdButton.setOnAction(e -> {
             Command cmd = new LandOnPlanetCommand(virtualServer, null);
