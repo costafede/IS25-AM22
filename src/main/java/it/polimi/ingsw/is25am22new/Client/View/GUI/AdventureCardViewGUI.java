@@ -156,7 +156,7 @@ public class AdventureCardViewGUI {
         output = output.concat("Actual good blocks on the planet: \n");
 
         for(GoodBlock goodBlock : actualGoodBlocks.keySet()) {
-            output = output.concat("Good: " + goodBlock + ", Available in the bank: " + actualGoodBlocks.get(goodBlock) + "\n");
+            output = output.concat("Good: " + goodBlock + ", Available in their ship: " + actualGoodBlocks.get(goodBlock) + "\n");
         }
 
         return "Smugglers Card" + output;
