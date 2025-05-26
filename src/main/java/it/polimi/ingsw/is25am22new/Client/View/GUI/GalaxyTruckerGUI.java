@@ -100,13 +100,17 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     }
 
     public void handle(WindowEvent we) {
-        try {
-            virtualServer.disconnect();
-            System.out.println("Richiesta di disconnessione inviata al server");
-        } catch (IOException e) {
-            System.err.println("Errore durante la disconnessione: " + e.getMessage());
+        if(virtualServer != null) {
+            try {
+                virtualServer.disconnect();
+                System.out.println("Richiesta di disconnessione inviata al server");
+            } catch (IOException e) {
+                System.err.println("Errore durante la disconnessione: " + e.getMessage());
+            }
+            we.consume();
+        } else {
+            System.exit(0);
         }
-        we.consume();
     }
 
     /**
