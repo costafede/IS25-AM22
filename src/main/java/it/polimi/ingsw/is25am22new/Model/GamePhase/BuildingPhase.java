@@ -60,7 +60,8 @@ public class BuildingPhase extends GamePhase {
             shipboard.setCorrectingShip(true);
         }
         for(String player : new ArrayList<>(flightboard.getOrderedRockets()))
-            stepForwardInStartingPosition(flightboard, player);
+            for(int i = 0; i < incorrectShipboards.size(); i++)
+                stepForwardInStartingPosition(flightboard, player);
         game.updateAllFlightboard(flightboard);
         game.updateAllShipboardList(game.getShipboards());
     }
