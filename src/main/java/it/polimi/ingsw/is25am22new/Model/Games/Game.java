@@ -349,12 +349,13 @@ public abstract class Game extends ObservableModel implements Serializable {
      */
     public void finishBuilding(String nickname, int pos) {
         // pos is 0, 1, 2, 3
-        if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
+        if(!(gamePhase.getPhaseType().equals(PhaseType.BUILDING) || gamePhase.getPhaseType().equals(PhaseType.CORRECTINGSHIP) && !shipboards.get(nickname).isRocketPlaced()))
             throw new IllegalStateException("Cannot place a rocket now");
         flightboard.placeRocket(nickname, pos);
         updateAllFlightboard(flightboard);
         shipboards.get(nickname).setFinishedShipboard(true);
         shipboards.get(nickname).setRocketPlaced(true);
+        shipboards.get(nickname).setCorrectingShip(false);
         updateAllShipboard(nickname, shipboards.get(nickname));
         setCurrPlayerToLeader();
         updateAllCurrPlayer(flightboard.getOrderedRockets().getFirst());

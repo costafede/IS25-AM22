@@ -169,6 +169,8 @@ public class BuildingShipController extends ShipPhasesController implements Init
 
     public void drawShipInBuildingPhase(Shipboard shipboard) {
         drawPlayerShip(shipboard, playerToShipGrid.get(shipboard.getNickname()), playerToShipStandByTiles.get(shipboard.getNickname()));
+        if(shipboard.getNickname().equals(model.getPlayerName()) && !shipboard.isRocketPlaced())
+            rocketImage.setImage(colorToRocketImage.get(shipboard.getColor()));
     }
 
     protected void drawPlayerShip(Shipboard ship, GridPane tilesGrid, GridPane standByGrid) {

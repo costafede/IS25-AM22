@@ -45,16 +45,6 @@ public class CorrectingShipController extends ShipPhasesController implements In
         rocketImage.setVisible(false);
     }
 
-    public void destroyTile(MouseEvent event) {
-        ImageView cell = (ImageView) event.getSource();
-        int row = GridPane.getRowIndex(cell)!= null ? GridPane.getRowIndex(cell) : 0;
-        int col = GridPane.getColumnIndex(cell)!= null ? GridPane.getColumnIndex(cell) : 0;
-        Command cmd = new DestroyTileCommand(virtualServer,null);
-        cmd.setInput(new ArrayList<>(List.of(String.valueOf(row + 5), String.valueOf(col + 4))));
-        if(cmd.isApplicable(model) && cmd.isInputValid(model))
-            new Thread(() -> cmd.execute(model)).start();
-    }
-
     public void drawShipInCorrectingShipPhase(Shipboard shipboard) {
         drawPlayerShip(shipboard, playerToShipGrid.get(shipboard.getNickname()), null);
         Label counterLabel = playerToScrap.get(shipboard.getNickname());
