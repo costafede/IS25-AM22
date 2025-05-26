@@ -431,7 +431,7 @@ public abstract class Game extends ObservableModel implements Serializable {
      * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void destroyTile(String nickname, int i, int j) {
-        if(!gamePhase.getPhaseType().equals(PhaseType.CORRECTINGSHIP))
+        if(!(gamePhase.getPhaseType().equals(PhaseType.CORRECTINGSHIP) || gamePhase.getPhaseType().equals(PhaseType.BUILDING) && shipboards.get(nickname).isCorrectingShip()))
             throw new IllegalStateException("Cannot destroy tiles now");
         shipboards.get(nickname).destroyTile(i, j);
         gamePhase.trySwitchToNextPhase();

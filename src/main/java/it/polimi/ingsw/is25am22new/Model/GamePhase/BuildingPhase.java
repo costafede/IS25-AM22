@@ -23,7 +23,7 @@ public class BuildingPhase extends GamePhase {
         boolean flag_rocket_placed = true;
         boolean flag_valid = true;
         boolean flag_shipboards_populated = true;
-        List<Shipboard> incorrectShipboards = new ArrayList<Shipboard>();
+        List<Shipboard> incorrectShipboards = new ArrayList<>();
         for(String player : game.getPlayerList()){
             if(!game.getShipboards().get(player).isRocketPlaced())
                 flag_rocket_placed = false;
@@ -40,9 +40,9 @@ public class BuildingPhase extends GamePhase {
             else
                 transition(new CorrectingShipPhase(game));
         }
-        if(flag_rocket_placed && flag_valid && !flag_shipboards_populated)
+        else if(flag_rocket_placed && !flag_shipboards_populated)
             transition(new PlaceCrewMembersPhase(game));
-        if(flag_rocket_placed && flag_valid && flag_shipboards_populated)
+        else if(flag_rocket_placed)
             transition(new CardPhase(game));
     }
 
@@ -59,7 +59,7 @@ public class BuildingPhase extends GamePhase {
             shipboard.setFinishedShipboard(false);
             shipboard.setCorrectingShip(true);
         }
-        for(String player : flightboard.getOrderedRockets())
+        for(String player : new ArrayList<>(flightboard.getOrderedRockets()))
             stepForwardInStartingPosition(flightboard, player);
         game.updateAllFlightboard(flightboard);
         game.updateAllShipboardList(game.getShipboards());
@@ -67,21 +67,25 @@ public class BuildingPhase extends GamePhase {
 
     private void stepForwardInStartingPosition(Flightboard flightboard, String player) {
         int pos = flightboard.getPositions().get(player);
-        flightboard.removeRocket(player);
+        int new_starting_pos = pos;
         switch(pos){
-            case 4: break;
+            case 4:
+                new_starting_pos = 0;
+                break;
             case 2:
                 if(!flightboard.getPositions().containsValue(4))
-                    flightboard.placeRocket(player, 4);
+                    new_starting_pos = 0;
                 break;
             case 1:
                 if(!flightboard.getPositions().containsValue(2))
-                    flightboard.placeRocket(player, 2);
+                    new_starting_pos = 1;
                 break;
             case 0:
                 if(!flightboard.getPositions().containsValue(1))
-                    flightboard.placeRocket(player, 1);
+                    new_starting_pos = 2;
                 break;
         }
+        flightboard.removeRocket(player);
+        flightboard.placeRocket(player, new_starting_pos);
     }
 }
