@@ -61,14 +61,14 @@ public class BuildingPhase extends GamePhase {
         }
         for(String player : new ArrayList<>(flightboard.getOrderedRockets()))
             for(int i = 0; i < incorrectShipboards.size(); i++)
-                stepForwardInStartingPosition(flightboard, player);
+                stepForwardInStartingPositions(flightboard, player);
         game.updateAllFlightboard(flightboard);
         game.updateAllShipboardList(game.getShipboards());
     }
 
-    private void stepForwardInStartingPosition(Flightboard flightboard, String player) {
+    private void stepForwardInStartingPositions(Flightboard flightboard, String player) {
         int pos = flightboard.getPositions().get(player);
-        int new_starting_pos = pos;
+        int new_starting_pos;
         switch(pos){
             case 4:
                 new_starting_pos = 0;
@@ -76,14 +76,23 @@ public class BuildingPhase extends GamePhase {
             case 2:
                 if(!flightboard.getPositions().containsValue(4))
                     new_starting_pos = 0;
+                else
+                    new_starting_pos = 1;
                 break;
             case 1:
                 if(!flightboard.getPositions().containsValue(2))
                     new_starting_pos = 1;
+                else
+                    new_starting_pos = 2;
                 break;
             case 0:
                 if(!flightboard.getPositions().containsValue(1))
                     new_starting_pos = 2;
+                else
+                    new_starting_pos = 3;
+                break;
+            default:
+                new_starting_pos = -1;
                 break;
         }
         flightboard.removeRocket(player);
