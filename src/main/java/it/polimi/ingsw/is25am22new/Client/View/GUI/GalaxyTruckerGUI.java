@@ -17,11 +17,13 @@ import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.List;
@@ -83,6 +85,8 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
             }
         }
 
+        primaryStage.setOnCloseRequest(e -> handle(e));
+
         Scene scene = new Scene(root, 1280, 720);
         Image icon = new Image(Objects.requireNonNull(getClass().getResource("/it/polimi/ingsw/is25am22new/Graphics/Icon.png")).toString());
         primaryStage.getIcons().add(icon);
@@ -95,10 +99,19 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         launch(args);
     }
 
+    public void handle(WindowEvent we) {
+        try {
+            virtualServer.disconnect();
+            System.out.println("Richiesta di disconnessione inviata al server");
+        } catch (IOException e) {
+            System.err.println("Errore durante la disconnessione: " + e.getMessage());
+        }
+        we.consume();
+    }
+
     /**
      * Called only when the model is initialized server side
      */
-
 
     @Override
     public void updateGame(ClientModel model) {
