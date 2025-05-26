@@ -24,6 +24,10 @@ public class AlienAddon extends ComponentTile {
         return color;
     }
 
+    public boolean isAlienAddon() {
+        return true;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + color + " Top: " + topSide + " Bottom: " + bottomSide + " Left: " + leftSide + " Rigth: " + rightSide;

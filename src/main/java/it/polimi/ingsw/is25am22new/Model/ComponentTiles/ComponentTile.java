@@ -52,6 +52,10 @@ public abstract class ComponentTile implements Serializable {
         this.color = color;
     }
 
+    public boolean isAlienAddon(){
+        return false;
+    }
+
     public void rotateClockwise() {
         Side tmp = topSide;
         topSide = leftSide;

@@ -205,7 +205,15 @@ public abstract class Game extends ObservableModel implements Serializable {
             throw new IllegalStateException("Cannot pick Tiles now");
         if(coveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no more covered components to pick");
+
         shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
+
+        // If it is a tutorial game, there is no alien addon
+        while(flightboard.getFlightBoardLength() == 18 && shipboards.get(nickname).getTileInHand().isAlienAddon()) {
+            shipboards.get(nickname).setTileInHand(null);
+            shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
+        }
+
         updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
         updateAllCoveredComponentTiles(coveredComponentTiles);
     }
