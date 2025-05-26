@@ -434,9 +434,11 @@ public abstract class Game extends ObservableModel implements Serializable {
         if(!(gamePhase.getPhaseType().equals(PhaseType.CORRECTINGSHIP) || gamePhase.getPhaseType().equals(PhaseType.BUILDING) && shipboards.get(nickname).isCorrectingShip()))
             throw new IllegalStateException("Cannot destroy tiles now");
         shipboards.get(nickname).destroyTile(i, j);
+        PhaseType prevPhase = gamePhase.getPhaseType();
         gamePhase.trySwitchToNextPhase();
         updateAllShipboard(nickname, shipboards.get(nickname));
-        if(!gamePhase.getPhaseType().equals(PhaseType.CORRECTINGSHIP))
+        PhaseType currPhase = gamePhase.getPhaseType();
+        if(prevPhase != currPhase)
             updateAllGamePhase(gamePhase);
     }
 
