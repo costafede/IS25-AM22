@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CorrectingShipPhaseCommands.DestroyTileCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhaseCommands.FinishBuildingCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyStarsEffect;
@@ -188,6 +189,18 @@ public abstract class ShipPhasesController extends FXMLController{
     }
 
     public void updateFlightBoard(Flightboard flightboard) {
+        for(Node child : flightboardPane.getChildren()) {
+            int childId;
+            try {
+                childId = Integer.parseInt(child.getId());
+            } catch (NumberFormatException e) {
+                childId = -1;
+            }
+            if(child.getId() != null && childId >= 0 && childId <= 6) {
+                ((ImageView) child).setImage(null);
+            }
+        }
+
         for(String player : flightboard.getPositions().keySet()) {
             Image rocket = colorToRocketImage.get(model.getShipboard(player).getColor());
             int position = flightboard.getStartingPositions().indexOf(flightboard.getPositions().get(player)) + 1; //converts absolute positions (6, 3, 1, 0) to starting positions (1, 2, 3, 4)
@@ -203,5 +216,16 @@ public abstract class ShipPhasesController extends FXMLController{
                 }
             }
         }
+
+    }
+
+    public void destroyTile(MouseEvent event) {
+        ImageView cell = (ImageView) event.getSource();
+        int row = GridPane.getRowIndex(cell)!= null ? GridPane.getRowIndex(cell) : 0;
+        int col = GridPane.getColumnIndex(cell)!= null ? GridPane.getColumnIndex(cell) : 0;
+        Command cmd = new DestroyTileCommand(virtualServer,null);
+        cmd.setInput(new ArrayList<>(List.of(String.valueOf(row + 5), String.valueOf(col + 4))));
+        if(cmd.isApplicable(model) && cmd.isInputValid(model))
+            new Thread(() -> cmd.execute(model)).start();
     }
 }

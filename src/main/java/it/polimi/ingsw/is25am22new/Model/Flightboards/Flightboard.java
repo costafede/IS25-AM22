@@ -80,6 +80,11 @@ public abstract class Flightboard implements Serializable {
         ));
     }
 
+    public void removeRocket(String nickname) {
+        orderedRockets.remove(nickname);
+        positions.remove(nickname);
+    }
+
     public abstract void placeRocket(String nickname, int pos);
 
     public int getFlightBoardLength(){

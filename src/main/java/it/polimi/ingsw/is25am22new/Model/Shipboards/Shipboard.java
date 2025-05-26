@@ -28,6 +28,7 @@ public class Shipboard implements Serializable {
     private int discardedTiles;
     private boolean finishedShipboard;
     private boolean rocketPlaced;
+    private boolean correctingShip;
     private int CosmicCredits;
     private Bank bank;
     private ComponentTile tileInHand;
@@ -47,6 +48,7 @@ public class Shipboard implements Serializable {
         this.discardedTiles = 0;
         this.finishedShipboard = false;
         this.rocketPlaced = false;
+        this.correctingShip = false;
         this.CosmicCredits = 0;
         this.bank = bank;
         this.componentTilesGridCopy = new ComponentTile[5][7];
@@ -837,6 +839,14 @@ public class Shipboard implements Serializable {
 
     public boolean isRocketPlaced() {
         return rocketPlaced;
+    }
+
+    public void setCorrectingShip(boolean correctingShip) {
+        this.correctingShip = correctingShip;
+    }
+
+    public boolean isCorrectingShip() {
+        return correctingShip;
     }
 }
 

@@ -1,6 +1,14 @@
 package it.polimi.ingsw.is25am22new.Model.GamePhase;
 
+import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
+import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
+import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
+import it.polimi.ingsw.is25am22new.Network.ObservableModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * The CorrectingShipPhase class represents a specific phase in the game where players
@@ -22,11 +30,13 @@ public class CorrectingShipPhase extends GamePhase {
         boolean flag_valid = true;
         boolean flag_shipboards_populated = true;
         for(String player : game.getPlayerList()){
-            if(!game.getShipboards().get(player).checkShipboard())
+            if(!game.getShipboards().get(player).checkShipboard()) {
                 flag_valid = false;
+            }
             if(!game.getShipboards().get(player).allCabinsArePopulated())
                 flag_shipboards_populated = false;
         }
+
         if(flag_valid && !flag_shipboards_populated) {
             transition(new PlaceCrewMembersPhase(game));
         }
@@ -34,4 +44,5 @@ public class CorrectingShipPhase extends GamePhase {
             transition(new CardPhase(game));
         }
     }
+
 }
