@@ -1,9 +1,9 @@
 package it.polimi.ingsw.is25am22new.Model.AdventureCard.EpidemicCard;
 
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardViewTUI;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.AdventureCardViewTUI;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;

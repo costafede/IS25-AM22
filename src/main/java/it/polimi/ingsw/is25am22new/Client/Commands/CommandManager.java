@@ -11,9 +11,8 @@ import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.PlaceCrewMembersP
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GodModeCommands.EnterGodModeCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.ShipBuildingPhaseCommands.*;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
-import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
-import it.polimi.ingsw.is25am22new.Network.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;

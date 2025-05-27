@@ -1,6 +1,6 @@
-package it.polimi.ingsw.is25am22new.Model.AdventureCard;
+package it.polimi.ingsw.is25am22new.Client.View.GUI;
 
-import it.polimi.ingsw.is25am22new.Client.View.AdventureCardViewTUI;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.AdventureCardViewTUI;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 
 /**

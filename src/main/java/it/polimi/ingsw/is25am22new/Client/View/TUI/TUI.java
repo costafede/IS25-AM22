@@ -1,9 +1,10 @@
-package it.polimi.ingsw.is25am22new.Client.View;
+package it.polimi.ingsw.is25am22new.Client.View.TUI;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
+import it.polimi.ingsw.is25am22new.Client.View.*;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
-import it.polimi.ingsw.is25am22new.Model.AdventureCard.ViewableCard;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.ViewableCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.GamePhase;
@@ -18,7 +19,7 @@ import java.util.*;
  * It serves as an implementation of both the ClientModelObserver and ViewAdapter interfaces,
  * allowing it to respond to game model updates and provide a text-based interface for the user.
  */
-public class TUI implements ClientModelObserver,ViewAdapter{
+public class TUI implements ClientModelObserver, ViewAdapter {
 
     private final CommandManager commandManager;
     private boolean cliRunning;
@@ -173,7 +174,7 @@ public class TUI implements ClientModelObserver,ViewAdapter{
                     System.out.print("|");
                     Optional<ComponentTile> c = ship.getComponentTileFromGrid(line, column);
                     if (c.isPresent()) {
-                        String[] draw = c.get().draw();
+                        String[] draw = c.get().getDrawableTUI().draw();
                         System.out.print(draw[h]);
                     }
                     else {
@@ -223,7 +224,7 @@ public class TUI implements ClientModelObserver,ViewAdapter{
                 Optional<ComponentTile>[] standbyComponents = ship.getStandbyComponent();
                 Optional<ComponentTile> c = standbyComponents[column];
                 if (c.isPresent()) {
-                    String[] draw = c.get().draw();
+                    String[] draw = c.get().getDrawableTUI().draw();
                     System.out.print(draw[h]);
                 }
                 else {
@@ -415,7 +416,7 @@ public class TUI implements ClientModelObserver,ViewAdapter{
             for (int h = 0; h < 5; h++) {
                 for (int column = 0; column < 1; column++) {
                     System.out.print("|");
-                    String[] draw = ct.draw();
+                    String[] draw = ct.getDrawableTUI().draw();
                     System.out.print(draw[h]);
                 }
                 System.out.println("|");

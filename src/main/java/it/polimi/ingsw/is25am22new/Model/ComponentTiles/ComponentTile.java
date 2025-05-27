@@ -1,6 +1,7 @@
 package it.polimi.ingsw.is25am22new.Model.ComponentTiles;
 
-import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.Drawable.DrawableComponentTile;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.DrawableTilesTUI.DrawableComponentTileTUI;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
 
 import java.io.Serializable;
@@ -260,7 +261,7 @@ public abstract class ComponentTile implements Serializable {
         return 0;
     }
 
-    public String[] draw() {return null;};
+    public DrawableComponentTileTUI getDrawableTUI() {return null;}
 
     public int getNumOfRotations() {
         return numOfRotations;

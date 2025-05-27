@@ -3,7 +3,7 @@ package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommand
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.StringConverter;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
-import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.InputCommand;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;

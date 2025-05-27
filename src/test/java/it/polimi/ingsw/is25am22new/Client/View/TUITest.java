@@ -1,10 +1,10 @@
 package it.polimi.ingsw.is25am22new.Client.View;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.TUI;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;

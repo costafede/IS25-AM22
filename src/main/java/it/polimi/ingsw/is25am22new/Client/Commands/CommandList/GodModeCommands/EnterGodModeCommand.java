@@ -2,10 +2,8 @@ package it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GodModeCommands;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.AbstractCommand;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
-import it.polimi.ingsw.is25am22new.Client.View.ViewAdapter;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.ViewAdapter;
 import it.polimi.ingsw.is25am22new.Network.VirtualServer;
-
-import java.io.IOException;
 
 /**
  * The EnterGodModeCommand class extends the AbstractCommand abstract class

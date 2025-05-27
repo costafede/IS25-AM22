@@ -23,7 +23,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.SlaversCard.SlaversCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.SmugglersCard.SmugglersCard;
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.StardustCard.StardustCard;
 import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
-import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Drawable.DrawableComponentTile;
+import it.polimi.ingsw.is25am22new.Client.View.GUI.Drawable.DrawableComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Bank;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
@@ -53,7 +53,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**

@@ -2,7 +2,7 @@ package it.polimi.ingsw.is25am22new.Client;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
-import it.polimi.ingsw.is25am22new.Client.View.TUI;
+import it.polimi.ingsw.is25am22new.Client.View.TUI.TUI;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
