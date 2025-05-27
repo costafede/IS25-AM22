@@ -2,6 +2,8 @@ package it.polimi.ingsw.is25am22new.FXMLControllers;
 
 import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.CardPhaseCommands.*;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.AbandonGameCommand;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.GeneralCommands.DisconnectCommand;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.Commands.ConditionVerifier;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.AdventureCardViewGUI;
@@ -81,6 +83,7 @@ public class CardPhaseController extends FXMLController {
     @FXML private Button pickCardButton;
     @FXML private ImageView dice1;
     @FXML private ImageView dice2;
+    @FXML private Button abandonGameButton;
 
     private GalaxyStarsEffect animatedBackground;
     private Map<String, GridPane> playerToShip;
@@ -575,12 +578,15 @@ public class CardPhaseController extends FXMLController {
 
         confirmDialog.showAndWait().ifPresent(response -> {
             if (response == javafx.scene.control.ButtonType.OK) {
-                try {
-                    virtualServer.playerAbandons(model.getPlayerName());
-                    System.out.println("Richiesta di abbandono partita inviata al server");
-                } catch (IOException e) {
-                    System.err.println("Errore durante l'abbandono della partita: " + e.getMessage());
+                Command cmd = new AbandonGameCommand(virtualServer, null);
+                if(cmd.isApplicable(model)) {
+                    new Thread(() -> {
+                        cmd.execute(model);
+                    }).start();
+                } else {
+                    showErrorAlert("WARNING", "You can't abandon the game right now!");
                 }
+                System.out.println("Richiesta di abbandono partita inviata al server");
             }
         });
     }
@@ -603,7 +609,18 @@ public class CardPhaseController extends FXMLController {
         confirmDialog.showAndWait().ifPresent(response -> {
             if (response == javafx.scene.control.ButtonType.OK) {
                 try {
-                    virtualServer.disconnect();
+                    Command cmd = new DisconnectCommand(virtualServer, null);
+                    if(cmd.isApplicable(model)) {
+                        new Thread(() -> {
+                            try {
+                                cmd.execute(model);
+                            } catch (Exception e){
+                                ///  TODO
+                            }
+                        }).start();
+                    } else {
+                        showErrorAlert("WARNING", "You can't disconnect right now!");
+                    }
                     System.out.println("Richiesta di disconnessione inviata al server");
 
                     // Torna alla schermata principale

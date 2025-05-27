@@ -66,8 +66,8 @@ public class InitializingFromJsonComponentTest {
         assertEquals(9, game.getCoveredComponentTiles().stream().filter(ct -> ct instanceof SpecialStorageCompartment).count(), "The number of SpecialStorageCompartment is not correct");
 
         //Check startingCabin initialized properly
-        assertTrue(check_starting_cabin_component(objectMapper), "StartingCabinComponent not found in game.getCoveredComponentTiles()");
-        assertEquals(4, game.getCoveredComponentTiles().stream().filter(ct -> ct instanceof StartingCabin).count(), "The number of StartingCabin is not correct");
+//        assertTrue(check_starting_cabin_component(objectMapper), "StartingCabinComponent not found in game.getCoveredComponentTiles()");
+//        assertEquals(4, game.getCoveredComponentTiles().stream().filter(ct -> ct instanceof StartingCabin).count(), "The number of StartingCabin is not correct");
 
         //Check storageCompartment initialized properly
         assertTrue(check_storage_compartment_component(objectMapper), "StorageCompartmentComponent not found in game.getCoveredComponentTiles()");
@@ -77,8 +77,8 @@ public class InitializingFromJsonComponentTest {
         assertTrue(check_structural_module_component(objectMapper), "StructuralModuleComponent not found in game.getCoveredComponentTiles()");
         assertEquals(8, game.getCoveredComponentTiles().stream().filter(ct -> ct instanceof StructuralModule).count(), "The number of StructuralModule is not correct");
 
-        //Check the total number of ComponentTile
-        assertEquals(156, game.getCoveredComponentTiles().size(), "The number of ComponentTile is not correct");
+        //Check the total number of ComponentTile -> 156 totali - 4 starting cabin
+        assertEquals(152, game.getCoveredComponentTiles().size(), "The number of ComponentTile is not correct");
 
         //Qui svuotiamo il Set
         game.getCoveredComponentTiles().clear();
@@ -87,7 +87,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_alienAddon_component(ObjectMapper om) {
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/AlienAddon.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/AlienAddon.json"));
             for(JsonNode node : jsonNode){
                 AlienAddon ad = new AlienAddon(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("color").asText());
                 //System.out.println(bc.getPngName());
@@ -112,7 +112,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_battery_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/BatteryComponent.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/BatteryComponent.json"));
             for(JsonNode node : jsonNode){
                 BatteryComponent bc = new BatteryComponent(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("numOfBatteries").asInt());
                 //System.out.println(bc.getPngName());
@@ -137,7 +137,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_cannon_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Cannon.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/Cannon.json"));
             for(JsonNode node : jsonNode){
                 Cannon cannon = new Cannon(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -161,7 +161,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_double_cannon_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleCannon.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/DoubleCannon.json"));
             for(JsonNode node : jsonNode){
                 DoubleCannon doublecannon = new DoubleCannon(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -185,7 +185,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_double_engine_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/DoubleEngine.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/DoubleEngine.json"));
             for(JsonNode node : jsonNode){
                 DoubleEngine doubleEngine = new DoubleEngine(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -209,7 +209,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_engine_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/Engine.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/Engine.json"));
             for(JsonNode node : jsonNode){
                 Engine engine = new Engine(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -233,7 +233,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_regular_cabin_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/RegularCabin.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/RegularCabin.json"));
             for(JsonNode node : jsonNode){
                 RegularCabin rc = new RegularCabin(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -257,7 +257,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_shield_generator_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/ShieldGenerator.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/ShieldGenerator.json"));
             for(JsonNode node : jsonNode){
                 ShieldGenerator sg = new ShieldGenerator(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
@@ -281,7 +281,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_special_storage_compartment_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/SpecialStorageCompartment.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/SpecialStorageCompartment.json"));
             for(JsonNode node : jsonNode){
                 SpecialStorageCompartment spc = new SpecialStorageCompartment(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("capacity").asInt());
                 //System.out.println(bc.getPngName());
@@ -303,35 +303,35 @@ public class InitializingFromJsonComponentTest {
         return check;
     }
 
-    private boolean check_starting_cabin_component(ObjectMapper om){
-        boolean check = false;
-        try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StartingCabin.json"));
-            for(JsonNode node : jsonNode){
-                StartingCabin sc = new StartingCabin(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("color").asText());
-                //System.out.println(bc.getPngName());
-                for(ComponentTile ct : game.getCoveredComponentTiles()) {
-                    if (ct.getPngName().equals(sc.getPngName()) &&
-                            ct.getTopSide().equals(sc.getTopSide()) &&
-                            ct.getBottomSide().equals(sc.getBottomSide()) &&
-                            ct.getLeftSide().equals(sc.getLeftSide()) &&
-                            ct.getRightSide().equals(sc.getRightSide()) &&
-                            ((StartingCabin) ct).getColorTile().equals(sc.getColorTile())) {
-                        check = true;
-                        break;
-                    }
-                }
-            }
-        }catch (IOException e) {
-            System.out.println("Error in reading the file");
-        }
-        return check;
-    }
+//    private boolean check_starting_cabin_component(ObjectMapper om){
+//        boolean check = false;
+//        try {
+//            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/StartingCabin.json"));
+//            for(JsonNode node : jsonNode){
+//                StartingCabin sc = new StartingCabin(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("color").asText());
+//                //System.out.println(bc.getPngName());
+//                for(ComponentTile ct : game.getCoveredComponentTiles()) {
+//                    if (ct.getPngName().equals(sc.getPngName()) &&
+//                            ct.getTopSide().equals(sc.getTopSide()) &&
+//                            ct.getBottomSide().equals(sc.getBottomSide()) &&
+//                            ct.getLeftSide().equals(sc.getLeftSide()) &&
+//                            ct.getRightSide().equals(sc.getRightSide()) &&
+//                            ((StartingCabin) ct).getColorTile().equals(sc.getColorTile())) {
+//                        check = true;
+//                        break;
+//                    }
+//                }
+//            }
+//        }catch (IOException e) {
+//            System.out.println("Error in reading the file");
+//        }
+//        return check;
+//    }
 
     private boolean check_storage_compartment_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StorageCompartment.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/StorageCompartment.json"));
             for(JsonNode node : jsonNode){
                 StorageCompartment sc = new StorageCompartment(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()), node.get("capacity").asInt());
                 //System.out.println(bc.getPngName());
@@ -356,7 +356,7 @@ public class InitializingFromJsonComponentTest {
     private boolean check_structural_module_component(ObjectMapper om){
         boolean check = false;
         try {
-            JsonNode jsonNode = om.readTree(new File("src/main/java/it/polimi/ingsw/is25am22new/Model/JSONfiles/ComponentTiles/StructuralModule.json"));
+            JsonNode jsonNode = om.readTree(new File("src/main/resources/JSONfiles/ComponentTiles/StructuralModule.json"));
             for(JsonNode node : jsonNode){
                 StructuralModule sm = new StructuralModule(node.get("pngName").asText(), Side.valueOf(node.get("topSide").asText()), Side.valueOf(node.get("bottomSide").asText()), Side.valueOf(node.get("leftSide").asText()), Side.valueOf(node.get("rightSide").asText()));
                 //System.out.println(bc.getPngName());
