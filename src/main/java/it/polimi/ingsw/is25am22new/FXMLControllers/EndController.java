@@ -1,5 +1,7 @@
 package it.polimi.ingsw.is25am22new.FXMLControllers;
 
+import it.polimi.ingsw.is25am22new.Client.Commands.Command;
+import it.polimi.ingsw.is25am22new.Client.Commands.CommandList.EndPhaseCommands.QuitCommand;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyBackground;
 import it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI;
 import javafx.application.Platform;
@@ -103,9 +105,17 @@ public class EndController extends FXMLController {
             galaxyBackground.stopAnimation();
         }
 
-        if (virtualServer != null) {
+        Command cmd = new QuitCommand(virtualServer, null);
+
+        if (cmd.isApplicable(model)) {
             try {
-                virtualServer.quit(model.getPlayerName());
+                new Thread (() -> {
+                    try {
+                        cmd.execute(model);
+                    } catch (Exception e){
+                        ///  TODO
+                    }
+                }).start();
             } catch (Exception e) {
                 System.err.println("Error quitting game: " + e.getMessage());
             } finally {
