@@ -16,6 +16,7 @@ public class CombatZoneState2_6 extends CombatZoneState2 implements Serializable
         for(String player : game.getPlayerList()){
             if(game.getShipboards().get(player).getCrewNumber() < minCrewNumber){
                 playerFewestMembers = player;
+                minCrewNumber = game.getShipboards().get(player).getCrewNumber();
             } else if (game.getShipboards().get(player).getCrewNumber() == minCrewNumber) {
                 playerFewestMembers =
                         // who is ahead receives penalty
