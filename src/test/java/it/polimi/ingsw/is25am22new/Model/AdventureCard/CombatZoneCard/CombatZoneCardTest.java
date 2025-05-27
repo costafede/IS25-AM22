@@ -71,7 +71,7 @@ class CombatZoneCardTest {
         level2FlightBoard = game.getFlightboard();
 
         game.setCurrCard(combatZoneCard);
-        game.setCurrPlayer(players.get(0));
+        game.setCurrPlayer(players.getFirst());
         level2FlightBoard.placeRocket("A", 0);
         level2FlightBoard.placeRocket("B", 1);
         level2FlightBoard.placeRocket("C", 2);
@@ -285,7 +285,8 @@ class CombatZoneCardTest {
         Shipboard s = new Shipboard("tempShipboard", "nickname", null);
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 7; j++) {
-                if(shipboard.getComponentTileFromGrid(i, j).isPresent() && i != 2 && j != 3) {
+                if(shipboard.getComponentTileFromGrid(i, j).isPresent() &&
+                        !shipboard.getComponentTileFromGrid(i,j).get().isStartingCabin()) {
                     s.weldComponentTile(shipboard.getComponentTileFromGrid(i, j).get(), i, j);
                 }
             }
@@ -296,7 +297,9 @@ class CombatZoneCardTest {
     private boolean checkShipboardIntegrity(Shipboard oldS, Shipboard newS) {
         for(int i = 0; i < 5; i++) {
             for(int j = 0; j < 7; j++) {
-                if(!oldS.getComponentTileFromGrid(i, j).equals(newS.getComponentTileFromGrid(i, j)))
+                if(oldS.getComponentTileFromGrid(i, j).isPresent() &&
+                        !oldS.getComponentTileFromGrid(i, j).get().isStartingCabin() &&
+                        !oldS.getComponentTileFromGrid(i, j).equals(newS.getComponentTileFromGrid(i, j)))
                     return false;
             }
         }
