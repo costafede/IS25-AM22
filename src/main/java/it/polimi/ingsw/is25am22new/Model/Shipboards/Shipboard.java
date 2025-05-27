@@ -339,12 +339,19 @@ public class Shipboard implements Serializable {
             return true;
         ComponentTile ct = componentTilesGrid.get(i, j).get();
         ct.setColor(1);
-        if (componentTilesGrid.get(i-1, j).isPresent() && componentTilesGrid.get(i-1, j).get().getColor() == -1 && !sidesMatch(ct.getTopSide(), componentTilesGrid.get(i-1, j).get().getBottomSide()) ||
-            componentTilesGrid.get(i+1, j).isPresent() && componentTilesGrid.get(i+1, j).get().getColor() == -1 && !sidesMatch(ct.getBottomSide(), componentTilesGrid.get(i+1, j).get().getTopSide()) ||
-            componentTilesGrid.get(i, j-1).isPresent() && componentTilesGrid.get(i, j-1).get().getColor() == -1 && !sidesMatch(ct.getLeftSide(), componentTilesGrid.get(i, j-1).get().getRightSide()) ||
-            componentTilesGrid.get(i, j+1).isPresent() && componentTilesGrid.get(i, j+1).get().getColor() == -1 && !sidesMatch(ct.getRightSide(), componentTilesGrid.get(i, j+1).get().getLeftSide()))
+        Optional<ComponentTile> upperTile = componentTilesGrid.get(i-1, j);
+        Optional<ComponentTile> lowerTile = componentTilesGrid.get(i+1, j);
+        Optional<ComponentTile> leftTile = componentTilesGrid.get(i, j-1);
+        Optional<ComponentTile> rightTile = componentTilesGrid.get(i, j+1);
+        if (upperTile.isPresent() && upperTile.get().getColor() == -1 && !sidesMatch(ct.getTopSide(), upperTile.get().getBottomSide()) ||
+            lowerTile.isPresent() && lowerTile.get().getColor() == -1 && !sidesMatch(ct.getBottomSide(), lowerTile.get().getTopSide()) ||
+            leftTile.isPresent() && leftTile.get().getColor() == -1 && !sidesMatch(ct.getLeftSide(), leftTile.get().getRightSide()) ||
+                rightTile.isPresent() && rightTile.get().getColor() == -1 && !sidesMatch(ct.getRightSide(), rightTile.get().getLeftSide()))
             return false;
-        return tileConnectedProperly(i-1, j) && tileConnectedProperly(i+1, j) && tileConnectedProperly(i, j-1) && tileConnectedProperly(i, j+1);
+        return (upperTile.isPresent() && ct.getTopSide().equals(Side.SMOOTH) && upperTile.get().getBottomSide().equals(Side.SMOOTH) || tileConnectedProperly(i-1, j)) && //if the adjacent sides are smooth I must not visit it with the recursive algorithm
+                (lowerTile.isPresent() && ct.getBottomSide().equals(Side.SMOOTH) && lowerTile.get().getTopSide().equals(Side.SMOOTH) || tileConnectedProperly(i+1, j)) &&
+                (leftTile.isPresent() && ct.getLeftSide().equals(Side.SMOOTH) && leftTile.get().getRightSide().equals(Side.SMOOTH) || tileConnectedProperly(i, j-1)) &&
+                (rightTile.isPresent() && ct.getRightSide().equals(Side.SMOOTH) && rightTile.get().getLeftSide().equals(Side.SMOOTH) ||tileConnectedProperly(i, j+1));
     }
 
     /**

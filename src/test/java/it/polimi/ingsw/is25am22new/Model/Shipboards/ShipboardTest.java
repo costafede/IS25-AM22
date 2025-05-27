@@ -173,6 +173,15 @@ class ShipboardTest {
     }
 
     @Test
+    void test_shipboard_should_be_considered_invalid_due_to_adjacent_smooth_sides_not_creating_a_connected_ship() {
+        Shipboard ship = new Shipboard("red", "Emanuele", null);
+        ship.weldComponentTile(new StructuralModule("x", Side.SMOOTH, Side.SMOOTH, Side.SMOOTH, Side.SMOOTH), 1, 4);
+        ship.weldComponentTile(new StructuralModule("y", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH), 2, 4);
+
+        assertFalse(ship.checkShipboard());
+    }
+
+    @Test
     void test_shipboard_should_remove_alien_from_cabin_when_addon_destroyed() {
         List<ComponentTile> tiles = initializeTiles();
         Shipboard ship = new Shipboard("red", "Emanuele", null);
