@@ -271,6 +271,127 @@ class MeteorSwarmCardTest {
         assertEquals(2, game.getFlightboard().getOrderedRockets().size());
     }
 
+    @Test
+    void test_choosing_shipwreck1(){
+        List<String> players = List.of("A", "B", "C");
+        Game game = new Level2Game(players, null);
+        game.initGame();
+        MeteorSwarmCard meteorSwarmCard =
+                (MeteorSwarmCard) game.getCardArchive().stream()
+                        .filter(c -> c.getName().equals("MeteorSwarm"))
+                        .findFirst().get();
+        System.out.println(meteorSwarmCard.getPngName());
+
+        Flightboard level2FlightBoard = game.getFlightboard();
+
+        game.setCurrCard(meteorSwarmCard);
+        game.setCurrPlayer(players.get(0));
+        level2FlightBoard.placeRocket("A", 0);
+        level2FlightBoard.placeRocket("B", 1);
+        level2FlightBoard.placeRocket("C", 2);
+
+        assertEquals(6, level2FlightBoard.getPositions().get("A"));
+        assertEquals(3, level2FlightBoard.getPositions().get("B"));
+        assertEquals(1, level2FlightBoard.getPositions().get("C"));
+
+        // ship creation
+        Shipboard shipA = game.getShipboards().get(players.get(0));
+        Shipboard shipB = game.getShipboards().get(players.get(1));
+        Shipboard shipC = game.getShipboards().get(players.get(2));
+        for (String player : game.getPlayerList()) {
+            Shipboard shipboard = game.getShipboards().get(player);
+            shipboard.weldComponentTile(new BatteryComponent("BC", Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2),
+                    3, 3);
+            shipboard.weldComponentTile(new Engine("E", Side.SMOOTH, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE),
+                    3, 2);
+            shipboard.weldComponentTile(new DoubleEngine("DE", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH),
+                    3, 4);
+            shipboard.weldComponentTile(new Cannon("C1", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 2);
+            shipboard.weldComponentTile(new Cannon("C2", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 4);
+            shipboard.weldComponentTile(new DoubleCannon("DC", Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH),
+                    1, 3);
+            shipboard.weldComponentTile(new ShieldGenerator("SG", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 5);
+            shipboard.weldComponentTile(new StructuralModule("SM", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 1);
+        }
+
+        MeteorSwarmState_3 meteorSwarmState3 = new MeteorSwarmState_3(meteorSwarmCard);
+        game.setCurrPlayer("C");
+        Shipboard shipboard = game.getShipboards().get("C");
+        int indexOfShot = meteorSwarmCard.getIndexOfIncomingMeteor();
+        assertEquals(0, indexOfShot);
+        shipboard.destroyTile(2, 1);
+        InputCommand i1 = new InputCommand();
+        i1.setRow(3);
+        i1.setCol(2);
+        meteorSwarmState3.activateEffect(i1);
+        assertEquals(indexOfShot, meteorSwarmCard.getIndexOfIncomingMeteor()-1);
+        assertEquals("A", game.getCurrPlayer());
+    }
+
+    @Test
+    void test_choosing_shipwreck2(){
+        List<String> players = List.of("A", "B", "C");
+        Game game = new Level2Game(players, null);
+        game.initGame();
+        MeteorSwarmCard meteorSwarmCard =
+                (MeteorSwarmCard) game.getCardArchive().stream()
+                        .filter(c -> c.getName().equals("MeteorSwarm"))
+                        .findFirst().get();
+        System.out.println(meteorSwarmCard.getPngName());
+
+        Flightboard level2FlightBoard = game.getFlightboard();
+
+        game.setCurrCard(meteorSwarmCard);
+        game.setCurrPlayer(players.get(0));
+        level2FlightBoard.placeRocket("A", 0);
+        level2FlightBoard.placeRocket("B", 1);
+        level2FlightBoard.placeRocket("C", 2);
+
+        assertEquals(6, level2FlightBoard.getPositions().get("A"));
+        assertEquals(3, level2FlightBoard.getPositions().get("B"));
+        assertEquals(1, level2FlightBoard.getPositions().get("C"));
+
+        // ship creation
+        Shipboard shipA = game.getShipboards().get(players.get(0));
+        Shipboard shipB = game.getShipboards().get(players.get(1));
+        Shipboard shipC = game.getShipboards().get(players.get(2));
+        for (String player : game.getPlayerList()) {
+            Shipboard shipboard = game.getShipboards().get(player);
+            shipboard.weldComponentTile(new BatteryComponent("BC", Side.UNIVERSALPIPE, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, 2),
+                    3, 3);
+            shipboard.weldComponentTile(new Engine("E", Side.SMOOTH, Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE),
+                    3, 2);
+            shipboard.weldComponentTile(new DoubleEngine("DE", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH),
+                    3, 4);
+            shipboard.weldComponentTile(new Cannon("C1", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 2);
+            shipboard.weldComponentTile(new Cannon("C2", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 4);
+            shipboard.weldComponentTile(new DoubleCannon("DC", Side.SMOOTH, Side.UNIVERSALPIPE, Side.SMOOTH, Side.SMOOTH),
+                    1, 3);
+            shipboard.weldComponentTile(new ShieldGenerator("SG", Side.SMOOTH, Side.SMOOTH, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 5);
+            shipboard.weldComponentTile(new StructuralModule("SM", Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE, Side.UNIVERSALPIPE),
+                    2, 1);
+        }
+
+        MeteorSwarmState_3 meteorSwarmState3 = new MeteorSwarmState_3(meteorSwarmCard);
+        game.setCurrPlayer("C");
+        meteorSwarmCard.setNextIndexOfMeteor();
+        meteorSwarmCard.setNextIndexOfMeteor();
+        meteorSwarmCard.setNextIndexOfMeteor();
+        meteorSwarmCard.setNextIndexOfMeteor();
+        InputCommand i1 = new InputCommand();
+        i1.setRow(3);
+        i1.setCol(2);
+        meteorSwarmState3.activateEffect(i1);
+        assertEquals(null, game.getCurrCard());
+    }
+    
     // USED ONLY ONLY ONLY FOR SHIP INTEGRITY NOT COMPONENT INTERNAL STATE
     private Shipboard CopyShipboard(Shipboard shipboard){
         Shipboard s = new Shipboard("tempShipboard", "nickname", null);

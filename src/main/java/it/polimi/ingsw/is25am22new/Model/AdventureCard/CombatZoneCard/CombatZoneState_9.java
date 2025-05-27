@@ -43,7 +43,6 @@ public class CombatZoneState_9 extends CombatZoneState implements Serializable {
         else {
             Shot incomingShot = combatZoneCard.getNumberToShot().get(combatZoneCard.getIndexOfIncomingShot());
             int col = combatZoneCard.getDice1() + combatZoneCard.getDice2() - 4;
-            int row = combatZoneCard.getDice1() + combatZoneCard.getDice2() - 5;
             // shot hitting logic
             if(incomingShot.getOrientation() == Orientation.TOP) {
                 if(incomingShot.isBig() || !shipboard.isBottomSideShielded()) {
@@ -51,39 +50,6 @@ public class CombatZoneState_9 extends CombatZoneState implements Serializable {
                     for(int i = 4; i >= 0 && !destructionComplete; i--) {
                         if(shipboard.getComponentTileFromGrid(i, col).isPresent()) {
                             shipboard.destroyTile(i, col);
-                            destructionComplete = true;
-                        }
-                    }
-                }
-            }
-            else if(incomingShot.getOrientation() == Orientation.BOTTOM) {
-                if(incomingShot.isBig() || !shipboard.isTopSideShielded()) {
-                    boolean destructionComplete = false;
-                    for(int i = 0; i < 5 && !destructionComplete; i++) {
-                        if(shipboard.getComponentTileFromGrid(i, col).isPresent()) {
-                            shipboard.destroyTile(i, col);
-                            destructionComplete = true;
-                        }
-                    }
-                }
-            }
-            else if(incomingShot.getOrientation() == Orientation.LEFT) {
-                if(incomingShot.isBig() || !shipboard.isRightSideShielded()) {
-                    boolean destructionComplete = false;
-                    for(int j = 6; j >= 0 && !destructionComplete; j--) {
-                        if(shipboard.getComponentTileFromGrid(row, j).isPresent()) {
-                            shipboard.destroyTile(row, j);
-                            destructionComplete = true;
-                        }
-                    }
-                }
-            }
-            else if(incomingShot.getOrientation() == Orientation.RIGHT) {
-                if(incomingShot.isBig() || !shipboard.isLeftSideShielded()) {
-                    boolean destructionComplete = false;
-                    for(int j = 0; j < 7 && !destructionComplete; j++) {
-                        if(shipboard.getComponentTileFromGrid(row, j).isPresent()) {
-                            shipboard.destroyTile(row, j);
                             destructionComplete = true;
                         }
                     }

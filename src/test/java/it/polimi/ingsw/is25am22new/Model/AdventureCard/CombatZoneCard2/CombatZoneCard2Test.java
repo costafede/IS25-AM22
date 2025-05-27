@@ -230,6 +230,8 @@ class CombatZoneCard2Test {
         assertTrue(allGoneExcept(shipA, 2, 5));
     }
 
+
+
     // USED ONLY ONLY ONLY FOR SHIP INTEGRITY NOT COMPONENT INTERNAL STATE
     private Shipboard copyShipboard(Shipboard shipboard){
         Shipboard s = new Shipboard("tempShipboard", "nickname", null);

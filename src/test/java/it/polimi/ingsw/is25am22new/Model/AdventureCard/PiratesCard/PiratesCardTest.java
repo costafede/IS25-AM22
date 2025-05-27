@@ -442,6 +442,42 @@ class PiratesCardTest {
         assertEquals(3, shipA.getCannonStrength());
     }
 
+    @Test
+    void test_choosing_shipwreck1(){
+        PiratesState_6 piratesState6 = new PiratesState_6(piratesCard);
+        piratesCard.addDefeatedPlayer("B");
+        piratesCard.addDefeatedPlayer("C");
+        piratesCard.setCurrDefeatedPlayerToFirst();
+        Shipboard shipboard = game.getShipboards().get("B");
+        int indexOfShot = piratesCard.getIndexOfIncomingShot();
+        assertEquals(0, indexOfShot);
+        shipboard.destroyTile(2, 1);
+        InputCommand i1 = new InputCommand();
+        i1.setRow(3);
+        i1.setCol(2);
+        piratesState6.activateEffect(i1);
+        assertEquals(indexOfShot, piratesCard.getIndexOfIncomingShot());
+        assertEquals("C", piratesCard.getCurrDefeatedPlayer());
+    }
+
+    @Test
+    void test_choosing_shipwreck2(){
+        PiratesState_6 piratesState6 = new PiratesState_6(piratesCard);
+        piratesCard.addDefeatedPlayer("C");
+        piratesCard.setCurrDefeatedPlayerToFirst();
+        piratesCard.setNextIndexOfShot();
+        piratesCard.setNextIndexOfShot();
+        piratesCard.setNextIndexOfShot();
+        piratesCard.setNextIndexOfShot();
+        piratesCard.setNextIndexOfShot();
+        piratesCard.setNextIndexOfShot();
+        InputCommand i1 = new InputCommand();
+        i1.setRow(3);
+        i1.setCol(2);
+        piratesState6.activateEffect(i1);
+        assertNull(game.getCurrCard());
+    }
+
     // USED ONLY ONLY ONLY FOR SHIP INTEGRITY NOT COMPONENT INTERNAL STATE
     private Shipboard CopyShipboard(Shipboard shipboard){
         Shipboard s = new Shipboard("tempShipboard", "nickname", null);
