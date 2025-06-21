@@ -50,21 +50,24 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 
 ### 📜 Progress Table
 
-| Requirements                            | Status  |
-|-----------------------------------------|---------|
-| Full implementation of game rules       | ✅       |
-| Initial UML diagram                     | ✅       |
-| Final UML diagram                       | 👨🏻‍💻 |
-| Command Line Interface (CLI)            | ✅|
-| Graphical User Interface (GUI - JavaFX) | ✅ |
-| Client-Server communication via Socket  | ✅       |
-| Client-Server communication via RMI     | ✅       |
-| Test Flight mode                        | ✅       |
+| Requirements                            | Status |
+|-----------------------------------------|--------|
+| Full implementation of game rules       | ✅      |
+| Initial UML diagram                     | Toly   |
+| Final UML diagram                       | Toly   |
+| Command Line Interface (CLI)            | ✅      |
+| Graphical User Interface (GUI - JavaFX) | ✅      |
+| Client-Server communication via Socket  | ✅      |
+| Client-Server communication via RMI     | ✅      |
+| Test Flight mode                        | ✅      |
 | Multiple game sessions                  | 👨🏻‍💻 |
-| Resilience to disconnections            | 👨🏻‍💻 |
-| Persistence of game state               | 👨🏻‍💻 |
-| JavaDoc documentation                   | 👨🏻‍💻 |
-| JUnit Testing                           | ✅ |
+| Resilience to disconnections            | ❌      |
+| Persistence of game state               | ❌      |
+| JavaDoc documentation                   | Toly  |
+| JUnit Testing                           | ✅      |
+| Sequence Diagram                        |  👨🏻‍💻       |
+| Jar                                     | ✅   |
+| Screenshot copertura casi di test       |      👨🏻‍💻   |
 
 ---
 
