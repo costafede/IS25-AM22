@@ -13,7 +13,7 @@ public class CombatZoneState2_6 extends CombatZoneState2 implements Serializable
     public void activateEffect(InputCommand inputCommand) {
         String playerFewestMembers = game.getCurrPlayer();
         int minCrewNumber = game.getShipboards().get(playerFewestMembers).getCrewNumber();
-        for(String player : game.getPlayerList()){
+        for(String player : game.getFlightboard().getOrderedRockets()){
             if(game.getShipboards().get(player).getCrewNumber() < minCrewNumber){
                 playerFewestMembers = player;
                 minCrewNumber = game.getShipboards().get(player).getCrewNumber();

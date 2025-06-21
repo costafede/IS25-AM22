@@ -33,7 +33,7 @@ public class CombatZoneState_0 extends CombatZoneState implements Serializable {
             // player with the fewest crew members loses daysOnFlight
             String playerFewestMembers = game.getCurrPlayer();
             int minCrewNumber = game.getShipboards().get(playerFewestMembers).getCrewNumber();
-            for (String player : game.getPlayerList()) {
+            for (String player : game.getFlightboard().getOrderedRockets()) {
                 if (game.getShipboards().get(player).getCrewNumber() < minCrewNumber) {
                     playerFewestMembers = player;
                     minCrewNumber = game.getShipboards().get(player).getCrewNumber();
