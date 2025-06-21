@@ -134,4 +134,10 @@ public abstract class ObservableModelView {
             ld.updateGameStartMessageReceived(gameStartMessageReceived);
         }
     }
+
+    protected void notifyAllLeaderboard(Map<String, Integer> leaderCards) {
+        for (ClientModelObserver ld : listeners) {
+            ld.updateAllLeaderboard(leaderCards);
+        }
+    }
 }

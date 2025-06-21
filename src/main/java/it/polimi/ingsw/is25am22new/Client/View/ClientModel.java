@@ -57,13 +57,19 @@ public class ClientModel extends ObservableModelView {
     private final Object currCardLock = new Object();
     private final Object dicesLock = new Object();
     private final Object gamePhaseLock = new Object();
+    private final Object leaderboardLock = new Object();
 
     public Map<String, Integer> getLeaderboard() {
-        return leaderboard;
+        synchronized (leaderboardLock) {
+            return leaderboard;
+        }
     }
 
     public void setLeaderboard(Map<String, Integer> leaderboard) {
-        this.leaderboard = leaderboard;
+        synchronized (leaderboardLock) {
+            this.leaderboard = leaderboard;
+        }
+        notifyAllLeaderboard(leaderboard);
     }
 
     public boolean isGameStartMessageReceived() {

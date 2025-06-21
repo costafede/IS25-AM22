@@ -232,6 +232,18 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     }
 
     @Override
+    public void updateAllLeaderboard(Map<String, Integer> leaderboard) {
+        switch (clientModel.getGamePhase().getPhaseType()) {
+            case END ->
+                Platform.runLater(() -> {
+                    if (endController != null) {
+                        endController.setClientAndScores(leaderboard);
+                    }
+                });
+        }
+    }
+
+    @Override
     public void updateTileInHand(String player, ComponentTile ct) {
         if(player.equals(clientModel.getPlayerName()))
             Platform.runLater(() -> buildingShipController.drawTileInHand(ct));

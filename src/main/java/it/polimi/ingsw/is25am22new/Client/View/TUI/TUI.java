@@ -624,4 +624,9 @@ public class TUI implements ClientModelObserver, ViewAdapter {
         modelChanged();
     }
 
+    @Override
+    public void updateAllLeaderboard(Map<String, Integer> leaderboard) {
+        modelChanged();
+    }
+
 }

@@ -49,4 +49,6 @@ public interface ClientModelObserver {
     void updateGameStartMessageReceived(boolean gameStartMessageReceived);
 
     void updateTileInHand(String player, ComponentTile ct);
+
+    void updateAllLeaderboard(Map<String, Integer> leaderboard);
 }

@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -53,7 +55,8 @@ public class EndController extends FXMLController {
         // Leaderboard table setup
         leaderboardTable.setPlaceholder(new javafx.scene.control.Label("No scores available"));
 
-        setClientAndScores();
+        if(model.getLeaderboard() != null)
+            setClientAndScores(model.getLeaderboard());
     }
 
     /**
@@ -80,9 +83,12 @@ public class EndController extends FXMLController {
      * This method retrieves the leaderboard data from the model and populates the table.
      */
 
-    public void setClientAndScores() {
+    public void setClientAndScores(Map<String, Integer> leaderboard) {
 
         Map<String, Integer> scores = model.getLeaderboard();
+
+        if(scores == null)
+            scores = leaderboard;
 
         // Sort scores in descending order and create observable list for table
         ObservableList<Map.Entry<String, Integer>> leaderboardData = FXCollections.observableArrayList(
