@@ -6,6 +6,15 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * DrawableEngineTUI is a concrete implementation of the DrawableComponentTileTUI
+ * class, responsible for visually representing an Engine object in a text-based UI (TUI).
+ *
+ * This class maps the Engine's side configurations and engine states into a custom
+ * string array format for visual drawing in the TUI. It checks the type of each side
+ * (e.g., SMOOTH, ONEPIPE, TWOPIPES, UNIVERSALPIPE) and whether the side is connected
+ * to an engine, rendering a symbolic representation correspondingly.
+ */
 public class DrawableEngineTUI extends DrawableComponentTileTUI {
 
     Engine engine;

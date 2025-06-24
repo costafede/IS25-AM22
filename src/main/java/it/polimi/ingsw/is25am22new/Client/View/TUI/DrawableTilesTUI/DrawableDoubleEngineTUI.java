@@ -6,6 +6,11 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * Represents a drawable text-based UI (TUI) component implementation for a DoubleEngine element.
+ * This class provides a text-based rendering of the DoubleEngine and its associated sides,
+ * visually representing its current state including configuration, activation, and type of sides.
+ */
 public class DrawableDoubleEngineTUI extends DrawableComponentTileTUI {
 
     DoubleEngine doubleEngine;

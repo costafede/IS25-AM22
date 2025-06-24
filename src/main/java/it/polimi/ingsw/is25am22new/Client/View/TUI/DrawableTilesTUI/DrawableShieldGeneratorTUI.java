@@ -6,6 +6,17 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * Represents the drawable text-based UI (TUI) component for a ShieldGenerator tile in the game or application.
+ *
+ * This class provides a visual representation of a ShieldGenerator's state, including the configuration
+ * of its sides (e.g., smooth, pipe types) and their shieldable status, as well as whether the generator
+ * is currently activated.
+ *
+ * The visual representation is generated as an array of strings, with each string corresponding to
+ * a line of the visual output. The sides are represented with specific symbols, and shieldable sides
+ * are marked with a '%' symbol. The activated state is indicated with an 'A' character.
+ */
 public class DrawableShieldGeneratorTUI extends DrawableComponentTileTUI{
 
     ShieldGenerator shieldGenerator;

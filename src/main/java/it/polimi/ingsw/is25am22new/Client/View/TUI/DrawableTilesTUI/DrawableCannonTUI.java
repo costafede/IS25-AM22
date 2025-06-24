@@ -6,6 +6,22 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * The DrawableCannonTUI class provides a textual representation for a Cannon component tile.
+ * It extends the DrawableComponentTileTUI abstract class and is responsible for rendering the
+ * visual layout of the Cannon's state in a textual 2D format for use in a terminal or console-based
+ * user interface.
+ *
+ * Each of the four sides of the Cannon (top, bottom, left, right) is represented with
+ * specific symbols based on their type and whether they are configured as active cannon barrels:
+ * - "S" for a smooth side.
+ * - "1" for a side with one pipe.
+ * - "2" for a side with two pipes.
+ * - "3" for a universal pipe.
+ * - "$" for an active cannon barrel on that side.
+ *
+ * The draw method outputs the textual representation with the center of the Cannon marked as "C".
+ */
 public class DrawableCannonTUI extends DrawableComponentTileTUI {
 
     Cannon cannon;

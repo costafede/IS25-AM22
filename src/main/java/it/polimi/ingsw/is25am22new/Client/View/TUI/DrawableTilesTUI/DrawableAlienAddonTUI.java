@@ -6,6 +6,12 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.AlienAddon;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * Represents the textual user interface (TUI) drawable for an {@code AlienAddon} component tile.
+ * This class extends {@code DrawableComponentTileTUI} and provides a visual representation of an
+ * alien addon component in a text-based user interface context.
+ * The tile's appearance depends on the sides of the component and its color.
+ */
 public class DrawableAlienAddonTUI extends DrawableComponentTileTUI {
 
     AlienAddon alienAddon;

@@ -6,6 +6,22 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.StructuralModule;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * The DrawableStructuralModuleTUI class provides a textual representation for a StructuralModule
+ * component tile. It extends the DrawableComponentTileTUI abstract class and is responsible for rendering
+ * the StructuralModule's state in a textual 2D format for use in a terminal or console-based user interface.
+ *
+ * This class generates a 5-line textual representation of the StructuralModule. Each side of the module
+ * (top, bottom, left, right) is represented by specific symbols based on its type:
+ * - "S" for a smooth side.
+ * - "1" for a side with a single pipe.
+ * - "2" for a side with two pipes.
+ * - "3" for a universal pipe.
+ *
+ * The center of the StructuralModule is marked with "SM" to represent the module itself.
+ *
+ * The draw method evaluates the type of each side and constructs the textual output accordingly.
+ */
 public class DrawableStructuralModuleTUI extends DrawableComponentTileTUI {
 
     StructuralModule structuralModule;

@@ -9,6 +9,19 @@ import java.util.Map;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * Represents the drawable text-based UI (TUI) for a SpecialStorageCompartment
+ * component tile. This class is responsible for visually representing the
+ * state of a {@link SpecialStorageCompartment} in a text-based user interface.
+ *
+ * The representation includes:
+ * - The configuration of the tile's sides (top, bottom, left, right) based on their type (e.g., SMOOTH, ONEPIPE).
+ * - The current state of good blocks stored within the compartment (red, yellow, green, and blue blocks).
+ * - The storage compartment's capacity.
+ *
+ * This class extends {@link DrawableComponentTileTUI} and implements its abstract
+ * {@code draw} method to format the tile's data into a string representation.
+ */
 public class DrawableSpecialStorageCompartmentTUI extends DrawableComponentTileTUI {
 
     SpecialStorageCompartment specialStorageCompartment;

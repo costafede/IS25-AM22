@@ -6,6 +6,15 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * Represents a drawable text-based UI (TUI) component for a battery tile in the game.
+ * This class is responsible for rendering a visual representation of a battery component
+ * based on its attributes and connectivity.
+ *
+ * This class extends DrawableComponentTileTUI to provide a specific implementation
+ * for drawing a battery component, showing the pipe connections on each side (top, bottom, left, right)
+ * and the current number of batteries present in the component.
+ */
 public class DrawableBatteryComponentTUI extends DrawableComponentTileTUI {
 
     BatteryComponent batteryComponent;

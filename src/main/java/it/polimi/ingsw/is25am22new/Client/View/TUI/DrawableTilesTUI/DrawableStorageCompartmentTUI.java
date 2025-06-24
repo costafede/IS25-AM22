@@ -9,6 +9,17 @@ import java.util.Map;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * The DrawableStorageCompartmentTUI class is responsible for creating a text-based representation
+ * of a StorageCompartment object for use in terminal or console-based user interfaces.
+ * This class inherits from DrawableComponentTileTUI and implements the draw method to represent
+ * the state of a storage compartment visually.
+ *
+ * The visual representation includes:
+ * - The configuration of the top, bottom, left, and right sides, identified by their respective types.
+ * - Capacity information of the storage compartment.
+ * - The count of each type of GoodBlock (red, yellow, green, and blue) stored in the compartment.
+ */
 public class DrawableStorageCompartmentTUI extends DrawableComponentTileTUI{
 
     StorageCompartment storageCompartment;

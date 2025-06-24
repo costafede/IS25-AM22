@@ -6,6 +6,24 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.TWOPIPES;
 
+/**
+ * DrawableRegularCabinTUI represents the textual UI rendering logic for a
+ * RegularCabin object in the game. It is responsible for providing a visual
+ * representation of the cabin's state, including side configurations, alien presence,
+ * and the number of astronauts, in a text-based format.
+ *
+ * This class extends DrawableComponentTileTUI and implements the draw method
+ * to generate the textual representation of the RegularCabin using
+ * its properties.
+ *
+ * The visual format includes:
+ * - The state of the top, bottom, left, and right sides of the cabin.
+ * - Indicators for the presence of either a purple alien, a brown alien, or neither.
+ * - The number of astronauts currently in the cabin.
+ *
+ * The draw method evaluates the state of the RegularCabin and creates a textual
+ * representation structured as an array of strings.
+ */
 public class DrawableRegularCabinTUI extends DrawableComponentTileTUI {
 
     RegularCabin regularCabin;

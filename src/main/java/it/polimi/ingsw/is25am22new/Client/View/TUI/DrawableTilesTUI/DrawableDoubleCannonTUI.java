@@ -6,6 +6,25 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.*;
 import static it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side.UNIVERSALPIPE;
 
+/**
+ * DrawableDoubleCannonTUI is a drawable text-based UI (TUI) component
+ * designed to visually represent a `DoubleCannon` object in a game or application.
+ *
+ * It extends the `DrawableComponentTileTUI` class and provides an implementation of
+ * the `draw` method to produce a visual representation of the `DoubleCannon` object.
+ *
+ * This class renders the `DoubleCannon` by depicting its four sides and indicating
+ * whether the cannon is active using predefined symbols:
+ * - S: Smooth side
+ * - 1: Side with a single pipe
+ * - 2: Side with two pipes
+ * - 3: Side with a universal connection
+ * - $: Side configured as a cannon
+ * - A: Indicates that the `DoubleCannon` is activated
+ *
+ * The `draw` method returns an array of strings corresponding to the visual layout
+ * of the `DoubleCannon` object, providing a compact textual representation of the component.
+ */
 public class DrawableDoubleCannonTUI extends DrawableComponentTileTUI {
 
     DoubleCannon doubleCannon;
