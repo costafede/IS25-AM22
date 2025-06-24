@@ -16,6 +16,11 @@ import java.util.Optional;
  * given certain conditions, utilizing the associated PiratesCard instance and game context.
  */
 public class PiratesState_2 extends PiratesState implements Serializable {
+
+    /**
+     * Initializes the PiratesState_2 state with the provided PiratesCard instance.
+     * @param piratesCard
+     */
     public PiratesState_2(PiratesCard piratesCard) {
         super(piratesCard);
     }
@@ -48,6 +53,10 @@ public class PiratesState_2 extends PiratesState implements Serializable {
         transition(new PiratesState_1(piratesCard));
     }
 
+    /**
+     * Returns the name of the state, which is "PiratesState_2".
+     * @return
+     */
     @Override
     public String getStateName() {
         return "PiratesState_2";

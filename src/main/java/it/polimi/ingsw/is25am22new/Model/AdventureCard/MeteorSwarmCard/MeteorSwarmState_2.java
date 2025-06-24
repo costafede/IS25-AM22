@@ -17,8 +17,17 @@ import java.util.Optional;
  * to the next state.
  */
 public class MeteorSwarmState_2 extends MeteorSwarmState implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param meteorSwarmCard
+     */
     public MeteorSwarmState_2(MeteorSwarmCard meteorSwarmCard) { super(meteorSwarmCard); }
 
+    /**
+     * Activates the effect of the component tile at the specified location on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -38,6 +47,10 @@ public class MeteorSwarmState_2 extends MeteorSwarmState implements Serializable
         transition(new MeteorSwarmState_1(meteorSwarmCard));
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "MeteorSwarmState_2";

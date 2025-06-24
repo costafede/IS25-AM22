@@ -26,8 +26,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  * - Transitioning to the appropriate next state in the meteor swarm sequence.
  */
 public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable {
+
+    /**
+     * Initializes the meteor swarm state with the given adventure card.
+     * @param meteorSwarmCard
+     */
     public MeteorSwarmState_1(MeteorSwarmCard meteorSwarmCard) { super(meteorSwarmCard); }
 
+    /**
+     * Activates the meteor swarm state's effect based on the player's input.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -150,11 +159,18 @@ public class MeteorSwarmState_1 extends MeteorSwarmState implements Serializable
         }
     }
 
+    /**
+     * Returns the name of the meteor swarm state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "MeteorSwarmState_1";
     }
 
+    /**
+     * Sets the new dices for the meteor swarm state.
+     */
     private void setNewDices() {
         game.getDices().rollDices();
         meteorSwarmCard.setDice1(game.getDices().getDice1());

@@ -17,6 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * and transitioning to subsequent game states.
  */
 public class PiratesState_4 extends PiratesState implements Serializable {
+
+    /**
+     * Constructor for the PiratesState_4 class.
+     * @param piratesCard
+     */
     public PiratesState_4(PiratesCard piratesCard){
         super(piratesCard);
     }
@@ -141,6 +146,10 @@ public class PiratesState_4 extends PiratesState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "PiratesState_4";

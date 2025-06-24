@@ -9,10 +9,19 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CombatZoneState2_3 extends CombatZoneState2 implements Serializable {
+
+    /**
+     * Represents the state CombatZoneState2_3 in the CombatZoneState context.
+     * @param combatZoneCard2
+     */
     public CombatZoneState2_3(CombatZoneCard2 combatZoneCard2) {
         super(combatZoneCard2);
     }
 
+    /**
+     * Handles the activation of battery effects for components on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -77,6 +86,10 @@ public class CombatZoneState2_3 extends CombatZoneState2 implements Serializable
         }
     }
 
+    /**
+     * Determines and transitions to the next game states based on game rules and conditions:
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState2_3";

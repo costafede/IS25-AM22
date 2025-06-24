@@ -20,10 +20,19 @@ import java.util.Optional;
  * - Transitioning the Combat Zone card to the first state, {@code CombatZoneState_1}, after completing the operations.
  */
 public class CombatZoneState_3 extends CombatZoneState implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard
+     */
     public CombatZoneState_3(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Evaluates the player's input command to determine the target location (row and column) on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -43,6 +52,10 @@ public class CombatZoneState_3 extends CombatZoneState implements Serializable {
         transition(new CombatZoneState_1(combatZoneCard));
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_3";

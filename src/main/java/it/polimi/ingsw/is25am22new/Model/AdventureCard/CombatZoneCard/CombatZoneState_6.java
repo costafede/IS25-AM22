@@ -25,10 +25,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Deactivates all components for all players upon completion of the phase if applicable.
  */
 public class CombatZoneState_6 extends CombatZoneState implements Serializable {
+
+    /**
+     * Represents the state CombatZoneState_6 in the CombatZoneState context.
+     * @param combatZoneCard
+     */
     public CombatZoneState_6(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Handles the activation of battery effects for components on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -90,6 +99,10 @@ public class CombatZoneState_6 extends CombatZoneState implements Serializable {
         }
     }
 
+    /**
+     * Determines and transitions to the next game states based on game rules and conditions:
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_6";

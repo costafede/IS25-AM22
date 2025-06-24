@@ -10,6 +10,11 @@ import java.io.Serializable;
  * actions, validations, and transitions to subsequent states based on game logic.
  */
 public class PlanetsState_1 extends PlanetsState implements Serializable {
+
+    /**
+     * Constructs a new PlanetsState_1 with the specified PlanetsCard.
+     * @param planetsCard
+     */
     public PlanetsState_1(PlanetsCard planetsCard) {
         super(planetsCard);
     }
@@ -57,6 +62,10 @@ public class PlanetsState_1 extends PlanetsState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "PlanetsState_1";

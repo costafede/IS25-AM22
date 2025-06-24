@@ -27,6 +27,11 @@ import java.util.Optional;
  * activateEffect and getStateName methods to implement its unique behavior.
  */
 public class SlaversState_4 extends SlaversState implements Serializable {
+
+    /**
+     * Initializes a new SlaversState_4 object with the given SlaversCard.
+     * @param slaversCard
+     */
     public SlaversState_4(SlaversCard slaversCard) {
         super(slaversCard);
     }
@@ -85,6 +90,10 @@ public class SlaversState_4 extends SlaversState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SlaversState_4";

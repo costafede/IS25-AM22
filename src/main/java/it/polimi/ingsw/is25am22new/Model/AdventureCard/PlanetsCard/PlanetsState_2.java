@@ -12,6 +12,11 @@ import java.io.Serializable;
  * This state extends PlanetsState and implements Serializable for persistence.
  */
 public class PlanetsState_2 extends PlanetsState implements Serializable {
+
+    /**
+     * Constructs a new PlanetsState_2 instance with the specified PlanetsCard.
+     * @param planetsCard
+     */
     public PlanetsState_2(PlanetsCard planetsCard) {
         super(planetsCard);
     }
@@ -75,6 +80,11 @@ public class PlanetsState_2 extends PlanetsState implements Serializable {
             planetsCard.getObservableModel().updateAllShipboardList(game.getShipboards());
         }   //as the card is implemented, even if there are no more moves available for the curr player, he still has to send the message with choice set on false to end the card effect or pass the turn to the next one
     }
+
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "PlanetsState_2";

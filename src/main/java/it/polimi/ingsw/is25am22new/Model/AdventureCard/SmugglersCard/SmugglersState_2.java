@@ -14,6 +14,11 @@ import java.io.Serializable;
  * for object serialization.
  */
 public class SmugglersState_2 extends SmugglersState implements Serializable {
+
+    /**
+     * Initializes the state of the smuggler's card.
+     * @param smugglersCard
+     */
     public SmugglersState_2(SmugglersCard smugglersCard) {
         super(smugglersCard);
     }
@@ -37,6 +42,10 @@ public class SmugglersState_2 extends SmugglersState implements Serializable {
         transition(new SmugglersState_1(smugglersCard));
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SmugglersState_2";

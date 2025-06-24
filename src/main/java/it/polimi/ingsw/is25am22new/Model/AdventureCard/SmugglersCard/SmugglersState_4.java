@@ -17,6 +17,11 @@ import java.io.Serializable;
  * state transitions and game updates accordingly.
  */
 public class SmugglersState_4 extends SmugglersState implements Serializable {
+
+    /**
+     * Initializes the state of the smuggler's card.
+     * @param smugglersCard
+     */
     public SmugglersState_4(SmugglersCard smugglersCard) {
         super(smugglersCard);
     }
@@ -73,6 +78,10 @@ public class SmugglersState_4 extends SmugglersState implements Serializable {
 
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SmugglersState_4";

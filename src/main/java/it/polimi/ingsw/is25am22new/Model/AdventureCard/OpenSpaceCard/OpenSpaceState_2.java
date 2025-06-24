@@ -11,10 +11,19 @@ import java.io.Serializable;
  * and adds specific behaviors for processing the OpenSpaceCard when in this state.
  */
 public class OpenSpaceState_2 extends OpenSpaceState implements Serializable {
+
+    /**
+     * Initializes the OpenSpaceState_2 object with the given OpenSpaceCard.
+     * @param openSpaceCard
+     */
     public OpenSpaceState_2(OpenSpaceCard openSpaceCard) {
         super(openSpaceCard);
     }
 
+    /**
+     * Returns the name of the current state, which is "OpenSpaceState_2".
+     * @return
+     */
     @Override
     public String getStateName() {
         return "OpenSpaceState_1";

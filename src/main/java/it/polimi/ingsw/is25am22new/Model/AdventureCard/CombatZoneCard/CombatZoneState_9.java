@@ -16,10 +16,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  * updating the state of the game based on the player's choices and the results of the incoming attack.
  */
 public class CombatZoneState_9 extends CombatZoneState implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard
+     */
     public CombatZoneState_9(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Activates the effect of the component tile at the specified location on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -89,6 +98,10 @@ public class CombatZoneState_9 extends CombatZoneState implements Serializable {
 
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_9";

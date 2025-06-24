@@ -22,6 +22,14 @@ public class OpenSpaceCard extends AdventureCard implements Serializable, Viewab
     private List<String> orderedPlayersBeforeEffect;
     private List<String> playersWithNoEngineStrength;
 
+    /**
+     * Initializes the OpenSpaceCard instance with the given parameters.
+     * @param pngName
+     * @param name
+     * @param game
+     * @param level
+     * @param tutorial
+     */
     public OpenSpaceCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);
         openSpaceState = new OpenSpaceState_1(this);
@@ -29,6 +37,10 @@ public class OpenSpaceCard extends AdventureCard implements Serializable, Viewab
         playersWithNoEngineStrength = new ArrayList<>();
     }
 
+    /**
+     * Activates the card's effect by delegating to the current state.
+     * @param inputCommand the input provided by the player or controller
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(orderedPlayersBeforeEffect.isEmpty())
@@ -36,23 +48,44 @@ public class OpenSpaceCard extends AdventureCard implements Serializable, Viewab
         openSpaceState.activateEffect(inputCommand);
     }
 
+    /**
+     * Returns the name of the current state of the card.
+     * @return
+     */
     @Override
     public String getStateName() {
         return openSpaceState.getStateName();
     }
 
+    /**
+     * Sets the current state of the card.
+     * @param openSpaceState
+     */
     public void setOpenSpaceState(OpenSpaceState openSpaceState) {
         this.openSpaceState = openSpaceState;
     }
 
+    /**
+     * Returns the current state of the card.
+     * @return
+     */
     public List<String> getOrderedPlayersBeforeEffect() {
         return orderedPlayersBeforeEffect;
     }
 
+    /**
+     * Returns the list of players who have no engine strength.
+     * @return
+     */
     public List<String> getPlayersWithNoEngineStrength() {
         return playersWithNoEngineStrength;
     }
 
+    /**
+     * Displays the card in the user interface depending on the current game phase.
+     * @param view
+     * @param model
+     */
     @Override
     public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){

@@ -22,6 +22,11 @@ import java.util.Optional;
  * on the shipboard grid if battery usage is flagged and conditions are satisfied.
  */
 public class SlaversState_2 extends SlaversState implements Serializable {
+
+    /**
+     * Initializes the SlaversState_2 object with the provided SlaversCard.
+     * @param slaversCard
+     */
     public SlaversState_2(SlaversCard slaversCard) {
         super(slaversCard);
     }
@@ -52,6 +57,10 @@ public class SlaversState_2 extends SlaversState implements Serializable {
         transition(new SlaversState_1(slaversCard));
     }
 
+    /**
+     * Returns the identifiable name of this state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SlaversState_2";

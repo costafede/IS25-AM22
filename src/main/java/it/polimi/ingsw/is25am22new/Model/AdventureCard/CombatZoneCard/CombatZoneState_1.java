@@ -24,10 +24,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  * - `CombatZoneState_1` for the next player's turn in the sequence.
  */
 public class CombatZoneState_1 extends CombatZoneState implements Serializable {
+
+    /**
+     * Represents the first state in the combat zone sequence of the game.
+     * @param combatZoneCard
+     */
     public CombatZoneState_1(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Handles the activation of battery effects for components on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -89,6 +98,10 @@ public class CombatZoneState_1 extends CombatZoneState implements Serializable {
 
     }
 
+    /**
+     * Determines and transitions to the next game states based on game rules and conditions:
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_1";

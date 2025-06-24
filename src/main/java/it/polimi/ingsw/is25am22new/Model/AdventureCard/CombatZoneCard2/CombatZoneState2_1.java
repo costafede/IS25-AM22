@@ -9,10 +9,19 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CombatZoneState2_1 extends CombatZoneState2{
+
+    /**
+     * Represents the state CombatZoneState2_1 in the CombatZoneState context.
+     * @param combatZoneCard2
+     */
     public CombatZoneState2_1(CombatZoneCard2 combatZoneCard2) {
         super(combatZoneCard2);
     }
 
+    /**
+     * Handles the activation of battery effects for components on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(game.getFlightboard().getOrderedRockets().size() > 1) {
@@ -87,6 +96,10 @@ public class CombatZoneState2_1 extends CombatZoneState2{
         }
     }
 
+    /**
+     * Determines and transitions to the next game states based on game rules and conditions:
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState2_1";

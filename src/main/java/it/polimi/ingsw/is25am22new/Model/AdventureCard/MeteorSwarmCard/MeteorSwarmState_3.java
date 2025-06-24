@@ -16,10 +16,19 @@ import java.io.Serializable;
  * are communicated to all relevant game components.
  */
 public class MeteorSwarmState_3 extends MeteorSwarmState implements Serializable {
+
+    /**
+     * Initializes the meteor swarm state with the given adventure card.
+     * @param meteorSwarmCard
+     */
     public MeteorSwarmState_3(MeteorSwarmCard meteorSwarmCard) {
        super(meteorSwarmCard);
     }
 
+    /**
+     * Activates the meteor swarm state's effect based on the player's input.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -54,6 +63,10 @@ public class MeteorSwarmState_3 extends MeteorSwarmState implements Serializable
         }
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "MeteorSwarmState_3";

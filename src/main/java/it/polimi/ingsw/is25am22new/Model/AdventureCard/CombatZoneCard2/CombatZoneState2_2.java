@@ -9,10 +9,19 @@ import java.io.Serializable;
 import java.util.Optional;
 
 public class CombatZoneState2_2 extends CombatZoneState2 implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard2
+     */
     public CombatZoneState2_2(CombatZoneCard2 combatZoneCard2) {
         super(combatZoneCard2);
     }
 
+    /**
+     * Activates the effect of the component tile at the specified location on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -33,6 +42,10 @@ public class CombatZoneState2_2 extends CombatZoneState2 implements Serializable
         transition(new CombatZoneState2_1(combatZoneCard2));
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState2_2";

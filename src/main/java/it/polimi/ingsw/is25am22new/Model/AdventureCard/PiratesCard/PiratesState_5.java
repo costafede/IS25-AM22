@@ -26,6 +26,11 @@ import java.util.Optional;
  * methods specific to state behavior and identity.
  */
 public class PiratesState_5 extends PiratesState implements Serializable {
+
+    /**
+     * Initializes the PiratesState_5 state with the provided PiratesCard instance.
+     * @param piratesCard
+     */
     public PiratesState_5(PiratesCard piratesCard) {
         super(piratesCard);
     }
@@ -60,6 +65,10 @@ public class PiratesState_5 extends PiratesState implements Serializable {
         transition(new PiratesState_4(piratesCard));
     }
 
+    /**
+     * Returns the name of the state, which is "PiratesState_5".
+     * @return
+     */
     @Override
     public String getStateName() {
         return "PiratesState_5";

@@ -10,6 +10,11 @@ import java.io.Serializable;
  * smuggler's reward. The state transitions based on the player's choice.
  */
 public class SmugglersState_3 extends SmugglersState implements Serializable {
+
+    /**
+     * Initializes the state of the smuggler's card.
+     * @param smugglersCard
+     */
     public SmugglersState_3(SmugglersCard smugglersCard) {
         super(smugglersCard);
     }
@@ -41,6 +46,10 @@ public class SmugglersState_3 extends SmugglersState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SmugglersState_3";

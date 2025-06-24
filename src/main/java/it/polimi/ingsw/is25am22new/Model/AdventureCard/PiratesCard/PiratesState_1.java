@@ -28,6 +28,11 @@ import java.util.concurrent.atomic.AtomicInteger ;
  * and handling victory, defeat, or ties between the player and the PiratesCard.
  */
 public class PiratesState_1 extends PiratesState implements Serializable {
+
+    /**
+     * Initializes the PiratesState_1 object with the given PiratesCard.
+     * @param piratesCard
+     */
     public PiratesState_1(PiratesCard piratesCard) {
         super(piratesCard);
     }
@@ -98,6 +103,10 @@ public class PiratesState_1 extends PiratesState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "PiratesState_1";

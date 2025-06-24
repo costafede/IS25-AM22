@@ -19,10 +19,19 @@ import java.util.Optional;
  *   or the state of the crew on the shipboard.
  */
 public class CombatZoneState_5 extends CombatZoneState implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard
+     */
     public CombatZoneState_5(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Removes crew members from cabin tiles on the shipboard, if applicable.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -50,6 +59,10 @@ public class CombatZoneState_5 extends CombatZoneState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_5";

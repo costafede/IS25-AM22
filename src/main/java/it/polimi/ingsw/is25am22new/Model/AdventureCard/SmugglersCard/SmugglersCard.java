@@ -28,22 +28,50 @@ public class SmugglersCard extends AdventureCard implements Serializable, Viewab
     private SmugglersState smugglersState;
     protected Map<GoodBlock, Integer> actualGoodBlocks;
 
+    /**
+     * Returns the number of flight days lost by the player when interacting with this card.
+     * @return
+     */
     public int getFlightDaysLost() {
         return flightDaysLost;
     }
 
+    /**
+     * Returns the strength of the cannon used by the player when interacting with this card.
+     * @return
+     */
     public int getCannonStrength() {
         return CannonStrength;
     }
 
+    /**
+     * Returns the number of goods lost by the player when interacting with this card.
+     * @return
+     */
     public int getLostGoods() {
         return lostGoods;
     }
 
+    /**
+     * Returns the theoretical distribution of good blocks that the player can smuggle.
+     * @return
+     */
     public Map<GoodBlock, Integer> getTheoreticalGoodBlocks() {
         return theoreticalGoodBlocks;
     }
 
+    /**
+     * Constructs a SmugglersCard instance.
+     * @param pngName
+     * @param name
+     * @param game
+     * @param level
+     * @param tutorial
+     * @param flightDaysLost
+     * @param cannonStrength
+     * @param lostGoods
+     * @param theoreticalGoodBlocks
+     */
     public SmugglersCard(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int cannonStrength, int lostGoods, Map<GoodBlock, Integer> theoreticalGoodBlocks) {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
@@ -63,20 +91,34 @@ public class SmugglersCard extends AdventureCard implements Serializable, Viewab
         actualGoodBlocks.put(GoodBlock.REDBLOCK, 0);
     }
 
+    /**
+     * Activates the effect of this card by delegating to its current state.
+     * @param inputCommand the input provided by the player or controller
+     */
     public void activateEffect(InputCommand inputCommand){
         smugglersState.activateEffect(inputCommand);
     }
 
+    /**
+     * Returns the name of the current state of this card.
+     * @return
+     */
     @Override
     public String getStateName() {
         return smugglersState.getStateName();
     }
 
+    /**
+     * Sets the current state of the card.
+     * @param smugglersState
+     */
     public void setSmugglersState(SmugglersState smugglersState){
         this.smugglersState = smugglersState;
     }
 
-
+    /**
+     * Loads smugglers from the bank into the player's inventory based on the theoretical distribution.
+     */
     public void loadSmugglers(){
         for(GoodBlock gb : GoodBlock.values()){
             for(int goodBlocksToLoad = theoreticalGoodBlocks.get(gb); goodBlocksToLoad > 0 && game.getBank().withdrawGoodBlock(gb); goodBlocksToLoad--){
@@ -85,6 +127,9 @@ public class SmugglersCard extends AdventureCard implements Serializable, Viewab
         }
     }
 
+    /**
+     * Unloads all actual smugglers from the player's inventory back into the bank.
+     */
     public void unloadSmugglers(){
         for(GoodBlock gb : GoodBlock.values()){
             for(int goodBlocksToUnload = actualGoodBlocks.get(gb); goodBlocksToUnload > 0; goodBlocksToUnload--){
@@ -93,10 +138,19 @@ public class SmugglersCard extends AdventureCard implements Serializable, Viewab
         }
     }
 
+    /**
+     * Returns the actual smugglers that were smuggled during the card's effect.
+     * @return
+     */
     public Map<GoodBlock, Integer> getActualGoodBlocks() {
         return actualGoodBlocks;
     }
 
+    /**
+     * Displays this card using the provided view, based on the current game phase.
+     * @param view
+     * @param model
+     */
     @Override
     public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){

@@ -28,6 +28,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  *   game conditions are met.
  */
 public class SlaversState_1 extends SlaversState implements Serializable {
+
+    /**
+     * Initializes a new SlaversState_1 object with the given SlaversCard.
+     * @param slaversCard
+     */
     public SlaversState_1(SlaversCard slaversCard) {
         super(slaversCard);
     }
@@ -94,6 +99,10 @@ public class SlaversState_1 extends SlaversState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SlaversState_1";

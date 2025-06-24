@@ -13,10 +13,19 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CombatZoneState2_7 extends CombatZoneState2 implements Serializable {
+
+    /**
+     * Constructor for the CombatZoneState2_7 class.
+     * @param combatZoneCard2
+     */
     public CombatZoneState2_7(CombatZoneCard2 combatZoneCard2) {
         super(combatZoneCard2);
     }
 
+    /**
+     * Activates the effect of a specific game state during the "CombatZone2" phase in the game. The method
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -118,8 +127,12 @@ public class CombatZoneState2_7 extends CombatZoneState2 implements Serializable
                 }
             }
         }
-    } 
+    }
 
+    /**
+     * Returns the name of the state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState2_7";

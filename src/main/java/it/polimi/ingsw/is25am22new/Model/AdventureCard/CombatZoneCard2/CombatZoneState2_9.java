@@ -6,10 +6,19 @@ import it.polimi.ingsw.is25am22new.Model.Shipboards.Shipboard;
 import java.io.Serializable;
 
 public class CombatZoneState2_9 extends CombatZoneState2 implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard2
+     */
     public CombatZoneState2_9(CombatZoneCard2 combatZoneCard2) {
         super(combatZoneCard2);
     }
 
+    /**
+     * Activates the effect of the component tile at the specified location on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -35,6 +44,10 @@ public class CombatZoneState2_9 extends CombatZoneState2 implements Serializable
         }
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState2_9";

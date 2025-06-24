@@ -15,10 +15,19 @@ import java.io.Serializable;
  * Inherits from the abstract class {@link CombatZoneState}, which defines the common behavior of all combat zone states.
  */
 public class CombatZoneState_8 extends CombatZoneState implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard
+     */
     public CombatZoneState_8(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Activates the effect of the component tile at the specified location on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -44,6 +53,10 @@ public class CombatZoneState_8 extends CombatZoneState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_8";

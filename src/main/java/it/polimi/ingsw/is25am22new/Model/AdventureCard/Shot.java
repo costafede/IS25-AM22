@@ -13,19 +13,39 @@ import java.io.Serializable;
 public class Shot implements Serializable {
     private final boolean big;
     private final Orientation orientation;
-
+    /**
+     * Constructs a {@code Shot} with the given size and orientation.
+     *
+     * @param big         {@code true} if the shot is big, {@code false} if small
+     * @param orientation the {@link Orientation} the shot is coming from
+     */
     public Shot(boolean big, Orientation orientation) {
         this.big = big;
         this.orientation = orientation;
     }
 
-    public boolean isBig() { return big; }
+    /**
+     * Returns whether the shot is big.
+     *
+     * @return {@code true} if the shot is big; {@code false} if small
+     */
+    public boolean isBig() {return big;}
 
-    public Orientation getOrientation() { return orientation; }
+    /**
+     * Returns the direction from which the shot is coming.
+     *
+     * @return the {@link Orientation} of the shot
+     */
+    public Orientation getOrientation() {return orientation;}
 
+    /**
+     * Returns a string describing the shot, including its size and the side it comes from.
+     *
+     * @return a string representation of the shot
+     */
     @Override
     public String toString() {
-        switch (orientation){
+        switch (orientation) {
             case Orientation.TOP -> {
                 return (big ? "BIG" : "SMALL") + " shot coming from BOTTOM";
             }

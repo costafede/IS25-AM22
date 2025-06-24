@@ -23,6 +23,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class EpidemicCard extends AdventureCard implements Serializable, ViewableCard {
 
+    /**
+     * Initializes the EpidemicCard instance with the given parameters.
+     * @param pngName
+     * @param name
+     * @param game
+     * @param level
+     * @param tutorial
+     */
     public EpidemicCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);
     }
@@ -57,11 +65,20 @@ public class EpidemicCard extends AdventureCard implements Serializable, Viewabl
         observableModel.updateAllShipboardList(game.getShipboards());
     }
 
+    /**
+     * Returns the name of the current state of the card.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "";
     }
 
+    /**
+     * Displays the card in the user interface depending on the current game phase.
+     * @param view
+     * @param model
+     */
     @Override
     public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){

@@ -36,6 +36,17 @@ public class CombatZoneCard2 extends AdventureCard implements Serializable, View
     private int dice1;
     private int dice2;
 
+    /**
+     * Constructor for the CombatZoneCard2 class.
+     * @param pngName
+     * @param name
+     * @param game
+     * @param level
+     * @param tutorial
+     * @param flightDaysLost
+     * @param lostGoods
+     * @param numberToShot
+     */
     public CombatZoneCard2(String pngName, String name, Game game, int level, boolean tutorial, int flightDaysLost, int lostGoods, Map<Integer, Shot> numberToShot) {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
@@ -49,6 +60,9 @@ public class CombatZoneCard2 extends AdventureCard implements Serializable, View
         this.dice2 = new Random().nextInt(6) + 1;
     }
 
+    /**
+     * Getter for the dice1 attribute.
+     */
     public void setNewDices() {
         game.getDices().rollDices();
         setDice1(game.getDices().getDice1());
@@ -56,80 +70,155 @@ public class CombatZoneCard2 extends AdventureCard implements Serializable, View
         getObservableModel().updateAllDices(game.getDices());
     }
 
+    /**
+     * Getter for the dice2 attribute.
+     * @return
+     */
     public int getDice1() {
         return dice1;
     }
 
+    /**
+     * Setter for the dice1 attribute.
+     * @param dice1
+     */
     public void setDice1(int dice1) {
         this.dice1 = dice1;
     }
 
+    /**
+     * Getter for the dice2 attribute.
+     * @return
+     */
     public int getDice2() {
         return dice2;
     }
 
+    /**
+     * Setter for the dice2 attribute.
+     * @param dice2
+     */
     public void setDice2(int dice2) {
         this.dice2 = dice2;
     }
 
+    /**
+     * Getter for the indexOfIncomingShot attribute.
+     * @return
+     */
     public int getIndexOfIncomingShot() {
         return indexOfIncomingShot;
     }
 
+    /**
+     * Setter for the indexOfIncomingShot attribute.
+     */
     public void setNextIndexOfShot() {
         indexOfIncomingShot++;
     }
 
+    /**
+     * Getter for the removedGoods attribute.
+     * @return
+     */
     public int getRemovedGoods() {
         return removedGoods;
     }
 
+    /**
+     * Getter for the numberToShot attribute.
+     * @return
+     */
     public boolean thereAreStillShots() {
         return numberToShot.size() > indexOfIncomingShot;
     }
 
+    /**
+     * Increases the removedGoods attribute by 1.
+     */
     public void increaseRemovedGoods() {
         removedGoods++;
     }
 
+    /**
+     * Getter for the playerToStrength attribute.
+     * @return
+     */
     public Map<String, Double> getPlayerToStrength() {
         return playerToStrength;
     }
 
+    /**
+     * Setter for the playerToStrength attribute.
+     * @param combatZoneState2
+     */
     public void setCombatZoneState(CombatZoneState2 combatZoneState2) {
         this.combatZoneState2 = combatZoneState2;
     }
 
+    /**
+     * Setter for the batteryUsed attribute.
+     * @param batteryUsed
+     */
     public void setBatteryUsed(boolean batteryUsed) {
         this.batteryUsed = batteryUsed;
     }
 
+    /**
+     * Getter for the batteryUsed attribute.
+     * @return
+     */
     public boolean isBatteryUsed(){
         return batteryUsed;
     }
 
+    /**
+     * Getter for the flightDaysLost attribute.
+     * @return
+     */
     public int getFlightDaysLost() {
         return flightDaysLost;
     }
 
+    /**
+     * Getter for the lostGoods attribute.
+     * @return
+     */
     public int getLostGoods() {
         return lostGoods;
     }
 
+    /**
+     * Getter for the numberToShot attribute.
+     * @return
+     */
     public Map<Integer, Shot> getNumberToShot() {
         return numberToShot;
     }
 
+    /**
+     * Activates the effect of the current state.
+     * @param inputCommand the input provided by the player or controller
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         combatZoneState2.activateEffect(inputCommand);
     }
 
+    /**
+     * Getter for the combatZoneState2 attribute.
+     * @return
+     */
     @Override
     public String getStateName() {
         return combatZoneState2.getStateName();
     }
 
+    /**
+     * Shows the card in the game or in the TUI.
+     * @param view
+     * @param model
+     */
     @Override
     public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){

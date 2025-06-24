@@ -21,23 +21,15 @@ public abstract class AdventureCard implements Serializable {
     protected ObservableModel observableModel;
     protected int level;
     protected boolean tutorial;
-
-    public String getPngName() {
-        return pngName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public ObservableModel getObservableModel() {
-        return observableModel;
-    }
-
+    /**
+     * Constructs a new {@code AdventureCard}.
+     *
+     * @param pngName   the filename of the image representing the card
+     * @param name      the name of the card
+     * @param game      the current game instance
+     * @param level     the level or difficulty of the card
+     * @param tutorial  {@code true} if this card is part of the tutorial, {@code false} otherwise
+     */
     public AdventureCard(String pngName, String name, Game game, int level, boolean tutorial) {
         this.pngName = pngName;
         this.name = name;
@@ -47,15 +39,71 @@ public abstract class AdventureCard implements Serializable {
         this.observableModel = game;
     }
 
+    /**
+     * Returns the name of the PNG image associated with the card.
+     *
+     * @return the PNG filename
+     */
+    public String getPngName() {
+        return pngName;
+    }
+
+    /**
+     * Returns the name of the card.
+     *
+     * @return the card name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the game instance associated with this card.
+     *
+     * @return the game object
+     */
+    public Game getGame() {
+        return game;
+    }
+
+    /**
+     * Returns the observable model associated with this card (usually the game).
+     *
+     * @return the observable model
+     */
+    public ObservableModel getObservableModel() {
+        return observableModel;
+    }
+
+    /**
+     * Indicates whether this card is part of the tutorial.
+     *
+     * @return {@code true} if it's a tutorial card; {@code false} otherwise
+     */
     public boolean isTutorial() {
         return tutorial;
     }
 
+    /**
+     * Returns the level or difficulty of this card.
+     *
+     * @return the level of the card
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     * Activates the effect of the card based on the given input command.
+     *
+     * @param inputCommand the input provided by the player or controller
+     */
     public abstract void activateEffect(InputCommand inputCommand);
 
+    /**
+     * Returns the name of the current state associated with this card.
+     *
+     * @return the state name
+     */
     public abstract String getStateName();
 }

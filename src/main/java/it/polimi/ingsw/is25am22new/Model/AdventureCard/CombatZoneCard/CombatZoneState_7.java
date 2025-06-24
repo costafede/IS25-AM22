@@ -21,10 +21,19 @@ import java.util.Optional;
  * - Managing the transition from this state to the subsequent state.
  */
 public class CombatZoneState_7 extends CombatZoneState implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard
+     */
     public CombatZoneState_7(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Activates the effect of the component tile at the specified location on the shipboard.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         String currentPlayer = game.getCurrPlayer();
@@ -45,6 +54,10 @@ public class CombatZoneState_7 extends CombatZoneState implements Serializable {
         transition(new CombatZoneState_6(combatZoneCard));
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_7";

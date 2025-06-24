@@ -17,6 +17,10 @@ import java.io.Serializable;
  */
 public class PiratesState_3 extends PiratesState implements Serializable {
 
+    /**
+     * Initializes the PiratesState_3 object with the given PiratesCard.
+     * @param piratesCard
+     */
     public PiratesState_3(PiratesCard piratesCard){
         super(piratesCard);
     }
@@ -68,6 +72,10 @@ public class PiratesState_3 extends PiratesState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "PiratesState_3";

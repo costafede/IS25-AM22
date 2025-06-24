@@ -18,6 +18,14 @@ import java.util.List;
  */
 public class StardustCard extends AdventureCard implements ViewableCard {
 
+    /**
+     * Constructs a new StardustCard instance.
+     * @param pngName
+     * @param name
+     * @param game
+     * @param level
+     * @param tutorial
+     */
     public StardustCard(String pngName, String name, Game game, int level, boolean tutorial) {
         super(pngName, name, game, level, tutorial);
     }
@@ -51,11 +59,21 @@ public class StardustCard extends AdventureCard implements ViewableCard {
         observableModel.updateAllShipboardList(game.getShipboards());
     }
 
+    /**
+     * Returns the name of the current state of the StardustCard.
+     *
+     * @return
+     */
     @Override
     public String getStateName() {
         return "";
     }
 
+    /**
+     * Shows the StardustCard in the game's GUI.
+     * @param view
+     * @param model
+     */
     @Override
     public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){

@@ -16,6 +16,11 @@ import java.io.Serializable;
  * Serializable interface.
  */
 public class SlaversState_3 extends SlaversState implements Serializable {
+
+    /**
+     * Initializes a new SlaversState_3 object with the given SlaversCard.
+     * @param slaversCard
+     */
     public SlaversState_3(SlaversCard slaversCard) {
         super(slaversCard);
     }
@@ -57,6 +62,10 @@ public class SlaversState_3 extends SlaversState implements Serializable {
         slaversCard.getObservableModel().updateAllShipboardList(game.getShipboards());
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SlaversState_3";

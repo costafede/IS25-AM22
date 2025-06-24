@@ -23,6 +23,16 @@ public class PlanetsCard extends AdventureCard implements Serializable, Viewable
     private PlanetsState planetsState;
     private List<String> playersWhoLanded;
 
+    /**
+     * Initializes a new instance of the PlanetsCard class.
+     * @param pngName
+     * @param name
+     * @param game
+     * @param level
+     * @param tutorial
+     * @param planets
+     * @param flightDaysLost
+     */
     public PlanetsCard(String pngName, String name, Game game, int level, boolean tutorial, List<Planet> planets, int flightDaysLost) {
         super(pngName, name, game, level, tutorial);
         this.flightDaysLost = flightDaysLost;
@@ -31,27 +41,51 @@ public class PlanetsCard extends AdventureCard implements Serializable, Viewable
         this.playersWhoLanded = new ArrayList<String>();
     }
 
+    /**
+     * Applies the effects of the card to the game model and observable elements.
+     * @param inputCommand the input provided by the player or controller
+     */
     public void activateEffect(InputCommand inputCommand){
         planetsState.activateEffect(inputCommand);
     }
 
+    /**
+     * Returns the name of the current state of the card.
+     * @return
+     */
     @Override
     public String getStateName() {
         return planetsState.getStateName();
     }
 
+    /**
+     * Returns the number of flight days lost by the player.
+     * @return
+     */
     public int getFlightDaysLost(){
         return flightDaysLost;
     }
 
+    /**
+     * Returns the list of planets involved in the card.
+     * @return
+     */
     public List<Planet> getPlanets() {
         return planets;
     }
 
+    /**
+     * Sets the list of planets involved in the card.
+     * @param planetsState
+     */
     public void setPlanetsState(PlanetsState planetsState) {
         this.planetsState = planetsState;
     }
 
+    /**
+     * Returns true if all planets have been explored by the player.
+     * @return
+     */
     public boolean planetsFull(){
         for(Planet planet : planets){
             if(!planet.playerPresent())
@@ -60,6 +94,10 @@ public class PlanetsCard extends AdventureCard implements Serializable, Viewable
         return true;
     }
 
+    /**
+     * Loads the planet where the player "nickname" has landed on with the good blocks from the bank.
+     * @param nickname
+     */
     public void loadPlanet(String nickname){    // loads the planet where the player "nickname" has landed on with the good blocks from the bank
         Planet planet = getPlanet(nickname);
 
@@ -70,6 +108,10 @@ public class PlanetsCard extends AdventureCard implements Serializable, Viewable
         }
     }
 
+    /**
+     * Unloads the planet where the player "nickname" has landed on with the good blocks currently present in the planet.
+     * @param nickname
+     */
     public void unloadPlanet(String nickname){
         Planet planet = getPlanet(nickname);
 
@@ -84,6 +126,11 @@ public class PlanetsCard extends AdventureCard implements Serializable, Viewable
         return getPlanet(nickname) != null;
     }
 
+    /**
+     * Returns the planet where the player "nickname" has landed on.
+     * @param nickname
+     * @return
+     */
     public Planet getPlanet(String nickname){
         for(Planet p : planets){
             if(p.getPlayer() != null && p.getPlayer().equals(nickname)){
@@ -93,10 +140,19 @@ public class PlanetsCard extends AdventureCard implements Serializable, Viewable
         return null;
     }
 
+    /**
+     * Returns the list of players who have landed on the planets.
+     * @return
+     */
     public List<String> getPlayersWhoLanded() {
         return playersWhoLanded;
     }
 
+    /**
+     * Adds a player to the list of players who have landed on the planets.
+     * @param view
+     * @param model
+     */
     @Override
     public void show(AdventureCardViewTUI view, ClientModel model){
         if (model.getGamePhase().getClass().getSimpleName().equals("CardPhase")){

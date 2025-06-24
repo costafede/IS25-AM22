@@ -23,10 +23,19 @@ import java.io.Serializable;
  * - Transitioning to a new state for subsequent combat zone mechanics.
  */
 public class CombatZoneState_0 extends CombatZoneState implements Serializable {
+
+    /**
+     * Initializes the state with the provided adventure card.
+     * @param combatZoneCard
+     */
     public CombatZoneState_0(CombatZoneCard combatZoneCard) {
         super(combatZoneCard);
     }
 
+    /**
+     * Activates the effect of the combat zone card during the game.
+     * @param inputCommand
+     */
     @Override
     public void activateEffect(InputCommand inputCommand) {
         if(game.getFlightboard().getOrderedRockets().size() > 1) {
@@ -61,6 +70,10 @@ public class CombatZoneState_0 extends CombatZoneState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the state, used for debugging purposes.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "CombatZoneState_0";

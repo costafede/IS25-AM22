@@ -21,69 +21,202 @@ public class InputCommand implements Serializable {
     private int row, row_1;
     private int col, col_1;
 
+    /**
+     * Constructs a default {@code InputCommand} with no flags and default values.
+     */
     public InputCommand() {
         choiceCommand = false;
         indexChosen = 0;
     }
 
-    public boolean getChoice() { return choiceCommand;}
+    /**
+     * Returns the user's choice flag.
+     *
+     * @return {@code true} if a choice was made, {@code false} otherwise
+     */
+    public boolean getChoice() {
+        return choiceCommand;
+    }
 
-    public int getIndexChosen() { return indexChosen;}
+    /**
+     * Returns the index chosen by the user.
+     *
+     * @return the index selected
+     */
+    public int getIndexChosen() {
+        return indexChosen;
+    }
 
-    public boolean isAddingGoodBlock() { return addingGoodBlock;}
+    /**
+     * Returns whether this command represents adding a {@link GoodBlock}.
+     *
+     * @return {@code true} if adding a block, {@code false} otherwise
+     */
+    public boolean isAddingGoodBlock() {
+        return addingGoodBlock;
+    }
 
-    public boolean isRemovingGoodBlock() { return removingGoodBlock;}
+    /**
+     * Returns whether this command represents removing a {@link GoodBlock}.
+     *
+     * @return {@code true} if removing a block, {@code false} otherwise
+     */
+    public boolean isRemovingGoodBlock() {
+        return removingGoodBlock;
+    }
 
-    public boolean isSwitchingGoodBlock() { return switchingGoodBlock;}
+    /**
+     * Returns whether this command represents switching two {@link GoodBlock}s.
+     *
+     * @return {@code true} if switching blocks, {@code false} otherwise
+     */
+    public boolean isSwitchingGoodBlock() {
+        return switchingGoodBlock;
+    }
 
-    public int getRow() { return row;}
+    /**
+     * Returns the row index of the target tile.
+     *
+     * @return the row index
+     */
+    public int getRow() {
+        return row;
+    }
 
-    public int getCol() { return col;}
+    /**
+     * Returns the column index of the target tile.
+     *
+     * @return the column index
+     */
+    public int getCol() {
+        return col;
+    }
 
-    public int getRow_1() { return row_1;}
+    /**
+     * Returns the second row index (used for switching).
+     *
+     * @return the second row index
+     */
+    public int getRow_1() {
+        return row_1;
+    }
 
-    public int getCol_1() { return col_1;}
+    /**
+     * Returns the second column index (used for switching).
+     *
+     * @return the second column index
+     */
+    public int getCol_1() {
+        return col_1;
+    }
 
-    public GoodBlock getGoodBlock_1() { return goodBlock_1;}
+    /**
+     * Returns the first {@link GoodBlock} involved in a switch operation.
+     *
+     * @return the first block
+     */
+    public GoodBlock getGoodBlock_1() {
+        return goodBlock_1;
+    }
 
-    /*these setters are used to create the inputCommand objects in the model test cases,the controller will just use the constructor*/
+    /**
+     * Returns the primary {@link GoodBlock} involved in this command.
+     *
+     * @return the good block
+     */
+    public GoodBlock getGoodBlock() {
+        return goodBlock;
+    }
 
-    public GoodBlock getGoodBlock() { return goodBlock;}
+    /**
+     * Sets the main {@link GoodBlock} involved in this command.
+     *
+     * @param goodBlock the block to set
+     */
+    public void setGoodBlock(GoodBlock goodBlock) {
+        this.goodBlock = goodBlock;
+    }
 
-    public void setGoodBlock(GoodBlock goodBlock) { this.goodBlock = goodBlock;}
+    /**
+     * Sets the index chosen by the user.
+     *
+     * @param indexChosen the index value
+     */
+    public void setIndexChosen(int indexChosen) {
+        this.indexChosen = indexChosen;
+    }
 
-    public void setIndexChosen(int indexChosen) { this.indexChosen = indexChosen;}
+    /**
+     * Sets the choice flag for the command.
+     *
+     * @param choice {@code true} if a choice was made, {@code false} otherwise
+     */
+    public void setChoice(boolean choice) {
+        this.choiceCommand = choice;
+    }
 
-    public void setChoice(boolean choice) { this.choiceCommand = choice;}
-
+    /**
+     * Sets the target row for the command.
+     *
+     * @param row the row index
+     */
     public void setRow(int row) {
         this.row = row;
     }
 
+    /**
+     * Sets the target column for the command.
+     *
+     * @param col the column index
+     */
     public void setCol(int col) {
         this.col = col;
     }
 
+    /**
+     * Sets the second row for a switching operation.
+     *
+     * @param row_1 the second row index
+     */
     public void setRow_1(int row_1) {
         this.row_1 = row_1;
     }
 
+    /**
+     * Sets the second column for a switching operation.
+     *
+     * @param col_1 the second column index
+     */
     public void setCol_1(int col_1) {
         this.col_1 = col_1;
     }
 
+    /**
+     * Flags this command as an "add good block" operation.
+     */
     public void flagIsAddingGoodBlock() {
         this.addingGoodBlock = true;
     }
 
+    /**
+     * Flags this command as a "remove good block" operation.
+     */
     public void flagIsRemovingGoodBlock() {
         this.removingGoodBlock = true;
     }
 
+    /**
+     * Flags this command as a "switch good block" operation.
+     */
     public void flagSwitchingGoodBlock() {
         this.switchingGoodBlock = true;
     }
 
+    /**
+     * Sets the second {@link GoodBlock} involved in a switch operation.
+     *
+     * @param goodBlock_1 the block to set
+     */
     public void setGoodBlock_1(GoodBlock goodBlock_1) {
         this.goodBlock_1 = goodBlock_1;
     }

@@ -13,10 +13,19 @@ import java.util.List;
  * This is a concrete implementation of the abstract OpenSpaceState class.
  */
 public class OpenSpaceState_1 extends OpenSpaceState implements Serializable {
+
+    /**
+     * Initializes the OpenSpaceState_1 object with the given OpenSpaceCard.
+     * @param openSpaceCard
+     */
     public OpenSpaceState_1(OpenSpaceCard openSpaceCard) {
         super(openSpaceCard);
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "OpenSpaceState_1";

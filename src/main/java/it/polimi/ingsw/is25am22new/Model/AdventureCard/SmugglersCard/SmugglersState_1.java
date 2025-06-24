@@ -14,6 +14,11 @@ import java.util.Optional;
  * of these actions.
  */
 public class SmugglersState_1 extends SmugglersState implements Serializable {
+
+    /**
+     * Initializes the state of the smuggler's card.
+     * @param smugglersCard
+     */
     public SmugglersState_1(SmugglersCard smugglersCard) {
         super(smugglersCard);
     }
@@ -67,6 +72,10 @@ public class SmugglersState_1 extends SmugglersState implements Serializable {
         }
     }
 
+    /**
+     * Returns the name of the current state.
+     * @return
+     */
     @Override
     public String getStateName() {
         return "SmugglersState_1";

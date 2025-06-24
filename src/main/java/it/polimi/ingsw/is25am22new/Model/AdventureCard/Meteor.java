@@ -13,22 +13,43 @@ public class Meteor implements Serializable {
     private final boolean big;
     private final Orientation orientation;
 
+    /**
+     * Constructs a {@code Meteor} with the specified size and orientation.
+     *
+     * @param big         {@code true} if the meteor is big, {@code false} if small
+     * @param orientation the {@link Orientation} the meteor is coming from
+     */
     public Meteor(boolean big, Orientation orientation) {
         this.big = big;
         this.orientation = orientation;
     }
 
+    /**
+     * Returns whether the meteor is big.
+     *
+     * @return {@code true} if the meteor is big; {@code false} otherwise
+     */
     public boolean isBig() {
         return big;
     }
 
+    /**
+     * Returns the direction from which the meteor is coming.
+     *
+     * @return the {@link Orientation} of the meteor
+     */
     public Orientation getOrientation() {
         return orientation;
     }
 
+    /**
+     * Returns a string representation of the meteor, including its size and incoming direction.
+     *
+     * @return a formatted string describing the meteor
+     */
     @Override
     public String toString() {
-        switch (orientation){
+        switch (orientation) {
             case Orientation.TOP -> {
                 return (big ? "BIG" : "SMALL") + " meteor coming from BOTTOM";
             }
