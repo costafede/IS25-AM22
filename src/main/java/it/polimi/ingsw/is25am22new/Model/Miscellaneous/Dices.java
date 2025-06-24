@@ -11,15 +11,26 @@ import java.util.Random;
 public class Dices implements Serializable {
     int dice1;
     int dice2;
+    int seed;
+    Random rand;
 
     public Dices() {
-        this.dice1 = new Random().nextInt(6) + 1;
-        this.dice2 = new Random().nextInt(6) + 1;
+        this.seed = new Random().nextInt();
+        this.rand= new Random(seed);
+        this.dice1 = rand.nextInt(6) + 1;
+        this.dice2 = rand.nextInt(6) + 1;
+    }
+
+    public Dices(int seed) {
+        this.seed = seed;
+        this.rand= new Random(seed);
+        this.dice1 = rand.nextInt(6) + 1;
+        this.dice2 = rand.nextInt(6) + 1;
     }
 
     public void rollDices() {
-        dice1 = new Random().nextInt(6) + 1;
-        dice2 = new Random().nextInt(6) + 1;
+        dice1 = rand.nextInt(6) + 1;
+        dice2 = rand.nextInt(6) + 1;
     }
 
     public int getDice1() {
@@ -36,5 +47,9 @@ public class Dices implements Serializable {
 
     public void setDice2(int dice2) {
         this.dice2 = dice2;
+    }
+
+    public int getRandomSeed() {
+        return seed;
     }
 }

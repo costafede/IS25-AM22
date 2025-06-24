@@ -5,6 +5,7 @@ import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.GamePhase.PhaseType;
 import it.polimi.ingsw.is25am22new.Model.Miscellaneous.CardPile;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Level2FlightBoard;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
 import java.io.Serializable;
@@ -26,6 +27,38 @@ public class Level2Game extends Game implements Serializable {
         super(nicknames, observers);
         this.cardPiles = new ArrayList<>();
         this.flightboard = new Level2FlightBoard(this);
+    }
+
+    public Level2Game(List<String> playerList, List<ObserverModel> observers, List<String> coveredComponentTilesNames, List<String> deckCardsNames, int randomSeed, List<List<String>> cardPilesNames) {
+        super(playerList,observers);
+        this.dices = new Dices(randomSeed);
+        this.cardPiles = new ArrayList<>();
+        this.flightboard = new Level2FlightBoard(this);
+        initGame();
+        Map<String, Integer> position = new HashMap<>();
+        for(int i = 0; i < coveredComponentTilesNames.size(); i++) {
+            position.put(coveredComponentTilesNames.get(i), i);
+        }
+        coveredComponentTiles.sort(Comparator.comparingInt(t -> position.get(t.getPngName())));
+
+        position.clear();
+        for(int i = 0; i < deckCardsNames.size(); i++) {
+            position.put(deckCardsNames.get(i), i);
+        }
+        this.deck = this.getCardArchive().stream()
+                .filter(t -> position.containsKey(t.getPngName()))
+                .sorted(Comparator.comparingInt(t -> position.get(t.getPngName())))
+                .collect(Collectors.toList());
+        for(int i = 0; i < cardPilesNames.size(); i++) {
+            position.clear();
+            for (int j = 0; j < deckCardsNames.size(); j++) {
+                position.put(deckCardsNames.get(j), j);
+            }
+            this.cardPiles.set(i, new CardPile(this.getCardArchive().stream()
+                    .filter(t -> position.containsKey(t.getPngName()))
+                    .sorted(Comparator.comparingInt(t -> position.get(t.getPngName())))
+                    .collect(Collectors.toList())));
+        }
     }
 
     /**
@@ -130,6 +163,7 @@ public class Level2Game extends Game implements Serializable {
 
         // Add the selected cards to the deck
         deck.addAll(selectedCards);
+        Collections.shuffle(deck);
     }
 
     /**

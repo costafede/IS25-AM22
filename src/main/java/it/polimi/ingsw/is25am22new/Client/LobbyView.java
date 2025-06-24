@@ -40,6 +40,7 @@ public class LobbyView implements EnhancedClientView {
     private boolean hostSetupCompleted = false;
     private int currentPlayerCount = 1;
     private int numPlayers = 0;
+    private int loadGame = 0;
     private String gameType = null;
     private RmiClient rmiClient;
     private SocketServerHandler socketClient;
@@ -534,6 +535,35 @@ public class LobbyView implements EnhancedClientView {
      * @param scanner the Scanner object used to read user input for the setup configuration
      */
     private void setupAsHostSocket(SocketServerHandler client, Scanner scanner) {
+
+        System.out.println("\n╔═════════════════════════════════════════════════╗");
+        System.out.println("║             Load the previous game?             ║");
+        System.out.println("║               1. Yes                            ║");
+        System.out.println("║               2. No                             ║");
+        System.out.println("╚═════════════════════════════════════════════════╝");
+        System.out.print("➤ ");
+
+        while (loadGame < 1 || loadGame > 2) {
+            try {
+                loadGame = Integer.parseInt(scanner.nextLine().trim());
+
+                if (loadGame < 1 || loadGame > 2) {
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║                           Invalid input.                             ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                System.out.println("║                           Invalid input.                             ║");
+                System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                System.out.print("➤ ");
+            }
+        }
+
+        if(loadGame == 1)
+
+
         // Get max players
         System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
         System.out.println("║                  Enter number of players (2-4)                       ║");

@@ -22,10 +22,7 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.Side;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The GameInitializer class is responsible for initializing and setting up the necessary components and cards for a game.
@@ -50,6 +47,7 @@ public class GameInitializer {
         initStructuralModule(game, objectMapper);
         initShieldGenerator(game, objectMapper);
         initSpecialStorageCompartment(game, objectMapper);
+        Collections.shuffle(game.getCoveredComponentTiles());
     }
 
     protected static void initCardArchive(Game game, ObjectMapper objectMapper){

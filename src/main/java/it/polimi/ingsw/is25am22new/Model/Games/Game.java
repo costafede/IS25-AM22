@@ -13,6 +13,7 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.*;
 import java.io.Serializable;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.Flightboard;
@@ -37,7 +38,7 @@ public abstract class Game extends ObservableModel implements Serializable {
     protected List<AdventureCard> deck;
     protected String currPlayer;
     protected AdventureCard currCard;
-    private Dices dices;
+    protected Dices dices;
     protected GamePhase gamePhase;
     protected int hourglassSpot = 0;
     boolean godMode = false;
@@ -206,12 +207,12 @@ public abstract class Game extends ObservableModel implements Serializable {
         if(coveredComponentTiles.isEmpty())
             throw new IllegalStateException("There are no more covered components to pick");
 
-        shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
+        shipboards.get(nickname).setTileInHand(coveredComponentTiles.removeFirst());
 
         // If it is a tutorial game, there is no alien addon
         while(flightboard.getFlightBoardLength() == 18 && shipboards.get(nickname).getTileInHand().isAlienAddon()) {
             shipboards.get(nickname).setTileInHand(null);
-            shipboards.get(nickname).setTileInHand(coveredComponentTiles.remove(new Random().nextInt(coveredComponentTiles.size())));
+            shipboards.get(nickname).setTileInHand(coveredComponentTiles.removeFirst());
         }
 
         updateAllTileInHand(nickname, shipboards.get(nickname).getTileInHand());
@@ -388,20 +389,14 @@ public abstract class Game extends ObservableModel implements Serializable {
 
     /**
      * Selects a card from the deck and sets it as the current card.
-     * If the system is in god mode, the first card from the deck is selected.
-     * Otherwise, a random card from the deck is selected.
      * Updates the deck and the current card to reflect the changes.
      * @throws IllegalStateException if the method is called in the wrong phase
      */
     public void pickCard() {
         if(!gamePhase.getPhaseType().equals(PhaseType.CARD))
             throw new IllegalStateException("Cannot pick a card now");
-        if(godMode) {
-            setCurrCard(deck.removeFirst());
-        }else {
-            setCurrCard(deck.remove(new Random().nextInt(deck.size())));
-            setCorrectDices();
-        }
+        setCurrCard(deck.removeFirst());
+        setCorrectDices();
         updateAllDeck(deck);
         updateAllCurrCard(currCard);
     }
