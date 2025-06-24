@@ -211,6 +211,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         server.setGameType(gameType);
     }
 
+    public void loadGame() throws IOException {
+        server.loadGame();
+    }
+
     public void godMode(String playerName, String conf) {
         executor.submit(() -> {
             try {

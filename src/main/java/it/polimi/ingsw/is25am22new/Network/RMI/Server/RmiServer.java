@@ -567,6 +567,11 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     }
 
     @Override
+    public void loadGame() throws IOException {
+        gameController.loadGame();
+    }
+
+    @Override
     public void godMode(String nickname, String conf) {
         gameController.godMode(nickname, conf);
     }

@@ -73,6 +73,7 @@ public class SocketClientHandler implements VirtualView {
         commandMap.put("placeAstronauts", this::handlePlaceAstronauts);
         commandMap.put("disconnect", msg -> controller.disconnect());
         commandMap.put("connectionTester", this::handleConnectionTester);
+        commandMap.put("loadGame", this::handleLoadGame);
     }
 
     //comunicazione dal client al server
@@ -400,6 +401,9 @@ public class SocketClientHandler implements VirtualView {
         this.controller.updateAllLobbies();
     }
 
+    private void loadGame() {
+        this.controller.loadGame();
+    }
 
     public void startGameByHost(String playerName) {
         if(!playerName.equals(this.controller.getLobbyCreator())) {
@@ -615,6 +619,11 @@ public class SocketClientHandler implements VirtualView {
         System.out.println(msg.getPayload());
         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
         showUpdateTest();
+    }
+
+    private void handleLoadGame(SocketMessage msg) {
+        loadGame();
+        //controller.updateAllGame();
     }
 
     private void handleCheckAvailability(SocketMessage msg) {

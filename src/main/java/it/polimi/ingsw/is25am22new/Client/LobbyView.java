@@ -425,6 +425,8 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Waiting for more players to join...");
             System.out.println("Current players: " + currentPlayerCount +
                     (numPlayers > 0 ? "/" + numPlayers : ""));
+            if(isHostPlayer)
+                System.out.println("Type 'load' to reload the last the game.");
             System.out.println("Type 'ready' to indicate you're ready.");
             System.out.println("Type 'exit' to leave the lobby.");
             System.out.print("> ");
@@ -456,8 +458,8 @@ public class LobbyView implements EnhancedClientView {
             } catch (IOException e) {
                 System.out.println("Error setting ready status: " + e.getMessage());
             }
-        } else if (command.equals("start")) {
-            handleStartGame(client.getPlayerName(), rmiClient);
+        } else if (command.equals("load") && isHostPlayer) {
+            handleLoadGame(rmiClient);
         }
         else {
             System.out.println("Invalid command.");
@@ -482,8 +484,8 @@ public class LobbyView implements EnhancedClientView {
         } else if (command.equals("ready")) {
             running = false;
             socketClient.setPlayerReady(clientModel.getPlayerName());
-        } else if (command.equals("start")) {
-            handleStartGame(clientModel.getPlayerName(), rmiClient);
+        } else if (command.equals("load") && isHostPlayer) {
+            handleLoadGame(client);
         }
         else {
             System.out.println("Invalid command.");
@@ -518,6 +520,8 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Waiting for more players to join...");
             System.out.println("Current players: " + currentPlayerCount +
                     (numPlayers > 0 ? "/" + numPlayers : ""));
+            if(isHostPlayer)
+                System.out.println("Type 'load' to reload the last the game.");
             System.out.println("Type 'ready' to indicate you're ready.");
             System.out.println("Type 'exit' to leave the lobby.");
             System.out.print("> ");
@@ -714,22 +718,32 @@ public class LobbyView implements EnhancedClientView {
      * This method ensures that only the host player can initiate the game start process.
      * If the conditions allow, the request to start the game is sent to the server using the provided RmiClient instance.
      *
-     * @param playerName the name of the player attempting to start the game
      * @param rmiClient  the RMI client used to communicate with the server for starting the game
      */
-    public void handleStartGame(String playerName, RmiClient rmiClient) {
+    public void handleLoadGame(RmiClient rmiClient) {
         try {
             // Only the host should be able to start the game
-            if (isHostPlayer) {
+            if (!isHostPlayer) {
                 System.out.println("Only the host can start the game");
                 return;
             }
 
             // The server handles the validation if all players are ready
-            rmiClient.startGameByHost(playerName);
+            rmiClient.loadGame();
         } catch (IOException e) {
             System.out.println("Error starting game 580: " + e.getMessage());
         }
+    }
+
+    public void handleLoadGame(SocketServerHandler socketClient) {
+        // Only the host should be able to start the game
+        if (!isHostPlayer) {
+            System.out.println("Only the host can start the game");
+            return;
+        }
+
+        // The server handles the validation if all players are ready
+        socketClient.loadGame();
     }
 
     private void waitForHostSetup() {

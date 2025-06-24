@@ -64,6 +64,16 @@ public class SocketServerHandler implements VirtualServer {
         }
     }
 
+    public void loadGame(){
+        SocketMessage msg = new SocketMessage("loadGame", null, null);
+        try {
+            objectOutput.writeObject(msg);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error in loadGame: " + e.getMessage());
+        }
+    }
+
     @Override
     public void startGameByHost(String nickname){
         SocketMessage msg = new SocketMessage("startGameByHost", null, nickname);
