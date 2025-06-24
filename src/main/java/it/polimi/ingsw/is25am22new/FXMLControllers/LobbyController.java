@@ -181,6 +181,7 @@ public class LobbyController extends FXMLController implements Initializable {
         if(allReady && playerList.size() != 1) {
             statusTextArea.appendText("ALL PLAYERS ARE READY! PREPARE TO START!\n");
             startGameButton.setDisable(false);
+            loadGameButton.setDisable(false);
         }
 
         ObservableList<String> observableList = FXCollections.observableArrayList(newList);
