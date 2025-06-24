@@ -18,10 +18,24 @@ import java.util.stream.Collectors;
  */
 public class TutorialFlightBoard extends Flightboard{
 
+    /**
+     * Constructs a new TutorialFlightBoard with a predefined board length of 18.
+     *
+     * @param game The Game object associated with this flight board, used to manage
+     *             game-specific state and logic connected to the flight board.
+     */
     public TutorialFlightBoard(Game game) {
         super(game, 18);
     }
 
+    /**
+     * Constructs a TutorialFlightBoard with the specified ordered list of rocket nicknames,
+     * a map of rocket positions, and the length of the flightboard.
+     *
+     * @param orderedRockets The ordered list of rocket nicknames representing their sequence on the tutorial flightboard.
+     * @param positions The map containing the positions of rockets, where the key is the rocket's nickname and the value is its position.
+     * @param flightBoardLength The length of the tutorial flightboard, representing the total number of valid positions.
+     */
     public TutorialFlightBoard(List<String> orderedRockets, Map<String, Integer> positions, int flightBoardLength) {
         super(orderedRockets, positions, flightBoardLength);
     }
@@ -74,6 +88,12 @@ public class TutorialFlightBoard extends Flightboard{
         }
     }
 
+    /**
+     * Retrieves a list of predefined starting positions for rockets on the flightboard.
+     *
+     * @return A list of integers representing the starting positions of rockets. These positions
+     *         are fixed and ordered as defined by the tutorial-specific flightboard logic.
+     */
     @Override
     public List<Integer> getStartingPositions() {
         return List.of(4, 2, 1, 0);

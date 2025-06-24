@@ -14,10 +14,26 @@ import java.util.stream.Collectors;
  */
 public class Level2FlightBoard extends Flightboard {
 
+    /**
+     * Constructs a Level 2 Flightboard with a specific game configuration
+     * and predefined settings suitable for Level 2 gameplay.
+     *
+     * @param game The game instance to which this flightboard belongs,
+     *             providing context and data for the flightboard's behavior.
+     */
     public Level2FlightBoard(Game game) {
         super(game, 24);
     }
 
+    /**
+     * Constructs a Level2FlightBoard with the specified ordered list of rocket nicknames,
+     * a map of rocket positions, and the length of the flightboard. This constructor is used
+     * to initialize a Level 2 Flightboard with predefined settings for more complex configurations.
+     *
+     * @param orderedRockets The ordered list of rocket nicknames representing their sequence on the flightboard.
+     * @param positions A map containing the positions of rockets, where the key is the rocket's nickname and the value is its position.
+     * @param flightBoardLength The length of the flightboard, representing the total number of valid positions.
+     */
     public Level2FlightBoard(List<String> orderedRockets, Map<String, Integer> positions, int flightBoardLength) {
         super(orderedRockets, positions, flightBoardLength);
     }
@@ -72,6 +88,14 @@ public class Level2FlightBoard extends Flightboard {
         }
     }
 
+    /**
+     * Retrieves the predefined starting positions for rockets on the flightboard.
+     * These positions are determined based on the specific configurations
+     * of a Level 2 flightboard.
+     *
+     * @return A list of integers representing the starting positions,
+     *         ordered as per the flightboard's setup.
+     */
     @Override
     public List<Integer> getStartingPositions() {
         return List.of(6, 3, 1, 0);

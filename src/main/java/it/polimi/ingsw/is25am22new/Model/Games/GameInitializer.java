@@ -37,6 +37,15 @@ import java.util.Map;
  */
 public class GameInitializer {
 
+    /**
+     * Initializes various components required for the game. This method acts as a centralized
+     * initializer for different game modules and components by invoking several specific
+     * initialization methods.
+     *
+     * @param game the Game instance for which the components are to be initialized
+     * @param objectMapper an ObjectMapper instance used for processing JSON data and mapping
+     *                     configurations for the game's components
+     */
     protected static void initComponent(Game game, ObjectMapper objectMapper) {
         initBatteryComponent(game, objectMapper);
         //initStartingCabin(game, objectMapper);
@@ -52,6 +61,13 @@ public class GameInitializer {
         initSpecialStorageCompartment(game, objectMapper);
     }
 
+    /**
+     * Initializes the card archive for a given game. This method sets up various types of cards
+     * such as abandoned ships, stations, combat zones, and other special cards needed for the game.
+     *
+     * @param game the Game instance to which the card archive will be initialized
+     * @param objectMapper the ObjectMapper instance used for handling data serialization and deserialization of cards
+     */
     protected static void initCardArchive(Game game, ObjectMapper objectMapper){
         initAbandonedShipCard(game, objectMapper);
         initAbandonedStationCard(game, objectMapper);
@@ -66,6 +82,12 @@ public class GameInitializer {
         initStardustCard(game, objectMapper);
     }
 
+    /**
+     * Initializes the data for the Abandoned Ship card from a JSON file and adds the cards to the game's card archive.
+     *
+     * @param game The game object that contains the card archive where the Abandoned Ship cards will be added.
+     * @param objectMapper The ObjectMapper instance used for reading and mapping JSON data into Java objects.
+     */
     private static void initAbandonedShipCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/AbandonedShipCard.json");
@@ -94,6 +116,14 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the abandoned station card by reading from a predefined JSON file
+     * and adding the parsed data to the game's card archive. The method extracts card
+     * properties such as name, level, tutorial status, flight days lost, number of astronauts,
+     * and good blocks from the JSON file and creates card objects using the data.
+     *
+     * @param game the game object to which the created abandoned station cards will be added.
+     * @param objectMapper an instance of ObjectMapper to read and parse the JSON file containing*/
     private static void initAbandonedStationCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/AbandonedStationCard.json");
@@ -129,11 +159,24 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the combat zone cards within the game by invoking the sub-initialization methods.
+     *
+     * @param game          the Game instance where combat zone cards will be initialized
+     * @param objectMapper  the ObjectMapper used for data binding or JSON processing during initialization
+     */
     private static void initCombatZoneCard(Game game, ObjectMapper objectMapper) {
         initCombatZoneCard1(game, objectMapper);
         initCombatZoneCard2(game, objectMapper);
     }
 
+    /**
+     * Initializes and loads a specific set of combat zone cards (CombatZoneCard1) into the game's card archive
+     * from a JSON file named "CombatZoneCard1.json".
+     *
+     * @param game the game instance where the combat zone cards will be added
+     * @param objectMapper the object mapper used for parsing the JSON file
+     */
     private static void initCombatZoneCard1(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is1 = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/CombatZoneCard1.json");
@@ -170,6 +213,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the second Combat Zone Card by reading data from the CombatZoneCard2.json file
+     * and creating card objects which are added to the game's card archive.
+     *
+     * @param game The game instance where the Combat Zone Card will be added.
+     * @param objectMapper The ObjectMapper instance used for parsing the JSON file.
+     */
     private static void initCombatZoneCard2(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is2 = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/CombatZoneCard2.json");
@@ -206,6 +256,16 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the Epidemic Card objects from a JSON file and adds them to the game's card archive.
+     * The JSON file is read from the resource path `/JSONfiles/AdventureCards/EpidemicCard.json`.
+     * Each entry in the JSON file is parsed to create an {@code EpidemicCard} object,
+     * which is then added to the {@code game}'s card archive.
+     * If the JSON file is missing or an error occurs during processing, an error message is printed.
+     *
+     * @param game the {@code Game} instance to which the created Epidemic Cards will be added
+     * @param objectMapper an instance of {@code ObjectMapper} used to read and parse the JSON file
+     */
     private static void initEpidemicCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/EpidemicCard.json");
@@ -230,6 +290,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes and loads the MeteorSwarmCard data from a JSON configuration file
+     * and adds the card to the game's card archive.
+     *
+     * @param game the game instance where the MeteorSwarmCard will be added
+     * @param objectMapper the ObjectMapper instance used for reading and parsing the JSON file
+     */
     private static void initMeteorSwarmCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/MeteorSwarmCard.json");
@@ -267,6 +334,14 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes OpenSpaceCard objects and adds them to the game's card archive.
+     * Reads OpenSpaceCard data from a predefined JSON file and constructs
+     * the corresponding card instances.
+     *
+     * @param game the game object to which the OpenSpaceCard instances are added
+     * @param objectMapper the ObjectMapper instance used to parse the JSON file
+     */
     private static void initOpenSpaceCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/OpenSpaceCard.json");
@@ -291,6 +366,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the PiratesCard objects from the specified JSON file and adds them
+     * to the game's card archive. Each card is configured with its attributes.
+     *
+     * @param game           the game instance to which the PiratesCards will be added
+     * @param objectMapper   the ObjectMapper instance used for parsing the JSON data
+     */
     private static void initPiratesCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/PiratesCard.json");
@@ -326,6 +408,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the PlanetsCard objects from a JSON file and adds them to the game's card archive.
+     * The JSON file contains details about each PlanetsCard, including its properties and associated planets.
+     *
+     * @param game the game to which the PlanetsCards will be added
+     * @param objectMapper the ObjectMapper used to parse the JSON file
+     */
     private static void initPlanetsCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/PlanetsCard.json");
@@ -370,6 +459,14 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the SlaversCard objects from the JSON resource file and adds them to the game's card archive.
+     * The method reads attributes for each SlaversCard from the JSON file and constructs
+     * instances of the SlaversCard class, which are then added to the game's card archive.
+     *
+     * @param game         The game instance to which the cards will be added.
+     * @param objectMapper The ObjectMapper instance used for parsing JSON files.
+     */
     private static void initSlaversCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/SlaversCard.json");
@@ -398,6 +495,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the SmugglersCard objects by reading data from the SmugglersCard.json file.
+     * The method parses the JSON data, creating and adding SmugglersCard objects to the game's card archive.
+     *
+     * @param game the game instance to which the cards will be added
+     * @param objectMapper the Jackson ObjectMapper instance used to parse the JSON data
+     */
     private static void initSmugglersCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/SmugglersCard.json");
@@ -430,6 +534,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes StardustCard objects by reading their data from a JSON configuration file
+     * and adds them to the game's card archive.
+     *
+     * @param game The game instance to which the StardustCard objects will be added.
+     * @param objectMapper The ObjectMapper instance used for JSON parsing.
+     */
     private static void initStardustCard(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/AdventureCards/StardustCard.json");
@@ -454,6 +565,14 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the BatteryComponent tiles for the game by reading configuration
+     * data from a JSON file and adding the parsed components to the game's
+     * covered component tiles list.
+     *
+     * @param game the game object to which the battery components will be added
+     * @param objectMapper the ObjectMapper instance used for parsing the JSON file
+     */
     private static void initBatteryComponent(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/BatteryComponent.json");
@@ -479,6 +598,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the starting cabin components for the game by reading the definition
+     * from a JSON file and adding them to the game's covered component tiles.
+     *
+     * @param game the Game instance where the starting cabin components will be added
+     * @param objectMapper the ObjectMapper instance used to parse the JSON file
+     */
     private static void initStartingCabin(Game game, ObjectMapper objectMapper){
         try{
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/StartingCabin.json");
@@ -501,6 +627,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the regular cabin components of the game by reading from a JSON file
+     * and adding parsed data as RegularCabin component tiles to the game's covered component tiles.
+     *
+     * @param game         The Game instance to which the regular cabin tiles will be added.
+     * @param objectMapper The ObjectMapper used to parse the JSON file containing component tile details.
+     */
     private static void initRegularCabin(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/RegularCabin.json");
@@ -524,6 +657,8 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes Alien Addon tiles from a JSON file and adds them to the game's*/
     private static void initAlienAddon(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/AlienAddon.json");
@@ -548,6 +683,14 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes storage compartments for the game by reading and parsing data
+     * from the "StorageCompartment.json" file and adding the corresponding components
+     * to the game's collection of covered component tiles.
+     *
+     * @param game the game object to which the storage compartments will be added
+     * @param objectMapper the object mapper used to parse the JSON file
+     */
     private static void initStorageCompartments(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/StorageCompartment.json");
@@ -572,6 +715,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the engine components and adds them to the game's covered component tiles collection.
+     * The initialization process reads configuration data from the Engine.json resource file.
+     *
+     * @param game the game instance to which the initialized engine components will be added
+     * @param objectMapper the ObjectMapper instance used to parse the JSON configuration data
+     */
     private static void initEngine(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/Engine.json");
@@ -595,6 +745,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the DoubleEngine components by reading data from the DoubleEngine.json file
+     * and adding them to the game's covered components list.
+     *
+     * @param game the Game object in which the DoubleEngine components will be initialized
+     * @param objectMapper the ObjectMapper instance used to parse the JSON data
+     */
     private static void initDoubleEngine(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/DoubleEngine.json");
@@ -618,6 +775,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the DoubleCannon component tiles for the game by reading their configuration
+     * from a JSON file and adding them to the game's collection of component tiles.
+     *
+     * @param game the game instance where the DoubleCannon tiles will be added
+     * @param objectMapper the ObjectMapper used to parse the JSON file
+     */
     private static void initDoubleCannon(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/DoubleCannon.json");
@@ -641,6 +805,12 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the cannon components in the game using data from a JSON configuration file.
+     *
+     * @param game         The current game instance where the cannon components will be added.
+     * @param objectMapper The ObjectMapper instance used for parsing the JSON file.
+     */
     private static void initCannon(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/Cannon.json");
@@ -664,6 +834,13 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the structural module component tiles for the game by reading data from a JSON resource file
+     * and adding the parsed components to the game's collection of covered component tiles.
+     *
+     * @param game the game instance to which the structural module will be added
+     * @param objectMapper the ObjectMapper instance used for parsing the JSON file
+     */
     private static void initStructuralModule(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/StructuralModule.json");
@@ -687,6 +864,9 @@ public class GameInitializer {
         }
     }
 
+    /**
+     * Initializes the Shield Generator component tiles for the game by reading data from a JSON file
+     */
     private static void initShieldGenerator(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/ShieldGenerator.json");
@@ -710,6 +890,9 @@ public class GameInitializer {
         }
     }
 
+    /**
+     *
+     */
     private static void initSpecialStorageCompartment(Game game, ObjectMapper objectMapper) {
         try {
             InputStream is = GameInitializer.class.getResourceAsStream("/JSONfiles/ComponentTiles/SpecialStorageCompartment.json");

@@ -21,11 +21,34 @@ import java.util.*;
  * TutorialGame to be serialized and deserialized.
  */
 public class TutorialGame extends Game implements Serializable {
+
+
+    /**
+     * Constructs a new TutorialGame instance, initializing the game with the provided list of players
+     * and observers. This constructor also creates a TutorialFlightBoard specific to the tutorial game mode.
+     *
+     * @param nicknames a list of player nicknames participating in the tutorial game
+     * @param observers a list of observers to monitor and react to changes in the game state
+     */
     public TutorialGame(List<String> nicknames, List<ObserverModel> observers) {
         super(nicknames, observers);
         this.flightboard = new TutorialFlightBoard(this);
     }
 
+    /**
+     * Initializes the tutorial game mode by setting up the necessary components
+     * and configurations specific to tutorial gameplay.
+     *
+     * This method overrides the default game initialization to include tutorial-specific
+     * setup tasks. It first calls the superclass's {@code initGame()} method to establish
+     * the base game setup, including components such as the game board and phase transitions.
+     *
+     * As part of the tutorial initialization:
+     * - The {@code initDeck()} method is invoked to load and shuffle tutorial-specific cards
+     *   into the game deck.
+     * - The {@code updateAllGame()} method is called to apply any corrections to ship boards
+     *   and notify observers of the game's updated state.
+     */
     @Override
     public void initGame() {
         super.initGame();
@@ -34,21 +57,18 @@ public class TutorialGame extends Game implements Serializable {
     }
 
     /**
-     * Ends the game and calculates the final scores for each player.
+     * Ends the game by calculating and aggregating the final scores for all players.
      *
-     * The method performs the following steps to calculate the scores:
-     * 1. Calculates the partial scores for each player, where the score is
-     *    determined by subtracting points for discarded tiles from the points
-     *    earned by selling goods.
-     * 2. Adds bonus points based on the players' positions on the flight board
-     *    (positions are ranked from first to fourth).
-     * 3. Awards bonus points to the player with the best shipboard, determined
-     *    by the least number of exposed connectors.
-     * 4. Sorts the scores in descending order for ranking purposes.
+     * This method computes player scores based on the following:
+     * 1. Partial scores derived from each player's shipboard (sold goods and penalties for discarded tiles).
+     * 2. Bonus points for positions on the flightboard.
+     * 3. Additional points awarded to the player with the best shipboard.
      *
-     * @return A map containing the nicknames of players as keys and their
-     *         corresponding final scores as values, ordered in descending
-     *         score order.
+     * The resulting scores are sorted in descending order, and the leaderboard is updated
+     * by notifying all observers.
+     *
+     * @return A map containing player nicknames as keys and their corresponding final scores as values,
+     *         sorted in descending order of scores.
      */
     public Map<String, Integer> endGame() {
         Map<String, Integer> scores = new HashMap<>();

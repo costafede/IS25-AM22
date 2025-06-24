@@ -24,6 +24,12 @@ public class Hourglass implements Serializable {
     boolean active;
 
 
+    /**
+     * Constructs a new Hourglass object with a specific countdown duration in seconds.
+     * The timer is initialized but remains inactive until explicitly started.
+     *
+     * @param remainingSeconds the number of seconds the countdown timer is set to run
+     */
     public Hourglass(int remainingSeconds) {
         this.timer = new Timer();
         this.remainingSeconds = remainingSeconds;
@@ -31,6 +37,13 @@ public class Hourglass implements Serializable {
         this.active = false;
     }
 
+    /**
+     * Starts the countdown timer if it is not active. The timer decrements the remaining
+     * seconds at a fixed interval and executes a callback method when the timer reaches zero.
+     *
+     * @param callbackMethod the action to be executed when the timer finishes. This method
+     *                       is invoked once the countdown completes.
+     */
     public void startTimer(Runnable callbackMethod) {
         if (active) return; // So it doesn't start a new timer if one is already active
 
@@ -48,6 +61,15 @@ public class Hourglass implements Serializable {
         }, 0, 1000);
     }
 
+    /**
+     * Stops the currently active countdown timer, if one is running. This method:
+     * - Cancels the existing Timer instance.
+     * - Resets the Timer to a new instance.
+     * - Sets the `active` flag to `false` to indicate the timer is no longer running.
+     * - Resets the `remainingSeconds` back to the initial timer duration.
+     *
+     * If the timer is not active, the method does nothing.
+     */
     public void stopTimer() {
         if (active) {
             timer.cancel();
@@ -57,6 +79,11 @@ public class Hourglass implements Serializable {
         }
     }
 
+    /**
+     * Retrieves the number of seconds remaining in the countdown timer.
+     *
+     * @return the number of seconds left in the current countdown
+     */
     public int getRemainingSeconds() {
         return remainingSeconds;
     }

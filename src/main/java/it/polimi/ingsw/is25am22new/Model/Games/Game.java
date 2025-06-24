@@ -442,10 +442,20 @@ public abstract class Game extends ObservableModel implements Serializable {
             updateAllGamePhase(gamePhase);
     }
 
+    /**
+     * Retrieves the list of card piles.
+     *
+     * @return a list containing all the card piles. If there are no card piles, an empty list is returned.
+     */
     public List<CardPile> getCardPiles(){
         return new ArrayList<>();
     }
 
+    /**
+     * Ends the current game session and calculates the final scores for all players.
+     *
+     * @return a map containing the players' names as keys and their corresponding final scores as values
+     */
     public abstract Map<String, Integer> endGame();
 
     /**
@@ -464,52 +474,129 @@ public abstract class Game extends ObservableModel implements Serializable {
                 .orElse(null);
     }
 
+    /**
+     * Initializes a deck of cards with the desired properties and structure.
+     * This method is intended to be implemented by subclasses to define
+     * the specific logic for creating and configuring a deck.
+     *
+     * The implementation of this method may vary based on the specific
+     * requirements of the card game or application.
+     *
+     * This method does not take any parameters and does not return a value.
+     * It is expected to set up and populate the necessary deck as required.
+     */
     protected abstract void initDeck();
 
+    /**
+     * Retrieves the list of ComponentTile instances that are covered.
+     *
+     * @return a list of covered ComponentTile objects.
+     */
     public List<ComponentTile> getCoveredComponentTiles() {
         return coveredComponentTiles;
     }
 
+    /**
+     * Retrieves the list of uncovered component tiles.
+     *
+     * @return a list of ComponentTile objects that are uncovered
+     */
     public List<ComponentTile> getUncoveredComponentTiles() {
         return uncoveredComponentTiles;
     }
 
+    /**
+     * Retrieves the list of archived adventure cards.
+     *
+     * @return a list containing archived AdventureCard objects
+     */
     public List<AdventureCard> getCardArchive() {
         return cardArchive;
     }
 
+    /**
+     * Retrieves the flight board information.
+     *
+     * @return the flight board instance containing flight details.
+     */
     public Flightboard getFlightboard(){
         return flightboard;
     }
 
+    /**
+     * Retrieves a map of shipboards.
+     *
+     * @return a map where the key is a string identifier and the value is a Shipboard object
+     */
     public Map<String , Shipboard> getShipboards(){
         return shipboards;
     }
 
+    /**
+     * Retrieves the list of players.
+     *
+     * @return a list of player names as strings.
+     */
     public List<String> getPlayerList() {
         return playerList;
     }
 
+    /**
+     * Retrieves the adventure card deck.
+     *
+     * @return a list of AdventureCard objects representing the deck.
+     */
     public List<AdventureCard> getDeck() {
         return deck;
     }
 
+    /**
+     * Sets the current adventure card.
+     *
+     * @param card the AdventureCard object to be set as the current card
+     */
     public void setCurrCard(AdventureCard card) {
         currCard = card;
     }
 
+    /**
+     * Sets the current player by specifying their nickname.
+     *
+     * @param nickname the nickname of the player to set as the current player
+     */
     public void setCurrPlayer(String nickname) {
         currPlayer = nickname;
     }
 
+    /**
+     * Retrieves the name or identifier of the current player.
+     *
+     * @return a String representing the current player.
+     */
     public String getCurrPlayer() {
         return currPlayer;
     }
 
+    /**
+     * Retrieves the current adventure card.
+     *
+     * @return the current AdventureCard object.
+     */
     public AdventureCard getCurrCard() {
         return currCard;
     }
 
+    /**
+     * Updates the current player to the next player in the ordered list of rockets.
+     * The method retrieves the next rocket in the list relative to the current player
+     * and sets it as the new current player. If the current player is the last one in
+     * the list, an IndexOutOfBoundsException will be caught and an error message will be displayed.
+     *
+     * Exceptions:
+     * - IndexOutOfBoundsException: Thrown if the current player's position in the list
+     *   is the last element and there is no next player to assign. The exception is caught
+     *   and an error message is printed to the console.
+     */
     public void setCurrPlayerToNext(){
         try{
             currPlayer = flightboard.getOrderedRockets().get(flightboard.getOrderedRockets().indexOf(currPlayer) + 1);
@@ -519,6 +606,11 @@ public abstract class Game extends ObservableModel implements Serializable {
         }
     }
 
+    /**
+     * Sets the current player to the leader of the game. If the ordered rockets on the flightboard
+     * are empty, the method will attempt to transition the game to the next phase. Otherwise, it
+     * assigns the first player in the list of ordered rockets as the current player.
+     */
     public void setCurrPlayerToLeader(){
         if(flightboard.getOrderedRockets().isEmpty())
             gamePhase.trySwitchToNextPhase();
@@ -526,18 +618,39 @@ public abstract class Game extends ObservableModel implements Serializable {
             currPlayer = flightboard.getOrderedRockets().getFirst();
     }
 
+    /**
+     * Retrieves the name or identifier of the last player from the flightboard's ordered list of rockets.
+     *
+     * @return the name or identifier of the last player in the list
+     */
     public String getLastPlayer() {
         return flightboard.getOrderedRockets().getLast();
     }
 
+    /**
+     * Retrieves the current instance of the bank.
+     *
+     * @return the bank instance associated with this context.
+     */
     public Bank getBank() {
         return bank;
     }
 
+    /**
+     * Retrieves the Dices instance associated with this object.
+     *
+     * @return the Dices instance
+     */
     public Dices getDices() {
         return dices;
     }
 
+    /**
+     * Checks whether the hourglass is active based on its remaining time.
+     * The hourglass is considered active if the remaining seconds are less than 60.
+     *
+     * @return true if the hourglass has less than 60 seconds remaining, false otherwise.
+     */
     public boolean isHourglassActive() {
         return hourglass.getRemainingSeconds() < 60;
     }
@@ -602,14 +715,29 @@ public abstract class Game extends ObservableModel implements Serializable {
         }
     }
 
+    /**
+     * Sets the current phase of the game.
+     *
+     * @param gamePhase the game phase to set, defining the current stage of the game
+     */
     public void setGamePhase(GamePhase gamePhase){
         this.gamePhase = gamePhase;
     }
 
+    /**
+     * Retrieves the current phase of the game.
+     *
+     * @return the current GamePhase object representing the state of the game.
+     */
     public GamePhase getGamePhase() {
         return gamePhase;
     }
 
+    /**
+     * Retrieves the value representing the hourglass spot.
+     *
+     * @return an integer indicating the hourglass spot
+     */
     public int getHourglassSpot() {
         return hourglassSpot;
     }
@@ -1142,6 +1270,23 @@ public abstract class Game extends ObservableModel implements Serializable {
 //
 //    }
 
+    /**
+     * Updates the dice values based on the current card's type and properties.
+     * This method determines the type of card currently held in the variable `currCard`
+     * and sets the dice values accordingly. Different types of cards are handled, such as
+     * "MeteorSwarm", "Pirates", and "CombatZone". For "CombatZone" cards, it further checks
+     * the card's level to determine the appropriate dice values.
+     *
+     * Once the dice values are set, the method calls `updateAllDices(dices)` to apply
+     * the changes.
+     *
+     * Preconditions:
+     * - `currCard` may be null. If null, the method does nothing.
+     * - If `currCard` is not null, it is expected to be of a type that corresponds
+     *   to the recognized card types ("MeteorSwarm", "Pirates", or "CombatZone").
+     *
+     * Postconditions:
+     * - The `dices`*/
     private void setCorrectDices() {
         if(currCard != null) {
             if(currCard.getName().equals("MeteorSwarm")){

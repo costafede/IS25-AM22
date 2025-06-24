@@ -22,6 +22,16 @@ import java.util.stream.Collectors;
 public class Level2Game extends Game implements Serializable {
     private final List<CardPile> cardPiles;
 
+    /**
+     * Constructs a new instance of Level2Game, a specialized implementation for Level 2 gameplay.
+     * Initializes the game components, including player nicknames, observers, an empty list of card piles,
+     * and a Level2FlightBoard configured specifically for this game level.
+     *
+     * @param nicknames a list of nicknames representing the players participating in the game.
+     *                  Each nickname is unique and identifies a player.
+     * @param observers a list of observers that will be registered to monitor and
+     *                  update game-related actions and states, or null if no observers are provided.
+     */
     public Level2Game(List<String> nicknames, List<ObserverModel> observers) {
         super(nicknames, observers);
         this.cardPiles = new ArrayList<>();
@@ -29,14 +39,21 @@ public class Level2Game extends Game implements Serializable {
     }
 
     /**
-     * Ends the game and calculates the final scores for all players by:
-     * 1. Computing partial scores based on sold goods and discarded tiles for each player's shipboard.
-     * 2. Adding bonus scores depending on the ranks of players' rockets in the flightboard.
-     * 3. Awarding additional points for the player with the best shipboard configuration.
-     * The scores are then sorted in descending order before being returned.
+     * Ends the current game session and calculates the final scores for all players.
      *
-     * @return A map where each key represents a player's nickname and the corresponding value is their final score,
-     * sorted in descending order of scores.
+     * The final scores are determined based on the following criteria:
+     * 1. Partial scores: Calculated as the difference between the value of sold goods
+     *    and penalty points from discarded tiles for each player.
+     * 2. Flightboard positions: Players receive additional points depending on the
+     *    position of their rockets on the flightboard.
+     * 3. Best shipboard bonus: The player with the best shipboard receives a bonus
+     *    score.
+     *
+     * The method organizes the final scores in descending order, updates the leaderboard
+     * for all observers, and returns the sorted score map.
+     *
+     * @return a map containing player nicknames as keys and their respective
+     *         final scores as values, sorted in descending order of scores.
      */
     public Map<String, Integer> endGame() {
         Map<String, Integer> scores = new HashMap<>();
@@ -63,11 +80,10 @@ public class Level2Game extends Game implements Serializable {
     }
 
     /**
-     * Sorts the given map of scores in descending order of their values.
+     * Sorts the given map in descending order based on its values.
      *
-     * @param scores a map where each key represents a player's nickname, and the corresponding value
-     *               is their score.
-     * @return a new map sorted in descending order based on the values (scores).
+     * @param scores a map containing player names as keys and their respective scores as values
+     * @return a new map that contains the same entries as the input map, sorted in descending order by value
      */
     protected Map<String, Integer> sortDesc(Map<String, Integer> scores) {
         //sorting the map
@@ -83,6 +99,15 @@ public class Level2Game extends Game implements Serializable {
     }
 
 
+    /**
+     * Initializes the game for the Level 2 phase by performing the following tasks:
+     *
+     * - Calls the superclass method to set up foundational components and transitions.
+     * - Initializes the deck by selecting and organizing the appropriate adventure cards,
+     *   which are categorized into level 1 and level 2 cards.
+     * - Updates the state of the game and synchronizes it with all registered observers
+     *   to ensure consistency and notify them of the current game state.
+     */
     @Override
     public void initGame() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -92,17 +117,20 @@ public class Level2Game extends Game implements Serializable {
     }
 
     /**
-     * Initializes the game's adventure card deck and card piles. This process involves the following steps:
+     * Initializes the deck for the level 2 game by selecting and shuffling a specific set of cards.
      *
-     * 1. Retrieves the card archive, which contains all available adventure cards.
-     * 2. Filters the cards into two separate lists based on their level (level 1 and level 2).
-     * 3. Randomizes the order of cards in each list to ensure variety in gameplay.
-     * 4. Selects a predefined number of cards:
-     *      - 4 cards from level 1
-     *      - 8 cards from level 2
-     * 5. Initializes the card piles using selected level 1 and level 2 cards.
-     *      - Each card pile consists of 3 cards: 1 card from level 1 and 2 cards from level 2.
-     * 6. Adds the selected cards to the deck, which will be used during the game.
+     * This method retrieves all available adventure cards from the game's card archive
+     * and filters them based on their difficulty level. It chooses 4 level 1 cards and
+     * 8 level 2 cards, shuffles these subsets to randomize the order, and then combines
+     * them into a deck. Additionally, it prepares the card piles by calling the `initCardPiles`
+     * method with the selected cards.
+     *
+     * The method logic includes:
+     * - Filtering level 1 and level 2 cards from the archive.
+     * - Randomly shuffling the filtered cards to ensure variability in gameplay.
+     * - Selecting a predefined number of cards (4 level 1 cards and 8 level 2 cards).
+     * - Initializing the card piles with the selected cards.
+     * - Adding the selected cards to the deck.
      */
     @Override
     public void initDeck() {
@@ -133,12 +161,12 @@ public class Level2Game extends Game implements Serializable {
     }
 
     /**
-     * Initializes the card piles for the game by shuffling the given adventure cards and organizing them into piles.
-     * Each pile consists of one card from the level 1 list and two cards from the level 2 list.
-     * The card piles are then stored in the game's internal data structure.
+     * Initializes the card piles required for the game by shuffling and organizing
+     * two levels of AdventureCards into groups. Each card pile is constructed using
+     * specific combinations of cards from the given level1 and level2 lists.
      *
-     * @param level1 a list of level 1 adventure cards to be used in the game.
-     * @param level2 a list of level 2 adventure cards to be used in the game.
+     * @param level1 the list of AdventureCards corresponding to the first difficulty level
+     * @param level2 the list of AdventureCards corresponding to the second difficulty level
      */
     private void initCardPiles(List<AdventureCard> level1, List<AdventureCard> level2) {
         Collections.shuffle(level1);
@@ -152,10 +180,29 @@ public class Level2Game extends Game implements Serializable {
         }
     }
 
+    /**
+     * Retrieves the list of CardPiles associated with the game.
+     *
+     * @return a List of CardPile objects representing the card piles in the current game.
+     */
     public List<CardPile> getCardPiles() {
         return cardPiles;
     }
 
+    /**
+     * Flips the hourglass to indicate progression in the game and manages the
+     * associated state updates and observer notifications. This method ensures
+     * that the hourglass flipping process adheres to the rules of the current
+     * game phase and invokes the necessary callbacks when the hourglass state changes.
+     *
+     * @param callbackMethod the method to be executed as a callback when the hourglass
+     *                       flipping process is completed. This action depends on the
+     *                       state of the game and the number of times the hourglass
+     *                       has been flipped.
+     *
+     * @throws IllegalStateException if the current game phase does not allow flipping the hourglass.
+     * @throws IllegalArgumentException if flipping the hourglass exceeds the allowed number of times.
+     */
     public void flipHourglass(Runnable callbackMethod) {//dobbiamo rimuovere il callback method dalla signature, non serve
         if(!gamePhase.getPhaseType().equals(PhaseType.BUILDING))
             throw new IllegalStateException("Cannot flip the hourglass now");

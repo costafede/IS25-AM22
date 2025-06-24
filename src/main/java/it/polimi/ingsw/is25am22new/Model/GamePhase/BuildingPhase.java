@@ -14,11 +14,37 @@ import java.util.List;
  * The phase transitions are determined based on the state of each player's shipboard.
  */
 public class BuildingPhase extends GamePhase {
+
+
+    /**
+     * Constructs a BuildingPhase object which represents the phase in the game where building actions are taken.
+     *
+     * @param game the current game instance associated with this phase
+     */
     public BuildingPhase(Game game) {
         super(game);
         phaseType = PhaseType.BUILDING;
     }
 
+    /**
+     * Attempts to transition the game to the next phase based on the current state of the shipboards and game rules.
+     * <br>
+     * This method evaluates all shipboards of the players to ensure certain conditions are met for progression.
+     * If all players have placed their rockets but errors are detected in shipboards, corrective actions or transitions may occur.
+     * Additional transitions may take place based on whether all cabins are populated and rockets are placed correctly.
+     * <br>
+     * The following conditions are checked:
+     * - Whether rockets have been placed on all shipboards.
+     * - Whether shipboards are valid (no configuration errors).
+     * - Whether all cabins on the shipboards are populated.
+     *
+     * Transition logic:
+     * - If all rockets are placed and errors exist in shipboards:
+     *   - In a tutorial game, incorrect shipboards' rockets are returned for correction.
+     *   - In other cases, transitions to the "CorrectingShipPhase" phase.
+     * - If rockets are placed but not all cabins are populated, transitions to the "PlaceCrewMembersPhase".
+     * - If all rockets are placed and the shipboards are valid, transitions to the "CardPhase".
+     */
     public void trySwitchToNextPhase(){
         boolean flag_rocket_placed = true;
         boolean flag_valid = true;
@@ -47,9 +73,9 @@ public class BuildingPhase extends GamePhase {
     }
 
     /**
-     * removes the rockets of those players whose shipboard is invalid from the flight board and rearranges
-     * the positions of the other rockets according to the game rules
-     * @param incorrectShipboards list of the incorrect shipboards
+     * Reverts the placement of rockets for the specified list of shipboards and updates the game state accordingly.
+     *
+     * @param incorrectShipboards the list of shipboards with incorrect rocket placements to be reverted
      */
     private void returnRockets(List<Shipboard> incorrectShipboards) {
         Flightboard flightboard = game.getFlightboard();
@@ -66,6 +92,16 @@ public class BuildingPhase extends GamePhase {
         game.updateAllShipboardList(game.getShipboards());
     }
 
+    /**
+     * Moves the player's rocket forward in the sequence of starting positions on the flightboard.
+     * The new starting position is determined based on the player's current position and the
+     * availability of other positions in the sequence. After determining the new position, the
+     * player's rocket is removed and re-placed at the updated position.
+     *
+     * @param flightboard The flightboard object representing the current state of the game,
+     *                    including the positions of all rockets and their ordering.
+     * @param player The unique identifier of the player whose rocket is to be moved.
+     */
     private void stepForwardInStartingPositions(Flightboard flightboard, String player) {
         int pos = flightboard.getPositions().get(player);
         int new_starting_pos;

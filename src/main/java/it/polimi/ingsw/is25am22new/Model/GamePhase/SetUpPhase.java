@@ -10,11 +10,25 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
  */
 public class SetUpPhase extends GamePhase {
 
+    /**
+     * Initializes the setup phase of the game. This phase includes initial
+     * configurations and prepares the game for subsequent phases by setting
+     * the game state to the setup phase.
+     *
+     * @param game the current game instance to associate with this setup phase
+     */
     public SetUpPhase(Game game) {
         super(game);
         phaseType = PhaseType.SETUP;
     }
 
+    /**
+     * Attempts to progress the game from the setup phase to the next phase.
+     *
+     * This method initiates a transition from the SetupPhase to the BuildingPhase,
+     * where players begin constructing their shipboards. The transition logic is
+     * executed based on the current state of the game.
+     */
     @Override
     public void trySwitchToNextPhase() {
         transition(new BuildingPhase(game));
