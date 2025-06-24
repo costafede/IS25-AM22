@@ -50,4 +50,6 @@ package it.polimi.ingsw.is25am22new.Network;
         void showUpdateLeaderboard(Map<String, Integer> leaderboard) throws RemoteException;
 
         void terminate() throws RemoteException;
+
+        void showUpdateGameLoaded(Game game) throws RemoteException;
     }

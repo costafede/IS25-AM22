@@ -273,6 +273,11 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
+    public void showUpdateGameLoaded(Game game) throws RemoteException {
+        clientModel.setGameLoaded(game);
+    }
+
+    @Override
     public void showGameStarted() {
         this.view.displayGameStarted();
     }

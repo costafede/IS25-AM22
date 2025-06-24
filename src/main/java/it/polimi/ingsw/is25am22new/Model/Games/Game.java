@@ -1161,4 +1161,11 @@ public abstract class Game extends ObservableModel implements Serializable {
         }
     }
 
+    public void setObservers(List<ObserverModel> observers) {
+        if(observers != null) {
+            for (ObserverModel observer : observers) {
+                this.addObserver(observer);
+            }
+        }
+    }
 }

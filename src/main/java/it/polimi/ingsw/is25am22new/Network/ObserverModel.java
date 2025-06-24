@@ -43,4 +43,6 @@ public interface ObserverModel {
     void updateShipboardList(Map<String, Shipboard> shipboards);
 
     void updateAllLeaderboard(Map<String, Integer> leaderCards);
+
+    void updateGameLoaded(Game game);
 }

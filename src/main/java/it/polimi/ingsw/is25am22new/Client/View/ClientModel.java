@@ -299,6 +299,11 @@ public class ClientModel extends ObservableModelView {
     }
 
     public void setGame(Game game) {
+        setGameAttributes(game);
+        notifyGame(this);
+    }
+
+    private void setGameAttributes(Game game) {
         bank = game.getBank();
         cardArchive = game.getCardArchive();
         flightboard = game.getFlightboard();
@@ -317,8 +322,6 @@ public class ClientModel extends ObservableModelView {
             hourglassSpot = game.getHourglassSpot();
             hourglassActive = game.isHourglassActive();
         }
-        
-        notifyGame(this);
     }
 
     public void fixShipboards(Map<String, Shipboard> shipboards) {
@@ -337,5 +340,10 @@ public class ClientModel extends ObservableModelView {
             shipboard.setStandbyComponent(0, Optional.ofNullable(shipboard.getStandbyComponentCopy(0)));
             shipboard.setStandbyComponent(1, Optional.ofNullable(shipboard.getStandbyComponentCopy(1)));
         }
+    }
+
+    public void setGameLoaded(Game game) {
+        setGameAttributes(game);
+        notifyGameLoaded(this);
     }
 }
