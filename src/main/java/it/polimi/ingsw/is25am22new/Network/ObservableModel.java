@@ -114,6 +114,14 @@ public class ObservableModel {
             ld.updateAllLeaderboard(leaderboard);
     }
 
+    public void updateAllGameLoaded(Game game) {
+        for(Shipboard s : game.getShipboards().values()){
+            correctShipboard(s);
+        }
+        for(ObserverModel ld : observers)
+            ld.updateGameLoaded(game);
+    }
+
     private void correctShipboard(Shipboard shipboard){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 7; j++){

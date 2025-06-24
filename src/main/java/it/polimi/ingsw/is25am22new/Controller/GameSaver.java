@@ -175,7 +175,7 @@ public class GameSaver {
         saveCommand(new SavedCommand("activateCard", inputCommand));
     }
 
-    public static Game loadGame(List<ObserverModel> observers) {
+    public static Game loadGame() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             String GameType = mapper.readValue(reader.readLine(), String.class);
@@ -186,10 +186,10 @@ public class GameSaver {
             List<List<String>> cardPiles = mapper.readValue(reader.readLine(), new TypeReference<>() {});
             Game game = null;
             if(GameType.equals("tutorial")) {
-                game =  new TutorialGame(playerList, observers, coveredComponentTiles, deck, randomSeed);
+                game =  new TutorialGame(playerList, null, coveredComponentTiles, deck, randomSeed);
             }
             else if(GameType.equals("level2")) {
-                game =  new Level2Game(playerList, observers, coveredComponentTiles, deck, randomSeed, cardPiles);
+                game =  new Level2Game(playerList, null, coveredComponentTiles, deck, randomSeed, cardPiles);
             }
 
             String line;
@@ -254,7 +254,7 @@ public class GameSaver {
         savePlacePurpleAlien("Tony",2,3);
         savePlaceBrownAlien("Carmela",4,5);
         savePlaceAstronauts("Paolo",1,2);*/
-        Game game1 = loadGame(null);
+        Game game1 = loadGame();
         System.exit(0);
     }
 }

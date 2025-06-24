@@ -375,6 +375,17 @@ public class SocketClientHandler implements VirtualView {
         showWaitResult();
     }
 
+    @Override
+    public void showUpdateGameLoaded(Game game) {
+        SocketMessage message = new SocketMessage("GameLoaded", game, null);
+        try {
+            objectOutput.writeObject(message);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error updating loaded game for client: " + e.getMessage());
+        }
+    }
+
     private void showWaitResult() {
         SocketMessage message = new SocketMessage("waitResult", null, null);
         try {

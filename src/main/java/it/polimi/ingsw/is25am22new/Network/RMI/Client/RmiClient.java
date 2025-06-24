@@ -508,6 +508,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     }
 
     @Override
+    public void showUpdateGameLoaded(Game game) throws RemoteException {
+        clientModel.setGameLoaded(game);
+    }
+
+    @Override
     public void showUpdateBank(Bank bank)  {
         clientModel.setBank(bank);
     }

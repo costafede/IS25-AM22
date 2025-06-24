@@ -227,6 +227,18 @@ public class GameController {
         }
     }
 
+    public boolean loadGame() {
+        this.game = GameSaver.loadGame();
+        game.setObservers(observers);
+        List<String> lobbyPlayers = lobby.getPlayers();
+        List<String> previousPlayers = game.getPlayerList();
+        if(lobbyPlayers.containsAll(previousPlayers) && previousPlayers.size() == lobbyPlayers.size()) {
+            game.updateAllGameLoaded(game);
+            return true;
+        }
+        return false;
+    }
+
     private void startGame() {
         GameSaver.clearFile();
         if("tutorial".equals(gameType)) {
