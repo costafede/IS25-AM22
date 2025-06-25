@@ -458,7 +458,6 @@ public class GameController {
                 if (currentState == GameState.GAME) {
                     game.flipHourglass(() -> {
                     });
-                    GameSaver.saveFlipHourglass();
                 } else {
                     System.out.println("Cannot flip hourglass outside game state.");
                 }
@@ -672,7 +671,7 @@ public class GameController {
     }
 
     public synchronized void quit(String player) {
-        if(game.getPlayerList().size() > 1) {
+        if(game!= null && game.getPlayerList().size() > 1) {
             game.getPlayerList().remove(player);
         }
         else{
