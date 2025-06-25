@@ -49,7 +49,6 @@ public class RegularCabin extends Cabin {
      * @throws IllegalArgumentException if an alien is already present in the cabin
      *                                  or if the input color is invalid
      */
-    //aggiunge un alieno del tipo dato nella cabina
     @Override
     public void putAlien(String color){
         if(brownAlienPresent || purpleAlienPresent)

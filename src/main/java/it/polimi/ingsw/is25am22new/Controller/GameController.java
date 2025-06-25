@@ -35,22 +35,46 @@ public class GameController {
     private final Object LOCK_FLIGHTBOARD = new Object();
     private final Object LOCK_HOURGLASS = new Object();
     private final Object LOCK_CURRCARDDECK = new Object();
+    private boolean started;
 
+    /**
+     * Returns whether the game has started.
+     *
+     * @return {@code true} if the game has started; {@code false} otherwise.
+     */
     public boolean isStarted() {
         return started;
     }
 
+    /**
+     * Sets the started status of the game.
+     *
+     * @param started {@code true} to indicate the game has started; {@code false} otherwise.
+     */
     public void setStarted(boolean started) {
         this.started = started;
     }
 
-    private boolean started;
-
+    /**
+     * Represents the possible states of the game.
+     */
     public enum GameState {
+        /**
+         * The game is currently in the lobby phase.
+         */
         LOBBY,
+
+        /**
+         * The game is currently in progress.
+         */
         GAME
     }
 
+    /**
+     * Creates a new {@code GameController} instance with a default {@link Lobby}.
+     * Initializes the game state to {@link GameState#LOBBY}, sets the game type from the lobby,
+     * and prepares an empty list of observers.
+     */
     public GameController() {
         this.lobby = new Lobby();
         this.currentState = GameState.LOBBY;
@@ -58,6 +82,12 @@ public class GameController {
         this.observers = new ArrayList<>();
     }
 
+    /**
+     * Creates a new {@code GameController} instance using the provided {@link Lobby}.
+     * Initializes the game state to {@link GameState#LOBBY} and sets the game type from the given lobby.
+     *
+     * @param lobby the lobby instance to use for initializing the game controller.
+     */
     public GameController(Lobby lobby) {
         this.lobby = lobby;
         this.currentState = GameState.LOBBY;
@@ -104,19 +134,35 @@ public class GameController {
         }).start();
     }
 
-    // Lobby methods
+    /**
+     * Returns a string representation of the current lobby state,
+     * including players, the lobby creator, ready status, and game type.
+     *
+     * @return a formatted string with the current lobby information.
+     */
     public String getLobbyState() {
         return
                 "Players: " + lobby.getPlayers() + "\n" +
-                "Lobby Creator: " + lobbyCreator + "\n" +
-                "Ready Status: " + lobby.getReadyStatus() + "\n" +
-                "Game Type: " + lobby.getGameType() + "\n";
+                        "Lobby Creator: " + lobbyCreator + "\n" +
+                        "Ready Status: " + lobby.getReadyStatus() + "\n" +
+                        "Game Type: " + lobby.getGameType() + "\n";
     }
 
+    /**
+     * Returns the username of the lobby creator.
+     *
+     * @return the lobby creator's name.
+     */
     public String getLobbyCreator() {
         return lobbyCreator;
     }
 
+    /**
+     * Sets the lobby creator if the game is in the {@link GameState#LOBBY} state.
+     * This method is private and typically invoked internally when the first player joins.
+     *
+     * @param player the name of the player to be set as lobby creator.
+     */
     private void setLobbyCreator(String player) {
         if(currentState == GameState.LOBBY) {
             this.lobbyCreator = player;
@@ -126,6 +172,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Sets the maximum number of players allowed in the lobby.
+     * Can only be modified during the {@link GameState#LOBBY} phase.
+     *
+     * @param maxPlayers the maximum number of players.
+     */
     public void setNumPlayers(int maxPlayers) {
         if(currentState == GameState.LOBBY) {
             lobby.setMaxPlayers(maxPlayers);
@@ -135,6 +187,14 @@ public class GameController {
         }
     }
 
+    /**
+     * Adds a player to the lobby if the game is in the {@link GameState#LOBBY} state.
+     * If the first player is added, they are automatically set as the lobby creator.
+     *
+     * @param player the name of the player to add.
+     * @return 1 if successfully added, -1 if lobby is full, -2 if player already exists,
+     *         or -1 if not in lobby state.
+     */
     public int addPlayer(String player) {
         if(currentState == GameState.LOBBY) {
             int res = lobby.addPlayer(player);
@@ -149,12 +209,20 @@ public class GameController {
                 System.out.println("Player " + player + " already in lobby.");
             }
             return res;
-        }else {
+        } else {
             System.out.println("Player " + player + " cannot be added outside lobby state.");
         }
         return -1; // Can't add players outside lobby state
     }
 
+    /**
+     * Removes a player from the lobby if the game is in the {@link GameState#LOBBY} state.
+     * If the lobby becomes empty, the game is reinitialized.
+     * If the removed player was the creator, a new one is assigned.
+     *
+     * @param player the name of the player to remove.
+     * @return 1 if successfully removed, 0 if player not found, or -1 if not in lobby state.
+     */
     public int removePlayer(String player) {
         if(currentState == GameState.LOBBY) {
             boolean isCreator = player.equals(lobbyCreator);
@@ -169,22 +237,34 @@ public class GameController {
                 System.out.println("Lobby creator changed to " + lobbyCreator);
             }
             return result;
-        }else {
-
+        } else {
             System.out.println("Player " + player + " cannot be removed outside lobby state.");
         }
         return -1; // Can't remove players outside lobby state
     }
 
+    /**
+     * Marks a player as ready in the lobby.
+     * Can only be called during the {@link GameState#LOBBY} phase.
+     *
+     * @param player the name of the player to mark as ready.
+     */
     public void setPlayerReady(String player) {
         if(currentState == GameState.LOBBY) {
             lobby.setPlayerReady(player);
             System.out.println("Player " + player + " is ready.");
-        }else {
+        } else {
             System.out.println("Player " + player + " cannot be set to ready outside lobby state.");
         }
     }
 
+    /**
+     * Starts the game if the player is the lobby creator and the game is still in the lobby state.
+     * This typically transitions the game to the active state.
+     *
+     * @param player the name of the player attempting to start the game.
+     * @return {@code true} if the game was started, {@code false} otherwise.
+     */
     public boolean startGameByHost(String player) {
         if(currentState == GameState.LOBBY && player.equals(lobbyCreator)) {
             checkAndStartGame();
@@ -197,15 +277,27 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Marks a player as not ready in the lobby.
+     * Can only be used during the {@link GameState#LOBBY} phase.
+     *
+     * @param player the name of the player to mark as not ready.
+     */
     public void setPlayerNotReady(String player) {
         if(currentState == GameState.LOBBY) {
             lobby.setPlayerNotReady(player);
             System.out.println("Player " + player + " is not ready.");
-        }else {
+        } else {
             System.out.println("Player " + player + " cannot be set to not ready outside lobby state.");
         }
     }
 
+    /**
+     * Sets the type of game to be played.
+     * This can only be modified during the {@link GameState#LOBBY} phase.
+     *
+     * @param gameType the type of game (e.g., "standard", "advanced") to be set.
+     */
     public void setGameType(String gameType) {
         if(currentState == GameState.LOBBY) {
             this.gameType = gameType;
@@ -216,6 +308,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks if all players are ready and starts the game if possible.
+     * Logs the status depending on the lobby readiness and player count.
+     * Called internally when the host attempts to start the game.
+     */
     private void checkAndStartGame() {
         if(lobby.isLobbyReady()) {
             System.out.println("Starting the game...");
@@ -227,6 +324,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Loads a previously saved game state and resumes it if all lobby players match.
+     *
+     * @return {@code true} if the game was successfully loaded and resumed, {@code false} otherwise.
+     */
     public boolean loadGame() {
         this.game = GameSaver.loadGame();
         game.setObservers(observers);
@@ -241,6 +343,10 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Starts a new game based on the selected game type (e.g., tutorial, level2).
+     * Initializes the game, sets its state, and saves the initial state.
+     */
     private void startGame() {
         GameSaver.clearFile();
         if("tutorial".equals(gameType)) {
@@ -255,30 +361,41 @@ public class GameController {
             System.out.println("Level 2 Game started");
         } else {
             System.out.println("Invalid game type: " + gameType);
-            return; // Invalid game type
+            return;
         }
         System.out.println("Game initialized");
         currentState = GameState.GAME;
         System.out.println(gameType + " game started.");
     }
 
-    // Game methods
+    /**
+     * Allows a player to pick a covered tile during the game.
+     * This action is synchronized to avoid race conditions.
+     *
+     * @param player the nickname of the player picking the tile.
+     */
     public void pickCoveredTile(String player) {
         synchronized (LOCK_COVEREDTILES){
             try {
                 if(currentState == GameState.GAME) {
                     game.pickCoveredTile(player);
                     GameSaver.savePickCoveredTile(player);
-                }else {
+                } else {
                     System.out.println("Player " + player + " cannot pick a covered tile outside game state.");
                 }
-            }
-            catch(Exception e) {
+            } catch(Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
+    /**
+     * Allows a player to pick an uncovered tile during the game.
+     * This action is synchronized to avoid race conditions.
+     *
+     * @param player the nickname of the player.
+     * @param tilePngName the name of the image/tile to pick.
+     */
     public void pickUncoveredTile(String player, String tilePngName) {
         synchronized (LOCK_UNCOVEREDTILES) {
             try {
@@ -288,13 +405,18 @@ public class GameController {
                 } else {
                     System.out.println("Player " + player + " cannot pick an uncovered tile outside game state.");
                 }
-            }
-            catch(Exception e) {
+            } catch(Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
+    /**
+     * Rotates a player's current tile clockwise a specified number of times.
+     *
+     * @param player the nickname of the player.
+     * @param rotationNum number of 90-degree rotations to perform.
+     */
     public void rotateClockwise(String player, int rotationNum) {
         if(currentState == GameState.GAME) {
             for(int i = 0; i < rotationNum; i++) {
@@ -306,6 +428,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Rotates a player's current tile counterclockwise a specified number of times.
+     *
+     * @param player the nickname of the player.
+     * @param rotationNum number of 90-degree rotations to perform.
+     */
     public void rotateCounterClockwise(String player, int rotationNum) {
         if(currentState == GameState.GAME) {
             for(int i = 0; i < rotationNum; i++) {
@@ -317,6 +445,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Places astronauts on the ship grid at the specified coordinates.
+     *
+     * @param nickname the name of the player.
+     * @param i the row index.
+     * @param j the column index.
+     */
     public void placeAstronauts(String nickname, int i, int j) {
         try {
             if (currentState == GameState.GAME) {
@@ -325,12 +460,18 @@ public class GameController {
             } else {
                 System.out.println("Player " + nickname + " cannot place astronauts outside game state.");
             }
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Places a brown alien at the given grid position.
+     *
+     * @param nickname the name of the player.
+     * @param i the row index.
+     * @param j the column index.
+     */
     public void placeBrownAlien(String nickname, int i, int j) {
         try {
             if (currentState == GameState.GAME) {
@@ -339,12 +480,18 @@ public class GameController {
             } else {
                 System.out.println("Player " + nickname + " cannot place brown alien outside game state.");
             }
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Places a purple alien at the given grid position.
+     *
+     * @param nickname the name of the player.
+     * @param i the row index.
+     * @param j the column index.
+     */
     public void placePurpleAlien(String nickname, int i, int j) {
         try {
             if (currentState == GameState.GAME) {
@@ -353,12 +500,18 @@ public class GameController {
             } else {
                 System.out.println("Player " + nickname + " cannot place purple alien outside game state.");
             }
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Welds a component tile onto the ship at the given coordinates.
+     *
+     * @param player the nickname of the player.
+     * @param i the row index.
+     * @param j the column index.
+     */
     public void weldComponentTile(String player, int i, int j) {
         try {
             if (currentState == GameState.GAME) {
@@ -367,12 +520,16 @@ public class GameController {
             } else {
                 System.out.println("Player " + player + " cannot weld a component tile outside game state.");
             }
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Sends the currently selected tile into standby mode.
+     *
+     * @param player the nickname of the player.
+     */
     public void standbyComponentTile(String player) {
         try {
             if (currentState == GameState.GAME) {
@@ -381,12 +538,17 @@ public class GameController {
             } else {
                 System.out.println("Player " + player + " cannot standby a component tile outside game state.");
             }
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Picks a tile from the player's standby list based on the index.
+     *
+     * @param player the nickname of the player.
+     * @param index the index of the tile to pick.
+     */
     public void pickStandByComponentTile(String player, int index) {
         try {
             if (currentState == GameState.GAME) {
@@ -395,12 +557,16 @@ public class GameController {
             } else {
                 System.out.println("Player " + player + " cannot pick a standby component tile outside game state.");
             }
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Discards the currently selected component tile.
+     *
+     * @param player the nickname of the player
+     */
     public void discardComponentTile(String player) {
         try {
             if (currentState == GameState.GAME) {
@@ -414,8 +580,12 @@ public class GameController {
             System.out.println(e.getMessage());
         }
     }
-    // NOT USED BY CLIENT?
-    /*These method may be useless*/
+
+    /**
+     * Marks the player's shipboard as finished building.
+     *
+     * @param player the nickname of the player
+     */
     public void finishBuilding(String player) {
         if(currentState == GameState.GAME) {
             game.finishBuilding(player);
@@ -423,8 +593,13 @@ public class GameController {
             System.out.println("Player " + player + " cannot finish building outside game state.");
         }
     }
-    /*********************************/
 
+    /**
+     * Marks the player's shipboard as finished and selects a flight board position.
+     *
+     * @param player the nickname of the player
+     * @param pos the position on the flight board
+     */
     public void finishBuilding(String player, int pos) {
         synchronized (LOCK_FLIGHTBOARD){
             try {
@@ -441,8 +616,9 @@ public class GameController {
         }
     }
 
-    // NOT USED BY CLIENT?
-    /*These method may be useless*/
+    /**
+     * Notifies that all players have finished building their shipboards.
+     */
     public void finishedAllShipboards() {
         if(currentState == GameState.GAME) {
             game.finishedAllShipboards();
@@ -450,8 +626,10 @@ public class GameController {
             System.out.println("Cannot check if all shipboards are finished outside game state.");
         }
     }
-    /*********************************/
 
+    /**
+     * Flips the hourglass timer during the building phase.
+     */
     public void flipHourglass() {
         synchronized (LOCK_HOURGLASS) {
             try {
@@ -468,6 +646,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Picks the next adventure card from the deck.
+     */
     public void pickCard() {
         synchronized (LOCK_CURRCARDDECK) {
             try {
@@ -484,6 +665,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Activates the currently drawn adventure card using the input command.
+     *
+     * @param inputCommand the command from the player to activate the card
+     */
     public synchronized void activateCard(InputCommand inputCommand) {
         try {
             if (currentState == GameState.GAME) {
@@ -498,6 +684,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Allows a player to abandon the game.
+     *
+     * @param player the nickname of the player
+     */
     public void playerAbandons(String player) {
         synchronized (LOCK_FLIGHTBOARD){
             if(currentState == GameState.GAME) {
@@ -509,6 +700,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Destroys a tile from the player's ship grid.
+     *
+     * @param player the nickname of the player
+     * @param i row index
+     * @param j column index
+     */
     public void destroyTile(String player, int i, int j) {
         try {
             if (currentState == GameState.GAME) {
@@ -523,7 +721,11 @@ public class GameController {
         }
     }
 
-    // NOT USED BY CLIENT?
+    /**
+     * Sets the current player for the turn.
+     *
+     * @param player the nickname of the player
+     */
     public void setCurrPlayer(String player) {
         if(currentState == GameState.GAME) {
             game.setCurrPlayer(player);
@@ -531,7 +733,10 @@ public class GameController {
             System.out.println("Current player cannot be set outside game state.");
         }
     }
-    // NOT USED BY CLIENT?
+
+    /**
+     * Sets the current player to the leader (first to finish building).
+     */
     public void setCurrPlayerToLeader() {
         if(currentState == GameState.GAME) {
             game.setCurrPlayerToLeader();
@@ -540,6 +745,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Ends the game and returns the final scores.
+     *
+     * @return a map from player nickname to their final score
+     */
     public Map<String, Integer> endGame() {
         if(currentState == GameState.GAME) {
             System.out.println("Game ended.");
@@ -550,6 +760,9 @@ public class GameController {
         return null; // Can't end game outside game state
     }
 
+    /**
+     * Resets the game and lobby to initial state.
+     */
     public void reinitializeGame() {
         lobby = new Lobby();
         currentState = GameState.LOBBY;
@@ -559,7 +772,11 @@ public class GameController {
         System.out.println("Game reinitialized.");
     }
 
-    // Getters
+    /**
+     * Returns the current Game object if in GAME state.
+     *
+     * @return the current game or null if not in game state
+     */
     public Game getGame() {
         if(currentState == GameState.GAME) {
             return game;
@@ -569,6 +786,11 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Returns the current list of card piles.
+     *
+     * @return list of card piles or null if not in game state
+     */
     public List<CardPile> getCardPiles() {
         if(currentState == GameState.GAME) {
             return game.getCardPiles();
@@ -578,6 +800,11 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Returns the current deck of adventure cards.
+     *
+     * @return list of cards or null if not in game state
+     */
     public List<AdventureCard> getDeck() {
         synchronized (LOCK_CURRCARDDECK){
             if(currentState == GameState.GAME) {
@@ -589,6 +816,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Returns the currently drawn adventure card.
+     *
+     * @return the current card or null if not in game state
+     */
     public AdventureCard getCurrCard() {
         synchronized (LOCK_CURRCARDDECK) {
             if(currentState == GameState.GAME) {
@@ -600,6 +832,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Returns the last player who performed an action.
+     *
+     * @return the nickname of the last player or null if not in game state
+     */
     public String getLastPlayer() {
         synchronized (LOCK_FLIGHTBOARD) {
             if(currentState == GameState.GAME) {
@@ -611,6 +848,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Returns the list of players in the lobby or current game.
+     *
+     * @return the list of player nicknames or null if invalid state
+     */
     public List<String> getPlayers() {
         if(currentState == GameState.LOBBY) {
             return lobby.getPlayers();
@@ -622,6 +864,11 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Returns the ready status of all players in the lobby.
+     *
+     * @return a map from nickname to ready status, or null if not in lobby
+     */
     public Map<String, Boolean> getReadyStatus() {
         if(currentState == GameState.LOBBY) {
             return lobby.getReadyStatus();
@@ -631,6 +878,11 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Returns the selected game type from the lobby.
+     *
+     * @return the game type or null if not in lobby
+     */
     public String getGameType() {
         if(currentState == GameState.LOBBY) {
             return lobby.getGameType();
@@ -640,36 +892,68 @@ public class GameController {
         return gameType;
     }
 
+    /**
+     * Returns the current controller state.
+     *
+     * @return the current game state
+     */
     public GameState getCurrentState() {
         return currentState;
     }
 
+    /**
+     * Returns the list of observers for UI updates.
+     *
+     * @return list of observers
+     */
     public List<ObserverModel> getObservers() {
         return observers;
     }
 
+    /**
+     * Notifies all observers to update the lobby UI.
+     */
     public void updateAllLobbies() {
         for (var observer : this.observers) {
             observer.updateLobby();
         }
     }
 
+    /**
+     * Notifies all observers that the game has started.
+     */
     public void updateAllGameStarted() {
         for (var observer : this.observers) {
             observer.updateGameStarted();
         }
     }
 
+    /**
+     * Notifies all observers that a player has joined.
+     *
+     * @param player the nickname of the player who joined
+     */
     public void updateAllPlayerJoined(String player) {
         for (var observer : this.observers) {
             observer.updatePlayerJoined(player);
         }
     }
 
+    /**
+     * Enables a special debug/game manipulation mode.
+     *
+     * @param player the nickname of the player
+     * @param conf the configuration string
+     */
     public void godMode(String player, String conf) {
         game.godMode(player, conf);
     }
 
+    /**
+     * Removes a player from the game, or shuts down if last player.
+     *
+     * @param player the nickname of the quitting player
+     */
     public synchronized void quit(String player) {
         if(game!= null && game.getPlayerList().size() > 1) {
             game.getPlayerList().remove(player);
@@ -682,6 +966,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Disconnects and shuts down all observers and the application.
+     */
     public synchronized void disconnect() {
         for (var observer : this.observers) {
             observer.shutdown();

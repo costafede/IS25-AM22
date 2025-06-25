@@ -73,68 +73,6 @@ public class LobbyView implements EnhancedClientView {
         System.out.println("TEST PASSED");
     }
 
-    //@Override
-    //public void displayBank(Bank bank) {
-    //    System.out.println("Bank update received");
-    //    displayCurrentCommands();
-    //}
-    //
-    //@Override
-    //public void displayTileInHand(String player, ComponentTile tile) {
-    //    if(tile == null){
-    //        System.out.println("No tile in hand");
-    //        displayCurrentCommands();
-    //        return;
-    //    }
-//
-    //    System.out.println("\n=== TILE IN HAND ===");
-    //    System.out.println("Player: " + player);
-    //    System.out.println("Tile type: " + tile.getClass().getSimpleName());
-    //    System.out.println("Sides:\n " +
-    //            "- Top -> " + tile.getTopSide() + "\n " +
-    //            "- Right -> " + tile.getRightSide() + "\n " +
-    //            "- Bottom -> " + tile.getBottomSide() + "\n " +
-    //            "- Left -> " + tile.getLeftSide() + "\n");
-//
-    //    System.out.println("=================\n");
-    //}
-
-    //@Override
-    //public void displayUncoveredComponentTiles(List<ComponentTile> tiles) {
-    //    System.out.println("Uncovered component tile update received");
-    //    displayCurrentCommands();
-    //}
-//
-    //@Override
-    //public void displayShipboard(String player, Shipboard shipboard) {
-    //    System.out.println("Shipboard update received");
-    //    displayCurrentCommands();
-    //}
-//
-    //@Override
-    //public void displayFlightboard(Flightboard flightboard) {
-    //    System.out.println("Flightboard update received");
-    //    displayCurrentCommands();
-    //}
-//
-    //@Override
-    //public void displayCurrentCard(AdventureCard card) {
-    //    System.out.println("Current card update received");
-    //    displayCurrentCommands();
-    //}
-//
-    //@Override
-    //public void displayDices(Dices dices) {
-    //    System.out.println("Dices update received");
-    //    displayCurrentCommands();
-    //}
-//
-    //@Override
-    //public void displayCurrentPlayer(String currPlayer) {
-    //    System.out.println("Current player: " + currPlayer);
-    //    displayCurrentCommands();
-    //}
-
     /**
      * Displays the current lobby update, including the list of players,
      * their readiness status, and the game type. The method will also
@@ -215,16 +153,6 @@ public class LobbyView implements EnhancedClientView {
             } catch (Exception e) {
                 System.err.println("Error starting game 178: " + e.getMessage());
             }
-
-            // Reset the flag after a delay to allow for retries if needed
-//            new Thread(() -> {
-//                try {
-//                    Thread.sleep(3000);  // 3 second cooldowns
-//                    autostart = false;
-//                } catch (InterruptedException e) {
-//                    Thread.currentThread().interrupt();
-//                }
-//            }).start();
         }
     }
 
@@ -378,25 +306,7 @@ public class LobbyView implements EnhancedClientView {
     public void displayPlayerJoined(String playerName) {
         System.out.println("\n>>> " + playerName + " has joined the lobby! <<<\n");
         currentPlayerCount++;
-
-
-
-        //displayCurrentCommands();
     }
-
-    //private void displayCurrentCommands() {
-    //    if(!inGame){
-    //        if (isHostPlayer) {
-    //            System.out.println("Host Commands: setmax [number], gametype tut, gametype lvl2, ready, unready, start, exit");
-    //        } else {
-    //            System.out.println("Commands: ready, unready, exit");
-    //        }
-    //    } else {
-    //        System.out.println("Game commands: [Enter number for commands]");
-    //        System.out.println("6: Pick covered tile | 7: Pick uncovered tile | 8: Weld component tile | 9: Standby component tile | 10: Pick standby component tile | 11: Discard component tile \n12: Finish building | 13: Finish building with index | 14: Finished all shipboards | 15: Flip hourglass \n16: Pick card | 17: Activate card | 18: Remove player | 19: Destroy component tile \n20: Abandon game | 21: End game");
-    //    }
-    //    System.out.print("> ");
-    //}
 
     /**
      * Starts the command loop for interacting with the game lobby using RMI (Remote Method Invocation).

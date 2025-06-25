@@ -32,6 +32,11 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Clears the current save file by creating a new buffered writer.
+     * If the file already exists, its contents are truncated.
+     * Any exception during this operation is printed to the stack trace.
+     */
     public static void clearFile() {
         try {
             writer = Files.newBufferedWriter(saveFilePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
@@ -41,6 +46,12 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Serializes a {@link SavedCommand} object to JSON and appends it to the save file.
+     * Adds a newline after the JSON string and flushes the writer.
+     *
+     * @param savedCommand the command to serialize and save
+     */
     private static void saveCommand(SavedCommand savedCommand) {
         try {
             String json = mapper.writeValueAsString(savedCommand);
@@ -53,6 +64,17 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Saves the initial game data to the save file, including:
+     * - Player list
+     * - Covered component tiles
+     * - Deck of adventure cards
+     * - Random seed for the dice generator
+     *
+     * All data is serialized in JSON format, written on separate lines, and flushed immediately.
+     *
+     * @param game the game instance whose starting data should be saved
+     */
     private static void saveStartingData(Game game) {
         try {
             List<String> playerList = new ArrayList<>(game.getPlayerList());
@@ -80,6 +102,11 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Saves the identifier for a tutorial game and its starting data to the save file.
+     *
+     * @param game the tutorial game instance to save
+     */
     public static void saveTutorialGame(Game game) {
         try {
             String json = mapper.writeValueAsString("tutorial");
@@ -93,6 +120,12 @@ public class GameSaver {
         saveStartingData(game);
     }
 
+    /**
+     * Saves the identifier for a level 2 game, its starting data, and
+     * the serialized card piles to the save file.
+     *
+     * @param game the level 2 game instance to save
+     */
     public static void saveLevel2Game(Game game) {
         try {
             String json = mapper.writeValueAsString("level2");
@@ -111,74 +144,191 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Saves the "placeAstronauts" command with the specified parameters to the save file.
+     *
+     * @param nickname the player performing the action
+     * @param i the row index
+     * @param j the column index
+     */
     public static void savePlaceAstronauts(String nickname, int i, int j) {
         saveCommand(new SavedCommand("placeAstronauts", nickname, i, j));
     }
 
+    /**
+     * Saves the "placeBrownAlien" command with the specified coordinates for the given player.
+     *
+     * @param nickname the player placing the purple alien
+     * @param i the row index on the ship grid
+     * @param j the column index on the ship grid
+     */
     public static void savePlaceBrownAlien(String nickname, int i, int j) {
         saveCommand(new SavedCommand("placeBrownAlien", nickname, i, j));
     }
 
+    /**
+     * Saves the "placePurpleAlien" command with the specified coordinates for the given player.
+     *
+     * @param nickname the player placing the purple alien
+     * @param i the row index on the ship grid
+     * @param j the column index on the ship grid
+     */
     public static void savePlacePurpleAlien(String nickname, int i, int j) {
         saveCommand(new SavedCommand("placePurpleAlien", nickname, i, j));
     }
 
+    /**
+     * Saves the "pickCoveredTile" command for the given player to the save file.
+     *
+     * @param nickname the player performing the action
+     */
     public static void savePickCoveredTile(String nickname) {
         saveCommand(new SavedCommand("pickCoveredTile", nickname));
     }
 
+    /**
+     * Saves the "pickUncoveredTile" command for the specified player,
+     * indicating that they selected a visible component tile.
+     *
+     * @param nickname the player picking the tile
+     * @param tilePngName the PNG name of the chosen tile
+     */
     public static void savePickUncoveredTile(String nickname, String tilePngName) {
         saveCommand(new SavedCommand("pickUncoveredTile", nickname, tilePngName));
     }
 
+    /**
+     * Saves the "rotateClockwise" command for the specified player,
+     * indicating that they rotated the currently held tile clockwise.
+     *
+     * @param nickname the player performing the rotation
+     */
     public static void saveRotateClockwise(String nickname) {
         saveCommand(new SavedCommand("rotateClockwise", nickname));
     }
 
+    /**
+     * Saves the "rotateCounterClockwise" command for the specified player,
+     * indicating that they rotated the currently held tile counterclockwise.
+     *
+     * @param nickname the player performing the rotation
+     */
     public static void saveRotateCounterClockwise(String nickname) {
         saveCommand(new SavedCommand("rotateCounterClockwise", nickname));
     }
 
+    /**
+     * Saves the "weldComponentTile" command for the specified player,
+     * indicating that they placed the tile at the given coordinates on their ship.
+     *
+     * @param nickname the player placing the tile
+     * @param i the row index on the ship grid
+     * @param j the column index on the ship grid
+     */
     public static void saveWeldComponentTile(String nickname, int i, int j) {
         saveCommand(new SavedCommand("weldComponentTile", nickname, i, j));
     }
 
+    /**
+     * Saves the "standbyComponentTile" command for the specified player,
+     * indicating that they set aside the currently held tile into standby mode.
+     *
+     * @param nickname the player putting the tile on standby
+     */
     public static void saveStandbyComponentTile(String nickname) {
         saveCommand(new SavedCommand("standbyComponentTile", nickname));
     }
 
+    /**
+     * Saves the "pickStandByComponentTile" command for the specified player,
+     * indicating that they picked a tile from their standby list.
+     *
+     * @param nickname the player picking the tile
+     * @param index the index of the tile in the standby list
+     */
     public static void savePickStandByComponentTile(String nickname, int index) {
         saveCommand(new SavedCommand("pickStandByComponentTile", nickname, index));
     }
 
+    /**
+     * Saves the "discardComponentTile" command for the specified player,
+     * indicating that they discarded the currently held tile.
+     *
+     * @param nickname the player discarding the tile
+     */
     public static void saveDiscardComponentTile(String nickname) {
         saveCommand(new SavedCommand("discardComponentTile", nickname));
     }
 
+    /**
+     * Saves the "finishBuilding" command for the specified player,
+     * indicating that they completed the ship building phase.
+     *
+     * @param nickname the player finishing their ship
+     * @param pos the player's position in the order of completion
+     */
     public static void saveFinishBuilding(String nickname, int pos) {
         saveCommand(new SavedCommand("finishBuilding", nickname, pos));
     }
 
+    /**
+     * Saves the "flipHourglass" command,
+     * indicating that the hourglass was flipped during the building phase.
+     */
     public static void saveFlipHourglass() {
         saveCommand(new SavedCommand("flipHourglass"));
     }
 
+    /**
+     * Saves the "pickCard" command,
+     * indicating that a new adventure card was drawn.
+     */
     public static void savePickCard() {
         saveCommand(new SavedCommand("pickCard"));
     }
 
+    /**
+     * Saves the "playerAbandons" command for the specified player,
+     * indicating that the player abandoned the game.
+     *
+     * @param nickname the player who abandoned the game
+     */
     public static void savePlayerAbandons(String nickname) {
         saveCommand(new SavedCommand("playerAbandons", nickname));
     }
 
+    /**
+     * Saves the "destroyTile" command for the specified player,
+     * indicating that a tile was destroyed on their ship at the given coordinates.
+     *
+     * @param nickname the affected player
+     * @param i the row index of the destroyed tile
+     * @param j the column index of the destroyed tile
+     */
     public static void saveDestroyTile(String nickname, int i, int j) {
         saveCommand(new SavedCommand("destroyTile", nickname, i, j));
     }
 
+    /**
+     * Saves the "activateCard" command,
+     * indicating that an adventure card was activated with the given input.
+     *
+     * @param inputCommand the input used to activate the card
+     */
     public static void saveActivateCard(InputCommand inputCommand) {
         saveCommand(new SavedCommand("activateCard", inputCommand));
     }
 
+    /**
+     * Loads a previously saved game from the save file.
+     *
+     * It reads the game type (e.g., "tutorial", "level2"), reconstructs the corresponding
+     * {@link Game} object with its initial state (players, deck, covered tiles, etc.),
+     * and then applies all saved commands to bring the game back to its latest state.
+     *
+     *
+     * @return the reconstructed {@link Game} instance, or {@code null} if an error occurs during loading
+     */
     public static Game loadGame() {
         try(BufferedReader reader =  Files.newBufferedReader(saveFilePath)) {
             String GameType = mapper.readValue(reader.readLine(), String.class);
@@ -209,6 +359,17 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Applies a previously saved command to the given game instance.
+     *
+     * This method is used during game loading to re-execute game actions
+     * in the order they were saved. It dispatches based on the command type
+     * and calls the appropriate method on the {@link Game} object.
+     *
+     *
+     * @param cmd  the {@link SavedCommand} to apply
+     * @param game the {@link Game} instance to which the command should be applied
+     */
     private static void applyCommand(SavedCommand cmd, Game game) {
         switch(cmd.getType()) {
             case "placeAstronauts" -> game.placeAstronauts(cmd.getNickname(), cmd.getI(), cmd.getJ());
