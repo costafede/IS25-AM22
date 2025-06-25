@@ -91,6 +91,7 @@ public class SocketClientSide implements VirtualView {
         commandMap.put("StartHourglass", this::handleStartHourglass);
         commandMap.put("updateTest", this::handleUpdateTest);
         commandMap.put("leaderboard", this::handleLeaderboard);
+        commandMap.put("GameLoaded",this::handleGameLoaded);
     }
 
     /**
@@ -273,7 +274,7 @@ public class SocketClientSide implements VirtualView {
     }
 
     @Override
-    public void showUpdateGameLoaded(Game game) throws RemoteException {
+    public void showUpdateGameLoaded(Game game) {
         clientModel.setGameLoaded(game);
     }
 
@@ -447,6 +448,11 @@ public class SocketClientSide implements VirtualView {
         System.out.println(msg.getPayload());
         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
         System.out.flush();
+    }
+
+    private void handleGameLoaded(SocketMessage msg) {
+        Game game = (Game) msg.getObject();
+        showUpdateGameLoaded(game);
     }
 
     public String getThisPlayerName() {
