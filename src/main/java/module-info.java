@@ -10,6 +10,7 @@ module it.polimi.ingsw.is25am22new {
         requires java.logging;
     requires java.sql;
 
+
     exports it.polimi.ingsw.is25am22new.Model.Games;
         exports it.polimi.ingsw.is25am22new.Controller;
         exports it.polimi.ingsw.is25am22new.Network to java.rmi;
@@ -23,11 +24,11 @@ module it.polimi.ingsw.is25am22new {
 
         // Open packages for deep reflection needed by RMI
         opens it.polimi.ingsw.is25am22new.Network to java.rmi;
-        opens it.polimi.ingsw.is25am22new.Model.Miscellaneous to java.rmi;
-        opens it.polimi.ingsw.is25am22new.Model.ComponentTiles to java.rmi;
-        opens it.polimi.ingsw.is25am22new.Model.Shipboards to java.rmi;
-        opens it.polimi.ingsw.is25am22new.Model.Flightboards to java.rmi;
-        opens it.polimi.ingsw.is25am22new.Model.AdventureCard to java.rmi;
+        opens it.polimi.ingsw.is25am22new.Model.Miscellaneous to java.rmi,com.fasterxml.jackson.databind;
+        opens it.polimi.ingsw.is25am22new.Model.ComponentTiles to java.rmi, com.fasterxml.jackson.databind;
+        opens it.polimi.ingsw.is25am22new.Model.Shipboards to java.rmi, com.fasterxml.jackson.databind;
+        opens it.polimi.ingsw.is25am22new.Model.Flightboards to java.rmi, com.fasterxml.jackson.databind;
+        opens it.polimi.ingsw.is25am22new.Model.AdventureCard to java.rmi, com.fasterxml.jackson.databind;
 
         exports it.polimi.ingsw.is25am22new.Client.View;
     exports it.polimi.ingsw.is25am22new.Network.RMI.Client to java.rmi;

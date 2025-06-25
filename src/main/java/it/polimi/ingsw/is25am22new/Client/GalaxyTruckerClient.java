@@ -1,5 +1,6 @@
 package it.polimi.ingsw.is25am22new.Client;
 
+import it.polimi.ingsw.is25am22new.Client.Commands.Command;
 import it.polimi.ingsw.is25am22new.Client.Commands.CommandManager;
 import it.polimi.ingsw.is25am22new.Client.View.ClientModel;
 import it.polimi.ingsw.is25am22new.Client.View.TUI.TUI;
@@ -21,6 +22,8 @@ import java.util.Scanner;
 public class GalaxyTruckerClient {
     private VirtualServer virtualServer;
     private String playerName;
+    private static EnhancedClientView view;
+    private static ClientModel clientModel = new ClientModel();
 
     /**
      * The main entry point for the application. It initializes the required configurations,
@@ -35,7 +38,6 @@ public class GalaxyTruckerClient {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ClientModel clientModel = new ClientModel();
 
         // Choose connection type
         int connectionChoice = 0;
@@ -142,12 +144,6 @@ public class GalaxyTruckerClient {
             System.err.println("Error: " + e.getMessage());
         }
 
-        CommandManager commandManager = new CommandManager();
-        TUI tui = new TUI(commandManager, clientModel);
-        clientModel.addListener(tui);
-        commandManager.initializeCommandManager(client.virtualServer, tui);
-        tui.run(scanner);
-
         if(client.virtualServer instanceof RmiClient){
             ((RmiClient) client.virtualServer).shutdown();
         }
@@ -175,8 +171,6 @@ public class GalaxyTruckerClient {
      *                           in the registry at the given host and port.
      */
     private void startRmiClient(String host, int port, int uiChoice, Scanner scanner, ClientModel clientModel) throws RemoteException, NotBoundException {
-        // Create UI based on choice
-        EnhancedClientView view;
 
         if (uiChoice == 1) {
             view = new LobbyView(clientModel);
@@ -195,8 +189,6 @@ public class GalaxyTruckerClient {
             GalaxyTruckerGUI.setClientModel(clientModel);
             GalaxyTruckerGUI.main(new String[]{"rmi"});
         }
-
-
     }
 
     /**
@@ -215,7 +207,6 @@ public class GalaxyTruckerClient {
      *                    state and game data.
      */
     private void startSocketClient(String host, int port, int uiChoice, Scanner scanner, ClientModel clientModel) {
-        EnhancedClientView view;
         if (uiChoice == 1) {
             view = new LobbyView(clientModel);
             String[] socketArgs = {host, String.valueOf(port)};
@@ -229,5 +220,71 @@ public class GalaxyTruckerClient {
             GalaxyTruckerGUI.main(new String[]{"socket"});
         }
 
+    }
+
+    /**
+     * Starts a listening thread for processing user commands and interactions
+     * with the server.
+     *
+     * @param server  The `VirtualServer` instance used to interact with the server.
+     * @param scanner The `Scanner` instance for reading user input.
+     */
+    public static void listeningThread(VirtualServer server, Scanner scanner) {
+        CommandManager commandManager = new CommandManager();
+        TUI tui = new TUI(commandManager, clientModel);
+        clientModel.addListener(tui);
+        commandManager.initializeCommandManager(server, tui);
+        LobbyView view = (LobbyView) GalaxyTruckerClient.view;
+        try {
+            while(tui.isCliRunning()){
+                if(!view.isInGame()) {
+                    view.printInstructions();
+                    String input = scanner.nextLine();
+                    if(!view.isInGame()) {
+                        view.processLobbyInput(server, input);
+                    } else {
+                        askCommand(scanner, tui, input);
+                    }
+                } else {
+                    System.out.println();
+                    System.out.print("> ");
+                    String input = scanner.nextLine();
+                    askCommand(scanner, tui, input);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error in listening thread: " + e.getMessage());
+        }
+    }
+
+    private static void askCommand(Scanner scanner, TUI tui, String input) {
+        Command chosen = null;
+        do {
+            while (tui.askCommand(input)) {
+                System.out.println("Invalid format, try again");
+                System.out.print("> ");
+                input = scanner.nextLine();
+            }
+            chosen = tui.findCommand();
+            if (chosen == null) {
+                System.out.println("Command does not exist, try again");
+                System.out.print("> ");
+                input = scanner.nextLine();
+            }
+        } while(chosen == null);
+
+        boolean commandNotValid;
+
+        chosen.setInput(tui.getInput());
+        if(!chosen.isApplicable(clientModel)) {
+            System.out.println("Command is not available, try again");
+        }
+        else {
+            commandNotValid = !chosen.isInputValid(clientModel);
+            if (commandNotValid)
+                System.out.println("Invalid input, try again");
+            else
+                chosen.execute(clientModel);
+        }
     }
 }

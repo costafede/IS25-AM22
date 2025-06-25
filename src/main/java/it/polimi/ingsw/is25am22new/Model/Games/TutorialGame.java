@@ -2,10 +2,12 @@ package it.polimi.ingsw.is25am22new.Model.Games;
 
 import it.polimi.ingsw.is25am22new.Model.AdventureCard.AdventureCard;
 import it.polimi.ingsw.is25am22new.Model.Flightboards.TutorialFlightBoard;
+import it.polimi.ingsw.is25am22new.Model.Miscellaneous.Dices;
 import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The TutorialGame class represents a specialized game implementation
@@ -33,6 +35,27 @@ public class TutorialGame extends Game implements Serializable {
     public TutorialGame(List<String> nicknames, List<ObserverModel> observers) {
         super(nicknames, observers);
         this.flightboard = new TutorialFlightBoard(this);
+    }
+
+    public TutorialGame(List<String> playerList, List<ObserverModel> observers, List<String> coveredComponentTilesNames, List<String> deckCardsNames, int randomSeed) {
+        super(playerList,observers);
+        this.flightboard = new TutorialFlightBoard(this);
+        this.dices = new Dices(randomSeed);
+        initGame();
+        Map<String, Integer> position = new HashMap<>();
+        for(int i = 0; i < coveredComponentTilesNames.size(); i++) {
+            position.put(coveredComponentTilesNames.get(i), i);
+        }
+        coveredComponentTiles.sort(Comparator.comparingInt(t -> position.get(t.getPngName())));
+
+        position.clear();
+        for(int i = 0; i < deckCardsNames.size(); i++) {
+            position.put(deckCardsNames.get(i), i);
+        }
+        this.deck = this.getCardArchive().stream()
+                .filter(t -> position.containsKey(t.getPngName()))
+                .sorted(Comparator.comparingInt(t -> position.get(t.getPngName())))
+                .collect(Collectors.toList());
     }
 
     /**

@@ -102,6 +102,7 @@ public class SocketClientSide implements VirtualView {
         commandMap.put("StartHourglass", this::handleStartHourglass);
         commandMap.put("updateTest", this::handleUpdateTest);
         commandMap.put("leaderboard", this::handleLeaderboard);
+        commandMap.put("GameLoaded",this::handleGameLoaded);
     }
 
     /**
@@ -110,19 +111,18 @@ public class SocketClientSide implements VirtualView {
      * and initiating the socket-based command loop for the lobby view.
      *
      * @param scanner the {@code Scanner} instance used to read input, typically for parsing commands or user input
-     * @throws IOException if an I/O error occurs during communication or file access
      * @throws InterruptedException if the thread is interrupted during a sleep or execution process
      */
-    public void run(Scanner scanner) throws IOException, InterruptedException {
-        new Thread(() -> {
-            try {
-                runVirtualServer();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+    public void run(Scanner scanner){
 
-        Thread.sleep(150);
+        new Thread(this::runVirtualServer).start();
+
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted during sleep: " + e.getMessage());
+        }
+
         startHeartbeat(thisPlayerName, output);
         clientModel.setPlayerName(thisPlayerName);
         ((LobbyView) view).startCommandLoopSocket(this.output, thisPlayerName, scanner);
@@ -140,16 +140,17 @@ public class SocketClientSide implements VirtualView {
      *
      * @throws InterruptedException if the thread sleep operation is interrupted during execution
      */
-    public void run() throws InterruptedException {
-        new Thread(() -> {
-            try {
-                runVirtualServer();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+    public void run() {
 
-        Thread.sleep(150);
+        new Thread(this::runVirtualServer).start();
+
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            // Handle the interruption gracefully
+            System.out.println("Thread interrupted during sleep: " + e.getMessage());
+        }
+
         startHeartbeat(thisPlayerName, output);
     }
 
@@ -375,6 +376,11 @@ public class SocketClientSide implements VirtualView {
     @Override
     public void terminate() throws RemoteException {
         /// TODO
+    }
+
+    @Override
+    public void showUpdateGameLoaded(Game game) {
+        clientModel.setGameLoaded(game);
     }
 
     /**
@@ -673,6 +679,11 @@ public class SocketClientSide implements VirtualView {
         System.out.println(msg.getPayload());
         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
         System.out.flush();
+    }
+
+    private void handleGameLoaded(SocketMessage msg) {
+        Game game = (Game) msg.getObject();
+        showUpdateGameLoaded(game);
     }
 
     /**

@@ -140,4 +140,10 @@ public abstract class ObservableModelView {
             ld.updateAllLeaderboard(leaderCards);
         }
     }
+
+    protected void notifyGameLoaded(ClientModel clientModel) {
+        for (ClientModelObserver ld : listeners) {
+            ld.updateAllGameLoaded(clientModel);
+        }
+    }
 }

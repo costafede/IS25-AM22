@@ -63,6 +63,7 @@
             <Button fx:id="readyButton" text="READY" onAction="#toggleReady"/>
             <Button fx:id="exitButton" text="EXIT" onAction="#exitLobby"/>
             <Button fx:id="startGameButton" text="START GAME" onAction="#startGame"/>
+            <Button fx:id="loadGameButton" text="LOAD GAME" onAction="#loadGame"/>
         </HBox>
     </VBox>
 </StackPane>

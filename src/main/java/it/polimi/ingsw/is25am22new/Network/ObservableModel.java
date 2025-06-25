@@ -250,6 +250,14 @@ public class ObservableModel {
             ld.updateAllLeaderboard(leaderboard);
     }
 
+    public void updateAllGameLoaded(Game game) {
+        for(Shipboard s : game.getShipboards().values()){
+            correctShipboard(s);
+        }
+        for(ObserverModel ld : observers)
+            ld.updateGameLoaded(game);
+    }
+
     /**
      * Adjusts the provided shipboard to ensure its internal state is consistent.
      * This method updates the component tiles grid and standby components

@@ -41,6 +41,7 @@ public class CorrectingShipController extends ShipPhasesController implements In
             else {
                 playerToScrap.put(ship.getNickname(), metalScrapCounter);
             }
+            drawShipInCorrectingShipPhase(ship);
         }
         rocketImage.setVisible(false);
     }

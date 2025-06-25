@@ -30,7 +30,6 @@ public class SocketClientHandler implements VirtualView {
     private final HeartbeatManager heartbeatManager;
     private Map<String, Consumer<SocketMessage>> commandMap;
     private Thread thisThread;
-    // CI SONO VARIE ISTANZE DI SOCKETCLIENTHANDLER, UNA PER OGNI GIOCATORE
 
     /**
      * Constructs a new SocketClientHandler to manage communication between the server and a single client.
@@ -98,6 +97,7 @@ public class SocketClientHandler implements VirtualView {
         commandMap.put("placeAstronauts", this::handlePlaceAstronauts);
         commandMap.put("disconnect", msg -> controller.disconnect());
         commandMap.put("connectionTester", this::handleConnectionTester);
+        commandMap.put("loadGame", this::handleLoadGame);
     }
 
     /**
@@ -589,6 +589,17 @@ public class SocketClientHandler implements VirtualView {
         showWaitResult();
     }
 
+    @Override
+    public void showUpdateGameLoaded(Game game) {
+        SocketMessage message = new SocketMessage("GameLoaded", game, null);
+        try {
+            objectOutput.writeObject(message);
+            objectOutput.flush();
+        } catch (IOException e) {
+            System.out.println("Error updating loaded game for client: " + e.getMessage());
+        }
+    }
+
     /**
      * Sends a "waitResult" command message to the associated output stream,
      * likely to indicate that the server or client should wait for further results
@@ -654,6 +665,9 @@ public class SocketClientHandler implements VirtualView {
         this.controller.updateAllLobbies();
     }
 
+    private void loadGame() {
+        this.controller.loadGame();
+    }
 
     /**
      * Starts the game in the lobby, ensuring only the host can initiate the process
@@ -1093,6 +1107,11 @@ public class SocketClientHandler implements VirtualView {
         System.out.println(msg.getPayload());
         System.out.println(((InputCommand) msg.getObject()).getIndexChosen());
         showUpdateTest();
+    }
+
+    private void handleLoadGame(SocketMessage msg) {
+        loadGame();
+        //controller.updateAllGame();
     }
 
     /**

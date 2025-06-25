@@ -22,6 +22,7 @@ public interface VirtualServer extends Remote {
     void startGameByHost(String nickname) throws IOException;
     void setPlayerNotReady(String nickname) throws IOException;
     void setGameType(String gameType) throws IOException;
+    void loadGame() throws IOException;
 
     void godMode(String nickname, String conf) throws IOException;
     void pickCoveredTile(String nickname) throws IOException;

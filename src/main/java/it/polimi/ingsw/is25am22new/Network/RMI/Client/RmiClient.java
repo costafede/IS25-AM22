@@ -125,7 +125,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
             while(!nickAccepted) {
                 if (playerName == null || playerName.isEmpty()) {
-                    System.out.print("Enter your name: ");
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║                     ENTER YOUR COOL TRUCKER NAME                     ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
+                    System.out.flush();
                     playerName = scanner.nextLine();
                 }
 
@@ -278,6 +282,10 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
      */
     public void setGameType(String gameType) throws IOException {
         server.setGameType(gameType);
+    }
+
+    public void loadGame() throws IOException {
+        server.loadGame();
     }
 
     /**
@@ -812,6 +820,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
             }
             // Non terminiamo l'applicazione anche per la TUI, permettendo all'utente di riprovare
         }
+    }
+
+    @Override
+    public void showUpdateGameLoaded(Game game) throws RemoteException {
+        clientModel.setGameLoaded(game);
     }
 
     /**

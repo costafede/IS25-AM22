@@ -51,4 +51,6 @@ public interface ClientModelObserver {
     void updateTileInHand(String player, ComponentTile ct);
 
     void updateAllLeaderboard(Map<String, Integer> leaderboard);
+
+    void updateAllGameLoaded(ClientModel clientModel);
 }

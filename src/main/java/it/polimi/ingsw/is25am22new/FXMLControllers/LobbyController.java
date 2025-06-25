@@ -43,6 +43,7 @@ public class LobbyController extends FXMLController implements Initializable {
 
     @FXML private ListView<String> playerListView;
     @FXML private Button startGameButton;
+    @FXML private Button loadGameButton;
     @FXML private Button readyButton;
     @FXML private Button exitButton;
     @FXML private ComboBox<String> gameTypeComboBox;
@@ -66,6 +67,7 @@ public class LobbyController extends FXMLController implements Initializable {
         });
 
         startGameButton.setDisable(true);
+        loadGameButton.setDisable(true);
         readyButton.setDisable(true);
         exitButton.setDisable(true);
     }
@@ -105,6 +107,11 @@ public class LobbyController extends FXMLController implements Initializable {
     }
 
     @FXML
+    public void loadGame(ActionEvent event) throws IOException {
+        galaxyTruckerGUI.getVirtualServer().loadGame();
+    }
+
+    @FXML
     public void confirmSettings(ActionEvent actionEvent) {
         String selectedGameType = gameTypeComboBox.getValue();  // Gets the selected item (or null if none)
         String selectedMaxPlayers = maxPlayersComboBox.getValue();  // Gets the selected item (or null if none)
@@ -141,6 +148,9 @@ public class LobbyController extends FXMLController implements Initializable {
             if (startGameButton.getParent() instanceof HBox parent) {
                 parent.getChildren().remove(startGameButton);
             }
+            if (loadGameButton.getParent() instanceof HBox parent) {
+                parent.getChildren().remove(loadGameButton);
+            }
             if (settingsHBox.getParent() instanceof VBox parent) {
                 parent.getChildren().remove(settingsHBox);
             }
@@ -171,6 +181,7 @@ public class LobbyController extends FXMLController implements Initializable {
         if(allReady && playerList.size() != 1) {
             statusTextArea.appendText("ALL PLAYERS ARE READY! PREPARE TO START!\n");
             startGameButton.setDisable(false);
+            loadGameButton.setDisable(false);
         }
 
         ObservableList<String> observableList = FXCollections.observableArrayList(newList);

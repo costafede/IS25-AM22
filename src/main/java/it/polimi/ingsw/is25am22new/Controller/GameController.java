@@ -227,18 +227,36 @@ public class GameController {
         }
     }
 
+    public boolean loadGame() {
+        this.game = GameSaver.loadGame();
+        game.setObservers(observers);
+        List<String> lobbyPlayers = lobby.getPlayers();
+        List<String> previousPlayers = game.getPlayerList();
+        if(lobbyPlayers.containsAll(previousPlayers) && previousPlayers.size() == lobbyPlayers.size()) {
+            this.currentState = GameState.GAME;
+            updateAllGameStarted();
+            game.updateAllGameLoaded(game);
+            return true;
+        }
+        return false;
+    }
+
     private void startGame() {
+        GameSaver.clearFile();
         if("tutorial".equals(gameType)) {
             game = new TutorialGame(new ArrayList<>(lobby.getPlayers()), observers);
+            game.initGame();
+            GameSaver.saveTutorialGame(game);
             System.out.println("Tutorial Game started");
         } else if("level2".equals(gameType)) {
             game = new Level2Game(new ArrayList<>(lobby.getPlayers()), observers);
+            game.initGame();
+            GameSaver.saveLevel2Game(game);
             System.out.println("Level 2 Game started");
         } else {
             System.out.println("Invalid game type: " + gameType);
             return; // Invalid game type
         }
-        game.initGame();
         System.out.println("Game initialized");
         currentState = GameState.GAME;
         System.out.println(gameType + " game started.");
@@ -250,6 +268,7 @@ public class GameController {
             try {
                 if(currentState == GameState.GAME) {
                     game.pickCoveredTile(player);
+                    GameSaver.savePickCoveredTile(player);
                 }else {
                     System.out.println("Player " + player + " cannot pick a covered tile outside game state.");
                 }
@@ -265,6 +284,7 @@ public class GameController {
             try {
                 if (currentState == GameState.GAME) {
                     game.pickUncoveredTile(player, tilePngName);
+                    GameSaver.savePickUncoveredTile(player, tilePngName);
                 } else {
                     System.out.println("Player " + player + " cannot pick an uncovered tile outside game state.");
                 }
@@ -279,6 +299,7 @@ public class GameController {
         if(currentState == GameState.GAME) {
             for(int i = 0; i < rotationNum; i++) {
                 game.rotateClockwise(player);
+                GameSaver.saveRotateClockwise(player);
             }
         } else {
             System.out.println("Player " + player + " cannot rotate clockwise outside game state.");
@@ -289,6 +310,7 @@ public class GameController {
         if(currentState == GameState.GAME) {
             for(int i = 0; i < rotationNum; i++) {
                 game.rotateCounterClockwise(player);
+                GameSaver.saveRotateCounterClockwise(player);
             }
         } else {
             System.out.println("Player " + player + " cannot rotate counterclockwise outside game state.");
@@ -299,6 +321,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.placeAstronauts(nickname, i, j);
+                GameSaver.savePlaceAstronauts(nickname, i, j);
             } else {
                 System.out.println("Player " + nickname + " cannot place astronauts outside game state.");
             }
@@ -312,6 +335,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.placeBrownAlien(nickname, i, j);
+                GameSaver.savePlaceBrownAlien(nickname, i, j);
             } else {
                 System.out.println("Player " + nickname + " cannot place brown alien outside game state.");
             }
@@ -325,6 +349,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.placePurpleAlien(nickname, i, j);
+                GameSaver.savePlacePurpleAlien(nickname, i, j);
             } else {
                 System.out.println("Player " + nickname + " cannot place purple alien outside game state.");
             }
@@ -338,6 +363,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.weldComponentTile(player, i, j);
+                GameSaver.saveWeldComponentTile(player, i, j);
             } else {
                 System.out.println("Player " + player + " cannot weld a component tile outside game state.");
             }
@@ -351,6 +377,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.standbyComponentTile(player);
+                GameSaver.saveStandbyComponentTile(player);
             } else {
                 System.out.println("Player " + player + " cannot standby a component tile outside game state.");
             }
@@ -364,6 +391,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.pickStandByComponentTile(player, index);
+                GameSaver.savePickStandByComponentTile(player, index);
             } else {
                 System.out.println("Player " + player + " cannot pick a standby component tile outside game state.");
             }
@@ -377,6 +405,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.discardComponentTile(player);
+                GameSaver.saveDiscardComponentTile(player);
             } else {
                 System.out.println("Player " + player + " cannot discard a component tile outside game state.");
             }
@@ -401,6 +430,7 @@ public class GameController {
             try {
                 if (currentState == GameState.GAME) {
                     game.finishBuilding(player, pos);
+                    GameSaver.saveFinishBuilding(player, pos);
                 } else {
                     System.out.println("Player " + player + " cannot finish building outside game state.");
                 }
@@ -443,6 +473,7 @@ public class GameController {
             try {
                 if (currentState == GameState.GAME) {
                     game.pickCard();
+                    GameSaver.savePickCard();
                 } else {
                     System.out.println("Cannot pick card outside game state.");
                 }
@@ -457,6 +488,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.activateCard(inputCommand);
+                GameSaver.saveActivateCard(inputCommand);
             } else {
                 System.out.println("Cannot activate card outside game state.");
             }
@@ -470,6 +502,7 @@ public class GameController {
         synchronized (LOCK_FLIGHTBOARD){
             if(currentState == GameState.GAME) {
                 game.playerAbandons(player);
+                GameSaver.savePlayerAbandons(player);
             } else {
                 System.out.println("Player " + player + " cannot abandon outside game state.");
             }
@@ -480,6 +513,7 @@ public class GameController {
         try {
             if (currentState == GameState.GAME) {
                 game.destroyTile(player, i, j);
+                GameSaver.saveDestroyTile(player, i, j);
             } else {
                 System.out.println("Player " + player + " cannot destroy a tile outside game state.");
             }
@@ -637,7 +671,7 @@ public class GameController {
     }
 
     public synchronized void quit(String player) {
-        if(game.getPlayerList().size() > 1) {
+        if(game!= null && game.getPlayerList().size() > 1) {
             game.getPlayerList().remove(player);
         }
         else{

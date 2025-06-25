@@ -38,38 +38,39 @@ public class TUI implements ClientModelObserver, ViewAdapter {
     }
 
     /**
-     * Parses a command input from the user and processes it by extracting the command name
-     * and parameters, if valid. The method ensures the input follows the expected syntax,
-     * which includes a command name followed by optional parameters enclosed within parentheses.
+     * Parses a command input string and extracts the command name and its parameters.
+     * The method validates the input format and ensures it adheres to the expected structure.
      *
-     * @param scanner the Scanner object used to read user input from the console
-     * @return true if the input adheres to the expected command format and is successfully processed,
-     *         false otherwise
+     * The expected format is: `commandName(param1, param2, ...)`.
+     * - The command name must precede an opening parenthesis `(`.
+     * - Parameters are separated by commas `,` and enclosed within parentheses.
+     * - Whitespace is ignored.
+     *
+     * @param inputLine the input string containing the command and its parameters
+     * @return {@code false} if the input is valid and successfully parsed, {@code true} otherwise
      */
-    public boolean askCommand(Scanner scanner) {
-        String inputLine = null;
-        inputLine = scanner.nextLine();
+    public boolean askCommand(String inputLine) {
         if(inputLine == null || inputLine.isEmpty())
-            return false;
+            return true;
         char currChar = inputLine.charAt(0);
         this.input.clear();
         int i = 0;
         while(currChar != '(') {
             i++;
             if(i == inputLine.length())
-                return false;
+                return true;
             currChar = inputLine.charAt(i);
         }
         if(i == 0)
-            return false;
+            return true;
         this.commandName = inputLine.substring(0, i).replaceAll("\\s+", "");
         if(inputLine.charAt(inputLine.length() - 1) != ')')
-            return false;
+            return true;
         inputLine = inputLine.substring(i + 1).replaceAll("\\s+", "");
         if(inputLine.equals(")"))
-            return true;
-        if(inputLine.contains("(") || inputLine.substring(0, inputLine.length() - 1).contains(")"))
             return false;
+        if(inputLine.contains("(") || inputLine.substring(0, inputLine.length() - 1).contains(")"))
+            return true;
         i = 0;
         while(currChar != ')') {
             int beginningIndex = i;
@@ -82,19 +83,18 @@ public class TUI implements ClientModelObserver, ViewAdapter {
             if(!inputParameter.isEmpty())
                 this.input.add(inputParameter);
             else
-                return false;
+                return true;
             i++;
         }
-        return true;
+        return false;
     }
 
     /**
      * Searches for a command in the list of all available commands by its name.
      *
-     * @param CommandName the name of the command to search for; it is case-insensitive
      * @return the Command object if found, or null if no command with the specified name exists
      */
-    private Command findCommand(String CommandName) {
+    public Command findCommand() {
         for(Command command : allCommands) {
             if(commandName.equalsIgnoreCase(command.getName())) {
                 return command;
@@ -432,69 +432,6 @@ public class TUI implements ClientModelObserver, ViewAdapter {
         }
     }
 
-    /**
-     * Continuously runs the Text-based User Interface (TUI) for interacting with the game.
-     * This method handles user input via a scanner to identify and execute commands from
-     * the available command list based on the current game state.
-     *
-     * While the TUI is active, it ensures the following:
-     * - Waits for the game start message before accepting inputs.
-     * - Validates the format and existence of commands entered by the user.
-     * - Ensures the command is applicable in the current game state and that its inputs are valid.
-     * - Executes the command if all validations pass.
-     * - Prompts the user with appropriate messages for invalid commands or inputs.
-     *
-     * Synchronization is used to ensure proper handling of game state changes
-     * and communication with the ClientModel during execution.
-     *
-     * @param scanner the Scanner object for reading user input from the console
-     */
-    public void run(Scanner scanner) {
-        Command chosen = null;
-        boolean commandNotValid;
-        while(cliRunning) {
-            do {
-                synchronized (this){
-                    while(!model.isGameStartMessageReceived()) {
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                }
-
-                System.out.println();
-                System.out.print("> ");
-                do {
-                    while (!askCommand(scanner)) {
-                        System.out.println("Invalid format, try again");
-                        System.out.print("> ");
-                    }
-                    chosen = findCommand(commandName);
-                    if (chosen == null) {
-                        System.out.println("Command does not exist, try again");
-                        System.out.print("> ");
-                    }
-                } while(chosen == null);
-
-                commandNotValid = false;
-
-                chosen.setInput(this.input);
-                if(!chosen.isApplicable(model)) {
-                    System.out.println("Command is not available, try again");
-                    commandNotValid = true;
-                }
-                else {
-                    commandNotValid = !chosen.isInputValid(model);
-                    if (commandNotValid)
-                        System.out.println("Invalid input, try again");
-                    else
-                        chosen.execute(model);
-                }
-            } while (commandNotValid);
-        }
-    }
 
     public List<String> getInput() {
         return this.input;
@@ -629,4 +566,9 @@ public class TUI implements ClientModelObserver, ViewAdapter {
         modelChanged();
     }
 
+    public void updateAllGameLoaded(ClientModel clientModel) {modelChanged();}
+
+    public boolean isCliRunning() {
+        return cliRunning;
+    }
 }

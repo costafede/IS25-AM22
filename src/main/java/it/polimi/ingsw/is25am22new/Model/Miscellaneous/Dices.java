@@ -11,6 +11,8 @@ import java.util.Random;
 public class Dices implements Serializable {
     int dice1;
     int dice2;
+    int seed;
+    Random rand;
 
     /**
      * Constructs a new instance of the Dices class. The Dices instance simulates
@@ -18,8 +20,17 @@ public class Dices implements Serializable {
      * This constructor ensures that both dice have randomized values upon creation.
      */
     public Dices() {
-        this.dice1 = new Random().nextInt(6) + 1;
-        this.dice2 = new Random().nextInt(6) + 1;
+        this.seed = new Random().nextInt();
+        this.rand= new Random(seed);
+        this.dice1 = rand.nextInt(6) + 1;
+        this.dice2 = rand.nextInt(6) + 1;
+    }
+
+    public Dices(int seed) {
+        this.seed = seed;
+        this.rand= new Random(seed);
+        this.dice1 = rand.nextInt(6) + 1;
+        this.dice2 = rand.nextInt(6) + 1;
     }
 
     /**
@@ -28,8 +39,8 @@ public class Dices implements Serializable {
      * of the dice rolls. The method overwrites the previous values of the dice.
      */
     public void rollDices() {
-        dice1 = new Random().nextInt(6) + 1;
-        dice2 = new Random().nextInt(6) + 1;
+        dice1 = rand.nextInt(6) + 1;
+        dice2 = rand.nextInt(6) + 1;
     }
 
     /**
@@ -66,5 +77,9 @@ public class Dices implements Serializable {
      */
     public void setDice2(int dice2) {
         this.dice2 = dice2;
+    }
+
+    public int getRandomSeed() {
+        return seed;
     }
 }

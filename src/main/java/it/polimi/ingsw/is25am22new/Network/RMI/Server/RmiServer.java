@@ -151,6 +151,20 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
      * @param nickname the unique identifier of the client sending the heartbeat
      */
     @Override
+    public void updateGameLoaded(Game game) {
+        for (VirtualView client : connectedClients) {
+            try {
+                client.showUpdateGameLoaded(game);
+            } catch (RemoteException e) {
+                System.err.println("Error updating client with leaderboard: " + e.getMessage());
+                handleClientError(client, e);
+            } catch (Exception e) {
+                //handle showUpdateLeaderboard exception
+            }
+        }
+    }
+
+    @Override
     public void heartbeat(String nickname) {
         System.out.println("Received heartbeat from: " + nickname);
         heartbeatManager.heartbeat(nickname);
@@ -829,6 +843,11 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
      * @param nickname the nickname of the player for whom god mode will be enabled
      * @param conf the configuration string defining the parameters or settings for god mode
      */
+    @Override
+    public void loadGame() throws IOException {
+        gameController.loadGame();
+    }
+
     @Override
     public void godMode(String nickname, String conf) {
         gameController.godMode(nickname, conf);

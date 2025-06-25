@@ -476,4 +476,13 @@ public class SocketServerSide implements ObserverModel {
             }
         }
     }
+
+    @Override
+    public void updateGameLoaded(Game game) {
+        synchronized (this.clients.keySet()) {
+            for (var client : this.clients.keySet()) {
+                client.showUpdateGameLoaded(game);
+            }
+        }
+    }
 }
