@@ -115,7 +115,11 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
 
             while(!nickAccepted) {
                 if (playerName == null || playerName.isEmpty()) {
-                    System.out.print("Enter your name: ");
+                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
+                    System.out.println("║                     ENTER YOUR COOL TRUCKER NAME                     ║");
+                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
+                    System.out.print("➤ ");
+                    System.out.flush();
                     playerName = scanner.nextLine();
                 }
 

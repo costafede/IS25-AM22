@@ -5,6 +5,7 @@ import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.EnhancedClientView;
 import it.polimi.ingsw.is25am22new.Network.RMI.Client.RmiClient;
 import it.polimi.ingsw.is25am22new.Network.Socket.Client.SocketServerHandler;
+import it.polimi.ingsw.is25am22new.Network.VirtualServer;
 
 import java.io.IOException;
 import java.util.List;
@@ -361,7 +362,7 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("    \\ \\_\\ \\ \\_\\ \\_\\\\ \\_____\\\\ \\_____\\\\ \\_\\ \\_\\\\ \\_____\\\\ \\_\\ \\_\\ ");
             System.out.println("     \\/_/  \\/_/ /_/ \\/_____/ \\/_____/ \\/_/\\/_/ \\/_____/ \\/_/ /_/ ");
             System.out.println("\n══════════════════════════════════════════════════════════════════\n");
-
+            System.out.print("> ");
             inGame = true;
 
             clientModel.setGameStartMessageReceived(true);
@@ -412,7 +413,7 @@ public class LobbyView implements EnhancedClientView {
         this.rmiClient = client;
         // If this is the host player, handle host setup
         if (isHostPlayer) {
-            setupAsHostRMI(client, scanner);
+            setupAsHost(client, scanner);
         } else {
             // Non-host players just wait
             if(gameStarted || inGame){
@@ -420,41 +421,27 @@ public class LobbyView implements EnhancedClientView {
             }
             System.out.println("Waiting for other players to join...");
         }
-
-        while (running && !inGame) {
-            System.out.println("Waiting for more players to join...");
-            System.out.println("Current players: " + currentPlayerCount +
-                    (numPlayers > 0 ? "/" + numPlayers : ""));
-            if(isHostPlayer)
-                System.out.println("Type 'load' to reload the last the game.");
-            System.out.println("Type 'ready' to indicate you're ready.");
-            System.out.println("Type 'exit' to leave the lobby.");
-            System.out.print("> ");
-            String command = scanner.nextLine().trim();
-
-            running = processLobbyInput(client, command, running);
-
-        }
-
+        GalaxyTruckerClient.listeningThread(client, scanner);
     }
 
     /**
-     * Processes the input provided by a player in the lobby and performs the appropriate actions based on the command.
-     * Commands supported are "exit", "ready", and "start". Invalid commands are handled with a warning message.
+     * Processes user input commands in the game lobby and performs the corresponding actions.
+     * This method handles commands such as exiting the lobby, marking the player as ready,
+     * and loading a game (if the player is the host).
      *
-     * @param client the RMI client used to interact with the server
-     * @param command the command provided by the player in the lobby
-     * @param running a boolean indicating whether the lobby command loop should continue running
-     * @return a boolean specifying the updated running status of the lobby command loop
+     * @param server   The `VirtualServer` instance used to interact with the server.
+     * @param command  The command entered by the user as a string.
      */
-    private boolean processLobbyInput(RmiClient client, String command, boolean running) {
+    public void processLobbyInput(VirtualServer server, String command) {
         if (command.equalsIgnoreCase("exit")) {
-            running = false;
-            client.disconnect();
+            try {
+                server.disconnect();
+            } catch (IOException e) {
+                System.out.println("Error disconnecting from server: " + e.getMessage());
+            }
         } else if (command.equals("ready")) {
             try {
-                running = false;
-                rmiClient.setPlayerReady(client.getPlayerName());
+                server.setPlayerReady(clientModel.getPlayerName());
             } catch (IOException e) {
                 System.out.println("Error setting ready status: " + e.getMessage());
             }
@@ -464,33 +451,6 @@ public class LobbyView implements EnhancedClientView {
         else {
             System.out.println("Invalid command.");
         }
-        return running;
-    }
-
-    /**
-     * Processes the input provided by a player in the lobby and executes the appropriate actions
-     * based on the command. Supported commands are "exit", "ready", and "start".
-     * Invalid commands result in an error message.
-     *
-     * @param client the socket server handler used to interact with the server
-     * @param command the command input provided by the player in the lobby
-     * @param running a boolean indicating whether the lobby command loop should continue running
-     * @return a boolean specifying the updated running status of the lobby command loop
-     */
-    private boolean processLobbyInput(SocketServerHandler client, String command, boolean running) {
-        if (command.equalsIgnoreCase("exit")) {
-            running = false;
-            client.disconnect();
-        } else if (command.equals("ready")) {
-            running = false;
-            socketClient.setPlayerReady(clientModel.getPlayerName());
-        } else if (command.equals("load") && isHostPlayer) {
-            handleLoadGame(client);
-        }
-        else {
-            System.out.println("Invalid command.");
-        }
-        return running;
     }
 
     /**
@@ -498,16 +458,15 @@ public class LobbyView implements EnhancedClientView {
      * The method handles both host and non-host player behaviors within the lobby, including handling setup
      * for host players, waiting for players to join, and responding to user commands.
      *
-     * @param client      the socket server handler used to interact with the server
+     * @param server      the socket server handler used to interact with the server
      * @param playerName  the name of the player entering the lobby
      * @param scanner     the scanner object for reading user input in the command loop
      */
-    public void startCommandLoopSocket(SocketServerHandler client, String playerName, Scanner scanner) {
-        boolean running = true;
-        this.socketClient = client;
+    public void startCommandLoopSocket(SocketServerHandler server, String playerName, Scanner scanner) {
+        this.socketClient = server;
         // If this is the host player, handle host setup
         if (isHostPlayer) {
-            setupAsHostSocket(client, scanner);
+            setupAsHost(server, scanner);
         } else {
             // Non-host players just wait
             if(gameStarted || inGame){
@@ -516,29 +475,24 @@ public class LobbyView implements EnhancedClientView {
             System.out.println("Waiting for other players to join...");
         }
 
-        while (running && !inGame) {
-            System.out.println("Waiting for more players to join...");
-            System.out.println("Current players: " + currentPlayerCount +
-                    (numPlayers > 0 ? "/" + numPlayers : ""));
-            if(isHostPlayer)
-                System.out.println("Type 'load' to reload the last the game.");
-            System.out.println("Type 'ready' to indicate you're ready.");
-            System.out.println("Type 'exit' to leave the lobby.");
-            System.out.print("> ");
-            String command = scanner.nextLine().trim();
-
-            running = processLobbyInput(client, command, running);
-        }
+        GalaxyTruckerClient.listeningThread(server, scanner);
     }
 
     /**
-     * Sets up the socket server as a host by configuring the number of players
-     * and selecting the game type. Once completed, the host setup process is marked as complete.
-     *
-     * @param client the SocketServerHandler object that manages the server-side socket functionality
-     * @param scanner the Scanner object used to read user input for the setup configuration
+     * Prints instructions for players in the lobby.
      */
-    private void setupAsHostSocket(SocketServerHandler client, Scanner scanner) {
+    public void printInstructions() {
+        System.out.println("Waiting for more players to join...");
+        System.out.println("Current players: " + currentPlayerCount +
+                (numPlayers > 0 ? "/" + numPlayers : ""));
+        if(isHostPlayer)
+            System.out.println("Type 'load' to reload the last the game.");
+        System.out.println("Type 'ready' to indicate you're ready.");
+        System.out.println("Type 'exit' to leave the lobby.");
+        System.out.print("> ");
+    }
+
+    private void setupAsHost(VirtualServer server, Scanner scanner) {
         // Get max players
         System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
         System.out.println("║                  Enter number of players (2-4)                       ║");
@@ -563,7 +517,11 @@ public class LobbyView implements EnhancedClientView {
             }
         }
 
-        client.setNumPlayers(numPlayers);
+        try {
+            server.setNumPlayers(numPlayers);
+        } catch (IOException e) {
+            System.out.println("Error setting num players: " + e.getMessage());
+        }
 
         // Get game type
         System.out.println("\n╔═══════════════════════════════════════════╗");
@@ -593,10 +551,18 @@ public class LobbyView implements EnhancedClientView {
 
         // Set game type
         if (typeChoice == 1) {
-            client.setGameType("tutorial");
+            try {
+                server.setGameType("tutorial");
+            } catch (IOException e) {
+                System.out.println("Error setting game type: " + e.getMessage());
+            }
             gameType = "tutorial";
         } else {
-            client.setGameType("level2");
+            try {
+                server.setGameType("level2");
+            } catch (IOException e) {
+                System.out.println("Error setting game type: " + e.getMessage());
+            }
             gameType = "level2";
         }
 
@@ -606,92 +572,16 @@ public class LobbyView implements EnhancedClientView {
     }
 
     /**
-     * Sets up the current instance as an RMI host by allowing the user to configure
-     * the number of players and game type through console inputs. The method
-     * interacts with the provided RmiClient and uses the Scanner for user input.
+     * Handles the process of loading a saved game. This method ensures that only the host
+     * player can initiate the game loading process. If the current player is not the host,
+     * an appropriate message is displayed, and the method exits.
      *
-     * @param client the RmiClient instance used to configure the game settings
-     *               such as the number of players and game type
-     * @param scanner the Scanner used to read user input for configuring the lobby
-     */
-    private void setupAsHostRMI(RmiClient client, Scanner scanner) {
-        try {
-            // Get max players
-            System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-            System.out.println("║                  Enter number of players (2-4)                       ║");
-            System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-            System.out.print("➤ ");
-
-            while (numPlayers < 2 || numPlayers > 4) {
-                try {
-                    numPlayers = Integer.parseInt(scanner.nextLine().trim());
-
-                    if (numPlayers < 2 || numPlayers > 4) {
-                        System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                        System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
-                        System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                        System.out.print("➤ ");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
-                    System.out.println("║      Invalid input. Please enter a number between 2 and 4.           ║");
-                    System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
-                    System.out.print("➤ ");
-                }
-            }
-
-            client.setNumPlayers(numPlayers);
-
-            // Get game type
-            System.out.println("\n╔═══════════════════════════════════════════╗");
-            System.out.println("║             Select game type:             ║");
-            System.out.println("║               1. Tutorial                 ║");
-            System.out.println("║               2. Level 2                  ║");
-            System.out.println("╚═══════════════════════════════════════════╝");
-            System.out.print("➤ ");
-            int typeChoice = 0;
-            while (typeChoice != 1 && typeChoice != 2) {
-                try {
-                    typeChoice = Integer.parseInt(scanner.nextLine().trim());
-                    if (typeChoice != 1 && typeChoice != 2) {
-                        System.out.println("\n╔═══════════════════════════════════════════════╗");
-                        System.out.println("║     Invalid choice. Please enter 1 or 2.       ║");
-                        System.out.println("╚════════════════════════════════════════════════╝");
-                        System.out.print("➤ ");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("\n╔═══════════════════════════════════════════════════════╗");
-                    System.out.println("║     Invalid input. Please enter a number (1 or 2).     ║");
-                    System.out.println("╚════════════════════════════════════════════════════════╝");
-                    System.out.print("➤ ");
-                }
-            }
-
-            // Set game type
-            if (typeChoice == 1) {
-                client.setGameType("tutorial");
-                gameType = "tutorial";
-            } else {
-                client.setGameType("level2");
-                gameType = "level2";
-            }
-
-            hostSetupCompleted = true;
-            System.out.println("Lobby setup complete. Waiting for players to join...");
-
-        } catch (IOException e) {
-            System.err.println("Error setting up lobby: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Handles the logic for starting the game from the lobby.
-     * This method ensures that only the host player can initiate the game start process.
-     * If the conditions allow, the request to start the game is sent to the server using the provided RmiClient instance.
+     * The server is responsible for validating whether all players are ready before
+     * proceeding with the game loading process.
      *
-     * @param rmiClient  the RMI client used to communicate with the server for starting the game
+     * @param server The `VirtualServer` instance used to interact with the server.
      */
-    public void handleLoadGame(RmiClient rmiClient) {
+    public void handleLoadGame(VirtualServer server) {
         try {
             // Only the host should be able to start the game
             if (!isHostPlayer) {
@@ -700,21 +590,10 @@ public class LobbyView implements EnhancedClientView {
             }
 
             // The server handles the validation if all players are ready
-            rmiClient.loadGame();
+            server.loadGame();
         } catch (IOException e) {
             System.out.println("Error starting game 580: " + e.getMessage());
         }
-    }
-
-    public void handleLoadGame(SocketServerHandler socketClient) {
-        // Only the host should be able to start the game
-        if (!isHostPlayer) {
-            System.out.println("Only the host can start the game");
-            return;
-        }
-
-        // The server handles the validation if all players are ready
-        socketClient.loadGame();
     }
 
     private void waitForHostSetup() {
@@ -733,5 +612,9 @@ public class LobbyView implements EnhancedClientView {
 
     public String getGameType() {
         return gameType;
+    }
+
+    public boolean isInGame() {
+        return inGame;
     }
 }
