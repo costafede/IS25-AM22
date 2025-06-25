@@ -446,7 +446,7 @@ public class LobbyView implements EnhancedClientView {
                 System.out.println("Error setting ready status: " + e.getMessage());
             }
         } else if (command.equals("load") && isHostPlayer) {
-            handleLoadGame(rmiClient);
+            handleLoadGame(server);
         }
         else {
             System.out.println("Invalid command.");
