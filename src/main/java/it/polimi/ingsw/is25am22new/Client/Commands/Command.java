@@ -9,10 +9,47 @@ import java.util.List;
  * Each command can be validated, executed, and configured based on its specific requirements within the game flow.
  */
 public interface Command {
-    String getName();   //returns the input name
-    boolean isApplicable(ClientModel model);    //check if the command is valid in the game phase
-    int getInputLength();   //return the number of inputs needed by the command, 0 if the command needs no input
-    void execute(ClientModel model);    //executes the command by calling the proper method from VirtualServer
-    boolean isInputValid(ClientModel model); //check if the inputs are valid from the local copy of the model called ClientModel
+    /**
+     * Returns the name of the command.
+     *
+     * @return the input name of the command
+     */
+    String getName();
+
+    /**
+     * Checks if the command is applicable in the current game phase.
+     *
+     * @param model the current client model
+     * @return true if the command is valid in the current game phase, false otherwise
+     */
+    boolean isApplicable(ClientModel model);
+
+    /**
+     * Returns the number of inputs needed by the command.
+     *
+     * @return the number of required inputs, or 0 if no inputs are needed
+     */
+    int getInputLength();
+
+    /**
+     * Executes the command by invoking the appropriate method on the VirtualServer.
+     *
+     * @param model the current client model
+     */
+    void execute(ClientModel model);
+
+    /**
+     * Checks if the inputs set for this command are valid based on the current client model.
+     *
+     * @param model the current client model
+     * @return true if the inputs are valid, false otherwise
+     */
+    boolean isInputValid(ClientModel model);
+
+    /**
+     * Sets the inputs needed to execute the command.
+     *
+     * @param input the list of input strings for the command
+     */
     void setInput(List<String> input);
 }
