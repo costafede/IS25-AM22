@@ -19,7 +19,6 @@ import java.util.*;
  */
 public class ObservableModel {
     List<ObserverModel> observers = new ArrayList<>();
-    //remember to add listeners to the list
 
     /**
      * Adds an observer to the list of observers that will be notified of updates and changes.

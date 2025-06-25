@@ -157,8 +157,8 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
                             System.err.println("╚══════════════════════════════════════════════════════════════════════╝");
                             playerName = null; // Reset to prompt again
                         } else {
-                            // Cattura anche il caso in cui l'host sta configurando ma l'errore non contiene il messaggio specifico
-                            // Come nel caso dell'errore "count is negative" che può verificarsi quando l'host sta configurando
+                            // It also catches the case where the host is configuring but the error does not contain the specific message
+                            // As in the case of the "count is negative" error that can occur when the host is configuring
                             System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
                             System.out.println("║                Host is configuring the lobby...please retry          ║");
                             System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
@@ -791,7 +791,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     @Override
     public void showUpdateLeaderboard(Map<String, Integer> leaderboard) throws RemoteException {
         clientModel.setLeaderboard(leaderboard);
-        /// TODO Da implementare?? clientView.displayLeaderboard(leaderboard);
     }
 
     /**
@@ -810,15 +809,15 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
         System.out.println("║                Host is configuring the lobby...please retry          ║");
         System.out.println("╚══════════════════════════════════════════════════════════════════════╝");
 
-        // Mostra un messaggio di errore
+        // Shows error message
         if (clientView != null) {
             //clientView.displayNicknameResult(false, "Host is configuring the lobby...please retry");
 
-            // Torna alla schermata di login se si sta usando la GUI
+            // Return to the login screen if you are using the GUI
             if (clientView instanceof it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI) {
                 ((it.polimi.ingsw.is25am22new.Client.View.GUI.GalaxyTruckerGUI) clientView).switchToScene("/it/polimi/ingsw/is25am22new/ConnectToServer.fxml");
             }
-            // Non terminiamo l'applicazione anche per la TUI, permettendo all'utente di riprovare
+            // We do not terminate the application for TUI either, allowing the user to try again
         }
     }
 
@@ -894,7 +893,6 @@ public class RmiClient extends UnicastRemoteObject implements VirtualView, Virtu
     @Override
     public void showUpdateFlightboard(Flightboard flightboard)  {
         clientModel.setFlightboard(flightboard);
-        //// TODO
     }
 
     /**

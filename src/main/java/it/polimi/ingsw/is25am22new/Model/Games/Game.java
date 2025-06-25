@@ -368,7 +368,6 @@ public abstract class Game extends ObservableModel implements Serializable {
     }
 
 
-    /*these next two methods may be useless*/
     public void finishBuilding(String nickname) {
         shipboards.get(nickname).setFinishedShipboard(true);
     }
@@ -1306,6 +1305,10 @@ public abstract class Game extends ObservableModel implements Serializable {
         }
     }
 
+    /**
+     * Adds the observers given with the list
+     * @param observers
+     */
     public void setObservers(List<ObserverModel> observers) {
         if(observers != null) {
             for (ObserverModel observer : observers) {
