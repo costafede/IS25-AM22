@@ -41,6 +41,7 @@ public class ClientModel extends ObservableModelView {
     protected GameType gameType;
     protected List<CardPile> cardPiles;
     private boolean gameStartMessageReceived = false;
+    protected boolean gameLoaded;
 
 
     private Map<String, Integer> leaderboard;
@@ -317,6 +318,7 @@ public class ClientModel extends ObservableModelView {
         dices = game.getDices();
         gamePhase = game.getGamePhase();
         gameType = game.getFlightboard().getFlightBoardLength() == 24 ? GameType.LEVEL2 : GameType.TUTORIAL;
+        leaderboard = game.endGame();
         if(gameType.equals(GameType.LEVEL2)) {
             cardPiles = game.getCardPiles();
             hourglassSpot = game.getHourglassSpot();
@@ -344,6 +346,11 @@ public class ClientModel extends ObservableModelView {
 
     public void setGameLoaded(Game game) {
         setGameAttributes(game);
+        gameLoaded = true;
         notifyGameLoaded(this);
+    }
+
+    public boolean isGameLoaded() {
+        return gameLoaded;
     }
 }

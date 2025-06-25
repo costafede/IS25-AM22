@@ -147,7 +147,6 @@ public class CardPhaseController extends FXMLController {
 
         cardImage.setOnMouseClicked(this::showApplicableCommands);
 
-        // Aggiungi un cursore mano per indicare che la carta è cliccabile
         cardImage.setStyle("-fx-cursor: hand;");
 
         animatedBackground = new GalaxyStarsEffect(1280, 720);
@@ -156,15 +155,14 @@ public class CardPhaseController extends FXMLController {
             animatedBackground.setWidth(background.getFitWidth());
             animatedBackground.setHeight(background.getFitHeight());
 
-            // Inserisce l'animazione come primo elemento del pane (dietro a tutti gli altri elementi)
             pane.getChildren().addFirst(animatedBackground);
 
-            // Assicura che lo sfondo sia dietro tutti gli elementi
             animatedBackground.toBack();
             background.toBack();
         }
-        // Carica lo stato iniziale della scena
         drawScene();
+        if(model.isGameLoaded())
+            drawCard();
         updatePickCardButton();
         CurrPlayerLabel.setText("It's the turn of " + model.getFlightboard().getOrderedRockets().getFirst());
     }
@@ -213,10 +211,8 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void setShipboardImagesLevel2(int playersNumber) {
-        // Impostata la visibilità delle navi in base al numero di giocatori
         setShipboardsVisibility(playersNumber);
 
-        // Assegnate le immagini solo alle navi che saranno visibili
         int count = 0;
         for (int i = 0; i < playersNumber && i < model.getShipboards().size(); i++) {
             ImageView shipImage = playersImage.get(i);
@@ -229,10 +225,8 @@ public class CardPhaseController extends FXMLController {
     }
 
     private void setShipboardImagesTutorial(int playersNumber) {
-        // impostata la visibilità delle navi in base al numero di giocatori
         setShipboardsVisibility(playersNumber);
 
-        // Assegnate le immagini solo alle navi che saranno visibili
         int count = 0;
         for (int i = 0; i < playersNumber && i < model.getShipboards().size(); i++) {
             ImageView shipImage = playersImage.get(i);
@@ -278,11 +272,9 @@ public class CardPhaseController extends FXMLController {
                 player1Ship.setVisible(true);
                 break;
             default:
-                // Per il caso con un solo giocatore o errore, non visualizziamo navi aggiuntive
                 break;
         }
 
-        // Imposta i nomi dei giocatori in base all'elenco effettivo
         updatePlayerNames();
     }
 
@@ -290,7 +282,6 @@ public class CardPhaseController extends FXMLController {
      * Updates the player name labels based on the current players in the game
      */
     private void updatePlayerNames() {
-        // Ottiene i nomi dei giocatori dall'elenco dei giocatori escluso il giocatore corrente
         List<String> otherPlayers = playerToShip.keySet().stream()
                 .filter(name -> !name.equals(model.getPlayerName()))
                 .toList();
@@ -309,7 +300,7 @@ public class CardPhaseController extends FXMLController {
     }
 
     /**
-     * Disegna la nave del giocatore
+     * Draws the player's ship
      */
     public void drawShips() {
         for (Shipboard s : model.getShipboards().values()) {
@@ -325,10 +316,8 @@ public class CardPhaseController extends FXMLController {
      * Resets visual effects and borders for all tiles that are no longer active
      */
     private void resetAllTileEffects() {
-        // Prima resetta gli effetti sulla nave del giocatore principale
         resetTileEffectsForShip(model.getPlayerName(), myShip);
 
-        // Poi resetta gli effetti sulle navi degli altri giocatori
         for (Map.Entry<String, GridPane> entry : playerToShip.entrySet()) {
             if (!entry.getKey().equals(model.getPlayerName())) {
                 resetTileEffectsForShip(entry.getKey(), entry.getValue());
@@ -381,9 +370,7 @@ public class CardPhaseController extends FXMLController {
      */
     public void drawScene() {
         try {
-            // Aggiorna le visualizzazioni delle navi
             drawShips();
-            // Aggiorna la flightboard
             drawFlightboardInCardPhase(model.getFlightboard());
             drawDices();
         } catch (Exception e) {
@@ -402,7 +389,7 @@ public class CardPhaseController extends FXMLController {
         if (model.getCurrCard() != null) {
             infoArea.setText(cardNameToInfoText.get(model.getCurrCard().getName()).get());
         } else {
-            infoArea.setText(""); // Pulisci l'area di testo quando non c'è una carta
+            infoArea.setText("");
         }
     }
 

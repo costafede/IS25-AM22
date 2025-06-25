@@ -8,29 +8,33 @@ import it.polimi.ingsw.is25am22new.Model.ComponentTiles.ComponentTile;
 import it.polimi.ingsw.is25am22new.Model.Games.Game;
 import it.polimi.ingsw.is25am22new.Model.Games.Level2Game;
 import it.polimi.ingsw.is25am22new.Model.Games.TutorialGame;
-import it.polimi.ingsw.is25am22new.Model.Miscellaneous.GoodBlock;
-import it.polimi.ingsw.is25am22new.Network.ObserverModel;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GameSaver {
 
-    private static final String fileName = "C:\\Users\\Emanuele\\Desktop\\Uni\\ProgettoSoftEng\\Save.json"; //temporaneo
     private static final ObjectMapper mapper = new ObjectMapper();
     private static BufferedWriter writer;
 
+    private static final Path saveFilePath = Paths.get("saves", "Save.json");
+
+    static {
+        try {
+            Files.createDirectories(saveFilePath.getParent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void clearFile() {
         try {
-            FileWriter fileClearer = new FileWriter(fileName, false);
-            fileClearer.write("");
-            fileClearer.close();
-            writer = new BufferedWriter(new FileWriter(fileName));
+            writer = Files.newBufferedWriter(saveFilePath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -176,19 +180,18 @@ public class GameSaver {
     }
 
     public static Game loadGame() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        try(BufferedReader reader =  Files.newBufferedReader(saveFilePath)) {
             String GameType = mapper.readValue(reader.readLine(), String.class);
             List<String> playerList = mapper.readValue(reader.readLine(), new TypeReference<>() {});
             List<String> coveredComponentTiles = mapper.readValue(reader.readLine(), new TypeReference<>() {});
             List<String> deck = mapper.readValue(reader.readLine(), new TypeReference<>() {});
             int randomSeed = Integer.parseInt(mapper.readValue(reader.readLine(), new TypeReference<>() {}));
-            List<List<String>> cardPiles = mapper.readValue(reader.readLine(), new TypeReference<>() {});
             Game game = null;
             if(GameType.equals("tutorial")) {
                 game =  new TutorialGame(playerList, null, coveredComponentTiles, deck, randomSeed);
             }
             else if(GameType.equals("level2")) {
+                List<List<String>> cardPiles = mapper.readValue(reader.readLine(), new TypeReference<>() {});
                 game =  new Level2Game(playerList, null, coveredComponentTiles, deck, randomSeed, cardPiles);
             }
 
@@ -197,6 +200,7 @@ public class GameSaver {
                 SavedCommand cmd = mapper.readValue(line, SavedCommand.class);
                 applyCommand(cmd, game);
             }
+            writer = Files.newBufferedWriter(saveFilePath, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             return game;
         }
         catch (Exception e) {
@@ -225,36 +229,5 @@ public class GameSaver {
             case "destroyTile" -> game.destroyTile(cmd.getNickname(), cmd.getI(), cmd.getJ());
             case "activateCard" -> game.activateCard(cmd.getInputCommand());
         }
-    }
-
-    public static void main(String[] args) {
-        /*clearFile();
-        Game game = new Level2Game(new ArrayList<>(List.of("Emanuele","De","Simone")),new ArrayList<>());
-        game.initGame();
-        saveLevel2Game(game);
-        InputCommand inputCommand = new InputCommand();
-        inputCommand.setChoice(true);
-        inputCommand.setGoodBlock(GoodBlock.YELLOWBLOCK);
-        inputCommand.setRow(2);
-        inputCommand.setCol(4);
-        saveActivateCard(inputCommand);
-        saveDestroyTile("Emanuele",1,2);
-        savePlayerAbandons("Carlo");
-        savePickCard();
-        saveFlipHourglass();
-        saveFinishBuilding("Consuelo",23);
-        saveDiscardComponentTile("Franco");
-        savePickStandByComponentTile("Armando",2);
-        saveStandbyComponentTile("Quintiliano");
-        saveWeldComponentTile("Domiziano",1,2);
-        saveRotateCounterClockwise("Catone");
-        saveRotateClockwise("Doge");
-        savePickUncoveredTile("Pino","x");
-        savePickCoveredTile("Daniele");
-        savePlacePurpleAlien("Tony",2,3);
-        savePlaceBrownAlien("Carmela",4,5);
-        savePlaceAstronauts("Paolo",1,2);*/
-        Game game1 = loadGame();
-        System.exit(0);
     }
 }

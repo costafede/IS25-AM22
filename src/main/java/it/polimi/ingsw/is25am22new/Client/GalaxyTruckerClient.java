@@ -235,78 +235,56 @@ public class GalaxyTruckerClient {
         clientModel.addListener(tui);
         commandManager.initializeCommandManager(server, tui);
         LobbyView view = (LobbyView) GalaxyTruckerClient.view;
-        Command chosen = null;
         try {
-            while(true){
+            while(tui.isCliRunning()){
                 if(!view.isInGame()) {
                     view.printInstructions();
                     String input = scanner.nextLine();
                     if(!view.isInGame()) {
                         view.processLobbyInput(server, input);
                     } else {
-                        do {
-                            while (tui.askCommand(input)) {
-                                System.out.println("Invalid format, try again");
-                                System.out.print("> ");
-                                input = scanner.nextLine();
-                            }
-                            chosen = tui.findCommand();
-                            if (chosen == null) {
-                                System.out.println("Command does not exist, try again");
-                                System.out.print("> ");
-                                input = scanner.nextLine();
-                            }
-                        } while(chosen == null);
-
-                        boolean commandNotValid;
-
-                        chosen.setInput(tui.getInput());
-                        if(!chosen.isApplicable(clientModel)) {
-                            System.out.println("Command is not available, try again");
-                        }
-                        else {
-                            commandNotValid = !chosen.isInputValid(clientModel);
-                            if (commandNotValid)
-                                System.out.println("Invalid input, try again");
-                            else
-                                chosen.execute(clientModel);
-                        }
+                        askCommand(scanner, tui, input);
                     }
                 } else {
                     System.out.println();
                     System.out.print("> ");
                     String input = scanner.nextLine();
-                    do {
-                        while (tui.askCommand(input)) {
-                            System.out.println("Invalid format, try again");
-                            System.out.print("> ");
-                            input = scanner.nextLine();
-                        }
-                        chosen = tui.findCommand();
-                        if (chosen == null) {
-                            System.out.println("Command does not exist, try again");
-                            System.out.print("> ");
-                            input = scanner.nextLine();
-                        }
-                    } while(chosen == null);
-
-                    boolean commandNotValid;
-
-                    chosen.setInput(tui.getInput());
-                    if(!chosen.isApplicable(clientModel)) {
-                        System.out.println("Command is not available, try again");
-                    }
-                    else {
-                        commandNotValid = !chosen.isInputValid(clientModel);
-                        if (commandNotValid)
-                            System.out.println("Invalid input, try again");
-                        else
-                            chosen.execute(clientModel);
-                    }
+                    askCommand(scanner, tui, input);
                 }
             }
         } catch (Exception e) {
             System.err.println("Error in listening thread: " + e.getMessage());
+        }
+    }
+
+    private static void askCommand(Scanner scanner, TUI tui, String input) {
+        Command chosen = null;
+        do {
+            while (tui.askCommand(input)) {
+                System.out.println("Invalid format, try again");
+                System.out.print("> ");
+                input = scanner.nextLine();
+            }
+            chosen = tui.findCommand();
+            if (chosen == null) {
+                System.out.println("Command does not exist, try again");
+                System.out.print("> ");
+                input = scanner.nextLine();
+            }
+        } while(chosen == null);
+
+        boolean commandNotValid;
+
+        chosen.setInput(tui.getInput());
+        if(!chosen.isApplicable(clientModel)) {
+            System.out.println("Command is not available, try again");
+        }
+        else {
+            commandNotValid = !chosen.isInputValid(clientModel);
+            if (commandNotValid)
+                System.out.println("Invalid input, try again");
+            else
+                chosen.execute(clientModel);
         }
     }
 }

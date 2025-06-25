@@ -233,6 +233,7 @@ public class GameController {
         List<String> lobbyPlayers = lobby.getPlayers();
         List<String> previousPlayers = game.getPlayerList();
         if(lobbyPlayers.containsAll(previousPlayers) && previousPlayers.size() == lobbyPlayers.size()) {
+            this.currentState = GameState.GAME;
             updateAllGameStarted();
             game.updateAllGameLoaded(game);
             return true;

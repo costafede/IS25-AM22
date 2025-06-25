@@ -119,7 +119,10 @@ public class BuildingShipController extends ShipPhasesController implements Init
             }
             else {
                 myShipImage.setImage(shipImage);
-                rocketImage.setImage(colorToRocketImage.get(ship.getColor()));
+                if(model.getShipboard(model.getPlayerName()).isRocketPlaced())
+                    rocketImage.setImage(null);
+                else
+                    rocketImage.setImage(colorToRocketImage.get(ship.getColor()));
                 playerToShipGrid.put(ship.getNickname(), componentTilesGrid);
                 playerToShipStandByTiles.put(ship.getNickname(), standByComponentsGrid);
             }
@@ -139,6 +142,10 @@ public class BuildingShipController extends ShipPhasesController implements Init
             // Assicurati che lo sfondo sia dietro tutti gli elementi
             animatedBackground.toBack();
             background.toBack();
+        }
+
+        if(model.isGameLoaded()) {
+            loadScene();
         }
     }
 
@@ -396,5 +403,26 @@ public class BuildingShipController extends ShipPhasesController implements Init
                 if(Integer.parseInt(child.getId()) == i)
                     ((ImageView) child).setImage(new Image(getClass().getResource("/GraficheGioco/cards/" + pile.get(i).getPngName()).toExternalForm()));
         }
+    }
+
+    private void loadScene() {
+        numOfRotations = 0;
+        drawTileInHand(model.getTileInHand(model.getPlayerName()));
+
+        updateUncoveredComponentTiles(model.getUncoveredComponentTiles());
+
+        if(model.getGametype().equals(GameType.LEVEL2)) {
+            if(model.getHourglassSpot() == 1) {
+                hourglassImage0.setVisible(false);
+                hourglassImage1.setVisible(true);
+            }
+            else if(model.getHourglassSpot() == 2) {
+                hourglassImage0.setVisible(false);
+                hourglassImage1.setVisible(false);
+                hourglassImage2.setVisible(true);
+            }
+        }
+
+        updateFlightBoard(model.getFlightboard());
     }
 }

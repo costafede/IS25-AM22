@@ -91,7 +91,10 @@ public abstract class ShipPhasesController extends FXMLController{
             }
             else {
                 myShipImage.setImage(shipImage);
-                rocketImage.setImage(colorToRocketImage.get(ship.getColor()));
+                if(model.getShipboard(model.getPlayerName()).isRocketPlaced())
+                    rocketImage.setImage(null);
+                else
+                    rocketImage.setImage(colorToRocketImage.get(ship.getColor()));
                 playerToShipGrid.put(ship.getNickname(), componentTilesGrid);
             }
 

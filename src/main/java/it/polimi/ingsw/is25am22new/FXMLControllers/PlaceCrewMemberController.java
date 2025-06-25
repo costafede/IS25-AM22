@@ -32,7 +32,6 @@ public class PlaceCrewMemberController extends ShipPhasesController implements I
         ClientModel model = GalaxyTruckerGUI.getClientModel();
         super.initialize(url, resourceBundle);
         updateFlightBoard(model.getFlightboard());
-        updateFlightBoard(model.getFlightboard());
         List<Label> scrapsLabels = new ArrayList<>(List.of(metalScrapCounter1, metalScrapCounter2, metalScrapCounter3));
         List<ImageView> scrapsImages = new ArrayList<>(List.of(scrapImage1, scrapImage2, scrapImage3));
         for(Shipboard ship : model.getShipboards().values()) {

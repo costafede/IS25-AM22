@@ -568,4 +568,7 @@ public class TUI implements ClientModelObserver, ViewAdapter {
 
     public void updateAllGameLoaded(ClientModel clientModel) {modelChanged();}
 
+    public boolean isCliRunning() {
+        return cliRunning;
+    }
 }

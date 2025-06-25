@@ -51,8 +51,8 @@ public class Level2Game extends Game implements Serializable {
                 .collect(Collectors.toList());
         for(int i = 0; i < cardPilesNames.size(); i++) {
             position.clear();
-            for (int j = 0; j < deckCardsNames.size(); j++) {
-                position.put(deckCardsNames.get(j), j);
+            for (int j = 0; j < cardPilesNames.get(i).size(); j++) {
+                position.put(cardPilesNames.get(i).get(j), j);
             }
             this.cardPiles.set(i, new CardPile(this.getCardArchive().stream()
                     .filter(t -> position.containsKey(t.getPngName()))
