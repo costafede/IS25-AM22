@@ -73,6 +73,11 @@ public class BuildingShipController extends ShipPhasesController implements Init
     private int hourglassSpot = 0;
     private int secondsLeft = 60;
 
+    /**
+     * Initializes the user interface and its behaviors.
+     * @param url
+     * @param resourceBundle
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setup(null, GalaxyTruckerGUI.getClientModel(), GalaxyTruckerGUI.getPrimaryStage() ,GalaxyTruckerGUI.getVirtualServer());
         Image shipImage;
