@@ -163,8 +163,9 @@ public class CardPhaseController extends FXMLController {
         drawScene();
         if(model.isGameLoaded())
             drawCard();
+
         updatePickCardButton();
-        CurrPlayerLabel.setText("It's the turn of " + model.getFlightboard().getOrderedRockets().getFirst());
+        CurrPlayerLabel.setText("It's the turn of " + model.getCurrPlayer());
     }
 
     private void initializeCardNameToInfoText() {
