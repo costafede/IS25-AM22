@@ -91,7 +91,7 @@ After successful execution, the JAR files will be available in the `target/` dir
 
 #### Starting the Server
 ```bash
-java -jar GalaxyTruckerClient.jar localhost 1234 rmi tui   
+java -jar GalaxyTruckerServer.jar localhost 1234 rmi tui   
 ```
 
 #### Starting the Client
