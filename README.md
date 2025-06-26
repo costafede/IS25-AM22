@@ -53,21 +53,21 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 | Requirements                            | Status |
 |-----------------------------------------|--------|
 | Full implementation of game rules       | ✅      |
-| Initial UML diagram                     | Toly   |
+| Initial UML diagram                     | ✅      |
 | Final UML diagram                       | Toly   |
 | Command Line Interface (CLI)            | ✅      |
 | Graphical User Interface (GUI - JavaFX) | ✅      |
 | Client-Server communication via Socket  | ✅      |
 | Client-Server communication via RMI     | ✅      |
 | Test Flight mode                        | ✅      |
-| Multiple game sessions                  | 👨🏻‍💻 |
+| Multiple game sessions                  | ❌      |
 | Resilience to disconnections            | ❌      |
-| Persistence of game state               | ❌      |
-| JavaDoc documentation                   | Toly  |
+| Persistence of game state               | ✅      |
+| JavaDoc documentation                   | Toly   |
 | JUnit Testing                           | ✅      |
-| Sequence Diagram                        |  👨🏻‍💻       |
-| Jar                                     | ✅   |
-| Screenshot copertura casi di test       |      👨🏻‍💻   |
+| Sequence Diagram                        | ✅      |
+| Jar                                     | ✅      |
+| Screenshot copertura casi di test       | ✅      |
 
 ---
 
