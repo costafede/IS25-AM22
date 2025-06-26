@@ -111,7 +111,6 @@ public class SocketClientSide implements VirtualView {
      * and initiating the socket-based command loop for the lobby view.
      *
      * @param scanner the {@code Scanner} instance used to read input, typically for parsing commands or user input
-     * @throws InterruptedException if the thread is interrupted during a sleep or execution process
      */
     public void run(Scanner scanner){
 
@@ -138,7 +137,6 @@ public class SocketClientSide implements VirtualView {
      * that the client is active. It also sets the player's nickname in the client model, allowing
      * synchronization between the server and client regarding the player's identity.
      *
-     * @throws InterruptedException if the thread sleep operation is interrupted during execution
      */
     public void run() {
 

@@ -22,8 +22,7 @@ public class DoubleEngine extends Engine {
      * Constructs a new DoubleEngine object, which extends the base Engine class.
      * The DoubleEngine provides specialized functionality, focusing on the activation
      * of the bottom side while maintaining inherent characteristics of the Engine class.
-     *
-     * @param png*/
+     */
     public DoubleEngine(String pngName, Side topSide, Side bottomSide, Side leftSide, Side rightSide) {
         super(pngName, topSide, bottomSide, leftSide, rightSide);
         this.bottomSideActive = false;

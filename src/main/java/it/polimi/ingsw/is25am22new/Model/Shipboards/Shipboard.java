@@ -252,10 +252,9 @@ public class Shipboard implements Serializable {
     }
 
     /**
-     * Retrieves the array of standby components, represented as Optional<ComponentTile> elements.
+     * Retrieves the array of standby components, represented as Optional elements.
      * Each element in the array may or may not contain a ComponentTile instance.
      *
-     * @return an array of Optional<ComponentTile> representing the standby components
      */
     public Optional<ComponentTile>[] getStandbyComponent() {
         return standbyComponent;
