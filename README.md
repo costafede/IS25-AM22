@@ -94,7 +94,7 @@ After successful execution, the JAR files will be available in the `target/` dir
 
 When running the Application using the Jar files, available in the deliverables/Jar folder, use the right Jar files for your operating system (Windows or MacOS).
 
-Please note that Java 21 is the version required for the application.
+Please note that JavaFX 21 is the version required for the application.
 
 #### Starting the Server
 ```bash
