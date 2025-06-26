@@ -229,6 +229,8 @@ public class GameController {
 
     public boolean loadGame() {
         this.game = GameSaver.loadGame();
+        if(game == null)
+            return false;
         game.setObservers(observers);
         List<String> lobbyPlayers = lobby.getPlayers();
         List<String> previousPlayers = game.getPlayerList();
