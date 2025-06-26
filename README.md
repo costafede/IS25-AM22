@@ -98,7 +98,7 @@ Please note that Java 21 is the version required for the application.
 
 #### Starting the Server
 ```bash
-java -jar GalaxyTruckerServer.jar localhost 1234 rmi tui   
+java -jar GalaxyTruckerServer.jar localhost 1234   
 ```
 
 #### Starting the Client
