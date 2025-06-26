@@ -50,18 +50,33 @@ public class LobbyView implements EnhancedClientView {
     private Map<String, Boolean> readyStatus;
     private List<String> playersList;
 
+    /**
+     * Initializes the View of the lobby
+     * @param clientModel
+     */
     public LobbyView(ClientModel clientModel) {
         this.clientModel = clientModel;
     }
 
+    /**
+     * returns true if the nickname inserted is valid
+     *
+     */
     public boolean isNicknameValid() {
         return nicknameValid;
     }
 
+    /**
+     * Resets the status of the nickname on false
+     */
     public void resetNicknameStatus(){
         nicknameValid = false;
     }
 
+    /**
+     * Displays general info of the game
+     * @param game
+     */
     public void displayGame(Game game){
         System.out.println("Game update received");
         System.out.println(game.getPlayerList());
@@ -301,7 +316,10 @@ public class LobbyView implements EnhancedClientView {
     }
 
 
-
+    /**
+     * Shows on screen the players that joined the lobby
+     * @param playerName
+     */
     @Override
     public void displayPlayerJoined(String playerName) {
         System.out.println("\n>>> " + playerName + " has joined the lobby! <<<\n");
@@ -402,6 +420,11 @@ public class LobbyView implements EnhancedClientView {
         System.out.print("> ");
     }
 
+    /**
+     * Sets the first player that enters the lobby as Host of the game
+     * @param server
+     * @param scanner
+     */
     private void setupAsHost(VirtualServer server, Scanner scanner) {
         // Get max players
         System.out.println("\n╔══════════════════════════════════════════════════════════════════════╗");
@@ -520,10 +543,18 @@ public class LobbyView implements EnhancedClientView {
         System.out.println("Host has completed setup. Game type: " + gameType);
     }
 
+    /**
+     * Returns the type of the game
+     * @return
+     */
     public String getGameType() {
         return gameType;
     }
 
+    /**
+     * Returns true if player is in game
+     * @return
+     */
     public boolean isInGame() {
         return inGame;
     }

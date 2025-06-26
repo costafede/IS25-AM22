@@ -10,6 +10,20 @@ import java.util.List;
  * grid coordinates, and specific string values related to game blocks.
  */
 public class ConditionVerifier {
+
+    /**
+     * Checks if the given tile coordinates (i, j) are within the valid bounds for the current
+     * game type in the provided {@link ClientModel}.
+     * Valid coordinates differ depending on whether the game is in {@link GameType#TUTORIAL}
+     * or {@link GameType#LEVEL2} mode.
+     *
+     * @param i     the row coordinate
+     * @param j     the column coordinate
+     * @param model the client model containing the current game type
+     * @return {@code true} if the coordinates are within the valid bounds for the current game type;
+     *         {@code false} otherwise
+     * @throws IllegalStateException if the game type is not {@code TUTORIAL} or {@code LEVEL2}
+     */
     public static boolean coordinatesAreNotOutOfBound(int i, int j, ClientModel model) {
         GameType gameType = model.getGametype();
         switch (gameType) {
@@ -30,6 +44,20 @@ public class ConditionVerifier {
         }
     }
 
+    /**
+     * Checks if the given grid coordinates (i, j) are within the valid grid bounds for the current
+     * game type in the provided {@link ClientModel}.
+     * These coordinates are typically zero-based indices used for internal grid representation.
+     * Valid coordinates differ depending on whether the game is in {@link GameType#TUTORIAL}
+     * or {@link GameType#LEVEL2} mode.
+     *
+     * @param i     the row coordinate in the grid
+     * @param j     the column coordinate in the grid
+     * @param model the client model containing the current game type
+     * @return {@code true} if the grid coordinates are within the valid bounds for the current game type;
+     *         {@code false} otherwise
+     * @throws IllegalStateException if the game type is not {@code TUTORIAL} or {@code LEVEL2}
+     */
     public static boolean gridCoordinatesAreNotOutOfBound(int i, int j, ClientModel model) {
         GameType gameType = model.getGametype();
         switch (gameType) {
@@ -50,6 +78,15 @@ public class ConditionVerifier {
         }
     }
 
+    /**
+     * Checks if the given string corresponds to a valid "good block" color name.
+     * Valid blocks are "redblock", "blueblock", "greenblock", and "yellowblock",
+     * case-insensitive.
+     *
+     * @param block the string to check
+     * @return {@code true} if the string matches one of the known good block names (case-insensitive);
+     *         {@code false} otherwise
+     */
     public static boolean stringIsGoodBlock(String block) {
         return block.equalsIgnoreCase("redblock") ||
                 block.equalsIgnoreCase("blueblock") ||

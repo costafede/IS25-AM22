@@ -57,13 +57,19 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     private static Stage primaryStage;
     private static VirtualServer virtualServer;
 
+    /**
+     * Entry point of the JavaFX application.
+     * Initializes the start menu, sets up the stage, and loads the FXML layout.
+     *
+     * @param primaryStage the primary window of the application
+     * @throws IOException if the FXML file cannot be loaded
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         clientModel.addListener(this);
         setPrimaryStage(primaryStage);
         // Create a modified version of the FXML loader that doesn't try to use custom components
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/polimi/ingsw/is25am22new/StartMenu.fxml"));
-        // Load the FXML content
         Parent root = loader.load();
 
         // If the FXML loading was successful
@@ -74,7 +80,6 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
             GalaxyBackground galaxyBackground = new GalaxyBackground(1280, 720);
             stackPane.getChildren().add(0, galaxyBackground);
 
-            // Get the controller and set the background reference
             try {
                 it.polimi.ingsw.is25am22new.FXMLControllers.StartMenuController controller =
                         loader.getController();
@@ -95,12 +100,23 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         primaryStage.show();
     }
 
+    /**
+     * Main method, launches the JavaFX application.
+     *
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Handles the window close event. If the virtual server is connected, a disconnection request is sent.
+     * Otherwise, the application exits immediately.
+     *
+     * @param we the window event triggered by closing the application
+     */
     public void handle(WindowEvent we) {
-        if(virtualServer != null) {
+        if (virtualServer != null) {
             try {
                 virtualServer.disconnect();
                 System.out.println("Richiesta di disconnessione inviata al server");
@@ -114,9 +130,11 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
     }
 
     /**
-     * Called only when the model is initialized server side
+     * Called when the full model has been received from the server and the game is ready to start.
+     * Transitions the UI to the ship building scene.
+     *
+     * @param model the updated {@link ClientModel}
      */
-
     @Override
     public void updateGame(ClientModel model) {
         Platform.runLater(() -> {
@@ -124,17 +142,32 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         });
     }
 
+    /**
+     * Called when the hourglass has been stopped.
+     * Updates the building ship controller if the game is in the BUILDING phase.
+     */
     @Override
     public void updateStopHourglass() {
-        if(clientModel.getGamePhase().getPhaseType().equals(PhaseType.BUILDING))
+        if(clientModel.getGamePhase().getPhaseType().equals(PhaseType.BUILDING)){
             Platform.runLater(() -> buildingShipController.updateStopHourglass());
+        }
     }
 
+    /**
+     * Called when the hourglass has been started.
+     *
+     * @param hourglassSpot the initial spot of the hourglass
+     */
     @Override
     public void updateStartHourglass(int hourglassSpot) {
         Platform.runLater(() -> buildingShipController.updateStartHourglass(hourglassSpot));
     }
 
+    /**
+     * Called when the game phase changes. Switches the scene based on the new phase type.
+     *
+     * @param gamePhase the updated {@link GamePhase}
+     */
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
         Platform.runLater(() -> {
@@ -156,23 +189,40 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         });
     }
 
+
     @Override
     public void updateBank(Bank bank) {
         switch (clientModel.getGamePhase().getPhaseType()) {
             /// TODO case CARD -> Platform.runLater(() -> cardPhaseController.drawBankInCardPhase(bank));
         }
     }
-
+    /**
+     * Called when the list of covered component tiles is updated.
+     *
+     * @param coveredComponentTiles the updated list of covered tiles
+     */
     @Override
     public void updateCoveredComponentTiles(List<ComponentTile> coveredComponentTiles) {
 
     }
 
+    /**
+     * Called when the list of uncovered component tiles is updated.
+     * Delegates the update to the BuildingShipController.
+     *
+     * @param uncoveredComponentTiles the updated list of uncovered tiles
+     */
     @Override
     public void updateUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
         Platform.runLater(() -> buildingShipController.updateUncoveredComponentTiles(uncoveredComponentTiles));
     }
 
+    /**
+     * Called when all shipboards are updated.
+     * Delegates the update of each individual shipboard.
+     *
+     * @param shipboards a map of player names to their shipboards
+     */
     @Override
     public void updateShipboards(Map<String, Shipboard> shipboards) {
         for(Shipboard shipboard : shipboards.values()){
@@ -180,6 +230,12 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Called when the flightboard is updated.
+     * Delegates rendering to the appropriate controller based on the current phase.
+     *
+     * @param flightboard the updated {@link Flightboard}
+     */
     @Override
     public void updateFlightboard(Flightboard flightboard) {
         switch (clientModel.getGamePhase().getPhaseType()) {
@@ -190,6 +246,12 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Called when a single shipboard is updated.
+     * Delegates rendering to the appropriate controller based on the current phase.
+     *
+     * @param shipboard the updated {@link Shipboard}
+     */
     @Override
     public void updateShipboard(Shipboard shipboard) {
         switch (clientModel.getGamePhase().getPhaseType()) {
@@ -200,11 +262,23 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Called when the deck of adventure cards is updated.
+     * Currently not handled in the GUI.
+     *
+     * @param deck the updated list of {@link AdventureCard}
+     */
     @Override
     public void updateDeck(List<AdventureCard> deck) {
 
     }
 
+    /**
+     * Called when the current player changes.
+     * Updates the current player info during the card phase.
+     *
+     * @param player the name of the current player
+     */
     @Override
     public void updateCurrPlayer(String player) {
         switch (clientModel.getGamePhase().getPhaseType()) {
@@ -212,6 +286,12 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Called when the current adventure card changes.
+     * Updates the card display during the card phase.
+     *
+     * @param currCard the current {@link AdventureCard}
+     */
     @Override
     public void updateCurrCard(AdventureCard currCard) {
        switch (clientModel.getGamePhase().getPhaseType()) {
@@ -219,6 +299,12 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
        }
     }
 
+    /**
+     * Called when the dice roll changes.
+     * Updates the dice display during the card phase.
+     *
+     * @param dices the new {@link Dices} values
+     */
     @Override
     public void updateDices(Dices dices) {
         switch (clientModel.getGamePhase().getPhaseType()) {
@@ -226,11 +312,23 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Called when the initial message signaling the start of the game is received.
+     * Currently not handled in the GUI.
+     *
+     * @param gameStartMessageReceived true if the game start message has been received
+     */
     @Override
     public void updateGameStartMessageReceived(boolean gameStartMessageReceived) {
 
     }
 
+    /**
+     * Called when the leaderboard is updated at the end of the game.
+     * Updates the end scene with the final scores.
+     *
+     * @param leaderboard a map of player names to their final scores
+     */
     @Override
     public void updateAllLeaderboard(Map<String, Integer> leaderboard) {
         switch (clientModel.getGamePhase().getPhaseType()) {
@@ -243,6 +341,12 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Called when a full game is loaded from a save.
+     * Switches the GUI to the appropriate scene based on the current phase.
+     *
+     * @param clientModel the fully restored {@link ClientModel}
+     */
     @Override
     public void updateAllGameLoaded(ClientModel clientModel) {
         switch (clientModel.getGamePhase().getPhaseType()) {
@@ -254,33 +358,75 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Updates the tile currently held in hand by the specified player.
+     * Only applies to the local player.
+     *
+     * @param player the name of the player
+     * @param ct the {@link ComponentTile} currently in hand
+     */
     @Override
     public void updateTileInHand(String player, ComponentTile ct) {
         if(player.equals(clientModel.getPlayerName()))
             Platform.runLater(() -> buildingShipController.drawTileInHand(ct));
     }
 
+    /**
+     * Returns the shared {@link ClientModel} used by the GUI.
+     *
+     * @return the {@link ClientModel}
+     */
     public static ClientModel getClientModel() {
         return clientModel;
     }
 
+    /**
+     * Returns the reference to the {@link VirtualServer}.
+     *
+     * @return the {@link VirtualServer}
+     */
     public static VirtualServer getVirtualServer() {
         return virtualServer;
     }
 
+    /**
+     * Returns the primary JavaFX {@link Stage} of the application.
+     *
+     * @return the primary stage
+     */
     public static Stage getPrimaryStage() {
         return primaryStage;
     }
 
+    /**
+     * Sets the primary JavaFX stage of the application.
+     *
+     * @param primaryStage the new primary stage
+     */
     public static void setPrimaryStage(Stage primaryStage) {
         GalaxyTruckerGUI.primaryStage = primaryStage;
     }
 
+    /**
+     * Updates the lobby screen with the current list of players and their readiness.
+     *
+     * @param players the list of connected players
+     * @param readyStatus a map of player names to their ready status
+     * @param gameType the type of game selected
+     * @param isHost true if the local player is the host
+     */
     @Override
     public void displayLobbyUpdate(List<String> players, Map<String, Boolean> readyStatus, String gameType, boolean isHost) {
         Platform.runLater(() -> lobbyController.displayLobbyUpdate(players, readyStatus, gameType, isHost));
     }
 
+    /**
+     * Displays the result of a connection attempt to the server.
+     *
+     * @param isHost true if the player is the host
+     * @param success true if the connection was successful
+     * @param message the error message to show if the connection failed
+     */
     @Override
     public void displayConnectionResult(boolean isHost, boolean success, String message) {
         if(success) {
@@ -290,6 +436,13 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Displays the result of nickname validation.
+     * If the nickname is invalid, an error is shown and the scene is changed back.
+     *
+     * @param valid true if the nickname is valid
+     * @param message the error message to show if invalid
+     */
     @Override
     public void displayNicknameResult(boolean valid, String message) {
         if (!valid) {
@@ -305,6 +458,9 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         }
     }
 
+    /**
+     * Called when the game starts.
+     */
     @Override
     public void displayGameStarted() {
         /*Platform.runLater(() -> {
@@ -312,26 +468,50 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
         });*/
     }
 
+    /**
+     * Displays a full game object from the server.
+     *
+     * @param game the {@link Game} to display
+     */
     @Override
     public void displayGame(Game game) {
 
     }
 
+    /**
+     * Notifies the GUI that a new player has joined the lobby.
+     *
+     * @param playerName the name of the player who joined
+     */
     @Override
     public void displayPlayerJoined(String playerName) {
         Platform.runLater(() -> lobbyController.displayPlayerJoined(playerName));
     }
 
+    /**
+     * Returns whether the local nickname has already been validated.
+     *
+     * @return true if nickname is valid, false otherwise
+     */
     @Override
     public boolean isNicknameValid() {
         return false;
     }
 
+    /**
+     * Resets the nickname validation status.
+     */
     @Override
     public void resetNicknameStatus() {
 
     }
 
+    /**
+     * Switches the main scene to a new FXML layout.
+     * Also initializes the corresponding controller using its {@code setup()} method.
+     *
+     * @param resourcePath the path to the FXML resource
+     */
     public void switchToScene(String resourcePath) {
         try {
             java.net.URL resource = getClass().getResource(resourcePath);
@@ -361,6 +541,7 @@ public class GalaxyTruckerGUI extends Application implements ClientModelObserver
             e.printStackTrace();
         }
     }
+
 
     private final Map<String, Consumer<Object>> controllerMap = Map.of(
             "/it/polimi/ingsw/is25am22new/StartMenu.fxml", this::castStartMenuController,

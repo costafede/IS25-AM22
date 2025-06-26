@@ -257,6 +257,13 @@ public class GalaxyTruckerClient {
         }
     }
 
+    /**
+     * Asks a command input in TUI
+     *
+     * @param scanner
+     * @param tui
+     * @param input
+     */
     private static void askCommand(Scanner scanner, TUI tui, String input) {
         Command chosen = null;
         do {

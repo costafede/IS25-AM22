@@ -11,5 +11,11 @@ package it.polimi.ingsw.is25am22new.Client.View.TUI.DrawableTilesTUI;
  */
 public abstract class DrawableComponentTileTUI {
 
+    /**
+     * Abstract method implemented in the subclasses of DrawableComponentTileTUI
+     * Draws the component tile with its information, sides and codename
+     *
+     * @return
+     */
     public abstract String[] draw();
 }

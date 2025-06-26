@@ -25,10 +25,21 @@ import java.util.List;
 public class CommandManager {
     private final List<Command> allCommands;
 
+    /**
+     * Constructs an empty {@code CommandManager}.
+     * Use {@link #initializeCommandManager(VirtualServer, ViewAdapter)} or
+     * {@link #initializeCommandManagerGUI(VirtualServer)} to populate the command list.
+     */
     public CommandManager() {
         this.allCommands = new ArrayList<>();
     }
 
+    /**
+     * Initializes the manager with GUI-specific commands.
+     * These commands are typically used when the {@link ViewAdapter} is not needed (i.e., GUI only).
+     *
+     * @param virtualServer the reference to the virtual server used to send commands
+     */
     public void initializeCommandManagerGUI(VirtualServer virtualServer) {
         this.allCommands.add(new AcceptCreditsCommand(virtualServer, null));
         this.allCommands.add(new ActivateDoubleCannonCommand(virtualServer, null));
@@ -47,6 +58,13 @@ public class CommandManager {
         this.allCommands.add(new SwitchGoodBlocksCommand(virtualServer, null));
     }
 
+    /**
+     * Initializes the manager with CLI or fully-interactive commands that require
+     * both the {@link VirtualServer} and {@link ViewAdapter}.
+     *
+     * @param virtualServer the virtual server used to send commands
+     * @param viewAdapter the adapter used to interact with the view (CLI)
+     */
     public void initializeCommandManager(VirtualServer virtualServer, ViewAdapter viewAdapter) {
         this.allCommands.add(new DiscardComponentTileCommand(virtualServer, viewAdapter));
         this.allCommands.add(new FinishBuildingCommand(virtualServer, viewAdapter));
@@ -101,6 +119,13 @@ public class CommandManager {
         this.allCommands.add(new EnterGodModeCommand(virtualServer, viewAdapter));
     }
 
+    /**
+     * Returns the list of commands that are currently applicable to the provided {@link ClientModel}.
+     * Only commands whose {@link Command#isApplicable(ClientModel)} returns {@code true} are included.
+     *
+     * @param model the current client-side game model
+     * @return a list of applicable {@link Command} instances
+     */
     public List<Command> getAvailableCommandTypes(ClientModel model) {
         List<Command> availableCommands = new ArrayList<>();
 
@@ -113,6 +138,12 @@ public class CommandManager {
         return availableCommands;
     }
 
+    /**
+     * Returns the complete list of all registered command types,
+     * regardless of whether they are currently applicable.
+     *
+     * @return the full list of {@link Command} objects
+     */
     public List<Command> getAllCommandTypes() {
         return allCommands;
     }

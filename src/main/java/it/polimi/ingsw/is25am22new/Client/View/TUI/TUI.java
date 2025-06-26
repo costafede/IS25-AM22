@@ -28,6 +28,11 @@ public class TUI implements ClientModelObserver, ViewAdapter {
     private String commandName;
     private final List<Command> allCommands;
 
+    /**
+     * Initializes the TUI
+     * @param commandManager
+     * @param model
+     */
     public TUI(CommandManager commandManager, ClientModel model) {
         super();
         this.commandManager = commandManager;
@@ -282,6 +287,10 @@ public class TUI implements ClientModelObserver, ViewAdapter {
         }
     }
 
+    /**
+     * Prints information about uncovered component tiles in TUI
+     * @param clientModel the current client model state
+     */
     @Override
     public void showUncoveredComponentTiles(ClientModel clientModel) {
         List <ComponentTile> componentTiles = clientModel.getUncoveredComponentTiles();
@@ -432,15 +441,26 @@ public class TUI implements ClientModelObserver, ViewAdapter {
         }
     }
 
-
+    /**
+     * Returns the input
+     * @return
+     */
     public List<String> getInput() {
         return this.input;
     }
 
+    /**
+     * Returns the name of the command
+     * @return
+     */
     public String getCommandName() {
         return this.commandName;
     }
 
+    /**
+     * Shows the remaining seconds of the hourglass
+     * @param clientModel the current client model state
+     */
     public void showRemainingSeconds(ClientModel clientModel) {
         if(!clientModel.isHourglassActive())
             System.out.println("Hourglass is not active");
@@ -448,12 +468,20 @@ public class TUI implements ClientModelObserver, ViewAdapter {
             System.out.println("There are " + clientModel.getHourglass().getRemainingSeconds() + " seconds left!");
     }
 
+    /**
+     * Shows the current phase
+     * @param model the current client model state
+     */
     @Override
     public void showCurrPhase(ClientModel model) {
         System.out.println("=== CURRENT PHASE ===");
         System.out.println("Current phase: " + model.getGamePhase().getPhaseType());
     }
 
+    /**
+     * Shows the goodblocks present in the bank
+     * @param model the current client model state
+     */
     @Override
     public void showBank(ClientModel model) {
         Bank bank = model.getBank();
@@ -464,11 +492,18 @@ public class TUI implements ClientModelObserver, ViewAdapter {
         System.out.println("BLUE BLOCKS: " + bank.getNumGoodBlock(GoodBlock.BLUEBLOCK));
     }
 
+    /**
+     * Prints the the name of the player that abandoned the game
+     * @param player the nickname of the player who abandons the game
+     */
     @Override
     public void abandonGame(String player) {
         System.out.println(player + " have abandoned the game");
     }
 
+    /**
+     * Shutsdown the TUI
+     */
     @Override
     public void quit() {
         this.cliRunning = false;
@@ -481,94 +516,189 @@ public class TUI implements ClientModelObserver, ViewAdapter {
         this.notifyAll();
     }
 
+    /**
+     * Updates the Clientmodel
+     * @param model the current state of the client model
+     */
     @Override
     public void updateGame(ClientModel model) {
         modelChanged();
     }
-
+    /**
+     * Notifies that the hourglass has been stopped.
+     */
     @Override
     public void updateStopHourglass() {
         modelChanged();
     }
 
+    /**
+     * Notifies that the hourglass has been started at a given position.
+     *
+     * @param hourglassSpot the position where the hourglass is placed
+     */
     @Override
     public void updateStartHourglass(int hourglassSpot) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the game phase has been updated.
+     *
+     * @param gamePhase the new {@link GamePhase}
+     */
     @Override
     public void updateGamePhase(GamePhase gamePhase) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the bank has been updated.
+     *
+     * @param bank the updated {@link Bank}
+     */
     @Override
     public void updateBank(Bank bank) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the covered component tiles have been updated.
+     *
+     * @param coveredComponentTiles the new list of {@link ComponentTile}
+     */
     @Override
     public void updateCoveredComponentTiles(List<ComponentTile> coveredComponentTiles) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the uncovered component tiles have been updated.
+     *
+     * @param uncoveredComponentTiles the new list of {@link ComponentTile}
+     */
     @Override
     public void updateUncoveredComponentTiles(List<ComponentTile> uncoveredComponentTiles) {
         modelChanged();
     }
 
+    /**
+     * Notifies that all shipboards have been updated.
+     *
+     * @param shipboards the updated map of shipboards
+     */
     @Override
     public void updateShipboards(Map<String, Shipboard> shipboards) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the flightboard has been updated.
+     *
+     * @param flightboard the updated {@link Flightboard}
+     */
     @Override
     public void updateFlightboard(Flightboard flightboard) {
         modelChanged();
     }
 
+    /**
+     * Notifies that a single shipboard has been updated.
+     *
+     * @param shipboard the updated {@link Shipboard}
+     */
     @Override
     public void updateShipboard(Shipboard shipboard) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the deck of adventure cards has been updated.
+     *
+     * @param deck the updated list of {@link AdventureCard}
+     */
     @Override
     public void updateDeck(List<AdventureCard> deck) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the current player has been updated.
+     *
+     * @param player the updated player name
+     */
     @Override
     public void updateCurrPlayer(String player) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the current adventure card has been updated.
+     *
+     * @param currCard the new {@link AdventureCard}
+     */
     @Override
     public void updateCurrCard(AdventureCard currCard) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the dice values have been updated.
+     *
+     * @param dices the updated {@link Dices}
+     */
     @Override
     public void updateDices(Dices dices) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the game start message state has changed.
+     *
+     * @param gameStartMessageReceived {@code true} if the message has been received
+     */
     @Override
     public void updateGameStartMessageReceived(boolean gameStartMessageReceived) {
         modelChanged();
     }
 
+    /**
+     * Notifies that a player's tile in hand has been updated.
+     *
+     * @param player the player name
+     * @param ct the new {@link ComponentTile} in hand
+     */
     @Override
     public void updateTileInHand(String player, ComponentTile ct) {
         modelChanged();
     }
 
+    /**
+     * Notifies that the entire leaderboard has been updated.
+     *
+     * @param leaderboard the updated leaderboard map
+     */
     @Override
     public void updateAllLeaderboard(Map<String, Integer> leaderboard) {
         modelChanged();
     }
 
-    public void updateAllGameLoaded(ClientModel clientModel) {modelChanged();}
+    /**
+     * Notifies that the entire game model has been loaded and updated.
+     *
+     * @param clientModel the fully loaded {@link ClientModel}
+     */
+    public void updateAllGameLoaded(ClientModel clientModel) {
+        modelChanged();
+    }
 
+    /**
+     * Returns whether the CLI is currently running.
+     *
+     * @return {@code true} if the CLI is running, {@code false} otherwise
+     */
     public boolean isCliRunning() {
         return cliRunning;
     }
+
 }

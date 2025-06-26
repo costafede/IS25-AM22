@@ -35,7 +35,23 @@ public class StringConverter {
         };
         return i;
     }
-
+    /**
+     * Converts a string representing a column label (from "4" to "10")
+     * into the corresponding zero-based grid column index.
+     *
+     * The mapping is as follows:
+     *
+     *     "4" → 0
+     *     "5" → 1
+     *     "6" → 2
+     *     "7" → 3
+     *     "8" → 4
+     *     "9" → 5
+     *     "10" → 6
+     * @param col the string representing the column number (from "4" to "10")
+     * @return the zero-based index of the column in the grid
+     * @throws NumberFormatException if the input string is not between "4" and "10"
+     */
     public static int stringToGridCol(String col) {
         int j;
         j = switch (col) {
@@ -50,4 +66,5 @@ public class StringConverter {
         };
         return j;
     }
+
 }
