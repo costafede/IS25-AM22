@@ -18,7 +18,8 @@ This repository contains the implementation of the final project for the **Softw
 
 - `src/main/java` - Source code of the application
 - `src/test/java` - Unit tests
-- `docs/` - Documentation, including peer review and UML diagrams
+- `deliverables/` - UML diagrams, test coverage, Sequence diagrams, Javadoc and Jar files
+- `docs/` - Documentation, including game rules
 - `resources/` - Configuration files and graphic assets
 
 ## Used Technologies
@@ -54,7 +55,7 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 |-----------------------------------------|--------|
 | Full implementation of game rules       | ✅      |
 | Initial UML diagram                     | ✅      |
-| Final UML diagram                       | Toly   |
+| Final UML diagram                       | ✅      |
 | Command Line Interface (CLI)            | ✅      |
 | Graphical User Interface (GUI - JavaFX) | ✅      |
 | Client-Server communication via Socket  | ✅      |
@@ -63,7 +64,7 @@ Detailed in the document [requirements.pdf](resources/Requirements/requirements.
 | Multiple game sessions                  | ❌      |
 | Resilience to disconnections            | ❌      |
 | Persistence of game state               | ✅      |
-| JavaDoc documentation                   | Toly   |
+| JavaDoc documentation                   | ✅      |
 | JUnit Testing                           | ✅      |
 | Sequence Diagram                        | ✅      |
 | Jar                                     | ✅      |
