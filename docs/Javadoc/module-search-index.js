@@ -1,1 +1,0 @@
-moduleSearchIndex = [{"l":"it.polimi.ingsw.is25am22new"}];updateSearchResults();

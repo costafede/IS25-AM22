@@ -148,7 +148,7 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
      * The nickname of the client is logged, and the heartbeatManager is updated
      * to record the heartbeat for the client.
      *
-     * @param nickname the unique identifier of the client sending the heartbeat
+     * @param game the unique identifier of the client sending the heartbeat
      */
     @Override
     public void updateGameLoaded(Game game) {
@@ -289,7 +289,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
      */
     @Override
     public void disconnect() {
-        // TO DO
     }
 
     /**
@@ -728,7 +727,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
                 }
             }
         }
-        //gameController.updateAllLobbies();
     }
 
     /**
@@ -744,7 +742,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
         gameController.removePlayer(nickname);
         clientMap.remove(nickname);
         heartbeatManager.unregisterClient(nickname);
-        //gameController.updateAllLobbies();
     }
 
     /**
@@ -813,7 +810,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
     @Override
     public void setPlayerNotReady(String nickname) {
         gameController.setPlayerNotReady(nickname);
-        //gameController.updateAllLobbies();
     }
 
     /**
@@ -839,9 +835,6 @@ public class RmiServer extends UnicastRemoteObject implements ObserverModel, Vir
      * Activates god mode for the specified player with the provided configuration.
      * This method enables modified game mechanics, allowing the player to perform
      * special actions or have particular advantages as per the game's rules.
-     *
-     * @param nickname the nickname of the player for whom god mode will be enabled
-     * @param conf the configuration string defining the parameters or settings for god mode
      */
     @Override
     public void loadGame() throws IOException {

@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public abstract class ObservableModelView {
     List<ClientModelObserver> listeners = new ArrayList<>();
-    //remember to add listeners to the list
+
     public void addListener(ClientModelObserver ld) {
         listeners.add(ld);
     }

@@ -32,7 +32,6 @@ public abstract class AbstractCommand implements Command {
     /**
      * I assume there is no input by default
      */
-
     @Override
     public boolean isInputValid(ClientModel model) {
         return input.size() == getInputLength();
