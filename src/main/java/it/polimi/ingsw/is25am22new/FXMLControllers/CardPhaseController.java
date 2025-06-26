@@ -386,6 +386,22 @@ public class CardPhaseController extends FXMLController {
             updateInfoArea();
     }
 
+    @FXML
+    public void showInfo(){
+        infoArea.setText(getStats());
+    }
+
+    private String getStats() {
+        return ("=== " + model.getPlayerName() + "'s SHIP ===\n" +
+            "Days on flight: " + model.getShipboard(model.getPlayerName()).getDaysOnFlight() + "\n" +
+            "Credits: " + model.getShipboard(model.getPlayerName()).getCosmicCredits() + "\n" +
+            "Flight crew: " + model.getShipboard(model.getPlayerName()).getCrewNumber() + "\n" +
+            "Astronauts: " + model.getShipboard(model.getPlayerName()).getOnlyHumanNumber() + "\n" +
+            "Cannon strength: " + model.getShipboard(model.getPlayerName()).getCannonStrength() + "\n" +
+            "Engine strength: " + model.getShipboard(model.getPlayerName()).getEngineStrength() + "\n" +
+            "Discarded tiles: " + model.getShipboard(model.getPlayerName()).getDiscardedTiles());
+    }
+
     public void updateInfoArea() {
         if (model.getCurrCard() != null) {
             infoArea.setText(cardNameToInfoText.get(model.getCurrCard().getName()).get());

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.CardPhaseController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.is25am22new.FXMLControllers.CardPhaseController">
     <children>
         <!-- Background Image (posto per primo per essere dietro a tutto) -->
         <ImageView fx:id="background" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
@@ -78,7 +78,7 @@
             </font>
         </Button>
 
-        <Button fx:id="goodblocksButton" layoutX="1080.0" layoutY="143.0" mnemonicParsing="false" onAction="#openGoodBlocksBank" text="Goodblocks Bank">
+        <Button fx:id="goodblocksButton" layoutX="1079.0" layoutY="142.0" mnemonicParsing="false" onAction="#openGoodBlocksBank" text="Goodblocks Bank">
             <font>
                 <Font size="18.0" />
             </font>
@@ -238,5 +238,10 @@
          </font>
       </Label>
       <TextArea fx:id="infoArea" layoutX="978.0" layoutY="189.0" prefHeight="167.0" prefWidth="290.0" style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-border-color: #444444; -fx-border-width: 2px; -fx-font-size: 14px; -fx-background-radius: 5px; -fx-border-radius: 5px; -fx-control-inner-background: rgba(50, 50, 50, 0.7);" wrapText="true" />
+      <Button fx:id="infoButton" layoutX="1145.0" layoutY="385.0" mnemonicParsing="false" onAction="#showInfo" text="Ship Stats">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
