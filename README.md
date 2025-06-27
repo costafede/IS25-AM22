@@ -82,7 +82,7 @@ To generate the executable JAR files:
 2. Navigate to Maven panel
 3. Execute the following Maven goal:
     ```bash
-    mvn clean package -DskipTests
+    mvn clean package
     ```
 After successful execution, the JAR files will be available in the `target/` directory:
 - `GalaxyTruckerServer.jar` - Server application
