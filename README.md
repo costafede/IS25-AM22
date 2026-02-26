@@ -7,6 +7,10 @@
 ## Introduction
 
 This repository contains the implementation of the final project for the **Software Engineering** course at Politecnico di Milano (AY 2024/2025). The project consists in developing a software version of the board game *Galaxy Trucker*, respecting the specifications provided in the requirements document.
+
+## Disclaimer
+You will not find the graphics folder "GraficheGioco" due to copyright.
+
 ## Team Members
 
 - [Anatoly Contu](https://github.com/AnatolyContu)
